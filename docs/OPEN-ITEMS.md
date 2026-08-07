@@ -101,7 +101,8 @@ timing). Section title below kept for the surviving root-cause gap.
    exclusive (`stackBand`, 2026-08-01) and whose 4-6 band is reachable via her
    own cap raise (#25), but whose live count still comes from the stepper rather
    than the enemy timeline; team-composition counters — Sigrika, Hiyuki, deferred by maintainer decision
-   to a later roster-derived pass; Tune Break — Luuk Herssen, blocked on #7; a
+   to a later roster-derived pass; Tune Break — Luuk Herssen, no longer blocked
+   (#7 shipped 2026-08-03), and now a matter of counting the slotted responses; a
    battle-entry grant (Phrolova); hit-count inside a state (Encore S6); an
    ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
    1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
@@ -411,9 +412,126 @@ timing). Section title below kept for the surviving root-cause gap.
 6. **Full-text / stat / effect search** — still name-only in
    `echo-picker-v2.js:57` and roster. Flagged by two audit angles as the most
    concrete shippable UI item.
-7. **Tune Break** — formula calibrated + tested (`computeTuneBreakDamage`) but
+7. ~~**Tune Break** — formula calibrated + tested (`computeTuneBreakDamage`) but
    NOT wired into the live sim. Needs the gauge engine (#2) + a manual
-   rotation-step toggle, default OFF.
+   rotation-step toggle, default OFF.~~
+   **SHIPPED 2026-08-03**, and it needed neither the gauge engine nor a toggle.
+   Tune Break is a RESPONSE to the target's Off-Tune bar, not something cast off
+   a gauge of ours, so there is nothing to model on our side: the step is
+   slotted by hand (`TUNE_BREAK_STEP_KEY`), and slotting it IS the assertion
+   that the bar was full. It carries no conditionals of any kind.
+   Every resonator is offered it, because the game gives every resonator the
+   node — `skill_trees[*]` with `skill.type === 'Tune Break'`, projected to
+   `resonator.tuneBreak` (56/56). The game names it by WEAPON TYPE for 49 of
+   them ("Tune Break: Sword") and gives seven kits a name of their own
+   ("Unlanded Melody", "Data Crash"), which is why the name is read rather than
+   synthesised — but the button leads with the mechanic either way.
+   The node ships **no damage table and no level curve** (`damage: {}`,
+   `level: {}`), which is consistent: its damage is the tune-bar mechanic's own
+   formula, not a character multiplier. So the step reads nothing from `stats`
+   and nothing from the effect pipeline — no ATK scaling, no crit, no gear stat.
+   Two builds of one resonator that differ enormously everywhere else deal
+   IDENTICAL Tune Break damage, which is what `tests/tune-break.test.mjs`
+   guards: a regression routing it through the normal damage path would still
+   look plausible, and only that equality catches it.
+
+   **TIMING IS MEASURED (2026-08-03)** — the first pass had guessed 1.50s.
+   The animation was findable after all, just not by the route everything else
+   uses: with no damage ids there is no bullet chain and no hit id to resolve a
+   row from, so it is reached by TRIGGER TYPE instead. 68 rows declare
+   `BreakWeaknessTrigger` (internal name 破弱, "break weakness"), covering all 60
+   resonators, every one `provenance: extracted` with a resolved montage.
+   `map-timings.mjs` gained a `breakWeakness` route that emits a `__tunebreak__`
+   entry per resonator into `data/actionable-times.json` — regenerating that
+   file changed **zero existing entries** and added exactly 56.
+   → `stepDuration` is per resonator, 1.4857–1.6086s, clustered by weapon type
+     (Sword ~1.49, Rectifier ~1.50, Gauntlets ~1.55, Broadblade ~1.57, Pistols
+     ~1.60). The 8 resonators shipping two rows ship FORM variants (Aemeath's
+     Mech, Cartethyia's Fleurdelys, Camellya's 魔人化); the base form is picked
+     by matching the animation name against the resonator's own weapon type,
+     which is also how the game names the node — 56/56 resolve, asserted.
+   → **It STOPS THE COMBAT CLOCK for its whole animation.** Every row carries a
+     TimeStopRequest window (`freeze_combat_clock_s`), a general-invincibility
+     tag over the same span, `interrupt_level: 11` (a Basic is 2) and a
+     `cannotSwitch` window. So in the ToA clock a Tune Break costs real seconds
+     and ZERO game seconds. Clamped to the step like every other measured
+     freeze — the raw window runs ~15ms past the actionable point and unclamped
+     drives gameTime negative.
+
+   **ONE PER PASS in the team sim** (maintainer ruling 2026-08-03). The bar is
+   the TARGET's and refills once per cycle, so three members moving through one
+   pass share a single opportunity — not one each. `capTuneBreaksPerPass`
+   removes the surplus (rather than zeroing it, so nothing downstream sees a
+   cast that did not happen) and reports it as `tuneBreaksDropped`. This matters
+   precisely BECAUSE the animation stops the clock: each uncapped extra would be
+   damage at no cost to the DPS denominator. The build page still simulates
+   every slotted response — a rotation there is a scratchpad — but flags the
+   second and later ones, with no FIX button, since resolving means removing a
+   step.
+
+   **Tune Break Boost: SHIPPED 2026-08-03**, via the Tune Strain chain below.
+   `BonusDmg%` stays 0 — no identified source anywhere in the data — and
+   `BreakWeaknessRatio` needs none: it is the game's own Tune Break ratio and
+   reads **10000 (= 100%) on every one of the 2,740 `baseproperty.json` rows**,
+   so it is already inside the calibrated constant, which is why the worked
+   example reproduces to 0.001% without it.
+   The kit stat does NOT increase a Tune Break's own damage in any kit text —
+   what it increases is the RESPONDER's damage while the target is Interfered,
+   which is why it needed the chain first.
+
+   **The Tune Strain chain (2026-08-03).** *Shifting → Tune Break → Interfered
+   → damage.* A cast inflicts **Tune Strain - Shifting** (25s); a Tune Break on
+   a Shifting target converts it to **Tune Strain - Interfered**; a responder's
+   Tune Break Boost then pays *"0.12% of their total DMG per point per stack"*.
+   → **Derived**, because it is a template: four kits (Mornye, Denia, Lynae,
+     Luuk Herssen) state the payout AND *"the max stack limit of Tune Strain -
+     Interfered on a target is increased by 1"* in near-identical words.
+     `tools/preprocess/tune-strain.mjs` reads who responds, the +1 and the 0.12%
+     off each Tune Break node; `tests/tune-strain.test.mjs` asserts all four
+     AGREE, so a future kit stating a different rate is a finding rather than a
+     silent average.
+   → **The cap needs no curated base**: nobody states one, four state the same
+     +1, so the limit IS the responder count. A solo responder caps at 1 — which
+     is why Denia's S6 extra stack changes nothing solo and +50% of the stacks
+     in a trio.
+   → **Curated**, because it is not a template: the five Tune Break Boost
+     GRANTS (`TUNE_BREAK_BOOST_GRANTS`, each with its quote). The stat's base is
+     0 — `WeaknessTotalBonus` reads 0 on 2,729 of 2,740 rows, the exceptions
+     being enemies — so a team's total is exactly what its kits grant.
+   → Measured: solo Denia **+1.20% at S0, +3.60% at S2**; a Denia/Luuk/Lynae
+     team **+3.04% at S0 and +18.12% at S6** on their non-Tune-Break damage.
+     Luuk gains most, carrying a second clause the others lack (flat, per 10
+     points, capped at 30%, and his S2 REPLACES the rate rather than adding).
+   → Deliberately unmodelled: Denia's *"every 10% of Off-Tune Buildup Rate over
+     100% …"* grant. `WeaknessMastery` is a real property but reads 0 for every
+     resonator row, so it evaluates to zero and guessing it would invent a stat
+     the game does not give them.
+   The Tune Rupture and Hack families share the SHAPE but not the payout —
+   their responders cast a real RESPONSE SKILL (Mornye's Particle Jet, Lynae's
+   Spectral Analysis, Rebecca's Meltdown, Lucy's Data Crash), and those are
+   ordinary damage rows already in the skill map, slottable today.
+
+   **What a Tune Break now triggers.** It registers as a CAST, so kits reacting
+   to one fire: Luuk Herssen S4 (*"After a Resonator in the team deals Tune
+   Break DMG, all Resonators in the team deal 20% more DMG for 20s"*) was
+   parsing to **zero effects** and is now a real team-wide 20s window — measured
+   +10.5% on his own reference rotation, the shortfall from 20% being the window
+   expiring partway through. Three parser gaps had to close for it: a "deals N%
+   more DMG" branch (the dealer's side of the amplify bucket, which nothing
+   read), `deals Tune Break DMG` as a structural cast trigger, and the
+   team-recipient phrasing "all Resonators in the team deal N%".
+   Deliberately NOT added to `SKILL_PHRASE_TO_TYPE`: that map is read for both
+   the TRIGGER's category and the effect's SCOPE, and for a Tune Break the two
+   are opposites — listing it scoped Luuk's S4 to the one step type it must
+   never buff.
+
+   Still unmodelled, deliberately: the Off-Tune bar itself (nothing validates
+   that a slotted response is legal — the same contract every manual step has),
+   and Luuk S6's *"…Aureole of Execution, Ichor Deposit, and Mid-air Attack -
+   Gavel of Earthshaker deal 30% more DMG"*, whose subject is a COMMA-SEPARATED
+   skill list — the subject binder deliberately never reads across a comma,
+   because that is how it avoids binding a team buff to the trigger list in
+   front of it. It parses to nothing today, exactly as before.
 8. **Echo dupe verification** — no guard against duplicate echoes in the same
    sonata set (`echo-rules.js` only checks duplicate substats).
 9. **Echo outro wiring** — Lucilla → Hiyuki (Glammoth) combo, no code exists.

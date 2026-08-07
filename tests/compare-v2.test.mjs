@@ -78,10 +78,15 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 // ── Element/colour enum completeness ─────────────────────────────────────────
 {
     assert('6 elements defined', Object.keys(ELEM).length === 6);
-    for (const cat of ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro']) {
+    // Tune Break joined the categories 2026-08-03 — it is a rotation step like
+    // any other, and leaving it out of these maps drops real damage from the
+    // breakdown rather than colouring it wrong.
+    const CATEGORIES = ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro', 'tuneBreak'];
+    for (const cat of CATEGORIES) {
         assert(`dmg colour token for ${cat}`, /^var\(--dmg-/.test(DMG_COLOR[cat]));
     }
-    assert('DMG_ORDER lists all 7 categories', DMG_ORDER.length === 7);
+    assert('DMG_ORDER lists every category', DMG_ORDER.length === CATEGORIES.length
+        && CATEGORIES.every(cat => DMG_ORDER.includes(cat)));
 }
 
 // ── Render smoke test (fake DOM, real data) ──────────────────────────────────

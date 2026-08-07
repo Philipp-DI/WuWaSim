@@ -45,6 +45,10 @@ const bulletTimings = JSON.parse(readFileSync(resolve(DATA_DIR, 'bullet-timings.
 const hitMap = JSON.parse(readFileSync(resolve(DATA_DIR, 'hit-map.json'), 'utf8')).map;
 const dataset = JSON.parse(readFileSync(resolve(DATA_DIR, 'wuwa-data.json'), 'utf8'));
 
+// Mirrors sim.js TUNE_BREAK_STEP_KEY. Kept as a literal so this extraction tool
+// stays free of engine imports, exactly as cooldowns.js keeps ECHO_KEY.
+const TUNE_BREAK_KEY = '__tunebreak__';
+
 // Animations belonging to a non-combat game mode. Their rows reuse the same
 // bullet ids with mode-specific tuning, so a Rogue/photo-mode montage must
 // never supply a combat timing. Matched against the montage's export-relative
@@ -753,7 +757,55 @@ function skillRowEntry(hitIds, rid, skillKey) {
     return null;
 }
 
-const routeCounts = { bulletChain: 0, skillRow: 0 };
+const routeCounts = { bulletChain: 0, skillRow: 0, breakWeakness: 0 };
+
+// -- Tune Break -------------------------------------------------------------
+// The one rotation step that is NOT in the hit map, so neither route above can
+// reach it: its skill row carries `DamageList: []` (data/bindata/skill.json),
+// which is consistent — a Tune Break's damage is the tune-bar mechanic's own
+// formula, not a character multiplier — and with no damage ids there is no
+// bullet chain and no hit id to resolve a row from.
+//
+// It is reachable directly instead, and unambiguously: the row declares
+// `TriggerType: 'BreakWeaknessTrigger'`. 68 rows carry it, covering all 60
+// resonators, every one `provenance: extracted` with a resolved montage.
+//
+// WHICH row, for the 8 resonators that ship two: they are FORM variants
+// (Aemeath's Mech, Cartethyia's Fleurdelys, Camellya's 魔人化 …) and the sim has
+// no form model for this step, so the base form is the one to take — the row
+// whose animation is named for the resonator's OWN weapon type, which is also
+// how the game names the node itself ("Tune Break: Sword"). Ties inside one
+// weapon type are broken toward the unqualified name, then the lower id.
+const BREAK_WEAKNESS_TRIGGER = 'BreakWeaknessTrigger';
+// The animation names are authored in Chinese; these are the game's own weapon
+// words, keyed by the dataset's weaponType id. A resonator whose weapon type is
+// absent here resolves to nothing and is REPORTED, never silently defaulted —
+// map-timings prints the count and tests/tune-break.test.mjs asserts 56/56.
+const WEAPON_TERMS = {
+    1: ['大剑'],            // Broadblade
+    2: ['迅刃', '迅刀'],     // Sword
+    3: ['手枪'],            // Pistols
+    4: ['臂铠', '拳套'],     // Gauntlets
+    5: ['音感仪'],           // Rectifier
+};
+
+function tuneBreakRow(rid) {
+    const skills = timingData.resonators[rid]?.skills ?? {};
+    const candidates = Object.entries(skills)
+        .filter(([, row]) => (row.skill_triggers ?? [])
+            .some(trigger => trigger.TriggerType === BREAK_WEAKNESS_TRIGGER))
+        .filter(([, row]) => row.timing && animationDurationFromTiming(row.timing) != null);
+    if (!candidates.length) return null;
+
+    const weaponType = dataset.resonators?.find(entry => String(entry.id) === String(rid))?.weaponType;
+    const terms = WEAPON_TERMS[weaponType] ?? [];
+    const matched = candidates.filter(([, row]) =>
+        terms.some(term => String(row.skill_name ?? '').includes(term)));
+    const pool = matched.length ? matched : candidates;
+    pool.sort(([idA, rowA], [idB, rowB]) =>
+        (rowA.skill_name ?? '').length - (rowB.skill_name ?? '').length || Number(idA) - Number(idB));
+    return { rowId: pool[0][0], row: pool[0][1], matchedWeapon: matched.length > 0 };
+}
 
 for (const [rid, skillMap] of Object.entries(hitMap)) {
     const cov = coverage[rid] = { total: 0, resolved: 0, unresolved: [] };
@@ -771,6 +823,20 @@ for (const [rid, skillMap] of Object.entries(hitMap)) {
         } else {
             cov.unresolved.push(skillKey);
         }
+    }
+    const tuneBreak = tuneBreakRow(rid);
+    if (tuneBreak) {
+        const { rowId, row, matchedWeapon } = tuneBreak;
+        out[TUNE_BREAK_KEY] = {
+            ...rowEntry(row, rowId, rid, rid, TUNE_BREAK_KEY),
+            route: 'breakWeakness',
+            // Freeze is 'major' by measurement rather than by category: every
+            // one of these carries a TimeStopRequest window covering its whole
+            // animation, plus a general-invincibility tag for the same span.
+            freezeClass: 'major',
+            weaponMatched: matchedWeapon,
+        };
+        routeCounts.breakWeakness++;
     }
     if (Object.keys(out).length) actionableTimes[rid] = out;
 }

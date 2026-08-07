@@ -41,7 +41,8 @@
  * silently kept.
  */
 
-import { resolveStepDuration, resolveFreezeTime, ECHO_STEP_KEY } from './sim.js';
+import { resolveStepDuration, resolveFreezeTime, ECHO_STEP_KEY,
+    TUNE_BREAK_STEP_KEY, TUNE_BREAK_CAST_TIME } from './sim.js';
 
 const EPS = 1e-6;
 
@@ -107,7 +108,11 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
     const ctOf    = (k) => k === ECHO_STEP_KEY ? echoLockTime : resolveStepDuration(skillMap[k], dataset);
     const forteOf = (k) => k === ECHO_STEP_KEY ? 0 : Math.max(0, skillMap[k]?.forteGen ?? 0);
     const forteModel = forteCap > 0;
-    const rotKeys = [...new Set(rotation)].filter(k => k !== ECHO_STEP_KEY);
+    // A Tune Break is MANUAL and generates nothing, so it can never be filler.
+    // It is excluded by key rather than by its (absent) skillMap entry, so the
+    // exclusion says why.
+    const rotKeys = [...new Set(rotation)]
+        .filter(k => k !== ECHO_STEP_KEY && k !== TUNE_BREAK_STEP_KEY);
 
     // Cooldown-gated generators the kit actually uses (Resonance Skills), plus
     // the equipped Echo Skill.
@@ -212,16 +217,21 @@ function greedyFiller({ rotation, skillMap, dataset, echoEnergyGain, echoCooldow
 export function deriveOpenerPadding({ rotation, skillMap, dataset, echoEnergyGain = 0, echoCooldown = 0, echoLockTime = 0, forteCap = 0, er, liberationCost, gaugeStart = 0, timingMode = 'toa' }) {
     if (liberationCost == null || liberationCost <= 0 || !rotation?.length) return null;
 
-    const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain : (skillMap[key]?.energyGen ?? 0);
-    const ctOf  = (key) => key === ECHO_STEP_KEY ? echoLockTime : resolveStepDuration(skillMap[key], dataset);
+    const genOf = (key) => key === ECHO_STEP_KEY ? echoEnergyGain
+        : key === TUNE_BREAK_STEP_KEY ? 0
+        : (skillMap[key]?.energyGen ?? 0);
+    const ctOf  = (key) => key === ECHO_STEP_KEY ? echoLockTime
+        : key === TUNE_BREAK_STEP_KEY ? TUNE_BREAK_CAST_TIME
+        : resolveStepDuration(skillMap[key], dataset);
     // resolveFreezeTime needs the stepDuration (it clamps the freeze to it, and
     // the fraction fallback scales by it) and the liberationCost (its cinematic
     // gate) — passing neither silently zeroed every estimated freeze here while
     // the sim applied it, so the two clocks disagreed on cooldown readiness.
-    const ftOf  = (key) => key === ECHO_STEP_KEY ? 0
+    const ftOf  = (key) => key === ECHO_STEP_KEY || key === TUNE_BREAK_STEP_KEY ? 0
         : resolveFreezeTime(skillMap[key], dataset, ctOf(key), liberationCost);
     const cdOf  = (key) => key === ECHO_STEP_KEY ? (echoCooldown > 0 ? echoCooldown : DEFAULT_ECHO_CD)
-                                                 : (skillMap[key]?.cooldown ?? 0);
+        : key === TUNE_BREAK_STEP_KEY ? 0
+        : (skillMap[key]?.cooldown ?? 0);
     const out = [], fillerIndices = [], insertions = [], gated = [];
     let gauge = gaugeStart;
     let i = 0;

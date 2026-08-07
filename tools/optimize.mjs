@@ -56,7 +56,7 @@ const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js'
     // effects resolve ON, and a state now also gates a status APPLIER
     // (enemy-status.js STATUS_APPLY_RULES). Adding a state changes damage, so
     // the hash has to move with it.
-    'rotation-rules.js', 'rotation-state.js', 'rotation-resources.js'];
+    'rotation-rules.js', 'rotation-state.js', 'rotation-resources.js', 'tune-break.js'];
 
 function engineHash() {
     const hash = createHash('sha256');

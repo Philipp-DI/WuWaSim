@@ -61,8 +61,9 @@ const elemOf = (id) => ELEM[id] ?? NO_ELEM;
 const DMG_COLOR = {
     basic: 'var(--dmg-basic)', heavy: 'var(--dmg-heavy)', skill: 'var(--dmg-skill)',
     liberation: 'var(--dmg-liberation)', echo: 'var(--dmg-echo)', intro: 'var(--dmg-intro)', outro: 'var(--dmg-outro)',
+    tuneBreak: 'var(--dmg-tuneBreak)',
 };
-const DMG_ORDER = ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro'];
+const DMG_ORDER = ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro', 'tuneBreak'];
 
 const TARGET = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
 const MAX_BUILD_SLOTS = 6;

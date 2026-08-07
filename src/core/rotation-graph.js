@@ -43,6 +43,11 @@
 import { computeStateTimeline, stateActive } from './rotation-state.js';
 import { computeResourceTimeline } from './rotation-resources.js';
 
+// Mirrors sim.js TUNE_BREAK_STEP_KEY, kept as a literal for the same reason
+// cooldowns.js keeps ECHO_KEY: sim.js is downstream of this module and a
+// back-import would create a cycle.
+const TUNE_BREAK_STEP_KEY = '__tunebreak__';
+
 export const EdgeKind = Object.freeze({
     SEQUENCE: 'sequence',
     PREREQUISITE: 'prerequisite',
@@ -270,6 +275,31 @@ export function analyzeRotation(rotation, opts = {}) {
     });
     warnings.push(...stage.warnings);
     chips.push(...stage.chips);
+
+    // ── More than one Tune Break in a single rotation ─────────────────────────
+    // A Tune Break responds to the TARGET's Off-Tune bar, which refills once per
+    // cycle, so one rotation gets one. The build page still ALLOWS more (a
+    // rotation here is a scratchpad, and a longer fight really does offer more
+    // than one) — but the team sim caps it at one per pass for the whole team,
+    // so a second is damage the team run will not credit. Flagged rather than
+    // blocked, per maintainer direction 2026-08-03.
+    const tuneBreakAt = rotation
+        .map((key, index) => (key === TUNE_BREAK_STEP_KEY ? index : -1))
+        .filter(index => index >= 0);
+    for (const index of tuneBreakAt.slice(1)) {
+        warnings.push({
+            index,
+            skillKey: TUNE_BREAK_STEP_KEY,
+            gate: 'tuneBreakOncePerRotation',
+            // No FIX button: resolving means REMOVING a step, which is a
+            // judgment call (a long fight really does offer more than one) —
+            // the same reason the cooldown banner offers none.
+            noFix: true,
+            note: 'Second Tune Break this rotation — the target\'s Off-Tune bar refills '
+                + 'once per cycle, and the team sim credits only the first one per pass.',
+            requires: [],
+        });
+    }
 
     warnings.sort((warningA, warningB) => warningA.index - warningB.index);
     chips.sort((chipA, chipB) => chipA.index - chipB.index);

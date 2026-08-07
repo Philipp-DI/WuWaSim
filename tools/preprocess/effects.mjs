@@ -23,6 +23,15 @@ export const SKILL_PHRASE_TO_TYPE = [
     [/outro\s+skill/i,          'outro'],
 ];
 
+// Deliberately NOT in the map above: 'tuneBreak'. That map is read by BOTH
+// extractStructuralTrigger (which wants the TRIGGER's category) and
+// detectSkillType (which wants the effect's SCOPE), and for a Tune Break the
+// two are opposites — "After a Resonator in the team deals Tune Break DMG,
+// all Resonators in the team deal 20% more DMG" is TRIGGERED by a Tune Break
+// and applies to EVERYTHING. Listing it scoped Luuk Herssen's S4 to the one
+// step type it is never meant to buff. The trigger reads it from its own
+// branch in extractStructuralTrigger instead.
+
 // Detect whether an effect is unconditional (always-on passive) vs conditional.
 // Triggers: explicit conditions OR a duration ("for Ns") which implies a
 // temporary buff window the user opts into.
@@ -44,7 +53,11 @@ export const CONDITION_RE = /\b(?:when|after|while|if|upon|during|every|once)\b|
 //                     leaves OFF unless the user overrides.
 //   'other'         — mechanic-specific gating we can't classify further;
 //                     treated like 'situational' (default OFF, toggleable).
-export const COND_STRUCTURAL_RE  = /after\s+(?:casting|using)|upon\s+(?:casting|using)|while\s+in\b/i;
+// `deals Tune Break DMG` is a cast trigger too: the game never says "casting"
+// for a Tune Break, so without it the kits that react to one classify as plain
+// 'duration' and their trigger resolves to `unknown` — which is where Luuk
+// Herssen's S4 team buff was sitting.
+export const COND_STRUCTURAL_RE  = /after\s+(?:casting|using)|upon\s+(?:casting|using)|while\s+in\b|deals?\s+tune\s+break\s+dmg/i;
 
 export const COND_DURATION_RE    = /for\s+[\d.]+\s*s\b/i;
 
@@ -111,6 +124,11 @@ export function classifyCondition(clause) {
 //   "after casting Resonance Liberation" → { type:'afterCast', skillType:'liberation' }
 //   "while in Twilight Tango"            → { type:'inState', state:'twilight tango' }
 export function extractStructuralTrigger(clause) {
+    // Checked first: the Tune Break form names its own ACTOR ("a Resonator in
+    // the team"), which the generic afterCast branch would read as the skill.
+    if (/deals?\s+tune\s+break\s+dmg/i.test(clause)) {
+        return { type: 'afterCast', skillType: 'tuneBreak' };
+    }
     const after = clause.match(/(?:after|upon)\s+(?:casting|using)\s+([^.,;]+)/i);
     if (after) {
         const phrase = after[1];
@@ -497,6 +515,29 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
                 ?? pctGained(clause, String.raw`DMG\s*Amplification`)
                 ?? pctNear(clause, /by/i);
             if (value != null && value > 0 && value < 3) push({ stat: 'amplify', value: value, element: elem, skillType });
+        }
+        // — "X deals N% more DMG" (the DEALER's side of the amplify bucket) —
+        // The mirror of dmgTakenEffect's "Targets take N% more DMG from X",
+        // which is the same mechanic phrased from the target's side. Eight
+        // clauses roster-wide state it and NONE of them parsed at all: no
+        // "amplif" for the amplify branch, no "DMG Bonus" for the bonus ones.
+        // Six name their own skills and are scoped by skill-scope.mjs; the two
+        // that do not are Luuk Herssen's, and his S4 is the only team-wide
+        // effect any Tune Break grants.
+        const dealsMore = /deals?\s+([\d.]+)%\s+more\s+DMG/i.exec(clause);
+        if (dealsMore) {
+            const value = parseFloat(dealsMore[1]) / 100;
+            // Bounded looser than the other amplify branch on purpose: Mornye's
+            // S6 states 400%, and it is stated, not inferred.
+            // `needsScope` is stripped by skill-scope.mjs, which DROPS the effect
+            // unless the clause either names the skills it applies to or grants to
+            // the whole team. Both unscoped survivors would otherwise be
+            // catastrophic: this phrasing carries its condition in prose the clause
+            // classifier does not read ("to targets whose HP is below 50%"), so
+            // Chixia's +40% and Mornye's +400% would land on every hit, always.
+            if (value > 0 && value < 5) {
+                push({ stat: 'amplify', value, element: elem, skillType, needsScope: true });
+            }
         }
         // — Healing Bonus —
         if (/Healing\s*Bonus/i.test(clause)) {

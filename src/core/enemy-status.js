@@ -1037,6 +1037,51 @@ export function computeTuneBreakDamage({ status, atkLv = 90, target, element = n
 }
 
 /**
+ * One Tune Break RESPONSE, as a rotation step can cast it.
+ *
+ * Every resonator can respond to a target whose Off-Tune bar is full — the
+ * game gives each one a Tune Break node, named by weapon type, with no damage
+ * table of its own (`dataset.resonators[*].tuneBreak`). So this takes no kit
+ * data beyond the responder's ELEMENT and LEVEL, and carries no conditionals:
+ * the step is slotted by hand, and slotting it IS the assertion that the bar
+ * was full.
+ *
+ * Three things it deliberately does not do, each because the mechanic doesn't:
+ *   - it does not scale with ATK, and no gear stat reaches it (same formula
+ *     family as negative-status damage);
+ *   - it cannot crit — the formula has no crit term;
+ *   - it takes no DMG Bonus and no Tune Break Boost. Both are real, separately
+ *     modelled buckets in `computeTuneBreakDamage`, and both were 0% in the one
+ *     verified worked example; nothing in the engine sources either yet, so
+ *     passing a guess would be worse than passing nothing.
+ *
+ * The ELEMENT is the responder's own: Tune Rupture/Strain carry no element
+ * (`NEGATIVE_STATUS_DEFS` marks them `element: null`), and the verified
+ * example's 90% RES matches Hiyuki's own Glacio RES rather than any fixed
+ * "tune" bucket.
+ *
+ * @param {object} args
+ * @param {object} args.resonator — dataset entry, for `element`
+ * @param {number} [args.level]   — the responder's level
+ * @param {object} args.target
+ * @returns {{ damage:number, element:number|null, enemyType:string }}
+ */
+export function resolveTuneBreakStep({ resonator, level = 90, target }) {
+    const element = resonator?.element ?? null;
+    const enemyType = target?.enemyType ?? 'overlord';
+    return {
+        element,
+        enemyType,
+        // Tune Rupture and Tune Strain are two names for one tune-bar mechanic
+        // and share a LevelModifier, so the response reads the same number
+        // whichever inflicted the bar — which is why a responder needs to know
+        // nothing about who filled it.
+        damage: computeTuneBreakDamage({
+            status: 'tune_rupture', atkLv: level, target, element, enemyType }),
+    };
+}
+
+/**
  * Which statuses a member inflicts, from (a) the resonance MODE it runs (a mode
  * named after a status inflicts it) and (b) its KIT text (triggerability scan —
  * e.g. Hiyuki/Phoebe/Chisa apply their status without a mode). Returns a Set of

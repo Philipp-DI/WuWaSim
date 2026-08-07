@@ -1,6 +1,6 @@
 // src/ui/components/build-editor/shared.js — formatters, colour scales, and tiny cross-panel lookups.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
-import { ECHO_STEP_KEY } from "../../../core/sim.js";
+import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY } from "../../../core/sim.js";
 import { SKILL_KEYS, setInherentSkill, setSkillLevel, setStatNode } from "../../../core/build.js";
 import { api } from "./state.js";
 import { applySonataOverride } from "../../../core/sonata-override.js";
@@ -177,6 +177,9 @@ export const STEP_TYPE = {
   forte_basic: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
   forte_heavy: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
   forte: { abbr: "FC", c: "var(--dmg-forte)", bg: stepTint("forte") },
+  // Tune Break is the TARGET's mechanic, responded to rather than cast off a
+  // gauge of ours — its own hue so it never reads as one of the attack inputs.
+  tuneBreak: { abbr: "TB", c: "var(--dmg-tuneBreak)", bg: stepTint("tuneBreak") },
 };
 
 export function stepTypeInfo(type) {
@@ -197,6 +200,7 @@ export const TYPE_LABEL = {
   intro: "Intro Skill",
   outro: "Outro Skill",
   echo: "Echo Skill",
+  tuneBreak: "Tune Break",
   forte: "Forte Circuit",
   forte_basic: "Forte Circuit",
   forte_heavy: "Forte Circuit",
@@ -312,6 +316,9 @@ export function skillDescFor(skillKey, skillMap) {
     const echoDef = echoDefOf(api.build.echoes?.[0]);
     return echoDef ? echoActiveSkillDesc(echoDef) : "";
   }
+  // Tune Break has no skillMap entry either — its node is the resonator's own
+  // (`resonator.tuneBreak`), which is where the game states what responding does.
+  if (skillKey === TUNE_BREAK_STEP_KEY) return resonatorOf()?.tuneBreak?.desc ?? "";
   const def = skillMap?.[skillKey];
   return def ? extractSkillSection(def.desc, skillKey, def.skillType) : "";
 }

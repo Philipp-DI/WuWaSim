@@ -42,13 +42,18 @@ import { stateDefsForResonator } from '../../src/core/rotation-rules.js';
 const OF_FORM = /DMG\s*Multiplier\s+of\s+(.+?)\s+is\s+increased/i;
 const POSSESSIVE_FORM = /([^.;]+?)(?:'s|s')\s+DMG\s*Multiplier\s+is\s+increased/i;
 
-// "<names> gain …" — the subject form. Taken from the segment that immediately
-// precedes the verb, never across a comma: the game routinely puts a LIST of
-// triggering casts in front of the subject ("When casting Intro Skill A,
+// "<names> gain/deal …" — the subject form. Taken from the segment that
+// immediately precedes the verb, never across a comma: the game routinely puts a
+// LIST of triggering casts in front of the subject ("When casting Intro Skill A,
 // Resonance Skill B and Resonance Skill C, Resonators in the team gain 20% …"),
 // and a span that reaches back over those commas would bind a team-wide buff to
 // the very skills that merely trigger it.
-const SUBJECT_FORM = /(?:^|[,.;])\s*([^,.;]+?)\s+gains?\s/i;
+//
+// The LAST match wins, because a leading clause is the TRIGGER and the granting
+// clause comes after it — Luuk Herssen S4 is "After a Resonator in the team
+// deals Tune Break DMG, all Resonators in the team deal 20% more DMG", where the
+// first match is the trigger and only the second is the subject.
+const SUBJECT_FORM = /(?:^|[,.;])\s*([^,.;]+?)\s+(?:gains?|deals?)\s/gi;
 
 // A clause's leading "In <X>," qualifier, which the game uses for both a
 // Resonance Mode and an in-combat state. Only the latter is a state.
@@ -98,9 +103,10 @@ export function targetNameInClause(clause) {
 
 /** The skill names a SUBJECT clause names, as written. */
 export function subjectNamesInClause(clause) {
-    const match = SUBJECT_FORM.exec(clause);
-    if (!match) return [];
-    return match[1].split(/\s+and\s+|,\s*/i).map(part => part.trim()).filter(Boolean);
+    const matches = [...String(clause ?? '').matchAll(SUBJECT_FORM)];
+    if (!matches.length) return [];
+    return matches[matches.length - 1][1]
+        .split(/\s+and\s+|,\s*/i).map(part => part.trim()).filter(Boolean);
 }
 
 /**
@@ -129,10 +135,10 @@ export function bindSkillScopes(resonator, skillMap) {
     const keys = Object.keys(skillMap ?? {});
     if (!keys.length) return 0;
     const stateNames = stateDefsForResonator(resonator.id).map(def => def.name.toLowerCase());
-    let bound = 0;
+    let bound = 0, dropped = 0;
     const nodes = [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? [])];
     for (const node of nodes) {
-        for (const effect of node.effects ?? []) {
+        for (const effect of [...(node.effects ?? [])]) {
             if (!effect.condition) continue;
 
             // A TARGET clause names one skill; a SUBJECT clause may name several.
@@ -146,6 +152,21 @@ export function bindSkillScopes(resonator, skillMap) {
                 bound++;
             }
 
+            // A "deals N% more DMG" clause is kept ONLY if it landed a scope:
+            // the skills it names, or the whole team. Unscoped it is unsafe —
+            // the phrasing carries its condition in prose the clause classifier
+            // does not read ("to targets whose HP is below 50%"), so an
+            // always-on +400% would be the result. Marked at parse time
+            // (effects.mjs) because only this pass can tell whether it resolved.
+            if (effect.needsScope) {
+                delete effect.needsScope;
+                if (!effect.skillKeys?.length && !effect.teamWide) {
+                    node.effects.splice(node.effects.indexOf(effect), 1);
+                    dropped++;
+                    continue;
+                }
+            }
+
             // The state gate is independent of the scope: a clause can name a
             // state without naming a skill, and vice versa.
             const state = stateInClause(effect.condition, stateNames);
@@ -156,5 +177,5 @@ export function bindSkillScopes(resonator, skillMap) {
             }
         }
     }
-    return bound;
+    return { bound, dropped };
 }

@@ -143,6 +143,17 @@ Three deliberate choices in that block:
 Three tiers. **Only the first produces numbers.**
 
 1. **Extract** — `extract_timings.py` + `scan_bullet_timings.py` + `map-timings.mjs` → `data/actionable-times.json`. `timingSource: extracted`, **1,015 steps**.
+   Three routes into that file, in precedence order: `bulletChain` (notify →
+   bullet → damage id), `skillRow` (the hit id's own prefix recovers a
+   DT_SkillInfo row), and — since 2026-08-03 — `breakWeakness`, which reaches
+   the **Tune Break** animation by TRIGGER TYPE rather than by hit id. That
+   one needed its own route because a Tune Break carries no damage ids at
+   all, so neither of the first two can see it; its rows declare
+   `TriggerType: 'BreakWeaknessTrigger'` instead (56 resonators, all
+   `extracted`). It lands on `resonator.tuneBreak`, not on a skillMap key,
+   since the step belongs to no skill map. Every one of the 56 carries a
+   TimeStopRequest window over its whole animation — a Tune Break stops the
+   combat clock, so it costs real seconds and zero game seconds.
 2. **Curate a DECISION, never a number** — `data/timing-overrides.json`. `pinnedMontage` says *which candidate wins*, with reasoning inline; `needsStateModel` marks a state-gated key. The timing still comes from the extraction. A pin matching no candidate is a hard error. **6 steps**.
 3. **Per-type fallback** — `HARDCODED_ACTIONABLE_TIMES`. Not a sourcing option; a **hole marker** for damage with no player animation (turret / summon / field / DoT). **59 steps**. Do not hand-tune — shrinking this set means finding the missing *link*, not inventing the value.
 

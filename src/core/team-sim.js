@@ -67,8 +67,9 @@
  *   }
  */
 
-import { simulateRotation, ECHO_STEP_KEY, echoStepTimeOf, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
+import { simulateRotation, ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, echoStepTimeOf, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
 import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/buff-windows.js';
+import { resolveTuneStrain } from './tune-break.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
 import { computeOffFieldContribution } from './off-field.js';
@@ -217,6 +218,25 @@ export function simulateTeamRotation({
         // (see applyOffFieldContributions' header for the maintainer rule).
         firedTriggers: occupied.map(() => new Set()),
         openerAdjustments: [],
+        // Tune Break is capped at one per PASS for the whole team; surplus
+        // slotted responses are recorded here so the UI can say what it dropped.
+        tuneBreakUsedInPass: false,
+        tuneBreaksDropped: [],
+        // The Tune Strain chain, resolved once for the whole roster. Tune Breaks
+        // LANDED equals the pass count when any member slots one, because the
+        // cap above guarantees exactly one per pass.
+        tuneStrain: resolveTuneStrain({
+            members: occupied.map(slot => ({
+                resonatorId: slot.build.resonatorId,
+                chain: slot.build.chain ?? 0,
+                resonanceMode: slot.build.resonanceMode ?? null,
+                rotation: slot.build.rotation ?? [],
+            })),
+            dataset,
+            tuneBreaks: occupied.some(slot => (slot.build.rotation ?? []).includes(TUNE_BREAK_STEP_KEY))
+                ? passCount : 0,
+            shifting: occupied.some((slot, index) => memberInflicts[index]?.has('tune_strain')),
+        }),
         // Per-member accumulators (across all passes)
         memberAcc: occupied.map(slot => ({
             slotIndex:    slot.slotIndex,
@@ -234,6 +254,12 @@ export function simulateTeamRotation({
     };
 
     for (let pass = 0; pass < sim.passCount; pass++) {
+        // One Tune Break per PASS, for the whole team — not one per member. The
+        // response is to the TARGET's Off-Tune bar, and the bar refills once per
+        // cycle, so three members moving through one pass share a single
+        // opportunity (maintainer ruling 2026-08-03). Reset here rather than
+        // per member, which is the whole point.
+        sim.tuneBreakUsedInPass = false;
         for (let memberIndex = 0; memberIndex < occupied.length; memberIndex++) {
             const turn = beginTurn(sim, pass, memberIndex);
             runIntroSegment(sim, turn);
@@ -319,6 +345,15 @@ export function simulateTeamRotation({
         memberEnergy,
         cooldownViolations,
         openerAdjustments,
+        tuneBreaksDropped: sim.tuneBreaksDropped,
+        // The Tune Strain chain, so the UI can show WHY a responder is amplified
+        // (cap, stacks, and each member's Boost points) rather than only the
+        // damage it produced.
+        tuneStrain: {
+            cap: sim.tuneStrain.cap,
+            stacks: sim.tuneStrain.stacks,
+            members: [...sim.tuneStrain.perMember].map(([resonatorId, entry]) => ({ resonatorId, ...entry })),
+        },
         concerto: { enforced: enforceConcerto, max: CONCERTO_MAX, swaps: concertoSwaps },
         totals: (() => {
             const gameTime = totalTime - totalFreeze;
@@ -727,7 +762,7 @@ function runIntroSegment(sim, turn) {
  */
 function runRotationSegment(sim, turn) {
     const { build, memberIndex, accum } = turn;
-    const teamBuild = withoutAutoCastSteps(build, sim.dataset);
+    const teamBuild = capTuneBreaksPerPass(withoutAutoCastSteps(build, sim.dataset), sim, turn);
     if (!teamBuild.rotation?.length) return null;
 
     // Team-aware status gating (L2): statuses present at this point in the
@@ -790,6 +825,11 @@ function runRotationSegment(sim, turn) {
         externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor),
         timingMode: sim.timingMode,
         carryInFires: shiftFiresToLocal(sim.memberFires[turn.memberIndex], sim.cursor),
+        // The Tune Strain chain is a TEAM fact — the stack cap is the sum of the
+        // responders present and the Boost points are pooled — so it is resolved
+        // once for the roster and handed to each member, never re-derived from
+        // one build in isolation.
+        tuneStrainAmplify: sim.tuneStrain.perMember.get(build.resonatorId)?.amplify ?? 0,
     });
     // Hand this segment's ending ledger to this member's NEXT pass.
     sim.memberFires[turn.memberIndex] = shiftFiresToTeam(simResult.fires, sim.cursor);
@@ -1231,6 +1271,40 @@ function withoutAutoCastSteps(build, dataset) {
     return filtered.length === build.rotation.length ? build : { ...build, rotation: filtered };
 }
 
+/**
+ * Keep at most ONE Tune Break per pass, across the whole team.
+ *
+ * A Tune Break is a response to the TARGET's Off-Tune bar, not a cast off a
+ * gauge of ours, so the opportunity belongs to the fight rather than to any
+ * member: three members moving through one pass share one bar. Without the cap
+ * a three-member team would take three, and since the animation stops the
+ * combat clock (measured — see sim.js resolveFreezeSchedule) each extra one is
+ * damage at zero game-time cost, which compounds straight into DPS.
+ *
+ * Enforced by REMOVING the surplus steps rather than zeroing them, so nothing
+ * downstream — energy, cooldowns, buff windows, the clock — sees a cast that
+ * did not happen. The count is reported (`tuneBreaksDropped`) so the UI can say
+ * the rotation asked for more than the fight allows.
+ */
+function capTuneBreaksPerPass(build, sim, turn) {
+    const rotation = build.rotation ?? [];
+    if (!rotation.includes(TUNE_BREAK_STEP_KEY)) return build;
+    const kept = [];
+    let dropped = 0;
+    for (const key of rotation) {
+        if (key !== TUNE_BREAK_STEP_KEY) { kept.push(key); continue; }
+        if (sim.tuneBreakUsedInPass) { dropped++; continue; }
+        sim.tuneBreakUsedInPass = true;
+        kept.push(key);
+    }
+    if (!dropped) return { ...build, rotation: kept };
+    sim.tuneBreaksDropped.push({
+        pass: turn.pass, memberIndex: turn.memberIndex,
+        resonatorId: build.resonatorId, resonatorName: turn.name, dropped,
+    });
+    return { ...build, rotation: kept };
+}
+
 function emptyResult() {
     return {
         segments:     [],
@@ -1243,6 +1317,8 @@ function emptyResult() {
         memberEnergy:      new Map(),
         cooldownViolations: [],
         openerAdjustments:  [],
+        tuneBreaksDropped:  [],
+        tuneStrain:         { cap: 0, stacks: 0, members: [] },
         concerto:     { enforced: false, max: 100, swaps: [] },
         totals: {
             damage: 0, time: 0, gameTime: 0, dps: 0, memberCount: 0, passCount: 0,

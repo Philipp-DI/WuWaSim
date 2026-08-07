@@ -1,6 +1,6 @@
 // src/ui/components/build-editor/rotation.js — rotation palette, sequence, line chart, buff windows, donut, banners.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
-import { ECHO_STEP_KEY, effectiveSkillMap, resolveStepDuration, simulateRotation } from "../../../core/sim.js";
+import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, TUNE_BREAK_CAST_TIME, effectiveSkillMap, resolveStepDuration, simulateRotation } from "../../../core/sim.js";
 import { ELEM, GOLD, TYPE_LABEL, damageFamily, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
 import { analyzeRotation, parseStage } from "../../../core/rotation-graph.js";
 import { api } from "./state.js";
@@ -147,6 +147,37 @@ export function renderPaletteGroup(label, buttonsHtml) {
     </div>`;
 }
 
+/**
+ * The Tune Break palette button — offered to EVERY resonator, because every
+ * resonator has the node and can respond to a full Off-Tune bar.
+ *
+ * The game names the node by weapon type for most of the roster ("Tune Break:
+ * Sword") but gives seven kits a name of their own ("Unlanded Melody",
+ * "Data Crash"), so the button leads with the mechanic and keeps the node's
+ * own name beside it — a bare "Unlanded Melody" would not read as a Tune Break.
+ */
+function renderTuneBreakButton() {
+  const info = stepTypeInfo("tuneBreak");
+  const node = resonatorOf()?.tuneBreak ?? null;
+  const name = node?.name ?? "Tune Break";
+  const label = /^tune break/i.test(name) ? name : `Tune Break — ${name}`;
+  const desc = [
+    `Tune Break · Cast ${fmtTime(resonatorOf()?.tuneBreak?.stepDuration ?? TUNE_BREAK_CAST_TIME)}`,
+    "Freezes the combat clock for its whole animation, and cannot be interrupted "
+      + "or switched out of.",
+    "Slot it where the target's Off-Tune bar is full. It deals the tune-bar "
+      + "mechanic's own damage — no ATK scaling, no crit, and no gear stat "
+      + "reaches it — so it is the same number for every build of this resonator "
+      + "at this level against this target.",
+    node?.desc,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+  return `<button data-act="add-step" data-key="${esc(TUNE_BREAK_STEP_KEY)}" draggable="true" data-tip-title="${esc(name)}" data-tip-desc="${esc(desc)}" style="${PALETTE_BTN_STYLE}">
+      <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${info.bg};color:${info.c};letter-spacing:.3px;flex:none;">${info.abbr}</span>${esc(label)}
+    </button>`;
+}
+
 export function renderRotationPalette() {
   const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
   const entries =
@@ -171,18 +202,42 @@ export function renderRotationPalette() {
     ),
   );
 
+  // The two steps that are NOT the resonator's own skills, side by side: the
+  // equipped Echo's active skill, and the Tune Break response. The Echo half
+  // only exists when an echo with an active skill is equipped; the Tune Break
+  // half is always there, because every resonator can make that response.
+  const specialBtns = [];
   if (hasEchoSkill) {
     const info = stepTypeInfo("echo");
     const echoDesc = ["Echo Skill", echoActiveSkillDesc(echoDef)]
       .filter(Boolean)
       .join("\n");
-    const echoBtn = `<button data-act="add-step" data-key="${esc(ECHO_STEP_KEY)}" draggable="true" data-tip-title="${esc(echoDef.name)}" data-tip-desc="${esc(echoDesc)}" style="${PALETTE_BTN_STYLE}">
+    specialBtns.push(`<button data-act="add-step" data-key="${esc(ECHO_STEP_KEY)}" draggable="true" data-tip-title="${esc(echoDef.name)}" data-tip-desc="${esc(echoDesc)}" style="${PALETTE_BTN_STYLE}">
           <span style="font-family:var(--font-display);font-weight:700;font-size:9.5px;border-radius:4px;padding:2px 6px;background:${info.bg};color:${info.c};letter-spacing:.3px;flex:none;">${info.abbr}</span>Echo: ${esc(echoDef.name)}
-        </button>`;
-    groupsHtml.push(renderPaletteGroup("Echo Skill", echoBtn));
+        </button>`);
   }
+  specialBtns.push(renderTuneBreakButton());
+  groupsHtml.push(
+    renderPaletteGroup(
+      hasEchoSkill ? "Echo & Tune Break" : "Tune Break",
+      specialBtns.join(""),
+    ),
+  );
 
   return `<div style="display:flex;flex-direction:column;gap:10px;">${groupsHtml.join("")}</div>`;
+}
+
+/**
+ * What the Tune Strain chain paid out, for the Tune Break chip that started it.
+ * Empty unless the chain actually fired — a responder, a Tune Break and a
+ * Shifting mark all have to be present.
+ */
+function tuneStrainNote(sim) {
+  const chain = sim.tuneStrain;
+  if (!chain || !(chain.amplify > 0)) return "";
+  return `Tune Strain — Interfered ${chain.stacks}/${chain.cap} stack${chain.stacks === 1 ? "" : "s"}`
+    + ` · ${chain.points} Tune Break Boost → +${fmtPctTrim(chain.amplify * 100)}% DMG Amplification`
+    + ` on every other step`;
 }
 
 // Human copy for grant-chip kinds (analyzeRotation chips).
@@ -211,7 +266,20 @@ export function renderRotationSequence(sim, grantChipByIndex = new Map()) {
             + (step.freezeTime > 0 ? ` · Freezes the clock for ${fmtTime(step.freezeTime)}` : ""),
           formatTimingFacts(skillMap?.[step.skillKey] ?? step),
           timingNote(step.timingSource, step.timingProvisional),
-          step.hitCount ?
+          // Tune Break cannot crit — the tune-bar formula has no crit term —
+          // so printing equal crit/non-crit branches reads as a coincidence
+          // rather than as the mechanic.
+          step.skillType === "tuneBreak" ?
+            "1 hit · cannot crit — no ATK scaling and no gear stat reaches it"
+          : step.hitCount ?
+            `${step.hitCount} hit${step.hitCount === 1 ? "" : "s"} · Crit ${formatNumber(step.stepCrit ?? 0)} / Non-crit ${formatNumber(step.stepNonCrit ?? 0)}`
+          : "",
+          // What this cast started: a Tune Break on a Tune Strain - Shifting
+          // target makes it Interfered, and a responder's Tune Break Boost then
+          // pays out per stack. Shown on the cast that CAUSED it, since the
+          // damage itself lands on every later step.
+          step.skillType === "tuneBreak" ? tuneStrainNote(sim) : "",
+          step.skillType !== "tuneBreak" && step.hitCount ?
             `${step.hitCount} hit${step.hitCount === 1 ? "" : "s"} · Crit ${formatNumber(step.stepCrit ?? 0)} / Non-crit ${formatNumber(step.stepNonCrit ?? 0)}`
           : "",
           `Step DMG ${formatNumber(step.stepDamage ?? 0)}${step.buffed ? " (buffed)" : ""} · Running total ${formatNumber(step.cumulativeDamage ?? 0)}`,
@@ -837,7 +905,7 @@ export function renderValidationBanner(warnings) {
       <div style="display:flex;align-items:center;gap:8px;${i ? "margin-top:6px;padding-top:6px;border-top:1px solid color-mix(in srgb, var(--gold) 25%, transparent);" : ""}">
         <span style="color:var(--warn);font-size:12px;flex:none;">⚠</span>
         <span style="font-family:var(--font-body);font-size:10.5px;color:var(--warn);flex:1;min-width:0;">${esc(warning.note)}</span>
-        <button data-act="fix-warning" data-warn-index="${i}" title="Reorder to resolve this warning" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--on-warn);background:var(--warn);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;flex:none;">FIX</button>
+        ${warning.noFix ? "" : `<button data-act="fix-warning" data-warn-index="${i}" title="Reorder to resolve this warning" style="font-family:var(--font-display);font-weight:700;font-size:9.5px;letter-spacing:.6px;color:var(--on-warn);background:var(--warn);border:none;border-radius:6px;padding:5px 10px;cursor:pointer;flex:none;">FIX</button>`}
       </div>`,
     )
     .join("");

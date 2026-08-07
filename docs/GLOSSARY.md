@@ -26,6 +26,9 @@ for them.
 | **Echo** | Equippable gear (5 slots) with a main stat, substats, and — for the slot-0 echo — a castable **Echo Skill**. |
 | **Sonata (set)** | Echo set bonus family (2pc/3pc/5pc tiers). "Set" and "sonata" are the same thing. |
 | **Negative Status / Bane** | Debuffs living on the ENEMY (e.g. Havoc Bane) — shared by the whole team; many kit effects gate on them. |
+| **Off-Tune bar / Tune Break** | A bar on the ENEMY that any resonator can break once it is full. The **response** is a cast every resonator has (`resonator.tuneBreak`, named by weapon type), priced by the tune-bar formula rather than by a character multiplier — no ATK scaling, no crit, no gear stat. |
+| **Shifting / Interfered** | The two halves of a tune status. A cast inflicts **Shifting** (25s); a Tune Break on a Shifting target converts it to **Interfered**. Three families share the shape — Tune Rupture, Tune Strain, Hack. |
+| **Tune Break Boost** | A points stat, base 0 (`WeaknessTotalBonus`), granted by kits. A Tune Strain RESPONDER converts it: +0.12% of their total DMG per point per Interfered stack (`src/core/tune-break.js`). |
 | **Coordinated Attack** | Damage a benched (off-field) resonator contributes while someone else is active. |
 | **Amplify / Deepen** | Separate multiplicative damage buckets on top of the additive DMG-bonus bucket (see formula.js header). |
 | **STA** | Stamina — cost rows in the data that look numeric but are NOT damage (a known matching trap). |
@@ -53,7 +56,8 @@ for them.
 | Term | Meaning |
 | --- | --- |
 | **build** | One resonator's full user configuration (level, weapon, echoes, skill levels, rotation, toggles). |
-| **skill key** | The string identifying one castable ability (`'liberation'`, `'basic_3'`, `'forte_heavy'`, `'__echo__'`). Rotation steps are skill keys. |
+| **skill key** | The string identifying one castable ability (`'liberation'`, `'basic_3'`, `'forte_heavy'`). Rotation steps are skill keys. |
+| **special step key** | A rotation step that belongs to no skill map: `'__echo__'` (the slot-0 echo's active skill) and `'__tunebreak__'` (the Tune Break response, offered to every resonator). Both are slotted by hand. |
 | **skill map** | Per-resonator `skillKey → skill definition` table (curated `skillMap` first, auto-generated fallback; resolved by `effectiveSkillMap`). |
 | **rotation** | Ordered list of skill keys. Persisted ONLY as this linear array; the graph view is sim-time-only (invariant). |
 | **step** | One executed cast in a sim result: damage, timing, energy, active buffs. |

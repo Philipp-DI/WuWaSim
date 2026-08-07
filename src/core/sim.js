@@ -43,7 +43,8 @@ function weaponAmplifyScopes(weaponConditional) {
 }
 import { computeStateTimeline } from './rotation-state.js';
 import { resourceDefsForResonator, stateDefsForResonator } from './rotation-rules.js';
-import { soloStatusDamage } from './enemy-status.js';
+import { soloStatusDamage, resolveTuneBreakStep, statusesInflictedBy } from './enemy-status.js';
+import { resolveTuneStrain } from './tune-break.js';
 
 // P11 §3a — map a step's skillType to one of the seven display categories used
 // by step bars, tooltips, legends, and the totals donut.
@@ -52,6 +53,11 @@ const SKILL_TYPE_TO_DMG_CATEGORY = Object.freeze({
     skill: 'skill', liberation: 'liberation',
     forte_basic: 'basic', forte_heavy: 'heavy', forte: 'skill',
     echo: 'echo', intro: 'intro', outro: 'outro',
+    // Tune Break is its own category, not a Basic/Heavy variant: it runs on the
+    // tune-bar formula (no ATK scaling, no crit) rather than on a character
+    // multiplier, so folding it into any attack bucket would misreport what the
+    // slice is made of.
+    tuneBreak: 'tuneBreak',
 });
 
 const dmgCategoryFor = (skillType) => SKILL_TYPE_TO_DMG_CATEGORY[skillType] ?? 'skill';
@@ -84,6 +90,10 @@ export function phraseTypesForStep(skillType) {
     if (type.startsWith('forte')) out.push('forte');
     if (type === 'intro') out.push('intro');
     if (type === 'outro') out.push('outro');
+    // A Tune Break IS a cast, and several kits react to one ("After a Resonator
+    // in the team deals Tune Break DMG …"). It satisfies only its own phrase —
+    // it is not a Basic, a Heavy or anything else.
+    if (type === 'tuneBreak') out.push('tuneBreak');
     return out;
 }
 
@@ -112,6 +122,32 @@ function conditionalNamesOf(effects) {
 export const ECHO_STEP_KEY = '__echo__';
 
 export const ECHO_CAST_TIME = 1.20;   // typical echo-skill animation length
+
+// Special rotation step key for "respond to the target's Tune Break".
+// Every resonator can make this response — the game gives each one a Tune Break
+// node (`resonator.tuneBreak`, named by weapon type) — so unlike a skill key it
+// belongs to no skillMap and is offered to every build. It is MANUAL: nothing
+// auto-inserts it, and slotting it is the player's assertion that the target's
+// Off-Tune bar was full.
+export const TUNE_BREAK_STEP_KEY = '__tunebreak__';
+
+// FALLBACK only. Every resonator ships a MEASURED Tune Break animation
+// (`resonator.tuneBreak.stepDuration`, route 'breakWeakness' in
+// data/actionable-times.json — 56/56, all `extracted`), so this is reached only
+// by a caller with no resonator in hand. It sits at the measured median.
+export const TUNE_BREAK_CAST_TIME = 1.51;
+
+/**
+ * Timeline time a Tune Break response occupies, and the clock it stops.
+ *
+ * Both measured. The animation's own row is reached by trigger type rather than
+ * by hit id — it declares `BreakWeaknessTrigger` and carries no damage ids at
+ * all — which is why it needed its own route into the timing data.
+ */
+export function tuneBreakStepTimeOf(resonator) {
+    const measured = resonator?.tuneBreak?.stepDuration;
+    return measured > 0 ? measured : TUNE_BREAK_CAST_TIME;
+}
 
 // Fill an echo active-skill desc's {i} placeholders with its parameter values
 // (max rank — builds equip max-rank echoes) for display, e.g. Bell-Borne
@@ -290,9 +326,21 @@ export function resolveFreezeTime(skillDef, dataset, stepDuration = 0, liberatio
  *
  * @returns {number[]} freeze seconds per rotation index (0 for echo/unknown steps)
  */
-export function resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost = null) {
+export function resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost = null, resonator = null) {
     const creditedTo = new Map();   // freezeSource → the key that already paid it
+    // Tune Break stops the combat clock for its whole animation — measured, not
+    // inferred: every one of the 56 rows carries a TimeStopRequest window that
+    // covers the animation, alongside a general-invincibility tag for the same
+    // span and interrupt level 11. It is not in the skill map, so the schedule
+    // reads it off the resonator's own node.
+    // Clamped to the step's own length, exactly as resolveFreezeTime clamps
+    // every other measured freeze: the TimeStopRequest window runs to the end of
+    // the ANIMATION while the step ends at the actionable point, so the raw
+    // value can exceed the step by ~15ms and drive gameTime negative.
+    const tuneBreakFreeze = Math.min(
+        resonator?.tuneBreak?.freezeTime ?? 0, tuneBreakStepTimeOf(resonator));
     return (rotation ?? []).map(key => {
+        if (key === TUNE_BREAK_STEP_KEY) return tuneBreakFreeze > 0 ? tuneBreakFreeze : 0;
         const skillDef = skillMap?.[key];
         if (!skillDef) return 0;
         const freeze = resolveFreezeTime(skillDef, dataset, resolveStepDuration(skillDef, dataset), liberationCost);
@@ -395,15 +443,17 @@ export function deriveGameTimes(steps, timingMode = 'toa') {
 // The returned `freeze` array is the once-per-animation schedule (see
 // resolveFreezeSchedule) and is what the main walk stamps on each step, so the
 // pre-pass and the walk can never disagree about a step's freeze.
-function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepDuration = 0) {
+function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liberationCost = null, echoStepDuration = 0, resonator = null) {
     const start = [], end = [], gameStart = [], gameEnd = [];
-    const freeze = resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost);
+    const freeze = resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost, resonator);
+    const tuneBreakDuration = tuneBreakStepTimeOf(resonator);
     let time = 0, freezeSum = 0;
     for (let i = 0; i < rotation.length; i++) {
         const key = rotation[i];
         // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
         // transformation echo that locks the resonator (resolveEchoStepTime).
         const stepDuration = key === ECHO_STEP_KEY ? echoStepDuration
+            : key === TUNE_BREAK_STEP_KEY ? tuneBreakDuration
             : skillMap[key] ? resolveStepDuration(skillMap[key], dataset) : 0;
         start.push(time);
         gameStart.push(time - freezeSum);
@@ -455,7 +505,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null, tuneStrainAmplify = null }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
@@ -472,6 +522,28 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(weaponConditional), ...weaponAmplifyScopes(sonataConditional), ...weaponAmplifyScopes(teamBuffs ?? {})];
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
+
+    // ── Tune Strain chain (src/core/tune-break.js) ───────────────────────────
+    // A Tune Break on a target carrying Tune Strain - Shifting makes it
+    // Interfered, and a responder's Tune Break Boost then pays out per stack.
+    // Solo, the team is one member: the cap is its own +1, and both the mark and
+    // the Tune Break have to come from this rotation. `tuneStrainAmplify` lets
+    // team-sim hand in the team-wide result instead of re-deriving it here.
+    const tuneStrainChain = tuneStrainAmplify != null ? null : resolveTuneStrain({
+        members: [{ resonatorId: build?.resonatorId, chain: build?.chain ?? 0,
+            resonanceMode: build?.resonanceMode ?? null, rotation }],
+        dataset,
+        tuneBreaks: rotation.filter(key => key === TUNE_BREAK_STEP_KEY).length,
+        shifting: !!wResonator && statusesInflictedBy(wResonator, dataset, build?.resonanceMode ?? null)
+            .has('tune_strain'),
+    });
+    const tuneStrain = tuneStrainAmplify
+        ?? tuneStrainChain?.perMember.get(build?.resonatorId)?.amplify ?? 0;
+    if (tuneStrain > 0) {
+        // "increases X's total DMG against the target" — total is total, so it
+        // enters the same All-DMG amplify bucket an Outro uses.
+        effectiveAmplify.push({ scope: { type: 'element', elementId: null }, value: tuneStrain });
+    }
     // Use curated skill-map.json first, then auto-generated nanoka map as fallback
     const rid = String(build?.resonatorId);
     const curated = dataset?.skillMap?.[rid];
@@ -507,7 +579,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     const resonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId) ?? null;
     const stateDefs = stateDefsForResonator(build?.resonatorId);
     const echoStepDuration = resolveEchoStepTime(build, dataset);
-    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepDuration);
+    const stepTimes = computeStepTimes(rotation, skillMap, dataset, timingMode, liberationCost, echoStepDuration, resonator);
     const stateTimeline = computeStateTimeline(rotation, skillMap, stateDefs, stepTimes);
     const unlocked = unlockedEffects(build, resonator);
     // User-supplied stack counts for effects whose count the rotation cannot
@@ -565,7 +637,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             // This step's own identity, for a 'thisCast' window (a buff that
             // applies to the triggering cast itself rather than to later steps).
             stepKey: skillKey,
-            stepTypes: phraseTypesForStep(skillMap?.[skillKey]?.skillType),
+            // The Tune Break step has no skillMap entry, so its phrase-type comes
+            // from the key itself — otherwise a kit reacting to a Tune Break never
+            // sees one fire.
+            stepTypes: phraseTypesForStep(skillKey === TUNE_BREAK_STEP_KEY
+                ? 'tuneBreak' : skillMap?.[skillKey]?.skillType),
         });
         const stepActiveEffects = stepDetailed.map(x => x.effect);
         // The named states standing at this cast, carried on the step itself so
@@ -582,6 +658,65 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // Special step: cast the equipped slot-0 echo's active skill.
         // Resolved against the echo's own multiplier table, not the
         // character damageTable.
+        // Special step: respond to the target's Tune Break. Priced by the
+        // tune-bar mechanic's own formula (enemy-status.js), which takes no ATK,
+        // no gear stat and no crit — so unlike every other step this one reads
+        // nothing from `stats` and nothing from the effect pipeline.
+        if (skillKey === TUNE_BREAK_STEP_KEY) {
+            const { damage, element, enemyType } = resolveTuneBreakStep({
+                resonator, level: build.level ?? 90, target });
+            const node = resonator?.tuneBreak ?? {};
+            const stepDuration = tuneBreakStepTimeOf(resonator);
+            cumulative += damage;
+            totalNonCrit += damage;
+            totalCrit += damage;      // it cannot crit — both branches are the one value
+            totalHits += 1;
+            steps.push({
+                index: i, skillKey,
+                label: node.name || 'Tune Break',
+                skillType: 'tuneBreak',
+                stepDuration,
+                startTime: cursor, endTime: cursor + stepDuration,
+                // Measured, and the same value the freeze SCHEDULE already
+                // charged this step (resolveFreezeSchedule) — the two must agree
+                // or the clock and the step disagree about the same animation.
+                freezeTime: stepTimes.freeze[i],
+                timingSource: node.timingSource ?? 'estimated',
+                stepDamage: damage, stepCrit: damage, stepNonCrit: damage, hitCount: 1,
+                cumulativeDamage: cumulative,
+                // The animation is uninterruptible and un-swappable for its whole
+                // length: interrupt level 11 (a Basic is 2), a general-invincibility
+                // tag, and a `cannotSwitch` window — all measured.
+                interruptLevel: node.interruptLevel ?? null,
+                tuneBreak: { element, enemyType },
+                resolved: null, missing: false, states: stepStates,
+            });
+            // No Resonance Energy and no Concerto: the Tune Break node carries
+            // no gauge data at all, and inventing a gain would change which
+            // Liberations the rotation can legally cast.
+            energyTrace.push({ stepIndex: i, energyBefore: energyCursor, energyAfter: energyCursor,
+                liberationCastable: null, rawGen: 0, rawConcertoGen: 0, isLiberation: false });
+            // Register the cast so LATER steps see it: several kits react to a
+            // Tune Break ("After a Resonator in the team deals Tune Break DMG,
+            // all Resonators in the team deal 20% more DMG for 20s" — Luuk
+            // Herssen S4, the only team-wide buff a Tune Break grants). Uses
+            // gameEnd like every other fire, so the window decays on the same
+            // clock this step just stopped.
+            {
+                const endT = stepTimes.gameEnd[i];
+                for (const phraseType of phraseTypesForStep('tuneBreak')) {
+                    firedTypes.add(phraseType);
+                    lastFireEndByType.set(phraseType, endT);
+                    fireCountByType.set(phraseType, (fireCountByType.get(phraseType) ?? 0) + 1);
+                }
+                firedKeys.add(skillKey);
+                lastFireEndByKey.set(skillKey, endT);
+                fireCountByKey.set(skillKey, (fireCountByKey.get(skillKey) ?? 0) + 1);
+            }
+            cursor += stepDuration;
+            continue;
+        }
+
         if (skillKey === ECHO_STEP_KEY) {
             const slot0 = build.echoes?.[0];
             const echoDef = slot0 ? dataset.echoes?.find(echo => echo.id === slot0.id) : null;
@@ -877,6 +1012,17 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         energyTrace,
         cooldownViolations,
         statusDamage,
+        // The Tune Strain chain this rotation produced, so the UI can explain a
+        // responder's amplify (cap, stacks, Boost points) rather than showing an
+        // unattributed damage bump. Null when team-sim supplied the value — the
+        // team owns the chain there and reports it itself.
+        tuneStrain: tuneStrainChain
+            ? {
+                cap: tuneStrainChain.cap,
+                stacks: tuneStrainChain.stacks,
+                ...(tuneStrainChain.perMember.get(build?.resonatorId) ?? {}),
+            }
+            : null,
         // The trigger-fire ledger this rotation ENDS with, in local gameTime, so
         // a caller running consecutive segments (team-sim's passes) can hand it
         // back as `carryInFires` shifted into the next segment's frame.

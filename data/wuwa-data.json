@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-04T13:19:56.158Z",
+  "generatedAt": "2026-08-06T14:01:23.405Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -371,6 +371,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5105,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5298,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1102991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -706,6 +718,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1103901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -1000,6 +1024,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1104991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -1315,6 +1351,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1105901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -1651,6 +1699,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1106991",
+        "sourceSkillName": "拳套破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -1972,6 +2032,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1107991",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -2293,6 +2365,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, Hiyuki can cast Tune Break on the target. While in Present Self, or hold Normal Attack shortly after casting Tune Break to cast Basic Attack - Present Self Stage 3. While in Foreclaimed Self, Normal Attack shortly after casting Tune Break to cast Basic Attack - Foreclaimed Self Stage 3.",
+        "stepDuration": 1.4892,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5044,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1108901",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -2678,6 +2762,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1109701",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -3098,6 +3194,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.501,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.499,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1110024",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -3410,6 +3518,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "120291",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -3697,6 +3817,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1203991",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -4053,6 +4185,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1204901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -4417,6 +4561,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4892,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5044,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1205991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -4728,6 +4884,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1206991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -5053,6 +5221,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1207991",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -5376,6 +5556,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1208901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -5729,6 +5921,23 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Decoupling",
+        "desc": "Mornye can respond to Tune Rupture - Interfered and Tune Strain - Interfered. - Responding to Tune Rupture - Interfered: When any Resonator in the team deals Tune Break DMG and inflicts Tune Rupture - Interfered, Mornye casts Tune Rupture Response - Particle Jet. Each target can be damaged by this skill up to once every 8s. - Responding to Tune Strain - Interfered: Each stack of Tune Strain - Interfered on the target increases Mornye's total DMG against them. Each point of Mornye's Tune Break Boost increases the total DMG by 0.12%. While Mornye is in the team, the max stack limit of Tune Strain - Interfered on a target is increased by 1. Mornye can perform Tune Break against the targets with full Off-Tune Level.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1209991",
+        "sourceSkillName": "大剑破弱-常规地面",
+        "timingSource": "extracted",
+        "strain": {
+          "respondsToStrain": true,
+          "interferedCapRaise": 1,
+          "boostPerPoint": 0.0012
+        }
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -6136,6 +6345,18 @@
           "replacedByChain": 3
         }
       ],
+      "tuneBreak": {
+        "name": "Unlanded Melody",
+        "desc": "When the target's Off-Tune Level is full, Aemeath can cast Tune Break on the target. Normal Attack shortly after casting Tune Break to cast Basic Attack Stage 3. Responding to Tune Rupture - Interfered: when Resonators in the team trigger Tune Break on the target and cause them to be affected by Tune Rupture - Interfered, Aemeath triggers Tune Rupture Response - Starburst. The same target can only be damaged by this skill once every 8s.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "12101013",
+        "sourceSkillName": "【弱点】迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -6773,6 +6994,23 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Shattered Hours",
+        "desc": "When the target's Off-Tune Level is full, Denia can cast Tune Break on the target. When in Resonance Mode - Tune Strain, Denia gains the following effects: - Denia can inflict Tune Strain - Shifting on the target. - Denia can respond to Tune Strain - Interfered. When responding to Tune Strain - Interfered: For each stack of Tune Strain - Interfered on the target, each point of Denia's Tune Break Boost increases her total DMG against the target by 0.12%. While Denia is in the team, the max stack limit of Tune Strain - Interfered on a target is increased by 1.",
+        "stepDuration": 1.501,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.499,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1211901",
+        "sourceSkillName": "音感仪破弱-白形态",
+        "timingSource": "extracted",
+        "strain": {
+          "respondsToStrain": true,
+          "interferedCapRaise": 1,
+          "boostPerPoint": 0.0012
+        }
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -7164,6 +7402,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1301901",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -7281,7 +7531,29 @@
           "params": [
             "50%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.5,
+              "element": null,
+              "skillType": "intro",
+              "teamWide": false,
+              "condition": "Intro Skill Wanted Criminal and Intro Skill \"Necessary Means\" deal 50% more DMG.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              },
+              "skillKeys": [
+                "liberation_necessary_means_damage"
+              ]
+            }
+          ]
         },
         {
           "level": 6,
@@ -7528,6 +7800,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1302901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -7536,7 +7820,30 @@
           "params": [
             "70%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.7,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "Resonance Skill Magnetic Roar and Lightning Execution deal 70% more DMG.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              },
+              "skillKeys": [
+                "skill_magnetic_roar_damage",
+                "skill_lightning_execution_damage"
+              ]
+            }
+          ]
         },
         {
           "level": 2,
@@ -7879,6 +8186,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1303901",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -8173,6 +8492,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1304991",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -8482,6 +8813,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1305991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -8781,6 +9124,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1306991",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -9216,6 +9571,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1307901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -9531,6 +9898,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Hack - Meltdown",
+        "desc": "When the target's Off-Tune Level is full, Rebecca can cast Tune Break on the target. Rebecca can inflict Hack - Shifting and respond to Hack - Interfered on targets. Responding to Hack - Interfered: When any Resonator in the team deals Tune Break DMG and inflicts the Hack - Interfered, Rebecca triggers Hack - Meltdown on the target. Each target can be damaged by this skill up to once every 8s.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1308901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -9847,6 +10226,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break - Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4999,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.512,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1309500",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -10201,6 +10592,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4857,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5014,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1402991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -10507,6 +10910,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1403901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -10857,6 +11272,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1404991",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -11215,6 +11642,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5647,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1405991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -11493,6 +11932,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4999,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.512,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1406901",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -11816,6 +12267,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Pistols",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.6086,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.613,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1407901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -12121,6 +12584,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.512,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5144,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1409991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -12437,6 +12912,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.54,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5337,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1410991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -12744,7 +13231,29 @@
             "30",
             "22"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.5,
+              "element": null,
+              "skillType": "heavy",
+              "teamWide": false,
+              "condition": "Heavy Attack Thus Spoke the Blade: To Teach, Thus Spoke the Blade: To Save, and Thus Spoke the Blade: To Sacrifice deal ",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              },
+              "skillKeys": [
+                "forte_heavy_thus_spoke_the_blade_to_sacrifice"
+              ]
+            }
+          ]
         },
         {
           "name": "Drink Away Woes Age-Old",
@@ -12756,6 +13265,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1411991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -13103,6 +13624,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5333,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1412991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -13428,6 +13961,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4966,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.503,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1501991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -13742,6 +14287,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1503901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -13823,7 +14380,32 @@
             "20%",
             "1"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.2,
+              "element": null,
+              "skillType": "heavy",
+              "teamWide": false,
+              "condition": "Heavy Attack Starflower Blooms and Mid-air Attack Starflower Blooms deal 20% more DMG.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              },
+              "skillKeys": [
+                "forte_heavy_heavy_attack_starflower_blooms_damage",
+                "forte_heavy_mid_air_attack_starflower_blooms_1",
+                "forte_heavy_mid_air_attack_starflower_blooms_2",
+                "forte_heavy_mid_air_attack_starflower_blooms_3"
+              ]
+            }
+          ]
         }
       ],
       "outroBuffs": [
@@ -14054,6 +14636,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1504900",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -14342,6 +14936,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1505901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -14623,6 +15229,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1506901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -14979,6 +15597,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1507991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -15354,6 +15984,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5655,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5558,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1508991",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -15718,6 +16360,23 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Spectral Analysis",
+        "desc": "Lynae can inflict Tune Rupture - Shifting or Tune Strain - Shifting on targets. Lynae can respond to Tune Rupture - Interfered and Tune Strain - Interfered. - Responding to Tune Rupture - Interfered: When any Resonator in the team deals Tune Break DMG and inflicts the Tune Rupture - Interfered state, Lynae casts Tune Rupture Response - Spectral Analysis. Each target can be damaged by this skill up to once every 8s. - Responding to Tune Strain - Interfered: For each stack of Tune Strain - Interfered on the target, each point of Lynae's Tune Break Boost increases her total DMG against that target by 0.12%. When Lynae is in the team, the target's max stack limit of Tune Strain - Interfered is increased by 1. When the target's Off-Tune Level is full, Lynae can cast Tune Break on the target.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1509901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted",
+        "strain": {
+          "respondsToStrain": true,
+          "interferedCapRaise": 1,
+          "boostPerPoint": 0.0012
+        }
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -16152,6 +16811,23 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Silent Debate of Light",
+        "desc": "Luuk Herssen can inflict Tune Strain - Shifting on targets. Luuk Herssen can respond to Tune Strain - Interfered. When responding to Tune Strain - Interfered: For each stack of Tune Strain - Interfered on the target, each point of Luuk Herssen's Tune Break Boost increases his total DMG against the target by 0.12%. While Luuk Herssen is in the team, the max stack limit of Tune Strain - Interfered on a target is increased by 1. When the target's Off-Tune Level is full, Luuk Herssen can cast Tune Break on the target.",
+        "stepDuration": 1.5012,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1510702",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted",
+        "strain": {
+          "respondsToStrain": true,
+          "interferedCapRaise": 1,
+          "boostPerPoint": 0.0012
+        }
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -16252,7 +16928,33 @@
             "20%",
             "20"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "After a Resonator in the team deals Tune Break DMG, all Resonators in the team deal 20% more DMG for 20s.",
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "tuneBreak"
+              },
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "tuneBreak",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
+            }
+          ]
         },
         {
           "level": 5,
@@ -16534,6 +17236,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Data Crash",
+        "desc": "When the target's Off-Tune Level is full, Lucy can cast Tune Break on the target. Responding to Hack - Interfered: when Resonators in the team trigger Tune Break on the target and cause them to be affected by Hack - Interfered, Lucy applies Hack Response - Data Crash on the target. Each target can be inflicted with this effect up to 1 every 8s.",
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1511901",
+        "sourceSkillName": "手枪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -16924,6 +17638,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Broadblade",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 3,
+        "interruptLevel": 11,
+        "sourceSkillId": "1601901",
+        "sourceSkillName": "大剑破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -17210,6 +17936,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4892,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5085,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1602991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -17553,6 +18291,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4857,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5085,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1603991",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -17920,6 +18670,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.4999,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.512,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1604901",
+        "sourceSkillName": "迅刃破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -18213,6 +18975,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Gauntlets",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1606991",
+        "sourceSkillName": "臂铠破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -18553,6 +19327,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1607901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -18965,6 +19751,18 @@
           ]
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break: Rectifier",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "hitCount": 1,
+        "interruptLevel": 11,
+        "sourceSkillId": "1608901",
+        "sourceSkillName": "音感仪破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,
@@ -19434,6 +20232,18 @@
           "effects": []
         }
       ],
+      "tuneBreak": {
+        "name": "Tune Break - Sword",
+        "desc": "When the target's Off-Tune Level is full, the Resonator may cast Tune Break on the target.",
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5008,
+        "hitCount": 2,
+        "interruptLevel": 11,
+        "sourceSkillId": "1610301",
+        "sourceSkillName": "【破弱】迅刀破弱",
+        "timingSource": "extracted"
+      },
       "resonanceChain": [
         {
           "level": 1,

@@ -67,9 +67,11 @@ const elemOf = (id) => ELEM[id] ?? NO_ELEM;
 const DMG_COLOR = {
     basic: 'var(--dmg-basic)', heavy: 'var(--dmg-heavy)', skill: 'var(--dmg-skill)',
     liberation: 'var(--dmg-liberation)', echo: 'var(--dmg-echo)', intro: 'var(--dmg-intro)', outro: 'var(--dmg-outro)',
+    tuneBreak: 'var(--dmg-tuneBreak)',
 };
 const DMG_BADGE = {
     basic: 'BA', heavy: 'HA', skill: 'SK', liberation: 'LB', echo: 'EC', intro: 'IN', outro: 'OU',
+    tuneBreak: 'TB',
 };
 
 // Member-column icon sizing. Resonator/weapon portraits share ICON_SIZE; the

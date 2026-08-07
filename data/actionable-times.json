@@ -2,11 +2,12 @@
   "_meta": {
     "source": "tools/extract/scan_bullet_timings.py + extract_timings.py — offline raw-asset parse (no FModel JSON export step)",
     "assetRoot": "docs-local/Role (user-provided, gitignored — not redistributed)",
-    "generatedAt": "2026-07-31T11:55:38.813Z",
+    "generatedAt": "2026-08-06T13:02:25.065Z",
     "join": "Two routes, in precedence order, both keyed on the hitMap[rid][skillKey] BinData damage id. route=\"bulletChain\": damage id -> the bullet(s) applying it (bullet table 伤害ID/多伤害ID, transitively through child bullets) -> the animation whose notify fires that bullet. Exact id identity at every hop, and it resolves to the ONE animation producing this exact damage instance. route=\"skillRow\": the older DT_SkillInfo join -- raw resonator id from the hit id's own leading 4 digits (not assumed equal to rid, see Rover), longest exact-prefix match against that resonator's row ids, then the row's merged montages. Coarser (distinct abilities often share one row, so they share one number), so it is only the fallback. sourceResonatorId is present on a skillRow entry only when it differs from the dataset's own rid.",
     "routeCounts": {
       "bulletChain": 883,
-      "skillRow": 140
+      "skillRow": 140,
+      "breakWeakness": 56
     },
     "stepDurationRule": "stepDuration is the montage-derived length of the step, and stepDurationRule NAMES the marker it came from: \"nextAtt\" (TsAnimNotifyStateNextAtt opening -- the only rung that is a measurement of when the player may act), then \"skillEnd\" (TsAnimNotifyEndSkill), \"idleReturn\" (TsAnimNotifyFightStand), and finally \"sequenceLength\", the montage's authored length INCLUDING the idle-return tail, which is not a duration at all and is only defensible for a phase montage that has no tail. The rule ships beside the number because the previous single name (actionableAt) made the weakest rung indistinguishable from the strongest. Negative raw offsets clamp to 0. Damage is NOT part of this: see damageAt / resolvesAt.",
     "freezeTimeNote": "The TsAnimNotifyStateTimeStopRequest window ONLY. The shipped client JavaScript names that notify \"instance timer and all combat units buffs + skill cooldowns freeze\" -- exactly the freeze the sim models. The other freeze notify, TsAnimNotifyStateAbsoluteTimeStop, is named \"animation and bullet freeze\": it holds the animation without stopping any clock, so it is EXCLUDED and reported separately as freezeAnimationTime. Supersedes the HARDCODED_FREEZE_FRACTIONS estimate in sim.js for entries present here.",
@@ -728,6 +729,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5105,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5298,
+        "nextAttAt": 1.5105,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5174,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5333
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1102991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1103": {
@@ -1043,6 +1075,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1103901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1104": {
@@ -1681,6 +1743,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1104991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1105": {
@@ -2262,6 +2354,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5007,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1105901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1106": {
@@ -2857,6 +2979,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1106991",
+        "sourceSkillName": "拳套破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1107": {
@@ -3702,6 +3854,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.6,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1107991",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1108": {
@@ -4324,6 +4506,37 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4892,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5044,
+        "nextAttAt": 1.4892,
+        "nextAttDuration": 0.5377,
+        "skillEndAt": 1.6802,
+        "idleReturnAt": null,
+        "sequenceLength": 3.73,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5021
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1108901",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1109": {
@@ -4796,6 +5009,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1109701",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1110": {
@@ -5394,6 +5637,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.501,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.499,
+        "nextAttAt": 1.501,
+        "nextAttDuration": 0.4786,
+        "skillEndAt": 1.501,
+        "idleReturnAt": null,
+        "sequenceLength": 4.333333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.001,
+              "duration": 1.499
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9344
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1110024",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1202": {
@@ -6088,6 +6361,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5888,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "120291",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1203": {
@@ -6740,6 +7043,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1203991",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1204": {
@@ -7187,6 +7520,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.6,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1204901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1205": {
@@ -7754,6 +8117,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4892,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5044,
+        "nextAttAt": 1.4892,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5032,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5021
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1205991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1206": {
@@ -8652,6 +9046,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 2.73,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1206991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1207": {
@@ -9450,6 +9875,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4337,
+          1.1009
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1207991",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1208": {
@@ -10103,6 +10560,36 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.6,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1208901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1209": {
@@ -10734,6 +11221,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5628,
+        "idleReturnAt": null,
+        "sequenceLength": 4.166667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0671,
+          0.4361,
+          1.107
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1209991",
+        "sourceSkillName": "大剑破弱-常规地面",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1210": {
@@ -11790,6 +12309,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.6651,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "12101013",
+        "sourceSkillName": "【弱点】迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1211": {
@@ -12672,6 +13222,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.501,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.499,
+        "nextAttAt": 1.501,
+        "nextAttDuration": 0.4786,
+        "skillEndAt": 1.501,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.001,
+              "duration": 1.499
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9344
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1211901",
+        "sourceSkillName": "音感仪破弱-白形态",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1301": {
@@ -13237,6 +13817,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1301901",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1302": {
@@ -13776,6 +14388,36 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5007,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1302901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1303": {
@@ -14432,6 +15074,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1303901",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1304": {
@@ -15480,6 +16152,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5588,
+        "idleReturnAt": null,
+        "sequenceLength": 4.166667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1304991",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1305": {
@@ -16084,6 +16788,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1305991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1306": {
@@ -16639,6 +17373,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1306991",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1307": {
@@ -17191,6 +17957,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1307901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1308": {
@@ -18093,6 +18889,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.6,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1308901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1309": {
@@ -18946,6 +19772,37 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4999,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.512,
+        "nextAttAt": 1.4999,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5103,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1309500",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1402": {
@@ -19505,6 +20362,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4857,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5014,
+        "nextAttAt": 1.4857,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.4854,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.4908
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1402991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1403": {
@@ -19856,6 +20744,36 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.6,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1403901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1404": {
@@ -20697,6 +21615,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1404991",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1405": {
@@ -21297,6 +22247,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5647,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5647,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5531,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1405991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1406": {
@@ -22090,6 +23070,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4999,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.512,
+        "nextAttAt": 1.4999,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5103,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1406901",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1407": {
@@ -22443,6 +23454,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6086,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.613,
+        "nextAttAt": 1.6086,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.606,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6074
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1407901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1409": {
@@ -23417,6 +24458,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.512,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5144,
+        "nextAttAt": 1.512,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5115,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5144
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1409991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1410": {
@@ -24061,6 +25133,36 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.54,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5337,
+        "nextAttAt": 1.54,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5425,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5408
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1410991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1411": {
@@ -24675,6 +25777,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1411991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1412": {
@@ -25161,6 +26294,36 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5333,
+        "nextAttAt": 1.5333,
+        "nextAttDuration": 1,
+        "skillEndAt": 1.5333,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5333
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1412991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1501": {
@@ -26452,6 +27615,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4966,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.503,
+        "nextAttAt": 1.4966,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.4961,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5012
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1501991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1503": {
@@ -27135,6 +28329,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1503901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1504": {
@@ -27852,6 +29076,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5723,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1504900",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1505": {
@@ -28229,6 +29485,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1505901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1506": {
@@ -28721,6 +30007,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1506901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1507": {
@@ -29528,6 +30844,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1507991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1508": {
@@ -31026,6 +32372,38 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5655,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5558,
+        "nextAttAt": 1.5655,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5639,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5575
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1508991",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1509": {
@@ -32097,6 +33475,36 @@
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.595,
+        "idleReturnAt": null,
+        "sequenceLength": 3.8,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1509901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1510": {
@@ -32942,6 +34350,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5012,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5012,
+        "nextAttDuration": 0.5655,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 3.166667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1510702",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1511": {
@@ -33792,6 +35230,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.6,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.6,
+        "nextAttAt": 1.6,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.595,
+        "idleReturnAt": null,
+        "sequenceLength": 3.9,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.6
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1511901",
+        "sourceSkillName": "手枪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1601": {
@@ -34201,6 +35669,38 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5689,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.1
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1601901",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1602": {
@@ -34860,6 +36360,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4892,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5085,
+        "nextAttAt": 1.4892,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.4925,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.4978
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1602991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1603": {
@@ -35706,6 +37237,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4857,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5085,
+        "nextAttAt": 1.4857,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.489,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5227
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1603991",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1604": {
@@ -36651,6 +38213,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "curated"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.4999,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.512,
+        "nextAttAt": 1.4999,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.4925,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5227
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1604901",
+        "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1606": {
@@ -37236,6 +38829,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.7,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          1.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1606991",
+        "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1607": {
@@ -38070,6 +39693,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1607901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1608": {
@@ -38685,6 +40338,36 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9333
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1608901",
+        "sourceSkillName": "音感仪破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     },
     "1610": {
@@ -39424,6 +41107,37 @@
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5008,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.479,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0006,
+              "duration": 1.4901
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1610301",
+        "sourceSkillName": "【破弱】迅刀破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
       }
     }
   }

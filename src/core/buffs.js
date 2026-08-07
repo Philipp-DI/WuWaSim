@@ -713,6 +713,11 @@ const TEAM_RECIPIENT_RE = new RegExp([
     /\ball\s+(?:nearby\s+)?party\s+members\b/,
     /\ball\s+characters\s+nearby\b/,
     /\bnearby\s+party\s+members\b/,
+    // "all Resonators in the team deal 20% more DMG" — the team is what deals
+    // more, i.e. the RECIPIENT. `deal` alone would be ambiguous (the ACTOR form
+    // "a Resonator in the team deals Tune Break DMG" is a trigger, not a grant),
+    // so this requires both "all" and a percentage on the verb.
+    /\ball\s+(?:nearby\s+)?resonators\s+in\s+the\s+team\s+deals?\s+[\d.]+\s*%/,
 ].map(regex => regex.source).join('|'), 'i');
 
 /** Does this effect's condition describe a buff GRANTED TO the whole team? */

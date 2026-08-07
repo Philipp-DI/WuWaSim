@@ -36,6 +36,7 @@ import { applyResonanceModesAndOverrides, applyResonatorRoles } from './preproce
 import { buildStatusApplyRules } from './preprocess/status-apply.mjs';
 import { bindSkillScopes } from './preprocess/skill-scope.mjs';
 import { markReplacedInherents } from './preprocess/inherent-replace.mjs';
+import { applyTuneStrain } from './preprocess/tune-strain.mjs';
 import {
     isPlayable, projectResonator, projectNanokaCharacter, projectNanokaCharacterFull,
 } from './preprocess/resonators.mjs';
@@ -315,6 +316,7 @@ async function main() {
             // Copy inherent skills onto the Dimbreath resonator object
             // so the build editor can display the passive toggles for all chars.
             if (proj.inherentSkills?.length) resonator.inherentSkills = proj.inherentSkills;
+            if (proj.tuneBreak)              resonator.tuneBreak      = proj.tuneBreak;
             if (proj.resonanceChain?.length) resonator.resonanceChain = proj.resonanceChain;
             if (proj.outroBuffs?.length)     resonator.outroBuffs     = proj.outroBuffs;
             if (proj.offFieldActions?.length) resonator.offFieldActions = proj.offFieldActions;
@@ -539,7 +541,7 @@ async function main() {
     // cost-free continuation. See docs/TIMING_MODEL.md "Freeze belongs to the
     // animation".
     const measuredPath = resolve(__dirname, '../data/actionable-times.json');
-    let measuredApplied = 0, measuredMissing = 0, freezeApplied = 0, freezeSkipped = 0;
+    let measuredApplied = 0, measuredMissing = 0, freezeApplied = 0, freezeSkipped = 0, tuneBreakTimed = 0;
     if (existsSync(measuredPath)) {
         const measured = JSON.parse(readFileSync(measuredPath, 'utf8')).actionableTimes ?? {};
         const sourceOf = (entry) => entry.sourceMontage ?? (entry.sourceSkillId ? `row:${entry.sourceSkillId}` : null);
@@ -551,6 +553,32 @@ async function main() {
                 if (source) keysPerSource.set(source, (keysPerSource.get(source) ?? 0) + 1);
             }
             for (const [key, entry] of Object.entries(keys)) {
+                // Tune Break is a rotation step with no skillMap entry (its row
+                // carries no damage ids, so it is reached by trigger type rather
+                // than by hit id — map-timings.mjs, route 'breakWeakness'). Its
+                // measurement lands on the resonator's own node instead.
+                if (key === '__tunebreak__') {
+                    const resonator = resonators.find(entry_ => String(entry_.id) === rid);
+                    if (resonator?.tuneBreak && entry.stepDuration > 0) {
+                        Object.assign(resonator.tuneBreak, {
+                            stepDuration: entry.stepDuration,
+                            stepDurationRule: entry.stepDurationRule,
+                            // Measured TimeStopRequest: the Tune Break animation
+                            // stops the combat clock for its whole length, which
+                            // is why it is stamped rather than left to
+                            // resolveFreezeTime's cinematic gate (that reads a
+                            // skillType this step does not have).
+                            freezeTime: entry.freezeTime ?? 0,
+                            hitCount: entry.hitCount ?? null,
+                            interruptLevel: entry.interruptLevel ?? null,
+                            sourceSkillId: entry.sourceSkillId ?? null,
+                            sourceSkillName: entry.sourceSkillName ?? null,
+                            timingSource: entry.provenance === 'curated' ? 'curated' : 'extracted',
+                        });
+                        tuneBreakTimed++;
+                    }
+                    continue;
+                }
                 const step = autoSkillMap[rid]?.[key];
                 if (!step) { measuredMissing++; continue; }
                 if (!(entry.stepDuration > 0)) continue;
@@ -601,6 +629,13 @@ async function main() {
         + `${measuredMissing ? `, ${measuredMissing} had no matching step` : ''}\n`);
     process.stderr.write(`  measured freezeTime:   ${freezeApplied} steps stamped`
         + `${freezeSkipped ? `, ${freezeSkipped} skipped (shared skillRow fallback)` : ''}\n`);
+    process.stderr.write(`  Tune Break timing:     ${tuneBreakTimed} resonators measured\n`);
+
+    // The Tune Strain chain, read off each Tune Break node (see tune-strain.mjs).
+    // Runs after the node exists and after its timing is stamped, since it
+    // writes onto the same object.
+    const strainResponders = applyTuneStrain(resonators);
+    process.stderr.write(`  Tune Strain chain:     ${strainResponders} responders derived\n`);
 
     // Forte-gauge overlay (Lever 2) — data/forte-data.json is the committed
     // distillation of the BinData SpecialEnergy channels (tools/extract-forte.mjs).
@@ -696,6 +731,25 @@ async function main() {
         return JSON.parse(readFileSync(path, 'utf8'));
     })();
 
+    // A clause that NAMES its skills binds to those skills, not to their whole
+    // category — without this, sibling clauses stack onto each other and land on
+    // every step of that category. The same pass reads the STATE a clause's
+    // leading "In X," gates it behind, and DROPS the effects it could not scope
+    // at all (see skill-scope.mjs).
+    //
+    // Runs BEFORE anything keyed on an effect's slot. `S{level}.{index}` is a
+    // critical invariant (CLAUDE.md) — data/effect-overrides.json and a saved
+    // build's `effectStacks` both address effects by it — so a pass that changes
+    // the effect COUNT has to finish before the slot means anything. Ordered
+    // after the overrides, the drop silently moved Luuk Herssen's curated S6.0
+    // patch onto a different effect.
+    const scopeTally = resonators.reduce((total, resonator) => {
+        const { bound, dropped } = bindSkillScopes(resonator, autoSkillMap[String(resonator.id)]);
+        return { bound: total.bound + bound, dropped: total.dropped + dropped };
+    }, { bound: 0, dropped: 0 });
+    process.stderr.write(`  skill scopes: ${scopeTally.bound} effects bound to a named skill`
+        + `${scopeTally.dropped ? `, ${scopeTally.dropped} dropped as unscopable` : ''}\n`);
+
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
 
@@ -703,14 +757,6 @@ async function main() {
     // readings of one effect (see inherent-replace.mjs).
     const replacedInherents = resonators.reduce((count, resonator) => count + markReplacedInherents(resonator), 0);
     process.stderr.write(`  inherent replacements: ${replacedInherents} superseded by a sequence node\n`);
-
-    // A clause that NAMES its skills binds to those skills, not to their whole
-    // category — without this, sibling clauses stack onto each other and land on
-    // every step of that category. The same pass reads the STATE a clause's
-    // leading "In X," gates it behind (see skill-scope.mjs).
-    const scopedEffects = resonators.reduce((count, resonator) =>
-        count + bindSkillScopes(resonator, autoSkillMap[String(resonator.id)]), 0);
-    process.stderr.write(`  skill scopes: ${scopedEffects} effects bound to a named skill\n`);
 
     // WHICH casts inflict a negative status, read off each kit's own text
     // (OPEN-ITEMS #29). A resonator whose text states no rule is absent here and

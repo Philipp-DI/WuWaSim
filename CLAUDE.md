@@ -70,6 +70,7 @@ lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
 - **Dead code:** Remove unused code, legacy systems, hardcoded values.
 - **Performance:** List accumulation over `+=` in loops; iterative over
   recursive when stack depth matters.
+- **KISS:** Adhere to the KISS-principle to keep the codebase simple and easy to understand.
 - **No type ignores:** Fix the underlying issue.
 - **Complete migrations:** Update all imports and remove old shims in the same
   change.
@@ -108,7 +109,7 @@ Breaking any one silently corrupts sim output.
 | Cast triggers are MECHANICAL | `castMatch` trigger firing reads the node `skillType` only (`phraseTypesForStep` in sim.js), never `formulaType` — a Basic that deals converted Liberation damage is still a Basic CAST |
 | Stat nodes authoritative source | Per-node `skillTreeBonuses` (col/tier) is authoritative; `dataset.skillTree` aggregated table is fallback only |
 | Element DMG node mapping | `propId 22–27` → `elementId 1–6` (do not offset or reorder) |
-| Conditional effects default OFF | Any effect whose condition text contains `when / after / while / upon / duration` is a toggle, defaults to OFF |
+| Conditional effects default OFF | Any effect whose condition text contains `when / after / while / upon / duration` needs to be modelled if possible, if not defaults to OFF |
 | An underivable stack count is ONE, and says so | `scaleEffect` resolves stacks from the user's count → a curated gauge → a `castMatch` trigger → else **1 stack + `stacksUnknown`**. NEVER fall back to `maxStacks`: a real cap makes that a large silent assertion (Lynae is 55%/stack to a cap of 25) |
 | Gauge caps come from the GAME | `SpecialEnergy{N}Max` (BinData `baseproperty.json` → `extract-forte.mjs` → `resonator.specialEnergyCaps`) is authoritative for how many stacks a gauge holds. A curated `RESOURCE_DEFS` entry declares its `channel` and its literal `cap` is test-asserted equal. Gauge INCOME for a named stack gauge is NOT in the dumps (Changli's 40 damage instances all read `SpecialEnergy 0`) and stays curated |
 | A stack BAND gates, `maxStacks` caps | A banded effect is one branch of a piecewise per-stack function (Yangyang: Xuanling is 10%/stack at 1-3 Havoc Bane, 12%/stack at 4-6). The band is tested against the RAW count and decides IF the branch applies; `maxStacks` then caps what it is WORTH. Never clamp before testing the band — a raw 4 would become 3 and light the wrong branch |
@@ -124,6 +125,10 @@ Breaking any one silently corrupts sim output.
 | A clause that NAMES its skills is scoped by the NAMES | `tools/preprocess/skill-scope.mjs` binds both shapes the game writes — TARGET ("The DMG Multiplier of X is increased") and SUBJECT ("X and Y gain 300% Crit. DMG") — and the binding covers EVERY stat, not just `multiplierUp`. Once the names match they ARE the scope: the category read off the same clause is the weaker restatement and can contradict it outright (her Heavy Attacks are "considered Resonance Liberation DMG", so the clause parses `skillType: 'heavy'` while their hits carry `'liberation'`, and both gates together match nothing). A name that resolves to nothing leaves the effect exactly as it was, which is what keeps the pass safe — "Resonators in the team" resolves to nothing and stays team-wide |
 | Same-instant mark events are ordered EXPLICITLY, not by epsilon | A step's start time IS the previous step's end time, so a consumption and the next cast's application share one number. `EVENT_ORDER` in `enemy-status.js`: a cast's own grant lands BEFORE the consumption it performs (so the cast spends it — measured 24 Trail → 34 → burst → 0), the application lands AFTER (it belongs to the next cast — measured, her Heavy lands 2 Trail right after a Duet emptied the target). A time offset cannot encode this: it must be smaller than any real gap between steps and larger than the sampler's "at this instant" tolerance, and no value is both |
 | `build.rotation` is linear | Graph is built at sim time via `fromLinear()` — never persisted |
+| Effect-slot keys are FROZEN before anything reads them | `S{level}.{index}` addresses effects from `effect-overrides.json` AND from a saved build's `effectStacks`, so any preprocess pass that changes an effect COUNT must run BEFORE the overrides. `bindSkillScopes` drops what it cannot scope; ordered after the overrides it silently moved Luuk Herssen's curated S6.0 patch onto a different effect |
+| Tune Break is ONE per pass, for the whole team | The Off-Tune bar is the TARGET's and refills once per cycle, so three members in one pass share one opportunity (`capTuneBreaksPerPass`). It matters because the animation STOPS THE COMBAT CLOCK (measured `freeze_combat_clock_s` on all 68 rows, plus general invincibility and interrupt level 11) — an uncapped extra is damage at zero cost to the DPS denominator. The surplus is REMOVED, not zeroed, so nothing downstream sees a cast that did not happen. The build page still simulates every slotted response and only flags the extras |
+| A trigger's category is not the effect's SCOPE | `SKILL_PHRASE_TO_TYPE` is read by `extractStructuralTrigger` (what fires it) AND `detectSkillType` (what it applies to). For a Tune Break the two are opposites — "After a Resonator deals Tune Break DMG, all Resonators deal 20% more DMG" is TRIGGERED by one and applies to EVERYTHING — so 'tuneBreak' is deliberately absent from that map and the trigger reads it from its own branch |
+| The Interfered cap IS the responder count | Four kits state "the max stack limit of Tune Strain - Interfered on a target is increased by 1" and NONE states a base, so the limit is the number of responders on the team (`interferedCap`). The whole chain pays zero unless a responder, a Tune Break AND a Tune Strain - Shifting mark are all present, and a non-responder holding team-wide Tune Break Boost converts none of it — the payout clause lives on the responder's own Tune Break node, not on the stat |
 | Team-buff paths are disjoint | Three team-wide application paths exist by construction (see `docs/ARCHITECTURE.md`, "Life of a buff"); a buff flows through exactly ONE — adding a source means picking a path, never duplicating |
 
 ---
@@ -213,7 +218,7 @@ Prefer built-in tools (grep, read_file, …) over manual workflows.
 When asked to commit (never push automatically; pushing is a separate,
 explicit instruction):
 
-1. Full verification suite first — never commit a broken state.
+1. Full verification suite first (exception: full verification already ran last prompt) — never commit a broken state.
 2. `git add -A`
 3. Message structure: `[Phase/scope]: [imperative subject]`, a 2–3 sentence
    summary, then sections: What was implemented / Files changed / Files NOT

@@ -223,6 +223,28 @@ export function projectNanokaCharacterFull(nChar) {
         });
     }
 
+    // ── Tune Break (node_type 3, sk.type='Tune Break') ───────────────────────
+    // Every resonator has exactly one, and it is the RESPONSE to a target whose
+    // Off-Tune bar is full — a move any resonator can make, not a kit feature.
+    // The game names it by WEAPON TYPE ("Tune Break: Sword"), which is why the
+    // name is worth carrying rather than synthesising: it is what the player
+    // sees on the node. It ships no damage table and no level curve
+    // (`damage: {}`, `level: {}`) because its damage is the tune-bar mechanic's
+    // own formula, not a character multiplier — see enemy-status.js
+    // computeTuneBreakDamage.
+    let tuneBreak = null;
+    for (const node of Object.values(nChar.skill_trees ?? {})) {
+        const skill = node.skill ?? {};
+        if (node.node_type !== 3 || skill.type !== 'Tune Break') continue;
+        const rawDesc = (skill.desc ?? '').replace(/<[^>]+>/g, '').trim();
+        tuneBreak = {
+            name: skill.name ?? 'Tune Break',
+            desc: substituteParams(rawDesc, skill.param ?? [])
+                .replace(/\{[A-Za-z][^}]*\}/g, '').replace(/\s+/g, ' ').trim(),
+        };
+        break;
+    }
+
     // ── Outro Skill buff grants ───────────────────────────────────────────────
     // The Outro Skill grants DMG Amplification to the INCOMING resonator
     // (separate multiplicative bucket from dmgBonus — matches formula.js `amplify`).
@@ -837,6 +859,7 @@ export function projectNanokaCharacterFull(nChar) {
         skillTreeBonuses,
         statNodeBonuses,   // { normal, skill, liberation, intro } → [{name,value,tier,propId}]
         inherentSkills,
+        tuneBreak,        // { name, desc } — the response every resonator can make
         resonanceChain,
         outroBuffs,       // [{ scope: {type,elementId?|skillType?}, value, duration }]
         offFieldActions,  // [{ type, trigger, element, scaling, multiplier, cooldown, duration, note }]
