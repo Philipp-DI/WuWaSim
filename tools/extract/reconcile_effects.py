@@ -29,9 +29,21 @@ node, and prints where they disagree:
     no attribute lane  multiplierUp / amplify — damage-pipeline effects that are
                        NOT attribute modifiers, so this table cannot judge them
 
-SCOPE: Resonance Chains only. Inherent skills reach their buffs through
-`db_skillTree.SkillBranchIds` → another table, not through a `BuffIds` column,
-so they need a second hop this version does not make.
+SCOPE: Resonance Chains. A sweep of all 500 config accessors for buff-routing
+columns found exactly four character-power entry points, and this reads the
+first; the others are the obvious next widenings:
+
+    ResonantChain.BuffIds   S1..S6                         ← read here
+    Skill.BuffList          character skills, keyed by
+                            SkillGroupId (NOT the id prefix — db_skill really
+                            does hold character skills, 562 rows, and the note
+                            in extract_status_appliers.py saying otherwise was
+                            reading the wrong key)
+    PhantomFetter.BuffIds   echo sonata SET bonuses (64 rows = 32 sets x 2)
+    PhantomSkill.BuffIds    echo active skills
+
+Inherents route through `db_skillTree` (NodeGroup = resonator, NodeType 3) into
+`Skill`, so they arrive with the second of those.
 
     python tools/extract/reconcile_effects.py <fmodel-export-root> [--depth N]
 
@@ -47,17 +59,14 @@ from configdb import ConfigDB    # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# A buff whose ExtraEffectID is 5 APPLIES another buff; its parameters are
-# [target mode, buff id, stack count]. Following it is what reaches a modifier
-# that sits behind a listener rather than on the node itself.
-APPLY_BUFF_EFFECT = 5
-# ExtraEffectID 35 REGISTERS a passive skill of the same id. That passive is the
-# listener — its TriggerType/TriggerFormula say when it fires and its
-# SkillActionParams name the buffs it then applies. Without this hop a chain node
-# reaches only the buffs stapled directly to it, which for most kits is the
-# listener and nothing else: Denia S1's +30% ATK sits three links down
-# (chain → 1211702103 → passive → 1211702104 → apply → 1211100011).
-REGISTER_PASSIVE_EFFECT = 35
+# The ExtraEffectIDs that ROUTE a buff onward, straight from the client's own
+# dispatch switch (data/extra-effects.json ← extract_extra_effects.py). These are
+# the edges of the grant graph: ExecuteBulletOrBuff (5), AddPassiveSkill (35),
+# BindBuffToTeam (53), AddBuffToAdjacentRoleExecution (24) and eleven more.
+# Following only (5) reached 16% of chain nodes; the full set plus tag-gating is
+# what makes the walk representative.
+ROUTING_EFFECTS = {int(k) for k in json.load(
+    open(os.path.join(ROOT, 'data', 'extra-effects.json'), encoding='utf-8'))['routing']}
 
 # GameAttributeID → the effect stat this engine would emit for it.
 # `calc` distinguishes the ATK lanes: CalculationPolicy 1 is a ratio of base
@@ -153,9 +162,7 @@ def expand(buff_ids, buffs, passives, depth, tag_index=None):
             seen.add(bid)
             buff = buffs.get(bid)
             if buff:
-                if buff.get('ExtraEffectID') == APPLY_BUFF_EFFECT:
-                    nxt += ids_in(buff.get('ExtraEffectParameters'))
-                if buff.get('ExtraEffectID') == REGISTER_PASSIVE_EFFECT:
+                if buff.get('ExtraEffectID') in ROUTING_EFFECTS:
                     nxt += ids_in(buff.get('ExtraEffectParameters'))
                 for key in ('RelatedAttributeBuffId', 'RelatedExtraEffectBuffId'):
                     related = buff.get(key)
