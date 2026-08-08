@@ -56,13 +56,19 @@ const KIT_VERIFIED = new Map([
 ]);
 
 /**
- * A bullet name with its chain marker and trailing punctuation removed.
+ * A bullet name with its chain marker removed and its separators normalised.
+ *
+ * Removing the marker leaves a separator RUN behind — `坎特蕾拉终结技能-共鸣1-1`
+ * becomes `坎特蕾拉终结技能--1`, which never matches its base `坎特蕾拉终结技能-1`.
+ * That one gap made 30 upgrades look like additions, Cantarella's finisher rows
+ * among them; collapsing runs took the unpaired pool from 70 to 40.
  *
  * Trailing DIGITS are kept: `子魔方1` and `子魔方2` are two different sub-cubes,
  * and collapsing them would call the second a replacement of the first.
  */
 export function stripChainMarker(name) {
-    return String(name ?? '').replace(CHAIN_MARKER, '').replace(/[\s\-—_+]*$/, '').trim();
+    return String(name ?? '').replace(CHAIN_MARKER, '')
+        .replace(/[\s\-—_+]+/g, '-').replace(/^-+|-+$/g, '').trim();
 }
 
 /**

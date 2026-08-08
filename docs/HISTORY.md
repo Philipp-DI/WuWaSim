@@ -7086,3 +7086,57 @@ not modelled at all — the base row stands and the improvement is dropped.
 
 **[Updated Docs]** `CLAUDE.md` (new invariant), `docs/HISTORY.md` (this entry
 plus the correction above).
+
+---
+
+## 2026-08-08 (later) — Chain UPGRADES are already modelled; a correction and a bug
+
+Investigating whether the withheld addition candidates and the unmodelled chain
+upgrades were the same problem. They are — one pairing decides both — but the
+conclusion inverts the previous entry's claim.
+
+**[Correction]** The entry above says chain upgrades "are still not modelled at
+all — the base row stands and the improvement is dropped", and the 23b86f1
+commit message repeats it. That is WRONG. The kit states an upgrade as a
+percentage and the text parser already reads it:
+
+    Xiangli Yao S6  "+76% DMG Multiplier of Law of Reigns"  → multiplierUp 0.76
+    Cantarella S1   "+50%"                                  → multiplierUp 0.50, scoped
+    Camellya S2     "+120%"                                 → multiplierUp 1.20, scoped
+    Jinhsi S5       "+120%"                                 → multiplierUp 1.20
+
+So a data-driven upgrade lane on top of that would DOUBLE-COUNT. The 共鸣N
+damage rows are the DATA form of what the kit says in English, not a separate
+mechanic. No upgrade lane was built, deliberately.
+
+**[Files Changed]** `tools/preprocess/chain-extra-hits.mjs` (`stripChainMarker`
+now normalises separators), `data/wuwa-data.json`, `data/data-version.json`.
+
+**[Logic Altered]** Removing the 共鸣N marker leaves a separator RUN behind —
+`坎特蕾拉终结技能-共鸣1-1` became `坎特蕾拉终结技能--1`, which never matched its base
+`坎特蕾拉终结技能-1`. Collapsing runs took paired bullets 81 → 111 and the unpaired
+pool 70 → 40, moving Cantarella's finisher rows to `paired` where they belong.
+Withheld addition candidates fell 14 → 11. The shipped output is unchanged:
+Xiangli Yao's matrices are unpaired either way.
+
+**[The bug this surfaced]** Xiangli Yao's S6 `multiplierUp 0.76` carries
+`skillType: 'skill'` (the kit calls it "Resonance Skill Law of Reigns") while the
+node's own skillType is `forte_heavy`, so per the multiplierUp invariant it
+matches NOTHING. Measured: the base Law of Reigns hit is 6.382 at chain 0 AND at
+chain 6. `skill-scope.mjs` did not bind the clause by name either — its TARGET
+form expects "The DMG Multiplier of X is increased", not "increasing the DMG
+Multiplier of X by N%" — so the name that would have overridden the category was
+never read. Expected value is 6.382 x 1.76 = 11.232.
+
+**[Verification Method]** `npm test` 66/66, `npm run sweep` 67 / 0 failed,
+`npm run lint` 0 errors. LOCK A: one line (`generatedAt`) — the pairing change
+alters what is WITHHELD, not what ships. LOCK B untouched (no ENGINE_FILES
+member changed).
+
+**[Residual Risks]** 11 candidates still withheld pending a kit-text read. The
+paired-upgrade set is now a usable CROSS-CHECK rather than a build target: the
+data states the exact ratio (Xiangli Yao 1.76) that the text-parsed multiplierUp
+should equal, which is how the mis-scoping above was caught. Nothing consumes
+that check yet.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry + the correction).
