@@ -7140,3 +7140,62 @@ should equal, which is how the mis-scoping above was caught. Nothing consumes
 that check yet.
 
 **[Updated Docs]** `docs/HISTORY.md` (this entry + the correction).
+
+---
+
+## 2026-08-08 (later still) — "Forte" is provenance, not a damage type
+
+Maintainer's correction, mid-session: *"'forte_heavy' surfaced again. Confusing.
+It's 'forte'. Forte itself is NEVER a damage type. It's a passive enhancement
+and the resonator's specialty."* Correct, and it was costing damage.
+
+**[Files Changed]** `src/core/buffs.js` (`nodeTypeMatches`, used by the
+`multiplierUp` branch), `tests/node-type-match.test.mjs` (new),
+`data/wuwa-meta.json`, `docs/HISTORY.md`.
+
+**[Logic Altered]** A `forte_heavy` node is a Heavy Attack REACHED THROUGH the
+Forte Circuit; the mechanical type is `heavy` and the `forte_` part is
+provenance. `resolveChainInherentContext` compared `effect.skillType ===
+hit.skillType` by strict equality, so a clause saying "Heavy Attack" never
+matched a `forte_heavy` node and the effect was dropped whole. CLAUDE.md has
+documented the intended rule — "a `forte_heavy` node uses 'heavy' for
+multiplierUp matching" — since before it was implemented.
+
+`nodeTypeMatches` strips the `forte_` prefix and compares. It is deliberately
+NOT a general loosening: `basic` still does not match `forte_heavy`, and the
+scope is the `multiplierUp` branch alone, which is the only consumer of the NODE
+context (`skill.js` reads `ctxNode.multiplierUp`; every DMG-bonus bucket matches
+the FORMULA type, which is never a `forte_*` value).
+
+**[Measured]** Clauses stating a skill type that no node of their own resonator
+could answer to: 4 -> 2.
+
+    Changli            S5  heavy  +50%   — now applies
+    Yangyang: Xuanling S6  heavy  +40%   — now applies
+    Taoqi              S5  forte  +50%   — still dead (see below)
+    Camellya           S6  forte  +150%  — still dead
+
+**[What is left, and why it is NOT a matcher fix]** The two survivors state
+`forte` as though it were a category. It is not, so the matcher must keep
+refusing it. Both clauses NAME their skill — Camellya's is "Forte Circuit's
+Sweet Dream" — so they are fixed by binding the name in `skill-scope.mjs`, the
+same TARGET-form gap that leaves Xiangli Yao's S6 "+76% of Law of Reigns"
+unbound ("increasing the DMG Multiplier of X by N%" is not the "The DMG
+Multiplier of X is increased" shape it matches). Teaching the matcher a
+category the game does not have would paper over both.
+
+**[Verification Method]** `npm test` 67/67 (new file), `npm run sweep` 67 / 0
+failed, `npm run lint` 0 errors. LOCK A unchanged (no preprocess change). LOCK B
+moved for exactly two characters — 1205 Changli and 1108 Hiyuki, whose Heavy
+clauses now reach their `forte_heavy` stages — plus 21 team scores shifting
+0.3-0.4% as the ranking re-normalises around them.
+
+**[Residual Risks]** Hiyuki's movement was not predicted from the census (her
+S3 +160% Heavy now also reaches her Forte heavy stages); it is the correct
+consequence of the same rule, but it means the fix reaches further than the two
+clauses it was aimed at. Any kit clause that says "Heavy Attack" while meaning
+only the non-Forte stages would now over-apply — none is known, and the game
+does not appear to draw that distinction in kit text.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry). CLAUDE.md's invariant already
+stated the rule and needed no change — it was the implementation that was missing.

@@ -271,6 +271,24 @@ export function resolveBuffContext(effects, hit) {
  *   healingBonus:number, multiplierUp:number
  * }}
  */
+/**
+ * Does a clause's stated skill type match a NODE's type?
+ *
+ * "Forte" is PROVENANCE, not a damage type — a `forte_heavy` node is a Heavy
+ * Attack reached through the Forte Circuit, and a kit clause that says "Heavy
+ * Attack" means exactly that node. Strict equality dropped the effect entirely:
+ * Changli's S5 +50% and Yangyang: Xuanling's S6 +40% both name a Heavy Attack
+ * whose only keys are `forte_heavy` nodes, so both were worth nothing.
+ *
+ * Only `multiplierUp` reads this, and only ever against the NODE context
+ * (skill.js takes `ctxNode.multiplierUp`). The DMG-bonus buckets match the
+ * FORMULA type, which is never a `forte_*` value.
+ */
+export function nodeTypeMatches(effectSkillType, nodeSkillType) {
+    if (effectSkillType === nodeSkillType) return true;
+    return effectSkillType === String(nodeSkillType ?? '').replace(/^forte_/, '');
+}
+
 export function resolveChainInherentContext(effects, hit) {
     const out = {
         dmgBonus: 0, amplify: 0, deepen: 0,
@@ -327,7 +345,7 @@ export function resolveChainInherentContext(effects, hit) {
                 out.healingBonus += effect.value;
                 break;
             case 'multiplierUp':
-                if (named || effect.skillType == null || effect.skillType === hit.skillType) {
+                if (named || effect.skillType == null || nodeTypeMatches(effect.skillType, hit.skillType)) {
                     out.multiplierUp += effect.value;
                 }
                 break;
