@@ -38,6 +38,7 @@ import { bindSkillScopes } from './preprocess/skill-scope.mjs';
 import { applyBuffFacts, loadBuffFacts } from './preprocess/buff-facts.mjs';
 import { markReplacedInherents } from './preprocess/inherent-replace.mjs';
 import { applyTuneStrain } from './preprocess/tune-strain.mjs';
+import { buildChainExtraHits } from './preprocess/chain-extra-hits.mjs';
 import {
     isPlayable, projectResonator, projectNanokaCharacter, projectNanokaCharacterFull,
 } from './preprocess/resonators.mjs';
@@ -777,6 +778,28 @@ async function main() {
     // WHICH casts inflict a negative status, read off each kit's own text
     // (OPEN-ITEMS #29). A resonator whose text states no rule is absent here and
     // keeps the every-damaging-step fallback in applicationsFromSteps.
+    // Damage instances a Resonance Chain ADDS, which no display row mentions —
+    // the game ships them as bullets marked 共鸣N and their rows are already in
+    // damageTable, just attached to nothing. See chain-extra-hits.mjs for why an
+    // entry needs its kit node read before it ships.
+    const chainExtraHits = (() => {
+        const path = resolve(__dirname, '../data/bullet-timings.json');
+        if (!existsSync(path)) {
+            process.stderr.write('  chain extra hits: data/bullet-timings.json absent — skipped\n');
+            return {};
+        }
+        const bullets = JSON.parse(readFileSync(path, 'utf8'));
+        const { extras, skipped } = buildChainExtraHits({
+            bulletNames: bullets.bulletNames, bulletDamageIds: bullets.bulletDamageIds,
+            hitMap, damageTable,
+        });
+        const attached = Object.values(extras).reduce((count, list) => count + list.length, 0);
+        const unconfirmed = skipped.filter(row => row.reason === 'candidate not confirmed by kit text').length;
+        process.stderr.write(`  chain extra hits: ${attached} attached, `
+            + `${unconfirmed} candidates awaiting a kit-text read, ${skipped.length - unconfirmed} otherwise skipped\n`);
+        return extras;
+    })();
+
     const statusApplyRules = buildStatusApplyRules(resonators, autoSkillMap, statusAppliers);
     const ruleCount = Object.values(statusApplyRules).reduce((count, rules) => count + rules.length, 0);
     process.stderr.write(`  status apply rules: ${ruleCount} across `
@@ -832,6 +855,7 @@ async function main() {
         afflictionDamage,
         statusDamage,
         statusApplyRules,
+        chainExtraHits,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

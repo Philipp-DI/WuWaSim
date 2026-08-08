@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-07T21:23:23.911Z",
+  "generatedAt": "2026-08-08T07:05:12.285Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -238196,6 +238196,26 @@
           "intro"
         ],
         "derivedFrom": "Hurl out an [Ichor Blade] and inflict [Tune Strain - Shifting] on the target."
+      }
+    ]
+  },
+  "chainExtraHits": {
+    "1305": [
+      {
+        "chain": 1,
+        "skillKey": "forte_heavy_law_of_reigns",
+        "damageId": 1305053101,
+        "count": 6,
+        "family": "E技能终结子魔方1",
+        "note": "Xiangli Yao S1: \"Law of Reigns additionally launches 6 Convolution Matrices … each dealing … 8% of the skill's DMG Multiplier.\" Six bullets (1305053101..106) share this row at 0.2568, exactly 8% of Law of Reigns' own 3.21 total (4 x 0.4815 + 1.284)."
+      },
+      {
+        "chain": 6,
+        "skillKey": "forte_heavy_law_of_reigns",
+        "damageId": 1305053201,
+        "count": 6,
+        "family": "E技能终结子魔方1",
+        "note": "Xiangli Yao S6: the same six matrices, upgraded. 0.452 / 0.2568 = 1.76, exactly the \"+76% DMG Multiplier of Law of Reigns\" S6 states — so it supersedes the S1 row rather than adding to it."
       }
     ]
   }

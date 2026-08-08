@@ -7018,3 +7018,71 @@ referencing Hiyuki S6 stacks by key is subject to the same shift.
 
 **[Updated Docs]** `CLAUDE.md` (two new invariants: the para index + ANY/ALL
 check, and the bullet-chain scope route), `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-08 — Chain-added damage instances (and a correction to the entry above)
+
+**[Correction first]** The 2026-08-07 entry says Aemeath's S2 Fusion Burst
+clauses are "missing variant SELECTION by chain level". That is wrong.
+`AFFLICTION_TRIGGERS[1210]` in `enemy-status.js` already carries
+`buffIdByChain: { 2: 1210072024 }` and `stardust.buffIdByChain: { 2: 1210072025 }`,
+so the S2 tables were already being selected. Her two clauses are unread by the
+PARSER on purpose — the mechanic lives in the affliction lane and reading the
+sentence as a buff on her own hits would double-count into the wrong formula.
+Nothing was broken; the note over-claimed.
+
+**[Files Changed]** `tools/preprocess/chain-extra-hits.mjs` (new),
+`tools/preprocess.mjs` (the pass + `dataset.chainExtraHits`), `src/core/skill.js`
+(`chainExtraHitsFor` + the attachment), `tests/chain-extra-hits.test.mjs` (new),
+`data/wuwa-data.json`, `data/wuwa-meta.json`, `CLAUDE.md`.
+
+**[Logic Altered]** A Resonance Chain's own damage instances ship as bullets
+marked 共鸣N, and their rows are already in `damageTable` — `matchRowHits` never
+attaches them, because the kit's display rows describe an S0 build. 111 such
+rows exist across 20 resonators, so an S1 Xiangli Yao's six Convolution Matrices
+were shipped, present, and worth exactly nothing.
+
+The dangerous half is that most chain-marked bullets REPLACE a hit rather than
+add one — 84 of 106 measured — and adding a replacement inflates a character
+instead of merely understating them. The name test (strip the marker, look for
+an unmarked sibling) turned out to be a CANDIDATE generator, not an answer:
+spot-checking all 16 survivors against their own chain node found Cantarella's
+S1 "finisher" bullets and Phoebe's S6 heavies to be upgrades whose base bullet
+is merely named differently, and Zhezhi's genuine extra Ivory Herald to resolve
+onto the wrong parent (her Liberation, when the kit fires it from her Resonance
+Skill and calls it Basic Attack DMG). So the pass ships only what `KIT_VERIFIED`
+confirms, quoting the node; the other 14 are reported and withheld.
+
+Within a `family` — one bullet, shipped once per chain level it exists at — the
+highest level at or below the build's SUPERSEDES the rest.
+
+**[What shipped]** Xiangli Yao only, confirmed three independent ways:
+
+  - the kit says "6 Convolution Matrices … 8% of the skill's DMG Multiplier";
+  - row `1305053101` is 0.2568 against Law of Reigns' own 3.21 total
+    (4 x 0.4815 + 1.284) — exactly 8%, and still exactly 8% at the sim's real
+    skill level (0.5106 / 6.3820);
+  - S6's row `1305053201` is 1.760x the S1 row, exactly the "+76% DMG
+    Multiplier of Law of Reigns" S6 states — which is why it supersedes.
+
+Law of Reigns: 1 hit -> 7. Multiplier 6.3820 -> 9.4456 at S1 (+48.0%) and
+11.7736 at S6 (+84.5%).
+
+**[Verification Method]** `npm test` 66/66 (new file included), `npm run sweep`
+67 imported / 0 failed, `npm run lint` 0 errors. LOCK A: +21/-1, the new
+`chainExtraHits` block and nothing else. LOCK B: `generatedAt` + `engineHash`
+only — no team score moved, since Xiangli Yao is not one of the six meta
+anchors. The engineHash moved because `src/core/skill.js` is an ENGINE_FILES
+member.
+
+**[Residual Risks]** 14 candidates are withheld pending a kit-text read, so
+those characters remain understated at high sequence — the same direction of
+error as before, not a new one. Nine more were skipped for having no unique
+parent skill key or no non-zero multiplier. The `KIT_VERIFIED` list is a manual
+gate by construction: "is this an addition" is stated in English and nowhere in
+the tables, so it cannot be derived. Chain UPGRADES of existing hits are still
+not modelled at all — the base row stands and the improvement is dropped.
+
+**[Updated Docs]** `CLAUDE.md` (new invariant), `docs/HISTORY.md` (this entry
+plus the correction above).

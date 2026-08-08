@@ -26,6 +26,30 @@
 import { computeDamage, computeSupport } from './formula.js';
 import { collectActiveEffects, resolveChainInherentContext } from './buffs.js';
 
+/**
+ * The chain-added damage instances live for a build on one skill key.
+ *
+ * Within a `family` — one bullet, shipped once per chain level it exists at —
+ * only the HIGHEST level at or below the build's own applies: a bullet that got
+ * better is still one hit. An S6 Xiangli Yao fires six Convolution Matrices at
+ * 45.20%, not six at 25.68% PLUS six at 45.20%.
+ *
+ * @param {Array<{chain, skillKey, damageId, count, family}>} entries
+ *        dataset.chainExtraHits[resonatorId] — see tools/preprocess/chain-extra-hits.mjs
+ * @param {number} chainLevel
+ * @param {string} skillKey
+ */
+export function chainExtraHitsFor(entries, chainLevel, skillKey) {
+    const best = new Map();
+    for (const entry of entries ?? []) {
+        if (entry.skillKey !== skillKey || entry.chain > (chainLevel ?? 0)) continue;
+        const slot = String(entry.family ?? entry.damageId);
+        const held = best.get(slot);
+        if (!held || entry.chain > held.chain) best.set(slot, entry);
+    }
+    return [...best.values()];
+}
+
 // Map raw `relatedProp` (PropertyIndex id) to the scaling key understood
 // by the damage formula. Anything outside this map defaults to ATK.
 const SCALING_BY_PROP = {
@@ -59,6 +83,17 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
     const rows = (skillDef.damageIds || [])
         .map(id => tableForReso.find(row => row.id === id))
         .filter(Boolean);
+
+    // Instances a Resonance Chain ADDS to this skill. They are ordinary damage
+    // rows the game ships under a 共鸣N bullet, which no display row mentions —
+    // so they carry their own multiplier and take this skill's buffs and type,
+    // exactly like the hits already listed above. See
+    // tools/preprocess/chain-extra-hits.mjs.
+    for (const extra of chainExtraHitsFor(dataset.chainExtraHits?.[String(build.resonatorId)],
+        build.chain ?? 0, skillKey)) {
+        const row = tableForReso.find(candidate => candidate.id === extra.damageId);
+        if (row) for (let instance = 0; instance < extra.count; instance++) rows.push(row);
+    }
     if (rows.length === 0) return null;
 
     // Resonance Chain + Inherent Skill effects, folded per-hit so element-/
