@@ -139,7 +139,48 @@ step 2 proceeds.
 Put it next to `tests/node-type-match.test.mjs`, which already has the shape
 (matcher assertions + a roster-wide census ratchet).
 
+### Step 1b — FIX THE TRUNCATION FIRST (found by the third agent, 2026-08-08)
+
+`tools/preprocess/effects.mjs:547` stores `condition: clause.trim().slice(0, 120)`,
+and `bindSkillScopes` reads that field. **32 clauses exceed 120 chars and lose
+their skill names before the binder ever sees them** — Carlotta and Lucy S3.1
+lose their bindings to truncation ALONE. No regex widening can fix these.
+
+Do this before step 2, or step 2's before/after measurements are meaningless.
+Keep a truncated field for display if the UI needs one, but the binder must read
+the full clause.
+
 ### Step 2 — Widen `skill-scope.mjs`, one sentence shape at a time
+
+**SCOPE CORRECTION (third agent, 2026-08-08).** The "six inflating effects" in
+§1 are the subset whose miss is TOTAL (`skillType === null`). Drop that term and
+the mis-scoped count is **49**. The other 43 carry a `skillType` that targets the
+WRONG subset — harder to see, equally wrong:
+
+- Carlotta S6.0 +187% leaks onto Fatal Finale
+- Xiangli Yao S6.0 and Cantarella S6.0 land on the wrong rows entirely
+- Cartethyia S2.0 misses 17 of its 22 targets
+
+Text-first bucketing of all 74 unbound: **A = 66** should be scoped (59
+proper-noun, 7 category-only), **B = 4** genuinely global, **C = 4** belong to
+another lane — including Hiyuki S6.2, which is a **Crit. DMG value mis-parsed as
+`multiplierUp`** (fix that separately; it is not a scope problem).
+
+Sentence shapes by count — fix in this order:
+
+| # | Shape | Count |
+| --- | --- | --- |
+| 1 | plural `The DMG **Multipliers** of X, Y and Z are increased` | 13 (unmatched over one character) |
+| 2 | verb-first `increases the DMG Multiplier of X **by N%**` | 10 |
+| 3 | bare juxtaposition `<Name> DMG Multiplier is increased` | 8 |
+
+Full table, per-effect, in `docs/multiplierup-scope-audit.md`.
+
+**Already fixed, do not redo:** the audit lists Changli S5.0 as "does nothing at
+all" (`heavy`, she owns no plain-heavy row). That describes the state BEFORE
+commit 7f930fa, which added `nodeTypeMatches` so a `heavy` clause matches a
+`forte_heavy` node. Verified: her node types are `basic, midair, skill,
+liberation, intro, forte_heavy`, and LOCK B moved for 1205 when the fix landed.
 
 `docs/multiplierup-scope-audit.md` (written by the third agent, see §6) groups
 the bucket-A clauses by SENTENCE SHAPE with counts — fix in descending count
