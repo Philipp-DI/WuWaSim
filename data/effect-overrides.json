@@ -294,10 +294,11 @@
       }
     },
     "1510": {
-      "S6.0": {
+      "S6.1": {
         "perStack": 0.4,
         "maxStacks": 3,
-        "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage."
+        "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage.",
+        "_reslotted": "2026-08-08 was S6.0. The node's FIRST clause ('all forms of Resonance Skill Aureole of Execution, Ichor Deposit, and Mid-air Attack - Gavel of Earthshaker deal 30% more DMG') is a needsScope amplify that used to be DROPPED as unscopable and is now bound to those five keys, so it occupies S6.0 and Endnotes moved down one. The slot is positional by design (CLAUDE.md) — an effect COUNT change re-slots everything after it."
       }
     },
     "1603": {

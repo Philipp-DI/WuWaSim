@@ -352,7 +352,7 @@ to team damage** — as it does in-game.
 | `preprocess/effects.mjs` | Chain/inherent effect parsing (trigger × window), resonance modes, role tags. Fails SILENTLY by construction — an unread clause yields no effect and no warning — so its coverage is pinned by `tests/effect-coverage.test.mjs`, which lists every buff clause it deliberately does not read |
 | `preprocess/resonators.mjs` | Resonator projection — the full nanoka kit projection lives here |
 | `preprocess/weapons.mjs`, `echoes.mjs`, `sonatas.mjs` | Weapon / echo / sonata-set projection |
-| `preprocess/skill-scope.mjs` | Bind an effect to the skills its clause NAMES, and to the state its clause gates it behind |
+| `preprocess/skill-scope.mjs` | Bind an effect to the skills its clause NAMES, and to the state its clause gates it behind. Reads the FULL clause (re-split from the node's `desc`), not the 120-char `condition` the display carries. Refuses a name that is only a category — that scope belongs to `skillType`/`nodeTypeMatches`. Coverage pinned by `tests/multiplier-scope.test.mjs` |
 | `preprocess/buff-facts.mjs` | Move an effect into the bucket the GAME puts it in (`data/buff-facts.json`), additive vs amplify — the one thing kit text cannot say |
 | `extract/reconcile_effects.py` | QA: parsed effects vs the game's `db_buff` → `docs/effect-reconciliation.md` |
 | `extract/extract_extra_effects.py`, `extract_buff_facts.py` | Read the client's ExtraEffect enum and per-value buckets out of the ConfigDB |

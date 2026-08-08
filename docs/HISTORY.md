@@ -7259,3 +7259,222 @@ same for effect-side `skillType` values, which is where the two surviving
 `forte` pseudo-type clauses (Taoqi S5, Camellya S6) live.
 
 **[Updated Docs]** `docs/HISTORY.md` (this entry).
+
+## 2026-08-08 (cont.) — multiplierUp scope: bind the clause's own names
+
+Steps 1, 1b and 2 of `docs/HANDOVER-multiplierup-scope.md`. Six chain/inherent
+effects shipped with `stat: 'multiplierUp'`, no `skillKeys`, no `skillType`,
+`defaultActive` and `window.type === 'always'` — so their value reached EVERY
+hit the wielder landed, from a clause that names one skill. A Cantarella S2
+build resolved `multiplierUp = 2.45` on `basic_1`: every unrelated hit
+multiplied 3.45x. Silent INFLATION, the opposite of the understatements fixed
+earlier in the day.
+
+**[Files Changed]** `tests/multiplier-scope.test.mjs` (new),
+`tools/preprocess/skill-scope.mjs`, `tools/preprocess/effects.mjs`,
+`data/effect-overrides.json`, `tests/stack-metadata.test.mjs`,
+`data/wuwa-data.json` + `data/wuwa-meta.json` + `data/data-version.json`
+(regenerated), `docs/HANDOVER-multiplierup-scope.md`.
+
+**[Logic Altered]**
+
+*The guard (step 1).* `tests/multiplier-scope.test.mjs` fails when any
+`multiplierUp` effect is always-on with no scope at all, and separately when a
+clause whose skill names RESOLVE is not bound to them — the second catches
+`bindSkillScopes` being dropped or ordered after anything keyed on an effect
+slot. Six failures on day one, 0 now.
+
+*The truncation (step 1b).* `effects.mjs` stores `condition` truncated to 120
+characters FOR DISPLAY, and `bindSkillScopes` read that same field; 32 clauses
+are longer, and the cut routinely removes the skill name (Xiangli Yao's "Law of
+Reigns" survived as the fragment "Resona"). Fixed without a new field or any
+dataset growth: the node's own `desc` is already in hand, the truncation is a
+prefix, so the full clause is recovered by re-splitting `node.desc` and matching
+`clause.slice(0, 120)`.
+
+*The shapes (step 2).* `TARGET_STAT` now takes the plural the game writes
+whenever it lists skills (`DMG Multipliers of X, Y and Z **are** increased` — 14
+clauses, matched by NONE of the forms before, one character). A captured name is
+trimmed where the sentence resumes (`by N%`, `is/are`, `triggered by`, `granted
+by`, `within Ns`), which is what "of Jolt triggered by Cantarella" needed. Four
+forms added: `for` in place of `of`, `X has its …`, the bulleted `the following
+skills: - X, Y, Z` list, and a name sitting directly in front of `DMG
+Multiplier` (`10% additional Hack DMG Multiplier`). A TARGET capture that
+resolves to nothing now falls through to the SUBJECT form instead of ending the
+search, and the SUBJECT is walked BACKWARDS across commas — the subject is
+itself a list often enough to matter (Luuk S6, Qiuyuan S3.1).
+
+*Two corrections to the audit's own recommendations, both measured.* Its item 4
+("stop `targetNamesInClause` applying `PROSE_CATEGORY_LEAD` to the whole name …
+Zero-risk") is not zero-risk: with the strip gone, a name that is nothing but a
+CATEGORY resolves by token, and one token is far too blunt — "Heavy Attack"
+reaches Cartethyia's `forte_heavy_mid_air_attack_*`, which are not Heavy
+Attacks. The strip is removed AND bare-category names are refused, so a category
+keeps travelling through `skillType`/`nodeTypeMatches`, which strips the
+`forte_` provenance prefix properly. That leaves Brant S6.0 with no name to
+bind, so its inflation is fixed at its real root instead:
+`SCOPE_ONLY_PHRASE_TO_TYPE` demanded `Mid-air Attack DMG` where the clause
+writes `Mid-air Attack's DMG Multiplier`. One possessive, and the category scope
+was lost entirely.
+
+*Two regressions caught by the roster-wide diff, before they shipped.*
+`POSSESSIVE_FORM` captured `[^.;]+?`, which reaches back over commas and
+swallowed a whole leading trigger clause; "Resonance Mode - Tune Rupture" inside
+it then resolved to `forte_heavy_tune_rupture_response_starburst`, scoping
+Aemeath's global +20% Crit. DMG to one row. Fixed by making the capture
+comma-free (the same rule `SUBJECT_FORM` already had) and by removing
+"resonance mode" from the category stripper — a MODE is not a category a skill
+is filed under, so stripping it exposes the mode's name, not a skill's.
+
+*A bulleted list runs past its own clause* (found by the first verification
+agent). The game ends a bullet group with a period and opens the next with a
+bullet, so `splitClauses` cut Augusta's seven names into three clauses of which
+only the first carries the effect — and an all-or-nothing gate cannot weigh
+members it was never handed, which is exactly the property it was written to
+guarantee. `namesInClause` now takes the clause AND everything the node says
+after it, and the bullet reader absorbs following clauses while they are bare
+continuation bullets. Augusta 4 of 7 named skills → 7 of 7. Every other form
+still reads the first clause alone.
+
+*A bulleted list of TRIGGERS is not a scope* (found by the second verification
+agent). `BULLET_LIST_FORM` matched on "following skills" alone, and the game
+writes the identical list to say what FIRES an effect: Galbrena's inherent is
+"1 stack of Fated End is inflicted on the target when the following skills hit:
+Intro Skill, Basic Attack, …", where 11 of 13 members resolve and only the
+all-or-nothing gate stood between an infliction list and a buff scope. The stat
+must now be named in the preamble ahead of the colon — on either side of
+"following skills", since the game writes both orders.
+
+*The slot shift.* Luuk Herssen's S6 first clause is a `needsScope` amplify that
+used to be DROPPED as unscopable and now binds to its five named keys, so it
+occupies S6.0 and Endnotes moved to S6.1. `S{level}.{index}` is positional by
+design, so the curated override and the `stack-metadata` expectation were
+re-slotted with a `_reslotted` note. A saved build's `effectStacks['S6.0']` for
+1510 now addresses the amplify, which is not stackable and ignores it; the
+Endnotes count falls back to its default.
+
+**[Verification Method]** `npm test` 68/68 (the new file included),
+`npm run sweep` 67 imported / 0 failed, `npm run lint` 0 errors.
+LOCK A: 241 lines, all of them `skillKeys` additions — intended, this is a
+behaviour change. LOCK B: moved, which the plan called for. Bindings went 52 →
+87. Direct measurement through `resolveChainInherentContext`: all six effects
+now read 0 on an unrelated hit and their stated value on the skill their clause
+names (Cantarella `skill_jolt` 2.45 / `basic_1` 0, Chisa
+`forte_heavy_sawring_eradication` 2.40 / 0, Phrolova `basic_scarlet_coda` 1.50 /
+0, Zani `forte_heavy_heavy_slash_daybreak` 0.40 / 0, Brant
+`midair_mid_air_attack_1` +0.30, Lucy `forte_heavy_hack_response_data_crash`
+0.15 / 0). Every one of the 32 changed rows was read against its own kit text.
+
+**[Verification — the §6 protocol]** Two independent agents, both asked to
+DERIVE and to try hardest to refute. Both confirmed the six and the direction
+(0 on an unrelated hit, stated value on the named key). Both returned
+corrections, which is the point: agent 1 found the bulleted list being cut at
+the clause boundary, agent 2 found `BULLET_LIST_FORM` firing on a TRIGGER list
+and the two behaviour-neutral facts recorded below. Both independently landed on
+Suisui S5.0 as the one live over-bind. Both fixes above were made after their
+reports and re-verified.
+
+**[Two changes that are not defects but must be on the record]**
+
+- **Taoqi S6.0 LOST its `skillKeys`** — "Taoqi's Basic Attack and Heavy Attack"
+  is a bare category, which the new guard refuses. Measured through
+  `resolveChainInherentContext` against both versions: the payout set is
+  IDENTICAL (the same six keys), because `skillType: 'basic'` +
+  `nodeTypeMatches` reaches exactly them. The clause's "and Heavy Attack" is
+  modelled by neither version — a pre-existing gap, unchanged.
+- **`isBareCategory` refuses names that WOULD resolve** — "Dodge Counter",
+  "Plunging Attack", "Echo Skill", "Forte Circuit". That is safe only while the
+  category fallback can answer for the clause, and all 10 live refusals sit in
+  clauses whose `skillType` is non-null. A future clause naming only one of
+  those has no `detectSkillType` phrase and would end up scoped to nothing —
+  which is why `plunging`/`echo`/`circuit` were dropped from `CATEGORY_TOKENS`,
+  and why guard 1 of `tests/multiplier-scope.test.mjs` exists: it turns exactly
+  that failure into a build error instead of silent inflation.
+
+**[Residual Risks]**
+
+- **Suisui S5.0 binds `skill_drizzle_stance`, which her clause does not name.**
+  Both verifiers found it independently and it is the only live over-bind on the
+  roster. "Heavy Attack - Drizzle Stance" has no key, so the category-stripped
+  attempt resolves the bare "Drizzle Stance" and reaches the Resonance Skill
+  row. There is no principled fix available: filtering that attempt by the
+  name's own category is exactly what CLAUDE.md forbids ("the category read off
+  the same clause is the weaker restatement and can contradict it outright" —
+  it is what lets "Basic Attack Phantom Sting" reach `forte_heavy_phantom_sting_*`).
+  Net still a large improvement: 9 paid rows → 5, dropping 5 rows the clause
+  never named and adding 1.
+- **Partial name resolution narrows a scope.** Where a clause names two skills
+  and only one has a reachable key, the effect binds to that one and the other
+  loses the grant it used to get from the category fallback: Rebecca S3.0 ("Party
+  'til Dawn!" has no key), Lucy S3.1/S3.0 before the noise strip, Luuk S3.1
+  ("Mid-Attack - Gavel of Earthshaker" — the game's own typo). This is the
+  documented behaviour of the pass ("once the names match they ARE the scope")
+  and the same trade the Suisui comment already records, but it is a real
+  understatement in those rows.
+- **Suisui S5.0 picks up `skill_drizzle_stance`.** Her clause names "Heavy
+  Attack - Drizzle Stance", which has no key; the category-stripped fallback
+  resolves "Drizzle Stance" and reaches the Resonance Skill row as well as the
+  four `forte_basic_` ones. Still strictly narrower than the `basic` category it
+  replaced.
+- **`NAME_NOISE` is a word list.** It is applied only in the LOOSEST resolution
+  attempt, so it can never widen a name the four narrower forms already read,
+  but adding to it is how this quietly goes wrong. Measured: 11 real bindings
+  resolve through it, all correct; 48 skill labels contain one of its words and
+  every one of them resolves at attempt 1, so the loose attempt never sees them.
+- **Two guarantees hold empirically, not structurally.** (a) The subject
+  backward walk never reaches a leading TRIGGER because every real trigger opens
+  with "After casting"/"When casting"/"Whenever", none of which is a stopword —
+  a trigger opening with one ("In Ichor Deposit, Aureole of Execution gains …")
+  would be absorbed. No such clause exists on the roster; only 3 clauses walk
+  past the verb-adjacent segment at all, and all 3 are genuine subject lists.
+  (b) `NAME_TAIL` would cut a name that legitimately contains " is " — Augusta's
+  `liberation_sublime_is_the_sun_*`. Not live: her clause is a bulleted list,
+  and the bullet reader never calls `trimNameTail`. Roster-wide `trimNameTail`
+  changes 12 resolutions, every one of them `none → the correct key`.
+- **Saved builds are not migrated.** A persisted `effectStacks` entry for
+  `1510 S6.0` now addresses the amplify, which is not stackable and ignores it;
+  Endnotes at S6.1 falls back to its default. No data is corrupted and no
+  migration was written.
+- Rebecca S1.0's bulleted list, shapes 7b and 8, Aemeath S2.2's wrong lane and
+  Hiyuki S6.2's mis-parsed Crit. DMG are all still open, each with its reason
+  recorded in the handover.
+- **Phrolova S2.0 and S2.1 now both pay `basic_scarlet_coda` unconditionally**
+  (+75% each, +150% total), because scoping them to the same key made a
+  pre-existing gap visible: the kit gates the second on Aftersound
+  ("**Aftersound now additionally** increases …") and the clause classifier does
+  not read that. Newly visible, not newly wrong.
+- **Taoqi S5.0 and Camellya S6.0 pay out on ZERO keys** in this version and in
+  every version before it: they carry `skillType: 'forte'`, and
+  `nodeTypeMatches('forte', 'forte_heavy')` strips the prefix to `'heavy'`,
+  which never equals `'forte'`. The handover expected step 2 to fix them by
+  name; measured, neither name exists as a key. Both are dead buffs and want
+  their own look.
+
+**[Updated Docs]**
+
+- `docs/HISTORY.md` — this entry.
+- `CLAUDE.md` — four new invariants, each one a defect this session paid for:
+  an unscoped `multiplierUp` multiplies the whole kit; a bare CATEGORY is not a
+  skill NAME (and refusing one is only safe while `detectSkillType` can answer);
+  the scoping pass reads the FULL clause, not the 120-char `condition`; and a
+  list of casts that FIRE an effect is not its scope.
+- `docs/ARCHITECTURE.md` — the `skill-scope.mjs` row now says what it reads and
+  what it refuses, and names its guard.
+- `docs/OPEN-ITEMS.md` — new item **33**, the residue: Suisui's over-bind, the
+  two dead `forte` buffs, partial name resolution, Rebecca's list, the two
+  wrong-lane clauses, Phrolova's double grant, and the missing saved-build
+  migration. That list, not the handover, is what to work from now.
+- `docs/HANDOVER-multiplierup-scope.md` — CLOSED banner at the top, steps
+  1/1b/2 marked done, the outcome and the two audit corrections recorded, a
+  "Still open after step 2" section added, and the claim that step 2 would fix
+  Taoqi S5 / Camellya S6 struck through: measured, neither name has a key to
+  resolve to (Taoqi ships `forte_heavy_timed_counters_*`, Camellya
+  `forte_heavy_ephemeral`), so the two `forte` survivors in
+  `tests/node-type-match.test.mjs` stay at 2.
+- `docs/multiplierup-scope-audit.md` — RESOLVED banner; its Status columns are
+  now stale and it is kept for the reasoning. Its own two mis-calls (item 4 is
+  not "zero-risk"; the all-or-nothing guard was per-clause, not per-list) are
+  recorded on it.
+- `README.md` — test count 50 → 68, `OPEN-ITEMS.md` added to the layout and
+  named as the backlog, and the Simplification Plan correctly described as
+  complete rather than "the current cleanup roadmap".

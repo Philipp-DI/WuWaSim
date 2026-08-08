@@ -625,6 +625,41 @@ timing). Section title below kept for the surviving root-cause gap.
     cost 0, which is exact.
 24. **AUTO-OPTIMIZER Phase E** — the capstone "kit → optimal build" search. Not
     started ("lands after P13 by definition").
+33. **`multiplierUp` scope — the residue** (2026-08-08). The lane itself is
+    closed: `docs/HANDOVER-multiplierup-scope.md` steps 1, 1b and 2 all shipped,
+    bindings went 52 → 87, and no `multiplierUp` effect is always-on with no
+    scope (guarded by `tests/multiplier-scope.test.mjs`). What the two
+    verification agents left on the table:
+    → **Suisui S5.0 over-binds `skill_drizzle_stance`** — the only live
+      over-bind on the roster. "Heavy Attack - Drizzle Stance" has no key, so the
+      category-stripped attempt resolves the bare "Drizzle Stance" onto the
+      Resonance Skill row. No principled fix exists inside `skill-scope.mjs`:
+      filtering that attempt by the name's own category is exactly what the
+      CLAUDE.md invariant forbids. Wants a key-side answer, not a parser one.
+    → **Taoqi S5.0 (+50%) and Camellya S6.0 (+150%) are DEAD BUFFS** and always
+      have been — they carry `skillType: 'forte'`, and `nodeTypeMatches` strips
+      `forte_heavy` to `heavy`, which never equals `forte`. Neither name exists
+      as a key either (`forte_heavy_timed_counters_*`,
+      `forte_heavy_ephemeral`), so no amount of parser work reaches them. They
+      are the two survivors pinned by `tests/node-type-match.test.mjs`.
+    → **Partial name resolution narrows a scope.** Rebecca S3.0 ("Party 'til
+      Dawn!"), Galbrena S6.0 ("Dodge Counter - Purgatory Scourge") and Luuk S3.1
+      ("Mid-**Attack** - Gavel of Earthshaker", the game's own typo) each name a
+      skill that has no key, so the effect binds to the siblings that do and the
+      named-but-unreachable one loses the grant. Also a key-side gap.
+    → **Rebecca S1.0's bulleted list** is read 6 of 7 — the game reuses " - " as
+      both an in-name and a between-name separator — so the all-or-nothing gate
+      correctly refuses the whole list and leaves her on `skillType`.
+    → **Two clauses want a different lane, not a scope:** Aemeath S2.2 applies
+      Tune Rupture STATUS damage to her Resonance Skill rows, and Hiyuki S6.2
+      parses a **Crit. DMG** 40% as `multiplierUp`.
+    → **Phrolova S2.0 + S2.1 both pay `basic_scarlet_coda` unconditionally**
+      (+150%): the kit gates the second on Aftersound and the clause classifier
+      does not read it. Pre-existing; visible only now that both are scoped to
+      one key.
+    → **No saved-build migration** for Luuk Herssen's slot shift (S6.0 → S6.1).
+      A stale `effectStacks` entry addresses a non-stackable effect and is
+      ignored; nothing is corrupted.
 
 ## Doc hygiene (minor, mostly already fixed)
 

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-08T08:13:14.562Z",
+  "generatedAt": "2026-08-08T13:24:15.789Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -537,7 +537,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_detonate_damage"
+              ]
             }
           ]
         },
@@ -2376,7 +2379,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_death_knell"
+              ]
             }
           ]
         }
@@ -3575,7 +3581,14 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_basic_drizzle_stance_1",
+                "forte_basic_drizzle_stance_2",
+                "forte_basic_drizzle_stance_3",
+                "forte_basic_drizzle_stance_4",
+                "skill_drizzle_stance"
+              ]
             }
           ]
         },
@@ -5542,7 +5555,7 @@
               "stat": "multiplierUp",
               "value": 0.3,
               "element": null,
-              "skillType": null,
+              "skillType": "midair",
               "teamWide": false,
               "condition": "Mid-air Attack's DMG Multiplier is increased by 30%.",
               "conditionKind": "unconditional",
@@ -6315,7 +6328,12 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "skill_encroach",
+                "skill_ascent_of_malice",
+                "forte_heavy_ravage"
+              ]
             }
           ]
         },
@@ -6345,7 +6363,19 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_basic_seraphic_execution_1",
+                "forte_basic_seraphic_execution_2",
+                "forte_basic_seraphic_execution_3",
+                "forte_basic_seraphic_execution_4",
+                "forte_basic_seraphic_execution_5",
+                "forte_heavy_flamewing_verdict_1",
+                "forte_heavy_flamewing_verdict_2",
+                "forte_heavy_flamewing_verdict_3",
+                "forte_heavy_hellsent_barrage_plunging_attack",
+                "forte_heavy_hellsent_barrage_sustained_fire"
+              ]
             },
             {
               "stat": "amplify",
@@ -9889,7 +9919,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_law_of_reigns"
+              ]
             }
           ]
         }
@@ -10199,7 +10232,16 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "heavy_thunderoar_backstep",
+                "basic_dodge_counter_thunderoar_backstep",
+                "heavy_thunderoar_spinslash",
+                "heavy_thunderoar_uppercut",
+                "forte_heavy_undying_sunlight_plunge",
+                "liberation_sublime_is_the_sun_sunborne",
+                "liberation_sublime_is_the_sun_everbright_protector"
+              ]
             }
           ]
         },
@@ -10983,7 +11025,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_boom_fireworks"
+              ]
             }
           ]
         },
@@ -12606,7 +12651,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "outro_discipline"
+              ]
             },
             {
               "stat": "atkRatio",
@@ -12662,7 +12710,10 @@
               "maxStacks": 2,
               "stackTrigger": {
                 "type": "unknown"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_emerald_storm_finale_damage"
+              ]
             }
           ]
         }
@@ -14761,7 +14812,9 @@
                 "type": "always"
               },
               "skillKeys": [
-                "forte_heavy_thus_spoke_the_blade_to_sacrifice"
+                "forte_heavy_thus_spoke_the_blade_to_sacrifice",
+                "forte_heavy_thus_spoke_the_blade_to_save",
+                "forte_heavy_thus_spoke_the_blade_to_teach"
               ]
             }
           ]
@@ -15135,7 +15188,13 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "basic_elucidated",
+                "basic_dodge_counter_decipher",
+                "skill_big_boomy_boom",
+                "skill_soliskin_to_the_aid"
+              ]
             }
           ]
         },
@@ -16334,7 +16393,10 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_single_laser_beam"
+              ]
             }
           ]
         },
@@ -16684,7 +16746,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "intro_discernment"
+              ]
             },
             {
               "stat": "critDmg",
@@ -17486,7 +17551,10 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "liberation_the_last_stand"
+              ]
             }
           ]
         },
@@ -17580,7 +17648,13 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_heavy_slash_daybreak",
+                "forte_heavy_heavy_slash_dawning",
+                "forte_heavy_heavy_slash_nightfall",
+                "forte_heavy_heavy_slash_lightsmash"
+              ]
             },
             {
               "stat": "multiplierUp",
@@ -17598,7 +17672,10 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_heavy_slash_nightfall"
+              ]
             }
           ]
         }
@@ -17946,7 +18023,19 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_sawring_blitz_1",
+                "forte_heavy_sawring_blitz_2",
+                "forte_heavy_sawring_blitz_3",
+                "forte_heavy_sawring_blitz_2_hold",
+                "forte_heavy_sawring_blitz_2_discordance",
+                "forte_heavy_sawring_blitz_3_hold",
+                "forte_heavy_sawring_blitz_3_falltone",
+                "forte_heavy_chainsaw_mode_dodge_counter",
+                "forte_heavy_chainsaw_mode_dodge_counter_hold",
+                "forte_heavy_sawring_eradication"
+              ]
             },
             {
               "stat": "multiplierUp",
@@ -17964,7 +18053,10 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_sawring_eradication"
+              ]
             }
           ]
         },
@@ -18894,7 +18986,12 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "skill_aureole_of_execution_ring",
+                "skill_aureole_of_execution_breach",
+                "skill_aureole_of_execution_glare"
+              ]
             },
             {
               "stat": "multiplierUp",
@@ -18912,7 +19009,10 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "skill_ichor_deposit"
+              ]
             }
           ]
         },
@@ -18999,7 +19099,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "skill_golden_reflux"
+              ]
             }
           ]
         },
@@ -19015,6 +19118,38 @@
             "2"
           ],
           "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.3,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "When nearby Resonators in the team deal Tune Break DMG, all forms of Resonance Skill Aureole of Execution, Ichor Deposit",
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "afterCast",
+                "skillType": "tuneBreak"
+              },
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "tuneBreak",
+                "phrase": null
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 25
+              },
+              "durationSeconds": 25,
+              "skillKeys": [
+                "forte_heavy_gavel_of_earthshaker",
+                "skill_ichor_deposit",
+                "skill_aureole_of_execution_ring",
+                "skill_aureole_of_execution_breach",
+                "skill_aureole_of_execution_glare"
+              ]
+            },
             {
               "stat": "skillTypeBonus",
               "value": 0.4,
@@ -19038,7 +19173,8 @@
               "stackTrigger": {
                 "type": "unknown"
               },
-              "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage."
+              "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage.",
+              "_reslotted": "2026-08-08 was S6.0. The node's FIRST clause ('all forms of Resonance Skill Aureole of Execution, Ichor Deposit, and Mid-air Attack - Gavel of Earthshaker deal 30% more DMG') is a needsScope amplify that used to be DROPPED as unscopable and is now bound to those five keys, so it occupies S6.0 and Endnotes moved down one. The slot is positional by design (CLAUDE.md) — an effect COUNT change re-slots everything after it."
             }
           ]
         }
@@ -19248,7 +19384,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_hack_response_data_crash"
+              ]
             },
             {
               "stat": "amplify",
@@ -19284,7 +19423,10 @@
               },
               "window": {
                 "type": "persist"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_hack_response_data_crash"
+              ]
             },
             {
               "stat": "amplify",
@@ -19412,7 +19554,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_netrunner_override",
+                "liberation_old_net_deep_dive_override"
+              ]
             },
             {
               "stat": "multiplierUp",
@@ -19430,7 +19576,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "liberation_netrunner_override",
+                "liberation_old_net_deep_dive_override"
+              ]
             },
             {
               "stat": "multiplierUp",
@@ -19879,15 +20029,7 @@
               },
               "window": {
                 "type": "persist"
-              },
-              "skillKeys": [
-                "basic_1",
-                "basic_2",
-                "basic_3",
-                "basic_4",
-                "basic_strategic_parry_damage",
-                "basic_dodge_counter"
-              ]
+              }
             }
           ]
         }
@@ -20085,7 +20227,11 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "skill_crimson_erosion_1",
+                "skill_crimson_erosion_2"
+              ]
             }
           ]
         },
@@ -21759,7 +21905,8 @@
               },
               "skillKeys": [
                 "skill_graceful_step",
-                "skill_flickering_reverie"
+                "skill_flickering_reverie",
+                "forte_heavy_perception_drain"
               ]
             }
           ]
@@ -21788,7 +21935,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "skill_jolt"
+              ]
             }
           ]
         },
@@ -21889,7 +22039,12 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "forte_heavy_phantom_sting_1",
+                "forte_heavy_phantom_sting_2",
+                "forte_heavy_phantom_sting_3"
+              ]
             }
           ]
         }
@@ -22281,7 +22436,10 @@
               },
               "window": {
                 "type": "always"
-              }
+              },
+              "skillKeys": [
+                "basic_scarlet_coda"
+              ]
             }
           ]
         },

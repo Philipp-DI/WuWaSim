@@ -1,5 +1,19 @@
 # `multiplierUp` scope audit — a text-first read of the 74 unbound effects
 
+> **RESOLVED 2026-08-08, later the same day. This document is a point-in-time
+> report and its "Status" columns are now stale — read it for the reasoning, not
+> for the current state.** Recommendations 1–5 all shipped, plus the long tail
+> (shapes 4, 7, 9, 10). Bindings 52 → 87; the six always-on unscoped effects are
+> 0, guarded by `tests/multiplier-scope.test.mjs`. Two of this report's own
+> calls were corrected by measurement: item 4 ("Zero-risk") is **not** — with the
+> outer category strip gone, a name that is only a CATEGORY resolves on one
+> blunt token, so bare-category names are now refused and Brant S6.0 was fixed
+> at its real root in `SCOPE_ONLY_PHRASE_TO_TYPE` instead; and the ALL-OR-NOTHING
+> guard on shape 4 was per-CLAUSE, not per-LIST, because a bulleted list runs
+> past its own clause (Augusta lost 3 of 7 names to that until it was fixed).
+> Current state: `docs/HISTORY.md` "multiplierUp scope: bind the clause's own
+> names"; residue: `docs/OPEN-ITEMS.md` item 33.
+
 Third, independent check. Every judgement below starts from the **English of
 the kit clause**, then is tested against `data/wuwa-data.json`
 (`autoSkillMap`) and `tools/preprocess/skill-scope.mjs`. Counts confirmed:

@@ -30,10 +30,15 @@ export const SKILL_PHRASE_TO_TYPE = [
 // "Casting Echo Skill gives 6% Havoc DMG Bonus" would go from firing to never
 // firing. Each requires the following "DMG", which is what keeps it off the
 // TRIGGER list a sentence often opens with ("When casting Mid-air Attack, …").
+// The possessive is allowed because the game writes the scope both ways and the
+// stat is what follows either: "Mid-air Attack DMG" and "Mid-air Attack's DMG
+// Multiplier". Without it Brant's S6 read as scoped to NOTHING and its +30%
+// multiplied every hit he lands — a bare category has no name for
+// skill-scope.mjs to bind instead, so this phrase is its only scope.
 const SCOPE_ONLY_PHRASE_TO_TYPE = [
-    [/echo\s+skill\s+DMG/i,        'echo'],
-    [/mid-?air\s+attack\s+DMG/i,   'midair'],
-    [/\bbasic\s+DMG\b/i,           'basic'],   // Camellya's shorthand for Basic Attack DMG
+    [/echo\s+skill\s+DMG/i,               'echo'],
+    [/mid-?air\s+attack(?:'s|s')?\s+DMG/i, 'midair'],
+    [/\bbasic\s+DMG\b/i,                  'basic'],   // Camellya's shorthand for Basic Attack DMG
 ];
 
 // Deliberately NOT in the map above: 'tuneBreak'. That map is read by BOTH

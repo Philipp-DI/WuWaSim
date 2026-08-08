@@ -1,5 +1,13 @@
 # Handover — `multiplierUp` scope, and the silent inflation
 
+> **CLOSED 2026-08-08, later the same day.** Steps 1, 1b and 2 all shipped;
+> step 3 (the `db_buff` question) was left where it was, deliberately last.
+> Bindings 52 → 87, the six §1 effects are bound, and the guard census is 0.
+> **Read §1–§4 for the diagnosis, §5 for what was done and what was
+> deliberately not.** The residue lives in `docs/OPEN-ITEMS.md` item 33 — that
+> is the list to work from now, not this file. Full account in `docs/HISTORY.md`
+> under "multiplierUp scope: bind the clause's own names".
+
 Written 2026-08-08 at the end of a long session, for a fresh session to pick up.
 Everything below is **verified by independent agents**, not asserted. Where a
 prior claim of mine was wrong, it is marked so — do not re-derive from my
@@ -128,7 +136,14 @@ relying on the matched set; it does not change the conclusion.
 
 ## 5. Plan, in order
 
-### Step 1 — Guard first (small, self-contained, do this first)
+> **STATUS 2026-08-08 (later the same day).** Steps 1, 1b and 2 are **DONE** —
+> `tests/multiplier-scope.test.mjs`, the full-clause fix, and shapes 1–3 plus
+> the long tail (`for`, `has its`, bulleted list, subject list). All six §1
+> effects are bound; the guard census is 0. What remains open is listed under
+> "Still open after step 2" at the end of this section. Details in
+> `docs/HISTORY.md`, session "multiplierUp scope: bind the clause's own names".
+
+### Step 1 — Guard first (small, self-contained, do this first) — ✅ DONE
 
 A test that FAILS when any `multiplierUp` effect is `defaultActive`,
 `window.type === 'always'`, has no `skillKeys`, no `skillType`, and its
@@ -139,7 +154,7 @@ step 2 proceeds.
 Put it next to `tests/node-type-match.test.mjs`, which already has the shape
 (matcher assertions + a roster-wide census ratchet).
 
-### Step 1b — FIX THE TRUNCATION FIRST (found by the third agent, 2026-08-08)
+### Step 1b — FIX THE TRUNCATION FIRST (found by the third agent, 2026-08-08) — ✅ DONE
 
 `tools/preprocess/effects.mjs:547` stores `condition: clause.trim().slice(0, 120)`,
 and `bindSkillScopes` reads that field. **32 clauses exceed 120 chars and lose
@@ -150,7 +165,13 @@ Do this before step 2, or step 2's before/after measurements are meaningless.
 Keep a truncated field for display if the UI needs one, but the binder must read
 the full clause.
 
-### Step 2 — Widen `skill-scope.mjs`, one sentence shape at a time
+**Done without touching `condition` or the dataset:** the node's own `desc` is in
+hand inside `bindSkillScopes`, and the truncation is a prefix, so the full clause
+is recovered by re-splitting `node.desc` and matching `clause.slice(0, 120)`
+against the stored field. No new field, no wuwa-data.json growth, display
+unchanged.
+
+### Step 2 — Widen `skill-scope.mjs`, one sentence shape at a time — ✅ DONE
 
 **SCOPE CORRECTION (third agent, 2026-08-08).** The "six inflating effects" in
 §1 are the subset whose miss is TOTAL (`skillType === null`). Drop that term and
@@ -193,17 +214,71 @@ order, measuring bind-rate before and after each. Known-missing shapes include:
 
 Expect LOCK B to move DOWNWARD for the affected characters. That is the point.
 
+**Outcome.** 52 → 87 effects bound. Every shape in the table above is read, plus
+`for` (9), `has its` (10), the bulleted `following skills:` list (4), and the
+comma-separated SUBJECT list (7). Two corrections to the audit's own advice, both
+measured:
+
+- Shape 6's fix ("stop `targetNamesInClause` applying `PROSE_CATEGORY_LEAD`…
+  Zero-risk") is **not** zero-risk. Removing that strip lets a name that is
+  nothing but a CATEGORY resolve by token, and a single token is far too blunt:
+  "Heavy Attack" reaches Cartethyia's `forte_heavy_mid_air_attack_*`, which are
+  not Heavy Attacks. The strip is removed AND bare-category names are refused, so
+  the category keeps travelling through `skillType`/`nodeTypeMatches` as designed.
+- That leaves Brant S6.0 with no name to bind, so its inflation is fixed at the
+  real root: `SCOPE_ONLY_PHRASE_TO_TYPE` required `Mid-air Attack DMG` and the
+  clause writes `Mid-air Attack's DMG Multiplier`. One possessive, and the whole
+  category scope was lost.
+
 ### Step 3 — Only then, ask whether `db_buff` has rate-scoped buffs worth
 feeding the existing `'other'`-family pipe. Low expected yield (5 scopes exist,
 none collide today), so this is last.
+
+### Still open after step 2
+
+Shapes deliberately NOT implemented, with the reason:
+
+- **7b** `X now increases DMG Multiplier by N% instead of M%` (Phoebe S1.0/S1.1).
+  Zero gain: she has one `liberation` key, so `skillType` already scopes it
+  exactly. Teaching `SUBJECT_FORM` the verb "increases" would let every leading
+  trigger sentence look like a subject.
+- **8** scope stated only in a leading subordinate clause (Aalto S6.1, Lucy
+  S2.0). Needs the trigger-vs-scope judgement the CLAUDE.md invariant warns
+  about ("a sentence's leading TRIGGER is not the effect's SCOPE").
+- **Rebecca S1.0's bulleted list.** Six of its seven names resolve; the seventh
+  merges two names because the game reuses " - " as both an in-name and a
+  between-name separator. A bulleted list is read all-or-nothing, so hers is left
+  on its `skillType` fallback rather than shipped with a member missing.
+- **Taoqi S5.0 and Camellya S6.0** — the handover said "both NAME their skill, so
+  step 2 fixes them". **REFUTED, measured:** Taoqi has no `power_shift` key
+  (`forte_heavy_timed_counters_{1,2,3}` only) and Camellya has no `sweet_dream`
+  key (`forte_heavy_ephemeral` only). Neither name exists to resolve; the two
+  `forte` survivors in `tests/node-type-match.test.mjs` stay at 2. Both also pay
+  out on ZERO keys — `nodeTypeMatches('forte', 'forte_heavy')` strips to
+  `'heavy'`, which never equals `'forte'` — and always have. Dead buffs, worth
+  their own look.
+- **Suisui S5.0 over-binds `skill_drizzle_stance`** (both verifiers, independently).
+  Her clause names "Heavy Attack - Drizzle Stance", which has no key, so the
+  category-stripped attempt resolves the bare "Drizzle Stance" onto the
+  Resonance Skill row. No principled fix: filtering that attempt by the name's
+  own category is what CLAUDE.md forbids — it is the same mechanism that lets
+  "Basic Attack Phantom Sting" reach `forte_heavy_phantom_sting_*`.
+- **Phrolova S2.0 + S2.1 both pay `basic_scarlet_coda` unconditionally** (+150%
+  total). The kit gates the second on Aftersound; the clause classifier does not
+  read it. Pre-existing, newly visible now that both are scoped to one key.
+- The audit's two out-of-lane finds, both untouched here because neither is a
+  scope problem: **Aemeath S2.2** applies Tune Rupture STATUS damage to her
+  Resonance Skill rows, and **Hiyuki S6.2** parses a **Crit. DMG** 40% as
+  `multiplierUp`.
 
 ### Also still open, from earlier in the session
 
 - 11 chain-extra-hit candidates withheld pending a kit-text read
   (`KIT_VERIFIED` in `tools/preprocess/chain-extra-hits.mjs`). Zhezhi's S6 extra
   Ivory Herald is real but resolves onto the wrong parent.
-- Two `forte` pseudo-type clauses still match nothing (Taoqi S5 +50%,
-  Camellya S6 +150%) — both NAME their skill, so step 2 fixes them.
+- ~~Two `forte` pseudo-type clauses still match nothing (Taoqi S5 +50%,
+  Camellya S6 +150%) — both NAME their skill, so step 2 fixes them.~~
+  Refuted above: neither name has a key. They stay.
 - One `unknown` formulaType remains (Lynae), pinned by a ratchet.
 - Hiyuki's Glacio Bite instance + S6 +25% amplify: the number the code said was
   unavailable now exists (`affliction-damage.json` row 1007, buffs 1108501133 /

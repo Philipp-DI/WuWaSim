@@ -126,7 +126,7 @@ for (const resonator of dataset.resonators) {
         '1412 IH1.0': { max: 6,    perStack: 0.03,  trigger: null    },   // Sigrika — Blessing of Runes (team composition)
         '1412 S6.1':  { max: null, perStack: 0.15,  trigger: null    },   // Sigrika — Innate Gift ("up to 60%" is a value ceiling, not a count)
         '1509 S3.1':  { max: 25,   perStack: 0.55,  trigger: null    },   // Lynae — Premixed Hue (time tick, gauge-gated)
-        '1510 S6.0':  { max: 3,    perStack: 0.4,   trigger: null    },   // Luuk Herssen — Endnotes (override: pctNear read the ceiling)
+        '1510 S6.1':  { max: 3,    perStack: 0.4,   trigger: null    },   // Luuk Herssen — Endnotes (override: pctNear read the ceiling; was S6.0 until 2026-08-08)
         '1608 IH1.0': { max: null, perStack: 0.025, trigger: null    },   // Phrolova — Aftersound (10 on battle entry)
         '1610 IH0.0': { max: 3,    perStack: 0.1,   trigger: null    },   // Yangyang: Xuanling — Havoc Bane 1-3 (override)
         '1610 IH0.1': { max: 3,    perStack: 0.12,  trigger: null    },   // Yangyang: Xuanling — Havoc Bane 4-6 (override)

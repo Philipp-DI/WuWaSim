@@ -15,7 +15,9 @@ Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site,
 5. Read [CLAUDE.md](CLAUDE.md) — the working rules and the critical invariants.
 
 Development history (phase-by-phase) lives in [docs/HISTORY.md](docs/HISTORY.md);
-the current cleanup roadmap in [docs/SIMPLIFICATION-PLAN.md](docs/SIMPLIFICATION-PLAN.md).
+the open backlog in [docs/OPEN-ITEMS.md](docs/OPEN-ITEMS.md). The onboarding
+cleanup roadmap, [docs/SIMPLIFICATION-PLAN.md](docs/SIMPLIFICATION-PLAN.md), is
+complete (S1–S5) and is kept for its standing conventions.
 
 ## Quick start
 
@@ -140,12 +142,13 @@ data/
   wuwa-meta.json         P12/P13 precomputed weights + team suggestions (committed)
   patch.json             Runtime overrides (committed, optional)
 tests/
-  *.test.mjs             Plain-Node test suite (50 files, no framework)
+  *.test.mjs             Plain-Node test suite (68 files, no framework)
 docs/
   ARCHITECTURE.md        How data flows end-to-end (read this first)
   GLOSSARY.md            Game + project vocabulary
   HISTORY.md             Phase-by-phase development chronicle
-  SIMPLIFICATION-PLAN.md Cleanup/onboarding roadmap
+  OPEN-ITEMS.md          The backlog — what is still open, and why
+  SIMPLIFICATION-PLAN.md Cleanup/onboarding roadmap (complete; standing conventions)
   *.md                   Phase instruction sets, design docs, investigations
 ```
 
