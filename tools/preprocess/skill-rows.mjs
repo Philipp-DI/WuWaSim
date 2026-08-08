@@ -112,13 +112,29 @@ export const TYPE_TO_FORMULA = { 0: 'basic', 1: 'heavy', 2: 'liberation', 3: 'in
 // non-echo type wins; all-echo keeps the mechanical fallback (isEchoSkill
 // set); >1 distinct non-echo type is ambiguous → mechanical fallback (logged,
 // not applied). No match at all → mechanical fallback.
+/**
+ * The DAMAGE type a mechanical node falls back to.
+ *
+ * `forte_heavy` / `forte_basic` are NODE identities — a Heavy or Basic Attack
+ * reached through the Forte Circuit. The Forte Circuit is a passive enhancement
+ * and the resonator's specialty; it is never a category of damage, and it must
+ * never reach `formulaType`, which addresses the DMG-bonus buckets in
+ * `stats.js`. Baizhi's `forte_heavy_concentration_healing` leaked exactly that
+ * way: a HEALING row has no damage instances, so the fallback fired and handed
+ * the bucket lookup a key no bucket has.
+ */
+export function mechanicalToFormula(baseFormula) {
+    return String(baseFormula ?? '').replace(/^forte_/, '');
+}
+
 export function resolveInstanceFormula(hitTypes, baseFormula) {
     const known = hitTypes.filter(type => Number.isInteger(type) && type >= 0 && type <= 5);
     const isEchoSkill = known.includes(5);
     const nonEcho = [...new Set(known.filter(type => type <= 4))];
+    const fallback = mechanicalToFormula(baseFormula);
     if (nonEcho.length === 1) return { formulaType: TYPE_TO_FORMULA[nonEcho[0]], isEchoSkill, ambiguous: false };
-    if (nonEcho.length > 1)   return { formulaType: baseFormula, isEchoSkill, ambiguous: true };
-    return { formulaType: baseFormula, isEchoSkill, ambiguous: false };
+    if (nonEcho.length > 1)   return { formulaType: fallback, isEchoSkill, ambiguous: true };
+    return { formulaType: fallback, isEchoSkill, ambiguous: false };
 }
 
 // Derive a row's MECHANICAL skill type (drives energy, cast time, rotation

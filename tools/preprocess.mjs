@@ -29,7 +29,7 @@ import {
     projectSkillTreeBonuses, projectDamageTable,
 } from './preprocess/base-stats.mjs';
 import {
-    parseMult, generateSkillLabel,
+    parseMult, generateSkillLabel, mechanicalToFormula,
     FORMULA_RECLASSIFICATIONS, FORMULA_RECLASS_AMBIGUOUS,
 } from './preprocess/skill-rows.mjs';
 import { applyResonanceModesAndOverrides, applyResonatorRoles } from './preprocess/effects.mjs';
@@ -480,7 +480,11 @@ async function main() {
                         autoSkillMap[rid][row.key] = {
                             label:          stubLabel,
                             skillType:      row.skillType,
-                            formulaType:    row.skillType,
+                            // A support-only row has no damage instances, so nothing
+                            // data-driven sets its type. The mechanical fallback must
+                            // still be a real DAMAGE type — `forte_heavy` addresses no
+                            // DMG-bonus bucket (Baizhi's healing row leaked that way).
+                            formulaType:    mechanicalToFormula(row.skillType),
                             isEchoSkill:    false,
                             paletteInclude: true,
                             damageIds:      [],

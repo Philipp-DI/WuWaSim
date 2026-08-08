@@ -7199,3 +7199,63 @@ does not appear to draw that distinction in kit text.
 
 **[Updated Docs]** `docs/HISTORY.md` (this entry). CLAUDE.md's invariant already
 stated the rule and needed no change — it was the implementation that was missing.
+
+---
+
+## 2026-08-08 (cont.) — The node/damage-type boundary, enforced
+
+Maintainer, on seeing `forte_heavy` twice in one session: *"It's plain wrong.
+The correct dmg types should be data-driven by DMG ID rows and/or bullet IDs.
+Not through regex interpretation."*
+
+**[What the premise got right and wrong]** There was no earlier `forte_heavy`
+purge — no commit removes it, and it runs through this file continuously as a
+key prefix and node type. Nothing regressed. And DAMAGE types already ARE
+data-driven: `formulaType` is read from the game's own `skill.damage[*].type`
+tag, never from text (Law of Reigns is `liberation` from data, while
+`forte_heavy` is its NODE identity, which `castMatch` and the skill-level
+lookup both need).
+
+But the instinct found a real defect. Nothing ENFORCED the boundary, and a node
+type had leaked into the damage-type column:
+
+    Baizhi forte_heavy_concentration_healing   formulaType = forte_heavy
+
+`formulaType` addresses the DMG-bonus buckets in `stats.js`, which are keyed by
+real damage types, so a `forte_*` value there silently resolves to no bucket at
+all (`dmgBonusBySkillType?.[…] ?? 0`).
+
+**[Files Changed]** `tools/preprocess/skill-rows.mjs` (`mechanicalToFormula`,
+applied to both fallbacks in `resolveInstanceFormula`), `tools/preprocess.mjs`
+(the support-only stub at the second assignment site — the one that actually
+produced the leak), `tests/node-type-match.test.mjs` (boundary guard),
+`data/wuwa-data.json`.
+
+**[Logic Altered]** A support-only row (Baizhi's is HEALING) has no damage
+instances, so nothing data-driven sets its type and the mechanical fallback
+fires. That fallback now strips the `forte_` provenance prefix, because the
+fallback must still name a real damage type. The guard asserts no `forte_*`
+value reaches `formulaType` at all, and pins the remaining `unknown` leak
+(Lynae's discorded-tune row, which has no mechanical type to fall back to
+either) so it cannot grow.
+
+**[The strategic point, conceded]** Measured this session, `multiplierUp`
+scoping is 52 by NAME/ids against 55 by regex CATEGORY, plus 19 unscoped. So
+~44% still rides on category matching. The replacement already exists and is
+already wired — `ExtraEffectRequirements` type 1/5 -> `skillKeys`, which
+short-circuits the category branch entirely (`named` in
+`resolveChainInherentContext`). The direction is to grow the id lane until the
+category branch is dead weight, NOT to keep improving the regex lane. The
+previous entry's matcher fix stopped four effects being silently dropped, which
+was real, but it made the regex lane work better rather than matter less.
+
+**[Verification Method]** `npm test` 67/67, `npm run sweep` 67 / 0 failed,
+`npm run lint` 0 errors. LOCK A: one row, `forte_heavy` -> `heavy`. LOCK B
+untouched (no ENGINE_FILES member changed).
+
+**[Residual Risks]** One `unknown` formulaType remains (Lynae), pinned by the
+ratchet. The boundary guard covers `autoSkillMap` only; nothing yet asserts the
+same for effect-side `skillType` values, which is where the two surviving
+`forte` pseudo-type clauses (Taoqi S5, Camellya S6) live.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-08T07:27:53.030Z",
+  "generatedAt": "2026-08-08T08:13:14.562Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -190455,7 +190455,7 @@
       "forte_heavy_concentration_healing": {
         "label": "Forte Circuit: Cycle of Life",
         "skillType": "forte_heavy",
-        "formulaType": "forte_heavy",
+        "formulaType": "heavy",
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [],

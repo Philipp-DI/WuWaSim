@@ -52,6 +52,30 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         && !nodeTypeMatches('heavy', undefined));
 }
 
+// ── The boundary: a NODE type may never reach the DAMAGE-type column ─────────
+// formulaType addresses the DMG-bonus buckets in stats.js, and those are keyed
+// by real damage types. A `forte_*` value there is a node identity that leaked,
+// and it silently resolves to no bucket at all (`dmgBonusBySkillType?.[…] ?? 0`).
+// Baizhi's forte_heavy_concentration_healing did exactly that: a HEALING row has
+// no damage instances, so resolveInstanceFormula's mechanical fallback fired.
+{
+    const DAMAGE_TYPES = new Set(['basic', 'heavy', 'midair', 'skill', 'liberation', 'intro', 'outro']);
+    const leaks = [];
+    for (const [rid, keys] of Object.entries(dataset.autoSkillMap ?? {})) {
+        for (const [key, node] of Object.entries(keys)) {
+            if (node.formulaType && !DAMAGE_TYPES.has(node.formulaType)) {
+                leaks.push(`${dataset.resonators.find(r => String(r.id) === rid)?.name} ${key} → ${node.formulaType}`);
+            }
+        }
+    }
+    for (const row of leaks) console.error(`  · formulaType leak: ${row}`);
+    assert('no forte_* node type reaches formulaType',
+        !leaks.some(row => row.includes('→ forte_')));
+    // `unknown` is a separate, pre-existing gap (Lynae's discorded-tune row has
+    // no mechanical type to fall back to either) — pinned so it cannot grow.
+    assert(`formulaType leaks have not grown past 1 (got ${leaks.length})`, leaks.length <= 1);
+}
+
 // ── The census: no clause may state a type its own kit cannot answer ─────────
 {
     const dead = [];
