@@ -1,0 +1,91 @@
+{
+ "_doc": "External DPS reference for calibrating the sim, captured verbatim from arabwuwa. This file exists because the same benchmark had been pasted into chat and re-derived by hand four times, leaving every previous gap figure (2.60x, 2.09x, 1.80x) unreproducible. Hand-edit OK; it is a RECORD of an external measurement, not generated. The sim must never read it at sim time — it is for QA harnesses and tests only.",
+ "_method": "Team DPS denominator is the SUM of per-member on-field times, not wall-clock: rotation 1 is 12.33 + 6.35 + 8.66 = 27.34s. Verified against every row below. 'difficulty' and 'timeWasted' are the source tool's own columns, kept for fidelity.",
+ "benchmarks": [
+  {
+   "id": "arabwuwa-chisa-denia-aemeath-3pass",
+   "source": "arabwuwa",
+   "capturedAt": "2026-08-07",
+   "reconfirmedAt": "2026-08-08",
+   "team": [
+    {
+     "name": "Aemeath", "resonatorId": 1210, "chain": 0,
+     "weapon": { "id": 21020076, "name": "Everbright Polestar", "rank": 1 },
+     "sonata": { "id": 27, "name": "Trailblazing Star" }
+    },
+    {
+     "name": "Denia", "resonatorId": 1211, "chain": 0,
+     "weapon": { "id": 21050076, "name": "Forged Dwarf Star", "rank": 1 },
+     "sonata": { "id": 28, "name": "Chromatic Foam" }
+    },
+    {
+     "name": "Chisa", "resonatorId": 1508, "chain": 0,
+     "weapon": { "id": 21010056, "name": "Kumokiri", "rank": 1 },
+     "sonata": { "id": 7, "name": "Rejuvenating Glow" }
+    }
+   ],
+   "_statsNote": "Maintainer 2026-08-08: use the app's DEFAULT echo stats — the same baseline the recommender uses. The min/max substat spread is noticeable but far too small to explain the gap, so it is deliberately NOT part of this reference.",
+   "_chainNote": "Every member is S0 on BOTH sides. Chain-gated effects (e.g. Chisa S3.0's +120%) must not unlock, so the multiplierUp scope work does not move this benchmark.",
+   "passes": [
+    {
+     "pass": 1, "totalDamage": 2085294.4, "seconds": 27.34, "dps": 76273, "difficulty": 2,
+     "members": [
+      { "name": "Aemeath", "damage": 1521562, "share": 0.7297, "seconds": 12.33, "intro": true,  "difficulty": 2 },
+      { "name": "Denia",   "damage": 389281,  "share": 0.1867, "seconds": 6.35,  "intro": true,  "difficulty": 0 },
+      { "name": "Chisa",   "damage": 174451,  "share": 0.0837, "seconds": 8.66,  "intro": false, "difficulty": 0 }
+     ],
+     "rotations": {
+      "Chisa": "Skill, Rending Lunge Basic Attack (Cancel), Echo, Liberation, Basic Attack 2, Rending Lunge (Basic Attack 3), Death Snip (Basic Attack 4), Forte Skill, Hold Basic to hit Basic 1, 2, 3, Outro",
+      "Denia": "Intro, Basic 4, Skill, Liberation, Basic 1, 2, 3, 4, Skill 1, Skill 2, Liberation, Echo, Outro",
+      "Aemeath": "Intro, Basic 3, 4, Liberation, Echo, Basic 2, 3, 4, Tune Break, Forte Skill, Basic 2, 3, 4, Forte Skill, Heavy Attack, Liberation, Outro"
+     }
+    },
+    {
+     "pass": 2, "totalDamage": 2224231.37, "seconds": 25.75, "dps": 86378, "difficulty": 2,
+     "members": [
+      { "name": "Aemeath", "damage": 1555767, "share": 0.6995, "seconds": 12.33, "intro": true, "difficulty": 2 },
+      { "name": "Denia",   "damage": 458586,  "share": 0.2062, "seconds": 6.35,  "intro": true, "difficulty": 0 },
+      { "name": "Chisa",   "damage": 209879,  "share": 0.0944, "seconds": 7.07,  "intro": true, "difficulty": 0 }
+     ],
+     "rotations": {
+      "Chisa": "Intro, Basic 2, Rending Lunge (Basic Attack 3), Death Snip (Basic Attack 4), Echo, Liberation, Spam Basic 1, 2, 3, Outro",
+      "Denia": "Intro, Basic 4, Skill, Liberation, Basic 1, 2, 3, 4, Skill 1, Skill 2, Liberation, Echo, Outro",
+      "Aemeath": "Intro, Basic 3, 4, Liberation, Echo, Basic 2, 3, 4, Tune Break, Forte Skill, Basic 2, 3, 4, Forte Skill, Heavy Attack, Liberation, Outro"
+     }
+    },
+    {
+     "pass": 3, "totalDamage": 2224231.37, "seconds": 25.75, "dps": 86378, "difficulty": 2,
+     "_note": "Identical to pass 2 in the source — the rotation has reached steady state. Reported as its own pass, not a typo.",
+     "members": [
+      { "name": "Aemeath", "damage": 1555767, "share": 0.6995, "seconds": 12.33, "intro": true, "difficulty": 2 },
+      { "name": "Denia",   "damage": 458586,  "share": 0.2062, "seconds": 6.35,  "intro": true, "difficulty": 0 },
+      { "name": "Chisa",   "damage": 209879,  "share": 0.0944, "seconds": 7.07,  "intro": true, "difficulty": 0 }
+     ],
+     "rotations": {
+      "Chisa": "Intro, Basic 2, Rending Lunge (Basic Attack 3), Death Snip (Basic Attack 4), Echo, Liberation, Spam Basic 1, 2, 3, Outro",
+      "Denia": "Intro, Basic 4, Skill, Liberation, Basic 1, 2, 3, 4, Skill 1, Skill 2, Liberation, Echo, Outro",
+      "Aemeath": "Intro, Basic 3, 4, Liberation, Echo, Basic 2, 3, 4, Tune Break, Forte Skill, Basic 2, 3, 4, Forte Skill, Heavy Attack, Liberation, Outro"
+     }
+    }
+   ],
+   "totals": {
+    "_doc": "Summed across all three passes — the figure to compare a 3-pass sim against.",
+    "damage": 6533757.14,
+    "seconds": 78.84,
+    "dps": 82874,
+    "byMember": {
+     "Aemeath": 4633096,
+     "Denia": 1306453,
+     "Chisa": 594209
+    }
+   },
+   "anchors": {
+    "_doc": "Numbers that do NOT depend on gear, so a mismatch here is a pure engine defect and cannot be argued away as a build difference.",
+    "tuneBreakDamage": 62689,
+    "tuneBreakNote": "From the game's own LevelModifier; used 2026-08-07 to show solo Aemeath was within 1.14x, which is what localised the gap to the team-buff lane.",
+    "chisaReceivesNoTeamBuffs": true,
+    "chisaNote": "Chisa receives nothing from either teammate, yet measured 1.37x low while both others were ~2.1x low. That delta is the strongest single lead: roughly 1.5x of the gap lives in the team-buff lane, not in per-character damage."
+   }
+  }
+ ]
+}
