@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-13T14:17:46.411Z",
+  "generatedAt": "2026-08-13T15:17:42.779Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -250666,7 +250666,7 @@
                 "buffId": 30000008002,
                 "attributeName": "Proto_Atk",
                 "triggerType": null,
-                "recipient": "other"
+                "recipient": "incoming"
               }
             ]
           }
@@ -250798,7 +250798,7 @@
                 "buffId": 31000012003,
                 "attributeName": "Proto_DamageChangeElement6",
                 "triggerType": null,
-                "recipient": "other"
+                "recipient": "incoming"
               }
             ]
           }
@@ -251267,7 +251267,7 @@
                 "buffId": 31000024011,
                 "attributeName": "Proto_Atk",
                 "triggerType": null,
-                "recipient": "other"
+                "recipient": "incoming"
               },
               {
                 "durationSeconds": 15,
@@ -251279,7 +251279,7 @@
                 "buffId": 31000024012,
                 "attributeName": "Proto_Atk",
                 "triggerType": null,
-                "recipient": "other"
+                "recipient": "incoming"
               }
             ]
           }
@@ -251416,7 +251416,7 @@
                 "buffId": 31000028003,
                 "attributeName": "Proto_DamageChangeElement2",
                 "triggerType": null,
-                "recipient": "other"
+                "recipient": "incoming"
               }
             ]
           }
@@ -251502,7 +251502,7 @@
                 "buffId": 31000030006,
                 "attributeName": "Proto_DamageChangeElement1",
                 "triggerType": null,
-                "recipient": "other"
+                "recipient": "incoming"
               },
               {
                 "durationSeconds": 6,

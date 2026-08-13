@@ -21,7 +21,7 @@
 
 import { canSatisfyCondition } from '../triggerability.js';
 import { isTeamWideBuff } from '../buffs.js';
-import { weaponExternalGrants, foldExternalGrants } from './external-buffs.js';
+import { weaponExternalGrants, sonataExternalGrants, foldExternalGrants } from './external-buffs.js';
 
 const ELEMENT_NAMES = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 const TYPE_PHRASES = Object.freeze([
@@ -413,6 +413,34 @@ export function incomingResonatorContribution(build, dataset, resonator) {
             // SELF gate: the wielder must be able to satisfy the activation (their
             // own state) — own kit only, no team statuses.
             if (!canSatisfyCondition(resonator, dataset, tier.effect)) continue;
+
+            // DATA FIRST. The game marks this transfer itself: the grant sits
+            // behind an `AddBuffTrigger` whose EventType is the Outro→Intro
+            // handoff and whose TargetType is the event's counterparty — which,
+            // for that event, is the resonator swapping IN
+            // (`RoleQteComponent` → `RoleElementComponent.TriggerEvents`).
+            // Reading it from the tables rather than from the sentence is what
+            // finally pays Chromatic Foam's 25%: its text writes the value
+            // BEFORE the stat ("grants the incoming Resonator 25% Fusion DMG
+            // Bonus"), and `extractClause` only ever matched "…by 25%".
+            const incoming = (sonataExternalGrants(dataset, sonata.id, tier.pieces) ?? [])
+                .filter(grant => grant.recipient === 'incoming');
+            if (incoming.length) {
+                const folded = foldExternalGrants(incoming);
+                out.atkRatio += folded.atkRatio;
+                out.critRate += folded.critRate;
+                out.critDmg += folded.critDmg;
+                out.energyRegen += folded.energyRegen;
+                out.amplifyAll += folded.amplifyAll;
+                for (const [element, value] of Object.entries(folded.dmgByElement)) {
+                    out.dmgByElement[element] = (out.dmgByElement[element] ?? 0) + value;
+                }
+                for (const [type, value] of Object.entries(folded.dmgBySkillType)) {
+                    out.dmgBySkillType[type] = (out.dmgBySkillType[type] ?? 0) + value;
+                }
+                continue;   // this tier is answered — do not also read the text
+            }
+
             const text = String(tier.effect ?? '').replace(/\bCrit\.\s*/gi, 'Crit ');
             for (const sentence of text.split(/(?<=[.!])\s+/)) {
                 if (!/\b(incoming|next)\s+resonator\b/i.test(sentence)) continue;

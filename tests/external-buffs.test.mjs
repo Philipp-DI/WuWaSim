@@ -25,6 +25,8 @@ import {
     bucketForAttribute, foldExternalGrants, weaponExternalGrants, targetModApplies,
     sonataExternalGrants, sonataWindowGrants,
 } from '../src/core/buffs/external-buffs.js';
+import { incomingResonatorContribution } from '../src/core/buffs/conditional-buffs.js';
+import { createBuild, setChain, setEcho } from '../src/core/build.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dataset = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -180,8 +182,13 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     assert('Chromatic Foam yields both of its grants', foam.length === 2);
     assert('…the self 10% Fusion DMG for 15s',
         foam.some(g => Math.abs(g.value - 0.1) < 1e-9 && g.durationSeconds === 15 && !g.recipient));
-    assert('…and the 25% marked as routed to someone else',
-        foam.some(g => Math.abs(g.value - 0.25) < 1e-9 && g.recipient === 'other'));
+    // The 25% is the Outro→Intro transfer, and the GAME says so: the grant sits
+    // behind an AddBuffTrigger whose EventType is the QTE handoff and whose
+    // TargetType is that event's counterparty — the resonator swapping IN.
+    // "Opponent" in `GetTargetByType` is not "the enemy"; `BuffEffectBase.Check`
+    // fills it from whichever entity the firing event supplies.
+    assert('…and the 25% routed to the INCOMING resonator',
+        foam.some(g => Math.abs(g.value - 0.25) < 1e-9 && g.recipient === 'incoming'));
     assert('only the SELF grant reaches the window path', sonataWindowGrants(foam).length === 1);
 
     // Rejuvenating Glow buffs "all party members" — FormationPolicy says so.
@@ -196,6 +203,20 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
         foam.find(g => !g.recipient)?.triggerType === 'BuffInstigatorTrigger');
     assert('Rejuvenating Glow does NOT fire on a status inflict (keeps its healing trigger)',
         glow.every(g => g.triggerType !== 'BuffInstigatorTrigger'));
+
+    // The transfer must reach the incoming-resonator lane, which is what
+    // actually pays it. The text reader scored ZERO here for as long as it has
+    // existed, because the tier writes the value BEFORE the stat.
+    const denia = dataset.resonators.find(entry => entry.id === 1211);
+    let build = setChain(createBuild(denia), 0);
+    [4, 3, 3, 1, 1].forEach((cost, index) => {
+        build = setEcho(build, index, { id: null, cost, level: 25, mainStat: null, subStats: [], sonataId: 28 });
+    });
+    const transfer = incomingResonatorContribution(build, dataset, denia);
+    assert('Chromatic Foam hands the incoming resonator 25% Fusion DMG',
+        Math.abs((transfer.dmgByElement?.[2] ?? 0) - 0.25) < 1e-9);
+    assert('…and does not also hand over the wielder\'s own 10%',
+        Math.abs((transfer.dmgByElement?.[2] ?? 0) - 0.35) > 1e-9);
 }
 
 console.log(`external-buffs: ${passed} passed, ${failed} failed`);

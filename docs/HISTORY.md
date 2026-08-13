@@ -9236,3 +9236,79 @@ LOCK B regenerated.
 - The 2-piece bonus still comes from the dataset's `addProp`, not from here.
 
 **[Updated Docs]** This entry.
+
+---
+
+## 2026-08-13 — "Opponent" is not the enemy: the incoming-resonator transfer
+
+A maintainer challenge to the previous entry's reading, and it was right. Lane 2
+marked Chromatic Foam's 25% hand-off `recipient: other` on the grounds that its
+`AddBuffTrigger` targets `TargetType 1 = Opponent`, which "doesn't plainly match"
+a tooltip that says *incoming Resonator*. That inference was wrong.
+
+**[Files Changed]** `tools/extract/extract_external_buffs.py`,
+`src/core/buffs/conditional-buffs.js`, `tests/external-buffs.test.mjs`,
+`data/external-buffs.json`, `data/wuwa-data.json`, `data/data-version.json`,
+`data/wuwa-meta.json`.
+
+**[Logic Altered]**
+
+- **`Opponent` means COUNTERPARTY OF THE EVENT, not "enemy".**
+  `ExtraEffectBase.BuffEffectBase.Check(context, e)` sets
+  `this.OpponentEntityId = e.GetEntity()?.Id`, so the "opponent" is simply
+  whichever entity the FIRING EVENT supplied. `GetTargetByType(1)` then resolves
+  to that entity. Nothing about it is inherently hostile — reading the enum name
+  as though it were was the whole mistake.
+
+- **EventType 10 is the Outro -> Intro handoff.**
+  `BaseBuffComponent.TriggerEvents(type, entity, ctx)` dispatches to
+  `TryExecute(ctx, entity)`, and event 10 is raised by
+  `RoleElementComponent.TriggerEvents`, whose caller is `RoleQteComponent` — QTE
+  being the swap:
+
+      this.m1t.TriggerEvents(10, t.m1t, e);   // on the OUTGOING role,
+      t.m1t.TriggerEvents(13, this.m1t, e);   // passing the INCOMING one
+
+  So on event 10 the counterparty IS the resonator swapping in, and a
+  TargetType-1 grant behind it is precisely the incoming-resonator transfer the
+  tooltip describes. The extractor now emits `recipient: 'incoming'` for that
+  combination (6 sonata grants), keeping `'other'` only for target types it
+  genuinely cannot place (2).
+
+- **The transfer is wired to the lane that already existed.**
+  `incomingResonatorContribution` takes the data when the tier has an incoming
+  grant and skips its text scan for that tier. That scan had scored ZERO here
+  for as long as it has existed: the tier writes the value BEFORE the stat
+  ("grants the incoming Resonator 25% Fusion DMG Bonus") and `extractClause`
+  only ever matched "…by 25%".
+
+**[Measured]** Benchmark, lane 2 -> now:
+
+    Chisa     449,868 -> 449,868     (unchanged)
+    Denia   1,227,306 -> 1,227,306   (unchanged)
+    Aemeath 3,624,182 -> 3,918,772   (+294,590)
+    TEAM    5,301,355 -> 5,595,945   gap 1.232x -> 1.168x
+
+Only Aemeath moves, which is the shape the mechanic predicts: she is the member
+who swaps in after Denia, so she alone receives the transfer. Denia unchanged
+confirms the wielder is not also credited with her own hand-off. The Tune Break
+anchor stays 71,015.
+
+**[Verification Method]** `npm test` **72/72** (external-buffs 59/0),
+`npm run sweep` 68 imported / 0 failed, `npm run lint` **0 errors**. LOCK A and
+LOCK B regenerated. The test now asserts the transfer lands as 25% Fusion DMG on
+the incoming bundle AND that the wielder's own 10% does not leak into it.
+
+**[Residual Risks]**
+
+- 2 sonata grants remain `recipient: 'other'` (target types the walk cannot
+  place). They are identified, not mis-credited.
+- The transfer is credited at full value for the receiving segment, matching how
+  `incomingResonatorContribution` already treats every other set; its 15s
+  duration is carried in the data but not yet used to bound it.
+- Uptime and the triggerability gate remain text-derived.
+
+**[Updated Docs]** This entry. The lesson generalises and is worth stating: an
+enum NAME in the client is not its semantics. `Opponent`, `Instigator` and
+`Owner` are roles in whatever event is firing, and the event decides who fills
+them — which is discoverable, since the dispatcher passes the entity explicitly.

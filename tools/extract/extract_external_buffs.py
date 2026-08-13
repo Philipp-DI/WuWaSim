@@ -89,9 +89,26 @@ FORMATION_TEAM = 1
 #   [EventType, TargetType, '#'-joined BuffIds, InstigatorType?]
 # TargetType is the RECIPIENT (ExtraEffectPassiveEffects.GetTargetByType):
 #   0 Owner, 1 Opponent, 2 Instigator, 3 the buff holder's skill target.
-# Only 0 is unambiguously "the wielder"; anything else is left unrouted rather
-# than guessed — see the recipient note in the module docstring.
+# TargetType 0 is the wielder. TargetType 1 is `OpponentBuffComponent`, which is
+# NOT "the enemy" — `BuffEffectBase.Check` sets `OpponentEntityId` from whichever
+# entity the firing event supplies, so "opponent" means COUNTERPARTY OF THIS
+# EVENT and nothing more.
 ADD_BUFF_TRIGGER_TARGET_OWNER = 0
+ADD_BUFF_TRIGGER_TARGET_OPPONENT = 1
+
+# EventType is the key `BaseBuffComponent.TriggerEvents(type, entity, ctx)` fires
+# on, and the entity it passes becomes that counterparty. Event 10 is raised by
+# `RoleElementComponent.TriggerEvents`, whose caller is `RoleQteComponent` — the
+# QTE being the Outro -> Intro handoff:
+#
+#     this.m1t.TriggerEvents(10, t.m1t, e);   // on the OUTGOING role,
+#     t.m1t.TriggerEvents(13, this.m1t, e);   // passing the INCOMING one
+#
+# So on event 10 the "opponent" is the resonator swapping IN. A TargetType-1
+# grant behind it is the incoming-resonator transfer the tooltips describe
+# ("casting an Outro Skill grants the incoming Resonator …"), which the engine
+# already models as its own lane (incomingResonatorContribution).
+EVENT_ROLE_SWAP_OUTGOING = 10
 
 # Requirement kinds (data/extra-effects.json `requirement`) that ARE a damage
 # scope. DamageTypes carries the same 0..5 tag as `skill.damage[*].type`:
@@ -179,7 +196,7 @@ class Resolver:
         """
         found = {}
         seen = set()
-        self.other_recipient = set()
+        self.recipient_of = {}
         self.trigger_of = {}
         stack = [(buff_id, False) for buff_id in root_ids]
         while stack:
@@ -220,12 +237,19 @@ class Resolver:
                 # own parameter order. A chain that hands the buff to anyone but
                 # the Owner is followed but MARKED, so the caller can refuse to
                 # credit it to the wielder.
-                target_type = int(params[1]) if str(params[1]).lstrip('-').isdigit() else None
-                elsewhere = target_type != ADD_BUFF_TRIGGER_TARGET_OWNER
+                as_int = lambda text: int(text) if str(text).lstrip('-').isdigit() else None
+                event_type, target_type = as_int(params[0]), as_int(params[1])
+                if target_type == ADD_BUFF_TRIGGER_TARGET_OPPONENT and \
+                        event_type == EVENT_ROLE_SWAP_OUTGOING:
+                    recipient = 'incoming'
+                elif target_type != ADD_BUFF_TRIGGER_TARGET_OWNER:
+                    recipient = 'other'
+                else:
+                    recipient = None
                 for next_id in _ids_from(params[2]):
                     stack.append((next_id, team_wide))
-                    if elsewhere:
-                        self.other_recipient.add(next_id)
+                    if recipient:
+                        self.recipient_of[next_id] = recipient
         return found
 
     @staticmethod
@@ -383,7 +407,8 @@ def extract_sonatas(db, resolver, names):
             'grants': [
                 dict(grant, buffId=buff_id, attributeName=names.get(grant['attribute']),
                      triggerType=resolver.trigger_of.get(buff_id),
-                     **({'recipient': 'other'} if buff_id in resolver.other_recipient else {}))
+                     **({'recipient': resolver.recipient_of[buff_id]}
+                        if buff_id in resolver.recipient_of else {}))
                 for (buff_id, _team), grant in sorted(grants.items())
             ],
         }

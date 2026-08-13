@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-13T14:17:13+00:00",
+ "generatedAt": "2026-08-13T15:16:43+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -10275,7 +10275,7 @@
        "buffId": 30000008002,
        "attributeName": "Proto_Atk",
        "triggerType": null,
-       "recipient": "other"
+       "recipient": "incoming"
       }
      ]
     }
@@ -10430,7 +10430,7 @@
        "buffId": 31000012003,
        "attributeName": "Proto_DamageChangeElement6",
        "triggerType": null,
-       "recipient": "other"
+       "recipient": "incoming"
       }
      ]
     }
@@ -10899,7 +10899,7 @@
        "buffId": 31000024011,
        "attributeName": "Proto_Atk",
        "triggerType": null,
-       "recipient": "other"
+       "recipient": "incoming"
       },
       {
        "durationSeconds": 15.0,
@@ -10911,7 +10911,7 @@
        "buffId": 31000024012,
        "attributeName": "Proto_Atk",
        "triggerType": null,
-       "recipient": "other"
+       "recipient": "incoming"
       }
      ]
     }
@@ -11048,7 +11048,7 @@
        "buffId": 31000028003,
        "attributeName": "Proto_DamageChangeElement2",
        "triggerType": null,
-       "recipient": "other"
+       "recipient": "incoming"
       }
      ]
     }
@@ -11134,7 +11134,7 @@
        "buffId": 31000030006,
        "attributeName": "Proto_DamageChangeElement1",
        "triggerType": null,
-       "recipient": "other"
+       "recipient": "incoming"
       },
       {
        "durationSeconds": 6.0,
