@@ -23,6 +23,7 @@ import { dirname, resolve } from 'path';
 import { PROP } from '../src/core/stats.js';
 import {
     bucketForAttribute, foldExternalGrants, weaponExternalGrants, targetModApplies,
+    sonataExternalGrants, sonataWindowGrants,
 } from '../src/core/buffs/external-buffs.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -153,6 +154,48 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
             const weapon = (dataset.weapons ?? []).find(entry => String(entry.id) === id);
             return typeof weapon?.effect === 'string' && weapon.effect.length > 0;
         }));
+}
+
+// ── 6. Sonata lane ───────────────────────────────────────────────────────────
+{
+    const sonatas = dataset.externalBuffs?.sonatas ?? {};
+    assert('every sonata with a 5pc buff row is extracted', Object.keys(sonatas).length >= 30);
+
+    // Trailblazing Star states TWO grants in one tier — the exact shape the text
+    // parser cannot hold, since one ParsedBuff carries one value.
+    const trail = sonataExternalGrants(dataset, 27, 5) ?? [];
+    assert('Trailblazing Star yields BOTH of its grants', trail.length === 2);
+    assert('…+20% Crit Rate for 8s',
+        trail.some(g => g.attribute === PROP.CRIT_RATE && Math.abs(g.value - 0.2) < 1e-9 && g.durationSeconds === 8));
+    assert('…and +20% Fusion DMG for 8s',
+        trail.some(g => g.attribute === PROP.DMG_ELEMENT_BASE + 2 && Math.abs(g.value - 0.2) < 1e-9 && g.durationSeconds === 8));
+    // Only the element half may reach the WINDOW path; the crit half belongs to
+    // sonataConditionalContribution, and taking both would double it.
+    const trailWindow = sonataWindowGrants(trail);
+    assert('only the element half reaches the window path (crit is the other lane)',
+        trailWindow.length === 1 && trailWindow[0].bonusKind === 'element' && trailWindow[0].element === 2);
+
+    // Chromatic Foam: a self grant and a hand-off the game routes elsewhere.
+    const foam = sonataExternalGrants(dataset, 28, 5) ?? [];
+    assert('Chromatic Foam yields both of its grants', foam.length === 2);
+    assert('…the self 10% Fusion DMG for 15s',
+        foam.some(g => Math.abs(g.value - 0.1) < 1e-9 && g.durationSeconds === 15 && !g.recipient));
+    assert('…and the 25% marked as routed to someone else',
+        foam.some(g => Math.abs(g.value - 0.25) < 1e-9 && g.recipient === 'other'));
+    assert('only the SELF grant reaches the window path', sonataWindowGrants(foam).length === 1);
+
+    // Rejuvenating Glow buffs "all party members" — FormationPolicy says so.
+    const glow = sonataExternalGrants(dataset, 7, 5) ?? [];
+    assert('Rejuvenating Glow grants ATK', glow.some(g => g.attribute === PROP.ATK_FLAT));
+    assert('…and is marked team-wide', glow.every(g => g.teamWide === true));
+
+    // The trigger override must stay narrow: only a status inflict can never be
+    // a cast. Rejuvenating Glow's DamageTrigger keeps the text's "upon healing",
+    // which is what gates its team distribution.
+    assert('Chromatic Foam\'s self grant fires on a status inflict',
+        foam.find(g => !g.recipient)?.triggerType === 'BuffInstigatorTrigger');
+    assert('Rejuvenating Glow does NOT fire on a status inflict (keeps its healing trigger)',
+        glow.every(g => g.triggerType !== 'BuffInstigatorTrigger'));
 }
 
 console.log(`external-buffs: ${passed} passed, ${failed} failed`);

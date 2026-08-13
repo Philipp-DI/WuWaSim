@@ -12,6 +12,7 @@
  * for window names (used by sim + team-sim output, not DOM code).
  */
 import { parseSonataBuffs, isIncomingResonatorBuff } from './sonata-buffs.js';
+import { sonataExternalGrants } from './external-buffs.js';
 import { stackTimeline, groupStackingBuffs } from './buff-timeline.js';
 import { canSatisfyCondition } from '../triggerability.js';
 
@@ -279,7 +280,7 @@ export function computeBuffWindows(build, dataset, steps, enemyStatuses = null) 
         if (!sonata) continue;
         for (const tier of sonata.tiers) {
             if (count < tier.pieces) continue;
-            const parsed = parseSonataBuffs(tier);
+            const parsed = parseSonataBuffs(tier, sonataExternalGrants(dataset, sonata.id, tier.pieces));
             for (const buff of parsed) {
                 allBuffs.push({
                     sonataId: sonata.id,
@@ -329,7 +330,13 @@ export function computeBuffWindows(build, dataset, steps, enemyStatuses = null) 
         // conditional-buffs.js incomingResonatorContribution at the team level.
         // (Latent until the detectBonusKind broadening classified these ATK
         // transfers as 'atk' instead of the 'unknown' that used to drop them.)
-        if (isIncomingResonatorBuff(buff.raw)) return false;
+        // Data-derived buffs already carry the game's own recipient (a transfer
+        // is excluded upstream by `sonataWindowGrants`), so this TEXT guard is
+        // both unnecessary and actively wrong for them: it scans the whole tier,
+        // and a tier whose SECOND clause hands something to the incoming
+        // resonator loses its FIRST clause too — which is precisely how
+        // Chromatic Foam's self 10% Fusion DMG came to be worth nothing.
+        if (!buff.fromData && isIncomingResonatorBuff(buff.raw)) return false;
         // Unclassified-buff guard: if the parser learned nothing about WHAT the
         // buff boosts (no element, no damage type, kind 'unknown'), don't credit
         // it — applyBuffsToSteps would otherwise apply it as a flat whole-step

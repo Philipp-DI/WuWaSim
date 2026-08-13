@@ -44,6 +44,8 @@ const ELEMENT_NAMES = {
     'havoc':    6,
 };
 
+import { sonataWindowGrants } from './external-buffs.js';
+
 const TRIGGER_PATTERNS = [
     // Order matters: longer/specific phrases first
     { trigger: 'intro',      re: /\bintro\s+skill\b/i },
@@ -63,10 +65,73 @@ const TRIGGER_PATTERNS = [
  * Parse one sonata tier's conditional buffs. Returns [] when the tier
  * has no conditional component (i.e., it's a 2pc with only AddProp).
  */
-export function parseSonataBuffs(tier) {
+export function parseSonataBuffs(tier, externalGrants = null) {
     if (!tier || !Array.isArray(tier.buffIds) || tier.buffIds.length === 0) return [];
     const text = (tier.effect || '').trim();
     if (!text) return [];
+
+    // DATA FIRST for the VALUES, text for the TRIGGER.
+    //
+    // The game states each grant as its own row with its own attribute id,
+    // magnitude and duration, which is the half this parser gets wrong: a tier
+    // stating two grants can only carry one (Trailblazing Star's +20% Crit Rate
+    // AND +20% Fusion DMG collapsed to a single mis-typed entry), and a value
+    // written before its stat is not read at all (Chromatic Foam's "Gain 10%
+    // Fusion DMG Bonus" scored zero). What the tables do NOT say is which CAST
+    // opens the window — that is what `findAllTriggers` is for — so the trigger
+    // and the stack ramp keep coming from the text and only the magnitudes,
+    // buckets and durations change hands.
+    const fromData = sonataWindowGrants(externalGrants);
+    if (fromData.length) {
+        const triggers = findAllTriggers(text);
+        const textDuration = parseDurationSeconds(text) ?? 15;
+        const stacks = parseStacks(text);
+        const out = [];
+        for (const grant of fromData) {
+            // WHICH trigger, decided by the data. The game fires almost every
+            // sonata grant off a status inflict or a damage event
+            // (BuffInstigatorTrigger / DamageTrigger / …), not off a cast; only
+            // `SkillTrigger` is a cast. A non-cast trigger is modelled the way
+            // the engine already models these — always-on for the tier's
+            // satisfiable window — so it must NOT borrow a cast trigger from the
+            // sentence. Chromatic Foam is exactly why: its self buff fires on
+            // inflicting Fusion Burst, but its text also names an Outro Skill
+            // for the OTHER clause, and inheriting that opened the window at the
+            // very end of the wielder's turn, where it covered nothing.
+            // The override is deliberately NARROW: only a status-inflict trigger
+            // (`BuffInstigatorTrigger`) can never be a cast, so only that one is
+            // forced to 'unknown'. Everything else keeps the text's reading,
+            // because the text carries triggers the tables do not phrase in our
+            // vocabulary — Rejuvenating Glow fires on a DamageTrigger that the
+            // sentence calls "upon healing allies", and that word is what gates
+            // its team distribution through `supportTable`. Widening this to
+            // every non-cast trigger silenced exactly that, costing the team
+            // more than the fix gained.
+            const statusInflict = grant.triggerType === 'BuffInstigatorTrigger';
+            const forThis = (!statusInflict && triggers.length) ? triggers : ['unknown'];
+            for (const trigger of forThis) {
+                out.push({
+                    trigger,
+                    duration: grant.duration ?? textDuration,
+                    bonusPct: grant.bonusPct,
+                    bonusKind: grant.bonusKind,
+                    element: grant.element,
+                    dmgType: grant.dmgType,
+                    stacks,
+                    teamWide: grant.teamWide,
+                    // Marks the buff as DATA-derived so computeBuffWindows can
+                    // skip the text-only recipient guard: the tables already
+                    // said who receives this, and `isIncomingResonatorBuff`
+                    // mis-reads a tier whose SECOND clause mentions the incoming
+                    // resonator as though the whole tier were a transfer —
+                    // exactly what silenced Chromatic Foam's own 10%.
+                    fromData: true,
+                    raw: text,
+                });
+            }
+        }
+        return out;
+    }
 
     // Some tiers may have multiple "after X" clauses with different triggers.
     // We handle the common case (one trigger) and emit one ParsedBuff per

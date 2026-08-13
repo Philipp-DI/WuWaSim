@@ -78,6 +78,21 @@ SPECIAL_DAMAGE_CHANGE = 95
 # team across the weapon roster.
 TEAM_TRIGGER_FLAG = '1'
 
+# A buff row's `FormationPolicy` 1 marks a grant handed to the whole FORMATION
+# (the team) rather than to its holder. It is how the sonata sets say it, where
+# weapons use the passive's TriggerPreset: Rejuvenating Glow's ATK buff carries
+# it, and its passive is described 声骸套装-触发治疗时给队友加攻击力 —
+# "echo set: on healing, give TEAMMATES ATK".
+FORMATION_TEAM = 1
+
+# `AddBuffTrigger` parameters, from the client's own InitParameters:
+#   [EventType, TargetType, '#'-joined BuffIds, InstigatorType?]
+# TargetType is the RECIPIENT (ExtraEffectPassiveEffects.GetTargetByType):
+#   0 Owner, 1 Opponent, 2 Instigator, 3 the buff holder's skill target.
+# Only 0 is unambiguously "the wielder"; anything else is left unrouted rather
+# than guessed — see the recipient note in the module docstring.
+ADD_BUFF_TRIGGER_TARGET_OWNER = 0
+
 # Requirement kinds (data/extra-effects.json `requirement`) that ARE a damage
 # scope. DamageTypes carries the same 0..5 tag as `skill.damage[*].type`:
 # 0 basic, 1 heavy, 2 liberation, 3 intro, 4 skill, 5 echo.
@@ -164,6 +179,8 @@ class Resolver:
         """
         found = {}
         seen = set()
+        self.other_recipient = set()
+        self.trigger_of = {}
         stack = [(buff_id, False) for buff_id in root_ids]
         while stack:
             buff_id, team_wide = stack.pop()
@@ -176,7 +193,10 @@ class Resolver:
 
             grant = self._grant_of(row)
             if grant is not None:
-                found[(buff_id, team_wide)] = dict(grant, teamWide=team_wide)
+                found[(buff_id, team_wide)] = dict(
+                    grant,
+                    teamWide=team_wide or row.get('FormationPolicy') == FORMATION_TEAM,
+                )
 
             effect = row.get('ExtraEffectID')
             params = row.get('ExtraEffectParameters') or []
@@ -189,11 +209,23 @@ class Resolver:
                         to_team = team_wide or (bool(preset) and str(preset[0]) == TEAM_TRIGGER_FLAG)
                         for next_id in _ids_from(passive.get('SkillActionParams') or []):
                             stack.append((next_id, to_team))
-            elif effect == ADD_BUFF_TRIGGER and params:
-                # The chained buff id is the LAST parameter; the earlier ones are
-                # the trigger's own settings.
-                for next_id in _ids_from(params[-1]):
+                            # Remember WHAT fires this grant. The text can only
+                            # offer the tier's casts, and a tier with two clauses
+                            # offers the wrong one — Chromatic Foam's self buff
+                            # fires on inflicting Fusion Burst, but its sentence
+                            # also names an Outro Skill for the OTHER clause.
+                            self.trigger_of.setdefault(next_id, passive.get('TriggerType'))
+            elif effect == ADD_BUFF_TRIGGER and len(params) >= 3:
+                # [EventType, TargetType, BuffIds, InstigatorType?] — the client's
+                # own parameter order. A chain that hands the buff to anyone but
+                # the Owner is followed but MARKED, so the caller can refuse to
+                # credit it to the wielder.
+                target_type = int(params[1]) if str(params[1]).lstrip('-').isdigit() else None
+                elsewhere = target_type != ADD_BUFF_TRIGGER_TARGET_OWNER
+                for next_id in _ids_from(params[2]):
                     stack.append((next_id, team_wide))
+                    if elsewhere:
+                        self.other_recipient.add(next_id)
         return found
 
     @staticmethod
@@ -310,6 +342,54 @@ def extract_weapons(db, resolver, names):
     return out
 
 
+def extract_sonatas(db, resolver, names):
+    """Sonata (echo set) grants: PhantomFetter.BuffIds -> the same buff walk.
+
+    THE JOIN. A fetter row names itself `PhantomFetter_<sonataId>_Name`, and its
+    buff ids independently encode the same number (`31000027001` -> set 27).
+    Both agree on all 64 rows, which is what makes the mapping trustworthy — one
+    of them alone would be a convention, two agreeing is a join.
+
+    PIECE COUNT. The row id carries it: sets 10+ use `sonataId*10 + pieces`
+    (272 / 275), and sets 1-9 the older sequential pair (13 = 7's 2-piece,
+    14 = its 5-piece). The result is checked against the tier's own
+    `EffectDescriptionParam` further down rather than trusted.
+
+    The 2-PIECE bonus is deliberately NOT taken from here. It lives in the
+    fetter's `AddProp`, a nested table the accessor does not expose, and the
+    dataset already carries it (`sonata.tiers[].addProp`) as a plain propId /
+    value pair. Re-deriving it would be duplication, not correction.
+    """
+    fetters = db.read('db_phantom', 'PhantomFetter', table='phantomfetter',
+                      fields=['Id', 'Name', 'BuffIds', 'EffectDescriptionParam'])
+    out = {}
+    for row in fetters:
+        match = re.match(r'PhantomFetter_(\d+)_Name', str(row.get('Name') or ''))
+        row_id = int(row.get('Id') or 0)
+        if not match or not row_id:
+            continue
+        sonata_id = int(match.group(1))
+        pieces = (row_id % 10) if row_id >= 100 else (2 if row_id % 2 else 5)
+        buff_ids = _ids_from(row.get('BuffIds') or [])
+        if not buff_ids:
+            continue
+        grants = resolver.grants(buff_ids)
+        if not grants:
+            continue
+        entry = out.setdefault(str(sonata_id), {'tiers': {}})
+        entry['tiers'][str(pieces)] = {
+            'fetterId': row_id,
+            'params': list(row.get('EffectDescriptionParam') or []),
+            'grants': [
+                dict(grant, buffId=buff_id, attributeName=names.get(grant['attribute']),
+                     triggerType=resolver.trigger_of.get(buff_id),
+                     **({'recipient': 'other'} if buff_id in resolver.other_recipient else {}))
+                for (buff_id, _team), grant in sorted(grants.items())
+            ],
+        }
+    return out
+
+
 def main():
     if len(sys.argv) < 2:
         raise SystemExit(__doc__)
@@ -328,6 +408,7 @@ def main():
 
     resolver = Resolver(buffs, passives)
     weapons = extract_weapons(db, resolver, names)
+    sonatas = extract_sonatas(db, resolver, names)
 
     payload = {
         '_doc': ('External buff grants read from the game ConfigDB — see '
@@ -338,6 +419,7 @@ def main():
         'generatedAt': datetime.now(timezone.utc).isoformat(timespec='seconds'),
         'attributeNames': {str(k): v for k, v in sorted(names.items())},
         'weapons': weapons,
+        'sonatas': sonatas,
     }
     destination = os.path.join(ROOT, 'data', 'external-buffs.json')
     with open(destination, 'w', encoding='utf-8') as handle:
@@ -345,8 +427,9 @@ def main():
         handle.write('\n')
 
     grants = sum(len(rank) for w in weapons.values() for rank in w['ranks'].values())
-    print(f'weapons with conditional grants: {len(weapons)}')
-    print(f'grants emitted (all ranks): {grants}')
+    sonata_grants = sum(len(tier['grants']) for s in sonatas.values() for tier in s['tiers'].values())
+    print(f'weapons with conditional grants: {len(weapons)}  (grants, all ranks: {grants})')
+    print(f'sonatas with grants:             {len(sonatas)}  (grants: {sonata_grants})')
     print(f'wrote {os.path.relpath(destination, ROOT)}')
 
 

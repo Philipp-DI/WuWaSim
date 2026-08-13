@@ -9151,3 +9151,88 @@ Break anchor stays at 71,015 throughout.
   the REAL signature weapon for Carlotta, Hiyuki and Changli (3 of 6 anchors).
 
 **[Updated Docs]** This entry, including the correction above.
+
+---
+
+## 2026-08-13 — External buffs, lane 2: sonata sets
+
+**[Files Changed]** `tools/extract/extract_external_buffs.py`,
+`src/core/buffs/external-buffs.js`, `src/core/buffs/sonata-buffs.js`,
+`src/core/buffs/buff-windows.js`, `tests/external-buffs.test.mjs`,
+`tools/preprocess.mjs`, `data/external-buffs.json`, `data/wuwa-data.json`,
+`data/data-version.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]**
+
+- **The join, doubly confirmed.** A fetter row names itself
+  `PhantomFetter_<sonataId>_Name` AND its buff ids independently encode the same
+  number (`31000027001` -> set 27). Both agree on all 64 rows and cover all 34
+  of our sonatas. The piece count is in the row id: sets 10+ use
+  `sonataId*10 + pieces` (272 / 275), sets 1-9 the older sequential pair.
+  The 2-piece bonus is NOT taken from here — it lives in `AddProp`, which the
+  dataset already carries.
+
+- **Recipients are data.** `FormationPolicy: 1` marks a team grant, which is how
+  the sonatas say what weapons say with `TriggerPreset` — Rejuvenating Glow's
+  ATK buff carries it and its passive is literally described 声骸套装-触发治疗时
+  给队友加攻击力 ("echo set: on healing, give TEAMMATES ATK"). `AddBuffTrigger`'s
+  parameters are `[EventType, TargetType, BuffIds, InstigatorType]` per the
+  client's own `InitParameters`, and `TargetType` is the recipient
+  (`GetTargetByType`: 0 Owner, 1 Opponent, 2 Instigator, 3 skill target).
+  Chromatic Foam's 25% hand-off targets 1, which does NOT plainly match its
+  tooltip ("grants the incoming Resonator"), so it is marked `recipient: other`
+  and deliberately left UNROUTED rather than guessed.
+
+- **Values feed the WINDOW path, and only the buckets it owns.** The two sonata
+  lanes are disjoint by construction — the window path owns element / ATK /
+  skill-type DMG, `sonataConditionalContribution` owns crit / amplify /
+  DEF-ignore — so `sonataWindowGrants` returns only the former. Handing it
+  Trailblazing Star's Crit Rate grant would have doubled a value the conditional
+  path already credits.
+
+- **The trigger comes from the data only where the text cannot be trusted.**
+  Almost every sonata grant fires on a status inflict or a damage event, not a
+  cast (`BuffInstigatorTrigger` x20, `DamageTrigger` x5; `SkillTrigger` x1). The
+  override is therefore NARROW: only `BuffInstigatorTrigger` forces 'unknown',
+  because only a status inflict can never be a cast. A first attempt overrode
+  every non-cast trigger and cost the team 150k — Rejuvenating Glow fires on a
+  `DamageTrigger` that its sentence calls "upon healing allies", and that word is
+  what gates its team distribution through `supportTable`.
+
+- **A text guard that silenced a whole tier.** `computeBuffWindows` drops any
+  sonata buff whose text `isIncomingResonatorBuff` matches — and that reads the
+  WHOLE tier, so Chromatic Foam's own 10% was discarded because its SECOND
+  clause mentions the incoming resonator. Data-derived buffs skip that guard;
+  the tables already stated the recipient.
+
+**[Measured]** Benchmark, lane 1b -> now:
+
+    Chisa     449,868 -> 449,868     (unchanged)
+    Denia   1,144,150 -> 1,227,306   (+83,156)
+    Aemeath 3,624,182 -> 3,624,182   (unchanged)
+    TEAM    5,218,199 -> 5,301,355   gap 1.252x -> 1.232x
+
+Denia's +83,156 is Chromatic Foam's self 10% Fusion DMG finally paying, and it
+matches to the unit the figure measured independently days earlier by REPHRASING
+the tier text so the old parser could read it — two unrelated routes to the same
+number. Aemeath unchanged is the expected result, not a null: Trailblazing
+Star's 20% was already numerically right because the old parser applied it as a
+FLAT multiplier and she is mono-Fusion. It is now correctly element-scoped, which
+matters for any wielder who is not.
+
+**[Verification Method]** `npm test` **72/72** (external-buffs 57/0),
+`npm run sweep` 68 imported / 0 failed, `npm run lint` **0 errors**. LOCK A and
+LOCK B regenerated.
+
+**[Residual Risks]**
+
+- Chromatic Foam's 25% hand-off is still unpaid. It is now correctly IDENTIFIED
+  (`recipient: other`) rather than silently mis-credited, but routing it needs
+  `TargetType 1` reconciled with the tooltip's "incoming Resonator" — the client
+  has `ExtraEffectAddBuffOnChangeTeam` and `ExtraEffectFormationAttribute`
+  classes that likely explain it. 8 sonata grants are unrouted this way.
+- Uptime and the triggerability gate are still text-derived; only values,
+  buckets, durations, recipients and the status-inflict trigger are data.
+- The 2-piece bonus still comes from the dataset's `addProp`, not from here.
+
+**[Updated Docs]** This entry.

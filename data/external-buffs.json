@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-13T13:15:27+00:00",
+ "generatedAt": "2026-08-13T14:17:13+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -3460,7 +3460,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.14,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110009006,
       "attributeName": "Proto_Atk"
      }
@@ -3482,7 +3482,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.175,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110009009,
       "attributeName": "Proto_Atk"
      }
@@ -3504,7 +3504,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.21,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110009012,
       "attributeName": "Proto_Atk"
      }
@@ -3526,7 +3526,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.245,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110009015,
       "attributeName": "Proto_Atk"
      }
@@ -3548,7 +3548,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.28,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110009018,
       "attributeName": "Proto_Atk"
      }
@@ -5265,7 +5265,7 @@
       "attribute": 95,
       "value": 0.1,
       "extraEffectId": 37,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110019013,
       "attributeName": "Proto_SpecialDamageChange"
      }
@@ -5292,7 +5292,7 @@
       "attribute": 95,
       "value": 0.14,
       "extraEffectId": 37,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110019023,
       "attributeName": "Proto_SpecialDamageChange"
      }
@@ -5319,7 +5319,7 @@
       "attribute": 95,
       "value": 0.18,
       "extraEffectId": 37,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110019033,
       "attributeName": "Proto_SpecialDamageChange"
      }
@@ -5346,7 +5346,7 @@
       "attribute": 95,
       "value": 0.22,
       "extraEffectId": 37,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110019043,
       "attributeName": "Proto_SpecialDamageChange"
      }
@@ -5373,7 +5373,7 @@
       "attribute": 95,
       "value": 0.26,
       "extraEffectId": 37,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110019053,
       "attributeName": "Proto_SpecialDamageChange"
      }
@@ -5755,7 +5755,7 @@
       "scope": null,
       "attribute": 23,
       "value": 0.24,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110024014,
       "attributeName": "Proto_DamageChangeElement2"
      }
@@ -5777,7 +5777,7 @@
       "scope": null,
       "attribute": 23,
       "value": 0.3,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110024024,
       "attributeName": "Proto_DamageChangeElement2"
      }
@@ -5799,7 +5799,7 @@
       "scope": null,
       "attribute": 23,
       "value": 0.36,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110024034,
       "attributeName": "Proto_DamageChangeElement2"
      }
@@ -5821,7 +5821,7 @@
       "scope": null,
       "attribute": 23,
       "value": 0.42,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110024044,
       "attributeName": "Proto_DamageChangeElement2"
      }
@@ -5843,7 +5843,7 @@
       "scope": null,
       "attribute": 23,
       "value": 0.48,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110024054,
       "attributeName": "Proto_DamageChangeElement2"
      }
@@ -7805,7 +7805,7 @@
       "scope": null,
       "attribute": 9,
       "value": 0.2,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110038111,
       "attributeName": "Proto_CritDamage"
      },
@@ -7827,7 +7827,7 @@
       "scope": null,
       "attribute": 9,
       "value": 0.25,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110038121,
       "attributeName": "Proto_CritDamage"
      },
@@ -7849,7 +7849,7 @@
       "scope": null,
       "attribute": 9,
       "value": 0.3,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110038131,
       "attributeName": "Proto_CritDamage"
      },
@@ -7871,7 +7871,7 @@
       "scope": null,
       "attribute": 9,
       "value": 0.35,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110038141,
       "attributeName": "Proto_CritDamage"
      },
@@ -7893,7 +7893,7 @@
       "scope": null,
       "attribute": 9,
       "value": 0.4,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110038151,
       "attributeName": "Proto_CritDamage"
      },
@@ -9575,7 +9575,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.24,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110051221,
       "attributeName": "Proto_Atk"
      }
@@ -9607,7 +9607,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.3,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110051222,
       "attributeName": "Proto_Atk"
      }
@@ -9639,7 +9639,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.36,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110051223,
       "attributeName": "Proto_Atk"
      }
@@ -9671,7 +9671,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.42,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110051224,
       "attributeName": "Proto_Atk"
      }
@@ -9703,7 +9703,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.48,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110051225,
       "attributeName": "Proto_Atk"
      }
@@ -9730,7 +9730,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.24,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110050121,
       "attributeName": "Proto_Atk"
      }
@@ -9752,7 +9752,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.3,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110050122,
       "attributeName": "Proto_Atk"
      }
@@ -9774,7 +9774,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.36,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110050123,
       "attributeName": "Proto_Atk"
      }
@@ -9796,7 +9796,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.42,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110050124,
       "attributeName": "Proto_Atk"
      }
@@ -9818,7 +9818,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.48,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110050125,
       "attributeName": "Proto_Atk"
      }
@@ -10005,7 +10005,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.2,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110055151,
       "attributeName": "Proto_Atk"
      }
@@ -10027,7 +10027,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.25,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110055152,
       "attributeName": "Proto_Atk"
      }
@@ -10049,7 +10049,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.3,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110055153,
       "attributeName": "Proto_Atk"
      }
@@ -10071,7 +10071,7 @@
       "scope": null,
       "attribute": 7,
       "value": 0.35,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110055154,
       "attributeName": "Proto_Atk"
      }
@@ -10093,11 +10093,1247 @@
       "scope": null,
       "attribute": 7,
       "value": 0.4,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110055155,
       "attributeName": "Proto_Atk"
      }
     ]
+   }
+  }
+ },
+ "sonatas": {
+  "1": {
+   "tiers": {
+    "5": {
+     "fetterId": 2,
+     "params": [
+      "30%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 3,
+       "scope": null,
+       "attribute": 22,
+       "value": 0.1,
+       "teamWide": false,
+       "buffId": 30000001002,
+       "attributeName": "Proto_DamageChangeElement1",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "3": {
+   "tiers": {
+    "5": {
+     "fetterId": 6,
+     "params": [
+      "15%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 24,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 30000003003,
+       "attributeName": "Proto_DamageChangeElement3",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 24,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 30000003004,
+       "attributeName": "Proto_DamageChangeElement3",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "4": {
+   "tiers": {
+    "5": {
+     "fetterId": 8,
+     "params": [
+      "30%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 30000004002,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "5": {
+   "tiers": {
+    "5": {
+     "fetterId": 10,
+     "params": [
+      "30%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 26,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 30000005002,
+       "attributeName": "Proto_DamageChangeElement5",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "6": {
+   "tiers": {
+    "5": {
+     "fetterId": 12,
+     "params": [
+      "6%",
+      "5",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 4,
+       "scope": null,
+       "attribute": 27,
+       "value": 0.075,
+       "teamWide": false,
+       "buffId": 30000006002,
+       "attributeName": "Proto_DamageChangeElement6",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "7": {
+   "tiers": {
+    "5": {
+     "fetterId": 14,
+     "params": [
+      "15%",
+      "30"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 30.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.15,
+       "teamWide": true,
+       "buffId": 30000007002,
+       "attributeName": "Proto_Atk",
+       "triggerType": "DamageTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "8": {
+   "tiers": {
+    "5": {
+     "fetterId": 16,
+     "params": [
+      "22.5%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.225,
+       "teamWide": false,
+       "buffId": 30000008002,
+       "attributeName": "Proto_Atk",
+       "triggerType": null,
+       "recipient": "other"
+      }
+     ]
+    }
+   }
+  },
+  "9": {
+   "tiers": {
+    "5": {
+     "fetterId": 18,
+     "params": [
+      "1.5",
+      "5%",
+      "20%",
+      "60%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": {
+        "damageTypes": [
+         7
+        ]
+       },
+       "attribute": 15,
+       "value": 0.6,
+       "teamWide": false,
+       "buffId": 30000009003,
+       "attributeName": "Proto_DamageChange",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "2": {
+   "tiers": {
+    "5": {
+     "fetterId": 4,
+     "params": [
+      "30%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 30000002002,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "10": {
+   "tiers": {
+    "5": {
+     "fetterId": 105,
+     "params": [
+      "22.5%",
+      "15",
+      "18%",
+      "5",
+      "2"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 2,
+       "scope": null,
+       "attribute": 14,
+       "value": 0.18,
+       "teamWide": false,
+       "buffId": 31000010002,
+       "attributeName": "Proto_DamageChangeNormalSkill",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 22,
+       "value": 0.225,
+       "teamWide": false,
+       "buffId": 31000010004,
+       "attributeName": "Proto_DamageChangeElement1",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "11": {
+   "tiers": {
+    "5": {
+     "fetterId": 115,
+     "params": [
+      "20%",
+      "15",
+      "10",
+      "15%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000011002,
+       "attributeName": "Proto_Crit",
+       "triggerType": "BuffAddFailureTrigger"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 26,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000011004,
+       "attributeName": "Proto_DamageChangeElement5",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "12": {
+   "tiers": {
+    "5": {
+     "fetterId": 125,
+     "params": [
+      "480%",
+      "15%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 27,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000012003,
+       "attributeName": "Proto_DamageChangeElement6",
+       "triggerType": null,
+       "recipient": "other"
+      }
+     ]
+    }
+   }
+  },
+  "13": {
+   "tiers": {
+    "5": {
+     "fetterId": 135,
+     "params": [
+      "80%",
+      "20%",
+      "4"
+     ],
+     "grants": [
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 15,
+       "value": 0.8,
+       "teamWide": false,
+       "buffId": 31000013001,
+       "attributeName": "Proto_DamageChange",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 4.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.2,
+       "teamWide": true,
+       "buffId": 31000013003,
+       "attributeName": "Proto_Atk",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "14": {
+   "tiers": {
+    "5": {
+     "fetterId": 145,
+     "params": [
+      "15%",
+      "250%",
+      "30%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000014001,
+       "attributeName": "Proto_Atk",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 22,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000014003,
+       "attributeName": "Proto_DamageChangeElement1",
+       "triggerType": "AttributeChangedTrigger"
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000014004,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": "AttributeChangedTrigger"
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 24,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000014005,
+       "attributeName": "Proto_DamageChangeElement3",
+       "triggerType": "AttributeChangedTrigger"
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000014006,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": "AttributeChangedTrigger"
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 26,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000014007,
+       "attributeName": "Proto_DamageChangeElement5",
+       "triggerType": "AttributeChangedTrigger"
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 27,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000014008,
+       "attributeName": "Proto_DamageChangeElement6",
+       "triggerType": "AttributeChangedTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "16": {
+   "tiers": {
+    "5": {
+     "fetterId": 165,
+     "params": [
+      "15%",
+      "15%",
+      "20"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 20.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000016002,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 20.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000016003,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "17": {
+   "tiers": {
+    "5": {
+     "fetterId": 175,
+     "params": [
+      "10%",
+      "30%",
+      "10"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 10.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.1,
+       "teamWide": false,
+       "buffId": 31000017002,
+       "attributeName": "Proto_Crit",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 10.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000017003,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "18": {
+   "tiers": {
+    "5": {
+     "fetterId": 185,
+     "params": [
+      "15%",
+      "20%",
+      "35"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 35.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000018002,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 35.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 19,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000018003,
+       "attributeName": "Proto_DamageChangeUltra",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "19": {
+   "tiers": {
+    "2": {
+     "fetterId": 192,
+     "params": [
+      "0",
+      "20%",
+      "35%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000019022,
+       "attributeName": "Proto_Crit",
+       "triggerType": "AttributeChangedTrigger"
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 114,
+       "value": 0.35,
+       "teamWide": false,
+       "buffId": 31000019023,
+       "attributeName": "Proto_DamageChangePhantom",
+       "triggerType": "AttributeChangedTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "20": {
+   "tiers": {
+    "3": {
+     "fetterId": 203,
+     "params": [
+      "6%",
+      "4%",
+      "5",
+      "4",
+      "0.5"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 4.0,
+       "stackLimit": 5,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.06,
+       "teamWide": false,
+       "buffId": 31000020007,
+       "attributeName": "Proto_Atk",
+       "triggerType": null,
+       "recipient": "other"
+      },
+      {
+       "durationSeconds": 4.0,
+       "stackLimit": 5,
+       "scope": null,
+       "attribute": 9,
+       "value": 0.04,
+       "teamWide": false,
+       "buffId": 31000020008,
+       "attributeName": "Proto_CritDamage",
+       "triggerType": null,
+       "recipient": "other"
+      }
+     ]
+    }
+   }
+  },
+  "21": {
+   "tiers": {
+    "3": {
+     "fetterId": 213,
+     "params": [
+      "30%",
+      "4",
+      "4%",
+      "4",
+      "30"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 4.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 18,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000021022,
+       "attributeName": "Proto_DamageChangeCast",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 30.0,
+       "stackLimit": 4,
+       "scope": null,
+       "attribute": 114,
+       "value": 0.04,
+       "teamWide": false,
+       "buffId": 31000021023,
+       "attributeName": "Proto_DamageChangePhantom",
+       "triggerType": "VisionTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "22": {
+   "tiers": {
+    "3": {
+     "fetterId": 223,
+     "params": [
+      "20%",
+      "6",
+      "20%",
+      "6",
+      "16%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.16,
+       "teamWide": false,
+       "buffId": 31000022013,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 6.0,
+       "stackLimit": 1,
+       "scope": {
+        "damageTypes": [
+         1
+        ]
+       },
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000022014,
+       "attributeName": "Proto_Crit",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 6.0,
+       "stackLimit": 1,
+       "scope": {
+        "damageTypes": [
+         5
+        ]
+       },
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000022015,
+       "attributeName": "Proto_Crit",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "23": {
+   "tiers": {
+    "3": {
+     "fetterId": 233,
+     "params": [
+      "20%",
+      "30%",
+      "5"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 19,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000023002,
+       "attributeName": "Proto_DamageChangeUltra",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000023003,
+       "attributeName": "Proto_Atk",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "24": {
+   "tiers": {
+    "5": {
+     "fetterId": 245,
+     "params": [
+      "15%",
+      "0.3%",
+      "15%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 30.0,
+       "teamWide": false,
+       "buffId": 31000024011,
+       "attributeName": "Proto_Atk",
+       "triggerType": null,
+       "recipient": "other"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000024012,
+       "attributeName": "Proto_Atk",
+       "triggerType": null,
+       "recipient": "other"
+      }
+     ]
+    }
+   }
+  },
+  "25": {
+   "tiers": {
+    "5": {
+     "fetterId": 255,
+     "params": [
+      "1%",
+      "0.2%",
+      "25%",
+      "4"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 4.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 20.0,
+       "teamWide": false,
+       "buffId": 31000025017,
+       "attributeName": "Proto_Atk",
+       "triggerType": "DamageTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "26": {
+   "tiers": {
+    "5": {
+     "fetterId": 265,
+     "params": [
+      "10%",
+      "3",
+      "5",
+      "40%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 3,
+       "scope": null,
+       "attribute": 26,
+       "value": 0.1,
+       "teamWide": false,
+       "buffId": 31000026011,
+       "attributeName": "Proto_DamageChangeElement5",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 17,
+       "value": 0.4,
+       "teamWide": false,
+       "buffId": 31000026013,
+       "attributeName": "Proto_DamageChangeAuto",
+       "triggerType": "BuffVictimTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "27": {
+   "tiers": {
+    "5": {
+     "fetterId": 275,
+     "params": [
+      "20%",
+      "20%",
+      "8"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 8.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000027003,
+       "attributeName": "Proto_Crit",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 8.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000027004,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "28": {
+   "tiers": {
+    "5": {
+     "fetterId": 285,
+     "params": [
+      "10%",
+      "15",
+      "25%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.1,
+       "teamWide": false,
+       "buffId": 31000028002,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.25,
+       "teamWide": false,
+       "buffId": 31000028003,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": null,
+       "recipient": "other"
+      }
+     ]
+    }
+   }
+  },
+  "29": {
+   "tiers": {
+    "5": {
+     "fetterId": 295,
+     "params": [
+      "20%",
+      "15%",
+      "5"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 1,
+       "scope": {
+        "damageTypes": [
+         5
+        ]
+       },
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000029002,
+       "attributeName": "Proto_Crit",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000029003,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "30": {
+   "tiers": {
+    "5": {
+     "fetterId": 305,
+     "params": [
+      "10%",
+      "15",
+      "25",
+      "1",
+      "25%",
+      "6",
+      "25%",
+      "15",
+      "4",
+      "0.5",
+      "6",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 22,
+       "value": 0.1,
+       "teamWide": false,
+       "buffId": 31000030002,
+       "attributeName": "Proto_DamageChangeElement1",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 22,
+       "value": 0.25,
+       "teamWide": false,
+       "buffId": 31000030006,
+       "attributeName": "Proto_DamageChangeElement1",
+       "triggerType": null,
+       "recipient": "other"
+      },
+      {
+       "durationSeconds": 6.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.25,
+       "teamWide": false,
+       "buffId": 31000030008,
+       "attributeName": "Proto_Crit",
+       "triggerType": null
+      }
+     ]
+    }
+   }
+  },
+  "31": {
+   "tiers": {
+    "5": {
+     "fetterId": 315,
+     "params": [
+      "20",
+      "30"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 30.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 142,
+       "value": 0.002,
+       "teamWide": false,
+       "buffId": 31000031002,
+       "attributeName": "Proto_WeaknessMastery",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "32": {
+   "tiers": {
+    "1": {
+     "fetterId": 321,
+     "params": [
+      "15%",
+      "35%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 17,
+       "value": 0.35,
+       "teamWide": false,
+       "buffId": 31000032003,
+       "attributeName": "Proto_DamageChangeAuto",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 18,
+       "value": 0.35,
+       "teamWide": false,
+       "buffId": 31000032004,
+       "attributeName": "Proto_DamageChangeCast",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "33": {
+   "tiers": {
+    "5": {
+     "fetterId": 335,
+     "params": [
+      "20%",
+      "35%",
+      "15",
+      "1%",
+      "0.1%",
+      "25%",
+      "10"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 18,
+       "value": 0.35,
+       "teamWide": false,
+       "buffId": 31000033002,
+       "attributeName": "Proto_DamageChangeCast",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000033003,
+       "attributeName": "Proto_Crit",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 10.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 7,
+       "value": 10.0,
+       "teamWide": false,
+       "buffId": 31000033005,
+       "attributeName": "Proto_Atk",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "34": {
+   "tiers": {
+    "5": {
+     "fetterId": 345,
+     "params": [
+      "20%",
+      "30%",
+      "15"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 9,
+       "value": 0.2,
+       "teamWide": false,
+       "buffId": 31000034002,
+       "attributeName": "Proto_CritDamage",
+       "triggerType": "BuffInstigatorTrigger"
+      },
+      {
+       "durationSeconds": 15.0,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 25,
+       "value": 0.3,
+       "teamWide": false,
+       "buffId": 31000034003,
+       "attributeName": "Proto_DamageChangeElement4",
+       "triggerType": "BuffInstigatorTrigger"
+      }
+     ]
+    }
+   }
+  },
+  "35": {
+   "tiers": {
+    "5": {
+     "fetterId": 355,
+     "params": [
+      "5%",
+      "4",
+      "5",
+      "0.5",
+      "15%"
+     ],
+     "grants": [
+      {
+       "durationSeconds": 5.0,
+       "stackLimit": 4,
+       "scope": null,
+       "attribute": 8,
+       "value": 0.05,
+       "teamWide": false,
+       "buffId": 31000035002,
+       "attributeName": "Proto_Crit",
+       "triggerType": null
+      },
+      {
+       "durationSeconds": null,
+       "stackLimit": 1,
+       "scope": null,
+       "attribute": 23,
+       "value": 0.15,
+       "teamWide": false,
+       "buffId": 31000035003,
+       "attributeName": "Proto_DamageChangeElement2",
+       "triggerType": null
+      }
+     ]
+    }
    }
   }
  }

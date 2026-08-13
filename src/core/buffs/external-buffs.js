@@ -196,6 +196,66 @@ export function targetModApplies(mod, formulaType, elementId) {
 }
 
 /**
+ * The sonata-tier grants the WINDOW path may credit, shaped as that path's own
+ * ParsedBuff fields.
+ *
+ * The sonata lanes are disjoint by construction and must stay that way: the
+ * window path (`sonata-buffs.js` → `buff-windows.js`) owns element / ATK /
+ * skill-type DMG, and `conditional-buffs.js sonataConditionalContribution` owns
+ * crit, amplify and DEF-ignore. So this returns ONLY the window path's buckets —
+ * handing it a Crit Rate grant would double-count Trailblazing Star's +20%,
+ * which the conditional path already credits.
+ *
+ * Two other exclusions, both deliberate:
+ *   - `recipient: 'other'` grants. The game routes these to someone who is not
+ *     the wielder (Chromatic Foam's 25% hand-off targets `TargetType 1`), and
+ *     which teammate is not yet derived — crediting them to the wielder would
+ *     be wrong in a way that inflates.
+ *   - a scoped grant, for the same reason as on the weapon side: a window
+ *     carries no room for "…but only on Heavy Attacks".
+ *
+ * @returns {Array<{bonusPct, bonusKind, element, dmgType, duration, stacks, teamWide}>}
+ */
+export function sonataWindowGrants(grants) {
+    const out = [];
+    for (const grant of grants ?? []) {
+        if (grant?.recipient) continue;
+        if (grant?.scope) continue;
+        const route = bucketForAttribute(grant?.attribute);
+        if (!route) continue;
+        const value = Number(grant.value) * Math.max(1, Number(grant.stackLimit) || 1);
+        if (!Number.isFinite(value) || value === 0) continue;
+
+        // crit / amplify / defIgnore belong to the other sonata lane and are
+        // skipped here — crediting them in both would double them.
+        if (!['dmgByElement', 'atkRatio', 'dmgBySkillType'].includes(route.bucket)) continue;
+        const bonusKind = route.bucket === 'dmgByElement' ? 'element'
+            : route.bucket === 'atkRatio' ? 'atk' : 'dmgType';
+        const element = route.bucket === 'dmgByElement' ? Number(route.key) : null;
+        const dmgType = route.bucket === 'dmgBySkillType' ? route.key : null;
+
+        out.push({
+            bonusPct: value,
+            bonusKind, element, dmgType,
+            duration: grant.durationSeconds ?? null,
+            // The stack limit is already folded into `bonusPct` above, matching
+            // how the text path credits a stacking sonata buff at cap.
+            stacks: 1,
+            teamWide: !!grant.teamWide,
+            buffId: grant.buffId ?? null,
+            triggerType: grant.triggerType ?? null,
+        });
+    }
+    return out;
+}
+
+/** A sonata tier's grants from the dataset, or null when there is no row. */
+export function sonataExternalGrants(dataset, sonataId, pieces) {
+    const tier = dataset?.externalBuffs?.sonatas?.[String(sonataId)]?.tiers?.[String(pieces)];
+    return tier?.grants ?? null;
+}
+
+/**
  * The grants a weapon's passive applies at a refinement rank, or null when the
  * dataset carries no row for it (callers then fall back to the text reader).
  *

@@ -832,8 +832,10 @@ async function main() {
         }
         const parsed = JSON.parse(readFileSync(path, 'utf8'));
         const weapons = parsed.weapons ?? {};
-        process.stderr.write(`  external buffs: ${Object.keys(weapons).length} weapons\n`);
-        return { attributeNames: parsed.attributeNames ?? {}, weapons };
+        const sonatas = parsed.sonatas ?? {};
+        process.stderr.write(`  external buffs: ${Object.keys(weapons).length} weapons, ` +
+            `${Object.keys(sonatas).length} sonatas\n`);
+        return { attributeNames: parsed.attributeNames ?? {}, weapons, sonatas };
     })();
 
     // A clause that NAMES its skills binds to those skills, not to their whole
