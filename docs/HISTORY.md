@@ -8747,3 +8747,137 @@ pipeline handles it.
 **[Updated Docs]** This entry; `docs/GLOSSARY.md`; `docs/RESONATOR-ROSTER.md`
 (new, cross-referenced from `README.md` and from the GLOSSARY codename row, and
 pointing at `COMBO-ENTRY-CURATION.md` / `OPEN-ITEMS.md` for what it does not own).
+
+---
+
+## 2026-08-13 — The DPS gap: the harness was measuring the wrong enemy
+
+Picks up `HANDOVER-dps-gap-analysis.md`. Its §1/§2 tables reproduce digit-for-
+digit, and were confirmed independently by a second agent. Three of its
+conclusions do not survive, and the headline moves the OPPOSITE way from what it
+predicted.
+
+**[Files Changed]** `tools/benchmark-gap.mjs` (only — no engine, no dataset).
+
+**[Logic Altered]**
+
+- **D7 RULING — the target was wrong, and both of the codebase's answers were.**
+  `TARGET_REFERENCE` (level 100, 20% RES) is now the default. Settled against
+  ANCHOR 1, the cleanest probe available because `computeTuneBreakDamage` takes
+  no ATK, no crit and no gear stat:
+
+      lv90,  10% res, + this team's DEF shred/ignore   81,727   1.304x
+      lv100, 20% res, + this team's DEF shred/ignore   71,015   1.133x
+      lv100, 20% res, UNBUFFED                         62,689   1.000x  (-0.001%)
+                                           reference   62,689
+
+  `--app-target` / `--zero-res` keep both old readings runnable.
+
+- **ANCHOR 1 is now COMPUTED.** It had been printing a hardcoded sensitivity
+  string ("at 0% RES it reads 80,428, at 10% 72,385, at 20% 64,343") derived
+  from a bare-target probe, against a measured value that carries the team's own
+  DEF reduction — a different code path. The measured 81,727 matched none of the
+  three literals and nobody noticed. The handover's entire D7 argument ("the
+  reference sits just past 20% RES") was read off that stale table.
+
+- **A second fact falls out of the exact ANCHOR 1 hit:** the reference does NOT
+  apply the team's DEF reduction to the tune bar and the sim DOES — Chisa's
+  Thread of Bane 18% + 3 Havoc Bane stacks 6%, folded in at team-sim.js:846-847.
+  That is now the whole of ANCHOR 1's residual, and it is an ATTRIBUTION
+  question, not a target-assumption one. Left open deliberately.
+
+- **D6 / Z1 RULING — both sides now buy the same gear.** The benchmark no longer
+  spends the recommender's 25-roll template package. It spends the reference's
+  OWN stated budget (`SUB_*` / `referenceSubstats`): three echoes at 8.1% Crit
+  Rate / 16.2% Crit DMG / 8.6% scaling / 8.6% damage bonus, two at 8.1% / 16.2%.
+  Sixteen substats, not 25 — the remaining nine are left EMPTY rather than
+  invented. Mains are "best applicable" for all three (no Healing Bonus 4-cost
+  for the healer-tagged member) and real echo ids are the default. Old
+  behaviour survives as `--role-mains` / `--null-echoes` / `--template-substats`.
+
+- **`--profile` added,** printing each member's damage share by DMG-bonus bucket.
+  It is the derivation behind `RELEVANT_DMG_BONUS` rather than a hand-picked
+  constant. All three members land on Liberation — and NOT because all three are
+  Liberation spammers: Chisa's Death Snip and all three Sawring - Blitz stages
+  carry `formulaType: liberation`, as do Aemeath's charged Heavies. Reading the
+  CAST type would have put two of three in the wrong bucket. The CLAUDE.md
+  invariant "DMG bonus matches FORMULA type", restated as a measurement.
+
+**[Measured]** New baseline, on the reference's own conditions:
+
+    member     sim damage   reference     gap      status lane   game s   ref s
+    Chisa         412,293      594,209   1.441x              0    14.19   22.80
+    Denia       1,144,150    1,306,453   1.142x        190,561    33.00   19.05
+    Aemeath     2,807,154    4,633,096   1.650x        694,043    32.52   36.99
+    TEAM        4,363,597    6,533,757   1.497x                   79.71   78.84
+    TEAM DPS       54,746       82,874   1.514x
+
+The time denominator is now **0.989x** (79.71s vs 78.84s) — near-exact, which
+retires the timing lane for good. The substat swap is worth only 0.6%
+(1.497x vs 1.488x under `--template-substats`), so the gear model was never the
+source of the gap.
+
+**[Two corrections to the record]**
+
+1. **The "unverified 352k Aemeath shift" is not an engine shift.** The prior
+   entry in this file (Residual Risks, Denia's Dark Core) attributes a
+   5,143,350 -> 4,629,015 team move to "Aemeath's Crit-DMG double-count
+   correction reaching the regenerated dataset" and records her at
+   3,514,753 -> 3,162,652. Both figures are reproducible TODAY as harness
+   FLAGS: `--zero-res` gives 3,514,753 and `--real-echoes` gives 3,162,652, on
+   the current dataset. The clincher is `5,143,350 x 0.9 = 4,629,015.00` exactly
+   — the 10% resistance factor — with the remaining +62,385 being Denia's Dark
+   Core to the unit. The two measurements were taken under DIFFERENT flags. The
+   near-match that hid it ("Chisa still matches at 373,548 vs 375,856 under the
+   same flags") is a coincidence: she loses 10% to resistance and gains ~10.4%
+   from echo base stats. No Crit-DMG leak, no S6-onto-S0 bug, no dataset change.
+   The handover called this "the single best-defined open number in the
+   project"; it is closed, as a refutation.
+
+2. **Z2 ("nine outro segments deal zero damage") was never a defect.** The claim
+   as written is true — none of 1508/1211/1210 has an `outro` key — but the
+   conclusion drawn from it was wrong. All three Outro Skills are buff-only in
+   the GAME's own text: Chisa's "Unraveling - Law Zero" raises negative-status
+   max stacks, Denia's "Unfinished Lies" and Aemeath's "Silent Protection" hand
+   mode-gated amplification to the incoming resonator. None contains a damage
+   clause, so `OUTRO_DMG_RE` correctly matches nothing and `effectiveSkillMap`
+   filters nothing. Roster-wide: 13/56 have an outro damage key, 2 more model it
+   as an off-field turret, and the remaining 41 are buff/heal transfers — which
+   is ordinary WuWa outro design, not a broad extraction failure.
+
+**[Verification Method]** `npm test` **71/71**, `npm run sweep` 67 imported /
+0 failed, `npm run lint` **0 errors** (3083 style-only warnings, S3/S4 ratchet).
+LOCK A and LOCK B verified CLEAN — the three dirty data files were confirmed
+`generatedAt`-only (every changed line contains it, one line per file) and
+reverted. Both §1/§2 tables reproduced before any edit. ANCHOR 1's exact hit is
+independently reproducible from the formula constants alone.
+
+**[Residual Risks]**
+
+- The `RELEVANT_DMG_BONUS` pick reads "the relevant damage bonus" as a
+  skill-type substat because those are the only damage-bonus ROLLS the game has
+  (element DMG bonus is main-stat-only). If the reference meant something else
+  by the phrase, that is 25.8% in the wrong bucket for all three. The bucket
+  shares are lopsided enough (72.8-89.5%) that the PICK is not in doubt; the
+  READING of the phrase is the assumption.
+- The tune-bar DEF-attribution question above is open and unmodelled either way.
+- The reference's enemy is stated as a level 100 boss at 20% RES; `enemyType`
+  stays `overlord` (the engine default) because the reference does not name a
+  type and `overlord`/`calamity` share a multiplier of 14 anyway.
+- Denia OVERSHOT under the previous configuration (0.954x with `--real-echoes`,
+  0.859x composed). On the settled baseline she is back to 1.142x, so the
+  overshoot was a configuration artefact rather than a live inflation — but it
+  was real under the numbers the handover quoted, and an overshoot is the
+  failure mode that looks like nothing is wrong.
+- **The gap got WIDER, not narrower.** The handover's §2 argued the residual
+  engine-side gap was "on the order of 1.15-1.20x". It reached that by composing
+  toward a 0% RES target, which is the one axis its own §3 said the evidence
+  contradicted. On the reference's real conditions it is **1.497x**. Steps 3-4
+  of that document (Chisa's rotation; Aemeath's 79.5% share) are now to be
+  re-read against this baseline — Aemeath is still the largest miss
+  (1,825,942 of 2,170,160) and her share has RISEN to 84.1%.
+
+**[Updated Docs]** This entry; `tools/benchmark-gap.mjs` header (D6/D7/Z1
+rulings written next to the preserved originals, Z2 withdrawn with its original
+text kept, usage block extended); `docs/HANDOVER-dps-gap-analysis.md` corrected
+in place.

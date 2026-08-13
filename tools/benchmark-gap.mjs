@@ -7,9 +7,14 @@
  * because neither the inputs nor the method were written down. This file IS the
  * method. Run it, quote its output, and the number is reproducible.
  *
- *   node tools/benchmark-gap.mjs                  # default: app team-page target
+ *   node tools/benchmark-gap.mjs                  # default: the REFERENCE's own conditions
  *   node tools/benchmark-gap.mjs --json           # machine-readable
  *   node tools/benchmark-gap.mjs --variants       # every sensitivity axis below
+ *   node tools/benchmark-gap.mjs --profile        # damage share by DMG-bonus bucket
+ *
+ * Departure flags, each independent and combinable: --app-target, --zero-res,
+ * --role-mains, --null-echoes, --template-substats, --openers, --tune-modes,
+ * --no-cancel-step.
  *
  * REPORTABLE TOOL, not a pass/fail test — the gap is large and a failing test
  * would just be noise. Ratchet it into tests/ once the gap is understood.
@@ -50,20 +55,47 @@
  *     The two are reported separately and never blended. Run A's pass-1 row is
  *     therefore compared against reference pass 1 with that caveat stated inline.
  *
- * D6. ECHO STATS = `templateStats(resonator, dataset, rolesOf(id))` from
+ * D6. SUPERSEDED 2026-08-13 — the ruling is below; the original text is kept.
+ *     ~~ECHO STATS = `templateStats(resonator, dataset, rolesOf(id))` from
  *     tools/optimize/reference-build.js:257 — the recommender's own fixed
- *     template, so the baseline cannot silently diverge (handover §6.2). The
- *     benchmark PINS weapon and sonata, so the sonata id is overridden onto all
- *     five slots and the weapon is set from the reference instead of
- *     `representativeWeaponId`. NOTE: templateStats is role-aware and Chisa is
- *     HEALER-tagged (roles id 1, "Support and Healer"), so she gets a HEALING
- *     BONUS 4-cost main where the other two get Crit DMG. That depresses exactly
- *     the member the §4 anchor is about, so `--neutral-mains` re-runs with
- *     roles=[] (Crit DMG for all three) and both are printed.
+ *     template, so the baseline cannot silently diverge (handover §6.2). NOTE:
+ *     templateStats is role-aware and Chisa is HEALER-tagged (roles id 1,
+ *     "Support and Healer"), so she gets a HEALING BONUS 4-cost main where the
+ *     other two get Crit DMG. That depresses exactly the member the §4 anchor is
+ *     about, so `--neutral-mains` re-runs with roles=[].~~
+ *     RULING: "best applicable" mains for all three — `templateStats` with
+ *     roles=[], i.e. Crit DMG on the 4-cost. The reference states it uses "the
+ *     best applicable Cost-4, Cost-3, and Cost-1 Echo assumptions", and a
+ *     Healing Bonus main is not that on a run being scored for DPS.
+ *     `--role-mains` restores the recommender's role-aware default as a variant.
+ *     The benchmark still PINS weapon and sonata: the sonata id is overridden
+ *     onto all five slots and the weapon is set from the reference instead of
+ *     `representativeWeaponId`.
  *
- * D7. TARGET = the app's TEAM PAGE target (team-editor-v2.js:204) —
- *     level 90, atkLv 90, 10% resistance on elements 1–6. The offline optimizer
- *     uses 0% (sim-eval.js:16); `--zero-res` runs that and the delta is printed.
+ * D7. SUPERSEDED 2026-08-13 — the ruling is below; the original text is kept.
+ *     ~~TARGET = the app's TEAM PAGE target (team-editor-v2.js:204) — level 90,
+ *     atkLv 90, 10% resistance on elements 1–6. The offline optimizer uses 0%
+ *     (sim-eval.js:16); `--zero-res` runs that and the delta is printed.~~
+ *     RULING: TARGET = the REFERENCE's own stated conditions — a LEVEL 100 boss
+ *     at 20% RESISTANCE (TARGET_REFERENCE). Neither of the two the codebase
+ *     already had was right, and they disagree with each other, which was itself
+ *     the smell. Settled against ANCHOR 1, which is the cleanest probe available
+ *     because computeTuneBreakDamage takes no ATK, no crit and no gear stat:
+ *
+ *       lv90,  10% res, + this team's DEF shred/ignore   81,727   1.304x
+ *       lv100, 20% res, + this team's DEF shred/ignore   71,015   1.133x
+ *       lv100, 20% res, UNBUFFED                         62,689   1.000x  (−0.001%)
+ *                                            reference   62,689
+ *
+ *     The third line is an exact hit, so the target is settled AND a second fact
+ *     falls out: the reference does not apply the team's DEF reduction to the
+ *     tune bar while the sim does (Chisa's Thread of Bane 18% + 3 Havoc Bane
+ *     stacks 6%, folded in at team-sim.js:846-847). That is now the whole of
+ *     ANCHOR 1's residual and it is an ATTRIBUTION question, not a target one.
+ *     `--app-target` and `--zero-res` keep both old readings runnable.
+ *     Direction matters here and is easy to get backwards: the reference enemy
+ *     is HARDER than either old default, so settling this honestly WIDENS the
+ *     gap. The prior handover's §2 composed toward 0% res and reported ≈1.18x.
  *
  * D8. deriveOpeners = false (the engine default, and the team page's default) so
  *     the headline number describes the rotation AS WRITTEN. `--openers` runs it
@@ -102,24 +134,42 @@
  * gap, and both should be settled before anyone ratchets this into a test.
  * ─────────────────────────────────────────────────────────────────────────────
  *
- * Z1. EVERY `__echo__` STEP DEALS 0 DAMAGE IN 0 TIME by default. templateStats
- *     sets echo `id: null` on purpose (reference-build.js:424 — "stats don't
- *     depend on echo id"), which is true of the MAIN/SUB stats and false of two
- *     other things: the echo CAST (sim.js needs a real id to resolve one) and
- *     the echo's own BASE stats. MEASURED with `--real-echoes` (pickEchoId, the
- *     same helper the app's suggestion flow uses): **+216,538 team damage**,
- *     of which Chisa alone is +10.8% — and only 3,070 of hers is the cast, the
- *     rest being base stats the null echoes never contributed.
- *     Left OFF by default because the handover pins "the app's DEFAULT echo
- *     stats" as the baseline and the reference does not record which echoes it
- *     ran; `--real-echoes` is the fairer-build reading and prints alongside.
+ * Z1. RESOLVED 2026-08-13 — was "every `__echo__` step deals 0 damage in 0 time".
+ *     templateStats set echo `id: null` on purpose (reference-build.js:424 —
+ *     "stats don't depend on echo id"), which is true of the MAIN/SUB stats and
+ *     false of two other things: the echo CAST (sim.js needs a real id to
+ *     resolve one) and the echo's own BASE stats. RULING: real echo ids are now
+ *     the DEFAULT (pickEchoId, the same helper the app's suggestion flow uses) —
+ *     the reference states it runs real Cost-4 / Cost-3 / Cost-1 echoes, so a
+ *     null id is a harness artefact and not a reading of the reference.
+ *     `--null-echoes` keeps the old behaviour runnable.
  *
- * Z2. ALL NINE OUTRO SEGMENTS DEAL 0 DAMAGE. Verified directly: none of 1508 /
- *     1211 / 1210 has ANY `skillType === 'outro'` key in `effectiveSkillMap`,
- *     so `simulateOutro` finds nothing to cast. Note this sits against the
- *     CLAUDE.md invariant "An Outro Skill has NO level curve … the multiplier
- *     is read from the sentence that STATES it" — whatever that pass fixed, it
- *     did not reach these three, and the reference rotations all end in Outro.
+ *     The SUBSTATS moved with it, and that is the larger half. The benchmark no
+ *     longer uses templateStats' 25-roll package at all; it spends the
+ *     reference's OWN budget (see SUB_* / referenceSubstats below), so both
+ *     sides now buy the same gear and a residual gap is the ENGINE. The old
+ *     package remains as `--template-substats`.
+ *
+ * Z2. WITHDRAWN 2026-08-13 — this was never a defect, and the claim as written
+ *     was TRUE but the conclusion drawn from it was wrong.
+ *     ~~ALL NINE OUTRO SEGMENTS DEAL 0 DAMAGE. Verified directly: none of 1508 /
+ *     1211 / 1210 has ANY `skillType === 'outro'` key in `effectiveSkillMap`, so
+ *     `simulateOutro` finds nothing to cast. Note this sits against the CLAUDE.md
+ *     invariant "An Outro Skill has NO level curve … the multiplier is read from
+ *     the sentence that STATES it" — whatever that pass fixed, it did not reach
+ *     these three.~~
+ *     It is true that none of the three has an outro damage key. It is NOT true
+ *     that anything is broken: all three Outro Skills are buff-only in the
+ *     GAME's own text — Chisa's "Unraveling - Law Zero" raises negative-status
+ *     max stacks, Denia's "Unfinished Lies" and Aemeath's "Silent Protection"
+ *     hand mode-gated amplification to the incoming resonator. None contains a
+ *     damage clause, so `OUTRO_DMG_RE` (tools/preprocess/resonators.mjs:903-905)
+ *     correctly matches nothing and `effectiveSkillMap` filters nothing. A zero
+ *     here is the right answer. Roster-wide, 13 of 56 resonators have an outro
+ *     damage key and 2 more model it as an off-field `turret`; the remaining 41
+ *     are buff/heal transfers, which is ordinary WuWa outro design.
+ *     `simulateOutro`'s off-field-trigger refusal (team-sim.js:1423) is also not
+ *     in play — all three have no `offFieldActions` at all.
  */
 
 import { readFileSync } from 'fs';
@@ -129,13 +179,15 @@ import { dirname, resolve } from 'path';
 import { createBuild, setChain, setEcho, setWeapon, pickEchoId } from '../src/core/build.js';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
 import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, effectiveSkillMap } from '../src/core/sim.js';
+import { computeTuneBreakDamage } from '../src/core/enemy-status.js';
 import { analyzeRotation } from '../src/core/rotation-graph.js';
 import {
     rulesForResonator, stageGrantsForResonator, swapInEntryForResonator,
     resourceDefsForResonator, stateDefsForResonator,
 } from '../src/core/rotation-rules.js';
-import { templateStats } from '../tools/optimize/reference-build.js';
+import { templateStats, scalingStatFor } from '../tools/optimize/reference-build.js';
 import { rolesOf } from '../tools/optimize/synergy-hints.js';
+import { PROP } from '../src/core/stats.js';
 import { applyPatch } from '../src/data/loader.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -261,31 +313,108 @@ const TUNE_MODES = { [DENIA]: 'tune_strain', [AEMEATH]: 'tune_rupture' };
 const TARGET_APP = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
 // tools/optimize/sim-eval.js:16 — the offline optimizer's target.
 const TARGET_ZERO_RES = { level: 90, atkLv: 90, resistances: {} };
+// D7 RULING (2026-08-13) — the reference's OWN stated conditions, and now the
+// benchmark default. See the D7 block in the header for the derivation; ANCHOR 1
+// reproduces the reference's Tune Break on this target to −0.001%.
+// Element 0 (physical / no element) is not dealt by any of the three members, so
+// its value is inert here; it carries the same 20% for consistency rather than
+// TARGET_APP's 0%.
+const TARGET_REFERENCE = { level: 100, atkLv: 90, resistances: { 0: 0.2, 1: 0.2, 2: 0.2, 3: 0.2, 4: 0.2, 5: 0.2, 6: 0.2 } };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Build construction
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * The REFERENCE's own stat budget, verbatim from its "Equal testing conditions"
+ * (D6/Z1 ruling 2026-08-13):
+ *
+ *   "Three Echoes each receive 8.1% Crit Rate, 16.2% Crit DMG, 8.6% in the
+ *    relevant scaling stat, and 8.6% in the relevant damage bonus. The other two
+ *    Echoes each receive 8.1% Crit Rate and 16.2% Crit DMG."
+ *
+ * That is 16 substats, not the 25 a real fully-rolled build carries. The missing
+ * nine are left EMPTY on purpose: the reference models only the rolls it counts,
+ * and filling the rest would be this harness inventing stats the reference never
+ * granted — which is exactly the class of silent assumption the old template
+ * package was. Both sides now spend the same budget, so a residual gap is the
+ * ENGINE rather than the gear.
+ */
+const SUB_CRIT_RATE = 8.1, SUB_CRIT_DMG = 16.2, SUB_SCALING = 8.6, SUB_DMG_BONUS = 8.6;
+
+// "the relevant damage bonus" — the four skill-type DMG-bonus substats are the
+// only damage-bonus rolls the game HAS (dataset.echoSubStats: 14 Skill, 17
+// Basic, 18 Heavy, 19 Liberation; element DMG bonus is a MAIN-stat-only option).
+// So "relevant" has to name one of them, and the honest way to pick is to read
+// which bucket the member's damage actually lands in rather than to guess from
+// the kit. Derived with `--profile --template-substats` (measured 2026-08-13),
+// which prints the same table this is read from — share of that member's own
+// skill damage by formulaType:
+//   Chisa    liberation 89.5% · basic  8.6% · intro 2.0%
+//   Denia    liberation 72.8% · basic 13.5% · skill 11.9% · intro 1.8%
+//   Aemeath  liberation 83.4% · basic 10.5% · skill  4.7% · intro 1.4%
+// All three land on Liberation, and NOT because all three are Liberation
+// spammers — it is the data-driven `formulaType` tag doing its job. Chisa casts
+// mostly Basics and Forte Heavies, but her Death Snip and all three Sawring —
+// Blitz stages carry formulaType 'liberation', and Aemeath's charged Heavies do
+// the same ("considered Resonance Liberation DMG"). Reading the CAST type here
+// instead would have put two of the three in the wrong bucket — which is the
+// CLAUDE.md invariant "DMG bonus matches FORMULA type" restated as a measurement.
+const RELEVANT_DMG_BONUS = { [CHISA]: PROP.DMG_LIBERATION, [DENIA]: PROP.DMG_LIBERATION, [AEMEATH]: PROP.DMG_LIBERATION };
+
+/**
+ * The reference budget as engine substat descriptors, 4 on echoes 0–2 and 2 on
+ * echoes 3–4. `name` is resolved against dataset.echoSubStats for the same
+ * reason templateStats does it (reference-build.js:294 — an unnamed substat
+ * crashes the build editor's chips).
+ */
+function referenceSubstats(dataset, member, echoIndex, scalingRatioProp) {
+    const nameFor = (propId, addType) =>
+        (dataset.echoSubStats ?? []).find(stat => stat.propId === propId && stat.addType === addType)?.name ?? null;
+    const sub = (propId, addType, value) => ({ propId, addType, value, isPercent: true, name: nameFor(propId, addType) });
+    const always = [
+        sub(PROP.CRIT_RATE, 1, SUB_CRIT_RATE),
+        sub(PROP.CRIT_DMG, 1, SUB_CRIT_DMG),
+    ];
+    if (echoIndex > 2) return always;
+    return [
+        ...always,
+        sub(scalingRatioProp, 2, SUB_SCALING),
+        sub(RELEVANT_DMG_BONUS[member.id], 1, SUB_DMG_BONUS),
+    ];
+}
+
 function memberBuild(dataset, member, rotation, options) {
     const resonator = dataset.resonators.find(entry => entry.id === member.id);
     if (!resonator) throw new Error(`resonator ${member.id} not in dataset`);
 
-    const roles = options.neutralMains ? [] : rolesOf(member.id);
+    // D6 RULING: "best applicable" mains, i.e. templateStats with NO roles —
+    // Crit DMG 4-cost for all three, not a Healing Bonus 4-cost for the
+    // healer-tagged member. `--role-mains` restores the recommender's default.
+    const roles = options.roleMains ? rolesOf(member.id) : [];
     const template = templateStats(resonator, dataset, roles);
+    const scalingRatioProp = scalingStatFor(resonator, dataset, roles) === 'hp' ? PROP.HP_RATIO
+        : scalingStatFor(resonator, dataset, roles) === 'def' ? PROP.DEF_RATIO
+        : PROP.ATK_RATIO;
 
     let build = setChain(createBuild(resonator), 0);           // S0 on both sides
     build = setWeapon(build, member.weaponId);                 // R1 L90 by createBuild/setWeapon defaults
-    // Z1: a null echo id costs BOTH the Echo cast and the echo's own base stats.
+    // Z1 RULING: real echo ids by DEFAULT. A null id costs BOTH the Echo cast and
+    // the echo's own base stats, and the reference states it runs real Cost-4 /
+    // Cost-3 / Cost-1 echoes. `--null-echoes` restores the old template default.
     const usedEchoIds = new Set();
     template.forEach((echo, i) => {
         let echoId = null;
-        if (options.realEchoes) {
+        if (!options.nullEchoes) {
             echoId = pickEchoId(dataset, member.sonataId, echo.cost, resonator.element, usedEchoIds);
             if (echoId != null) usedEchoIds.add(echoId);
         }
         build = setEcho(build, i, {
             id: echoId, cost: echo.cost, level: 25,
-            mainStat: echo.mainStat, subStats: echo.subStats,
+            mainStat: echo.mainStat,
+            // The reference's own budget, not the recommender's 25-roll package.
+            subStats: options.templateSubstats ? echo.subStats
+                : referenceSubstats(dataset, member, i, scalingRatioProp),
             sonataId: member.sonataId,                         // pinned by the reference
         });
     });
@@ -344,6 +473,52 @@ function runTeam(dataset, rotationsById, passCount, options) {
         timingMode: 'toa',
     });
     return { result, builds };
+}
+
+/**
+ * Share of each member's own SKILL damage by DMG-bonus bucket (`formulaType` —
+ * the field `dmgBonusBySkillType` keys on, per the CLAUDE.md invariant). This is
+ * the derivation behind RELEVANT_DMG_BONUS, kept in the harness so the constant
+ * can be re-checked instead of trusted.
+ *
+ * Only the on-field skill lane is counted: the negative-status and Tune Break
+ * lanes take no DMG-bonus bucket at all (enemy-status.js), so folding them in
+ * would dilute the very share this picks on.
+ *
+ * Run it with `--template-substats` for a derivation that cannot be circular —
+ * that package carries no damage-bonus roll, so no bucket is boosted by the very
+ * constant being derived. The margins are not close enough for it to matter, but
+ * the clean reading is the one quoted.
+ */
+function damageByBucket(dataset, result) {
+    const byMember = new Map();
+    for (const segment of result.segments) {
+        const skillMap = effectiveSkillMap(dataset, segment.resonatorId) ?? {};
+        const totals = byMember.get(segment.resonatorName) ?? new Map();
+        for (const step of segment.steps ?? []) {
+            const bucket = skillMap[step.skillKey]?.formulaType;
+            if (!bucket || !(step.stepDamage > 0)) continue;
+            totals.set(bucket, (totals.get(bucket) ?? 0) + step.stepDamage);
+        }
+        byMember.set(segment.resonatorName, totals);
+    }
+    return byMember;
+}
+
+function sayProfile(dataset, options) {
+    const steady = { [CHISA]: CHISA_STEADY, [DENIA]: DENIA_ROTATION, [AEMEATH]: AEMEATH_ROTATION };
+    const { result } = runTeam(dataset, steady, 3, options);
+    console.log('DAMAGE-BONUS BUCKET PROFILE (skill lane only, share of the member\'s own skill damage)');
+    console.log('  the derivation behind RELEVANT_DMG_BONUS — "the relevant damage bonus"');
+    console.log();
+    for (const [name, totals] of damageByBucket(dataset, result)) {
+        const sum = [...totals.values()].reduce((acc, value) => acc + value, 0);
+        const parts = [...totals.entries()]
+            .sort(([, left], [, right]) => right - left)
+            .map(([bucket, value]) => `${bucket} ${(100 * value / sum).toFixed(1)}%`);
+        console.log(`  ${name.padEnd(8)} ${parts.join(' · ')}`);
+    }
+    console.log();
 }
 
 /**
@@ -514,26 +689,44 @@ function sayTotals(say, benchmark, runA) {
     return { simTotal, simGameTime, simWall, engineDps, freeze, referenceSeconds };
 }
 
-// Section: the two gear-independent anchors of handover §4.
-function sayAnchors(say, benchmark, runA, referenceByName) {
+// Section: the two anchors of handover §4.
+function sayAnchors(say, dataset, benchmark, runA, referenceByName, options) {
     const referenceTotals = benchmark.totals;
     const tuneBreaks = tuneBreakDamage(runA.result);
-    say('ANCHOR 1 — TUNE BREAK (gear-independent; a mismatch is a pure engine defect)');
+    const referenceTuneBreak = benchmark.anchors.tuneBreakDamage;
+    say('ANCHOR 1 — TUNE BREAK (takes no ATK, no crit and no gear stat — but see the DEF note)');
     if (!tuneBreaks.length) {
-        say(`  NO TUNE BREAK STEP FIRED. Reference ${num(benchmark.anchors.tuneBreakDamage)}. ` +
+        say(`  NO TUNE BREAK STEP FIRED. Reference ${num(referenceTuneBreak)}. ` +
             'The rotation contains one — check capTuneBreaksPerPass.');
     } else {
         for (const hit of tuneBreaks) {
             say(`  pass ${hit.pass + 1}  ${hit.member.padEnd(8)} sim ${num(hit.damage).padStart(9)}   ` +
-                `reference ${num(benchmark.anchors.tuneBreakDamage).padStart(9)}   ` +
-                `gap ${fmtRatio(ratio(hit.damage, benchmark.anchors.tuneBreakDamage))}`);
+                `reference ${num(referenceTuneBreak).padStart(9)}   ` +
+                `gap ${fmtRatio(ratio(hit.damage, referenceTuneBreak))}`);
         }
         say(`  landed ${tuneBreaks.length}x over 3 passes (cap is one per pass, team-wide)`);
-        say('  The sim OVERSHOOTS this anchor — the only place it does. The formula');
-        say('  (enemy-status.js computeTuneBreakDamage) takes no ATK and no gear stat, so');
-        say('  the residual is target assumptions only: at 0% RES it reads 80,428, at 10%');
-        say('  72,385, at 20% 64,343. The reference 62,689 sits just past 20% RES on an');
-        say('  overlord — i.e. an enemy assumption, not a damage-pipeline defect.');
+        // COMPUTED, never hardcoded. This block used to print a fixed sensitivity
+        // table ("at 0% RES it reads 80,428, at 10% 72,385, at 20% 64,343") that
+        // described a DIFFERENT code path than the measured number above it — a
+        // bare-target probe against an in-run value that carries the team's DEF
+        // reduction. The whole D7 "reference sits just past 20% RES" inference
+        // was read off that stale table (2026-08-13).
+        const responder = dataset.resonators.find(entry => entry.name === tuneBreaks[0].member);
+        const bare = computeTuneBreakDamage({
+            status: 'tune_rupture', atkLv: 90, target: options.target,
+            element: responder?.element ?? null, enemyType: options.target?.enemyType ?? 'overlord' });
+        const measured = tuneBreaks[0].damage;
+        say('  computeTuneBreakDamage reads enemy DEF, so this anchor is gear-independent but');
+        say('  NOT team-buff-independent — a DEF shred/ignore moves it:');
+        say(`    unbuffed, on this target   ${num(Math.round(bare)).padStart(9)}`);
+        say(`    as measured in the run     ${num(Math.round(measured)).padStart(9)}   ` +
+            `${(measured / bare).toFixed(3)}x — the team's own DEF shred + ignore`);
+        say(`    reference                  ${num(referenceTuneBreak).padStart(9)}   ` +
+            `${(referenceTuneBreak / bare).toFixed(3)}x of unbuffed  ` +
+            `(${(100 * (bare - referenceTuneBreak) / referenceTuneBreak).toFixed(2)}% off it)`);
+        say('  The reference matches the UNBUFFED formula on this target, so the residual is');
+        say('  that the sim applies the team DEF reduction to the tune bar and the reference');
+        say('  does not — an attribution question, not a target-assumption one.');
     }
     if (runA.result.tuneBreaksDropped?.length) {
         say(`  dropped as surplus: ${runA.result.tuneBreaksDropped.map(drop => `${drop.resonatorName} pass ${drop.pass + 1} ×${drop.dropped}`).join(', ')}`);
@@ -606,7 +799,7 @@ function report(dataset, benchmark, options) {
     const { simTotal, simWall, engineDps, freeze, referenceSeconds } =
         sayTotals(say, benchmark, runA);
     const { tuneBreaks, gapOf, chisaGap, deniaGap, aemeathGap, carriesGap } =
-        sayAnchors(say, benchmark, runA, referenceByName);
+        sayAnchors(say, dataset, benchmark, runA, referenceByName, options);
     const runB = sayRunB(say, dataset, benchmark, options, referenceByName);
 
     return {
@@ -646,13 +839,18 @@ function main() {
     if (!benchmark) throw new Error('benchmark arabwuwa-chisa-denia-aemeath-3pass not found');
 
     const baseOptions = {
-        target: has('--zero-res') ? TARGET_ZERO_RES : TARGET_APP,
-        neutralMains: has('--neutral-mains'),
+        // D7 RULING: the reference's own conditions are the default. The app and
+        // optimizer targets remain reachable as the two disagreeing alternatives.
+        target: has('--app-target') ? TARGET_APP : has('--zero-res') ? TARGET_ZERO_RES : TARGET_REFERENCE,
+        roleMains: has('--role-mains'),
         tuneModes: has('--tune-modes'),
         openers: has('--openers'),
         noCancelStep: has('--no-cancel-step'),
-        realEchoes: has('--real-echoes'),
+        nullEchoes: has('--null-echoes'),
+        templateSubstats: has('--template-substats'),
     };
+
+    if (has('--profile')) { sayProfile(dataset, baseOptions); return; }
 
     const primary = report(dataset, benchmark, baseOptions);
 
@@ -663,11 +861,15 @@ function main() {
 
     console.log('='.repeat(80));
     console.log('DPS-GAP HARNESS — sim vs. data/benchmark-reference.json');
-    console.log(`  target ${has('--zero-res') ? '0% res (optimizer)' : '10% res (app team page)'}` +
-        ` · mains ${baseOptions.neutralMains ? 'neutral (Crit DMG ×3)' : 'role-aware (recommender default)'}` +
+    const targetLabel = baseOptions.target === TARGET_APP ? 'lv90 10% res (app team page)'
+        : baseOptions.target === TARGET_ZERO_RES ? 'lv90 0% res (optimizer)'
+        : 'lv100 20% res (REFERENCE conditions)';
+    console.log(`  target ${targetLabel}` +
+        ` · mains ${baseOptions.roleMains ? 'role-aware (recommender default)' : 'best-applicable (Crit DMG ×3)'}` +
+        ` · substats ${baseOptions.templateSubstats ? 'template 25-roll' : 'REFERENCE budget (16)'}` +
         ` · modes ${baseOptions.tuneModes ? 'tune_rupture/tune_strain' : 'fusion_burst (curated)'}` +
         ` · openers ${baseOptions.openers ? 'ON' : 'OFF'}` +
-        ` · echoes ${baseOptions.realEchoes ? 'REAL ids' : 'template (id:null)'}`);
+        ` · echoes ${baseOptions.nullEchoes ? 'template (id:null)' : 'REAL ids'}`);
     console.log('='.repeat(80));
     console.log();
     console.log(primary.text);
@@ -682,12 +884,14 @@ function main() {
     console.log('='.repeat(80));
     console.log();
     const axes = [
-        ['neutral 4-cost mains (Crit DMG for Chisa too)  D6', { neutralMains: !baseOptions.neutralMains }],
-        ['zero resistance target (optimizer)             D7', { target: baseOptions.target === TARGET_APP ? TARGET_ZERO_RES : TARGET_APP }],
+        ['role-aware mains (Healing Bonus for Chisa)     D6', { roleMains: !baseOptions.roleMains }],
+        ['app target instead (lv90, 10% res)             D7', { target: TARGET_APP }],
+        ['optimizer target instead (lv90, 0% res)        D7', { target: TARGET_ZERO_RES }],
         ['derived openers ON                             D8', { openers: !baseOptions.openers }],
         ['tune_rupture / tune_strain modes               D9', { tuneModes: !baseOptions.tuneModes }],
         ['cancel step dropped (Run B only)               D3', { noCancelStep: !baseOptions.noCancelStep }],
-        ['real echo ids equipped                         Z1', { realEchoes: !baseOptions.realEchoes }],
+        ['null echo ids (old template default)           Z1', { nullEchoes: !baseOptions.nullEchoes }],
+        ['template 25-roll substats (old default)        Z1', { templateSubstats: !baseOptions.templateSubstats }],
     ];
     const baseData = primary.data;
     // The cancel-step axis lives entirely in Run B (Chisa's pass-1 opener), so
@@ -701,8 +905,10 @@ function main() {
         console.log(`  ${label.padEnd(50)} ${num(data.runA.total).padStart(11)}  ${fmtRatio(data.runA.gap).padStart(8)}  ${fmtRatio(data.chisaShape.chisa).padStart(9)}  ${fmtRatio(data.runB.gap).padStart(8)}`);
     }
     console.log();
-    console.log('  Axes compose roughly multiplicatively; --neutral-mains --zero-res together');
-    console.log('  is the most sim-favourable honest configuration.');
+    console.log('  Axes compose roughly multiplicatively, and the flags are independent so any');
+    console.log('  combination runs. Each row here is the BASELINE with ONE axis moved — the');
+    console.log('  rows are not cumulative. The baseline is now the reference\'s own stated');
+    console.log('  conditions, so these axes measure departures FROM it, not toward it.');
     console.log();
 }
 
