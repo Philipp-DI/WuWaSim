@@ -258,9 +258,38 @@ const DISTINCT_APPLICATOR_TIERS = Object.freeze({
         { statuses: ['glacio_chafe', 'havoc_bane'], minCount: 1, critDmg: 0.4, amplifyElement: 1, amplify: 0.3 },
         { statuses: ['glacio_chafe', 'havoc_bane'], minCount: 3, amplifyElement: 1, amplify: 0.3 },
     ],
-    1210: [ // Aemeath — Between the Stars (IH1): mode-gated max-stack unlock
-        { statuses: ['tune_rupture'], minCount: 3, requiresMode: 'tune_rupture', amplifySkillType: 'liberation', amplify: 0.25 },
-        { statuses: ['fusion_burst'], minCount: 2, requiresMode: 'fusion_burst', amplifySkillType: 'liberation', amplify: 0.25 },
+    // Aemeath — Between the Stars (IH1). Two things make this narrower than it
+    // looks, and getting either wrong double-counts a main carry's Crit. DMG.
+    //
+    // 1. STACK ONE IS NOT OURS. The parsed inherent effect already applies the
+    //    per-stack value FLAT (IH1.0 tune_rupture 0.20, IH1.1 fusion_burst 0.30
+    //    — those two survive because effect-overrides.json suppresses the two
+    //    AMPLIFY effects out of this node and the remainder renumbers,
+    //    effect-overrides.js:51). What the pipeline cannot do is count distinct
+    //    applicators, so this table supplies stacks 2..N ONLY. The amplify is
+    //    entirely ours — its copies are the ones the overrides removed.
+    //      fusion_burst, 2 applicators: 0.30 (pipeline) + 0.30 (here) = 0.60 ✓
+    //      tune_rupture, 3 applicators: 0.20 (pipeline) + 0.20 + 0.20  = 0.60 ✓
+    //
+    // 2. S3 REPLACES THE WHOLE INHERENT — "Inherent Skill Between the Stars is
+    //    replaced with the following effects: ... Crit. DMG is increased by 60%,
+    //    and ... Finale DMG is now Amplified by 25%" — i.e. the flat 60% with no
+    //    stacking, granted by S3.2/S3.4 (+ S3.3/S3.5 for the amplify), which the
+    //    chain pipeline applies correctly (measured at S3: critDmg +0.60,
+    //    amplify +0.25, not doubled). So this table must go SILENT at S3+, or it
+    //    adds a second 60%/25% on top. `maxChain` is that gate; the amplify half
+    //    of it was double-counting at S3+ before this was written.
+    //
+    // The game's own rows agree on the per-stack values (db_buff, 1/10000):
+    //   1210075016  CritDamage 2000 (20%), StackLimitCount 3  ← Tune Rupture
+    //   1210075116  CritDamage 3000 (30%), StackLimitCount 2  ← Fusion Burst
+    //   1210075017 / 1210075117  ExtraEffectID 37 amplify 2500 (25%), one per branch
+    1210: [
+        { statuses: ['tune_rupture'], minCount: 2, requiresMode: 'tune_rupture', maxChain: 2, critDmg: 0.20 },
+        { statuses: ['tune_rupture'], minCount: 3, requiresMode: 'tune_rupture', maxChain: 2, critDmg: 0.20,
+            amplifySkillType: 'liberation', amplify: 0.25 },
+        { statuses: ['fusion_burst'], minCount: 2, requiresMode: 'fusion_burst', maxChain: 2, critDmg: 0.30,
+            amplifySkillType: 'liberation', amplify: 0.25 },
     ],
 });
 
@@ -271,12 +300,16 @@ const DISTINCT_APPLICATOR_TIERS = Object.freeze({
  *        applicator ids for a status list, as of this member's window
  * @returns {object} an emptyContribution()-shaped bundle for the member's OWN window
  */
-export function distinctApplicatorTierContribution(resonatorId, resonanceMode, countDistinct) {
+export function distinctApplicatorTierContribution(resonatorId, resonanceMode, countDistinct, chainLevel = 0) {
     const out = emptyContribution();
     const tiers = DISTINCT_APPLICATOR_TIERS[resonatorId];
     if (!tiers) return out;
     for (const tier of tiers) {
         if (tier.requiresMode && tier.requiresMode !== resonanceMode) continue;
+        // `maxChain`: a chain node that REPLACES the inherent this tier models
+        // silences it from that level up, so the two never both pay (Aemeath's
+        // S3). Absent = no upper gate, which is every other entry.
+        if (tier.maxChain != null && (chainLevel ?? 0) > tier.maxChain) continue;
         if (countDistinct(tier.statuses).size < tier.minCount) continue;
         if (tier.critDmg) out.critDmg += tier.critDmg;
         if (tier.atkRatio) out.atkRatio += tier.atkRatio;

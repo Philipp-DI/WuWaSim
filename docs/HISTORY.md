@@ -7478,3 +7478,1272 @@ reports and re-verified.
 - `README.md` — test count 50 → 68, `OPEN-ITEMS.md` added to the layout and
   named as the backlog, and the Simplification Plan correctly described as
   complete rather than "the current cleanup roadmap".
+
+---
+
+## 2026-08-10 — The DPS-gap harness, and the first reproducible gap figure
+
+Executes steps 1 and 2 of `docs/HANDOVER-dps-gap-harness.md`. Two agents built
+the harness INDEPENDENTLY (maintainer's verification protocol, §7) from the same
+brief, in separate files, without seeing each other's work. Their numbers agree
+to the digit on every figure below.
+
+**[Files Changed]**
+
+- `tools/benchmark-gap.mjs` — NEW. The harness. Nothing else in the repo moved.
+
+**[Logic Altered]**
+
+None. The harness is purely additive and reads the engine through its public
+entry points (`simulateTeamRotation`, `templateStats`, `rolesOf`).
+
+**[The number, at last reproducible]**
+
+`node tools/benchmark-gap.mjs --zero-res` — 3 passes, S0, L90, the reference's
+pinned R1 weapons and sonatas, recommender `templateStats` echoes, 0% RES:
+
+| | sim | reference | gap |
+| --- | --- | --- | --- |
+| team damage | 3,999,049 | 6,533,757 | **1.634x** |
+| team DPS | 52,546 | 82,874 | **1.577x** |
+| team time (gameTime) | 76.11s | 78.84s | 1.036x |
+| Chisa | 278,844 | 594,209 | 2.131x |
+| Denia | 710,194 | 1,306,453 | 1.840x |
+| Aemeath | 3,010,011 | 4,633,096 | 1.539x |
+
+At the app team page's 10% RES target the damage gap is 1.815x / DPS 1.752x.
+2.60x, 2.09x and 1.80x remain dead.
+
+**[Three corrections to the handover, all measured]**
+
+1. **§4 anchor 2 (the Chisa shape) is REFUTED, and inverted.** Its PREMISE holds
+   — Chisa gains nothing from her teammates (in-team 278,844 vs alone 300,837,
+   −7.3%), while Denia gains +43.0% and Aemeath +35.2% from her presence. But
+   the conclusion drawn from it does not: the member the team-buff lane never
+   touches is the WORST match (2.13x) and the two who receive it in full are the
+   BEST (1.84x / 1.54x). On this measurement **the gap does not localise to the
+   team-buff lane** — the shortfall is broadly uniform, so per-character damage
+   is back in scope. Partial confound, stated: the recommender gives Chisa
+   (HEALER-tagged) a Healing Bonus 4-cost main; forcing Crit DMG moves her to
+   1.73x, between the other two. Aemeath is still closest either way.
+2. **§4 anchor 1 (Tune Break) is off in the OPPOSITE direction.** Sim 80,428
+   context-free / 82,909 in-team (Havoc Bane DEF shred) against 62,689 — the sim
+   is 1.28x HIGH on the one gear-independent number, while everything else is
+   1.5–2.1x low. The formula takes no ATK and no gear stat, so the residual is a
+   target assumption: 62,689 needs `TUNE_AMP x defMult x resMult` at 0.779x what
+   the engine uses (≈22% RES, or TUNE_AMP 12.47 vs 16.00). Undecidable from the
+   reference, which records only the number.
+3. **§3's denominator note distinguishes nothing, and the real trap is elsewhere.**
+   "Sum of per-member on-field times" EQUALS wall-clock in this engine (the
+   cursor advances only by intro + rotation; the outro runs parallel). The trap
+   is that under `timingMode: 'toa'` the engine's own DPS denominator is
+   `gameTime = time − freeze` (team-sim.js:359). Wall-clock is 134.25s against
+   gameTime's 76.11s, so dividing by the wrong one turns a 1.58x DPS gap into
+   2.78x. Both agents hit this; both caught it.
+
+**[Two lanes that score zero — neither is the gap, both are real]**
+
+- Every `__echo__` step deals 0 in 0s: `templateStats` sets echo `id: null`
+  ("stats don't depend on echo id" — true of stats, false of the CAST). Real
+  echoes are worth ≈ +5%.
+- All nine outro segments deal 0: none of 1508 / 1211 / 1210 has ANY
+  `skillType === 'outro'` key in `effectiveSkillMap`. Against the standing
+  invariant that an Outro's multiplier is read from the sentence stating it —
+  whatever that pass fixed did not reach these three.
+
+**[New lead, replacing the refuted one]**
+
+The sim barely ramps across passes on identical rotations while the reference
+does: team p2/p1 sim 1.004 vs reference 1.067; Aemeath goes BACKWARDS (0.975 vs
+1.022). Denia's and Aemeath's segment damage is bit-identical across all three
+passes — only the status lane varies.
+
+**[Also found]**
+
+- `introKeyFor` (team-sim.js:1323) picks the first `intro`-typed key in dataset
+  order, not the one the rotation's grants need: Aemeath gets
+  `intro_songs_across_the_universe` (1.3458) where `STAGE_GRANTS[1210]` requires
+  `intro_debut_of_meteoric_radiance` (1.6325) to grant her opening `skill_mech_3`.
+  Denia likewise gets `it_s_been_a_while` (1.0462) over `knock_knock` (1.5522).
+- Resonance mode is NOT in the reference and is worth up to 30%
+  (fusion_burst/fusion_burst 3,999,049 vs Aemeath=tune_rupture 2,808,002). The
+  curated modes are used as primary. **This wants a maintainer ruling before the
+  gap number is stable.**
+
+**[Verification Method]**
+
+`npm test` 68/68, `npm run sweep` 67 imported / 0 failed, `npm run lint` 0
+errors. `git status` shows one added file. Harness output byte-identical across
+consecutive runs. Per-pass marginals sum to `memberTotals` exactly; per-member
+gameTime sum reproduces the engine's own DPS to <1. Two independent harnesses,
+built from the brief alone in separate files, agree on every figure.
+
+**[Residual Risks]**
+
+- The resonance-mode choice (above) is the single largest unpinned input.
+- Neither the reference's echoes nor its enemy RES are recorded; both are
+  assumptions worth ≈5% and ≈11% respectively.
+- Chisa's pass-2/3 prose contains the Sawring — Blitz chain but no Serrated Loop
+  (the only cast entering Chainsaw Mode). Self-consistent only if she holds the
+  mode from pass 1. The engine models neither, so the keys resolve regardless,
+  but the prose is underspecified.
+- `simulateTeamRotation` takes ONE rotation per member for all passes, so
+  Chisa's differing pass 1 is reported as its own run (RUN B), never blended.
+
+**[Updated Docs]**
+
+- `docs/HISTORY.md` — this entry.
+- `tools/benchmark-gap.mjs` — carries its own D1–D10 + Z1/Z2 decision record, so
+  the method travels with the tool rather than with a chat log.
+
+---
+
+## 2026-08-10 (later) — Investigating the gap: three named causes, 57% closed
+
+Step 3 of `docs/HANDOVER-dps-gap-harness.md`, on top of the harness above.
+Maintainer ruling first: **both Aemeath and Denia run `fusion_burst`** — this
+composition is Fusion-Burst synergy (Chisa raises negative-status max stack
+counts and brings no Tune-Break buffs); a Tune-Break Aemeath team is a different
+roster (Mornye / Lynae / Aemeath). Recorded as D9 in `tools/benchmark-gap.mjs`;
+`--tune-modes` is retained only as the refuted alternative.
+
+**NOTE ON PROCESS:** the parallel verification agent hit the account's monthly
+spend limit and terminated before reporting. Everything below is therefore
+SINGLE-SOURCED and has NOT met the two-agent bar. It wants an independent pass.
+
+**[Files Changed]** `tools/benchmark-gap.mjs` (D9 rewritten to the ruling);
+`docs/HISTORY.md`. No engine file touched — nothing below is fixed yet.
+
+**[The ladder]** (0% RES, 3 passes, reference 6,533,757)
+
+| step | team total | delta | gap |
+| --- | --- | --- | --- |
+| baseline | 3,999,049 | — | 1.634x |
+| + co-optimized substats | 4,715,279 | +716,230 | 1.386x |
+| + Thread of Bane 18% DEF ignore | 5,169,712 | +454,432 | 1.264x |
+| + Denia Erosion Field | 5,441,846 | +272,134 | 1.201x |
+
+Shortfall 2,534,708 → 1,091,912. **56.9% closed.**
+
+**[1. Anchor build vs. pinned weapon — +716,230, category: harness input]**
+
+`templateStats` is a FIXED 25-roll package tuned (its own comment) to land
+≈ CR 69% / CD 285% *with `representativeWeaponId`*. The benchmark PINS different
+weapons, and against those the same package over-caps Crit Rate — Chisa 105%,
+Aemeath 113.3%, every point over 100% dead — while starving Crit DMG.
+`allocateSubstats` adapts and recovers 716,230.
+**Self-correction, measured:** this is NOT a roster-wide crit over-cap. Checked
+all 56 resonators at their representative weapon: **0 exceed 100% CR.** The
+defect is the template not adapting to the equipped weapon, so it does NOT
+generalise to other teams, and it does NOT explain the Hiyuki shortfall.
+This does contradict the handover §3 claim that the substat spread is "far too
+small to explain the gap" — for this team it is the single largest term.
+
+**[2. Chisa's Thread of Bane — +454,432, category: genuine engine gap]**
+
+Kit: "When dealing damage to targets affected by [Unseen Snare], **ignore 18% of
+their DEF**" — applying to EVERY Resonator's damage, not just hers. Neither
+"Unseen Snare" nor "Thread of Bane" appears anywhere in `src/`, `tools/` or
+curated data; the only `defShred` source in the engine is Havoc Bane
+(team-sim.js:813). The tell that this is an omission and not a judgement call:
+the engine already lands **21 Havoc Bane stacks** from Chisa, and her kit only
+grants those THROUGH Unseen Snare — so the mark is assumed up for the stacks and
+ignored for the DEF clause on the same mark.
+
+**[3. Denia's Erosion Field — +272,134, category: genuine engine gap]**
+
+"After casting [Final Act - Breakdown Form], generate an [Erosion Field] lasting
+30s … pulls in nearby targets once every 4s, dealing Fusion DMG, considered
+[Resonance Liberation DMG]." `forte_heavy_erosion_field_dmg_per_tick` carries a
+real damage id, but Denia's `offFieldActions` is null and the key is in no
+rotation. One tick 12,959 x 7 ticks x 3 casts.
+
+**[What is NOT wrong — checked, don't re-investigate]**
+
+- The negative-status machinery is sound: 48 fusion_burst applications, Chisa's
+  +3 cap raise arming correctly off her Outro (stacks reach 13 not 10, doubling
+  the detonation 6.9863 → 13.9726), 9 bursts at 25,735, Aemeath's affliction lane
+  736,032. `statusDamageGaps` reports nothing.
+- Aemeath's `Between the Stars` IH1 tier DOES fire here (2 distinct fusion_burst
+  applicators ≥ minCount 2 → +25% liberation amplify).
+- Chisa's Sawring-Blitz already carries `formulaType: 'liberation'` — the kit's
+  "considered Resonance Liberation DMG" conversion is data-driven and applied.
+
+**[Hiyuki / Snow Rust cross-check — the lead does NOT pan out at size]**
+
+`conditional-buffs.js:~250` declines to model Hiyuki's Glacio Bite because
+"its scaling is … `stackMult: null, pending calibration` … modeling it would mean
+fabricating a number we don't have". **That comment is now stale**:
+`affliction-damage.json` ships row **1007** (a second glacio_chafe damage row,
+`resonatorId: 1108`, buffs 1108501133 / 1108501511, `stackLimit: 1`,
+`byStacks: {"1": 1}`), and `dataset.statusDamage.glacio_chafe.byStacks` is fully
+calibrated. So the lane is buildable today.
+BUT it is SMALL: one instance at multiplier 1.0 is **1,842** at lv90 / 0% RES —
+40 applications is 73,674, under 2% of a team total. Real, cheap to build,
+and NOT an explanation for Hiyuki teams being "substantially lower".
+**No shared root cause between this team and the Hiyuki teams was found.**
+
+**[Smaller, measured but not counted]**
+
+- Denia resolves exactly ONE effect window. Void Particle's "+50% DMG Multiplier"
+  and its "considered Resonance Liberation DMG" conversion on Breakdown normals
+  are both absent (≈ 34k over 3 passes).
+- `forte_heavy_seraphic_duet_bonus_dmg_per_instance` (Aemeath, 7,241/instance)
+  and `forte_heavy_bonus_dmg_multiplier_per_ring_of_chainsaw` (Chisa, 170) carry
+  real damage ids and are never cast. Aemeath's MAY already be paid via the
+  affliction lane — not claimed without disambiguating.
+
+**[Verification Method]** `npm test` 68/68, `npm run sweep` 0 failed,
+`npm run lint` 0 errors. Every figure produced by `node -e` against the live
+dataset and re-derived through `simulateTeamRotation`; the ladder is cumulative
+and each delta measured by moving one axis. Roster-wide crit check over all 56.
+
+**[Residual Risks]**
+
+- SINGLE-SOURCED (see process note). Not verified by a second agent.
+- 1,091,912 (1.20x) remains unexplained.
+- The Erosion Field figure assumes 7 ticks per 30s cast and no off-field
+  contention; modelled as a flat add, not through `computeOffFieldContribution`.
+- Thread of Bane applied as a global `target.defIgnore`; the real mechanic is
+  gated on Unseen Snare uptime, taken here as 100% (its "[Locking] on to a
+  target" trigger is always satisfiable, per the always-hits invariant).
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry); `tools/benchmark-gap.mjs` D9.
+
+---
+
+## 2026-08-10 (build) — Thread of Bane + Erosion Field wired in; patch.json reaches Node
+
+Builds the two confirmed engine gaps from the investigation above, plus the
+root cause found while wiring them.
+
+**[Files Changed]**
+
+- `src/core/enemy-status.js` — `DEF_IGNORE_GRANTS`, `defIgnoreGrantsForResonator`,
+  `defIgnoreOutroGates`, `defIgnoreForMemberAt`.
+- `src/core/team-sim.js` — accumulate the Outro gates; fold the member's DEF
+  ignore into `memberTarget.defIgnore`.
+- `src/core/off-field.js` — an `OffFieldAction` may declare its own `skillType`
+  (default `'basic'`, so no existing action changes).
+- `src/data/loader.js` — extracted+exported `applyPatch(baseline, patch)`;
+  `loadDataset` now calls it.
+- `tools/optimize.mjs` — applies `applyPatch`; `ENGINE_FILES` is now
+  `src/`-relative and includes `data/loader.js`.
+- `tests/meta-schema.test.mjs` — ENGINE_FILES copy kept in sync.
+- `data/patch.json` — Denia's Erosion Field.
+- `tests/thread-of-bane.test.mjs` — NEW, 21 assertions.
+- `data/wuwa-meta.json`, `data/data-version.json` — regenerated.
+
+**[Logic Altered]**
+
+1. **Thread of Bane.** Chisa's Outro "Unraveling - Law Zero" (params
+   `[20,3,15,15]`) states TWO bullets; only the cap raise was modelled. The
+   second — "Inflicting Negative Status or dealing Negative Status DMG grants
+   [Thread of Bane] for 15s", where Thread of Bane is "ignore 18% of their DEF"
+   — now grants `defIgnore` to any status-inflicting member playing inside the
+   20s gate. `defIgnore`, NOT `defShred`: the formula multiplies
+   `(1−defShred)(1−defIgnore)` separately and the kit says "ignore".
+   **Resolved from the GATE, not from realised applications** — a member's
+   applications derive from its own steps, so they do not exist until after its
+   segment has simulated, but the value must be in `target` BEFORE it runs.
+   Arming from applications and sampling at segment start fires NEVER (the only
+   visible window would be the previous pass's, ~45s stale against a 15s
+   duration) — a silent zero, which is how the first cut of this shipped and
+   why it measured 0. The gate is the real constraint anyway: a member that
+   inflicts at all does so on its first damaging step.
+   Chisa herself correctly gains nothing — her gate opens as she LEAVES.
+2. **Erosion Field.** 30s / 4s-period turret off `Final Act - Breakdown Form`,
+   `multiplier` = `mults[9]` of damage row 12110007001 (skill level 10),
+   `skillType: 'liberation'` per the kit's "considered [Resonance Liberation
+   DMG]". The preprocess turret branch only reads Outro Skill nodes, so a Forte
+   Circuit persistent field was never derived.
+3. **patch.json now reaches Node.** It is a RUNTIME overlay `preprocess.mjs`
+   never bakes in, so everything reading `wuwa-data.json` off disk — the offline
+   optimizer, every test, the new harness — saw an UNPATCHED dataset while the
+   browser saw a patched one. `tools/optimize.mjs` even carried a comment
+   claiming it "Mirrors src/data/loader.js's merge" while mirroring only the
+   `statRanges` half. Consequence: **Phrolova's and Ciaccona's curated
+   `offFieldActions` had never once reached the meta** — both were ranked with
+   zero off-field damage in every meta ever shipped.
+
+**[Measured effect]** (harness, 0% RES, 3 passes, reference 6,533,757)
+
+| | team | gap |
+| --- | --- | --- |
+| before | 3,999,049 | 1.634x |
+| after | **4,429,175** | **1.475x** |
+
+Denia 710,194 → 936,026 (1.396x); Aemeath 3,010,011 → 3,214,305 (1.441x);
+Chisa 278,844 unchanged (correct). DPS gap 1.577x → **1.424x**.
+
+**[Verification Method]** `npm test` 69/69 (incl. the new file),
+`npm run sweep` 67 imported / 0 failed, `npm run lint` 0 errors.
+LOCK A: `wuwa-data.json` diff was `generatedAt` only → reverted;
+`data-version.json` legitimately moves because its hash covers `patch.json`.
+LOCK B: `wuwa-meta.json` regenerated and changes substantially — EXPECTED, this
+is a deliberate behaviour change (three characters gained off-field damage and
+two gained a DEF-ignore window), not a behaviour-preserving refactor.
+
+**[Residual Risks]**
+
+- Thread of Bane is a per-SEGMENT binary (sampled at segment start), matching
+  the existing Havoc Bane `defShred` convention. A member whose segment starts
+  just before the gate opens gets nothing for that whole segment; one whose
+  segment starts just inside it holds the buff for the entire segment even
+  past the 15s. Fractional coverage needs per-step targets, which the segment
+  API does not have.
+- The Erosion Field does NOT yet apply Fusion Burst stacks. Maintainer's point
+  (2026-08-10) is that it should — more stacks, more detonations — so the true
+  value is HIGHER than the +158,697 measured here. Off-field segments carry
+  `steps: []`, so `applicationsFromSteps` never sees them; wiring that is its
+  own change. **Named as the next piece of work, not silently dropped.**
+- Still single-sourced: the verification sub-agent hit the account spend limit.
+- 1.475x remains. Chisa is now the outlier at 2.131x and is the obvious next
+  target (she has no status lane and receives no team buffs, so her shortfall
+  is pure per-character damage).
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry). `CLAUDE.md` NOT yet amended —
+the patch.json/Node split deserves an invariant, flagged for the next pass.
+
+---
+
+## 2026-08-10 (build 2) — Chisa's own kit, verified against the game's tables; off-field damage joins the ordinary lane
+
+Two maintainer corrections, both confirmed against the raw fmodel export
+(`G:/Software/fmodel/Output/Exports/Client`, `db_buff` via `tools/extract/configdb.py`).
+
+**[Correction 1 — Chisa DOES hold Thread of Bane, permanently]**
+
+The previous entry modelled Thread of Bane as granted ONLY by her Outro, which
+meant she never held it at all (her gate opens as she leaves the field). The
+game says otherwise, and says it plainly:
+
+- Buff **`1508970005`** is the effect: `ExtraEffectID 1` (CommonSnapshotModify),
+  `ExtraEffectParametersGrow1 = [1800]` — the kit's "ignore 18% of their DEF"
+  verbatim — gated on a target requirement (type 9, a tag = Unseen Snare) and on
+  its HOLDER carrying one tag.
+- That tag is granted by **two** buffs:
+  - **`1508970003`** — `DurationPolicy 1`, no duration → **PERMANENT** (Chisa's own)
+  - **`1508970004`** — `DurationPolicy 2`, **15.0s** → the Outro copy for teammates
+
+So the Outro EXTENDS a passive she already has. `DEF_IGNORE_GRANTS` gained
+`selfPermanent`, and `defIgnoreForMemberAt` takes the resonator being resolved so
+the owner's own grant is told apart from a teammate's borrowed one.
+Chisa 278,844 → **305,221** (2.131x → 1.947x).
+
+CONFIRMED BY NAME (2026-08-10, later the same day). `params[1] = 99` is
+**`Proto_IgnoreDefRate`** — DEF ignore exactly. The attribute enum is NOT
+BaseProperty's getter order (an earlier note here said so and was WRONG); the
+client reads it from `EAttributeId`, which is `Aki.Protocol.Vks` in
+`Core/Define/Net/Protocol.js` — 144 entries — as
+`ExtraEffectSnapModifier.js` spells out for CommonSnapshotModify:
+
+    this.TargetType = Number(i[0]);
+    this.AttrId     = Number(i[1]);
+    this.CalculationPolicy = Number(i[2]);
+
+BaseProperty's getters diverge from that enum from index 13 on, because the enum
+carries a `Proto_ElementEfficiency` entry BaseProperty has no getter for — which
+is the whole of the "off by one" that made the earlier note look inconsistent.
+
+RETRACTION: that note also claimed `reconcile_effects.py`'s `ATTR_TO_STAT` was
+internally inconsistent. **It is not — it is correct.** Checked against the real
+enum: 8 Proto_Crit, 9 Proto_CritDamage, 15 Proto_DamageChange, 22–27
+DamageChangeElement1–6, 35 HealChange / 36 HealedChange all match its entries
+exactly. The faulty reference was the BaseProperty-derived list used to judge it.
+
+**[Correction 2 — Havoc Bane: modelled, but the applier never sees their own stacks]**
+
+`HAVOC_BANE_PER_STACK = 0.02` is correct and does feed `target.defShred`. But the
+count is point-sampled at SEGMENT START (team-sim.js), and Chisa is the only
+Havoc Bane applier on this team: at her segment start she has applied nothing,
+and by her next pass (45s later) her stacks have decayed (25s). So she reaches 3
+stacks during her own segment and is credited 0 for all of it.
+MEASURED at ~+2,969 for her (≈1%), so it is recorded as a quantified limitation
+rather than fixed — a real fix needs per-STEP target resolution, which the
+segment API does not have. NOT fixed, NOT hidden.
+
+**[Off-field damage now runs on the ordinary damage lane]**
+
+Maintainer direction: off-field damage "still receives the same buffs and can
+induce triggers and conditions" — only the offField flag should distinguish it.
+An `OffFieldAction` may now name a real `skillKey`; when it does,
+`simulateOffFieldActions` (team-sim.js) runs it through `simulateRotation` with
+exactly the context its owner's own segment gets — team bundles, external buff
+windows, enemy statuses, carry-in fires, tune-strain amplify — instead of the
+bare `computeDamage` call. The resulting steps are real steps, flagged
+`offField: true`, spread across the elapsed window at their own cadence, with
+zero duration, and fed to `accrueStatusDamage`.
+
+Two things deliberately do NOT follow, both documented at the call site:
+TIME (off-field occupies no slice of the shared timeline) and ENERGY/CONCERTO
+(`creditTraceToLedger` is not called — the gauge already gives a benched member
+a 50% share of the active member's income, so crediting these too would
+double-count). A test asserts no off-field cast reaches the energy trace.
+
+Actions with no `skillKey` (a curated multiplier with no damage row behind it —
+Phrolova, Ciaccona) keep the bare path; there is nothing for the pipeline to
+resolve.
+
+**[Measured effect]** (harness, 0% RES, 3 passes, reference 6,533,757)
+
+| step | team | gap |
+| --- | --- | --- |
+| start of session | 3,999,049 | 1.634x |
+| + Thread of Bane (gated) + Erosion Field | 4,429,175 | 1.475x |
+| + Chisa's permanent Thread of Bane | 4,457,341 | 1.466x |
+| + off-field on the ordinary lane | **4,651,350** | **1.405x** |
+
+The last step is mostly NOT the tick damage: Denia's negative-status lane went
+128,677 → **205,883** and Aemeath's 838,974 → **905,886**, because the Erosion
+Field now builds Fusion Burst and drives more detonations — exactly the
+maintainer's stated reason for wanting the lane unified. Denia 937,815 →
+1,064,912 (1.227x); Aemeath 3,214,305 → 3,281,217 (1.412x).
+
+Session total: **1.634x → 1.405x**, i.e. 41% of the original 2,534,708 shortfall
+closed by engine fixes alone (the earlier substat-quality finding is separate and
+not included here).
+
+**[Verification Method]** `npm test` 69/69, `npm run sweep` 0 failed,
+`npm run lint` 0 errors, `meta-schema` 8811/0 after regeneration.
+LOCK A: `wuwa-data.json` timestamp-only → reverted. LOCK B: `wuwa-meta.json`
+regenerated; changes are expected (deliberate behaviour change).
+
+**[Residual Risks]**
+
+- Havoc Bane self-credit (above), ~1%, unfixed by design decision.
+- Thread of Bane and the Havoc Bane shred are both per-SEGMENT point samples.
+- The attribute-id enum question (above) is unresolved.
+- Off-field steps do not generate energy/concerto. Believed correct; unverified
+  against the game.
+- Still single-sourced — the verification agent hit the account spend limit.
+- 1.405x remains. Chisa is the outlier at 1.947x.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-10 (build 3) — Aemeath's missing +60% Crit. DMG, and the anchor-build share of the gap
+
+Data-driven sweep (the game's own `db_buff`, decoded through the now-correct
+`EAttributeId` enum) plus a text sweep, on the remaining 1.405x.
+
+**[Method that made this possible]**
+
+`tools/extract/configdb.py` + the `EAttributeId` enum (`Aki.Protocol.Vks`,
+`Core/Define/Net/Protocol.js`) makes every buff row decodable: stat name, value
+(units of 1/10000), duration, stack limit, requirements. That turns "does the
+engine model this kit?" from a text-reading exercise into a diff against the
+game's own table. Buff ids are `<resonatorId>` prefixed, and for these two the
+sub-block encodes the source — Chisa `150895<N>xx` is chain level N, Aemeath
+`12100750xx` / `12100751xx` are the two inherent nodes.
+
+**[FOUND — Aemeath's Between the Stars pays only half. GENUINE ENGINE DEFECT.]**
+
+Kit: "In Resonance Mode - Fusion Burst, when Resonators in the team inflict
+Fusion Burst, Aemeath's **Crit. DMG increases by 30%, up to 2 times**. Each
+Resonator can only trigger this effect once. **With 2 stacks**, Resonance
+Liberation Heavenfall Edict: Finale DMG is **Amplified by 25%**."
+
+`DISTINCT_APPLICATOR_TIERS[1210]` modelled the 25% amplify and NOT the Crit. DMG,
+in either branch. The game states both:
+
+    1210075116  CritDamage 3000 (30%), StackLimitCount 2   ← Fusion Burst
+    1210075016  CritDamage 2000 (20%), StackLimitCount 3   ← Tune Rupture
+    1210075117 / 1210075017  ExtraEffectID 37 amplify 2500 (25%), one per branch
+
+**CORRECTED the same day — see the next entry.** The figures first recorded here
+(Aemeath 3,748,290 / team 5,118,423 / 1.277x) were INFLATED: the parsed inherent
+effect already applies stack ONE flat, so adding a full ladder double-counted it,
+and nothing gated the tier at S3 where the chain REPLACES the inherent outright.
+The honest numbers are Aemeath 3,281,217 → **3,514,753** (1.412x → **1.318x**)
+and team 4,651,350 → **4,884,887** (1.405x → **1.338x**) — +233,536, half what
+was claimed. Aemeath is she/her throughout; earlier prose in this file that used
+"he" is wrong.
+
+**[Chisa: her S0 buff table is FULLY accounted for — not a missing-buff problem]**
+
+Every valued `1508*` row maps to something already handled or correctly off:
+- `1508970005` IgnoreDefRate 1800 → Thread of Bane (modelled this session)
+- `1508982003/4` DamageChangeElement6 + HealChange 2000/12s → the inherent (modelled)
+- `150895<N>xx` → chain S1/S2/S5/S6, correctly OFF at S0. Verified against her
+  chain text line by line: S1 ATK+30%/15s, S2's 10% Havoc-RES ignore and 50%
+  All-Attribute (six element rows), S5's +100% Liberation, S6's two
+  "takes more DMG" clauses.
+- `1508800xxx` / `150897002x` → Lifethread/SpecialEnergy plumbing, not damage.
+A `1508095xxx` block (Crit 35%/10s, Havoc 60%/10s, amplify 150% and 240%) matches
+NOTHING in her kit text and is NOT hers despite the prefix — UNRESOLVED, flagged,
+deliberately not acted on.
+
+So Chisa's residual is per-hit damage and build quality, not unmodelled kit.
+
+**[The anchor build is a large share of what remained — harness input, not engine]**
+
+`templateStats` sets echo `id: null`, which costs BOTH the Echo cast AND the
+echoes' own base stats. Measured with real ids (`pickEchoId`, the app's own
+helper): **+216,538 team**, Chisa alone +10.8% — and only 3,070 of hers is the
+cast. Added as `--real-echoes` (NOT the default: the handover pins "the app's
+DEFAULT echo stats", and the reference does not record which echoes it ran).
+
+Stacking the two honest build axes on top of the engine fixes:
+
+| configuration | team | gap |
+| --- | --- | --- |
+| default (template echoes, template substats) | 5,118,423 | 1.277x |
+| `--real-echoes` | 5,338,523 | 1.224x |
+| real echoes + co-optimized substats (measured separately) | ~5,743,274 | ~1.138x |
+
+At the last of these Denia OVERSHOOTS (0.91x) and Chisa is 1.14x, i.e. most of
+what was left after the engine fixes is the deliberately-unoptimized anchor, not
+sim error. Aemeath stays the worst in every configuration.
+
+**[Verification Method]** `npm test` 69/69, `npm run sweep` 0 failed,
+`npm run lint` 0 errors, `meta-schema` 8811/0 after regeneration. The tier ladder
+is asserted directly (cap at 2 / at 3, amplify only at the cap, mode isolation,
+no mode → nothing). LOCK A reverted (timestamp-only); LOCK B regenerated
+(deliberate behaviour change).
+
+**[Residual Risks]**
+
+- The `1508095xxx` block is unidentified. It carries large amplify values
+  (150%, 240%); if any of it IS S0 Chisa, she is still understated.
+- Aemeath's Crit. DMG tiers assume "each Resonator triggers once" == distinct
+  applicator count, which is what `distinctApplicators` already counts. A
+  teammate who inflicts Fusion Burst but is never counted would under-credit.
+- Everything remains SINGLE-SOURCED for the earlier findings; a Sonnet agent was
+  running the same sweep in parallel but its result is not folded in here.
+- 1.277x remains at the default configuration; ~1.14x on a fair build.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry); `tools/benchmark-gap.mjs` Z1
+rewritten with the measured figure and the new `--real-echoes` flag.
+
+---
+
+## 2026-08-10 (investigation) — A whole effect SOURCE is never parsed. Verified, quantified, NOT built.
+
+A parallel Sonnet agent found this; every claim below was independently
+re-derived here before being accepted. **This is the first finding this session
+to have two sources.**
+
+**[FINDING 1 — base-kit effects stated in a skill node are invisible. GENUINE PARSER GAP.]**
+
+`parseEffectsFromDesc` (tools/preprocess/effects.mjs:498) has exactly TWO call
+sites — `resonators.mjs:223` (inherentSkills) and `:592` (resonanceChain).
+Nothing else in the pipeline reads a description for effects, and
+`buffs.js unlockedEffects` confirms only those two sources ever reach it.
+
+So a buff the game states inside a **Resonance Liberation / Resonance Skill /
+Forte Circuit** node is never parsed at all.
+
+The live case is Chisa, and it is large. Her Liberation node
+(`data/extracted-nanoka/characters/1508.json` `skill_trees["3"]`, `node_type: 2`,
+`param: ['15','120%','120%']`):
+
+> "Casting this skill sends Chisa into **Woven Myriad - Convergence** for 15s …
+> The DMG Multipliers of Sawring - Blitz, Chainsaw Mode - Dodge Counter, and
+> Sawring - Eradication are increased by **120%**."
+
+Her rotation casts Liberation immediately before all three Blitz stages, so it
+should be live for every one of them. What proves the parser CAN read this shape
+is her S2 chain node, which states the identical clause, is parsed correctly as
+`multiplierUp: 1.2` with the right `skillKeys`, and says in so many words that it
+**stacks with** Woven Myriad - Convergence — i.e. the two are distinct grants and
+the base-kit one is simply never seen.
+
+MEASURED (agent, real engine, in-memory patch): Chisa 305,221 → **375,856**
+(1.947x → 1.581x), team → 4,721,985. **+70,635, or 24.4% of Chisa's own gap.**
+
+CLASS SIZE, derived here: scanning all 56 characters' REAL skill nodes (excluding
+the empty-type stat-tree nodes, which have their own correct `skillTreeBonuses`
+path, and Inherent Skill, which IS parsed): **9 of 56** state a damage-affecting
+clause in an unparsed node, of which **4 state a DMG Multiplier increase** —
+Lupa (Resonance Skill), Aemeath (Forte, Tune-Rupture-gated so inert here),
+Denia (Resonance Skill + Forte — the already-known Void Particle ~34k),
+Chisa (Resonance Liberation, the one above).
+
+NOT BUILT, and the reason is an invariant: effect-slot keys (`S{level}.{index}`,
+`IH{node}.{index}`) are FROZEN before `effect-overrides.json` and saved builds'
+`effectStacks` read them, so any pass that changes an effect COUNT must not
+disturb them. Naively extending `parseEffectsFromDesc` to more nodes would
+renumber nothing today (it would ADD, not reorder) ONLY if the new effects get
+their OWN key namespace — e.g. `SK{node}.{index}` — leaving every existing
+`IH`/`S` key untouched. That is the safe design and it is a real feature
+(preprocess + `unlockedEffects` + a trigger/window model for "while in <state>"),
+not a one-liner. Flagged for a decision rather than started.
+
+**[FINDING 2 — an Intro cast's trigger fires are dropped. GENUINE ENGINE DEFECT, 0 here.]**
+
+`sim.memberFires` is initialised at team-sim.js:218, read at :865, and written at
+:873 — inside `runRotationSegment` only. `runIntroSegment` never writes it.
+So a SELF-scoped effect whose trigger is "casting Intro Skill" structurally
+cannot see its own trigger fire; team-wide effects escape via the separate
+`teamWideWindowSpecs` timeline path. Chisa's IH1 is one such effect (its text
+says "Casting Intro Skill … **or** Resonance Liberation …"; only the liberation
+trigger is parsed).
+MEASURED: widening the trigger changes this benchmark by **exactly 0**, because
+the fires never carry. Agent's roster scan: 16 such effects across 12 characters
+are self-scoped and therefore blocked in team sim (solo is unaffected — intro
+sits in the member's own rotation array there). Denia and Aemeath carry none.
+
+**[Ruled out — do not re-investigate]**
+
+Kumokiri's passive (24% Liberation + 24% team-wide All-Attribute) resolves at
+full value and reaches both teammates; Sonata 7's 5pc fires from Chisa's own
+heals; Chisa's S1/S2 correctly gated off at S0; stat-tree nodes use their own
+correct path.
+
+**[Where the remaining absolute damage actually is]**
+
+Aemeath holds ~72% of the remaining shortfall by absolute damage despite a better ratio
+than Chisa, simply because he is bigger. The agent flagged, and could NOT
+resolve, whether his Forte clause "each stack of Fusion Trail removed increases
+the DMG Multiplier of Fusion Burst" is already inside the calibrated
+`affliction-damage.json` lane (which a prior audit cleared) or is a separate
+miss of the same class as Finding 1. **Highest-leverage next question.**
+
+**[Verification Method]** Both agent claims re-derived independently here:
+the two `parseEffectsFromDesc` call sites read directly; Chisa's Liberation node
+text and params read from the raw nanoka source; the `memberFires` write sites
+grepped. Class size computed here, not taken from the agent. No repo file was
+changed by this investigation — `npm test` 69/69 unchanged from build 3.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-10 (correction) — Aemeath's Crit. DMG was double-counted; Fusion Trail verified sound
+
+Maintainer flagged the previous entry as re-surfacing a resolved issue. They were
+right, and the investigation found a SECOND double-count that predated this
+session.
+
+**[What was already correct, and what I misread]**
+
+`effect-overrides.json` suppresses two effects out of Aemeath's IH1, and
+`tools/effect-overrides.js:51` **drops suppressed effects and renumbers**
+("slot keys are positional"). So the pre-suppression node had four effects
+(TR critDmg, TR amplify, FB critDmg, FB amplify); the overrides removed the two
+AMPLIFIES; the survivors renumbered to IH1.0 = tune_rupture critDmg 0.20 and
+IH1.1 = fusion_burst critDmg 0.30. Nothing is stale and nothing is mis-indexed —
+an earlier note in this file calling the override "mis-indexed" was WRONG.
+
+Measured live, solo, no team (so the tier system is not involved):
+
+| build | resolved Crit. DMG | reading |
+| --- | --- | --- |
+| S0 fusion_burst | 2.36 → **2.66** | the inherent's 0.30 IS applying, flat |
+| S0 tune_rupture | 2.36 → **2.56** | likewise 0.20 |
+| S3 either mode | 2.36 → **2.96** | S3's flat 0.60, and it REPLACES rather than adds |
+
+So the pipeline already paid stack one, and S3's "Inherent Skill Between the
+Stars is replaced" was already handled.
+
+**[Two double-counts, one mine, one pre-existing]**
+
+1. MINE: the previous entry gave the tier a full ladder from stack 1, on top of
+   the pipeline's flat stack 1 → +0.90 where the kit says +0.60 (fusion_burst,
+   2 applicators), and +0.80 vs +0.60 in tune_rupture.
+2. PRE-EXISTING: the tier's 25% Finale amplify had no chain gate, so at S3+ it
+   stacked with S3.3/S3.5's own 25% → 50%. Measured at S3: the chain grants
+   amplify 0.25 and critDmg 0.60 on its own.
+
+**[Fix]** `DISTINCT_APPLICATOR_TIERS[1210]` now supplies stacks **2..N only**
+(fusion_burst: minCount 2 → 0.30; tune_rupture: minCount 2 → 0.20, minCount 3 →
+0.20), and every entry carries `maxChain: 2` so the table goes silent from S3 up.
+`distinctApplicatorTierContribution` gained a `chainLevel` parameter; entries
+without `maxChain` (Hiyuki) are unaffected, which a test asserts.
+
+Totals: fusion_burst 2 applicators = 0.30 (pipeline) + 0.30 (tier) = **0.60** ✓;
+tune_rupture 3 = 0.20 + 0.20 + 0.20 = **0.60** ✓; S3+ = 0.60 from the chain
+alone ✓.
+
+**[Fusion Burst ← removed Fusion Trail stacks: VERIFIED CORRECT, no change]**
+
+Kit: "Each stack of [Fusion Trail] removed from the target increases the DMG
+Multiplier of [Fusion Burst] on the main target by 10%", and Seraphic Duet
+"trigger[s] the [Fusion Burst] on the target based on its max stack limit".
+Both halves are modelled and the numbers reconcile end to end:
+
+- `data/affliction-damage.json` ships the exact curve — buff `1210072022`
+  byStacks 1→1.1, 2→1.2, 3→1.3 … i.e. **+0.1 per stack**; `1210072023` is the
+  Stardust-empowered twin at base 3.0.
+- `resolveAfflictionTriggers` computes `multiplier = base × boost`, where `boost`
+  is that table at the trail-stack count and `base` is Fusion Burst's own MV at
+  the cap in force (`baseAtMaxStacks`).
+- Measured over 3 passes: 6 Duet consumptions at trail stacks 19/23/21/24/21/24
+  (cap 30, 30s lifetime), boost 4.90–5.40 = 1 + 0.1×stacks + 2.0 empowered,
+  `burstCap 13` — Chisa's +3 raise on the base 10 — for 126k–139k each.
+
+Nothing to fix here. The Erosion Field work earlier today feeds it further: more
+Fusion Burst applications means more Fusion Trail stacks at consumption.
+
+**[Verification Method]** `npm test`, `npm run sweep`, `npm run lint`, meta
+regenerated. New assertions cover the stacks-2..N semantics, the S3–S6 silence,
+S2 still paying, and Hiyuki's un-gated ladder.
+
+**[Residual Risks]**
+
+- The tier still cannot see WHICH resonator triggered which stack; it uses the
+  distinct-applicator count, matching "each Resonator can only trigger once".
+- The pipeline's stack-1 grant is flat and unconditional — it does not itself
+  require an applicator, so a lone Aemeath with no Fusion Burst inflicted at all
+  would still show +0.30. Not exercised by this benchmark; noted.
+
+**[Updated Docs]** `docs/HISTORY.md` — this entry, plus the build-3 figures
+struck through in place.
+
+---
+
+## 2026-08-10 (build 4) — Skill nodes become a first-class effect source. No override.
+
+Maintainer direction: a buff's source must be acknowledged — the +120% belongs to
+the Liberation CAST, not to an inherent slot — and "our model should work without
+any overrides, this just creates maintenance overhead and sets up for lazy,
+non-robust code." So this is wired into the pipeline, not patched.
+
+**[Files Changed]** `tools/preprocess.mjs` (new pass), `tools/preprocess/skill-scope.mjs`
+(scope the new nodes), `src/core/buffs.js` (`unlockedEffects` third loop),
+`tests/skill-node-effects.test.mjs` (NEW), regenerated data + meta.
+
+**[Why not the alternatives — each was checked, not assumed]**
+
+- **Raw data routing?** Checked three homes, all empty. `db_buff`: no row among
+  Chisa's 174 carries 12000, and `ExtraEffectID 12 (DamageModifier)` — the
+  natural home — is absent from her set entirely. `damageTable`: one row per
+  Blitz stage, no state-selected variant. Compiled node: preprocess drops
+  `params`, leaving only prose. The game DOES ship the number as clean data
+  (`skill_trees["3"].skill.param = ['15','120%','120%']`), but nothing binds it
+  to a stat or a scope.
+- **An `effect-overrides.json` entry?** Rejected on the maintainer's grounds, and
+  it would also have filed a Liberation mechanic under `IH0` — Chisa's
+  "Inescapable Fate", a cooldown reset the sim does not even model.
+
+**[The mechanism]**
+
+`parseEffectsFromDesc` now also runs over SKILL nodes, emitting
+`resonator.skillNodeEffects` and a THIRD key namespace `SK{node}.{index}`.
+Three things make it structural rather than a wider prose sweep:
+
+1. **The NODE is the unit, never the skill key.** One node's description is
+   shared by every key derived from it — Chisa's 28 keys carry 5 distinct
+   descriptions, 11 sharing the Forte text — so a per-key pass would multiply one
+   clause elevenfold. Keys are grouped by description; each node parses once.
+2. **The TRIGGER comes from WHERE the text lives, not from the prose.** An effect
+   stated in a node is granted by casting that node — a structural fact about the
+   data, not a reading of English. The parser's "unconditional / always-on"
+   default is right for chain and inherent nodes (both passive) and wrong here,
+   so an untriggered effect is re-anchored to `castMatch` over the node's own
+   keys, windowed to the duration the node states (`extractDurationSeconds`).
+   Effects the parser DID find a trigger for keep it.
+3. **Unscopable `multiplierUp` is DROPPED, not shipped.** `bindSkillScopes` now
+   covers these nodes; 9 multiplierUp effects it could not scope were dropped and
+   the count is REPORTED. Unscoped, each would multiply every hit the wielder
+   throws (CLAUDE.md). `tests/multiplier-scope.test.mjs` still passes at zero.
+
+Roster-wide the source is small and auditable: 293 distinct skill nodes yield
+**55 effects across 28 resonators** (64 parsed, 9 dropped as unscopable).
+
+**[Measured]** (harness, 0% RES, 3 passes, reference 6,533,757)
+
+| | before | after |
+| --- | --- | --- |
+| Chisa | 305,221 (1.947x) | **375,856 (1.581x)** |
+| Denia | 1,064,912 (1.227x) | **1,252,741 (1.043x)** |
+| TEAM | 4,884,887 (1.338x) | **5,143,350 (1.270x)** |
+
+Chisa's figure reproduces the parallel Sonnet agent's independently measured
+375,856 exactly — the second cross-validated number this session. Denia gained
+without being the target: her Resonance Skill and Forte nodes state multiplier
+clauses of the same shape.
+
+**[Frozen slot keys — verified, not assumed]** Diffed the regenerated dataset
+against HEAD: 56/56 resonators, **0 fields lost**, one field gained
+(`skillNodeEffects`), and **0 drift in any S/IH effect count**. So
+`effect-overrides.json` and saved builds' `effectStacks` address exactly what
+they addressed before. `SK` cannot collide with `S`/`IH` (asserted).
+
+**[On retiring the existing overrides — assessed, and mostly NOT retirable]**
+
+Asked to fix them where possible. Surveyed: 33 entries over 21 resonators, and
+preprocess reports `27 patched, 6 suppressed, **0 added**`. The dominant kinds are
+`trigger+window` (13) and `trigger` (7) — surgical corrections to WHEN a
+chain/inherent effect fires, and 6 suppressions handing an effect to a curated
+mechanism that models it better (`distinctApplicatorTierContribution`). This
+pass fixes a missing SOURCE, not a wrong TRIGGER, so it retires none of them.
+**Every entry still binds — `0 added` means none is being used as a crutch to
+inject data the parser missed, which is the failure mode worth guarding.** No
+stale entries found; nothing removed.
+
+**[Verification Method]** `npm test` **70/70** (new file, 30 assertions),
+`npm run sweep` 0 failed, `npm run lint` 0 errors, `meta-schema` 8811/0 after
+regeneration, `multiplier-scope` 19/0. LOCK A audited structurally (above);
+LOCK B regenerated — a deliberate behaviour change.
+
+**[Residual Risks]**
+
+- The node-duration rule takes the FIRST duration the node states. Where a node
+  states several, the window may be the wrong one — but the effect is still
+  gated on the cast, which is strictly better than not applying it at all.
+- The 9 dropped unscoped `multiplierUp` are real buffs going unmodelled. They are
+  counted and printed, so the set can only shrink; scoping them is future work.
+- An effect whose clause the parser reads with a WRONG trigger keeps that wrong
+  trigger (only untriggered ones are re-anchored). Conservative by design.
+- 1.270x remains. Aemeath (1.318x) now holds the largest absolute share.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-10 (build 5) — Phoebe's state-labelled branches wired; the other five blocked, with reasons
+
+Maintainer asked for all seven dropped clauses to be wired, starting with
+Phoebe. Phoebe is done. The other five are NOT, and each is blocked on something
+concrete found while trying — recorded rather than guessed at.
+
+**[DONE — Phoebe ×2, and it generalises]**
+
+Two fixes, both small:
+
+1. `stateInClause` learned the form the kit actually uses. It read only the
+   SENTENCE form (`LEADING_IN`, "In Absolution, …"); Phoebe's Liberation writes a
+   bulleted, state-LABELLED menu instead:
+       - [Absolution] Enhancement: Increase DMG Multiplier by 255%.
+       - [Confession] Enhancement: Apply 8 of [Spectro Frazzle] to targets hit.
+   `LEADING_BRACKET` reads that, and binds ONLY on an EXACT match against a state
+   the resonator declares — brackets are also the kit's markup for SKILL names,
+   so a bracketed skill can never light a state that does not exist.
+2. A state-gated skill-node multiplier with NO named skill now scopes to the node
+   it is written in. "Enhancement" has an elided subject and the node supplies
+   it; the state gate is what makes that safe, since a clause meaning some other
+   skill would have to name it, and a named subject binds earlier via
+   bindSkillScopes.
+
+Both her +255% now carry `inState: absolution` and scope to their own key
+(`liberation`, `outro_attentive_heart`). Dropped set 9 → **7**.
+Nothing else in the roster changed shape: 55 → 57 effects kept.
+
+**[NOT DONE — and why, per clause]**
+
+- **Denia, Dark Core +150%/core.** Cap and spender are both stated ("Denia can
+  hold up to 3 [Dark Cores]", "[Banish - Breakdown Form Stage 2] consumes all
+  [Dark Cores]"), but **no kit sentence states how a Dark Core is GAINED**.
+  `RESOURCE_DEFS.gains` is `{skillKey: n}` and cannot be filled by guessing.
+  BLOCKED on finding the grant (likely the ability blueprints, as with status
+  appliers).
+- **Camellya, Crimson Bud +5%/bud (cap 50%).** Buds are gained by CONSUMING 10
+  Crimson Pistils (cap 100) — a resource fed by another resource. The flat
+  `gains: {skillKey: n}` shape has no way to express that. BLOCKED on a model
+  change, not a curated row.
+- **Danjin +20%.** Not a multiplierUp at all: the game files it as buff
+  `1602201011` `DamageChange` (attr 15), the ADDITIVE dmgBonus bucket. Wants a
+  buff-facts rebucket of a skill-node effect — a path `applyBuffFacts` does not
+  currently walk.
+- **Mornye.** Parses as +0% because "0.25% per 1% Energy Regen over 100%, up to
+  40%" states no fixed number. The game ships DISCRETE tiers instead
+  (`1209400003-008`, per element), so it wants a tier table keyed on an ER
+  breakpoint — which the maintainer has flagged as pending work in its own right.
+- **Lupa +50% "to [marked] targets".** Maintainer ruling is that a mark is always
+  assumed satisfied, which makes this a GLOBAL multiplier on her whole kit. That
+  is exactly the shape `tests/multiplier-scope.test.mjs` guard 1 exists to catch,
+  and unlike every other clause here it has NO attribute row in `db_buff` to
+  confirm the bucket. Deliberately left for an explicit decision rather than
+  shipped on inference.
+
+**[The dropped-clause contract]** `tests/skill-node-effects.test.mjs` now pins the
+set per resonator WITH its reason, re-derived from source (not read from the
+shipped dataset, where they are already gone) so a NEW one fails the build. The
+probe replicates the pipeline including the state-scope step, so it cannot drift
+into a second, disagreeing model.
+
+**[Measured]** Chisa 375,856 (1.581x), Denia 1,252,741 (1.043x), Aemeath
+3,514,753 (1.318x), TEAM **5,143,350 (1.270x)** — unchanged by this build, as
+expected: none of the seven touches the benchmark team's damage. Phoebe's fix is
+worth nothing here and everything on a Phoebe team.
+
+**[Verification Method]** `npm test` **70/70**, `npm run sweep` 0 failed,
+`npm run lint` 0 errors, `meta-schema` 8811/0, `multiplier-scope` 19/0.
+NOTE: `data/wuwa-data.json` must NOT be reverted after a run any more — it now
+carries `skillNodeEffects`, so the old "revert if only generatedAt changed" habit
+destroys the build. Caught and corrected during this session.
+
+**[Residual Risks]**
+
+- Five clauses remain silent, each counted and reasoned above.
+- The state-scope rule assumes an elided subject means the node. Safe while
+  gated on a state; it is deliberately NOT applied to ungated clauses, which is
+  what keeps Aemeath's two (already paid by the affliction lane) dropped.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-10 (investigation) — The ability blueprints: where the resource grants actually live
+
+Maintainer asked for a thorough blueprint search to unblock the five remaining
+dropped clauses. Result: **the grant IS in the export and IS reachable, but not
+from anything we currently parse.** One bounded piece of tooling stands between
+here and it. Nothing was guessed at or shipped on inference.
+
+**[Finding 1 — the blueprints exist, under INTERNAL codenames]**
+
+`Content/Aki/Character/Role/<Body>/<Codename>/Abilities/GA/*.uasset`. Codename is
+NOT the English name; map it from `data/bindata/roleinfo.json` `RoleBody` plus the
+character's pinyin:
+
+    Denia    1211 → FemaleMS/Daniya   (6 GA assets, 9 DataTables)
+    Camellya 1603 → FemaleM/Chun      (9 DataTables)
+    Lupa     1207 → FemaleM/Lupa      (6 GA assets, 10 DataTables)
+
+**[Finding 2 — the GA blueprints are a DEAD END for this]**
+
+They are compiled Blueprint K2 bytecode. `tools/extract/ue_asset.py` reads their
+name tables fine (`AddBuffFromGA`, `AbilityTask_PlayMontageAndWait`, …) but no
+buff ids: the graph is bytecode, not tagged properties. A raw int32 literal scan
+over every `.uexp` in Lupa's GA folder for her own buff-id range returned exactly
+one value (1207959552) and it is coincidental bytes, not a buff.
+
+**[Finding 3 — db_PassiveSkill IS a real cast→buff link table, and it does NOT
+have these]**
+
+`db_PassiveSkill` (2083 rows) carries `TriggerType` + `SkillAction: AddBuff` +
+`SkillActionParams: [buffId, …]`. It genuinely works — 20 rows grant the
+Fusion Burst system buff `10021000`, and Denia's own `1211703011-016`
+(`DamageTrigger → AddBuff 10021000`) are among them. But a roster-wide search for
+the Dark Core buffs (`1211300001/2/11/12`, `1211700105`) and the Crimson Bud
+buffs returned **ZERO rows, at any id prefix**. So these particular grants are
+simply not in that table.
+
+**[Finding 4 — THE ANSWER: they are in the per-character `DT_SkillInfo` DataTable]**
+
+A byte scan over every `DT_*.uexp` under each character's folder finds the Dark
+Core buff ids as real int32 literals:
+
+    Daniya/Data/DT_SkillInfo.uexp               → 1211300011
+    Daniya/…/DT_SkillInfo_Child_photos.uexp     → 1211300011
+    Daniya/…/DT_SkillInfo_Rouge.uexp            → 1211300012
+
+`DT_SkillInfo` is a DataTable of `SSkillInfo` rows whose name table references
+each `GA_*` ability and each `AM_*` montage by path — i.e. it is exactly the
+skill → ability → buff join we need, and it is a DataTable rather than bytecode,
+so it is parseable in principle.
+
+**[What blocks it — bounded, not open-ended]**
+
+`ue_asset.py` `read_export` returns 40 bytes for this asset: it reads an export's
+own TAGGED properties, and a DataTable's ROWS live in the tail after them
+(row-name FName + struct per row, terminated by a null name). Reading it needs a
+DataTable row loop on top of the existing `TaggedReader.read_struct` — a
+contained addition to `tools/extract/`, not a new discipline. That is the single
+prerequisite for Denia's Dark Core gains, and very likely Camellya's Crimson
+Pistil → Bud chain too.
+
+**[Status of the five, updated]**
+
+| clause | blocked on |
+| --- | --- |
+| Denia Dark Core +150%/core | the DataTable row reader above |
+| Camellya Crimson Bud +5%/bud | same, PLUS a nested-resource shape (Buds are bought with 10 Pistils; `gains: {skillKey: n}` cannot express a resource fed by a resource) |
+| Danjin +20% | NOT a blueprint problem: the game files it as `DamageChange` (attr 15, buff `1602201011`), so it needs a buff-facts rebucket on the skill-node path |
+| Mornye | NOT a blueprint problem: game ships DISCRETE tiers (`1209400003-008`); wants the pending ER-breakpoint table |
+| Lupa +50% | NOT a blueprint problem: needs a maintainer ruling on the bucket. No attribute row exists in `db_buff` for it, so nothing in the data settles global-multiplierUp vs dmgBonus |
+
+So three of the five were never blocked on blueprints at all, and the two that
+were now have a named, bounded prerequisite instead of an unknown.
+
+**[Verification Method]** Every claim above is a direct query recorded in this
+entry: folder listings, `ue_asset.Asset` name-table reads, an int32 literal scan
+over each character's `.uexp` set, and a roster-wide `db_PassiveSkill` scan with
+a positive control (20 fusion_burst grants) to prove the search would have found
+a hit had one existed. No repo file changed; `npm test` 70/70 unchanged.
+
+**[Updated Docs]** `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-12 — Gauge income is readable after all: the cast lane, extracted
+
+**[Files Changed]** `tools/extract/extract_gauge_income.py` (new),
+`data/gauge-income.json` (new, generated), `tests/gauge-income.test.mjs` (new),
+`tests/skill-node-effects.test.mjs` (dropped-clause reasons for Denia and
+Camellya rewritten), `CLAUDE.md` (one invariant superseded, one added).
+
+**[Correction to the previous entry]** The stated blocker was wrong. The
+DataTable row reader **already exists** — `ue_tagged.parse_datatable`, with row-map
+probing, exact-landing validation and name-map skew repair, used by
+`extract_timings.py` and `scan_bullet_timings.py` since July. The previous
+entry reached for `ue_asset.Asset.read_export(0)`, which by design reads only an
+export's tagged properties and therefore returned 40 bytes. Nothing needed
+building at that layer; what was missing was the extractor on top of it.
+
+**[Logic Altered]** None in `src/`. This turn is extraction + data + docs.
+
+`extract_gauge_income.py` joins three of the game's own tables and parses no
+prose:
+
+    DT_SkillInfo row  →  SkillBuff / SkillStartBuff / SkillEndBuff
+                      →  db_buff.GameAttributeID ∈ Proto_(Special)Energy*
+                      →  ModifierMagnitude × CalculationPolicy
+
+Resonator identity comes from the row id's own 4-digit prefix, never a folder
+name (the `extract_timings.py` rule). 66 of 73 combat tables parse; the 7
+failures are 5 `TestModel` placeholders and 2 story-mode variants.
+
+Magnitude semantics are **read from the client**, not guessed —
+`ActiveBuff.ModifyStateAttribute` switches on `CalculationPolicy[0]`:
+**0** flat add · **1** scale base (`-10000` ⇒ zeroed) · **2/4/9** fraction of the
+attribute named in `policy[1]` · **3** override (`0` ⇒ zeroed) · **5/6**
+per-duration. `classify()` normalises only those shapes and answers `unknown`
+(1 of 386) rather than guess; raw policy+magnitude always travel alongside.
+
+**[What this retires]** `rotation-rules.js` carried: *"The game states a gauge's
+cap in baseproperty.json but grants these named stack gauges through its Buff
+table, which is not among the four BinData dumps … Income becomes extractable if
+that table is ever dumped."* It is dumped. 50 resonators carry cast-lane gauge
+moves, against the 2 hand-curated `RESOURCE_DEFS` entries that exist today.
+
+The boundary is real and is now stated precisely: this reads the **cast** lane.
+Income earned **on a hit** lives in `db_PassiveSkill` (`DamageTrigger`, own CD)
+behind ExtraEffect chains — extracted into a separate `trigger` section but
+deliberately NOT wired, because `rotation-resources.js` is per-cast by
+construction. That lane is why Changli's Enflamement and Camellya's Crimson Bud
+show nothing under `cast`, and the test asserts Changli's emptiness so a future
+widening cannot quietly invent income for her.
+
+**[The Denia finding — and why her clause stays dropped]**
+
+Her three gauges reproduce her kit to the digit, with no text parsing:
+
+| kit text | extracted |
+| --- | --- |
+| "hold up to 3 [Dark Cores]" · "obtains 1 upon casting Intro Skill" | ch2 cap 3; rows `1211061`/`1211062` (both QTE) → **+1** |
+| "up to 100 [Void Particle]" · "…or Resonance Skill [Phantom Bubble] grants 25" | ch1 cap 100; `1211041`/`1211061`/`1211062` → **+25** |
+| "up to 100 [Conformal Charge]" · "[Banish - Breakdown Form Stage 2] grants 40" | ch3 cap 100; `1211048` → **+40** |
+
+So the old reason for dropping her `+150% per Dark Core` clause — *"NO kit
+sentence states how a Dark Core is GAINED"* — was **false twice over**: the kit
+says it, and so does the game.
+
+The clause still must not ship, for a much better reason: **the game already
+ships this ladder as damage rows, so a `multiplierUp` on top would double-count.**
+Her display row for [Banish - Breakdown Form Stage 2] is `56.34%`, and
+`damageTable['1211']` holds
+
+    12111052110  1.4085   = 2.5 × 0.5634
+    12111052120  2.2536   = 4.0 ×
+    12111052130  3.0987   = 5.5 ×
+    12111052140  3.9438   = 7.0 ×
+    12111052150  4.7889   = 8.5 ×
+
+— exactly `base × (1 + 1.5N)` for N = 1..5 Dark Cores, five variants because S3
+states *"Denia now holds up to 5 Dark Cores."* Every value is an exact multiple;
+the `…2`-suffixed siblings are a parallel ladder at 1.4× throughout.
+
+A second, larger gap surfaced with it: the key's own `damageId` `12110002005` is
+**absent** from `damageTable`, so `resolveSkill` returns null and **Banish Stage
+2 deals ZERO damage today** — none of the five variant rows is mapped to any
+skill key. The clause therefore looked merely unscopable when the real defect is
+unmapped rows. The fix is to select the variant by gauge level, which is now
+fully specified by the data but is a new engine capability (a damage row chosen
+at sim time) and is NOT attempted here.
+
+**[Status of the five, updated again]**
+
+| clause | state |
+| --- | --- |
+| Denia Dark Core +150%/core | gauge now fully readable (cap + income + the S3 cap raise). Remaining work is variant selection in `resolveSkill`, not an effect — shipping the clause as a buff would double-count |
+| Camellya Crimson Bud +5%/bud | still blocked, now with evidence: no cast-lane income at all, and her one `db_PassiveSkill` gauge row (`1603906015`) has magnitude 0. Unreadable from either extractable lane, on top of the nested-resource shape |
+| Danjin +20% | unchanged — buff-facts rebucket to `dmgBonus` (attr 15, buff `1602201011`) |
+| Mornye | unchanged, with a new pointer: `1209400000` is an `AttributeChangedTrigger` described as *"Resonance Efficiency converted to attribute #66"* (SpecialEnergy3) — the data behind her ER breakpoint |
+| Lupa +50% | unchanged — needs a maintainer ruling on the bucket |
+
+**[Verification Method]** `npm test` **71/71** (new `gauge-income.test.mjs`
+included); `npm run sweep` 67 imported / 0 failed; `npm run lint` **0 errors**.
+LOCK A and LOCK B both re-run and compared field-by-field against a pre-run
+snapshot: `generatedAt` is the ONLY differing top-level key in either file, so
+the change is dataset- and meta-neutral as intended. The extraction itself is
+validated by three mutually independent sources agreeing — the cap channel comes
+from `baseproperty.json`, the amounts from `db_buff`, and the English from the
+kit — plus the Sigrika control, whose curated `cap: 100` predates all of this and
+matches both `SpecialEnergy2Max` and the −100 her spender removes.
+
+**[Residual Risks]** The `trigger` lane's readings are COARSE and must not be
+wired as-is: Denia's 12s Entropy Shift tick reads as "+100% of max" because the
+real grant sits behind ExtraEffect gates two buffs deeper. It is labelled and
+unused, and `rotation-resources.js` documents the same boundary. Separately,
+Banish Stage 2 dealing zero is a pre-existing defect this entry documents but
+does not fix; it means Denia is understated by however much that cast is worth.
+
+**[Updated Docs]** `CLAUDE.md` — the "Gauge income … stays curated" clause is
+struck and replaced with "Gauge income is readable ON A CAST, and only there"
+(including the CalculationPolicy decode and the flat-`add`-of-`-cap` spend
+shape); a new invariant "A per-resource DMG-Multiplier clause may ALREADY be in
+the damage table" records the Denia ladder. `docs/HISTORY.md` (this entry).
+
+---
+
+## 2026-08-12 — Denia's Dark Core: a multiplier that scopes itself
+
+**[Files Changed]** `src/core/rotation-resources.js` (consumption series +
+carried start levels), `src/core/buffs.js` (`scaleEffect` consumption branch),
+`src/core/sim.js` (`carryInResources` in, `resourceEndLevels` out),
+`src/core/team-sim.js` (`sim.memberResources`, threaded Intro → rotation → next
+pass), `src/core/rotation-rules.js` (`RESOURCE_DEFS[1211]`, header note),
+`tools/preprocess/effects.mjs` (`PER_RESOURCE_CONSUMED_RE`),
+`tools/preprocess.mjs` (`thisCast` window + drop-guard exemption),
+`tests/rotation-resources.test.mjs`, `tests/skill-node-effects.test.mjs`,
+`CLAUDE.md`.
+
+**[Correction to the previous entry]** It claimed Banish Stage 2 "deals ZERO"
+because `damageId 12110002005` was "absent from `damageTable`". Wrong — that came
+from a probe that indexed `dataset.damageTable[id]` (an object keyed by
+RESONATOR id) instead of searching `damageTable['1211']`. All 27 of her keys
+resolve. The row is present at **0.5634**, which is exactly her 56.34% display
+row, and the cast was dealing damage all along — just unscaled by Dark Cores.
+The five variant rows are therefore not a missing-damage bug but an ANSWER KEY.
+
+**[Logic Altered]**
+
+The clause is *"For each [Dark Core] consumed, the DMG Multiplier of the attack
+is increased by 150%."* It names no skill, so it cannot be scoped by binding a
+name — and it does not need to be. **Read the count as what the step CONSUMES,
+and the effect scopes itself**: it is 0 on every cast that spends nothing.
+
+    computeResourceConsumption(rotation, defs)   — the spend series, from the
+                                                   same walk as the levels
+    stackTrigger { type:'resource', consumed:true }
+    window       'thisCast'
+
+`persist` was tried first and is wrong in both directions: its castMatch check
+reads strictly EARLIER steps, so the effect was dark on the very cast it is for
+(the unit test caught this) and would then have been live on every step after.
+`thisCast` had been curated-only; the parser now emits it for this one shape,
+which is what let the whole thing work with **no override** — the standing
+requirement for this lane.
+
+Safety rests on two properties, both now invariants: `resourceConsumedAt`
+returns **0, never null**, so an uncurated gauge understates rather than paying
+on every cast; and only the CONSUMED wording is matched, because a clause
+scaling on the gauge merely HELD would still need a real scope.
+
+`RESOURCE_DEFS[1211]` is filled from `data/gauge-income.json` — cap 3
+(SpecialEnergy2Max) and +1 per Intro cast are the game's own numbers; only the
+spender is still the kit's, since no `DT_SkillInfo` row spends SpecialEnergy2.
+
+**[The cross-segment gap, found by measuring]**
+
+With all of the above the solo sim was exact and the TEAM sim moved by
+**nothing at all** — byte-identical totals with the gauge disabled. Cause: a
+turn is several `simulateRotation` calls (the auto-injected Intro is its own
+segment), and each computed its gauge from its own rotation array. Denia earns
+the core on Intro and spends it in the next segment, so the spending cast read
+an empty gauge. Fixed the way the trigger ledger already was: `carryInResources`
+in, `resourceEndLevels` out, threaded through `sim.memberResources` — Intro →
+rotation → next pass. (The sibling gap remains: `runIntroSegment` still does not
+write `sim.memberFires`.)
+
+**[Verification Method]** `npm test` **71/71**, `npm run sweep` 67/0 failed,
+`npm run lint` **0 errors**.
+
+The model is checked against the GAME rather than against arithmetic this repo
+repeats: `tests/rotation-resources.test.mjs` asserts the five variant rows are
+`base × (1 + 1.5N)` for N = 1..5 **at every one of the 20 levels**, that the
+reference rotation consumes on exactly one step, that **no other step is
+multiplied**, and that the sim's one-core multiplier reproduces row
+`12111052110` exactly. Solo A/B on her reference rotation: Banish Stage 2
+**463 → 1,157 = exactly 2.5×**, the game's own one-core ratio.
+
+Benchmark (`tools/benchmark-gap.mjs`, Run A): Denia **1,127,467 → 1,183,614**,
+gap 1.159x → **1.104x**; team 1.411x → 1.395x. Chisa and Aemeath are unchanged
+to the digit, which is the evidence of no collateral effect. With
+`--real-echoes`: Denia **1,368,904 (0.954x)**, team **1.332x**.
+
+**[Residual Risks]** Denia now slightly OVERSHOOTS her reference under
+`--real-echoes` (0.954x); the multiplier itself is pinned to the game's own row,
+so if that is real it lies in another of her lanes, not here. The chain-gated cap
+raise is NOT modelled — S3 states "Denia now holds up to 5 Dark Cores" (hence
+five variant rows) but a cap is per-resonator, not per-chain, so an S3+ build is
+held to 3; no reference rotation casts enough Intros to reach even 3, so nothing
+today is affected. Off-field and outro segments deliberately do not carry the
+gauge. Also unreconciled: pre-compaction notes record a 5,143,350 / 1.270x team
+baseline, while today's is 4,629,015 before this change. An A/B with the gauge
+disabled reproduces 4,629,015 exactly, so the shift PREDATES this work; the
+likely cause is Aemeath's Crit-DMG double-count correction reaching the
+regenerated dataset (she moves 3,514,753 → 3,162,652, and Chisa still matches at
+373,548 vs 375,856 under the same flags). Not chased further — it is a separate
+thread and the direction is a fix, not a regression.
+
+**[Updated Docs]** `CLAUDE.md` — the previous entry's damage-table invariant is
+replaced with a corrected one (the row is present; the variants are the answer
+key), plus two new invariants: "A 'for each [X] CONSUMED' multiplier scopes
+ITSELF" and "A gauge belongs to the CHARACTER, not to a segment".
+`docs/HISTORY.md` (this entry). `tests/skill-node-effects.test.mjs` — Denia
+removed from the dropped-clause contract, which is now **6**, with her reason
+rewritten as a wired-not-dropped note.
+
+---
+
+## 2026-08-12 — Doc hygiene: the game's own vocabulary, and a roster index
+
+**[Files Changed]** `docs/GLOSSARY.md` (new "Game-data vocabulary" section +
+9 new project terms), `docs/RESONATOR-ROSTER.md` (new), `README.md` (docs index,
+stale test counts), `tools/extract-forte.mjs` (stale comment).
+
+**[Logic Altered]** None — documentation only. No `src/` file changed, so
+`engineHash` is untouched and no regeneration was needed.
+
+**[What was added]**
+
+`docs/GLOSSARY.md` gained a **Game-data vocabulary** table: the names the
+shipped client uses, which are not guessable from the English UI.
+**Phantom = Echo** (`db_phantom.db`, `db_PhantomBattle.db`,
+`ExhibitPhantom.js`; there is no `db_echo` anywhere in the ConfigDB) and
+**QTE = Intro Skill** (`DT_SkillInfo` rows are named `…QTE入场`) are the two
+that cost the most time this session. Alongside them: `SpecialEnergy{N}`,
+`GameAttributeID`, `CalculationPolicy`, `ExtraEffect*`, `DT_SkillInfo`,
+`db_PassiveSkill`, ConfigDB, name-map skew, the bullet chain, and what the
+`_GD` / `_FP` / `_Rogue` folder suffixes mean.
+
+Nine project terms were added to the existing tables: the **three effect
+sources** (`S` / `IH` / `SK`) as one entry, `thisCast`, **consumption-scoped
+effect**, `stacksUnknown`, **resource/gauge**, **cast lane / trigger lane**,
+`gameTime`/`realTime`, **marginal (per-pass)**, and **cross-segment carry**.
+
+`docs/RESONATOR-ROSTER.md` is a new roster INDEX: all 56 shipped resonators with
+id, English name, internal codename, curation status and the signals behind it.
+
+**[How the codename column was derived]** Not by reading folder names — by
+parsing every Role `DT_SkillInfo` and keying each table by the resonator id
+owning most of its rows, the same identity rule `extract_timings.py` documents.
+60 ids mapped; every one of the 56 dataset resonators resolved.
+
+**[Findings that fell out of building it]**
+
+- **Rover: Electro (1309) has no reference rotation** — the only shipped
+  resonator without one. Every harness and the offline optimizer fall back.
+- Four ids parse with no dataset entry (`1310`, `1408`, `1502`, `1605`): the
+  opposite-gender Rover builds. The id the dataset keeps is NOT consistently one
+  gender — Electro/Aero/Spectro sit on the male id, Havoc on the female. That is
+  an ID assignment, not an asset choice; timing extraction stays pinned to the
+  female assets (`MALE_ROVER` in `map-timings.mjs`).
+- Curation tally: Curated 15 · Curated·gaps 12 · Light 16 · Extracted 12 ·
+  Unrotated 1. Phoebe is the most-overridden resonator (6).
+
+**[Stale claims corrected]** `tools/extract-forte.mjs` said income for a
+non-Forte gauge "stays curated until that table is dumped too" — the table is
+dumped. Rewritten to say what is still true: Changli specifically stays curated
+because her Enflamement is earned ON HIT, which is outside the per-cast model.
+`README.md` claimed 55 and 68 test files in two places; both are 71.
+
+**[Verification Method]** `npm test` **71/71**, `npm run sweep` 67/0 failed.
+The roster table's derived columns were generated, not typed. The Phantom=Echo
+claim is verified by absence as well as presence (no `db_echo` exists).
+
+**[Residual Risks]** `RESONATOR-ROSTER.md` is generated-by-hand-invocation, not
+by a pipeline step, so it can drift as curation changes — the doc says how to
+regenerate each column. The curation status is a coverage signal, NOT a quality
+score: "Extracted" often just means the kit is simple enough that the automatic
+pipeline handles it.
+
+**[Updated Docs]** This entry; `docs/GLOSSARY.md`; `docs/RESONATOR-ROSTER.md`
+(new, cross-referenced from `README.md` and from the GLOSSARY codename row, and
+pointing at `COMBO-ENTRY-CURATION.md` / `OPEN-ITEMS.md` for what it does not own).

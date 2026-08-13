@@ -72,13 +72,14 @@ import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/b
 import { resolveTuneStrain } from './tune-break.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
-import { computeOffFieldContribution } from './off-field.js';
+import { computeOffFieldContribution, offFieldActionIsSimulable } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
 import { stateDefsForResonator } from './rotation-rules.js';
 import { statusesInflictedBy, applicationsFromSteps, statusApplyRules, statusBurstRules, buildEnemyStatusTimeline, distinctApplicators, computeNegativeStatusDamage, capRaiseWindowsFromSteps, capRaiseGateWindows, capRaiseOutroGates, capRaiseWindowsFromInflicts,
     resolveStatusOverTimeDamage, statusDamageGaps, resolveAfflictionTriggers,
-    computeAfflictionDamage, NEGATIVE_STATUS_DEFS } from './enemy-status.js';
+    computeAfflictionDamage, NEGATIVE_STATUS_DEFS,
+    defIgnoreOutroGates, defIgnoreForMemberAt } from './enemy-status.js';
 import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWideBuff } from './buffs.js';
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
@@ -167,6 +168,11 @@ export function simulateTeamRotation({
     const statusApplications = [];   // per-cast applications, team-time ordered
     const statusCapRaises = [];      // kit windows that LIFT a status's base cap
     const raiseGates = [];           // enclosing windows an inflict-triggered raise needs open
+    // Thread-of-Bane-style DEF IGNORE (enemy-status.js DEF_IGNORE_GRANTS): the
+    // OUTRO-opened gates inside which a status-inflicting member holds the buff.
+    // Only the gates are accumulated — see defIgnoreForMemberAt for why the buff
+    // is resolved from the gate rather than from realised applications.
+    const defIgnoreGates = [];
     const externalTeamBuffs = (memberIndex) =>
         mergeTeamBundles(memberTeamWide.filter((_, j) => j !== memberIndex));
 
@@ -195,6 +201,7 @@ export function simulateTeamRotation({
     const sim = {
         dataset, target, passCount, timingMode, enforceConcerto, deriveOpeners,
         occupied, memberStats, memberInflicts, memberWindowSpecs, statusApplications, statusCapRaises, raiseGates,
+        defIgnoreGates,
         externalTeamBuffs, timeline,
         memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
         // Derived-opener support (2026-07-12): a live per-member Resonance
@@ -209,6 +216,12 @@ export function simulateTeamRotation({
         // segment boundary and the remainder is lost. Team-WIDE buffs never had
         // this problem: they live on `timeline` with their true end.
         memberFires: occupied.map(() => null),
+        // Curated gauge levels each member is holding, carried between the
+        // segments of one turn and across their passes. A turn is simulated as
+        // several rotations — the auto-injected Intro is its own segment — but a
+        // gauge belongs to the character, not to a segment: Denia earns a Dark
+        // Core on Intro and spends it in the segment after.
+        memberResources: occupied.map(() => null),
         segments: [],
         cursor: 0,
         concertoGauge: occupied.map(() => initialConcerto),
@@ -722,7 +735,12 @@ function runIntroSegment(sim, turn) {
     if (!turn.handoffFired) return;
     const { build, memberIndex, accum } = turn;
     const introResult = simulateIntro(build, sim.dataset, sim.target, turn.amplifyContext,
-        timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode);
+        timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode,
+        sim.memberResources[memberIndex]);
+    // Hand the gauge on to the rotation segment of this same turn — the Intro
+    // is a cast like any other and its income has to reach the cast that spends
+    // it. Only on a real intro: a refused one (null) leaves the gauge alone.
+    if (introResult?.resourceEndLevels) sim.memberResources[memberIndex] = introResult.resourceEndLevels;
     const introTime = introResult?.totals.time ?? OUTRO_CAST_TIME;
     // SKILL damage only — see the note on rotDmg below.
     const introDmg  = introResult?.totals.skillDamage ?? 0;
@@ -801,7 +819,8 @@ function runRotationSegment(sim, turn) {
         if (statuses.some(status => sim.memberInflicts[memberIndex].has(status))) set.add(build.resonatorId);
         return set;
     };
-    const ownTier = distinctApplicatorTierContribution(build.resonatorId, build.resonanceMode ?? null, countDistinct);
+    const ownTier = distinctApplicatorTierContribution(
+        build.resonatorId, build.resonanceMode ?? null, countDistinct, build.chain ?? 0);
     const teamBuffs = mergeTeamBundles([sim.externalTeamBuffs(memberIndex), prevIncoming, ownTier]);
 
     // Havoc Bane DEF shred (L4): a teammate's Havoc Bane lowers enemy DEF for
@@ -810,7 +829,23 @@ function runRotationSegment(sim, turn) {
     // a teammate's raise may have lifted above the base (enemy-status.js
     // STATUS_CAP_RAISES) — so clamping again to the BASE here would undo it.
     const havocStacks = enemyTl.statusStacksAt('havoc_bane', sim.cursor);
-    const memberTarget = havocStacks > 0 ? { ...sim.target, defShred: havocStacks * HAVOC_BANE_PER_STACK } : sim.target;
+    // Thread-of-Bane DEF IGNORE (L4b): a SEPARATE multiplicative factor from
+    // defShred — the formula is (1−defShred)(1−defIgnore) — earned by THIS
+    // member's own inflicts inside the granting kit's Outro gate. Sampled at
+    // segment start, the same point-sample convention the Havoc Bane shred above
+    // already uses; a window opening mid-segment is therefore credited from the
+    // NEXT segment on, never retroactively.
+    const memberDefIgnore = defIgnoreForMemberAt(
+        sim.defIgnoreGates,
+        sim.occupied.map(slot => ({ resonatorId: slot.build.resonatorId, chain: slot.build.chain ?? 0 })),
+        sim.memberInflicts[memberIndex],
+        sim.cursor,
+        build.resonatorId);
+    const memberTarget = (havocStacks > 0 || memberDefIgnore > 0)
+        ? { ...sim.target,
+            ...(havocStacks > 0 ? { defShred: havocStacks * HAVOC_BANE_PER_STACK } : {}),
+            ...(memberDefIgnore > 0 ? { defIgnore: (sim.target.defIgnore ?? 0) + memberDefIgnore } : {}) }
+        : sim.target;
 
     // Derived opener (2026-07-12): pad or gate this pass's consuming
     // Liberations against the member's LIVE gauge — see opener.js.
@@ -840,6 +875,7 @@ function runRotationSegment(sim, turn) {
         externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor),
         timingMode: sim.timingMode,
         carryInFires: shiftFiresToLocal(sim.memberFires[turn.memberIndex], sim.cursor),
+        carryInResources: sim.memberResources[turn.memberIndex],
         // The Tune Strain chain is a TEAM fact — the stack cap is the sum of the
         // responders present and the Boost points are pooled — so it is resolved
         // once for the roster and handed to each member, never re-derived from
@@ -848,6 +884,7 @@ function runRotationSegment(sim, turn) {
     });
     // Hand this segment's ending ledger to this member's NEXT pass.
     sim.memberFires[turn.memberIndex] = shiftFiresToTeam(simResult.fires, sim.cursor);
+    sim.memberResources[turn.memberIndex] = simResult.resourceEndLevels;
     const rotTime = simResult.totals.time;
     // SKILL damage only. simulateRotation resolves negative-status damage against
     // an enemy of its OWN (2026-08-01, so the build page stops omitting it), but
@@ -1029,11 +1066,22 @@ function applyOffFieldContributions(sim, turn, { rotTime, memberTarget }) {
             firedTriggers: sim.firedTriggers[offMemberIndex],
         });
 
-        if (contrib.totalDamage > 0) {
-            sim.memberAcc[offMemberIndex].offFieldDmg += contrib.totalDamage;
-            sim.memberAcc[offMemberIndex].damage      += contrib.totalDamage;
+        // Re-price every action the pipeline CAN resolve (one with a real
+        // skillKey) through the ordinary damage lane, so it takes the owner's
+        // buffs and can drive triggers/conditions like any other cast. The bare
+        // formula figure is replaced, never added to.
+        const { damage: simulatedDamage, steps: offFieldSteps } =
+            simulateOffFieldActions(sim, offMemberIndex, contrib, memberTarget, rotTime);
+        const bareDamage = contrib.actions
+            .filter(entry => !offFieldSteps.some(step => step.offFieldAction === entry.action))
+            .reduce((sum, entry) => sum + entry.damage, 0);
+        const totalDamage = bareDamage + simulatedDamage;
 
-            sim.segments.push({
+        if (totalDamage > 0) {
+            sim.memberAcc[offMemberIndex].offFieldDmg += totalDamage;
+            sim.memberAcc[offMemberIndex].damage      += totalDamage;
+
+            const segment = {
                 slotIndex:     offSlot.slotIndex,
                 resonatorId:   offSlot.build.resonatorId,
                 resonatorName: offReso.name,
@@ -1042,13 +1090,87 @@ function applyOffFieldContributions(sim, turn, { rotTime, memberTarget }) {
                 pass:          turn.pass,
                 startTime:     sim.cursor - rotTime,
                 endTime:       sim.cursor,
-                damage:        contrib.totalDamage,
-                steps:         [],
+                damage:        totalDamage,
+                steps:         offFieldSteps,
                 offFieldActions: contrib.actions,
                 simResult:     null,
-            });
+            };
+            sim.segments.push(segment);
+            // Real steps mean real status applications: an Erosion Field tick is
+            // a damaging instance from its owner, so it builds Fusion Burst the
+            // same way her on-field casts do — which is most of why the lane
+            // matters (more stacks → more detonations), not the tick damage.
+            if (offFieldSteps.length) accrueStatusDamage(sim, offFieldSteps, offMemberIndex, memberTarget);
         }
     }
+}
+
+/**
+ * Sub-stage: re-price the off-field actions the pipeline can actually resolve.
+ *
+ * An off-field hit is ORDINARY damage that happens to land while its owner is
+ * benched. The bare `computeOffFieldDamage` path prices it with a naked
+ * computeDamage call, which skips everything that makes damage correct here —
+ * the owner's conditional effects and buff windows, the team-wide bundles, the
+ * DMG-type bucket, and (the part that compounds) status application. So any
+ * action naming a real `skillKey` is simulated instead, with exactly the context
+ * its owner's own rotation segment would get.
+ *
+ * Two things deliberately do NOT follow:
+ *   - TIME. Off-field damage occupies no slice of the shared timeline, so the
+ *     synthesized steps are spread across the window that just elapsed and are
+ *     never allowed to advance the cursor.
+ *   - ENERGY / CONCERTO. creditTraceToLedger is not called: the gauge model
+ *     credits an off-field member a 50% share of the ACTIVE member's generation
+ *     (team-energy.js OFF_FIELD_SHARE) and crediting these casts as well would
+ *     double-count the same benched member.
+ *
+ * @returns {{ damage: number, steps: Array }}
+ */
+function simulateOffFieldActions(sim, offMemberIndex, contrib, memberTarget, rotTime) {
+    const offSlot = sim.occupied[offMemberIndex];
+    const build = offSlot.build;
+    const skillMap = effectiveSkillMap(sim.dataset, build.resonatorId) ?? {};
+    const windowStart = sim.cursor - rotTime;
+
+    let damage = 0;
+    const steps = [];
+    for (const entry of contrib.actions) {
+        if (!offFieldActionIsSimulable(entry.action, skillMap)) continue;
+        const hits = Math.max(0, Math.floor(entry.hits ?? 0));
+        if (hits === 0) continue;
+
+        const rotation = Array.from({ length: hits }, () => entry.action.skillKey);
+        const result = simulateRotation({
+            build: { ...build, rotation, rotationMeta: rotation.map(() => ({})) },
+            dataset: sim.dataset,
+            target: memberTarget,
+            enemyStatuses: sim.memberInflicts[offMemberIndex],
+            teamBuffs: sim.externalTeamBuffs(offMemberIndex),
+            externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, windowStart),
+            timingMode: sim.timingMode,
+            carryInFires: shiftFiresToLocal(sim.memberFires[offMemberIndex], windowStart),
+            tuneStrainAmplify: sim.tuneStrain.perMember.get(build.resonatorId)?.amplify ?? 0,
+        });
+        damage += result.totals.skillDamage;
+
+        // Spread the hits evenly across the elapsed window at their real cadence
+        // — the status timeline reads these times, so they have to be ordered
+        // and inside the window, not stacked at one instant.
+        const spacing = hits > 0 ? rotTime / hits : 0;
+        result.steps.forEach((step, index) => {
+            steps.push({
+                ...step,
+                startTime: windowStart + index * spacing,
+                endTime:   windowStart + index * spacing,
+                stepDuration: 0,
+                freezeTime: 0,
+                offField: true,
+                offFieldAction: entry.action,
+            });
+        });
+    }
+    return { damage, steps };
 }
 
 /**
@@ -1115,6 +1237,8 @@ function recordOutroSwap(sim, turn) {
         // Closure) opens its gate here — the swap is the cast, and it is never a
         // step. Pushed before the next member's rotation segment consumes gates.
         sim.raiseGates.push(...capRaiseOutroGates(sim.cursor, build.resonatorId, build.chain ?? 0));
+        // The SAME Outro opens the Thread of Bane gate — one node, two bullets.
+        sim.defIgnoreGates.push(...defIgnoreOutroGates(sim.cursor, build.resonatorId, build.chain ?? 0));
         // Credited to the OUTGOING member, and NOT to accum.time: the cast runs
         // in parallel with the incoming Intro, so it occupies no exclusive slice
         // of the timeline (see this function's own note on the cursor).
@@ -1276,12 +1400,12 @@ function triggerOfSkillType(skillType) {
     return null;
 }
 
-function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa') {
+function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa', carryInResources = null) {
     const introKey = introKeyFor(dataset, build.resonatorId);
     if (!introKey) return null;
     const introBuild = { ...build, rotation: [introKey] };
     try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows, timingMode });
+        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows, timingMode, carryInResources });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }

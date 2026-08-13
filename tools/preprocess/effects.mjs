@@ -89,6 +89,18 @@ export const COND_SITUATIONAL_RE = /when.*(?:HP|health|enemy|target|below|above|
 // Broader: covers "each stack increases", "per stack", "every N stacks" (P10-3).
 export const COND_STACK_RE       = /\beach\s+stack[s]?\b|per\s+stack[s]?\b|for\s+each\s+stack|every\s+\d+\s+stack[s]?/i;
 
+// A value scaled per unit of a named RESOURCE the cast CONSUMES, rather than
+// per "stack": "For each [Dark Core] consumed, the DMG Multiplier of the attack
+// is increased by 150%." The game brackets its named gauges, so the resource is
+// captured rather than guessed.
+//
+// The CONSUMED wording is required, and is what makes such an effect safe to
+// ship without a skill scope: the count is what the step spends, which is zero
+// on every cast that spends nothing (see rotation-resources.js
+// computeResourceConsumption). A clause that scaled on the gauge merely HELD
+// would need a real scope and is deliberately not matched here.
+export const PER_RESOURCE_CONSUMED_RE = /for\s+each\s+\[([^\]]+)\]\s+consumed/i;
+
 // Captures N in "stacking up to N time(s)" or "up to N stacks".
 export const MAX_STACKS_RE       = /(?:stacking\s+)?up\s+to\s+(\d+)\s+(?:time[s]?|stack[s]?)/i;
 
@@ -519,7 +531,8 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         //   defaultAssume   — build-page "assume active" default (unconditional always true)
         // Detect per-stack patterns (P10-3): emit stackable metadata so the UI
         // can show a stepper instead of a checkbox and the resolver can scale.
-        const isPerStack = COND_STACK_RE.test(clause);
+        const perResource = clause.match(PER_RESOURCE_CONSUMED_RE);
+        const isPerStack = COND_STACK_RE.test(clause) || perResource != null;
         const maxStacksMatch = isPerStack ? clause.match(MAX_STACKS_RE) : null;
 
         // Unified trigger × window (P11 §A) — additive alongside the legacy fields.
@@ -531,10 +544,15 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // unknown — the resolver then reports the count as underivable rather
         // than silently picking one.
         const ownStackTrigger = trigger.type === 'castMatch' || trigger.type === 'stateEnter' ? trigger : null;
+        // A named resource wins over the cast trigger: the count IS the gauge,
+        // and the clause states which one. Nothing else can answer it — the
+        // effect's own castMatch trigger would count casts, not cores.
         const stackTrigger = !isPerStack ? undefined
-            : ownStackTrigger ?? (descGain
-                ? { type: 'castMatch', skillType: descGain.skillType, phrase: null }
-                : { type: 'unknown' });
+            : perResource
+                ? { type: 'resource', resource: perResource[1].trim(), consumed: true }
+                : ownStackTrigger ?? (descGain
+                    ? { type: 'castMatch', skillType: descGain.skillType, phrase: null }
+                    : { type: 'unknown' });
         // How long ONE stack lives, so the sim can decay a stack count instead
         // of treating every past cast as still standing. Stated on whichever
         // clause carries it — the granting one ("lasting for 7s") or the value

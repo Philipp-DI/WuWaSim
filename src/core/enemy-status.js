@@ -189,6 +189,140 @@ export function capRaisesForResonator(resonatorId, chainLevel = 0) {
 }
 
 /**
+ * Team-wide DEF-IGNORE grants carried on a negative-status inflict.
+ *
+ * The one shipped instance is Chisa's Outro, and the game states BOTH halves of
+ * it in one node — "Unraveling - Law Zero", params [20, 3, 15, 15]:
+ *
+ *   Grant [Resonant Thread of Closure] to all nearby Resonators in the team for
+ *   20s. While in Resonant Thread of Closure:
+ *   - When an attack hits, increase the max stacks of Negative Status ... by 3
+ *     for 15s. Unstackable.                          <- STATUS_CAP_RAISES[1508]
+ *   - Inflicting Negative Status or dealing Negative Status DMG grants
+ *     [Thread of Bane] for 15s.                      <- THIS TABLE
+ *
+ * and Thread of Bane itself, off her Forte node: "When dealing damage to targets
+ * affected by [Unseen Snare], ignore 18% of their DEF."
+ *
+ * Only the cap-raise bullet was modelled. The second bullet is a DEF IGNORE that
+ * every teammate who inflicts a status inherits — Denia and Aemeath both inflict
+ * Fusion Burst constantly — so it was missing from the whole team's damage, not
+ * just Chisa's. It is NOT the same bucket as Havoc Bane's `defShred`: the
+ * formula multiplies (1−defShred)(1−defIgnore) separately (see nsDefMult /
+ * formula.js), and the kit says "ignore", so it lands in defIgnore.
+ *
+ * `gate` matches STATUS_CAP_RAISES' shape: `onOutro` means the window opens on
+ * the wielder's swap-out, which is never a step (capRaiseOutroGates' reasoning
+ * applies verbatim — the team sim injects the Outro at the handoff).
+ *
+ * Hardcoded per resonator for the same reason DISTINCT_APPLICATOR_TIERS is: one
+ * known instance, values straight from kit text, no generalizable description
+ * pattern worth auto-detecting.
+ */
+export const DEF_IGNORE_GRANTS = Object.freeze({
+    1508: [{
+        defIgnore: 0.18, chain: 0, seconds: 15,
+        onInflict: ['spectro_frazzle', 'fusion_burst', 'glacio_chafe', 'aero_erosion', 'electro_flare', 'havoc_bane'],
+        gate: { onOutro: true, seconds: 20 },
+        // The WIELDER holds it permanently and needs no gate — verified in the
+        // game's own tables, not inferred. Buff 1508970005 IS Thread of Bane
+        // (ExtraEffectID 1, value 1800 = the kit's "ignore 18% of their DEF"),
+        // and it runs while its holder carries one tag. TWO buffs grant that tag:
+        //   1508970003  DurationPolicy 1, no duration  → PERMANENT  (Chisa's own)
+        //   1508970004  DurationPolicy 2, 15.0s        → the Outro copy
+        // So the Outro EXTENDS a passive she already has; it does not create it.
+        // Modelling both behind the Outro gate silently denied Chisa her own
+        // Forte Circuit passive — and since her gate opens as she LEAVES, she
+        // would never have held it at all.
+        selfPermanent: true,
+        note: 'Thread of Bane (Chisa). Native + permanent for her (buff 1508970003); teammates get 15s (1508970004) inside the Outro\'s 20s Resonant Thread of Closure window by inflicting a Negative Status.',
+    }],
+});
+
+export function defIgnoreGrantsForResonator(resonatorId, chainLevel = 0) {
+    return (DEF_IGNORE_GRANTS[Number(resonatorId)] ?? [])
+        .filter(grant => (grant.chain ?? 0) <= chainLevel);
+}
+
+/**
+ * The gate a DEF-ignore grant's OUTRO opens. Sibling of capRaiseOutroGates, and
+ * separate for the same reason: an Outro is never a step.
+ *
+ * @param {number} outroTime — team time at which the outro is cast
+ * @returns {Array<{resonatorId, start, end}>}
+ */
+export function defIgnoreOutroGates(outroTime, resonatorId, chainLevel = 0) {
+    const out = [];
+    for (const grant of defIgnoreGrantsForResonator(resonatorId, chainLevel)) {
+        if (!grant.gate?.onOutro) continue;
+        out.push({ resonatorId: Number(resonatorId), start: outroTime, end: outroTime + grant.gate.seconds });
+    }
+    return out;
+}
+
+/**
+ * The DEF ignore a member holds while playing a segment that begins at `time`.
+ *
+ * Resolved from the GATE plus the member's own inflict SET, deliberately not
+ * from the realised applications the way capRaiseWindowsFromInflicts is. Two
+ * reasons, and the first is decisive:
+ *
+ *  1. ORDERING. A member's applications are derived from the steps its own
+ *     simulateRotation produces, so they do not exist until after the segment
+ *     has been simulated — but the DEF ignore has to be in `target` BEFORE it
+ *     runs. Arming windows from applications and sampling them at segment start
+ *     therefore fires never: a member can only ever see a window its PREVIOUS
+ *     pass armed, and at ~45s per pass every 15s window has long lapsed. That
+ *     is a silent zero, not a model.
+ *  2. It changes nothing real. The trigger is "Inflicting Negative Status OR
+ *     dealing Negative Status DMG", and a member that inflicts at all does so on
+ *     its first damaging step — a fraction of a second in. The binding
+ *     constraint is the 20s gate, not the inflict.
+ *
+ * So: the buff is held if a granting kit's gate is open at `time` and this
+ * member can inflict at least one of the statuses that grant names.
+ *
+ * The WIELDER is exempt from the gate when the grant is `selfPermanent` — the
+ * game gives them the tag with no duration (see DEF_IGNORE_GRANTS). Without
+ * that exemption the owner would hold it never, since their own gate opens on
+ * their OUTRO, i.e. as they leave the field.
+ *
+ * @param {Array<{resonatorId, start, end}>} gates — defIgnoreOutroGates output
+ * @param {Array<{resonatorId, chain}>} members — the whole team, for the owner scan
+ * @param {Set<string>} memberInflicts — statuses THIS member can inflict
+ * @param {number} time — team time at which the member's segment begins
+ * @param {number} [forResonatorId] — the member being resolved, so the owner's
+ *        own permanent grant can be told apart from a teammate's borrowed one
+ * @returns {number} 0..1 DEF ignore
+ */
+export function defIgnoreForMemberAt(gates, members, memberInflicts, time, forResonatorId = null) {
+    let best = 0;
+    for (const member of members ?? []) {
+        for (const grant of defIgnoreGrantsForResonator(member.resonatorId, member.chain ?? 0)) {
+            const isOwner = forResonatorId != null
+                && Number(forResonatorId) === Number(member.resonatorId);
+            // The owner's own passive: no gate, no inflict requirement — the
+            // condition is the target carrying their mark, which their kit keeps
+            // up by a trigger that is always satisfiable (the always-hits rule).
+            if (isOwner && grant.selfPermanent) {
+                if (grant.defIgnore > best) best = grant.defIgnore;
+                continue;
+            }
+            if (!grant.onInflict?.some(status => memberInflicts?.has(status))) continue;
+            const open = (gates ?? []).some(gate =>
+                gate.resonatorId === Number(member.resonatorId)
+                && time >= gate.start - 1e-9 && time <= gate.end + 1e-9);
+            // A grant with no gate at all would be unconditional; none ships.
+            if (grant.gate && !open) continue;
+            // Repeats REFRESH rather than add — the kit grants one named buff —
+            // so distinct sources take the max, never the sum.
+            if (grant.defIgnore > best) best = grant.defIgnore;
+        }
+    }
+    return best;
+}
+
+/**
  * CAST-triggered cap-raise windows on the shared enemy. A raise arms at the END
  * of a triggering cast and lasts `seconds`, the same convention castMatch buff
  * windows use, so a raise and a buff triggered by the same cast agree about

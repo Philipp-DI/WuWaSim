@@ -80,6 +80,26 @@ ROUTING_EFFECTS = {int(k) for k in json.load(
 # GameAttributeID → the effect stat this engine would emit for it.
 # `calc` distinguishes the ATK lanes: CalculationPolicy 1 is a ratio of base
 # (our `atkRatio`), 0 is a flat add (which no chain effect models).
+#
+# THE AUTHORITATIVE ID SPACE is the client's `EAttributeId` enum, which is
+# `Aki.Protocol.Vks` in `Content/Aki/JavaScript/Core/Define/Net/Protocol.js`
+# (144 entries). `ExtraEffectSnapModifier.js` names it as the source for the
+# CommonSnapshotModify AttrId:
+#
+#     this.TargetType = Number(i[0]);
+#     this.AttrId     = Number(i[1]);      <- an EAttributeId
+#     this.CalculationPolicy = Number(i[2]);
+#
+# Do NOT derive this enum from `Config/BaseProperty.js`'s getter order, which is
+# the obvious-looking but WRONG reference: the two agree up to index 12 and then
+# diverge by one forever, because the enum carries a `Proto_ElementEfficiency`
+# entry (13) that BaseProperty has no getter for. That mismatch was mistaken for
+# an inconsistency in the map below (2026-08-10); the map is right and the
+# BaseProperty-derived list was wrong. Spot-checked against the real enum:
+# 8 Proto_Crit, 9 Proto_CritDamage, 15 Proto_DamageChange,
+# 22-27 Proto_DamageChangeElement1-6, 35 Proto_HealChange, 36 Proto_HealedChange.
+# Also useful and absent here: 99 Proto_IgnoreDefRate (Chisa's Thread of Bane),
+# 100-106 Proto_IgnoreDamageResistance{Phys,Element1-6}.
 ATTR_TO_STAT = {
     8:  ('critRate', None),
     9:  ('critDmg', None),

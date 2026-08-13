@@ -24,7 +24,7 @@ import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
-import { computeResourceTimeline } from './rotation-resources.js';
+import { computeResourceConsumption, computeResourceEndLevels, computeResourceTimeline } from './rotation-resources.js';
 
 import {
     computeBuffWindows, applyBuffsToSteps, windowStacksAtStep,
@@ -505,7 +505,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null, tuneStrainAmplify = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null, carryInResources = null, tuneStrainAmplify = null }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
@@ -589,8 +589,15 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // Curated non-energy gauges (Changli's Enflamement, Sigrika's Full Stop).
     // Same timeline rotation-graph.js validates against, so a gauge-scaled buff
     // and a gauge-gated rotation warning can never disagree about the level.
-    const resourceLevels = computeResourceTimeline(
-        rotation, resourceDefsForResonator(build?.resonatorId, dataset));
+    const resourceDefs = resourceDefsForResonator(build?.resonatorId, dataset);
+    // `carryInResources` is what these gauges already held — a member's turn is
+    // simulated as several rotations (team-sim runs the auto-injected Intro as
+    // its own segment) and a gauge does not reset between them.
+    const resourceLevels = computeResourceTimeline(rotation, resourceDefs, carryInResources);
+    // What each step SPENDS, for a "for each [X] consumed" multiplier. Separate
+    // from the level series because the two answer different questions on the
+    // same step — see computeResourceConsumption.
+    const resourceConsumed = computeResourceConsumption(rotation, resourceDefs, carryInResources);
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     //
@@ -633,7 +640,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             resonanceMode: build?.resonanceMode ?? null,
             firedTypes, lastFireEndByType, fireCountByType,
             firedKeys, lastFireEndByKey, fireCountByKey,
-            manualStacks, resourceLevels, stepIndex: i,
+            manualStacks, resourceLevels, resourceConsumed, stepIndex: i,
             // This step's own identity, for a 'thisCast' window (a buff that
             // applies to the triggering cast itself rather than to later steps).
             stepKey: skillKey,
@@ -1027,6 +1034,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // a caller running consecutive segments (team-sim's passes) can hand it
         // back as `carryInFires` shifted into the next segment's frame.
         fires: { types: [...lastFireEndByType], keys: [...lastFireEndByKey] },
+        // The gauge levels this rotation ENDS holding, for the same reason:
+        // the caller hands them to the next segment as `carryInResources`.
+        // Unlike `fires` these carry no timestamps, so nothing has to be
+        // shifted between the segment's frame and the team's.
+        resourceEndLevels: computeResourceEndLevels(rotation, resourceDefs, carryInResources),
         totals: {
             damage: totalDamage,
             skillDamage: cumulative,

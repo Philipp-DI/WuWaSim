@@ -130,6 +130,10 @@ const SUBJECT_FORM = /(?:^|[,.;])\s*([^,.;]+?)\s+(?:gains?|deals?)\s/gi;
 // A clause's leading "In <X>," qualifier, which the game uses for both a
 // Resonance Mode and an in-combat state. Only the latter is a state.
 const LEADING_IN = /^in\s+([^,]+),/i;
+// A bulleted, state-LABELLED branch: "- [Absolution] Enhancement: …". One
+// bullet per state, of which exactly one is live (Phoebe's two are mutually
+// exclusive), so each branch has to carry its own gate.
+const LEADING_BRACKET = /^[-•\s]*\[([^\]]+)\]/;
 
 // In prose the game writes the category WITHOUT a separator ("Resonance Skill
 // Seraphic Duet: Overture"), where a bracketed kit name uses one ("[Basic
@@ -336,10 +340,27 @@ export function subjectNamesInClause(clause) {
  * See the CLAUDE.md invariant: a MODE is not a STATE.
  */
 export function stateInClause(clause, stateNames) {
-    const match = LEADING_IN.exec(clause ?? '');
-    if (!match) return null;
-    const named = match[1].trim().toLowerCase();
-    return stateNames.find(name => named === name || named.includes(name)) ?? null;
+    const text = clause ?? '';
+    const match = LEADING_IN.exec(text);
+    if (match) {
+        const named = match[1].trim().toLowerCase();
+        const hit = stateNames.find(name => named === name || named.includes(name));
+        if (hit) return hit;
+    }
+    // The game also writes the gate as a LABEL rather than a sentence, one
+    // bulleted branch per state:
+    //     - [Absolution] Enhancement: Increase DMG Multiplier by 255%.
+    //     - [Confession] Enhancement: Apply 8 of [Spectro Frazzle] to targets hit.
+    // Read flat, both branches of a menu apply at once; read not at all (which is
+    // what happened before this) the whole clause is unscopable and dropped.
+    //
+    // Brackets are the kit's markup for SKILL names too, so this binds ONLY on an
+    // EXACT match against a state this resonator actually declares — a bracketed
+    // skill name can never light a state that does not exist.
+    const bracket = LEADING_BRACKET.exec(text);
+    if (!bracket) return null;
+    const named = bracket[1].trim().toLowerCase();
+    return stateNames.find(name => named === name) ?? null;
 }
 
 /**
@@ -401,7 +422,12 @@ export function bindSkillScopes(resonator, skillMap) {
     const isOwnerName = (name) =>
         String(name).replace(/(?:'s|s')$/i, '').trim().toLowerCase() === ownName;
     let bound = 0, dropped = 0;
-    const nodes = [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? [])];
+    // Skill nodes are scoped by the same pass, and they NEED it most: an effect
+    // stated inside a Liberation/Skill/Forte node is routinely written as "The
+    // DMG Multipliers of X, Y and Z are increased by N%", and an unscoped
+    // multiplierUp multiplies the whole kit.
+    const nodes = [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? []),
+        ...(resonator.skillNodeEffects ?? [])];
     for (const node of nodes) {
         // `effect.condition` is the clause TRUNCATED to 120 characters for
         // display (effects.mjs), and a skill name is routinely the thing the cut

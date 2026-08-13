@@ -959,11 +959,22 @@ export function swapInEntryForResonator(resonatorId) {
 // asserted equal to the extracted value by tests/rotation-resources.test.mjs,
 // so it cannot silently drift.
 //
-// What still has to be curated, and why: the channel↔name link, and the gains.
-// The game states a gauge's cap in baseproperty.json but grants these named
-// stack gauges through its Buff table, which is not among the four BinData
-// dumps in data/bindata/ — all 40 of Changli's damage instances carry
-// SpecialEnergy 0. Income becomes extractable if that table is ever dumped.
+// What still has to be curated, and why: the channel↔name link, and the gains
+// a cast does NOT state.
+//
+// ~~Income is unreadable and stays curated~~ — that held only while the Buff
+// table was undumped. `data/gauge-income.json` (tools/extract/
+// extract_gauge_income.py) now reads it: a DT_SkillInfo row's SkillBuff /
+// SkillStartBuff / SkillEndBuff resolve to db_buff rows whose GameAttributeID is
+// an Energy/SpecialEnergy channel, giving the exact per-cast delta for 50
+// resonators. Denia's entry below is filled entirely from it.
+//
+// The boundary that remains is the CAST: income earned on a HIT lives in
+// db_PassiveSkill behind ExtraEffect chains and is not modelled here, which is
+// why Changli's Enflamement (1 per True Sight hit) is still hand-written while
+// Denia's Intro grant is not. Cross-check a curated `gains` against the
+// extraction before trusting it; tests/gauge-income.test.mjs pins the ones the
+// game states.
 
 export const RESOURCE_DEFS = Object.freeze({
     // Changli — "Changli can hold up to 4 stacks of Enflamement. Changli obtains
@@ -990,6 +1001,38 @@ export const RESOURCE_DEFS = Object.freeze({
     // [Full Stop], up to 100 points." The Runic variants ARE Schemata casts
     // ("this skill gains the effect of [Runic X]"). Forte Circuit "Learn My
     // True Name": "[Hold Resonance Skill] to consume all [Full Stop]".
+    // Denia — the first gauge whose income is READ rather than guessed
+    // (data/gauge-income.json, 2026-08-12). Every number below is the game's:
+    //   cap 3           SpecialEnergy2Max, matching "Denia can hold up to 3
+    //                   [Dark Cores]"
+    //   +1 per Intro    rows 1211061/1211062 (her two QTE rows, one per form)
+    //                   each grant SpecialEnergy2 +1, matching "Denia obtains 1
+    //                   upon casting Intro Skill [It's Been A While!] and Intro
+    //                   Skill [Knock Knock]"
+    // The spender is the kit's, not the table's: no DT_SkillInfo row spends
+    // SpecialEnergy2, so "[Banish - Breakdown Form Stage 2] consumes all [Dark
+    // Cores]" remains the source for that one line.
+    //
+    // What the gauge is FOR: "For each [Dark Core] consumed, the DMG Multiplier
+    // of the attack is increased by 150%." The game ships that ladder as damage
+    // rows too — 12111052110/…120/…130/…140/…150 are exactly 2.5x/4.0x/5.5x/
+    // 7.0x/8.5x her 56.34% display row, i.e. base x (1 + 1.5N) — which is the
+    // answer key tests/rotation-resources.test.mjs checks the sim against.
+    //
+    // KNOWN BOUND: S3 states "Denia now holds up to 5 Dark Cores" (hence five
+    // variant rows), but a cap is per-resonator here, not per-chain, so an S3+
+    // build is held to 3. No reference rotation casts enough Intros to reach
+    // even 3, so nothing today is affected; raising it needs a chain-aware cap.
+    1211: [{
+        name: 'Dark Core',
+        channel: 2,       // SpecialEnergy2Max = 3 in the game's own baseproperty table
+        cap: 3,
+        gains: {
+            intro_it_s_been_a_while: 1,
+            intro_knock_knock: 1,
+        },
+        spendAll: ['skill_banish_breakdown_form_2'],
+    }],
     1412: [{
         name: 'Full Stop',
         cap: 100,

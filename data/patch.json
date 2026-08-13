@@ -5,8 +5,8 @@
   "resonator_schema": {
     "_comment": "Template for manually adding resonators not yet in Dimbreath or nanoka.",
     "_fields": {
-      "id": "integer \u2014 in-game role ID (check Dimbreath RoleInfo or nanoka URL)",
-      "name": "string \u2014 display name e.g. Sigrika",
+      "id": "integer — in-game role ID (check Dimbreath RoleInfo or nanoka URL)",
+      "name": "string — display name e.g. Sigrika",
       "rarity": "4 or 5",
       "element": "1=Glacio 2=Fusion 3=Electro 4=Aero 5=Spectro 6=Havoc",
       "weaponType": "1=Broadblade 2=Sword 3=Pistols 4=Gauntlets 5=Rectifier",
@@ -34,6 +34,25 @@
           "duration": 24,
           "requiresState": "maestro",
           "note": "Hecate Enhanced Attack (Maestro state, triggered by active Echo Skill)"
+        }
+      ]
+    },
+    {
+      "id": 1211,
+      "_comment": "Denia: Erosion Field. 'After casting Resonance Liberation [Final Act - Breakdown Form], generate an [Erosion Field], lasting for 30s. [Erosion Field] pulls in nearby targets once every 4s, dealing Fusion DMG, considered [Resonance Liberation DMG].' The preprocess turret branch only reads Outro Skill nodes, so a Forte Circuit persistent field is never derived — this field carries a real damage id (12110007001) and was scoring zero in every team. multiplier is mults[9] (skill level 10) off that row; skillType 'liberation' is the kit's own 'considered Resonance Liberation DMG'.",
+      "offFieldActions": [
+        {
+          "type": "turret",
+          "trigger": "liberation",
+          "element": 2,
+          "scaling": "atk",
+          "skillType": "liberation",
+          "multiplier": 1.3633,
+          "hitsPerCast": null,
+          "cooldown": 4.0,
+          "duration": 30,
+          "note": "Erosion Field (Final Act - Breakdown Form, one pull per 4s for 30s)",
+          "skillKey": "forte_heavy_erosion_field_dmg_per_tick"
         }
       ]
     },

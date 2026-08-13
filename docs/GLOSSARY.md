@@ -24,7 +24,7 @@ for them.
 | **Concerto Energy** | The swap resource (gauge cap 100). Full gauge → Outro→Intro handoff fires on swap. |
 | **Resonance Chain (S1–S6)** | Duplicate-unlocked upgrade nodes ("constellations"). Each level can carry passive effects. |
 | **Inherent Skill** | A resonator's unlockable passive talents (IH nodes). |
-| **Echo** | Equippable gear (5 slots) with a main stat, substats, and — for the slot-0 echo — a castable **Echo Skill**. |
+| **Echo** | Equippable gear (5 slots) with a main stat, substats, and — for the slot-0 echo — a castable **Echo Skill**. The game's own files call these **Phantoms** — see the data-vocabulary table below. |
 | **Sonata (set)** | Echo set bonus family (2pc/3pc/5pc tiers). "Set" and "sonata" are the same thing. |
 | **Negative Status / Bane** | Debuffs living on the ENEMY (e.g. Havoc Bane) — shared by the whole team; many kit effects gate on them. |
 | **Off-Tune bar / Tune Break** | A bar on the ENEMY that any resonator can break once it is full. The **response** is a cast every resonator has (`resonator.tuneBreak`, named by weapon type), priced by the tune-bar formula rather than by a character multiplier — no ATK scaling, no crit, no gear stat. |
@@ -33,6 +33,30 @@ for them.
 | **Coordinated Attack** | Damage a benched (off-field) resonator contributes while someone else is active. |
 | **Amplify / Deepen** | Separate multiplicative damage buckets on top of the additive DMG-bonus bucket (see formula.js header). |
 | **STA** | Stamina — cost rows in the data that look numeric but are NOT damage (a known matching trap). |
+
+---
+
+## Game-data vocabulary (what the game's own files call things)
+
+The shipped client and its config tables use a different vocabulary from the
+English UI. These are the names you meet when reading the game's data, and the
+mapping is not guessable — look it up here rather than inferring it.
+
+| Data name | Is actually |
+| --- | --- |
+| **Phantom** | **Echo.** `db_phantom.db`, `db_PhantomBattle.db`, `ExhibitPhantom.js` — there is no `db_echo` anywhere in the ConfigDB. |
+| **QTE** | **Intro Skill.** `DT_SkillInfo` names the rows `…QTE入场` ("QTE entry"); Denia has two because she has two forms. |
+| **codename** (`RoleBody/Name`) | A resonator's internal Role folder — westernised-from-Chinese and matching NO display name (Denia → `FemaleMS/Daniya`, Camellya → `FemaleM/Chun`, Chisa → `FemaleM/Qianxia`). **Never parse or trust these.** Identity comes from DATA: a `DT_SkillInfo` row id's leading 4 digits are the resonator id. Full map: `docs/RESONATOR-ROSTER.md`. |
+| **`SpecialEnergy{N}`** | A named stack gauge (Denia's Dark Core, Changli's Enflamement). `SpecialEnergy{N}Max` is its cap and is authoritative. Channels 1–4; `Energy` (59/60) is the separate Liberation resource. |
+| **`GameAttributeID`** | A stat id from the client's own `EAttributeId` enum, `Aki.Protocol.Vks` in `Core/Define/Net/Protocol.js` (144 entries) — the ONLY authority. Do not derive it from `BaseProperty.js` getter order. Landmarks: `15` DamageChange, `59–68` energy channels, `99` IgnoreDefRate. |
+| **`CalculationPolicy`** | How a buff's `ModifierMagnitude` is applied, per `ActiveBuff.ModifyStateAttribute`: **0** flat add · **1** scale the base (`-10000` ⇒ zeroed) · **2/4/9** a fraction of the attribute named in `policy[1]` · **3** override (`0` ⇒ zeroed) · **5/6** per-duration. `10000` = 100.00%. |
+| **`ExtraEffect*`** | A buff's conditional payload. `ExtraEffectRequirements` type 1 = SkillIds, type 5 = BulletIds. `ExtraEffectReqPara` is indexed **by the requirement**, not by the buff. `ExtraEffectReqSetting`: **0 = ALL** (scope lists INTERSECT), **1 = ANY** (they UNION — and a non-scope requirement then lets the effect fire outside the list). |
+| **`DT_SkillInfo`** | The per-character DataTable whose ROWS ARE THE CASTS. `SkillBuff` / `SkillStartBuff` / `SkillEndBuff` hold buff ids: the **cast → buff** link. Read with `ue_tagged.parse_datatable` (not `ue_asset.read_export`, which returns only an export's tagged properties). |
+| **`db_PassiveSkill`** | The **event → buff** link: `TriggerType` (`DamageTrigger`, `TagTrigger`, `KillTrigger`, …) + `SkillAction: AddBuff` + `SkillActionParams`, each with its own `CDTime`. |
+| **ConfigDB** | The ~500 `db_*.db` SQLite files of `(Id, BinData)` FlatBuffers rows, plus the client's own JS accessors that spell out every field's offset and type — so the schema is READ, never guessed (`tools/extract/configdb.py`). |
+| **name-map skew** | A package whose `.uexp` addresses one MORE name-table entry than its `.uasset` declares, desynchronising the property walk. Confirmed on Lucilla (`FemaleXL/Luosela`); `parse_datatable`'s `repair_vocabulary` recovers it. |
+| **bullet chain** | montage notify → bullet → damage id, the exact-identity join from an animation to the hits it produces (`data/bullet-timings.json`). The alternative — prefix-matching a damage id against `DT_SkillInfo` row ids — is coarser because rows are shared. **The two id spaces differ** for E/Q/Intro: a DT row id is not a prefix of those damage ids. |
+| **folder suffixes** | `_GD` = an alternate combat form worth indexing (Aemeath's mech). `_FP`, `_Rogue`/`_Rouge`, `_photos`, `_story`, `_MainLine`, `_TowerDefense` = non-combat or mode-specific variants that REUSE the combat id space with different numbers — never merge them. |
 
 ---
 
@@ -73,13 +97,19 @@ for them.
 | **`timingIsLoop`** | The animation repeats while held, so its measured times describe ONE iteration rather than the whole action. Separate from `timingProvisional`, which reports only the strongest caveat. |
 | **`freezeTime`** | Seconds of a `stepDuration` during which the in-game clock stops — cooldowns, buff/effect durations and the DPS denominator all pause. Measured from the animation's `TimeStopRequest` notify. Counted once per animation per rotation (`resolveFreezeSchedule`). |
 | **effectToggles** | Build map of manually-assumed conditional effects; keys `S{level}.{index}` / `IH{node}.{index}` (invariant). Stackable effects store an integer stack count. |
+| **resource / gauge** | A curated named stack gauge (`RESOURCE_DEFS`): `{ name, channel, cap, gains, spend/spendAll }`. `channel` binds it to the game's `SpecialEnergy{N}`, which supplies the cap. Distinct from a **state** (a stance) and from a **mode** (a build-level toggle). |
+| **cast lane / trigger lane** | The two ways a gauge earns. The **cast** lane is the gauge moving because a skill was cast — readable from `DT_SkillInfo` (`data/gauge-income.json`) and the lane `RESOURCE_DEFS` models. The **trigger** lane is it moving because something HAPPENED (a hit landed, a timer elapsed) — `db_PassiveSkill`, extracted but deliberately NOT wired, since the resource model is per-cast by construction. |
 
 ### Buffs & effects
 
 | Term | Meaning |
 | --- | --- |
-| **effect** | A chain/inherent passive parsed into structured form (stat, value, condition, trigger, window). |
-| **trigger × window** | The activation model: a trigger fires (castMatch / stateEnter / modeMatch / healing), a window keeps it live (seconds / persist / stateBound / untilConsumed / always). |
+| **effect** | A chain/inherent/skill-node passive parsed into structured form (stat, value, condition, trigger, window). |
+| **effect source / slot key** | The THREE namespaces effects arrive in: `S{level}.{index}` (Resonance Chain), `IH{node}.{index}` (Inherent Skill), `SK{node}.{index}` (**skill-node effect** — a buff the game states inside a Liberation / Skill / Forte node). The first two are FROZEN: overrides and saved builds address them, so any pass that changes an effect COUNT must run before the overrides. |
+| **trigger × window** | The activation model: a trigger fires (castMatch / stateEnter / modeMatch / healing), a window keeps it live (seconds / persist / stateBound / untilConsumed / **thisCast** / always). |
+| **`thisCast`** | The window for a buff that applies to the TRIGGERING cast itself. `persist` cannot express this — its castMatch check reads strictly EARLIER steps, so it misses the very cast the buff is for and then applies to every step after it. |
+| **consumption-scoped effect** | An effect scoped by ARITHMETIC rather than by a skill name: `stackTrigger: { type: 'resource', consumed: true }` counts what the step SPENDS, which is 0 on every cast that spends nothing. This is what lets Denia's "+150% per [Dark Core] consumed" ship unscoped without multiplying her whole kit — the one exemption to the unscoped-`multiplierUp` drop. |
+| **`stacksUnknown`** | The honest answer when a stack count is underivable: ONE stack, flagged. Never `maxStacks` — a real cap makes that a large silent assertion. |
 | **(buff) window** | A time interval during which a buff is live, with per-step stack samples. "Windowed" = applied by literal step overlap. |
 | **flat (approximation)** | The opposite: a buff credited at full value across a whole rotation/segment because its timing isn't derivable. Being progressively replaced by windows (TEAM-BUFF-TIMELINE-PLAN). |
 | **stack ramp** | Stacking buffs climb 0→cap per qualifying step and decay — never applied at max flat (`buffs/buff-timeline.js`). |
@@ -100,3 +130,6 @@ for them.
 | **erOverride / minViableEr** | Per-team meta values: the ER at which the authored rotation loops clean (computed openers-OFF, deliberately). |
 | **Concerto handoff** | The Outro→Intro exchange at a swap; modeled always, damage-gating opt-in (`enforceConcerto`). |
 | **covered** | A character/config with real meta entries (weights, suggested build/teams); everything else falls back honestly to live sim or "no suggestion available". |
+| **`gameTime` / `realTime`** | The two clocks. `gameTime = totalTime − totalFreeze` and is **the DPS denominator** (`timingMode: 'toa'`); `realTime` is wall clock. Using the wrong one once reported a 3.09x gap against a 1.8x damage gap. |
+| **marginal (per-pass)** | A member's damage in pass N, computed as the N-pass total minus the (N−1)-pass total. Necessary because the negative-status lane accrues post-hoc on the shared timeline: reading segments alone drops it. Team totals come from `memberTotals`, never from summing segments. |
+| **cross-segment carry** | State handed from one segment of a member's turn to the next, and to their next pass — because a turn is SEVERAL `simulateRotation` calls (the auto-injected Intro is its own segment). `carryInFires` / `sim.memberFires` carries the trigger ledger; `carryInResources` / `resourceEndLevels` / `sim.memberResources` carries gauge levels. A mechanic that is correct solo and silently zero in a team is usually a missing carry. |

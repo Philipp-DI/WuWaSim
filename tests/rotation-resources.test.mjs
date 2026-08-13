@@ -16,7 +16,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { computeResourceTimeline, resourceLevelAt } from '../src/core/rotation-resources.js';
+import { computeResourceConsumption, computeResourceTimeline, resourceConsumedAt, resourceLevelAt } from '../src/core/rotation-resources.js';
 import { RESOURCE_DEFS, resourceDefsForResonator } from '../src/core/rotation-rules.js';
 import { effectsActiveAtStepDetailed, unlockedEffects } from '../src/core/buffs.js';
 import { createBuild } from '../src/core/build.js';
@@ -56,6 +56,31 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('an UNDEFINED gauge reads null, not 0', resourceLevelAt(timeline, 'Nonexistent', 0) === null);
     assert('a step past the end reads null', resourceLevelAt(timeline, 'Gauge', 99) === null);
     assert('a missing timeline reads null', resourceLevelAt(null, 'Gauge', 0) === null);
+
+    // computeResourceConsumption / resourceConsumedAt: the same walk, reporting
+    // what each step SPENDS rather than what it enters holding.
+    const spentOn = (rotation) => computeResourceConsumption(rotation, def).get('gauge');
+    assert('a step that spends nothing consumes 0',
+        JSON.stringify(spentOn(['add', 'add'])) === JSON.stringify([0, 0]));
+    assert('a spendAll step consumes exactly what it entered holding',
+        JSON.stringify(spentOn(['big', 'burn', 'add'])) === JSON.stringify([0, 4, 0]));
+    assert('spending an empty gauge consumes 0, not a negative',
+        JSON.stringify(spentOn(['burn'])) === JSON.stringify([0]));
+    assert('a fixed spend takes only what is there',
+        JSON.stringify(computeResourceConsumption(['add', 'take'],
+            [{ name: 'G', cap: 9, gains: { add: 1 }, spend: { take: 5 } }]).get('g')) === JSON.stringify([0, 1]));
+    assert('a step that both spends and gains consumes what it ENTERED with',
+        JSON.stringify(computeResourceConsumption(['big', 'both'],
+            [{ name: 'G', cap: 9, gains: { big: 4, both: 1 }, spendAll: ['both'] }]).get('g')) === JSON.stringify([0, 4]));
+
+    const consumption = computeResourceConsumption(['big', 'burn'], def);
+    assert('resourceConsumedAt reads the spending step', resourceConsumedAt(consumption, 'Gauge', 1) === 4);
+    assert('consumption lookup is case-insensitive', resourceConsumedAt(consumption, 'gAuGe', 1) === 4);
+    // Unlike resourceLevelAt, an unknown gauge is 0 rather than null: an
+    // unmodelled gauge is one nothing spends, and 0 is the safe direction.
+    assert('an UNDEFINED gauge consumes 0, never null', resourceConsumedAt(consumption, 'Nonexistent', 0) === 0);
+    assert('a step past the end consumes 0', resourceConsumedAt(consumption, 'Gauge', 99) === 0);
+    assert('a missing consumption map consumes 0', resourceConsumedAt(null, 'Gauge', 0) === 0);
 }
 
 // ── Data integrity: every curated def references real skill keys ────────────
@@ -175,6 +200,91 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // A 'thisCast' window must not leak onto later steps the way 'persist' would.
     const onLaterSteps = rotation.map((_, i) => atStep(i)).filter(Boolean).length;
     assert('exactly the three True Sight Conquest/Charge steps carry the buff', onLaterSteps === 3);
+}
+
+// ── Denia's Dark Core: a multiplier scoped by ARITHMETIC, not by name ───────
+// "For each [Dark Core] consumed, the DMG Multiplier of the attack is increased
+// by 150%." The clause names no skill, so it cannot be scoped by binding a name.
+// It does not need to be: its stack count is what the STEP CONSUMES, which is
+// zero on every cast that spends nothing. That is the whole mechanism.
+//
+// The game ships the answer key. Her display row for [Banish - Breakdown Form
+// Stage 2] is 56.34%, and damageTable holds five PRE-MULTIPLIED variants at
+// exactly base x (1 + 1.5N) for N = 1..5 cores. So the sim's computed multiplier
+// can be checked against the game's own number rather than against arithmetic
+// this test repeats — if the model were wrong, it would have to be wrong in
+// exactly the way the game is.
+{
+    const DENIA = 1211;
+    const rotation = rotationsById[String(DENIA)]?.rotation ?? [];
+    const defs = resourceDefsForResonator(DENIA, dataset);
+    assert('Denia has a Dark Core definition', defs.length === 1 && defs[0].name === 'Dark Core');
+    assert('its cap is the game\'s SpecialEnergy2Max', defs[0].cap === 3);
+
+    const consumption = computeResourceConsumption(rotation, defs);
+    const levels = computeResourceTimeline(rotation, defs).get('dark core');
+    const spent = consumption.get('dark core');
+    const banishTwo = rotation.indexOf('skill_banish_breakdown_form_2');
+    const introAt = rotation.indexOf('intro_it_s_been_a_while');
+    assert('her reference rotation opens with an Intro and casts Banish Stage 2',
+        introAt === 0 && banishTwo > 0);
+    assert('the Intro grants a core, so Banish Stage 2 enters holding one',
+        levels[banishTwo] === 1);
+    assert('Banish Stage 2 is the ONLY step that consumes any',
+        spent.filter(amount => amount > 0).length === 1 && spent[banishTwo] === 1);
+    assert('every other step consumes nothing',
+        spent.every((amount, i) => i === banishTwo || amount === 0));
+
+    const denia = dataset.resonators.find(resonator => resonator.id === DENIA);
+    const skillMap = dataset.autoSkillMap[String(DENIA)];
+    const unlocked = unlockedEffects(createBuild(denia), denia);
+    const multiplierUpAt = (stepIndex) => {
+        const active = effectsActiveAtStepDetailed(unlocked, {
+            startTime: 0, activeStates: new Set(), firedTypes: new Set(),
+            lastFireEndByType: new Map(), fireCountByType: new Map(),
+            firedKeys: new Set(), lastFireEndByKey: new Map(), fireCountByKey: new Map(),
+            manualStacks: new Map(),
+            resourceLevels: computeResourceTimeline(rotation, defs),
+            resourceConsumed: consumption,
+            stepIndex,
+            stepKey: rotation[stepIndex],
+            stepTypes: phraseTypesForStep(skillMap?.[rotation[stepIndex]]?.skillType),
+        });
+        return active
+            .filter(entry => entry.effect.stat === 'multiplierUp' && entry.effect.stackTrigger?.consumed)
+            .reduce((sum, entry) => sum + (entry.effect.value ?? 0), 0);
+    };
+
+    assert('one core consumed → +150% DMG Multiplier on that cast',
+        Math.abs(multiplierUpAt(banishTwo) - 1.5) < 1e-9);
+    // The point of the `consumed` reading: she is still HOLDING cores on other
+    // steps, so a level-based trigger would pay here too and multiply her kit.
+    const leaks = rotation
+        .map((_, i) => i)
+        .filter(i => i !== banishTwo && multiplierUpAt(i) !== 0);
+    assert(`no other step in the rotation is multiplied (${leaks.length} leaked)`, leaks.length === 0);
+
+    // Against the game's own pre-multiplied rows, at every level of the curve.
+    const table = dataset.damageTable[String(DENIA)];
+    const rowOf = (id) => table.find(row => row.id === id);
+    const base = rowOf(12110002005);
+    assert('the display-row base for Banish Stage 2 is in the damage table', !!base);
+    const VARIANTS = [12111052110, 12111052120, 12111052130, 12111052140, 12111052150];
+    let ladderOk = 0;
+    VARIANTS.forEach((id, index) => {
+        const cores = index + 1;
+        const variant = rowOf(id);
+        if (!variant) return;
+        const matches = variant.mults.every((mult, level) =>
+            Math.abs(base.mults[level] * (1 + 1.5 * cores) - mult) < 1e-3);
+        if (matches) ladderOk++;
+    });
+    assert(`the game's own rows ARE base x (1 + 1.5N) for N = 1..5, at every level (${ladderOk}/5)`,
+        ladderOk === 5);
+    // The one the reference rotation actually produces, tied to the sim's value.
+    const oneCore = rowOf(VARIANTS[0]);
+    assert('the sim\'s one-core multiplier reproduces the game\'s own row at L1',
+        Math.abs(base.mults[0] * (1 + multiplierUpAt(banishTwo)) - oneCore.mults[0]) < 1e-4);
 }
 
 // ── An effect naming a gauge the resonator has no definition for ────────────

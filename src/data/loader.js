@@ -77,6 +77,34 @@ function mergeArrayById(baseline, patch) {
     return [...result.values()];
 }
 
+/**
+ * Apply data/patch.json's id-keyed overrides onto a baseline dataset. Pure, and
+ * the SAME merge loadDataset() performs — exported because patch.json is a
+ * RUNTIME overlay (`preprocess.mjs` never bakes it into wuwa-data.json), so any
+ * Node-side consumer that reads the compiled file directly sees an UNPATCHED
+ * dataset unless it calls this. That split is not theoretical: Phrolova's and
+ * Ciaccona's curated `offFieldActions` live only in patch.json, so the offline
+ * optimizer and every test reading wuwa-data.json straight off disk were
+ * scoring both characters with no off-field damage at all while the browser
+ * app gave them theirs.
+ *
+ * @param {object} baseline — parsed data/wuwa-data.json
+ * @param {object|null} patch — parsed data/patch.json
+ * @returns {object} a new merged dataset; `baseline` is never mutated
+ */
+export function applyPatch(baseline, patch) {
+    // Always a fresh object, even with no patch — callers assign onto the result
+    // (loadDataset stamps patchedAt), and handing back `baseline` itself would
+    // make that a mutation of the caller's input.
+    if (!patch) return { ...baseline, patchedAt: null };
+    const merged = { ...baseline };
+    for (const key of MERGEABLE_ARRAYS) {
+        merged[key] = mergeArrayById(baseline[key], patch[key]);
+    }
+    merged.patchedAt = patch.generatedAt ?? null;
+    return merged;
+}
+
 function validateSchema(data, label) {
     if (!data || typeof data !== 'object') throw new Error(`${label} is not a JSON object`);
     if (data.schemaVersion !== EXPECTED_SCHEMA_VERSION) {
@@ -118,10 +146,7 @@ export async function loadDataset() {
     validateSchema(baseline, 'baseline');
     if (patch) validateSchema(patch, 'patch');
 
-    const merged = { ...baseline };
-    for (const key of MERGEABLE_ARRAYS) {
-        merged[key] = mergeArrayById(baseline[key], patch?.[key]);
-    }
+    const merged = applyPatch(baseline, patch);
     // Pass through stat dictionaries + damage engine inputs unchanged
     // (not id-keyed; baseline is the source of truth).
     // echoMainStats is now a cost-keyed map { 4:[...], 3:[...], 1:[...] }

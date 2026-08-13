@@ -100,8 +100,15 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
     // Compute damage for a single hit, then scale by hit count.
     const scalingKey = scaling ?? 'atk';
 
+    // DMG-type bucket. Default 'basic' — the generic ATK bonus bucket — which is
+    // right for an unremarkable coordinated hit and is what every action shipped
+    // before this field existed. An action whose kit SAYS otherwise declares it:
+    // Denia's Erosion Field is "considered [Resonance Liberation DMG]", and
+    // typing it 'basic' silently drops the wielder's whole Liberation DMG bucket
+    // from a lane that ticks for 30s. Same rule as the on-field formulaType —
+    // the game states the type, so the type is stated here, not inferred.
     const skill = {
-        skillType:  'basic',    // off-field damage uses the generic ATK bonus bucket
+        skillType:  action.skillType ?? 'basic',
         multiplier: multiplier,
         scaling:    scalingKey,
         element:    element,
@@ -148,6 +155,23 @@ export function computeOffFieldDamage({ action, stats, windowSeconds, target, co
  *                                              on-field isn't sufficient)
  * @returns {{ totalDamage: number, actions: Array<{action, damage, hits, label}> }}
  */
+/**
+ * True when an action can be simulated as REAL STEPS instead of priced by the
+ * bare formula above: it names a `skillKey` that exists in the resonator's own
+ * skill map, so the full pipeline (buff windows, conditional effects, status
+ * application, dmg-type buckets) can resolve it exactly as an on-field cast.
+ * Off-field damage is ordinary damage that happens to land while its owner is
+ * benched — it takes the same buffs and can drive the same triggers — so the
+ * only thing that should distinguish it is the `offField` flag and the fact
+ * that it costs no on-field time.
+ *
+ * Actions WITHOUT a skillKey (a curated multiplier with no damage row behind
+ * it) keep the bare path; there is nothing for the pipeline to resolve.
+ */
+export function offFieldActionIsSimulable(action, skillMap) {
+    return !!(action?.skillKey && skillMap && skillMap[action.skillKey]);
+}
+
 export function computeOffFieldContribution({
     build, dataset, stats, windowSeconds, target, computeDamage, memberStates = null, firedTriggers = null,
 }) {

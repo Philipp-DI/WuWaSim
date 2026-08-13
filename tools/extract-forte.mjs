@@ -295,9 +295,14 @@ for (const [id, entry] of Object.entries(out)) {
 //
 // Income for these named stack gauges is NOT recoverable here: all 40 of
 // Changli's damage instances carry SpecialEnergy 0, so Enflamement is granted
-// by the Buff table (skill.json BuffList → a table absent from our four
-// dumps), not by its hits. Caps are what this dump can answer; income for a
-// non-Forte gauge stays curated until that table is dumped too.
+// by the Buff table, not by its hits. Caps are what THIS dump can answer.
+//
+// The Buff table is no longer out of reach (2026-08-12): ConfigDB is readable,
+// and `tools/extract/extract_gauge_income.py` joins DT_SkillInfo rows to
+// db_buff to give per-CAST income for 50 resonators (data/gauge-income.json).
+// Changli specifically stays curated because her Enflamement is earned ON HIT,
+// which lives in db_PassiveSkill and is outside the per-cast resource model —
+// so the sentence above still holds for HER, just not for gauges generally.
 const caps = {};
 for (const id of Object.keys(wuwa.autoSkillMap)) {
     const entry = capById.get(+id);

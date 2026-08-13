@@ -90,7 +90,7 @@
  */
 
 import { stateActive } from './rotation-state.js';
-import { resourceLevelAt } from './rotation-resources.js';
+import { resourceConsumedAt, resourceLevelAt } from './rotation-resources.js';
 
 // =============================================================================
 // Type constants (plain strings — no enum overhead in JS)
@@ -417,6 +417,22 @@ export function unlockedEffects(build, resonator) {
         const effs = ihs[nodeIndex].effects ?? [];
         for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `IH${nodeIndex}.${i}` });
     }
+    // Effects the game states inside a SKILL node — a Resonance Liberation,
+    // Resonance Skill or Forte Circuit — whose source is therefore a CAST, not a
+    // passive. Chisa's "Woven Myriad - Convergence" (+120% on her Sawring chain,
+    // off her own Liberation) is the live case. They are always unlocked: unlike
+    // a chain node there is no sequence level to reach, and unlike an inherent
+    // there is no toggle — casting the skill IS the gate, and each carries a
+    // castMatch trigger on its own node's keys to say so (tools/preprocess.mjs).
+    //
+    // `SK` is a THIRD key namespace on purpose. `S`/`IH` keys are frozen before
+    // effect-overrides.json and saved builds' effectStacks read them, so a new
+    // source must not renumber either — and none of these keys collides.
+    const skillNodes = resonator?.skillNodeEffects ?? [];
+    for (let nodeIndex = 0; nodeIndex < skillNodes.length; nodeIndex++) {
+        const effs = skillNodes[nodeIndex].effects ?? [];
+        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `SK${nodeIndex}.${i}` });
+    }
     return out;
 }
 
@@ -643,8 +659,10 @@ export function underivableStacks(build, resonator, resourceNames = null) {
  * Stack count, in precedence order:
  *   1. the user's own count for this slot (`build.effectStacks`, via
  *      ctx.manualStacks) — capped at maxStacks when one is known;
- *   2. a `resource` stackTrigger → the named gauge's level entering this step
- *      (ctx.resourceLevels), divided by what one stack costs;
+ *   2. a `resource` stackTrigger → the named gauge, divided by what one stack
+ *      costs. `consumed: true` reads what THIS STEP SPENDS
+ *      (ctx.resourceConsumed); otherwise the level entering this step
+ *      (ctx.resourceLevels);
  *   3. a resolvable castMatch stackTrigger → number of fires so far
  *      (ctx.fireCountByType), capped at maxStacks;
  *   4. none of those → ONE stack, flagged `stacksUnknown`.
@@ -700,6 +718,15 @@ function scaleEffect(effect, ctx, key = null) {
 
     const stackTrigger = effect.stackTrigger;
     if (stackTrigger && stackTrigger.type === 'resource') {
+        // "For each [X] CONSUMED" counts what this step spends, not what it
+        // holds — which makes the effect self-scoping: it is 0 on every cast
+        // that spends nothing, so it needs no skill-name binding to stay off
+        // the rest of the kit. Reading the held level instead would pay Denia's
+        // +150% per Dark Core on every step of her rotation.
+        if (stackTrigger.consumed) {
+            const spent = resourceConsumedAt(ctx.resourceConsumed, stackTrigger.resource, ctx.stepIndex);
+            return banded(Math.floor(spent / (stackTrigger.perStackCost ?? 1)), 'resource');
+        }
         const level = resourceLevelAt(ctx.resourceLevels, stackTrigger.resource, ctx.stepIndex);
         if (level != null) return banded(Math.floor(level / (stackTrigger.perStackCost ?? 1)), 'resource');
     }

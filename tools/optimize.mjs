@@ -17,6 +17,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { applyPatch } from '../src/data/loader.js';
 
 // localStorage shim — core modules touch it transitively (storage.js) on import.
 const __ls = new Map();
@@ -48,19 +49,26 @@ const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
 // cooldowns.js (2026-07-12): today a diagnostic overlay, but slated to gate
 // rotation timing in the derived-opener work — hashed now so that change can
 // never ship against a stale meta.
-const ENGINE_FILES = ['formula.js', 'stats.js', 'skill.js', 'sim.js', 'buffs.js', 'buffs/buff-windows.js',
-    'buffs/buff-timeline.js', 'buffs/sonata-buffs.js', 'buffs/weapon-buffs.js', 'buffs/conditional-buffs.js', 'stat-priority.js',
-    'team-sim.js', 'team-energy.js', 'enemy-status.js', 'triggerability.js', 'off-field.js',
-    'cooldowns.js', 'opener.js',
+// Paths are relative to src/ (not src/core/) since 2026-08-10 — the meta now
+// also depends on a module outside core, and a hash that cannot reach it would
+// silently keep a stale meta.
+const ENGINE_FILES = ['core/formula.js', 'core/stats.js', 'core/skill.js', 'core/sim.js', 'core/buffs.js', 'core/buffs/buff-windows.js',
+    'core/buffs/buff-timeline.js', 'core/buffs/sonata-buffs.js', 'core/buffs/weapon-buffs.js', 'core/buffs/conditional-buffs.js', 'core/stat-priority.js',
+    'core/team-sim.js', 'core/team-energy.js', 'core/enemy-status.js', 'core/triggerability.js', 'core/off-field.js',
+    'core/cooldowns.js', 'core/opener.js',
     // The state/resource machinery is engine too: STATE_DEFS decides which
     // effects resolve ON, and a state now also gates a status APPLIER
     // (enemy-status.js STATUS_APPLY_RULES). Adding a state changes damage, so
     // the hash has to move with it.
-    'rotation-rules.js', 'rotation-state.js', 'rotation-resources.js', 'tune-break.js'];
+    'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js', 'core/tune-break.js',
+    // Not core, but it decides WHICH dataset the meta is computed over:
+    // applyPatch folds patch.json's curated overrides (offFieldActions for
+    // Phrolova/Ciaccona/Denia) in. A change there changes every ranking.
+    'data/loader.js'];
 
 function engineHash() {
     const hash = createHash('sha256');
-    for (const file of ENGINE_FILES) hash.update(readFileSync(resolve(root, 'src/core', file)));
+    for (const file of ENGINE_FILES) hash.update(readFileSync(resolve(root, 'src', file)));
     return hash.digest('hex');
 }
 
@@ -139,11 +147,21 @@ function runTeamPass(dataset) {
 }
 
 function run() {
-    const dataset = JSON.parse(readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8'));
-    // Mirrors src/data/loader.js's merge: stat-ranges.json is a separate file at
-    // runtime, unwrapped from its "stat_ranges" key — real average roll values
-    // (rollValueOf/allocateSubstats) need it, so replicate the merge here rather
-    // than silently falling back to the default-roll-value guess offline.
+    // Mirrors src/data/loader.js's merge, BOTH halves of it:
+    //  - patch.json is a RUNTIME overlay preprocess never bakes in, so reading
+    //    wuwa-data.json alone ranks a dataset the app never uses. It is not a
+    //    hypothetical difference: Phrolova's and Ciaccona's curated
+    //    `offFieldActions` exist ONLY in patch.json, so every meta shipped
+    //    before this scored both of them with zero off-field damage while the
+    //    browser gave them theirs. Shared helper, so the two can never drift.
+    //  - stat-ranges.json is a separate file at runtime, unwrapped from its
+    //    "stat_ranges" key — real average roll values (rollValueOf /
+    //    allocateSubstats) need it, so it is merged here too rather than
+    //    silently falling back to the default-roll-value guess offline.
+    const dataset = applyPatch(
+        JSON.parse(readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8')),
+        JSON.parse(readFileSync(resolve(root, 'data/patch.json'), 'utf8')),
+    );
     const statRangesRaw = JSON.parse(readFileSync(resolve(root, 'data/stat-ranges.json'), 'utf8'));
     dataset.statRanges = statRangesRaw?.stat_ranges ?? {};
     const startTime = Date.now();

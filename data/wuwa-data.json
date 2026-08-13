@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-08T13:24:15.789Z",
+  "generatedAt": "2026-08-13T05:56:29.974Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -1401,6 +1401,37 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "Attack the target, dealing Glacio DMG, and receive the blessing of [Lion's Vigor].\n\n## Lion's Vigor\nLingyang gains 50% Glacio DMG Bonus.",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "elementBonus",
+              "value": 0.5,
+              "element": 1,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Lingyang gains 50% Glacio DMG Bonus.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "liberation"
+                ]
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 100,
         "2": 600,
@@ -1735,6 +1766,39 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Phantasmic Imprint\nZhezhi may summon [Phantasmic Imprints] at the cost of Afflatus when casting Resonance Skill [Manifestation] or Heavy Attack [Conjuration].\nUp to 1 of each of [Phantasmic Imprint - Left], [Phantasmic Imprint - Middle], and [Phantasmic Imprint - Right] can exist at the same time, each lasting for 15s.\n\n## Heavy Attack - Conjuration\nThe 5 moves below consume STA to perform [Conjuration] to attack the target, dealing Glacio DMG.\n-Hold the [Normal Attack button] shortly after [Basic Attack Stage 3].\n-Press the [Normal Attack button] shortly after casting Resonance Skill [Manifestation].\n-Hold the [Normal Attack button] shortly after casting Resonance Skill [Stroke of Genius] or Resonance Skill [Creation's Zenith].\n-Hold the [Normal Attack button] while in mid-air.\n-Hold the [Normal Attack button] after a successful [Dodge].\nIf Zhezhi has at least 30 Afflatus when performing any of these, consume 30 Afflatus to summon a [Phantasmic Imprint - Middle].\n\n## Resonance Skill - Stroke of Genius\nWhen a [Phatasmic Imprint] is nearby, the Resonance Skill is replaced with [Stroke of Genius], which can be cast while in mid-air. When it is cast, Zhezhi will:\n-Move to the location of the [Phatasmic Imprint], remove it, and then summon an Ivory Herald to attack the target, dealing Glacio DMG, considered as Basic Attack DMG. Refresh the mid-air Dodge attempts if the target [Phatasmic Imprint] is in mid-air.\n-Gain 1 stack of Painter's Delight, lasting for 8s and stacking up to 2 times.\n\n## Resonance Skill - Creation's Zenith\nWhen a [Phantasmic Imprint] is nearby and there are 2 stacks of Painter's Delight, [Stroke of Genius] is replaced with [Creation's Zenith], which can be cast while in mid-air. When it is cast, Zhezhi will:\n-Lose all stacks of Painter's Delight\n-Move to the location of the [Phantasmic Imprint], remove it, and then summon an Ivory Herald to attack the target, dealing greater Glacio DMG, considered as Basic Attack DMG, additionally increasing the Basic Attack DMG Bonus by 18% for 27s. Refresh the mid-air Dodge attempts if the target [Phatasmic Imprint] is in mid-air.\n\n## Afflatus\nZhezhi can hold up to 90 Afflatus.\nNormal Attacks grant Afflatus on hit.\nCasting Intro Skill grants Afflatus.",
+          "skillKeys": [
+            "forte_heavy_ha_conjuration",
+            "forte_heavy_stroke_of_genius",
+            "forte_heavy_creation_s_zenith"
+          ],
+          "effects": [
+            {
+              "stat": "elementBonus",
+              "value": 0.18,
+              "element": 1,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "-Move to the location of the [Phantasmic Imprint], remove it, and then summon an Ivory Herald to attack the target, deal",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 27
+              },
+              "durationSeconds": 27
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -2501,6 +2565,41 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Heavy Attack - Imminent Oblivion\nCarlotta activates [Tinted Crystal] every 22s.\nWhen Substance is full and [Tinted Crystal] is activated, hold [Normal Attack] to consume all Substance and cast Heavy Attack [Imminent Oblivion], after which [Tinted Crystal] enters cooldown.\nDeal Glacio DMG (considered Resonance Skill DMG), and reduce the cooldown of Resonance Skill [Art of Violence] by 6s.\n\n## Final Bow\nWhen Substance is full, enter the [Final Bow] state.\nIncrease the DMG Multiplier of Resonance Liberation [Era of New Wave], Resonance Liberation [Death Knell], and Resonance Liberation [Fatal Finale] by 80%. This effect ends when Carlotta is switched off the field during [Twilight Tango] or when [Twilight Tango] ends.\n\n## Substance\nCarlotta can hold up to 120 points of Substance.\nCannot gain Substance while in [Twilight Tango] triggered by Resonance Liberation.\nRestore 30 points of Substance upon casting Intro Skill [Wintertime Aria].\nRestore 10 points of Substance for every 1 Moldable Crystal consumed upon casting Resonance Skill [Chromatic Splendor].\nRestore 10 points of Substance for every 1 Moldable Crystal consumed upon casting Basic Attack [Necessary Measures].\nConsume 1 Moldable Crystal and restore 10 points of Substance upon casting [Dodge Counter].\n\n## Moldable Crystal\nCarlotta can hold up to 6 Moldable Crystals.\nCannot gain Moldable Crystal while in [Twilight Tango] triggered by Resonance Liberation.\nRestore 3 Moldable Crystals upon casting [Basic Attack Stage 2].\nRestore 3 Moldable Crystals upon casting [Heavy Attack].\nRestore 3 Moldable Crystals upon casting Mid-air Attack [Customary Greetings].\nRestore 3 Moldable Crystals upon casting Intro Skill [Wintertime Aria].\nRestore 3 Moldable Crystals upon casting Resonance Skill [Art of Violence].\nRestore 3 Moldable Crystals upon a successful [Dodge].",
+          "skillKeys": [
+            "forte_heavy_imminent_oblivion"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.8,
+              "element": null,
+              "skillType": "liberation",
+              "teamWide": false,
+              "condition": "Increase the DMG Multiplier of Resonance Liberation [Era of New Wave], Resonance Liberation [Death Knell], and Resonance",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_imminent_oblivion"
+                ]
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "liberation_death_knell",
+                "liberation_fatal_finale"
+              ]
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -3366,6 +3465,96 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Lucilla holds up to 0 Resonance Energy. [Clear As Day] consumes no Resonance Energy.\n[Clear As Day] unlocks when Lucilla holds all 3 [Photos].\n\n## Clear As Day\nDeal Glacio DMG and enter [Reminiscence]:\n- When in [Resonance Mode - Glacio Chafe], the DMG dealt is considered [Basic Attack DMG]. Casting this skill grants Lucilla 30% Basic Attack DMG Bonus for 10s.\n- When in [Resonance Mode - Echo], the DMG dealt is considered [Echo Skill DMG]. Casting this skill grants Lucilla 30% Echo Skill DMG Bonus for 10s.\nWhen in [Reminiscence], Lucilla's resistance to interruption is increased, and she cannot cast [Resonance Skill] and [Resonance Liberation]. Her [Basic Attack], [Dodge Counter], [Mid-air Attack], and [Intro Skill - Clip It] are replaced with [Basic Attack - Tracing Forms], [Dodge Counter - Reminiscence], [Mid-air Attack - Reminiscence], and [Intro Skill - Clip It: Hard Cut] respectively.\nCan be performed in mid-air close to the ground.\n\n## Basic Attack - Tracing Forms\nPerform up to 3 consecutive attacks, dealing Glacio DMG, considered [Basic Attack DMG].\nHold [Normal Attack] to cast [Basic Attack - Tracing Forms Stage 1, 2, & 3] consecutively.\nWhile casting [Basic Attack - Tracing Forms Stage 3], consecutively or hold [Normal Attack] to continuously attack the target.\nWhile casting [Basic Attack - Tracing Forms Stage 3], release the [Normal Attack] button or finish the whole [Basic Attack - Tracing Forms Stage 3] to automatically perform [Letting It Go].\n\n## Letting It Go\nDeal Glacio DMG to targets within the range. When in [Resonance Mode - Glacio Chafe]/[Resonance Mode - Echo], DMG dealt is considered [Basic Attack DMG]/[Echo Skill DMG].\nLucilla is immune to interruption and damage during [Letting It Go], and Resonator switching is disabled while casting.\nWhile casting [Letting It Go], Lucilla additionally restores 20 points of Concerto Energy.\nCasting [Letting It Go] ends [Reminiscence].\n\n## Mid-air Attack - Reminiscence\nConsume STA to perform Plunging Attack, dealing Glacio DMG, considered [Basic Attack DMG].\n [Normal Attack] shortly after casting this skill to cast [Basic Attack - Tracing Forms Stage 2].\n\n## Dodge Counter - Reminiscence\n [Normal Attack] shortly after a successful Dodge to attack the target, dealing Glacio DMG, considered [Basic Attack DMG].\n [Normal Attack] shortly after casting this skill to perform [Basic Attack - Tracing Forms Stage 3].",
+          "skillKeys": [
+            "liberation_clear_as_day",
+            "liberation_tracing_forms_1",
+            "liberation_tracing_forms_2",
+            "liberation_tracing_forms_3",
+            "liberation_letting_it_go",
+            "midair_reminiscence",
+            "liberation_dodge_counter_reminiscence"
+          ],
+          "effects": [
+            {
+              "stat": "skillTypeBonus",
+              "value": 0.3,
+              "element": null,
+              "skillType": "basic",
+              "teamWide": false,
+              "condition": "Casting this skill grants Lucilla 30% Basic Attack DMG Bonus for 10s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
+            },
+            {
+              "stat": "skillTypeBonus",
+              "value": 0.3,
+              "element": null,
+              "skillType": "echo",
+              "teamWide": false,
+              "condition": "Casting this skill grants Lucilla 30% Echo Skill DMG Bonus for 10s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "echo"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
+            }
+          ]
+        },
+        {
+          "desc": "## Déjà Vu\nWhile casting [Resonance Liberation - Clear As Day], Lucilla grants the following enhancements based on her [Resonance Mode]:\n- When in [Resonance Mode - Glacio Chafe], gain 4 of [Film Roll] for 30s, stacking up to 4 times. All stacks are removed when the duration ends.\n- When in [Resonance Mode - Echo], gain 1 of [Zoom] for 30s. Max 1 stack, which is removed when the duration ends.\nThe above effects end early when Lucilla switches Resonance Mode.\n\n## Film Roll\nWhen an active Resonator in the team other than Lucilla inflicts [Glacio Chafe] onto the target, Lucilla consumes 1 of [Film Roll] to inflict [Glacio Chafe] 2 on nearby targets. This effect can be triggered once every 0.5s.\n\n## Zoom\nEach stack of [Zoom] increases the Crit. DMG of the active Resonator's Echo Skill by 10%.\n\n## Oblivion\nDuring [Basic Attack - Tracing Forms Stage 3], Lucilla consumes 1 [Photo] intermittently to perform [Oblivion], dealing 1 instance of Glacio DMG:\n- When in [Resonance Mode - Glacio Chafe], this instance of DMG is considered [Basic Attack DMG]. The skill inflicts 1 of [Glacio Chafe] on the target.\n- When in [Resonance Mode - Echo], this instance of DMG is considered [Echo Skill DMG]. Each cast of [Oblivion] is considered as casting a different Echo Skill.\n\n## Quick Glance\n Aim to enter the camera mode. During this mode, Reverberations, environmental collectibles, and special collectibles within a certain range of Lucilla's shot will be marked. the shutter button to capture the moment, and the marked items will be gathered.\n\n## Trace\nLucilla can hold up to 150 points of [Trace].\nRestore 100 of [Trace] while casting [Intro Skill - Clip It].\nRestore 50 of [Trace] while casting [Resonance Skill - Spotlight].\nRestore 50 of [Trace] while casting [Basic Attack Stage 3 - Commendable].\nRestore 25 of [Trace] while casting [Resonance Skill - Compensate] or [Basic Attack Stage 3 - Unremarkable].\n\n## Photos\nLucilla can hold up to 3 [Photos].\nEvery 50 of [Trace] restored generates 1 [Photo].",
+          "skillKeys": [
+            "forte_heavy_oblivion"
+          ],
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 0.1,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Each stack of [Zoom] increases the Crit. DMG of the active Resonator's Echo Skill by 10%.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "stackable": true,
+              "perStack": 0.1,
+              "maxStacks": 4,
+              "stackTrigger": {
+                "type": "unknown"
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -5285,6 +5474,34 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "Deal Fusion DMG to nearby targets, obtaining 4 stacks of Enflamement, and entering [Fiery Feather].\nCan be cast in mid-air.\n\n## Fiery Feather\nWhen Changli releases Heavy Attack [Flaming Sacrifice] within 10s, her ATK is increased by 25%, after which [Fiery Feather] ends.",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "atkRatio",
+              "value": 0.25,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "When Changli releases Heavy Attack [Flaming Sacrifice] within 10s, her ATK is increased by 25%, after which [Fiery Feath",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 4,
         "2": 100,
@@ -6094,6 +6311,119 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "Attack the target and deal Fusion DMG. Performing this attack consumes all Wolfaith and restores 100 points of Wolflame. Use Basic Attack or Resonance Skill in time to cast Resonance Skill [Foebreaker].\nCan be performed in mid-air close to the ground.\nPerforming this skill strengthens all Resonators in the team. Within 35s:\n- All Resonators in the team gain [Pack Hunt] effect.\n- If the active Resonator is hit or launched into the air, they immediately recover and are considered to have successfully dodged the attack when they are on the ground. Can be triggered up to 3 times.\n\n## Pack Hunt\nResonators with [Pack Hunt] gain a 6% ATK increase, and 10% Fusion DMG Bonus when they attack Overlord Class or Calamity Class targets (Both are non-stackable). If there are 3 Fusion Resonators in the team, the Fusion DMG Bonus against Overlord Class or Calamity Class targets additionally increases by 10%. When the active Resonator casts [Intro Skill], [Pack Hunt] is enhanced, granting an additional 6% ATK increase to all Resonators in the team, up to a maximum of 18%.\nIf Lupa's [Pack Hunt] reaches its cap within its duration, she enters [Wild Hunt] and Intro Skill [Nowhere to Run!] becomes available. [Wild Hunt] can be triggered once per [Pack Hunt].\n\n## Resonance Skill - Foebreaker\nConsume all Wolflame to perform [Foebreaker], dealing Fusion DMG and entering [Burning Matchpoint] state.\n\n## Burning Matchpoint\nNormal Attacks retore 500% more Wolflame on hit. Cannot perform Resonance Skill [Shewolf's Hunt] and Resonance Skill [Feral Fang] in this state.",
+          "skillKeys": [
+            "liberation_skill_damage",
+            "liberation_foebreaker"
+          ],
+          "effects": [
+            {
+              "stat": "elementBonus",
+              "value": 0.1,
+              "element": 2,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Resonators with [Pack Hunt] gain a 6% ATK increase, and 10% Fusion DMG Bonus when they attack Overlord Class or Calamity",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "atkRatio",
+              "value": 0.06,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Resonators with [Pack Hunt] gain a 6% ATK increase, and 10% Fusion DMG Bonus when they attack Overlord Class or Calamity",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "elementBonus",
+              "value": 0.1,
+              "element": 2,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "If there are 3 Fusion Resonators in the team, the Fusion DMG Bonus against Overlord Class or Calamity Class targets addi",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "atkRatio",
+              "value": 0.06,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "When the active Resonator casts [Intro Skill], [Pack Hunt] is enhanced, granting an additional 6% ATK increase to all Re",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        },
+        {
+          "desc": "## Wildfire Banner\nLupa's ATK is increased by 12% for 8s when performing the following actions:\n- Casting Resonance Skill [Feral Fang].\n- Casting [Heavy Attack - Wolf's Gnawing], [Heavy Attack - Wolf's Claw], or [Mid-air Attack - Firestrike].\n- Casting Resonance Liberation [Fire-Kissed Glory].\n- Casting [Dance With the Wolf] and [Dance With the Wolf: Climax].\n\n## Resonance Skill - Dance With the Wolf\nWhen Wolfaith reaches 2 points, Resonance Skill is replaced with [Dance With the Wolf]. Performing [Dance With the Wolf] consumes all Wolfaith, dealing Fusion DMG (considered Resonance Liberation DMG).\nCan be performed in mid-air close to the ground.\n\n## Resonance Skill - Dance With the Wolf: Climax\nWhen Wolfaith reaches 2 points in the [Burning Matchpoint] state, Resonance Skill is replaced with [Dance With the Wolf: Climax]. Performing [Dance With the Wolf: Climax] consumes all Wolfaith, dealing Fusion DMG (considered Resonance Liberation DMG). [Burning Matchpoint] is removed when the skill ends.\nCan be performed in mid-air close to the ground.\n\n## Resonance Skill - Set the Arena Ablaze\nWithin 8s after performing [Dance With the Wolf] or [Dance With the Wolf: Climax], Lupa will remain on the field after switching to another Resonator and back up the active Resonator when they perform [Resonance Liberation], dealing Fusion DMG (considered Resonance Skill DMG). This effect can only be triggered once in its duration.\n\n## Wolflame\nLupa can hold up to 100 points of Wolflame.\n- Restore Wolflame when Normal Attacks hit the target.\n- Restore Wolflame while casting Resonance Skill.\n- Restore Wolflame while casting Resonance Liberation.\n\n## Wolfaith\nLupa can hold up to 2 points of Wolfaith.\nWolfaith lasts for 10s. The duration is reset when Wolfaith is restored. At the end of its duration, each remaining point of Wolfaith becomes 50 points of Wolflame.\n- Restore 1 point of Wolfaith when casting [Heavy Attack - Wolf's Gnawing], [Heavy Attack - Wolf's Claw], or [Mid-air Attack - Firestrike].",
+          "skillKeys": [
+            "forte_heavy_dance_with_the_wolf",
+            "forte_heavy_dance_with_the_wolf_climax",
+            "forte_heavy_set_the_arena_ablaze"
+          ],
+          "effects": [
+            {
+              "stat": "atkRatio",
+              "value": 0.12,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Lupa's ATK is increased by 12% for 8s when performing the following actions:",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 10000,
         "2": 100,
@@ -6527,6 +6857,80 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "Attack the target and deal Fusion DMG, considered [Echo Skill DMG]. Gain 85% DMG Multiplier increase for [Basic Attack - Seraphic Execution], [Heavy Attack - Flamewing Verdict], [Mid-air Attack - Hellsent Barrage], and [Dodge Counter - Purgatory Scourge] for 14s while in [Demon Hypostasis].\n Normal Attack after casting Resonance Liberation to cast [Basic Atttack Stage 2]. While in [Demon Hypostasis], cast [Basic Attack - Seraphic Execution Stage 2] instead.\nCan be cast in mid-air close to the ground.",
+          "skillKeys": [
+            "liberation_hellfire_absolution"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.85,
+              "element": null,
+              "skillType": "basic",
+              "teamWide": false,
+              "condition": "Gain 85% DMG Multiplier increase for [Basic Attack - Seraphic Execution], [Heavy Attack - Flamewing Verdict], [Mid-air A",
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "[demon hypostasis]"
+              },
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "[demon hypostasis]"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "[demon hypostasis]"
+              },
+              "durationSeconds": 14
+            }
+          ]
+        },
+        {
+          "desc": "## Threshold State\nBy default, Galbrena is in [Threshold State], and in this state, she accumulates [Afterflame] and [Sinflame].\n\n## Demon Hypostasis\nWhile in [Demon Hypostasis], Basic Attack, Heavy Attack - Volley of Death, Mid-air Attack - Ashfall Barrage, Dodge Counter - Blood for Blood, and Resonance Skill - Encroach are replaced with Basic Attack - Seraphic Execution, Heavy Attack - Flamewing Verdict, Mid-air Attack - Hellsent Barrage, Dodge Counter - Purgatory Scourge, and Resonance Skill - Ravage, which consume [Purging Flame] on hit.\nWhile in [Demon Hypostasis], every point of [Afterflame] increases the DMG of [Basic Attack - Seraphic Execution], [Heavy Attack - Flamewing Verdict], [Mid-air Attack - Hellsent Barrage], [Resonance Skill - Ravage], and [Dodge Counter - Purgatory Scourge] by 1.5%, up to 60%, which is removed upon exiting [Demon Hypostasis].\nWhen [Purging Flame] depletes or after staying in [Demon Hypostasis] for over 50s, [Demon Hypostasis] ends automatically.\n\n## Basic Attack - Seraphic Execution\nPerform up to 5 consecutive attacks, dealing Fusion DMG. Consume [Purging Flame] on hit. Stage 1 to 3 DMG are considered [Heavy Attack DMG], and Stage 4 & 5 DMG [Echo Skill DMG].\n Normal Attack after casting [Basic Attack - Seraphic Execution Stage 5] to cast [Basic Attack - Seraphic Execution Stage 3].\n\n## Heavy Attack - Flamewing Verdict\nConsume STA to attack the target and perform up to 3 consecutive attacks, dealing Fusion DMG. Consume [Purging Flame] on hit. Stage 3 DMG is considered [Echo Skill DMG].\n Normal Attack after casting [Heavy Attack - Flamewing Verdict Stage 1] to cast [Basic Attack - Seraphic Execution Stage 2].\n Normal Attack after casting [Heavy Attack - Flamewing Verdict Stage 2 & 3] to cast [Basic Attack - Seraphic Execution Stage 3].\n\n## Mid-air Attack - Hellsent Barrage\nWhile in mid-air, Normal Attack to consume STA to perform aerial attacks, dealing Fusion DMG, considered [Heavy Attack DMG]. Consume [Purging Flame] on hit.\nWhile in mid-air, hold Normal Attack to continuously consume STA to launch a barrage of shots at targets, dealing Fusion DMG, considered [Heavy Attack DMG]. Consume [Purging Flame] on hit. If Galbrena does not land when interrupted during the barrage, she cannot immediately cast this skill again. Release Normal Attack during the barrage to cast Plunging Attack.\n Normal Attack after the Plunging Attack to cast [Basic Attack - Seraphic Execution Stage 3].\n\n## Dodge Counter - Purgatory Scourge\n Normal Attack right after a successful Dodge to attack the target, dealing Fusion DMG, considered [Heavy Attack DMG].\n Normal Attack right after casting this skill to cast [Basic Attack - Seraphic Execution Stage 4].\n\n## Resonance Skill - Ravage\nDash forward and leap into the air. Flip backward upon hitting the target, dealing Fusion DMG, considered [Heavy Attack DMG]. Consume [Purging Flame] on hit. [Resonance Skill - Ravage] and [Resonance Skill - Encroach] share a cooldown.\n\n## Hellstride\n Dodge on the ground while casting [Galbrena's own skills] to cast [Hellstride] to deal a fixed amount of Fusion DMG, considered Basic Attack DMG that does not bear any effect from DMG buffs. [Hellstride] can trigger successful Dodges. [Hellstride] cannot be cast consecutively.\nCasting this skill does not reset the attack cycles within a short period of time.\n\n## Burning Drive\nCasting [Intro Skill], [Hellstride], [Normal Attack - Seraphic Execution Basic Attack Stage 4], [Resonance Skill - Encroach], [Resonance Skill - Ascent of Malice], and [Resonance Skill - Ravage] increases Galbrena's resistance to interruptions and ATK by 20% for 4s.\n\n## Afterflame\nGalbrena can hold up to 40 points of [Afterflame].\nWhile in [Threshold State], Galbrena recovers 8 points of [Afterflame] when Resonators in the nearby team cast Echo Skill. Echoes with the same name can only trigger this effect once. This effect resets when Galbrena exits [Demon Hypostasis].\nAll [Afterflame] is removed upon exiting [Demon Hypostasis].\n\n## Sinflame\nGalbrena can hold up to 100 points of [Sinflame].\nWhile in [Threshold State], hitting an enemy with Basic Attack, Heavy Attack - Volley of Death, Mid-air Attack - Ashfall Barrage, Resonance Skill - Encroach, and Intro Skill - Hellflare Overload recovers [Sinflame].",
+          "skillKeys": [
+            "forte_heavy_hellstride",
+            "forte_basic_seraphic_execution_1",
+            "forte_basic_seraphic_execution_2",
+            "forte_basic_seraphic_execution_3",
+            "forte_basic_seraphic_execution_4",
+            "forte_basic_seraphic_execution_5",
+            "forte_heavy_flamewing_verdict_1",
+            "forte_heavy_flamewing_verdict_2",
+            "forte_heavy_flamewing_verdict_3",
+            "forte_heavy_hellsent_barrage_plunging_attack",
+            "forte_heavy_hellsent_barrage_sustained_fire",
+            "forte_heavy_ravage"
+          ],
+          "effects": [
+            {
+              "stat": "atkRatio",
+              "value": 0.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Casting [Intro Skill], [Hellstride], [Normal Attack - Seraphic Execution Basic Attack Stage 4], [Resonance Skill - Encro",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "basic"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 4
+              },
+              "durationSeconds": 4
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 100,
         "2": 40,
@@ -6861,6 +7265,52 @@
           "value": 0.042,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Attack the targets within the effective range, dealing Fusion DMG.\nFor every 1% of Mornye's Energy Regen exceeding 100%, this skill gains an additional 0.5% Crit. Rate (up to 80%) and 1% Crit. DMG (up to 160%).\nWhen casting this skill, if a [Syntony Field] is present, remove it and generate a [High Syntony Field].\nCan be performed in mid-air.\n\n## High Syntony Field\n- [High Syntony Field] lasts for 25s.\n- Increases the DEF of all nearby Resonators in the team within the [High Syntony Field] by 20%.\n- Inherits the [Syntony Field]'s boost to resistance to interruption and [Off-Tune Buildup Rate].\n- Inherits the [Syntony Field]'s healing effect and increases the Healing Multiplier by 40%.",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 0.005,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "For every 1% of Mornye's Energy Regen exceeding 100%, this skill gains an additional 0.5% Crit. Rate (up to 80%) and 1% ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "critDmg",
+              "value": 0.01,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "For every 1% of Mornye's Energy Regen exceeding 100%, this skill gains an additional 0.5% Crit. Rate (up to 80%) and 1% ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -7579,6 +8029,37 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Seraphic Duo\nWhen casting [Basic Attack - Aemeath Stage 4] or [Basic Attack - Mech Stage 4], enter [Seraphic Duo] for 5s.\n\n## Resonance Skill - Seraphic Duet: Overture\nWhen Aemeath is in [Seraphic Duo] and the [Synchronization Rate] is no less than 100 points, [Resonance Skill] to cast Resonance Skill [Seraphic Duet: Overture] at the cost of 100 points of [Synchronization Rate], dealing Fusion DMG, considered [Resonance Liberation DMG].\nCan be cast in mid-air close to the ground.\nSwitch into the Mech form after casting this skill and exit [Seraphic Duo]. [Normal Attack] within a certain period of time to cast [Basic Attack - Mech Stage 2].\n\n## Resonance Skill - Seraphic Duet: Encore\nIn the Mech form, when in [Seraphic Duo] and the [Synchronization Rate] is no less than 100 points, [Resonance Skill] to cast Resonance Skill [Seraphic Duet: Encore] at the cost of 100 points of [Synchronization Rate], dealing Fusion DMG, considered [Resonance Liberation DMG].\nCan be cast in mid-air close to the ground.\nSwitch back to Aemeath and exit the [Seraphic Duo] state. [Normal Attack] shortly afterward to cast [Basic Attack - Aemeath Stage 2].\n\n## Resonance Mode\n- In [Resonance Mode - Tune Rupture], when Resonators in the team respond to [Tune Rupture - Interfered], inflict 10 of [Rupturous Trail] on the target for 30s, stacking up to 30 times.\n\n- In [Resonance Mode - Fusion Burst], when Resonators in the team inflict [Fusion Burst], inflict 1 of [Fusion Trail] for 30s, stacking up to 30 times.\nWhile in combat, when the [Fusion Burst] on targets near the active Resonator reaches 0 stacks, inflict 1 stack of [Fusion Burst]. If the targets have more than 5 stacks of [Fusion Burst], trigger [Fusion Burst] based on their max stack limit and remove all of their stacks.\n\nIn [Resonance Mode - Tune Rupture]/[Resonance Mode - Fusion Burst], inflict [Tune Rupture - Shifting]/[Fusion Burst] when the following skills deal damage. The same skill can only trigger this effect on the same target once every 3s:\n[Basic Attack - Aemeath Stage 3 & 4], [Basic Attack - Mech Stage 3 & 4], Resonance Skill [Sync Strike: Armament Merge], Resonance Skill [Sync Strike: Call of Dawn], Intro Skill [Songs Across the Universe], and Intro Skill [Debut of Meteoric Radiance].\n\nResonance Skill [Seraphic Duet] gains the following enhancements based on Aemeath's [Resonance Mode]:\n- When in [Resonance Mode - Tune Rupture], Resonance Skill [Seraphic Duet] removes [Rupturous Trail] stacks on nearby targets and additionally deals 5 instances of [Tune Rupture DMG], each time to a random target within range. For each stack of [Rupturous Trail] removed from a target, the DMG Multiplier of the additional instances of Tune Rupture DMG triggered by [Seraphic Duet] against the target is increased by 4%. This effect lasts for 1s. The target's [Off-Tune Level] does not affect the triggering of these instances of Tune Rupture DMG.\n- When in [Resonance Mode - Fusion Burst], Resonance Skill [Seraphic Duet] removes the [Fusion Trail] stacks on targets if they are inflicted with [Fusion Trail], and trigger the [Fusion Burst] on the target based on its max stack limit without removing its stacks. Each stack of [Fusion Trail] removed from the target increases the DMG Multiplier of [Fusion Burst] on the main target by 10%.\n\nWhen in [Stardust Resonance], Resonance Skill [Seraphic Duet] gains the following enhancements based on Aemeath's [Resonance Mode]:\n- In [Resonance Mode - Tune Rupture], casting Resonance Skill [Seraphic Duet] additionally deal 10 instances of [Tune Rupture DMG].\n- In [Resonance Mode - Fusion Burst], the DMG Multiplier of [Fusion Burst] triggered by Resonance Skill [Seraphic Duet] on the main target is additionally increased by 200%. The DMG Multiplier increase effect is stackable with that provided by [Fusion Trail].\n\n## Tune Rupture Response - Starburst\nActive in [Resonance Mode - Tune Rupture]. Deal Fusion DMG to targets within range that are affected by [Tune Rupture - Interfered], considered Tune Rupture DMG.\n\n## Starflux Thrust\nWhen in the Mech form and [Starflux] is more than 200, use the Utility button to cast [Starflux Thrust] and soar in the air by continuously consuming [Starflux].\n\n## Synchronization Rate\n[Synchronization Rate] is capped at 200 points.\n- Dealing damage with [Basic Attack - Aemeath], [Mid-air Attack - Aemeath], [Dodge Counter - Aemeath], [Basic Attack - Mech], [Mid-air Attack - Mech], [Dodge Counter - Mech], Resonance Skill [Sync Strike: Armament Merge], and Resonance Skill [Sync Strike: Call of Dawn] recovers [Synchronization Rate].\n- Casting Intro Skill [Songs Across the Universe] and [Debut of Meteoric Radiance] recovers 40 points of [Synchronization Rate].\n- Casting Resonance Liberation [Heavenfall Edict: Overdrive] recovers 30 points of [Synchronization Rate].\n- When in [Instant Response] and [Heavenfall Edict: Unbound] at the same time, casting [Heavy Attack - Aemeath Charged II] or [Heavy Attack - Mech Charged II] recovers 200 points of [Synchronization Rate].\n\n## Resonance Rate\n[Resonance Rate] is capped at 4 points.\n- Casting Resonance Skill [Seraphic Duet] recovers 1 point of [Resonance Rate].\n- Casting Resonance Liberation [Heavenfall Edict: Overdrive] recovers 1 point of [Resonance Rate].\n- When in [Starlume Acceleration], casting Resonance Liberation [Heavenfall Edict: Overdrive] additionally recovers 1 point of [Resonance Rate].\n\n## Starflux\n[Starflux] is capped at 600 points.\n[Starflux] recovers naturally over time.",
+          "skillKeys": [
+            "forte_heavy_seraphic_duet_encore",
+            "forte_heavy_seraphic_duet_overture",
+            "forte_heavy_tune_rupture_response_starburst",
+            "forte_heavy_seraphic_duet_bonus_dmg_per_instance"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 2,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "- In [Resonance Mode - Fusion Burst], the DMG Multiplier of [Fusion Burst] triggered by Resonance Skill [Seraphic Duet] ",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 20000,
         "2": 20000,
@@ -8114,6 +8595,113 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Phantom Bubble - Stagecraft Form\nPull in nearby targets, dealing Fusion DMG.\n\n## Beckon - Breakdown Form\nPull in nearby targets, dealing Fusion DMG.\nThis skill shares a Cooldown with [Banish - Breakdown Form].\nCan be cast in mid-air.\n\n## Banish - Breakdown Form\nWhile holding a [Dark Core], replace [Beckon - Breakdown Form] with [Banish - Breakdown Form].\nCast [Banish - Breakdown Form Stage 1] to pull in nearby targets, dealing Fusion DMG. [Normal Attack] or [Resonance Skill] shortly after to cast [Banish - Breakdown Form Stage 2].\n[Banish - Breakdown Form Stage 2] consumes all [Dark Cores], dealing Fusion DMG. For each [Dark Core] consumed, the DMG Multiplier of the attack is increased by 150%.\nThe skill deals Resonance Liberation DMG.\nThis skill shares a Cooldown with [Beckon - Breakdown Form].\nCan be cast in mid-air.",
+          "skillKeys": [
+            "skill_phantom_bubble_stagecraft_form",
+            "skill_beckon_breakdown_form",
+            "skill_banish_breakdown_form_1",
+            "skill_banish_breakdown_form_2"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 1.5,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "For each [Dark Core] consumed, the DMG Multiplier of the attack is increased by 150%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "skill_phantom_bubble_stagecraft_form",
+                  "skill_beckon_breakdown_form",
+                  "skill_banish_breakdown_form_1",
+                  "skill_banish_breakdown_form_2"
+                ]
+              },
+              "window": {
+                "type": "thisCast"
+              },
+              "stackable": true,
+              "perStack": 1.5,
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "resource",
+                "resource": "Dark Core",
+                "consumed": true
+              }
+            }
+          ]
+        },
+        {
+          "desc": "## Final Act - Stagecraft Form\nDeal Fusion DMG.\nAfter performing this skill, obtain [Entropy Shift: Breakdown Form] for 12s, then switch to [Breakdown Form].\n\n## Final Act - Breakdown Form\nWhen [Conformal Charge] is full, consume all [Conformal Charge] and [Void Particle] to perform this skill.\nDeal Fusion DMG.\nAfter casting this skill, obtain [Entropy Shift: Stagecraft Form], which lasts for 30s, and then switch to [Stagecraft Form].\nCan be performed in mid-air.\n\n## Entropy Shift: Breakdown Form\nIncreases ATK by 30%.\nObtaining this effect removes the [Entropy Shift: Stagecraft Form] effect.\n\n## Entropy Shift: Stagecraft Form\nGrants 1 point of [Void Particle] per second.\nObtaining this effect removes the [Entropy Shift: Breakdown Form] effect.",
+          "skillKeys": [
+            "liberation_final_act_stagecraft_form",
+            "liberation_final_act_breakdown_form"
+          ],
+          "effects": [
+            {
+              "stat": "atkRatio",
+              "value": 0.3,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Increases ATK by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "liberation_final_act_stagecraft_form",
+                  "liberation_final_act_breakdown_form"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 12
+              }
+            }
+          ]
+        },
+        {
+          "desc": "## Erosion Field\nAfter casting Resonance Liberation [Final Act - Breakdown Form], generate an [Erosion Field], lasting for 30s. Only one [Erosion Field] generated by your own Resonator can exist at a time.\n[Erosion Field] pulls in nearby targets once every 4s, dealing Fusion DMG, considered [Resonance Liberation DMG].\n\n## Void Particle\nWhen in the [Breakdown Form] while holding [Void Particle], [Normal Attack] consumes [Void Particle] on hit and grants the following effects:\n- The skill DMG is considered [Resonance Liberation DMG] and the DMG Multiplier is increased by 50%.\n- [Conformal Charge] regenerates 100% faster.\n\n## Resonance Mode - Fusion Burst\nWhile in [Resonance Mode - Fusion Burst], Denia gains the following effects:\n- Each time when the following skills deal damage, inflict 2 of [Fusion Burst] on the target. The same skill can only trigger this effect once every 2s against the same target.\nIntro Skill [It's Been A While!], Intro Skill [Knock Knock], Resonance Liberation [Final Act - Stagecraft Form], Resonance Liberation [Final Act - Breakdown Form], and [Erosion Field].\n- Each time when the following skills deal damage, inflict [Fusion Burst] on the target. The same skill can only trigger this effect once every 2s against the same target.\n[Basic Attack - Stagecraft Form Stage 3], [Basic Attack - Stagecraft Form Stage 4], [Basic Attack - Breakdown Form Stage 3], [Basic Attack - Breakdown Form Stage 4], [Mid-air Attack - Breakdown Form Stage 3], and [Mid-air Attack - Breakdown Form Stage 4].\n- When Denia is in the team, if an enemy falls to [Fusion Burst DMG], it counts as caused by the nearest active Resonator.\n\n## Resonance Mode - Tune Strain\nWhile in [Resonance Mode - Tune Strain], Denia gains the following effects:\n- Each time when the following skills deal damage, inflict [Tune Strain - Shifting] on the target and reset the duration of [Tune Strain - Interfered] on the target. The same skill can only trigger this effect once every 2s against the same target.\nIntro Skill [It's Been A While!], Intro Skill [Knock Knock], Resonance Liberation [Final Act - Stagecraft Form], Resonance Liberation [Final Act - Breakdown Form], [Erosion Field], [Basic Attack - Stagecraft Form Stage 3], [Basic Attack - Stagecraft Form Stage 4], [Basic Attack - Breakdown Form Stage 3], [Basic Attack - Breakdown Form Stage 4], [Mid-air Attack - Breakdown Form Stage 3] and [Mid-air Attack - Breakdown Form Stage 4].\n- When Resonators in the team inflict [Tune Strain - Shifting] on the target, this target's Off-Tune Level is increased by 50% of the max. This effect can only be triggered on the same target once every 300s.\n\n## Dark Core\n- Denia can hold up to 3 [Dark Cores].\n- While in the [Entropy Shift] states, Denia obtains 1 [] every 12s.\nDenia obtains 1 [] upon casting Intro Skill [It's Been A While!] and Intro Skill [Knock Knock].\n\n## Void Particle\n- Denia can hold up to 100 of [Void Particle].\n- While in [Stagecraft Form], dealing damage through [Normal Attack] grants [Void Particle].\n- Casting Intro Skill [It's Been A While!], Intro Skill [Knock Knock] or Resonance Skill [Phantom Bubble - Stagecraft Form] grants 25 of [Void Particle].\n\n## Conformal Charge\n- Denia can hold up to 100 points of [Conformal Charge].\n- While in [Breakdown Form], dealing damage through [Normal Attack] or Resonance Skill [Beckon - Breakdown Form] grants [Conformal Charge].\n- Casting Resonance Skill [Banish - Breakdown Form Stage 2] grants 40 of [Conformal Charge].",
+          "skillKeys": [
+            "forte_heavy_erosion_field_dmg_per_tick"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.5,
+              "element": null,
+              "skillType": "liberation",
+              "teamWide": false,
+              "condition": "- The skill DMG is considered [Resonance Liberation DMG] and the DMG Multiplier is increased by 50%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_erosion_field_dmg_per_tick"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -10789,6 +11377,63 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Yin-Yang Balance\nWhen Buling obtains Minor Yin and Minor Yang, she enters the [Yin-Yang Balance] state, replacing her [Resonance Liberation - Flashing Thunder Spell] with [Resonance Liberation - Flashing Thunder Spell: Harmony].\n\n## Flashing Thunder Spell - Harmony\nAttack the target, dealing Electro DMG and generating a [Five Thunders Spell Array] at the target area. The array deals Electro DMG and inflicts 2 stacks of [Electro Flare] on all targets within it every 2s, lasting for 24s. When [Five Thunders Spell Array] is active, all Resonators in the team enter the [Thunder Spell - Primordial Qi] state.\n- While in the [Thunder Spell - Primordial Qi] state, when any Resonator in the team casts [Intro Skill], [Thunder Spell - Primordial Qi] becomes [Thunder Spell - Yin and Yang].\n- [Thunder Spell - Yin and Yang] grants 10% [Resonance Skill] DMG Bonus to all active Resonators in the team. When any Resonator in the team casts [Intro Skill] during this state, [Thunder Spell - Yin and Yang] becomes [Thunder Spell - Heaven, Earth, Mind].\n- [Thunder Spell - Heaven, Earth, Mind] grants 25% [Resonance Skill] DMG Bonus to all active Resonators in the team.\n\n## Minor Yang and Minor Yin\n- Minor Yang is obtained after casting [Heavy Attack - Mountain Over Thunder] or [Heavy Attack - Thunder Over Mountain].\n- Minor Yin is obtained after casting [Heavy Attack - Twin Mountains] or [Heavy Attack - Twin Thunders].",
+          "skillKeys": [
+            "forte_heavy_flashing_thunder_spell_harmony",
+            "forte_heavy_five_thunders_spell_array_continuous"
+          ],
+          "effects": [
+            {
+              "stat": "skillTypeBonus",
+              "value": 0.1,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "- [Thunder Spell - Yin and Yang] grants 10% [Resonance Skill] DMG Bonus to all active Resonators in the team.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_flashing_thunder_spell_harmony",
+                  "forte_heavy_five_thunders_spell_array_continuous"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 24
+              }
+            },
+            {
+              "stat": "skillTypeBonus",
+              "value": 0.25,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "- [Thunder Spell - Heaven, Earth, Mind] grants 25% [Resonance Skill] DMG Bonus to all active Resonators in the team.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_flashing_thunder_spell_harmony",
+                  "forte_heavy_five_thunders_spell_array_continuous"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 24
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 255,
         "2": 1,
@@ -11242,6 +11887,42 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Switch Gears!\nUpon casting [Resonance Skill] or [Intro Skill], Rebecca can freely switch between the [Huntress] and [Guts] modes.\n- The [Huntress] mode increases Rebecca's Crit. DMG by 30%.\n- The [Guts] mode allows Rebecca to ignore 15% of the target's DEF.\nBy default, Rebecca starts in the [Huntress] mode.\n\n## Hack - Shifting\nRebecca inflicts [Hack - Shifting] upon dealing damage to the targets through the following skills. The same skill can trigger this effect once every 3s:\n[Intro Skill - Yo, It's Big Boomin' Time!], [Intro Skill - Hey, Leadhead, Come 'n' Get Me!], [Heavy Attack - Rat-tat-tat!: Huntress], [Heavy Attack - Bang-bang-bang!: Guts], and [Resonance Liberation - BOOM! Fireworks!].\n\n## Hack Response - Meltdown\nDeal Electro DMG to all targets affected by [Hack - Interfered] within the range, considered Hack DMG.\n\n## Heavy Attack - Rat-tat-tat!: Huntress\nAt 120 points of [Fervor], [Heavy Attack - Huntress] is replaced with [Heavy Attack - Rat-tat-tat!: Huntress]. [Hold Normal Attack] to cast [Heavy Attack - Rat-tat-tat!: Huntress], which consumes all [Fervor] to pull in nearby targets and deal Electro DMG, considered Basic Attack DMG.\nDuring [Heavy Attack - Huntress], if [Fervor] is at 120 points and Rebecca is not in the action of [Tactical Dodge - Huntress], [release Normal Attack] to cast [Heavy Attack - Rat-tat-tat!: Huntress].\n\n## Heavy Attack - Bang-bang-bang!: Guts\nAt 120 points of [Fervor], [Heavy Attack - Guts] is replaced with [Heavy Attack - Bang-bang-bang!: Guts]. [Hold Normal Attack ] to cast [Heavy Attack - Bang-bang-bang!: Guts], which consumes all [Fervor] to pull in nearby targets and deal Electro DMG, considered Basic Attack DMG.\n\n## Fervor\nRebecca can hold up to 120 points of [Fervor].\n[Normal Attacks] restore [Fervor] upon damaging the target.\n[Resonance Skill] restores [Fervor] upon damaging the target.\nWhen [A Girl Gets What She Wants!] is gained by casting [Intro Skill - Yo, It's Big Boomin' Time!] or [Intro Skill - Hey, Leadhead, Come 'n' Get Me!], Rebecca restores 50 of Fervor.\n\n## Hot Hand\nRebecca can hold up to 120 points of [Hot Hand].\nRegenerates over time at a rate of 10 per second.\nCasting [Heavy Attack - Rat-tat-tat!: Huntress] or [Heavy Attack - Bang-bang-bang!: Guts] restores 40 .\n\n## A Girl Gets What She Wants!\nAt 120 points of [Hot Hand], casting [Intro Skill - Yo, It's Big Boomin' Time!], [Intro Skill - Hey, Leadhead, Come 'n' Get Me!], [Resonance Skill - It's Big Boomin' Time!], or [Resonance Skill - Come 'n' Get Me!] grants the following effects for 12s:\nRebecca simultaneously gains the Stat Bonuses of both the [Huntress] and [Guts] modes, regardless of which mode she's currently in.\n[Hot Hand] cannot be restored during this period and is consumed by 10 per second.",
+          "skillKeys": [
+            "forte_heavy_hack_response_meltdown",
+            "forte_heavy_rat_tat_tat_huntress",
+            "forte_heavy_bang_bang_bang_guts"
+          ],
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 0.3,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "- The [Huntress] mode increases Rebecca's Crit. DMG by 30%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_hack_response_meltdown",
+                  "forte_heavy_rat_tat_tat_huntress",
+                  "forte_heavy_bang_bang_bang_guts"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 12
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -12834,6 +13515,34 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "When casting Resonance Skill [Windqueller], if Jiyan has 30 or more \"Resolve\", he consumes 30 \"Resolve\" to increase the DMG of this Resonance Skill [Windqueller] by 20%.\nWhen Jiyan is in [Qingloong Mode], DMG of Resonance Skill [Windqueller] is increased by 20% and no longer consumes \"Resolve\".\n\n## Resonance Liberation: Emerald Storm - Finale\nWhen casting Resonance Liberation [Emerald Storm - Prelude], if Jiyan has 30 \"Resolve\" or more, he will consume 30 \"Resolve\" to cast Emerald Storm - Finale, dealing Aero DMG, considered as Heavy Attack DMG.\nEmerald Storm: Finale can be cast in mid-air at low altitude.\n\n## Resolve\nJiyan can hold up to 60 Resolve.\nJiyan gains \"Resolve\" when his Normal Attack [Lone Lance] hits the target.\nJiyan gains \"Resolve\" when the Intro Skill [Tactical Strike] hits the target.\n\"Resolve\" will gradually decrease if Jiyan does not hit a target within 15s.",
+          "skillKeys": [
+            "forte_heavy_emerald_storm_finale_damage"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.2,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "When Jiyan is in [Qingloong Mode], DMG of Resonance Skill [Windqueller] is increased by 20% and no longer consumes \"Reso",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 1000,
         "2": 60,
@@ -13810,6 +14519,43 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Basic Attack\nPerform up to 4 consecutive attacks, dealing Aero DMG. Basic Attack Stage 4 inflicts 1 stack of [Aero Erosion] upon the target hit.\n- When the first three stages of Ciaccona's Basic Attack are interrupted by dodging, Basic Attack in time to resume the attack cycle and cast the corresponding Basic Attack stage.\n- After Basic Attack Stage 4, Ciaccona starts a [Solo Concert]. If Ciaccona's Basic Attack Stage 4 or [Solo Concert] ends early (proactively or being interrupted), an [Ensemble Sylph] is generated.\n\n## Solo Concert\nWhen Ciaccona or Ensemble Sylph performs Solo Concert, they give 24% Aero DMG Bonus to all nearby Resonators in the team. This effect is not stackable.\n\n## Ensemble Sylph\nUp to 2 Ensemble Sylphs may exist simultaneously.\nIf Ciaccona's [Basic Attack Stage 4] is interrupted, the Ensemble Sylphs generated will finish the attack for Ciaccona and enter [Solo Concert].\nIf Ciaccona's [Solo Concert] is interrupted, the [Ensemble Sylphs] generated will continue the [Solo Concert] for Ciaccona.\nAside from the two situations mentioned above, Ensemble Sylphs generated by [Resonance Skill] will finish Ciaccona's current attack without entering [Solo Concert].\n\n## Heavy Attack\nConsume STA to jump into mid-air and attack the target, dealing Aero DMG.\n\n## Aimed Attack\n Aim to enter Aiming Mode to fire charged shots, dealing Aero DMG, considered Heavy Attack DMG.\n\n## Mid-air Attack\nConsume STA to perform up to 2 consecutive attacks, dealing Aero DMG.\n Normal Attack after Mid-air Attack Stage 2 to cast Basic Attack Stage 4.\n\n## Dodge Counter\nFollow up successful [Dodges] with [Basic Attack] to attack the target, dealing Aero DMG.",
+          "skillKeys": [
+            "basic_1",
+            "basic_2",
+            "basic_3",
+            "basic_4",
+            "heavy_heavy_attack",
+            "basic_aimed_shot",
+            "basic_fully_charged_aimed_shot",
+            "midair_mid_air_attack_1",
+            "midair_mid_air_attack_2",
+            "basic_dodge_counter"
+          ],
+          "effects": [
+            {
+              "stat": "elementBonus",
+              "value": 0.24,
+              "element": 4,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "When Ciaccona or Ensemble Sylph performs Solo Concert, they give 24% Aero DMG Bonus to all nearby Resonators in the team",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 30000,
         "2": 30000,
@@ -14196,6 +14942,62 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Resonance Liberation - A Knight's Heartfelt Prayers\nBy reducing HP to 50% of the Max HP, [Cartethyia] transforms into [Fleurdelys], unlocking new moves and entering the [Manifest] state for 12s.\nCan be performed in mid-air.\nEntering [Manifest] clears all [Conviction].\nAs [Fleurdelys], [Basic Attack - Fleurdelys Stage 5], [Mid-air Attack - Fleurdelys Stage 2], and [Resonance Skill - May Tempest Break the Tides] instantly trigger 1 instance of Aero Erosion DMG and reduce the Aero Erosion stack on the target hit by 1.\n- Ending the state will not clear Resonance Energy.\n- No HP cost when HP is below 50%.\n\n[Fleurdelys's] attacks restore [Conviction] on hit. When [Conviction] reaches 120 points, Resonance Liberation to cast [Resonance Liberation - Blade of Howling Squall].\n\nWhen [Conviction] is below 120 points, Resonance Liberation to transform back into [Cartethyia]. When in [Manifest], casting [Resonance Liberation - A Knight's Heartfelt Prayers] as Cartethyia consumes no Resonance Energy.\n\nWhen [Fleurdelys] has [Heart of Virtue] in [Manifest]:\n- [Basic Attack - Fleurdelys Stage 4] will generate a force field to Stagnate the targets within the range.\n- [Fleurdelys's] resistance to interruption increases.\n[Heart of Virtue] is removed when [Manifest] ends.\n\nWhen [Fleurdelys] has [Mandate of Divinity] in [Manifest]:\nAero Erosion DMG is Amplified by 50% and the damage interval is decreased by 50% for enemies within a certain distance from [Fleurdelys].\n[Mandate of Divinity] is removed when [Manifest] ends.\n\nWhen [Fleurdelys] has [Power of Discord] in [Manifest]:\nWhen casting [Basic Attack - Fleurdelys Stage 5], [Mid-air Attack - Fleurdelys Stage 2] and [Enhanced Heavy Attack - Fleurdelys] or after [Resonance Skill - May Tempest Break the Tides] deals damage, raise the Aero Erosion stacks on all nearby targets to the highest count among the targets.\n[Power of Discord] is removed when [Manifest] ends.\n\n[Fleurdelys] will transform back to [Cartethyia] during [quest dialogues], [environmental interaction animations], or using [Utilities].\n[Fleurdelys] can walk on water. Doing so on deep waters continuously consumes STA. When in walking state, [Fleurdelys] can step out of a high place and walk in mid-air by continuously consuming STA.\n\n## Avatar - Cartethyia\nAs [Fleurdelys], when [Conviction] is below 120 points, Resonance Liberation to perform [Basic Attack - Cartethyia Stage 2] and temporarily transform back to [Cartethyia], which pauses the timer on [Manifest].\nCan be cast in mid-air. Casting the skill in mid-air performs [Mid-air Attack - Cartethyia].\n\n## Avatar - Fleurdelys\nWhen in [Manifest], casting Resonance Liberation as [Cartethyia] performs [Basic Attack - Fleurdelys Stage 2] without consuming Resonance Energy and transforms her back to [Fleurdelys], which resumes the timer on [Manifest].\nCan be cast in mid-air. Casting this skill in mid-air performs [Mid-air Attack - Fleurdelys Stage 1].\n\n## Resonance Liberation - Blade of Howling Squall\nWhen [Fleurdelys] has 120 points of [Conviction], [Resonance Liberation - A Knight's Heartfelt Prayers] is replaced by [Resonance Liberation - Blade of Howling Squall].\nCasting [Resonance Liberation - Blade of Howling Squall] removes all [Conviction], ends [Manifest], restores 50% of Max HP, and then deals Aero DMG to all targets in an area along a straight line in front. Upon hitting the target, remove all stacks of Aero Erosion on the target. Each stack removed Amplifies the DMG taken by the targets by 20%, up to 5 stacks.\nCan be cast in mid-air.",
+          "skillKeys": [
+            "liberation_blade_of_howling_squall"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.5,
+              "element": 4,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Aero Erosion DMG is Amplified by 50% and the damage interval is decreased by 50% for enemies within a certain distance f",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "liberation_blade_of_howling_squall"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 12
+              }
+            },
+            {
+              "stat": "amplify",
+              "value": 0.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Each stack removed Amplifies the DMG taken by the targets by 20%, up to 5 stacks.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "stackable": true,
+              "perStack": 0.2,
+              "maxStacks": 5,
+              "stackTrigger": {
+                "type": "unknown"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 3,
         "2": 120,
@@ -14572,6 +15374,43 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Lunar Cycle\nIuno can activate Lunar Cycle by casting [Resonance Skill - Closing Refrain] or [Resonance Liberation].\nLunar Cycle has two states: [Half Moon] and [New Moon]. By default, Iuno enters the [Half Moon] state when activating Lunar Cycle and can switch between the two states by casting [Heavy Attack - Flux].\nWhen in Lunar Cycle:\n- Iuno's Jump is replaced with [Heavy Attack - Flux]. STA won't recover when Iuno is in mid-air.\n- Iuno's movement becomes [Meandering], which consumes STA continuously in mid-air to move in a unique manner.\n- Performing environmental interactions, using Utilities, or holding Jump will end [Lunar Cycle].\n\n## Lunar Cycle - Half Moon\nIuno attacks using the Moonring, restoring [Sentience] on hit.\nShe can use [Heavy Attack - Flux: Moonbow] to deal Aero DMG (considered as Resonance Liberation DMG) and switch to [Lunar Cycle - New Moon].\n[Heavy Attack - Flux: Moonbow] can be cast in mid-air.\n\n## Lunar Cycle - New Moon\nIuno attacks using the Moonbow. While in this state, casting [Moonbow - Basic Attack], [Resonance Skill - Arc Beyond the Edge], or [Moonbow - Dodge Counter] consumes [Sentience] to increase the skill's DMG Multiplier, restore additional Concerto Energy, and heal nearby Resonators in the team.\nIuno can use [Heavy Attack - Flux: Moonring] to deal Aero DMG (considered as Resonance Liberation DMG) and switch to [Lunar Cycle - Half Moon].\n[Heavy Attack - Flux: Moonring] can be cast in mid-air.\n\n## Heavy Attack - Absolute Fullness\nWhen Iuno's Concerto Energy is full, her Heavy Attack is replaced with [Absolute Fullness].\nCasting Absolute Fullness ends [Lunar Cycle], provides healing for nearby Resonators in the team, deals Aero DMG to nearby targets (considered as Resonance Liberation DMG), and conjures a [Full Moon] domain at her location. This effect can be triggered once every 25s.\nCan be cast in mid-air.\n\n## Full Moon Domain\nResonators inside the domain periodically restore HP and STA.\nGaining a Shield inside the domain grants 1 stack of [Blessing of the Wan Light]. This effect can be triggered once every 0.5s.\n\n## Blessing of the Wan Light\nThe receiving Resonator gains 4% all DMG Amplification for 10s, stacking up to 10 times. Gaining new stacks resets the duration. This effect ends early if the receiving Resonator is switched off the field.\n\n## Sentience\nIuno can hold up to 100 points of [Sentience].\nCasting Intro Skill restores 40 points of [Sentience].\nCasting Resonance Liberation restores 60 points of [Sentience].\nCasting [Closing Refrain] or [Unfinished Refrain] restores 25 points of [Sentience].\nWhen Iuno is in [Lunar Cycle], Moonring - Basic Attack, Moonring - Dodge Counter, and Mid-air Attack restore [Sentience] on hit.",
+          "skillKeys": [
+            "forte_heavy_flux_moonbow",
+            "forte_heavy_flux_moonring",
+            "forte_basic_enhanced_moonbow_basic_attack_1",
+            "forte_basic_enhanced_moonbow_basic_attack_2",
+            "forte_basic_enhanced_moonbow_basic_attack_3",
+            "forte_heavy_enhanced_moonbow_dodge_counter",
+            "forte_heavy_enhanced_arc_beyond_the_edge",
+            "forte_heavy_absolute_fullness"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.04,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The receiving Resonator gains 4% all DMG Amplification for 10s, stacking up to 10 times.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 10
+              },
+              "durationSeconds": 10
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -15015,6 +15854,110 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Deal Aero DMG to targets within range, considered as Echo Skill DMG.\nFor every 1% of Qiuyuan's Crit. Rate over 50%, this skill increases the Crit. DMG of all nearby active Resonators in the team by 2% for 30s, up to 30%.",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 0.02,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "For every 1% of Qiuyuan's Crit. Rate over 50%, this skill increases the Crit. DMG of all nearby active Resonators in the",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
+            }
+          ]
+        },
+        {
+          "desc": "## Basic Attack - Thus Spoke the Blade: Inkwash\nWhen Qiuyuan reaches 200 points of Swordster's Soliloquy, his [Basic Attack] is replaced with Basic Attack [Thus Spoke the Blade: Inkwash], which chains together up to 4 consecutive strikes, dealing Aero DMG, considered as Heavy Attack DMG.\n\n## Bamboo's Shade\nWhen Qiuyuan reaches 400 points of Swordster's Soliloquy, he gains the [Bamboo's Shade] effect, granting all nearby active Resonators in the team 30% Echo Skill DMG Bonus for 30s.\n\n## Inksplash of Mind\nWhen Swordster's Soliloquy is full, Qiuyuan enters the [Inksplash of Mind] state for 8s, during which [Heavy Attack] is replaced with Heavy Attack [Thus Spoke the Blade: To Save].\nIn this state, hold [Normal Attack] to consume Swordster's Soliloquy to perform Heavy Attack [Thus Spoke the Blade: To Teach], [Thus Spoke the Blade: To Save], and [Thus Spoke the Blade: To Sacrifice] in order, dealing Aero DMG, considered as Heavy Attack DMG.\n- Performing [Thus Spoke the Blade: To Teach], [Thus Spoke the Blade: To Save], or [Thus Spoke the Blade: To Sacrifice] is considered as performing [Echo Skill].\n- Inksplash of Mind ends when Swordster's Soliloquy is used up.\n\n## Swordster's Soliloquy\nQiuyuan can hold up to 600 points of Swordster's Soliloquy.\n- 100 points of Swordster's Soliloquy is obtained when performing [Basic Attack] Stage 3.\n- 100 points of Swordster's Soliloquy is obtained when performing each stage of Basic Attack [Thus Spoke the Blade: Inkwash].\n- 100 points of Swordster's Soliloquy is obtained when performing [Dodge Counter].\n- 400 points of Swordster's Soliloquy is obtained when performing [Intro Skill].\n- Swordster's Soliloquy cannot be obtained in the Inksplash of Mind state.\n- Swordster's Soliloquy is cleared when the Inksplash of Mind state ends.",
+          "skillKeys": [
+            "forte_heavy_thus_spoke_the_blade_inkwash_1",
+            "forte_heavy_thus_spoke_the_blade_inkwash_2",
+            "forte_heavy_thus_spoke_the_blade_inkwash_3",
+            "forte_heavy_thus_spoke_the_blade_inkwash_4",
+            "forte_heavy_thus_spoke_the_blade_to_teach",
+            "forte_heavy_thus_spoke_the_blade_to_save",
+            "forte_heavy_thus_spoke_the_blade_to_sacrifice"
+          ],
+          "effects": [
+            {
+              "stat": "skillTypeBonus",
+              "value": 0.3,
+              "element": null,
+              "skillType": "echo",
+              "teamWide": false,
+              "condition": "When Qiuyuan reaches 400 points of Swordster's Soliloquy, he gains the [Bamboo's Shade] effect, granting all nearby acti",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "echo"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30,
+              "skillKeys": [
+                "heavy_heavy_attack",
+                "forte_heavy_thus_spoke_the_blade_inkwash_1",
+                "forte_heavy_thus_spoke_the_blade_inkwash_2",
+                "forte_heavy_thus_spoke_the_blade_inkwash_3",
+                "forte_heavy_thus_spoke_the_blade_inkwash_4",
+                "forte_heavy_thus_spoke_the_blade_to_teach",
+                "forte_heavy_thus_spoke_the_blade_to_save",
+                "forte_heavy_thus_spoke_the_blade_to_sacrifice"
+              ]
+            }
+          ]
+        },
+        {
+          "desc": "Attack the target, dealing Aero DMG equal to 100% of Qiuyuan's ATK, considered as Echo Skill DMG.\nGrant 50% Echo Skill DMG Amplification to the incoming Resonator, lasting for 14s or until the Resonator is switched out.",
+          "skillKeys": [
+            "outro_strike_before_ready"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.5,
+              "element": null,
+              "skillType": "echo",
+              "teamWide": false,
+              "condition": "Grant 50% Echo Skill DMG Amplification to the incoming Resonator, lasting for 14s or until the Resonator is switched out",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "echo"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 14
+              },
+              "durationSeconds": 14
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -15472,6 +16415,84 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Heavy Attack - Schemata of Runes\n[Hold Normal Attack] to consume two [Runes] and cast [Heavy Attack - Schemata of Runes], dealing Aero DMG. Based on the types of the [Runes] consumed, Sigrika gains the following effects:\n- When consuming [Rune: Trust] and [Rune: Answer], this skill gains the effect of [Runic Outburst].\n- When consuming two [Runes: Trust], this skill gains the effect of [Runic Chain Whip].\n- When consuming two [Runes: Answer], this skill gains the effect of [Runic Soliskin].\nWhen consuming [Runes], if Sigrika holds at least 30 of [Soliskin Vitality], consume 30 to increase the DMG Multipliers of the current [Runic Outburst], [Runic Chain Whip], and [Runic Soliskin] by 50%. Obtain a stack of [Innate Gift?].\nWhen consuming [Runes], if [Soliskin Vitality] is lower than 30 , consume all [Soliskin Vitality]. Every 10 of [Soliskin Vitality] consumed grants the current [Runic Outburst], [Runic Chain Whip], and [Runic Soliskin] 15% DMG Amplification.\n[Heavy Attack - Schemata of Runes] deals Echo Skill DMG.\n\n## Runic Outburst\nDeal Aero DMG (considered Echo Skill DMG).\n\n## Runic Chain Whip\nStagnate nearby targets and deal Aero DMG (considered Echo Skill DMG).\n\n## Runic Soliskin\nPull in nearby targets and deal Aero DMG (considered Echo Skill DMG).\n\n## Forte Circuit - Learn My True Name\nWhen [Full Stop] reaches 100 , if [Forte Circuit - Learn My True Name] is not on Cooldown, Resonance Skill to cast [Resonance Skill - BOOMY BOOM!] or [Resonance Skill - Soliskin to the Aid]. [Hold Resonance Skill] to consume all [Full Stop] to cast [Forte Circuit - Learn My True Name], dealing Aero DMG (considered Echo Skill DMG).\n\n## Innate Gift?\nSigrika can hold up to 2 of [Innate Gift?]. Each stack grants [Runic Outburst], [Runic Chain Whip], [Runic Soliskin] and [Forte Circuit - Learn My True Name] 30% DMG Amplification.\nThis effect ends after Sigrika casts [Forte Circuit - Learn My True Name] or is switched off the field.\n\n## Rune\nSigrika holds up to [4 ]. Without [Full Stop], Sigrika can only hold up to [2 ]. When Sigrika gains a new [Rune] at max capacity, the existing [Runes] shift one slot to the left, removing the leftmost [Rune]. With at least 50 of [Full Stop], Sigrika can hold 2 additional .\nHitting a target directly with [Basic Attack - Elucidated] or [Dodge Counter - Decipher] in the duration of the moves grants one [Rune: Trust].\nHitting a target directly with [Resonance Skill - BIG BOOMY BOOM!] or [Resonance Skill - Soliskin to the Aid] in the duration of the moves grants one [Rune: Answer].\n\n## Full Stop\nAfter casting [Heavy Attack - Schemata of Runes], gain 50 of [Full Stop], up to 100 points.\n\n## Soliskin Vitality\nWhen any nearby Resonators in the team cast Echo Skill, Sigrika gains 10 of [Soliskin Vitality], up to 60 . Echoes with the same name can only trigger this effect once. Casting [Outro Skill - In This Very Moment] resets the record of Echo triggering this effect.",
+          "skillKeys": [
+            "forte_heavy_schemata_of_runes",
+            "forte_heavy_runic_outburst",
+            "forte_heavy_runic_chain_whip",
+            "forte_heavy_runic_soliskin",
+            "forte_heavy_forte_circuit_learn_my_true_name"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.5,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "When consuming [Runes], if Sigrika holds at least 30 of [Soliskin Vitality], consume 30 to increase the DMG Multipliers ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "forte_heavy_runic_chain_whip",
+                "forte_heavy_runic_soliskin"
+              ]
+            },
+            {
+              "stat": "amplify",
+              "value": 0.15,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Every 10 of [Soliskin Vitality] consumed grants the current [Runic Outburst], [Runic Chain Whip], and [Runic Soliskin] 1",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "amplify",
+              "value": 0.3,
+              "element": null,
+              "skillType": "forte",
+              "teamWide": false,
+              "condition": "Each stack grants [Runic Outburst], [Runic Chain Whip], [Runic Soliskin] and [Forte Circuit - Learn My True Name] 30% DM",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "stackable": true,
+              "perStack": 0.3,
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -16893,6 +17914,52 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Outer Stellarealm\nGenerate the [Outer Stellarealm] to restore HP for all party members within its effective range continuously. This effect can be triggered once every 3s.\n\n## Inner Stellarealm\nWhen a party member uses [Intro Skill] within the [Outer Stellarealm], it evolves into the [Inner Stellarealm]. Within the effective range of the [Inner Stellarealm], for every 0.2% of Shorekeeper's Energy Regen, all party members gain a 0.01% increase of Crit. Rate, up to 12.5%.\n[Inner Stellarealm] has all the effects of the [Outer Stellarealm].\n\n## Supernal Stellarealm\nWhen a party member uses [Intro Skill] within the [Inner Stellarealm], it evolves into the [Supernal Stellarealm]. Within the effective range of the [Supernal Stellarealm], for every 0.1% of Shorekeeper's Energy Regen, all party members gain a 0.01% increase of Crit. DMG, up to 25%.\n[Supernal Stellarealm] has all the effects of the [Inner Stellarealm].",
+          "skillKeys": [
+            "liberation_healing"
+          ],
+          "effects": [
+            {
+              "stat": "critRate",
+              "value": 0.0001,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "Within the effective range of the [Inner Stellarealm], for every 0.2% of Shorekeeper's Energy Regen, all party members g",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            },
+            {
+              "stat": "critDmg",
+              "value": 0.0001,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "Within the effective range of the [Supernal Stellarealm], for every 0.1% of Shorekeeper's Energy Regen, all party member",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 5,
         "2": 100,
@@ -17343,6 +18410,127 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Phoebe concentrates the light in her hands into the Mirror of Enlightenment and smashes it, dealing Spectro DMG.\n- [Absolution] Enhancement: Increase DMG Multiplier by 255%.\n- [Confession] Enhancement: Apply 8 of [Spectro Frazzle] to targets hit.",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 2.55,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "- [Absolution] Enhancement: Increase DMG Multiplier by 255%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "absolution"
+              },
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "absolution"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "absolution"
+              },
+              "skillKeys": [
+                "liberation"
+              ]
+            }
+          ]
+        },
+        {
+          "desc": "When Phoebe's Prayer is full, consume all Prayer to cast one of the following skills:\n- Hold [Basic Attack] to cast Heavy Attack [Absolution Litany], dealing Spectro DMG and applying 1 stack of [Spectro Frazzle] to the targets hit. Phoebe enters [Absolution] status, which allows her to deal more damage.\n- Hold [Resonance Skill] to cast Resonance Skill [Utter Confession], dealing Spectro DMG and applying 1 stack of [Spectro Frazzle] to the targets hit. Phoebe enters [Confession] status, which allows her to better exploit Spectro Frazzle.\n- [Absolution] and [Confession] cannot coexist. Entering into one will end the other.\n- When Divine Voice is not exhausted, Phoebe is unable to cast Heavy Attack [Absolution Litany] and Resonance Skill [Utter Confession].\n- When Divine Voice is exhausted, Phoebe will not exit the [Absolution] or [Confession] status.\n\n## Heavy Attack: Starflash\nWhen Phoebe has Divine Voice, casting [Basic Attack Stage 3] or [Dodge Counter] replaces the next [Heavy Attack] with [Heavy Attack: Starflash], which deals Spectro DMG at the cost of 30 Divine Voice.\n- [Absolution] Enhancement: Reduce the cost of Divine Voice by 15. When the targets hit have [Spectro Frazzle], the skill gains 256% DMG Amplification.\n- [Confession] Enhancement: Apply 5 stacks of [Spectro Frazzle] to the targets hit.\n\n## Prayer\nPhoebe can hold up to 120 Prayer.\nPhoebe automatically gains 5 Prayer every second.\n\n## Divine Voice\nPhoebe can hold up to 60 Divine Voice.\nCasting Heavy Attack [Absolution Litany] or Resonance Skill [Utter Confession] restores 60 Divine Voice.",
+          "skillKeys": [
+            "forte_heavy_absolution_litany",
+            "forte_heavy_utter_confession",
+            "forte_heavy_heavy_attack_starflash"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 2.56,
+              "element": 5,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "When the targets hit have [Spectro Frazzle], the skill gains 256% DMG Amplification.",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        },
+        {
+          "desc": "Deal Spectro DMG equal to 528.41% of Phoebe's ATK to nearby targets.\n- [Absolution] Enhancement: Increase DMG Multiplier by 255%.\n- [Confession] Enhancement: Grant [Silent Prayer] to the Resonator on the field, reducing the Spectro RES of nearby targets by 10% and granting 100% [Spectro Frazzle] DMG Amplification. When [Spectro Frazzle] inflicts DMG, extend [Spectro Frazzle's] damage interval by 50%. This effect lasts 30s or until Phoebe switches to [Absolution] status.",
+          "skillKeys": [
+            "outro_attentive_heart"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 2.55,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "- [Absolution] Enhancement: Increase DMG Multiplier by 255%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "absolution"
+              },
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "absolution"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "absolution"
+              },
+              "skillKeys": [
+                "outro_attentive_heart"
+              ]
+            },
+            {
+              "stat": "amplify",
+              "value": 1,
+              "element": 5,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "- [Confession] Enhancement: Grant [Silent Prayer] to the Resonator on the field, reducing the Spectro RES of nearby targ",
+              "conditionKind": "unconditional",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "confession"
+              },
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "confession"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "confession"
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -17806,6 +18994,71 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Standard Defense Protocol\nAttack the target to deal Spectro DMG and enter a block stance. This state ends early if Zani is switched off the field. [Normal Attack] within a certain time to perform [Basic Attack Stage 3], recovering 10 points of Redundant Energy and Stagnating the target on hit.\nWhen attacked by an enemy while in block stance, reduce this instance of damage by 100% and Stagnate nearby targets, then cast [Pinpoint Strike], dealing Spectro DMG and further reducing their Vibration Strength by 5%. DMG taken by Zani is reduced by 30% within the next 2s.\n\n## Crisis Response Protocol\nWhen Zani is not in [Inferno Mode] and has full Redundant Energy, her [Resonance Skill] is replaced with Resonance Skill [Crisis Response Protocol].\nHold [Resonance Skill] to enter [Ready Stance]. While in [Ready Stance], Zani is immune to interruption. This state ends early if Zani is switched off the field. After releasing [Resonance Skill] button or when the stance duration ends, consume all Redundant Energy to cast [Targeted Action], dealing Spectro DMG, which is also considered [Spectro Frazzle DMG].\nWhen attacked by an enemy in while in [Ready Stance], reduce this instance of damage by 100% and consume all Redundant Energy to cast [Forcible Riposte], dealing Spectro DMG (also considered [Spectro Frazzle DMG]), Stagnating the target, and further reducing their Vibration Strength by 5%. DMG taken by Zani is reduced by 30% within the next 2s.\nCasting [Targeted Action] or [Forcible Riposte] sends Zani into [Sunburst] mode and inflicts a stack of Heliacal Ember upon the target on hit. The last stage of the attack recovers Blaze.\n\n## Sunburst\nThe [Spectro Frazzle] DMG dealt by Zani to the target is Amplified by 20%.",
+          "skillKeys": [
+            "skill_standard_defense_protocol",
+            "skill_pinpoint_strike",
+            "skill_targeted_action",
+            "skill_forcible_riposte"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.2,
+              "element": 5,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The [Spectro Frazzle] DMG dealt by Zani to the target is Amplified by 20%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "skill_standard_defense_protocol",
+                  "skill_pinpoint_strike",
+                  "skill_targeted_action",
+                  "skill_forcible_riposte"
+                ]
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
+        },
+        {
+          "desc": "Attack the target, dealing Spectro DMG equal to 150% of Zani's ATK and removing all stacks of Heliacal Ember inflicted upon the target. Each stack increases the DMG dealt by 10%. This DMG is considered [Spectro Frazzle] DMG. The Spectro DMG dealt by other Resonators in the team to the target marked by [Heliacal Ember] is Amplified by 20% for 20s.",
+          "skillKeys": [
+            "outro_beacon_for_the_future"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.2,
+              "element": 5,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The Spectro DMG dealt by other Resonators in the team to the target marked by [Heliacal Ember] is Amplified by 20% for 2",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 20
+              },
+              "durationSeconds": 20
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 100,
         "2": 100,
@@ -18247,6 +19500,71 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Deal Havoc DMG and recover HP for all nearby Resonators in the team.\nCasting this skill sends Chisa into [Woven Myriad - Convergence] for 15s.\nWhile not in [Chainsaw Mode], [Normal Attack] shortly after casting this skill to cast [Basic Attack Stage 2].\nCan be cast in mid-air close to the ground.\n\n## Woven Myriad - Convergence\nThe DMG Multipliers of [Sawring - Blitz], [Chainsaw Mode - Dodge Counter], and [Sawring - Eradication] are increased by 120%.\nThe bonus DMG Multiplier for [Sawring - Eradication] granted by [Sawring- Blitz] and [Chainsaw Mode - Dodge Counter] when [Ring of Chainsaw] is consumed additionally increases by 120%.\nCasting [Sawring - Eradication] ends [Woven Myriad - Convergence].",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 1.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The DMG Multipliers of [Sawring - Blitz], [Chainsaw Mode - Dodge Counter], and [Sawring - Eradication] are increased by ",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "liberation"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "skillKeys": [
+                "forte_heavy_sawring_blitz_1",
+                "forte_heavy_sawring_blitz_2",
+                "forte_heavy_sawring_blitz_3",
+                "forte_heavy_sawring_blitz_2_hold",
+                "forte_heavy_sawring_blitz_2_discordance",
+                "forte_heavy_sawring_blitz_3_hold",
+                "forte_heavy_sawring_blitz_3_falltone",
+                "forte_heavy_chainsaw_mode_dodge_counter",
+                "forte_heavy_chainsaw_mode_dodge_counter_hold",
+                "forte_heavy_sawring_eradication"
+              ]
+            },
+            {
+              "stat": "multiplierUp",
+              "value": 1.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "The bonus DMG Multiplier for [Sawring - Eradication] granted by [Sawring- Blitz] and [Chainsaw Mode - Dodge Counter] whe",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "forte_heavy_sawring_eradication"
+              ]
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -19295,6 +20613,106 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Golden Reflux\nFlash toward the target and deal Spectro DMG. Inflict [Tune Strain - Shifting] on the target hit for 25s.\n[Golden Reflux] has 2 charges.\nCan be cast in mid-air.\n\n## Aureole of Execution\nCasting [Basic Attack Stage 4] or [Mid-air Attack Stage 3] replaces [Resonance Skill] with [Aureole of Execution], which deals Basic Attack DMG and inflicts [Tune Strain - Shifting] on the target hit for 25s.\n[Aureole of Execution] has 3 forms, including [Aureole of Execution: Ring], [Aureole of Execution: Breach], and [Aureole of Execution: Glare].\nCasting any form of [Aureole of Execution] grants 1 of [Endnotes on the Endgame] and switches [Aureole of Execution] to the next form in sequence.\nSwitching to another Resonator resets the cycle of [Aureole of Execution] and [Resonance Skill] is reset to [Golden Reflux].\nCan be cast in mid-air.\n\n## Aureole of Execution: Ring\nDeal Spectro DMG, and reset the [Mid-air Attack] cycle to Stage 1.\nThe next [Normal Attack] triggers [Basic Attack - Golden Impale].\n[Basic Attack - Golden Impale] is no longer available if [Dodge Counter] is cast in mid-air or Luuk Herssen is switched out in the duration.\n\n## Aureole of Execution: Breach\nSpin and dash forward, dealing Spectro DMG to enemies along the path and resetting the [Mid-air Attack] cycle to Stage 1. Then, hurl out an [Ichor Blade].\nThe next [Normal Attack] triggers [Basic Attack - Golden Impale].\n[Basic Attack - Golden Impale] is no longer available if [Dodge Counter] is cast in air or Luuk Herssen is switched out in the duration.\n\n## Aureole of Execution: Glare\nHurl out Solid-State Ichor, dealing Spectro DMG and forming an [Ichor Deposit] on the ground.\n\n## Basic Attack - Golden Impale\nFlash toward the target and deal Spectro DMG, considered Basic Attack DMG.\n\n## Ichor Deposit\n[Ichor Deposit] detonates automatically after 5s, dealing Spectro DMG, considered Basic Attack DMG.\n\n## Endnotes on the Endgame\nIncrease the DMG Multiplier of Resonance Liberation [Rewritten in Winter's Margins] by 25%, stacking up to 3 times. Casting [Rewritten in Winter's Margins] or switching to another Resonator removes all stacks.",
+          "skillKeys": [
+            "skill_golden_reflux",
+            "skill_aureole_of_execution_ring",
+            "skill_aureole_of_execution_breach",
+            "skill_aureole_of_execution_glare",
+            "skill_golden_impale",
+            "skill_ichor_deposit"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.25,
+              "element": null,
+              "skillType": "liberation",
+              "teamWide": false,
+              "condition": "Increase the DMG Multiplier of Resonance Liberation [Rewritten in Winter's Margins] by 25%, stacking up to 3 times.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "skill_golden_reflux",
+                  "skill_aureole_of_execution_ring",
+                  "skill_aureole_of_execution_breach",
+                  "skill_aureole_of_execution_glare",
+                  "skill_golden_impale",
+                  "skill_ichor_deposit"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 25
+              }
+            }
+          ]
+        },
+        {
+          "desc": "## Mid-air Attack - Gavel of Earthshaker\nWhen the Solid-State Ichor of Resonance Skill [Aureole of Execution: Glare] is hurled out, [ Normal Attack] in mid-air to cast [Mid-air Attack - Gavel of Earthshaker].\nSlam down from the air to detonate the [Ichor Deposit], dealing Spectro DMG (considered Basic Attack DMG) and recovering all STA.\n[Mid-air Attack - Gavel of Earthshaker] is no longer available when Resonance Liberation [Rewritten in Winter's Margins] is cast or Luuk Herssen is switched off the field.\n\n## Aureate Judge\nWith full Ichor Flow, enter the [Aureate Judge] state. In this state, Luuk Herssen gains the following effects:\n- Ichor Flow does not restore. The DMG Multipliers of all forms of Resonance Skill [Aureole of Execution] increase by 110%.\n- Casting [Aureole of Execution: Glare] increases the DMG Multiplier of the next [Mid-air Attack - Gavel of Earthshaker] and [Ichor Deposit] DMG by 110%.\n- 100 points of Ichor Flow is consumed each time Resonance Skill [Aureole of Execution] is cast.\n- [Aureate Judge] ends when Ichor Flow depletes.\n\n## Golden Rule\nWhen Luuk Herssen is in the team, all other Resonators in the team gain Golden Rule. When Resonators with Golden Rule cast Outro Skill and the incoming Resonator is Luuk Herssen, remove all Golden Rules on Resonators in the team and grant Luuk Herssen 200 points of Ichor Flow and 12 points of Concerto Energy. Resonators in the team gain Golden Rule again after 24s. This effect does not apply in Co-op Mode.\n\n## Dawnlit Keep\nLuuk Herssen gains 1 of Dawnlit Keep when he stays out of combat for over 4s or casts Intro Skill [Before Injection of Dawn].\nDawnlit Keep is capped at 1 stack. When taking damage from enemies, consume 1 of Dawnlit Keep to reduce the DMG taken by 60% and gain immunity to interruptions for 1s. This effect can be triggered once per second.\n\n## Radiant Reave\nWhen Luuk Herssen performs Dodge in mid-air, he briefly stays airborne and hurls out an [Ichor Blade].\nLuuk Herssen consumes STA continuously while airborne.\nIf Luuk Herssen is launched into mid-air, [ Dodge] before landing to trigger this effect, up to 3 times. When he is on the ground or switched out for more than 3s, the trigger count is reset.\n\n## Ichor Blade\nDeal fixed Spectro DMG, considered Basic Attack DMG that is not affected by any DMG Bonus.\nOnly one [Ichor Blade] can exist at a time. It cannot trigger [Counterattack].\n[Ichor Blade] cannot be launched without a nearby target.\n[Ichor Blade] disappears when Luuk Herssen casts other skills that deal damage or leaves the field.\n\n## Ichor Flow\nLuuk Herssen holds up to 300 points of Ichor Flow.\nNormal Attacks, Resonance Skill [Golden Reflux], Resonance Skill [Aureole of Execution], [Basic Attack - Golden Impale], and [Mid-air Attack - Gavel of Earthshaker] restore Ichor Flow on hit.\nCasting Intro Skill [Before Injection of Dawn] restores 100 points of Ichor Flow.",
+          "skillKeys": [
+            "forte_heavy_gavel_of_earthshaker",
+            "forte_heavy_ichor_blade_dmg_per_0_15s"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 1.1,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "The DMG Multipliers of all forms of Resonance Skill [Aureole of Execution] increase by 110%.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_gavel_of_earthshaker",
+                  "forte_heavy_ichor_blade_dmg_per_0_15s"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 1
+              },
+              "skillKeys": [
+                "skill_aureole_of_execution_ring",
+                "skill_aureole_of_execution_breach",
+                "skill_aureole_of_execution_glare"
+              ]
+            },
+            {
+              "stat": "multiplierUp",
+              "value": 1.1,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "- Casting [Aureole of Execution: Glare] increases the DMG Multiplier of the next [Mid-air Attack - Gavel of Earthshaker]",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "forte_heavy_gavel_of_earthshaker"
+              ]
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 30000,
         "2": 300,
@@ -19815,6 +21233,170 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Basic Attack\nPerform up to 4 consecutive attacks, dealing Spectro DMG.\nHold [Normal Attack] right after [Basic Attack Stage 1] to continuously attack the targets, dealing Spectro DMG. Hold this skill for a certain amount of time to cast [Heavy Attack Stage 1].\nHold [Normal Attack] shortly after [Basic Attack Stage 3] lands to cast [Heavy Attack Stage 2].\n\n## Heavy Attack\nConsume STA to lash out against the enemies with Monowire, dealing Spectro DMG.\nHold [Normal Attack] after [Heavy Attack Stage 1] lands to cast [Heavy Attack Stage 2], dealing Spectro DMG.\n [Normal Attack] shortly after casting [Heavy Attack Stage 1] to cast [Basic Attack Stage 3].\n\n## Mid-air Attack\nConsume STA to perform a Plunging Attack, dealing Spectro DMG.\n [Normal Attack] shortly after casting this skill to cast [Basic Attack Stage 2].\n\n## Dodge Counter\n [Normal Attack] shortly after a successful [Dodge] to attack the target, dealing Spectro DMG.\n [Normal Attack] shortly after casting this skill to cast [Basic Attack Stage 4].\nHold [Normal Attack] shortly after this skill lands to cast [Heavy Attack Stage 2].\n\n## Basic Attack - Thread Shredding\nWhen in [Algorithm Compaction], Lucy's [Basic Attack] is replaced with [Basic Attack - Thread Shredding].\nPerform up to 4 consecutive attacks, dealing Spectro DMG, considered Heavy Attack DMG.\n\n## Heavy Attack - Single Threading\nWhen in [Algorithm Compaction], Lucy's [Heavy Attack] is replaced with [Heavy Attack - Single Threading].\nConsume STA to attack the target, dealing Spectro DMG.\n [Normal Attack] shortly after casting this skill while airborne to cast [Mid-air Attack - Algorithm Compaction].\n [Normal Attack] shortly after casting this skill while on the ground to cast [Basic Attack - Thread Shredding Stage 2].\n\n## Heavy Attack - Dual Threading\nWhen in [Algorithm Compaction] and [Root Access] reaches 100 points, [Heavy Attack - Single Threading] is replaced with [Heavy Attack - Dual Threading].\nConsume STA and all [Root Access] to attack the target, dealing Spectro DMG.\n or hold [Normal Attack] shortly after casting this skill while airborne to cast [Heavy Attack - Multi-threading].\n [Normal Attack] shortly after casting this skill while on the ground to cast [Basic Attack - Thread Shredding Stage 2].\n\n## Heavy Attack - Multi-threading\nConsume STA to attack the target, dealing Spectro DMG and inflicting [Hack - Shifting] on the target. [SQL] can be consumed for a 270% increase in this attack's DMG Multiplier.\n [Normal Attack] shortly after casting this skill to cast [Basic Attack - Thread Shredding Stage 2].\n\n## Mid-air Attack - Algorithm Compaction\nWhen in [Algorithm Compaction], Mid-air Attack is replaced with [Mid-air Attack - Algorithm Compaction].\nConsume STA to perform a Plunging Attack, dealing Spectro DMG.\n [Normal Attack] shortly after casting this skill to cast [Basic Attack - Thread Shredding Stage 2].\n\n## Dodge Counter - Algorithm Compaction\nWhen in [Algorithm Compaction], [Dodge Counter] is replaced with [Dodge Counter - Algorithm Compaction].\n [Normal Attack] shortly after a successful [Dodge] to attack the target, dealing Spectro DMG.\n [Normal Attack] shortly after casting this skill to cast [Basic Attack - Thread Shredding Stage 3].",
+          "skillKeys": [
+            "basic_basic_attack_1",
+            "basic_basic_attack_2",
+            "basic_basic_attack_3",
+            "basic_basic_attack_4",
+            "heavy_heavy_attack_1",
+            "heavy_heavy_attack_2",
+            "basic_plunging_attack",
+            "basic_dodge_counter",
+            "midair_algorithm_compaction",
+            "basic_dodge_counter_algorithm_compaction",
+            "basic_thread_shredding_1",
+            "basic_thread_shredding_2",
+            "basic_thread_shredding_3",
+            "basic_thread_shredding_4",
+            "heavy_single_threading",
+            "heavy_dual_threading",
+            "heavy_multithreading"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 2.7,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "[SQL] can be consumed for a 270% increase in this attack's DMG Multiplier.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "basic_basic_attack_1",
+                  "basic_basic_attack_2",
+                  "basic_basic_attack_3",
+                  "basic_basic_attack_4",
+                  "heavy_heavy_attack_1",
+                  "heavy_heavy_attack_2",
+                  "basic_plunging_attack",
+                  "basic_dodge_counter",
+                  "midair_algorithm_compaction",
+                  "basic_dodge_counter_algorithm_compaction",
+                  "basic_thread_shredding_1",
+                  "basic_thread_shredding_2",
+                  "basic_thread_shredding_3",
+                  "basic_thread_shredding_4",
+                  "heavy_single_threading",
+                  "heavy_dual_threading",
+                  "heavy_multithreading"
+                ]
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "basic_basic_attack_1",
+                "basic_basic_attack_2",
+                "basic_basic_attack_3",
+                "basic_basic_attack_4",
+                "basic_plunging_attack",
+                "basic_dodge_counter",
+                "basic_dodge_counter_algorithm_compaction",
+                "basic_thread_shredding_1",
+                "basic_thread_shredding_2",
+                "basic_thread_shredding_3",
+                "basic_thread_shredding_4",
+                "heavy_single_threading",
+                "skill_payload_charge",
+                "skill_payload_follow_up_attack",
+                "skill_pulse_interference",
+                "skill_deadlock",
+                "liberation_spoofing_program_ping",
+                "liberation_spoofing_program_synapse_burnout",
+                "liberation_spoofing_program_cripple_movement",
+                "intro_intro_skill_outdated_hallucination",
+                "forte_heavy_hack_response_data_crash"
+              ]
+            }
+          ]
+        },
+        {
+          "desc": "## Resonance Liberation - Netrunner\nLucy deep dives into cyberspace and pulls up the Protocol Interface for 10s. While the Protocol Interface is active, choose up to 7 different [Spoofing Program] effects, each requiring different RAM costs. Lucy starts with 24 of RAM.\nWhile in the Protocol Interface, Lucy marks targets within a certain range in her view. Marked targets will be applied with all [Spoofing Program] effects selected afterwards. Adjust Lucy's view to mark more targets. When no target is in view, no [Spoofing Program] can be applied.\nWhile in the Protocol Interface, when either the duration expires or when [Normal Attack] is held down, [Override] is triggered, which deals Spectro DMG to all marked targets before closing the Protocol Interface, considered Heavy Attack DMG. When RAM runs out or is insufficient to activate any [Spoofing Programs], [Normal Attack] to trigger [Override] on all marked targets.\nCan be cast in mid-air close to the ground.\n\n[Spoofing Program: Ping]\nRequires 2 RAM. Extends field of view. Lucy marks and deals Spectro DMG to all nearby targets within the effective range without having to adjust the view, considered Heavy Attack DMG.\n[Spoofing Program: Cyberware Malfunction]\nRequires 4 RAM. Marked targets take 5% more DMG for 30s.\n[Spoofing Program: Breach Protocol]\nRequires 4 RAM. Marked targets' DEF is reduced by 5% for 30s.\n[Spoofing Program: Synapse Burnout]\nRequires 5 RAM. Deals Spectro DMG to all marked targets within a certain range, considered Heavy Attack DMG.\n[Spoofing Program: Cripple Movement]\nRequires 6 RAM. Deals Hack DMG to all marked targets and reduces their ATK by 5% for 30s.\n[Spoofing Program: Weapon Glitch]\nRequires 5 RAM. Causes all marked targets' attacks to have a chance to be reduced by 100% within 30s.\n[Spoofing Program: Cyberpsychosis]\nRequires 6 RAM. Convert all marked targets to neutral units and reduce their Vibration Strength. Only effective against Common Class enemies.\n\n## Resonance Liberation - Old Net Deep Dive\nWhen in [Algorithm Compaction], after [Heavy Attack - Multi-threading] is cast, [Resonance Liberation - Netrunner] is replaced with [Resonance Liberation - Old Net Deep Dive]. Lucy gains all effects of [Resonance Liberation - Netrunner], and the DMG Multiplier of [Override] is greatly increased.\nAfter casting [Resonance Liberation - Old Net Deep Dive], or when Lucy exits the [Algorithm Compaction] state, [Resonance Liberation - Old Net Deep Dive] is replaced with [Resonance Liberation - Netrunner].\nCan be cast in mid-air close to the ground.",
+          "skillKeys": [
+            "liberation_netrunner_override",
+            "liberation_spoofing_program_ping",
+            "liberation_spoofing_program_synapse_burnout",
+            "liberation_spoofing_program_cripple_movement",
+            "liberation_old_net_deep_dive_override"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.05,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Marked targets take 5% more DMG for 30s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
+            }
+          ]
+        },
+        {
+          "desc": "## Cloud Portal\nWhen not in [Algorithm Compaction], Lucy gains [TCP] upon hitting a target. At 100 points of [TCP], [Resonance Skill - Payload] and [Resonance Skill - Pulse Interference] are replaced with [Resonance Skill - Deadlock].\nCasting [Resonance Liberation - Netrunner] or [Resonance Liberation - Old Net Deep Dive] clears all [TCP].\n\n## Algorithm Compaction\nAfter casting [Resonance Skill - Deadlock], Lucy enters [Algorithm Compaction] and gains 1 of [SQL]. Her [Basic Attack] is replaced with [Basic Attack - Thread Shredding], and [Heavy Attack] is replaced with [Heavy Attack - Single Threading]. Lucy's Spectro DMG Bonus is increased by 65% for 8s.\nWhile in [Algorithm Compaction], casting [Resonance Skill - Deadlock] again will not grant [SQL] and Spectro DMG Bonus repetitively.\nWhen in [Algorithm Compaction], Lucy gains [Root Access] upon hitting a target with attacks including [Basic Attack - Thread Shredding] and [Heavy Attack - Single Threading]. Reaching 100 points of [Root Access] replaces [Heavy Attack - Single Threading] with [Heavy Attack - Dual Threading]. or hold [Normal Attack] shortly after casting [Heavy Attack - Dual Threading] to cast [Heavy Attack - Multi-threading].\nWhen casting [Heavy Attack - Multi-threading], if Lucy has [SQL], increase this attack's DMG Multiplier by 270% and remove [SQL].\nWhen casting [Heavy Attack - Multi-threading], if Lucy does not have [SQL], she loses 20% of current HP. If Lucy's HP is below 1%, no HP is consumed.\nAfter casting [Heavy Attack - Multi-threading], [Resonance Liberation - Netrunner] is replaced with [Resonance Liberation - Old Net Deep Dive].\nLucy exits the the [Algorithm Compaction] state after casting [Resonance Liberation - Netrunner] or [Resonance Liberation - Old Net Deep Dive], or [Heavy Attack - Multi-threading] is not followed up by one of these skills: [Normal Attack - Locked Thread], [Resonance Skill - Protocol Breach], [Intro Skill - Outdated Hallucination], and [Tune Break - Data Crash].\n\n## Hack Response - Data Crash\nLucy deals Spectro DMG to a target inflicted with [Hack - Interfered] and applies the same target with [Data Crash], considered Hack DMG.\n[Data Crash]: After the target deals damage, Stagnate the target for 0.5s. Data Crash is removed after this effect is triggered.\n\n## TCP\nLucy holds up to 100 points of [TCP].\nLucy gains [TCP] when she deals damage through [Basic Attack], [Heavy Attack], [Mid-air Attack], [Dodge Counter].\nLucy gains [TCP] when she deals damage through [Resonance Skill - Payload] and [Resonance Skill - Pulse Interference].\nAfter casting [Intro Skill - Outdated Hallucination], casting the next [Resonance Skill - Pulse Interference] additionally grants 20 of [TCP].\n\n## Root Access\nLucy holds up to 100 points of [Root Access].\nLucy gains [Root Access] when she deals damage through [Basic Attack - Thread Shredding], [Heavy Attack - Single Threading], [Mid-air Attack - Algorithm Compaction], and [Dodge Counter - Algorithm Compaction].",
+          "skillKeys": [
+            "forte_heavy_hack_response_data_crash"
+          ],
+          "effects": [
+            {
+              "stat": "elementBonus",
+              "value": 0.65,
+              "element": 5,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Lucy's Spectro DMG Bonus is increased by 65% for 8s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 8
+              },
+              "durationSeconds": 8
+            },
+            {
+              "stat": "multiplierUp",
+              "value": 2.7,
+              "element": null,
+              "skillType": "heavy",
+              "teamWide": false,
+              "condition": "When casting [Heavy Attack - Multi-threading], if Lucy has [SQL], increase this attack's DMG Multiplier by 270% and remo",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -21022,6 +22604,49 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "Hitting a target with [Normal Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Waltz], Basic Attack [Vining Ronde], Dodge Counter [Atonement ], Resonance Skill [Crimson Blossom], and Resonance Skill [Floral Ravage] consumes Crimson Pistils. The Energy Regen Multiplier of this attack is increased by 150%.\nConsuming 10 Crimson Pistils recovers 4 Concerto Energy and obtains 1 Crimson Bud(s). Each bud lasts for 15s, stacking up to 10 times.\n\n## Forte Circuit: Ephemeral\nWhen Concerto Energy is fully recovered, and [Ephemeral] is not on Cooldown, Resonance Skill is replaced with [Ephemeral].\nCasting [Ephemeral] consumes 70 Concerto Energy and deals Havoc DMG to the targets. This damage is considered Basic Attack DMG.\nCamellya enters [Budding Mode] after casting [Ephemeral].\nThis can be cast in mid-air.\n\n## Budding Mode\n- [Sweet Dream]: Increase the DMG Multiplier of [Normal Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Waltz], Basic Attack [Vining Ronde], Dodge Counter [Atonement], Resonance Skill [Crimson Blossom], and Resonance Skill [Floral Ravage] by 50%.\n- Casting [Ephemeral] consumes all Crimson Buds. Each Crimson Bud consumed additionally increases the DMG Multiplier of [Sweet Dream] by 5%, up to 50%.\n- When in [Budding Mode], Camellya cannot gain Crimson Buds.\n- When in [Budding Mode], the Energy Regen Multiplier of [Normal Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Waltz], Basic Attack [Vining Ronde], Dodge Counter [Atonement], Resonance Skill [Crimson Blossom], and Resonance Skill [Floral Ravage] is reduced to 0%.\n- [Budding Mode] ends when Camellya is switched off the field.\n- [Budding Mode] ends when all Crimson Pistils are consumed.\n\n## Crimson Pistil\nCamellya can hold up to 100 Crimson Pistils.\n- Casting Intro Skill [Everblooming] recovers 100 Crimson Pistils.\n- Activating Forte Circuit's [Ephemeral] recovers 100 Crimson Pistils.",
+          "skillKeys": [
+            "forte_heavy_ephemeral"
+          ],
+          "effects": [
+            {
+              "stat": "multiplierUp",
+              "value": 0.5,
+              "element": null,
+              "skillType": "basic",
+              "teamWide": false,
+              "condition": "- [Sweet Dream]: Increase the DMG Multiplier of [Normal Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Walt",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "forte_heavy_ephemeral"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 15
+              },
+              "skillKeys": [
+                "skill_vining_waltz_1",
+                "skill_vining_waltz_2",
+                "skill_vining_waltz_3",
+                "skill_vining_waltz_4",
+                "skill_blazing_waltz",
+                "skill_vining_ronde",
+                "skill_atonement",
+                "skill_crimson_blossom",
+                "skill_floral_ravage"
+              ]
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 10000,
         "2": 10000,
@@ -21745,6 +23370,36 @@
           "value": 0.055999999999999994,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Roccia's improvised comedy begins! Deal Havoc DMG to the target, considered Heavy Attack DMG. For every 0.1% of Roccia's Crit. Rate over 50%, this skill increases the ATK of all Resonators in the team by 1 for 30s, up to 200 points.",
+          "skillKeys": [
+            "liberation"
+          ],
+          "effects": [
+            {
+              "stat": "atkRatio",
+              "value": 0.5,
+              "element": null,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "For every 0.1% of Roccia's Crit. Rate over 50%, this skill increases the ATK of all Resonators in the team by 1 for 30s,",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 30
+              },
+              "durationSeconds": 30
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -22726,6 +24381,48 @@
           "tier": 2
         }
       ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Waltz of Forsaken Depths\nPhrolova's max Resonance Energy is 0. [Waltz of Forsaken Depths] does not consume Resonance Energy.\nWhen in the [Resolving Chord] state, [Waltz of Forsaken Depths] becomes available.\nCasting this skill ends the [Resolving Chord] state, and Phrolova enters the [Maestro] state for 24s.\n\n## Maestro\nGain 120% ATK increase.\nPhrolova floats in the air and commands Hecate to fight. Hecate will share Phrolova's stats and statuses, and damage dealt by Hecate will be considered coming from Phrolova. Hecate's attacks will not remove the target's Hazy Dream state.\nDuring this period, Phrolova plays the [Volatile Notes] in turn. Each [Volatile Note] holds for 4s.\nIf Phrolova is the active Resonator on the field, she can give the following cues to Hecate. Any damage taken by Hecate in this state affects Phrolova as well.\n- [Cue - Basic Attack]: Normal Attack to command Hecate to cast [Basic Attack - Hecate]. When Phrolova is the active Resonator on the field, for every 2 times Hecate casts [Basic Attack - Hecate], the next [Basic Attack - Hecate] is replaced with [Enhanced Attack - Hecate].\n- [Cue - Dodge]: Dodge to command Hecate to dodge an attack. Hecate takes no damage from a hit successfully Dodged.\n- [Cue - Reset]: Jump to reset Hecate's position.\n- [Cue - Curtain Call]: Resonance Liberation to command Hecate to cast [Curtain Call] and end the [Maestro] state.\nWhen Phrolova is not the active Resonator, Hecate takes no damage and automatically casts [Basic Attack - Hecate] to attack the target. When Resonators in the team cast Echo Skill, Hecate casts [Enhanced Attack - Hecate] to attack the target. This effect can be triggered up to 10 times in total during Phrolova's [Maestro] state. Echoes of the same name can trigger this effect 1 .\nSwitching back to Phrolova ends [Maestro] state.\nEnding [Maestro] state removes all [Volatile Notes].\n\n## Basic Attack - Hecate\nPerform up to 2 consecutive attacks, dealing Havoc DMG (considered [Echo Skill DMG]).\n\n## Enhanced Attack - Hecate: Strings\nWhen Phrolova plays [Volatile Note - Strings], Hecate casts [Enhanced Attack - Hecate: Strings] when casting [Enhanced Attack - Hecate], dealing Havoc DMG and Stagnating the targets (considered [Echo Skill DMG]).\n\n## Enhanced Attack - Hecate: Winds\nWhen Phrolova plays [Volatile Note - Winds], Hecate casts [Enhanced Attack - Hecate: Winds] when casting [Enhanced Attack - Hecate], dealing Havoc DMG, pulling the targets in (considered [Echo Skill DMG]).\n\n## Enhanced Attack - Hecate: Cadenza\nWhen Phrolova plays [Volatile Note - Cadenza], Hecate casts [Enhanced Attack - Hecate: Cadenza] when casting [Enhanced Attack - Hecate], dealing Havoc DMG, Stagnating and pulling the targets in (considered [Echo Skill DMG]).\n\n## Curtain Call\n[Curtain Call] can be cast via the following 5 ways, Stagnating the targets and dealing Havoc DMG.\n- When Phrolova is the active Resonator on the field, end the [Maestro] state.\n- When Phrolova is in the [Maestro] state, switch to Phrolova without casting Intro Skill.\n- When Phrolova is not the active Resonator and the [Maestro] state ends, switch to Phrolova without casting Intro Skill.\n- When Phrolova is in the [Maestro] state, Resonance Liberation.\n- When Phrolova is in the [Resolving Chord] state, hold Resonance Liberation.\nWhen in [Resolving Chord] state, casting [Curtain Call] removes all [Volatile Notes] and ends the [Resolving Chord] state.",
+          "skillKeys": [
+            "liberation_hecate_1",
+            "liberation_hecate_2",
+            "liberation_enhanced_attack_hecate_strings",
+            "liberation_enhanced_attack_hecate_winds",
+            "liberation_enhanced_attack_hecate_cadenza",
+            "liberation_curtain_call"
+          ],
+          "effects": [
+            {
+              "stat": "atkRatio",
+              "value": 1.2,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "Gain 120% ATK increase.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "castMatch",
+                "skillKeys": [
+                  "liberation_hecate_1",
+                  "liberation_hecate_2",
+                  "liberation_enhanced_attack_hecate_strings",
+                  "liberation_enhanced_attack_hecate_winds",
+                  "liberation_enhanced_attack_hecate_cadenza",
+                  "liberation_curtain_call"
+                ]
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 24
+              }
+            }
+          ]
+        }
+      ],
       "specialEnergyCaps": {
         "1": 4095,
         "2": 600,
@@ -23130,6 +24827,146 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "## Resonance Skill - Sword Stance Flow: Azure\nYangyang: Xuanling is in [Azure Sword Stance] by default. When [Melody] is depleted while in [Feather Sword Stance], [Resonance Skill - Feather's Edge] is replaced by [Resonance Skill - Sword Stance Flow: Azure].\n [Resonance Skill] to switch to [Azure Sword Stance] and cast [Resonance Skill - Sword Stance Flow: Azure], dealing Havoc DMG and restoring 100 of [Melody] and 1 of [Azure Plume]. This instance of DMG is considered [Heavy Attack DMG].\nWhen [Resonance Skill - Sword Stance Flow: Azure] hits the target, consume 1 of [Havoc Bane] on the target.\nThe [Basic Attack - Feather Sword Stance] cycle is not reset within a short time after casting [Resonance Skill - Sword Stance Flow: Azure]. If casting [Resonance Skill - Sword Stance Flow: Azure] resets the cycle, summon a [Wraith of Sound] to finish the current attack and deal a fixed instance of Havoc DMG, considered [Basic Attack DMG], which is not affected by any DMG Bonus effects and does not inflict [Havoc Bane].\nSuccessful Dodge can be triggered within a short time into the action of this skill, which consumes 50 of [Melody].\n\n## Resonance Skill - Sword Stance Flow: Feather\nWhen [Melody] is depleted while in [Azure Sword Stance], [Resonance Skill - Feather's Edge] is replaced by [Resonance Skill - Sword Stance Flow: Feather].\n [Resonance Skill] to switch to [Feather Sword Stance] and cast [Resonance Skill - Sword Stance Flow: Feather], dealing Havoc DMG and restoring 100 of [Melody] and 1 of [Azure Plume]. This instance of DMG is considered [Heavy Attack DMG].\nWhen [Resonance Skill - Sword Stance Flow: Feather] hits, consume 1 of [Havoc Bane] on the target.\nThe [Basic Attack - Azure Sword Stance] cycle is not reset within a short time after casting [Resonance Skill - Sword Stance Flow: Feather]. If casting [Resonance Skill - Sword Stance Flow: Feather] resets the cycle, summon a [Wraith of Sound] to finish the current attack and deal a fixed instance of Havoc DMG, considered [Basic Attack DMG], which is not affected by any DMG Bonus effects and does not inflict [Havoc Bane].\nSuccessful Dodge can be triggered within a short time into the action of this skill, which consumes 50 of [Melody].\n\n## Heavy Attack - Azure Sword Stance\nWhen [Azure Plume] is restored to its maximum while in [Azure Sword Stance], hold Normal Attack to consume STA and all [Azure Plume] to cast [Heavy Attack - Azure Sword Stance], generating a massive cyclone that strikes the area in front, dealing Havoc DMG, considered [Heavy Attack DMG].\nWhen casting [Heavy Attack - Azure Sword Stance], gain [Bated Breath]: If Yangyang: Xuanling is the active Resonator in the field, the Crit. DMG of this [Heavy Attack - Azure Sword Stance] increases by 160%. When [Heavy Attack - Azure Sword Stance] ends, [Bated Breath] is removed. [Bated Breath] can be gained up to once every 25s.\n[Heavy Attack - Azure Sword Stance] applies 2 stacks of [Havoc Bane] to the targets hit.\n\n## Heavy Attack - Feather Sword Stance\nWhen [Azure Plume] is restored to its maximum while in [Feather Sword Stance], if Yangyang: Xuanling is on the ground and not in a [Basic Attack - Havoc in Bloom] cycle, hold Normal Attack to consume STA and cast [Heavy Attack - Feather Sword Stance], dealing Havoc DMG. After it hits a target, [Mid-air Attack - Feather Fall] is automatically cast.\nWhen casting [Heavy Attack - Feather Sword Stance], gain [Streaming Storm], which lasts 15s. While Yangyang: Xuanling is the active Resonator in the team, the Crit. DMG of this [Heavy Attack - Feather Sword Stance] or the next [Mid-air Attack - Feather Fall], [Basic Attack - Havoc in Bloom], or [Dodge Counter - Havoc in Bloom] is increased by 160%. [Streaming Storm] is removed when [Basic Attack - Havoc in Bloom] Stage 3 or [Dodge Counter - Havoc in Bloom] Stage 3 ends. [Streaming Storm] can be gained up to once every 25s.\n[Heavy Attack - Feather Sword Stance] applies 2 stacks of [Havoc Bane] to the targets hit.\n\n## Mid-air Attack - Feather Fall\nWhen [Azure Plume] is restored to its maximum while in [Feather Sword Stance] and airborne, [Mid-air Attack - Feather Sword Stance] is replaced by [Mid-air Attack - Feather Fall].\n or hold Normal Attack to consume STA and all [Azure Plume] to cast [Mid-air Attack - Feather Fall], dealing Havoc DMG. Casting [Mid-air Attack - Feather Fall] enters [Hark the Wind] for 12s.\n\n## Hark the Wind\nWhile in [Feather Sword Stance], [Basic Attack - Feather Sword Stance] is replaced by [Basic Attack - Havoc in Bloom], which performs up to 3 consecutive attacks, dealing Havoc DMG, considered [Heavy Attack DMG].\n[Basic Attack - Havoc in Bloom] Stage 2 and Stage 3 can be cast in mid-air close to the ground. Casting Stage 3 ends [Basic Attack - Havoc in Bloom]. This attack cycle cannot be reset.\nDuring [Hark the Wind], a Dodge Counter counts towards the [Basic Attack - Havoc in Bloom] cycle.\n\n## Feathered Oath\nWhen nearby Resonators in the team inflict [Havoc Bane] on a target, Yangyang: Xuanling gains 1 stack of [Feathered Oath] for 4s. [Feathered Oath] can be gained once every 1s, stacking up to 6 times. While Yangyang: Xuanling is the active Resonator in the team, each stack increases the Crit. DMG of [Heavy Attack - Azure Sword Stance], [Heavy Attack - Feather Sword Stance], [Mid-air Attack - Feather Fall], [Basic Attack - Havoc in Bloom], and [Dodge Counter - Havoc in Bloom] by 25%, up to 150%.\n\n## Refrain\nBefore Yangyang: Xuanling's [Basic Attack - Azure Sword Stance Stage 4], [Basic Attack - Feather Sword Stance Stage 4], [Heavy Attack - Azure Sword Stance], or [Heavy Attack - Feather Sword Stance] hits a target, record and propagate the highest stack count of [Havoc Bane] on targets within a certain range to all targets within range.\n\n## Melody\n[Melody] has a maximum of 100 points.\nCasting [Resonance Skill - Sword Stance Flow: Azure] or [Resonance Skill - Sword Stance Flow: Feather] restores 100 points of [Melody].\nCasting Resonance Liberation [Hush of a Thousand Voices] consumes all [Melody].\n[Normal Attacks] consumes [Melody] upon dealing damage.\nSuccessful Dodge can be triggered during the action of [Resonance Skill - Sword Stance Switch: Azure], [Resonance Skill - Sword Stance Switch: Feather], [Resonance Skill - Sword Stance Flow: Azure], or [Resonance Skill - Sword Stance Flow: Feather] within a certain time of casting these skills, which consumes 50 of [Melody].\n\n## Azure Plume\n[Azure Plume] has a maximum of 2 points.\nCasting [Resonance Skill - Sword Stance Flow: Azure], [Resonance Skill - Sword Stance Flow: Feather], or [Intro Skill - Skybound Feather] restores 1 of [Azure Plume].\nCasting [Resonance Liberation - Hush of a Thousand Voices] restores 1 of [Azure Plume].\nCasting [Heavy Attack - Azure Sword Stance] or [Mid-air Attack - Feather Fall] consumes all [Azure Plume].",
+          "skillKeys": [
+            "forte_heavy_sword_stance_flow_azure",
+            "forte_heavy_sword_stance_flow_feather",
+            "forte_heavy_azure_sword_stance",
+            "forte_heavy_feather_sword_stance",
+            "forte_heavy_feather_sword_stance_feather_fall",
+            "forte_basic_havoc_in_bloom_1",
+            "forte_basic_havoc_in_bloom_2",
+            "forte_basic_havoc_in_bloom_3",
+            "forte_heavy_dodge_counter_havoc_in_bloom_1",
+            "forte_heavy_dodge_counter_havoc_in_bloom_2",
+            "forte_heavy_dodge_counter_havoc_in_bloom_3",
+            "forte_heavy_wraith_of_sound"
+          ],
+          "effects": [
+            {
+              "stat": "critDmg",
+              "value": 1.6,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "When casting [Heavy Attack - Azure Sword Stance], gain [Bated Breath]: If Yangyang: Xuanling is the active Resonator in ",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "basic_azure_sword_stance_1",
+                "basic_azure_sword_stance_2",
+                "basic_azure_sword_stance_3",
+                "basic_azure_sword_stance_4",
+                "midair_azure_sword_stance",
+                "basic_dodge_counter_azure_sword_stance",
+                "skill_sword_stance_switch_azure",
+                "forte_heavy_sword_stance_flow_azure",
+                "forte_heavy_azure_sword_stance"
+              ]
+            },
+            {
+              "stat": "critDmg",
+              "value": 1.6,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "While Yangyang: Xuanling is the active Resonator in the team, the Crit. DMG of this [Heavy Attack - Feather Sword Stance",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "forte_heavy_feather_sword_stance_feather_fall",
+                "forte_basic_havoc_in_bloom_1",
+                "forte_basic_havoc_in_bloom_2",
+                "forte_basic_havoc_in_bloom_3",
+                "forte_heavy_dodge_counter_havoc_in_bloom_1",
+                "forte_heavy_dodge_counter_havoc_in_bloom_2",
+                "forte_heavy_dodge_counter_havoc_in_bloom_3"
+              ]
+            },
+            {
+              "stat": "critDmg",
+              "value": 0.25,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "While Yangyang: Xuanling is the active Resonator in the team, each stack increases the Crit. DMG of [Heavy Attack - Azur",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "stackable": true,
+              "perStack": 0.25,
+              "maxStacks": 6,
+              "stackTrigger": {
+                "type": "unknown"
+              },
+              "skillKeys": [
+                "forte_heavy_sword_stance_flow_azure",
+                "forte_heavy_azure_sword_stance",
+                "forte_heavy_sword_stance_flow_feather",
+                "forte_heavy_feather_sword_stance",
+                "forte_heavy_feather_sword_stance_feather_fall",
+                "forte_basic_havoc_in_bloom_1",
+                "forte_basic_havoc_in_bloom_2",
+                "forte_basic_havoc_in_bloom_3",
+                "forte_heavy_dodge_counter_havoc_in_bloom_1",
+                "forte_heavy_dodge_counter_havoc_in_bloom_2",
+                "forte_heavy_dodge_counter_havoc_in_bloom_3"
+              ]
+            }
+          ]
+        },
+        {
+          "desc": "Attacks the target, dealing Havoc DMG equal to 300% of Yangyang: Xuanling's ATK.\nAll Resonators in the team other than Yangyang: Xuanling gains [Tonal Switch] for 20s. After a Resonator with [Tonal Switch] inflicts [Havoc Bane], that Resonator's Havoc DMG is Amplified by 20%.\nThis effect is reset upon casting this skill again.",
+          "skillKeys": [
+            "outro_as_the_wind_wills"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.2,
+              "element": 6,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "After a Resonator with [Tonal Switch] inflicts [Havoc Bane], that Resonator's Havoc DMG is Amplified by 20%.",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              }
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {

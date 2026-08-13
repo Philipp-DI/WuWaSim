@@ -30,7 +30,7 @@ npx serve .
 
 Open `http://localhost:8000`. The site has zero JS dependencies and zero build step — `index.html` loads ES modules directly.
 
-The core logic has a Node-native test suite (55 files, no test framework):
+The core logic has a Node-native test suite (71 files, no test framework):
 
 ```bash
 npm test         # run every tests/*.test.mjs (no install needed — plain Node)
@@ -142,10 +142,11 @@ data/
   wuwa-meta.json         P12/P13 precomputed weights + team suggestions (committed)
   patch.json             Runtime overrides (committed, optional)
 tests/
-  *.test.mjs             Plain-Node test suite (68 files, no framework)
+  *.test.mjs             Plain-Node test suite (71 files, no framework)
 docs/
   ARCHITECTURE.md        How data flows end-to-end (read this first)
-  GLOSSARY.md            Game + project vocabulary
+  GLOSSARY.md            Game + project vocabulary (incl. game-data internal names)
+  RESONATOR-ROSTER.md    All 56: id, internal codename, curation status
   HISTORY.md             Phase-by-phase development chronicle
   OPEN-ITEMS.md          The backlog — what is still open, and why
   SIMPLIFICATION-PLAN.md Cleanup/onboarding roadmap (complete; standing conventions)

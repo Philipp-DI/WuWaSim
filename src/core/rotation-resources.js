@@ -48,23 +48,101 @@
  * @param {Array<object>} resourceDefs     — resourceDefsForResonator(id)
  * @returns {Map<string, number[]>} lowercased resource name → level entering step i
  */
-export function computeResourceTimeline(rotation, resourceDefs) {
+export function computeResourceTimeline(rotation, resourceDefs, startLevels = null) {
     const timeline = new Map();
-    const steps = Array.isArray(rotation) ? rotation : [];
     for (const def of resourceDefs ?? []) {
-        let level = 0;
-        const levels = [];
-        for (const skillKey of steps) {
-            levels.push(level);
-            if (def.spendAll?.includes(skillKey)) level = 0;
-            const spend = def.spend?.[skillKey] ?? 0;
-            if (spend) level = Math.max(0, level - spend);
-            const gain = def.gains?.[skillKey] ?? 0;
-            if (gain) level = Math.min(def.cap ?? Infinity, level + gain);
-        }
-        timeline.set(def.name.toLowerCase(), levels);
+        timeline.set(def.name.toLowerCase(), walkResource(rotation, def, startLevels).levels);
     }
     return timeline;
+}
+
+/**
+ * One pass over the rotation for one gauge: the level ENTERING each step, and
+ * the amount that step CONSUMES.
+ *
+ * Both series come from the same walk because they must agree by construction —
+ * a consumption the level series did not account for would let a gauge-gated
+ * warning and a gauge-scaled buff disagree about the same cast.
+ *
+ * `startLevels` is what the gauge already held when this rotation began. It
+ * exists because a member's turn is simulated as SEVERAL rotations — team-sim
+ * runs the auto-injected Intro as its own segment — and a gauge does not reset
+ * between them. Denia earns her Dark Core on Intro and spends it in the segment
+ * after, so without a carried level the spending cast reads an empty gauge.
+ *
+ * @param {string[]} rotation
+ * @param {object} def — one RESOURCE_DEFS entry
+ * @param {Map<string, number>|null} startLevels — lowercased name → level held
+ * @returns {{ levels: number[], consumed: number[], endLevel: number }}
+ */
+function walkResource(rotation, def, startLevels = null) {
+    const steps = Array.isArray(rotation) ? rotation : [];
+    let level = Math.min(def.cap ?? Infinity,
+        Math.max(0, startLevels?.get(def.name.toLowerCase()) ?? 0));
+    const levels = [];
+    const consumed = [];
+    for (const skillKey of steps) {
+        levels.push(level);
+        let spent = 0;
+        // Spends resolve before gains (see the "entering level" note above), so
+        // a cast that both consumes and refills consumes what it ENTERED with.
+        if (def.spendAll?.includes(skillKey)) { spent += level; level = 0; }
+        const spend = def.spend?.[skillKey] ?? 0;
+        if (spend) {
+            const taken = Math.min(level, spend);   // never below zero
+            spent += taken;
+            level -= taken;
+        }
+        consumed.push(spent);
+        const gain = def.gains?.[skillKey] ?? 0;
+        if (gain) level = Math.min(def.cap ?? Infinity, level + gain);
+    }
+    return { levels, consumed, endLevel: level };
+}
+
+/**
+ * Per-step CONSUMED amount for each curated resource.
+ *
+ * The mirror of computeResourceTimeline, and the reason it exists: a kit that
+ * scales a value "for each [X] consumed" is talking about ONE cast — the one
+ * that spends the gauge — and is worth exactly nothing on every other step.
+ * Reading the held LEVEL instead would pay the bonus on every cast in the
+ * rotation, which for Denia's +150% per Dark Core would multiply her whole kit.
+ *
+ * So this series is what makes such an effect SELF-SCOPING: it is 0 wherever
+ * nothing was consumed, and no skill-name binding is needed to keep it there.
+ *
+ * @param {string[]} rotation
+ * @param {Array<object>} resourceDefs
+ * @returns {Map<string, number[]>} lowercased resource name → amount consumed at step i
+ */
+export function computeResourceConsumption(rotation, resourceDefs, startLevels = null) {
+    const consumption = new Map();
+    for (const def of resourceDefs ?? []) {
+        consumption.set(def.name.toLowerCase(), walkResource(rotation, def, startLevels).consumed);
+    }
+    return consumption;
+}
+
+/**
+ * What each gauge holds when this rotation ENDS.
+ *
+ * Handed to the next segment of the same member's turn (and to their next pass)
+ * as `startLevels`, the same way sim.js hands its trigger-fire ledger back as
+ * `carryInFires`. A gauge persists across a swap-out; only the simulation is
+ * segmented, not the character.
+ *
+ * @param {string[]} rotation
+ * @param {Array<object>} resourceDefs
+ * @param {Map<string, number>|null} [startLevels]
+ * @returns {Map<string, number>} lowercased resource name → level held at the end
+ */
+export function computeResourceEndLevels(rotation, resourceDefs, startLevels = null) {
+    const ending = new Map();
+    for (const def of resourceDefs ?? []) {
+        ending.set(def.name.toLowerCase(), walkResource(rotation, def, startLevels).endLevel);
+    }
+    return ending;
 }
 
 /**
@@ -86,4 +164,24 @@ export function resourceLevelAt(timeline, name, stepIndex) {
     const levels = timeline.get(String(name).toLowerCase());
     if (!levels) return null;
     return levels[stepIndex] ?? null;
+}
+
+/**
+ * How much of one named resource this step consumes. Zero, never null.
+ *
+ * Deliberately UNLIKE resourceLevelAt, which returns null for an uncurated gauge
+ * so the resolver can tell "no definition" from "empty". A consumption has no
+ * such distinction to preserve: a gauge the app does not model is a gauge
+ * nothing spends, and both readings are 0. Returning 0 also keeps the failure
+ * direction safe — an unmodelled gauge understates a multiplier instead of
+ * paying it on every cast in the rotation.
+ *
+ * @param {Map<string, number[]>} consumption — from computeResourceConsumption
+ * @param {string} name
+ * @param {number} stepIndex
+ * @returns {number}
+ */
+export function resourceConsumedAt(consumption, name, stepIndex) {
+    if (!consumption || !name) return 0;
+    return consumption.get(String(name).toLowerCase())?.[stepIndex] ?? 0;
 }

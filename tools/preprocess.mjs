@@ -32,7 +32,7 @@ import {
     parseMult, generateSkillLabel, mechanicalToFormula,
     FORMULA_RECLASSIFICATIONS, FORMULA_RECLASS_AMBIGUOUS,
 } from './preprocess/skill-rows.mjs';
-import { applyResonanceModesAndOverrides, applyResonatorRoles } from './preprocess/effects.mjs';
+import { applyResonanceModesAndOverrides, applyResonatorRoles, parseEffectsFromDesc, extractDurationSeconds } from './preprocess/effects.mjs';
 import { buildStatusApplyRules } from './preprocess/status-apply.mjs';
 import { bindSkillScopes } from './preprocess/skill-scope.mjs';
 import { applyBuffFacts, loadBuffFacts } from './preprocess/buff-facts.mjs';
@@ -502,6 +502,87 @@ async function main() {
         }
     }
 
+    // -- skill-node effects (2026-08-10) -------------------------------------
+    // A buff the game states INSIDE a Resonance Liberation / Resonance Skill /
+    // Forte Circuit node was never read at all: parseEffectsFromDesc ran on
+    // inherentSkills and resonanceChain only, so an effect whose source is a
+    // CAST had nowhere to live. Chisa's "Woven Myriad - Convergence" (+120% on
+    // her whole Sawring chain, granted by her own Liberation) is the live case,
+    // and it is worth ~24% of her shortfall against the external benchmark.
+    //
+    // Two things make this structural rather than a wider prose sweep, and both
+    // matter more than the parsing itself:
+    //
+    //  1. THE UNIT IS THE NODE, NOT THE SKILL KEY. One node's description is
+    //     shared by every key derived from it — Chisa's 28 keys carry only 5
+    //     distinct descriptions, 11 of them sharing the Forte text — so parsing
+    //     per key would multiply one clause elevenfold. Keys are grouped by
+    //     description and each node is parsed exactly once.
+    //
+    //  2. THE TRIGGER COMES FROM WHERE THE TEXT LIVES, not from the prose. An
+    //     effect stated in a node is granted by CASTING that node; that is a
+    //     structural fact about the data, not a reading of English. The parser's
+    //     "unconditional / always-on" default is correct for a chain or inherent
+    //     node (both are passive) and wrong here, so an untriggered effect is
+    //     re-anchored onto a castMatch over the node's OWN keys, for the
+    //     duration the node states. An effect the parser DID find a trigger for
+    //     keeps it — that came from real text.
+    //
+    // Slot keys are `SK{node}.{index}`, a NEW namespace: `S`/`IH` keys are
+    // frozen before effect-overrides.json and saved builds' effectStacks read
+    // them (CLAUDE.md), and nothing here renumbers either.
+    for (const resonator of resonators) {
+        const rid = String(resonator.id);
+        const byDesc = new Map();
+        for (const [key, def] of Object.entries(autoSkillMap[rid] ?? {})) {
+            const desc = def?.desc ?? '';
+            if (!desc) continue;
+            if (!byDesc.has(desc)) byDesc.set(desc, []);
+            byDesc.get(desc).push(key);
+        }
+        const nodes = [];
+        for (const [desc, keys] of byDesc) {
+            const parsed = parseEffectsFromDesc(desc, resonator.name) ?? [];
+            if (!parsed.length) continue;
+            const nodeSeconds = extractDurationSeconds(desc);
+            const effects = parsed.map(effect => {
+                // Already triggered by something the text stated — leave it be.
+                if (effect.trigger && effect.trigger.type !== 'none') return effect;
+                return {
+                    ...effect,
+                    // `trigger.skillKeys` is what the matcher reads (buffs.js
+                    // castMatchFiredBefore) — which casts FIRE this effect.
+                    // Distinct from the effect's own top-level `skillKeys`,
+                    // which bindSkillScopes fills in with what it APPLIES TO.
+                    trigger: { type: 'castMatch', skillKeys: keys.slice() },
+                    // A value scaled by what a cast CONSUMES belongs to that cast
+                    // and to no other, so its window is 'thisCast'. 'persist'
+                    // would be wrong in both directions here: its castMatch check
+                    // reads strictly EARLIER steps, so the effect would be dark on
+                    // the very cast it is for unless some sibling key happened to
+                    // fire first, and live on every step after it. The stack count
+                    // is already zero away from the consuming cast, so this is
+                    // about being right rather than about safety.
+                    window: effect.stackTrigger?.consumed === true
+                        ? { type: 'thisCast' }
+                        : nodeSeconds != null
+                            ? { type: 'seconds', seconds: nodeSeconds }
+                            : { type: 'persist' },
+                    // It is no longer unconditional: it needs its own cast.
+                    defaultActive: false,
+                    defaultAssume: false,
+                };
+            });
+            // `desc` travels with the node because bindSkillScopes re-splits it
+            // to recover each clause (effect.condition is truncated to 120 chars
+            // for display) — without it an unscoped multiplierUp would multiply
+            // the WHOLE kit, which is the one failure mode here that inflates
+            // silently. See CLAUDE.md, "An UNSCOPED multiplierUp".
+            nodes.push({ desc, skillKeys: keys.slice(), effects });
+        }
+        if (nodes.length) resonator.skillNodeEffects = nodes;
+    }
+
     // -- measured animation timings (docs/TIMING_MODEL.md) -------------------
     // data/actionable-times.json carries a real, extracted stepDuration per
     // skillMap key, joined from the game's own animation assets. Stamped over
@@ -770,6 +851,63 @@ async function main() {
     }, { bound: 0, dropped: 0 });
     process.stderr.write(`  skill scopes: ${scopeTally.bound} effects bound to a named skill`
         + `${scopeTally.dropped ? `, ${scopeTally.dropped} dropped as unscopable` : ''}\n`);
+
+    // A skill-node `multiplierUp` that bindSkillScopes could not scope is
+    // DROPPED, not shipped. Unscoped, it multiplies every hit the wielder
+    // throws (CLAUDE.md, "An UNSCOPED multiplierUp multiplies the WHOLE kit"),
+    // and this source is new — there is no prior behaviour to preserve, so the
+    // safe default is to apply nothing rather than to inflate silently. The
+    // count is REPORTED so the set is visible and can only shrink; the chain
+    // and inherent sources keep their own existing handling untouched.
+    // A STATE-GATED multiplier stated in a skill node with no named skill
+    // enhances THE NODE IT IS WRITTEN IN. The game writes these as one bulleted
+    // branch per state — Phoebe's Liberation carries
+    //     - [Absolution] Enhancement: Increase DMG Multiplier by 255%.
+    //     - [Confession] Enhancement: Apply 8 of [Spectro Frazzle] to targets hit.
+    // — where "Enhancement" has an elided subject and the node supplies it. The
+    // state gate is what makes this safe to assume: a clause that meant some
+    // OTHER skill would have to name it, and a named subject binds through
+    // bindSkillScopes before this ever runs. Without the scope these were
+    // dropped outright (unscoped, +255% would multiply her whole kit).
+    for (const resonator of resonators) {
+        for (const node of resonator.skillNodeEffects ?? []) {
+            for (const effect of node.effects) {
+                if (effect.stat !== 'multiplierUp') continue;
+                if ((effect.skillKeys?.length ?? 0) > 0 || effect.skillType != null) continue;
+                if (effect.structuralTrigger?.type !== 'inState') continue;
+                effect.skillKeys = node.skillKeys.slice();
+            }
+        }
+    }
+
+    // A multiplier scaled by what a cast CONSUMES is already scoped, by
+    // arithmetic rather than by name: its stack count is the amount that step
+    // spends, which is zero on every cast that spends nothing. Denia's "+150%
+    // per [Dark Core] consumed" is the whole set. Requiring a skill scope on top
+    // would drop the one effect the shape was built to carry.
+    const selfScopedByConsumption = (effect) =>
+        effect.stackTrigger?.type === 'resource' && effect.stackTrigger.consumed === true;
+
+    let unscopedDropped = 0;
+    for (const resonator of resonators) {
+        for (const node of resonator.skillNodeEffects ?? []) {
+            const before = node.effects.length;
+            node.effects = node.effects.filter(effect =>
+                effect.stat !== 'multiplierUp'
+                || (effect.skillKeys?.length ?? 0) > 0
+                || effect.skillType != null
+                || selfScopedByConsumption(effect));
+            unscopedDropped += before - node.effects.length;
+        }
+        if (resonator.skillNodeEffects) {
+            resonator.skillNodeEffects = resonator.skillNodeEffects.filter(node => node.effects.length);
+            if (!resonator.skillNodeEffects.length) delete resonator.skillNodeEffects;
+        }
+    }
+    const skillNodeTally = resonators.reduce((sum, resonator) =>
+        sum + (resonator.skillNodeEffects ?? []).reduce((count, node) => count + node.effects.length, 0), 0);
+    process.stderr.write(`  skill-node effects: ${skillNodeTally} kept`
+        + `${unscopedDropped ? `, ${unscopedDropped} unscoped multiplierUp dropped` : ''}\n`);
 
     // Resonance Mode tagging + surgical effect overrides (post-pass).
     applyResonanceModesAndOverrides(resonators);
