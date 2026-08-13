@@ -903,6 +903,24 @@ export function projectNanokaCharacterFull(nChar) {
     const OUTRO_DMG_RE = new RegExp(
         String.raw`(?:deals?|dealing|Deal)\s+([A-Za-z]+)\s+DMG\s+(?:equal\s+to|of)\s+`
         + String.raw`((?:\{\d+\}|[\d.]+\s*%|\s|\*|\+)+?)\s*of\s+[^.]{0,40}?\b(ATK|HP|DEF)\b`, 'i');
+    // The game writes outro damage a SECOND way, with the multiplier BEFORE the
+    // element and no scaling-stat tail at all: "Attack the target and deal {0}
+    // Spectro DMG" (Lynae 1509) / "Attack the target to deal {0} Aero DMG"
+    // (Iuno 1410). Both state real damage and both were dropped silently by the
+    // pattern above, which requires the "…of X's ATK" clause.
+    //
+    // Deliberately anchored on "Attack the target", the stock phrasing for the
+    // Outro's OWN hit, rather than matching "deal {n} <Element> DMG" anywhere in
+    // the node. An Outro description also talks about what the INCOMING resonator
+    // will do, and a loose pattern would credit the wielder with that. Missing a
+    // multiplier understates; inventing one INFLATES, and inflation is the
+    // failure mode that looks like nothing is wrong. Verified roster-wide: this
+    // matches exactly 1509 and 1410, overlaps the primary pattern on nobody, and
+    // the only damage-shaped outro clause left unmatched is Suisui's "deals {3}
+    // more DMG" — an amplification clause, correctly excluded.
+    const OUTRO_DMG_INLINE_RE = new RegExp(
+        String.raw`Attack(?:s|ing)?\s+the\s+target[^.]{0,40}?\bdeals?\s+`
+        + String.raw`(\{\d+\}|[\d.]+\s*%)\s+([A-Za-z]+)\s+DMG`, 'i');
     // Skill levels a `mults` array carries (nanoka ships 20 for every row).
     const OUTRO_LEVEL_BAND = 20;
     const outroAlreadyOffField = offFieldActions.some(action => action.trigger === 'outro');
@@ -914,17 +932,27 @@ export function projectNanokaCharacterFull(nChar) {
 
         const desc = (skill.desc ?? '').replace(/<[^>]+>/g, '');
         const match = OUTRO_DMG_RE.exec(desc);
-        if (!match) break;
-        const multText = substituteParams(match[2], skill.param ?? []).trim();
+        const inlineMatch = match ? null : OUTRO_DMG_INLINE_RE.exec(desc);
+        if (!match && !inlineMatch) break;
+        // The two shapes order their groups differently: the primary states the
+        // ELEMENT first and names its scaling stat, the inline one states the
+        // MULTIPLIER first and names no scaling stat at all.
+        const multRaw     = match ? match[2] : inlineMatch[1];
+        const elementWord = match ? match[1] : inlineMatch[2];
+        const scalingWord = match ? match[3] : null;
+
+        const multText = substituteParams(multRaw, skill.param ?? []).trim();
         if (!/[\d.]+\s*%/.test(multText)) break;
 
         // The node's own damage entries are authoritative for the scaling stat
-        // when they exist; the description's "of X's ATK" is the fallback.
+        // when they exist; the description's "of X's ATK" is the fallback. The
+        // inline shape states neither (both nodes ship `damage: {}`), so it takes
+        // the same ATK default the other two branches already fall back to.
         const entries = Object.values(skill.damage ?? {}).filter(entry => entry.element !== 0);
         const relatedPropId = entries.length
             ? (RELATED_PROP_ID[entries[0].related_property] ?? 7)
-            : (RELATED_PROP_ID[match[3].toUpperCase()] ?? 7);
-        const outroElementId = ELEMENT_NAME_TO_ID[match[1].toLowerCase()] ?? entries[0]?.element ?? elementId;
+            : ((scalingWord && RELATED_PROP_ID[scalingWord.toUpperCase()]) ?? 7);
+        const outroElementId = ELEMENT_NAME_TO_ID[elementWord.toLowerCase()] ?? entries[0]?.element ?? elementId;
 
         (damageByNode[nid] ??= []).push({
             nodeId: nid,

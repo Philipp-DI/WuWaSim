@@ -8881,3 +8881,78 @@ independently reproducible from the formula constants alone.
 rulings written next to the preserved originals, Z2 withdrawn with its original
 text kept, usage block extended); `docs/HANDOVER-dps-gap-analysis.md` corrected
 in place.
+
+---
+
+## 2026-08-13 — Outro damage: the game writes it two ways, we read one
+
+Follow-up to the harness re-baseline earlier today. Withdrawing Z2 (the three
+benchmark outros are buff-only and correctly deal nothing) meant sweeping all 56
+outro descriptions for damage-shaped clauses the extractor might be dropping.
+Two were.
+
+**[Files Changed]** `tools/preprocess/resonators.mjs`, `tests/outro.test.mjs`,
+`data/wuwa-data.json`, `data/data-version.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]** `OUTRO_DMG_RE` reads one sentence shape — "deals <Element>
+DMG equal to X% of <name>'s ATK". The game also writes outro damage with the
+multiplier FIRST and no scaling-stat tail at all:
+
+    Lynae (1509)  "Attack the target and deal {0} Spectro DMG."
+    Iuno  (1410)  "Attack the target to deal {0} Aero DMG."
+
+Both state real damage (param[0] = "100%"), both ship `damage: {}` and an empty
+`level` map, and both were dropped silently — no warning, no diff. Added
+`OUTRO_DMG_INLINE_RE`, tried only when the primary fails, with the two shapes
+normalised into `multRaw` / `elementWord` / `scalingWord` because they order
+their capture groups differently. With no stated scaling stat and no damage
+entries, `relatedPropId` takes the ATK default the other branches already use.
+
+The inline pattern is deliberately anchored on "Attack the target", the stock
+phrasing for the Outro's OWN hit, rather than matching "deal {n} <Element> DMG"
+anywhere in the node. An Outro description also describes what the INCOMING
+resonator will do, and a loose pattern would credit the wielder with that.
+Missing a multiplier understates; inventing one INFLATES, and inflation is the
+failure mode that looks like nothing is wrong.
+
+**[Verification Method]** Validated roster-wide BEFORE editing: the new pattern
+matches exactly 1509 and 1410, overlaps the primary pattern on nobody (both = 0),
+and the only damage-shaped outro clause left unmatched is Suisui's "deals {3}
+more DMG" — an amplification clause, correctly excluded.
+
+`npm test` **71/71** (outro.test.mjs 39/0), `npm run sweep` 67 imported /
+0 failed, `npm run lint` **0 errors**.
+
+LOCK A — a real, bounded diff, as expected: `generatedAt`, the `damageTable`
+count 4098 -> 4100, the two new rows and their own `skillNodeEffects` entries.
+No effect-slot key (`S{n}.{i}` / `IH{n}.{i}`) moved. Both rows verified correct:
+mult 1.0 flat across the 20-level band (an Outro has no level curve), element 5
+Spectro / 4 Aero, relatedProp 7 ATK.
+
+LOCK B — 70 team-damage nodes moved, and EVERY one is accounted for: 68 are
+same-team deltas of exactly +5,753 (a Lynae outro) or +3,731 (an Iuno one), and
+5 are rank reshuffles where such a team's gain changed its score and displaced a
+neighbour whose own damage is unchanged. `engineHash` is unchanged, correctly —
+no ENGINE_FILES member was touched. Verified structurally by diffing HEAD's meta
+against the new one team-by-team rather than by reading the line diff, because a
+rank reshuffle reads as an unexplained mover when compared by position.
+
+**[Residual Risks]**
+
+- The inline pattern is tight by choice. A third phrasing, if one ships, will be
+  dropped just as silently — the roster sweep is the guard, and it is a
+  throwaway probe rather than a test. What IS pinned is the COUNT: `outro.test`
+  asserts 15 resonators have an outro damage row, so a new drop or a new false
+  positive fails the build.
+- The ATK default for the two new rows is an assumption in the sense that
+  neither node states a scaling stat anywhere — text or data. It is the same
+  default the other branches already fall back to, and it is now test-pinned so
+  a change is visible rather than silent.
+- Neither character is on the benchmark team, so the DPS-gap baseline
+  (1.497x) is unmoved by this.
+
+**[Updated Docs]** This entry. `tests/outro.test.mjs` — the roster count comment
+records why the number moved and that it is not expected to climb to 56, and a
+new block pins BOTH halves of the finding: the two recovered rows, and that the
+three benchmark members' buff-only outros must stay at zero (that one was
+reported as a defect twice).

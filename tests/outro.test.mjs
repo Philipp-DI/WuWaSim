@@ -43,8 +43,12 @@ const outroEntry = (id) => Object.entries(d.autoSkillMap[String(id)] ?? {})
 
 // ── The rows exist, and only where the game states damage ────────────────────
 {
+    // 13 until 2026-08-13, when the second sentence shape (see the bottom of
+    // this file) recovered Lynae's and Iuno's. The remaining 41 outros state no
+    // damage at all — they are buff/heal transfers, which is ordinary WuWa
+    // design, so this number is NOT expected to keep climbing toward 56.
     const withRow = d.resonators.filter(r => outroEntry(r.id));
-    assert(`13 resonators have an outro damage row (got ${withRow.length})`, withRow.length === 13);
+    assert(`15 resonators have an outro damage row (got ${withRow.length})`, withRow.length === 15);
 
     const [key, def] = outroEntry(byName('Carlotta').id);
     const row = d.damageTable['1107'].find(entry => entry.id === def.damageIds[0]);
@@ -177,6 +181,43 @@ function runTeam(names, rotations = {}) {
         raised.capAt('fusion_burst', 60) === 10);
     assert('the per-stack table doubles across that lift',
         Math.abs(NS_TABLE.fusion_burst.byStacks['13'] / NS_TABLE.fusion_burst.byStacks['10'] - 2) < 0.01);
+}
+
+// ── The SECOND outro-damage sentence shape (2026-08-13) ─────────────────────
+// The game writes outro damage two ways, and the pass above read only one of
+// them: "deals <Element> DMG equal to X% of <name>'s ATK". The other puts the
+// multiplier FIRST and names no scaling stat at all — "Attack the target and
+// deal {0} Spectro DMG" — and two resonators ship ONLY that shape, so their
+// outro damage was dropped silently, with no warning and no diff.
+{
+    const outroRowOf = (id) => {
+        const damageId = outroEntry(id)?.[1]?.damageIds?.[0];
+        return damageId == null ? null
+            : (d.damageTable[String(id)] ?? []).find(row => row.id === damageId) ?? null;
+    };
+
+    for (const [id, name, element] of [[1509, 'Lynae', 5], [1410, 'Iuno', 4]]) {
+        const row = outroRowOf(id);
+        assert(`${name}'s outro ships a damage row`, !!row);
+        assert(`${name}'s outro multiplier is the stated 100%`, row?.mults?.[0] === 1);
+        assert(`${name}'s outro carries her own element`, row?.element === element);
+        // Neither node states a scaling stat and both ship an empty `damage`
+        // map, so this is the ATK default — pinned so a future edit that starts
+        // guessing a stat here is visible.
+        assert(`${name}'s outro scales off ATK`, row?.relatedProp === 7);
+        assert(`${name}'s outro has NO level curve`,
+            !!row && row.mults.length === 20 && new Set(row.mults).size === 1);
+    }
+
+    // The other half of the same finding, pinned so it does not get "fixed"
+    // back: an Outro Skill with no damage clause must stay at ZERO. All three of
+    // the benchmark team's outros are buff-only in the GAME's own text (Chisa's
+    // raises negative-status max stacks; Denia's and Aemeath's hand mode-gated
+    // amplification to the incoming resonator), so a zero there is the right
+    // answer and not a missing extraction. This was reported as a defect twice.
+    for (const [id, name] of [[1508, 'Chisa'], [1211, 'Denia'], [1210, 'Aemeath']]) {
+        assert(`${name}'s buff-only outro correctly deals no damage`, outroEntry(id) === null);
+    }
 }
 
 console.log(`outro: ${passed} passed, ${failed} failed`);

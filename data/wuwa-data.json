@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-13T05:56:29.974Z",
+  "generatedAt": "2026-08-13T09:33:15.869Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -19,7 +19,7 @@
     "baseStats": 56,
     "skillTree": 56,
     "weaponCurves": 2,
-    "damageTable": 4098,
+    "damageTable": 4100,
     "skillMapAuto": 56
   },
   "elements": [
@@ -15411,6 +15411,35 @@
               "durationSeconds": 10
             }
           ]
+        },
+        {
+          "desc": "Attack the target to deal 100% Aero DMG. The incoming Resonator gains 50% Heavy Attack DMG Amplification for 14s. This effect ends early if they are switched off the field.\nCasting [Outro Skill] won't interrupt [Heavy Attack - Absolute Fullness], and the Outro Skill effect still applies.",
+          "skillKeys": [
+            "outro_from_gloom_to_gleam"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.5,
+              "element": null,
+              "skillType": "heavy",
+              "teamWide": false,
+              "condition": "The incoming Resonator gains 50% Heavy Attack DMG Amplification for 14s.",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "heavy"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 14
+              },
+              "durationSeconds": 14
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -20025,6 +20054,37 @@
           "value": 0.027999999999999997,
           "col": "intro",
           "tier": 2
+        }
+      ],
+      "skillNodeEffects": [
+        {
+          "desc": "Attack the target and deal 100% Spectro DMG. The next incoming Resonator gain 15% All DMG Amplification and 25% Resonance Liberation DMG Amplification for 14s or until they are switched out.\nLynae leaves the [Kaleidoscopic Parade] state upon casting Outro Skill.",
+          "skillKeys": [
+            "outro_let_s_hit_the_road"
+          ],
+          "effects": [
+            {
+              "stat": "amplify",
+              "value": 0.15,
+              "element": null,
+              "skillType": "liberation",
+              "teamWide": false,
+              "condition": "The next incoming Resonator gain 15% All DMG Amplification and 25% Resonance Liberation DMG Amplification for 14s or unt",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "liberation"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 14
+              },
+              "durationSeconds": 14
+            }
+          ]
         }
       ],
       "specialEnergyCaps": {
@@ -147748,6 +147808,36 @@
         "name": "Forte Circuit: Absolute Fullness",
         "energyGen": 5,
         "concertoGen": 0
+      },
+      {
+        "id": 14100008000,
+        "mults": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "element": 4,
+        "relatedProp": 7,
+        "name": "Outro Skill: From Gloom to Gleam",
+        "energyGen": 0,
+        "concertoGen": 0
       }
     ],
     "1411": [
@@ -166466,6 +166556,36 @@
         "element": 5,
         "relatedProp": 7,
         "name": "Forte Circuit: Tune Rupture Response — Spectral Analysis",
+        "energyGen": 0,
+        "concertoGen": 0
+      },
+      {
+        "id": 15090008000,
+        "mults": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "element": 5,
+        "relatedProp": 7,
+        "name": "Outro Skill: Let's Hit the Road!",
         "energyGen": 0,
         "concertoGen": 0
       },
@@ -222438,6 +222558,23 @@
         "interruptLevel": 8,
         "staminaCost": 0,
         "timingSource": "extracted"
+      },
+      "outro_from_gloom_to_gleam": {
+        "label": "Outro Skill: From Gloom to Gleam",
+        "skillType": "outro",
+        "formulaType": "outro",
+        "isEchoSkill": false,
+        "paletteInclude": false,
+        "damageIds": [
+          14100008000
+        ],
+        "supportIds": [],
+        "stepDuration": 1,
+        "desc": "Attack the target to deal 100% Aero DMG. The incoming Resonator gains 50% Heavy Attack DMG Amplification for 14s. This effect ends early if they are switched off the field.\nCasting [Outro Skill] won't interrupt [Heavy Attack - Absolute Fullness], and the Outro Skill effect still applies.",
+        "meta": [],
+        "energyGen": 0,
+        "concertoGen": 0,
+        "source": "nanoka"
       }
     },
     "1411": {
@@ -230643,6 +230780,23 @@
         "supportIds": [],
         "stepDuration": 1.6,
         "desc": "## Optical Sampling Stage\nLynae is in [Optical Sampling Stage] by default. While in this state, [Overflow] recovers during certain skills.\n\n## Kaleidoscopic Parade\nCasting [Basic Attack - Spark Collision] sends Lynae into [Kaleidoscopic Parade]. In this state, Lynae continuously recovers [Lumiflow] while moving on the ground or during certain periods of certain skills. Lynae will not Walk during this state, and her Running and Sprinting will be replaced by the faster [Free Skating] and [Speed Skating].\n\n## Basic Attack - Polychrome Leap\nWhile in [Kaleidoscopic Parade], with at least 1/3 of the max [Lumiflow], Jump is replaced by [Basic Attack - Polychrome Leap].\nConsume 1/3 of the max [Lumiflow] to deal Spectro DMG. Inflict [Photochromic Flux] on targets hit. Successful Dodges can be triggered within a certain time during this skill. While airborne, [Basic Attack - Polychrome Leap] chains up to 3 stages. Switching to another Resonator resets the combo.\nWhile in combat, each stage of [Basic Attack - Polychrome Leap] cast recovers 1 point of [True Color].\nWithin a certain time after [Basic Attack - Polychrome Leap Stage 1] Normal Attack on the ground to cast [Kaleidoscopic Parade - Basic Attack Stage 2].\nCasting [Basic Attack - Polychrome Leap Stage 2] also pulls in nearby targets.\n\n## Basic Attack - Iridescent Splash\nDuring [Kaleidoscopic Parade], when Lynae is in mid-air with 3 points of [True Color], and [Basic Attack - Visual Impact] is on cooldown, Normal Attack or Resonance Skill to deal Spectro DMG and inflict [Photochromic Flux] on targets hit.\nThis skill consumes 3 points of [True Color].\n Normal Attack within a certain time during this skill to cast [Kaleidoscopic Parade - Basic Attack Stage 2].\n\n## Basic Attack - Visual Impact\nDuring [Kaleidoscopic Parade], when Lynae is in mid-air with 3 points of [True Color], and this skill is not on cooldown, Normal Attack or Resonance Skill to deal Spectro DMG and inflict [Photochromic Flux] on targets hit.\nThis skill consumes 3 points of [True Color] and grants all nearby Resonators in the team 40 points of Tune Break Boost for 30s.\n Normal Attack within a certain time during this skill to cast [Kaleidoscopic Parade - Basic Attack Stage 2].\n\n## Resonance Mode\nInflict [Photochromic Flux] when hitting a target with [Basic Attack - Polychrome Leap], [Basic Attack - Iridescent Splash], [Basic Attack - Visual Impact] and [Intro Skill - Time to Show Some Colors!].\nLynae can switch between [Resonance Mode - Tune Rupture] and [Resonance Mode - Tune Strain]:\n- When in [Resonance Mode - Tune Rupture], [Photochromic Flux] inflicts [Tune Rupture - Shifting] on targets for 25s.\n- When in [Resonance Mode - Tune Strain], [Photochromic Flux] inflicts [Tune Strain - Shifting] on targets for 25s.\n\n## Tune Rupture Response - Spectral Analysis\nDeal an instance of Spectro DMG, considered Tune Rupture DMG, to targets within range affected by [Tune Rupture - Interfered].\n\n## Overflow\nLynae can hold up to 120 points of Overflow.\nWhile in [Optical Sampling Stage], [Overflow] recovers during Basic Attack, Lynae-Style Palettes, Mid-air Attack, and Dodge Counter, or when Intro Skill is cast.\nWhen [Overflow] is full, [Basic Attack - Spark Collision] becomes available.\nCasting [Basic Attack - Spark Collision] removes all [Overflow].\n\n## Lumiflow\nLynae can hold up to 120 points of Lumiflow.\nDuring [Kaleidoscopic Parade]:\n- Restore 20% of [Lumiflow] per second when Lynae is moving on the ground/climbing, or performs a successful Dodge on the ground, or within a certain time during [Kaleidoscopic Parade - Basic Attack], [Kaleidoscopic Parade - Ground Heavy Attack], [Kaleidoscopic Parade - Mid-air Heavy Attack], [Kaleidoscopic Parade - Dodge Counter], [Additive Color], ground Dodge, Intro Skill, or [Basic Attack - To a Vivid Tomorrow!].\n- [Lumiflow] starts to deplete by 20% per second while Lynae is staying still on the ground/climbing/swimming or off the field, or after a certain time following the use of the skills listed above.\n- [Lumiflow] does not change while Lynae is not in any of the states described above.\nExiting [Kaleidoscopic Parade] removes all [Lumiflow].\nWith 120 points of [Lumiflow], Lynae's roller skating speed further increases. [Speed Skating] consumes STA over time.\n\n## True Color\nLynae can hold up to 3 points of True Color.\nDuring combat, each time [Basic Attack - Polychrome Leap] is cast, gain 1 point of [True Color]. With 3 points of [True Color], [Basic Attack - Iridescent Splash] and [Basic Attack - Visual Impact] become available.\nExiting [Kaleidoscopic Parade] removes all [True Color].",
+        "meta": [],
+        "energyGen": 0,
+        "concertoGen": 0,
+        "source": "nanoka"
+      },
+      "outro_let_s_hit_the_road": {
+        "label": "Outro Skill: Let's Hit the Road!",
+        "skillType": "outro",
+        "formulaType": "outro",
+        "isEchoSkill": false,
+        "paletteInclude": false,
+        "damageIds": [
+          15090008000
+        ],
+        "supportIds": [],
+        "stepDuration": 1,
+        "desc": "Attack the target and deal 100% Spectro DMG. The next incoming Resonator gain 15% All DMG Amplification and 25% Resonance Liberation DMG Amplification for 14s or until they are switched out.\nLynae leaves the [Kaleidoscopic Parade] state upon casting Outro Skill.",
         "meta": [],
         "energyGen": 0,
         "concertoGen": 0,
