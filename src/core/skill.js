@@ -25,6 +25,7 @@
 
 import { computeDamage, computeSupport } from './formula.js';
 import { collectActiveEffects, resolveChainInherentContext } from './buffs.js';
+import { targetModApplies } from './buffs/external-buffs.js';
 
 /**
  * The chain-added damage instances live for a build on one skill key.
@@ -58,7 +59,7 @@ const SCALING_BY_PROP = {
     7: 'atk',   // ATK (explicit; default also)
 };
 
-export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, activeEffects = null, skillKey = null }) {
+export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext = null, activeEffects = null, skillKey = null, targetContext = null }) {
     if (!skillDef || !build || !dataset || !stats || !target) return null;
 
     // formulaType → skill level key (matches build.skillLevels keys).
@@ -140,6 +141,19 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
             }
         }
 
+        // Per-hit TARGET modifiers from gear (weapon/sonata DEF-ignore and RES
+        // shred). Scoped exactly like amplify above, because the game scopes them
+        // the same way — Everbright Polestar ignores DEF on Resonance Liberation
+        // DMG only, so a whole-step number would credit it to every Basic too.
+        let externalDefIgnore = 0, externalResReduce = 0;
+        if (targetContext?.length) {
+            for (const mod of targetContext) {
+                if (!targetModApplies(mod, formulaType, row.element)) continue;
+                externalDefIgnore += mod.defIgnore ?? 0;
+                externalResReduce += mod.resReduce ?? 0;
+            }
+        }
+
         // Merge chain/inherent context with outro amplify.
         const context = {
             amplify,
@@ -149,6 +163,12 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
             critDmgBonus: ctxFormula.critDmgBonus,
             scalingRatio: ctxFormula.atkRatio,   // ATK% buffs scale the attacker stat
         };
+        // `context.defIgnore` REPLACES `target.defIgnore` in the formula, so the
+        // target's own (team DEF-ignore gates) has to be carried in rather than
+        // shadowed. Left undefined when nothing external applies, so the
+        // no-gear path stays byte-identical.
+        if (externalDefIgnore) context.defIgnore = (target.defIgnore ?? 0) + externalDefIgnore;
+        if (externalResReduce) context.resReduce = externalResReduce;
         return { id: row.id, skill, result: computeDamage({ stats, skill, target, context }) };
     });
 

@@ -818,6 +818,24 @@ async function main() {
         return JSON.parse(readFileSync(path, 'utf8'));
     })();
 
+    // EXTERNAL buff grants read straight from the game's own tables
+    // (tools/extract/extract_external_buffs.py). One row per grant, with its own
+    // attribute id, magnitude, duration and stack limit — so a source stating two
+    // grants can no longer collapse into one, and a grant reachable from several
+    // trigger paths is present once rather than twice. The text readers in
+    // src/core/buffs/ stay as the FALLBACK for anything not covered here.
+    const externalBuffs = (() => {
+        const path = resolve(__dirname, '../data/external-buffs.json');
+        if (!existsSync(path)) {
+            process.stderr.write('  external buffs: data/external-buffs.json absent — skipped\n');
+            return null;
+        }
+        const parsed = JSON.parse(readFileSync(path, 'utf8'));
+        const weapons = parsed.weapons ?? {};
+        process.stderr.write(`  external buffs: ${Object.keys(weapons).length} weapons\n`);
+        return { attributeNames: parsed.attributeNames ?? {}, weapons };
+    })();
+
     // A clause that NAMES its skills binds to those skills, not to their whole
     // category — without this, sibling clauses stack onto each other and land on
     // every step of that category. The same pass reads the STATE a clause's
@@ -998,6 +1016,7 @@ async function main() {
         statusDamage,
         statusApplyRules,
         chainExtraHits,
+        externalBuffs,
     };
 
     await mkdir(dirname(args.out), { recursive: true });

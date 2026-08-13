@@ -520,6 +520,14 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // Team-wide amplify (L3) folds in via the same per-hit amplify path as the
     // weapon/sonata conditional amplify.
     const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(weaponConditional), ...weaponAmplifyScopes(sonataConditional), ...weaponAmplifyScopes(teamBuffs ?? {})];
+    // Per-hit TARGET modifiers (DEF ignore, RES shred) that gear grants. These
+    // reach the formula through `context.defIgnore` / `context.resReduce`, which
+    // have always existed there and until now had no producer at all — every
+    // weapon DEF-ignore clause was parsed and then discarded.
+    const externalTargetContext = [
+        ...(weaponConditional?.targetMods ?? []),
+        ...(sonataConditional?.targetMods ?? []),
+    ];
 
     const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
 
@@ -815,7 +823,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         const freezeTime = stepTimes.freeze[i];
         const timingSource = resolveTimingSource(skillDef, dataset);
         const resolved = resolveSkill({ skillDef, build, dataset, stats, target, amplifyContext: effectiveAmplify,
-                                        activeEffects: stepActiveEffects, skillKey });
+                                        activeEffects: stepActiveEffects, skillKey,
+                                        targetContext: externalTargetContext });
 
         const stepDamage  = resolved?.totalExpected ?? 0;
         const stepCrit    = resolved?.totalCrit     ?? 0;

@@ -122,7 +122,7 @@ for (const [id, c] of Object.entries(meta.characters)) {
 {
     // Paths are src/-relative (not src/core/) — see tools/optimize.mjs.
     const ENGINE_FILES = ['core/formula.js', 'core/stats.js', 'core/skill.js', 'core/sim.js', 'core/buffs.js', 'core/buffs/buff-windows.js',
-    'core/buffs/buff-timeline.js', 'core/buffs/sonata-buffs.js', 'core/buffs/weapon-buffs.js', 'core/buffs/conditional-buffs.js', 'core/stat-priority.js',
+    'core/buffs/buff-timeline.js', 'core/buffs/sonata-buffs.js', 'core/buffs/weapon-buffs.js', 'core/buffs/conditional-buffs.js', 'core/buffs/external-buffs.js', 'core/stat-priority.js',
         'core/team-sim.js', 'core/team-energy.js', 'core/enemy-status.js', 'core/triggerability.js', 'core/off-field.js',
         'core/cooldowns.js', 'core/opener.js',
         'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js', 'core/tune-break.js',

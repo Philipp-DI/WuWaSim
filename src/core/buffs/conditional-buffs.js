@@ -21,6 +21,7 @@
 
 import { canSatisfyCondition } from '../triggerability.js';
 import { isTeamWideBuff } from '../buffs.js';
+import { weaponExternalGrants, foldExternalGrants } from './external-buffs.js';
 
 const ELEMENT_NAMES = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 const TYPE_PHRASES = Object.freeze([
@@ -36,7 +37,16 @@ export function emptyContribution() {
         atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0,
         dmgByElement: {}, dmgBySkillType: {},
         amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0,
+        // A bonus the game scopes to nothing (Proto_DamageChange) — every hit
+        // reads it, so it belongs in its own bucket rather than being smeared
+        // across the six element ones.
+        dmgAll: 0,
+        // TARGET-side. `defIgnore` is the flat, whole-build number the text path
+        // produces (and which nothing has ever read); `targetMods` is the
+        // data path's per-hit list, each entry carrying the scope the game
+        // states. Both are consumed by sim.js — see externalTargetContext.
         defIgnore: 0,
+        targetMods: [],
     };
 }
 
@@ -182,7 +192,29 @@ export function extractConditionalContribution(text, { resonator, dataset, skipF
 export function weaponConditionalContribution(weaponDef, rank, resonator, dataset, enemyStatuses = null) {
     if (!weaponDef?.effect) return { ...emptyContribution(), teamWide: emptyContribution() };
     const text = substituteParams(weaponDef.effect, weaponDef.effectParams, rank);
-    return extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true, enemyStatuses });
+
+    const out = extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true, enemyStatuses });
+
+    // DEF-IGNORE / RES-SHRED come from the GAME's tables, never from the text.
+    //
+    // The split is deliberate and it is what keeps this safe. The text reader
+    // above owns every bucket it has always owned; this adds only `targetMods`,
+    // a lane it has never produced a single value for — `extractClause`'s
+    // DEF-ignore pattern requires an "of" that half the weapons omit, and even
+    // when it matched, `contribution.defIgnore` was read by nothing anywhere in
+    // the engine. So there is nothing here to double-count against, and nothing
+    // the text path used to supply is being taken away.
+    //
+    // It has to come from data rather than text for a second reason: the game
+    // SCOPES these ("the wielder's Resonance Liberation DMG ignores 32% DEF"),
+    // and it states that scope as a DamageTypes requirement the tooltip only
+    // paraphrases. `foldExternalGrants` keeps the scope on each entry so
+    // skill.js can apply it per hit.
+    const grants = weaponExternalGrants(dataset, weaponDef.id, rank);
+    if (grants?.length && canSatisfyCondition(resonator, dataset, text, enemyStatuses)) {
+        out.targetMods = foldExternalGrants(grants).targetMods;
+    }
+    return out;
 }
 
 /**

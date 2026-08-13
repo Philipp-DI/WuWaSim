@@ -8956,3 +8956,102 @@ records why the number moved and that it is not expected to climb to 56, and a
 new block pins BOTH halves of the finding: the two recovered rows, and that the
 three benchmark members' buff-only outros must stay at zero (that one was
 reported as a defect twice).
+
+---
+
+## 2026-08-13 — External buffs, lane 1: weapons routed by attribute id
+
+The gap thread reached the gear lanes. Every external buff — weapon passive,
+sonata bonus, echo skill — was being derived by parsing English, and three
+independent failure modes were found in one sitting. The game states all of it
+as data; this lands the weapon lane on that data.
+
+**[Files Changed]** `tools/extract/extract_external_buffs.py` (new),
+`src/core/buffs/external-buffs.js` (new), `tests/external-buffs.test.mjs` (new),
+`data/external-buffs.json` (new, committed), `src/core/buffs/conditional-buffs.js`,
+`src/core/skill.js`, `src/core/sim.js`, `tools/preprocess.mjs`,
+`tools/optimize.mjs`, `tests/meta-schema.test.mjs`, `CLAUDE.md`, this file.
+
+**[Logic Altered]**
+
+- **The routing exists in the game and is exact.** `WeaponConf.ItemId ->
+  ResonId -> WeaponReson(Level = refinement).Effect[] -> db_buff`, following
+  `ExtraEffectID 35 AddPassiveSkill` through `db_PassiveSkill.SkillActionParams`
+  and `ExtraEffectID 2 AddBuffTrigger` through its chained ids, down to leaf rows
+  carrying `GameAttributeID` + `ModifierMagnitude` (or `CommonSnapshotModify`,
+  which puts the attribute id in its parameters). 96 weapons, 745 grants across
+  all five ranks. Every value checked against its own tooltip ladder: Everbright
+  Polestar 0.32/0.40/0.48/0.56/0.64 DEF-ignore and -0.10..-0.30 Fusion RES,
+  Kumokiri 0.08..0.16 per stack and 0.24..0.48 all-element.
+
+- **The walk DEDUPES by buff id.** Everbright Polestar reaches its two grants
+  from two passives — one listening for Tune Rupture - Shifting, one for Fusion
+  Burst. They are one 8-second pair, not two. The test asserts exactly two grants
+  at R1, because emitting per path would double them, and inflation is the
+  failure mode that looks like nothing is wrong.
+
+- **The SCOPE is data too, and is applied PER HIT.** `ExtraEffectRequirements`
+  12 = DamageTypes; Everbright Polestar's grants carry `[2]` = Liberation,
+  matching its text ("the wielder's Resonance Liberation DMG ignores 32% DEF")
+  without reading the text. `skill.js` gained a `targetContext` and applies
+  `defIgnore`/`resReduce` per hit, scoped exactly the way `amplifyContext`
+  already is. The proof it works: wiring a 32% DEF-ignore moved Aemeath 23.9%
+  and left the Tune Break anchor **byte-identical**, because a Tune Break is not
+  Liberation damage.
+
+- **Two dead hooks got a producer.** `formula.js` has always had
+  `context.defIgnore` and `context.resReduce`; nothing ever set them.
+  `contribution.defIgnore` was parsed and read by NOTHING — `sim.js` consumed
+  only the amplify buckets, `stats.js` names it only in empty-shape literals. So
+  every weapon DEF-ignore clause in the game was computed and discarded. Its
+  text pattern was also wrong (`ignores 32% **of** ... DEF`, and half the weapons
+  omit the "of"), which is why the lane read zero twice over.
+
+- **The split is deliberate and is what keeps this safe.** The data path adds
+  ONLY `targetMods`; every bucket the text reader has always owned it still
+  owns. A first attempt returned early from the data and regressed three tests —
+  the extractor does not yet read `ExtraEffectID 37/38` (the multiplicative
+  amplify lane) or the team-wide routing, so replacing DROPPED what the text
+  path did cover. Adding only the lane the text path has never produced a value
+  for means there is nothing to double-count against and nothing taken away.
+
+**[Measured]** Benchmark, on the reference's own conditions:
+
+    member      before        after      reference    gap
+    Chisa       412,293      412,293       594,209   1.441x   (unchanged)
+    Denia     1,144,150    1,144,150     1,306,453   1.142x   (unchanged)
+    Aemeath   2,807,154    3,478,366     4,633,096   1.332x   +671,212 / +23.9%
+    TEAM      4,363,597    5,034,809     6,533,757   1.298x   (was 1.497x)
+    TEAM DPS     54,746       63,167        82,874   1.312x
+
+Chisa and Denia unchanged is the no-double-count check: their weapons'
+conditionals are DMG bonuses the text path already read correctly, and the data
+path deliberately does not touch that bucket.
+
+**[Verification Method]** `npm test` **72/72** (new `external-buffs` 43/0),
+`npm run sweep` 68 imported / 0 failed, `npm run lint` **0 errors** (3087
+style-only warnings). LOCK A and LOCK B both regenerated — real diffs, expected:
+the dataset gains `externalBuffs` and the meta moves because DEF-ignore now
+reaches the damage formula. `ENGINE_FILES` updated in BOTH `tools/optimize.mjs`
+and `tests/meta-schema.test.mjs` for the new engine module.
+
+**[Residual Risks]**
+
+- The extractor reads `GameAttributeID` and `CommonSnapshotModify` only. The
+  multiplicative amplify lane (`ExtraEffectID` 37/38) and team-wide routing
+  (`BindBuffToTeam` and friends) are NOT read, which is exactly why the data path
+  is additive rather than a replacement. Migrating the remaining buckets needs
+  those first.
+- UPTIME is unchanged: these grants are credited at full uptime, gated by the
+  existing text triggerability check, the same as every other weapon conditional.
+  The data carries `durationSeconds` and the passive carries its trigger preset;
+  neither is modelled yet.
+- The triggerability GATE still reads text. Only the values, buckets and scopes
+  are data-driven.
+- `stackLimit` is credited at cap (Kumokiri 8% x 3 = 24%), matching what the
+  text path already did for stacking weapon buffs.
+
+**[Updated Docs]** `CLAUDE.md` — five new invariants: external routing is data,
+the DamageTypes scope, "All-Attribute" being six element rows rather than one id,
+the dead DEF-ignore/RES-shred hooks, and the leading unconditional stat not being
+in ConfigDB at all. This file.
