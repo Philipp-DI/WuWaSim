@@ -266,8 +266,19 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const sugCarlotta = suggestedBuildFor(meta, 1107);
     assert('resolveReferenceRotation prefers the meta rotation for a covered anchor',
         resolveReferenceRotation(meta, referenceRotations, 1107).length === sugCarlotta.referenceRotation.length);
+    // The discriminator for "fresh builds use the SIGNATURE weapon, not the
+    // optimizer's pick" needs a resonator where the two actually differ. It used
+    // to be Carlotta, but the optimizer now picks her real signature (The Last
+    // Dance) once weapon conditionals come from the game's own tables instead of
+    // tooltip text — as it also does for Hiyuki and Changli. Three of six anchors
+    // converging on the character's real signature weapon is a good sign, and it
+    // is exactly why this assertion cannot be pinned to a resonator that happens
+    // to disagree today. Jinhsi still differs (signature Ages of Harvest vs.
+    // Kumokiri), so she is the discriminator.
+    const jinhsi = resoOf(1304);
+    const sugJinhsi = suggestedBuildFor(meta, 1304);
     assert('signature differs from the suggestion\'s optimized weapon pick (else this whole test proves nothing)',
-        carlotta.signatureWeaponId !== sugCarlotta.weaponId);
+        jinhsi.signatureWeaponId !== sugJinhsi.weaponId);
 
     // Roster-wide coverage: the P13 team pass's memberBuilds (real per-member
     // recipes, real substats) reaches far more of the roster than the P12

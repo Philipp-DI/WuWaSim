@@ -189,31 +189,66 @@ export function extractConditionalContribution(text, { resonator, dataset, skipF
 }
 
 /** Conditional contribution of a weapon's passive at a refinement rank. */
+// Did the data path actually produce a stat value? A weapon whose every grant is
+// a target modifier or an unplaceable scoped one has nothing to put in the
+// buckets, and must fall through to the text reader rather than blanking them.
+function hasPlaceableValue(folded) {
+    for (const key of ['atkRatio', 'defRatio', 'critRate', 'critDmg', 'energyRegen', 'dmgAll', 'amplifyAll']) {
+        if (folded[key]) return true;
+    }
+    return Object.keys(folded.dmgByElement).length > 0 || Object.keys(folded.dmgBySkillType).length > 0;
+}
+
+function assignBuckets(into, folded) {
+    into.atkRatio = folded.atkRatio;
+    into.defRatio = folded.defRatio;
+    into.critRate = folded.critRate;
+    into.critDmg = folded.critDmg;
+    into.energyRegen = folded.energyRegen;
+    into.amplifyAll = folded.amplifyAll;
+    into.dmgAll = folded.dmgAll;
+    into.dmgByElement = { ...folded.dmgByElement };
+    into.dmgBySkillType = { ...folded.dmgBySkillType };
+}
+
 export function weaponConditionalContribution(weaponDef, rank, resonator, dataset, enemyStatuses = null) {
     if (!weaponDef?.effect) return { ...emptyContribution(), teamWide: emptyContribution() };
     const text = substituteParams(weaponDef.effect, weaponDef.effectParams, rank);
 
-    const out = extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true, enemyStatuses });
-
-    // DEF-IGNORE / RES-SHRED come from the GAME's tables, never from the text.
-    //
-    // The split is deliberate and it is what keeps this safe. The text reader
-    // above owns every bucket it has always owned; this adds only `targetMods`,
-    // a lane it has never produced a single value for — `extractClause`'s
-    // DEF-ignore pattern requires an "of" that half the weapons omit, and even
-    // when it matched, `contribution.defIgnore` was read by nothing anywhere in
-    // the engine. So there is nothing here to double-count against, and nothing
-    // the text path used to supply is being taken away.
-    //
-    // It has to come from data rather than text for a second reason: the game
-    // SCOPES these ("the wielder's Resonance Liberation DMG ignores 32% DEF"),
-    // and it states that scope as a DamageTypes requirement the tooltip only
-    // paraphrases. `foldExternalGrants` keeps the scope on each entry so
-    // skill.js can apply it per hit.
     const grants = weaponExternalGrants(dataset, weaponDef.id, rank);
-    if (grants?.length && canSatisfyCondition(resonator, dataset, text, enemyStatuses)) {
-        out.targetMods = foldExternalGrants(grants).targetMods;
+    const folded = grants?.length ? foldExternalGrants(grants) : null;
+    const satisfiable = canSatisfyCondition(resonator, dataset, text, enemyStatuses);
+
+    // DATA WINS, PER WEAPON, WHEN IT HAS SOMETHING TO SAY.
+    //
+    // The rule is all-or-nothing on the stat buckets rather than a merge, and
+    // that is the point: the text and the data routinely express the SAME grant
+    // in different buckets (Bloodpact's Pledge reads as an element amplify from
+    // its wording and as a Resonance Skill DMG bonus in the tables), so a union
+    // would credit one value twice. Taking one source per weapon cannot.
+    //
+    // Measured over the 89 shipped weapons at R1: 37 agree exactly, 43 are read
+    // by the DATA ONLY — the text reader returns nothing at all for nearly half
+    // the roster — and 8 differ, all of them the data carrying a stack limit or
+    // a bucket the wording hides. Exactly one weapon (Lux & Umbra) is read by
+    // the text alone, and it falls through to the text automatically because
+    // every one of its grants is a scoped amplify that lands in `unplaced`.
+    if (folded && hasPlaceableValue(folded)) {
+        const out = { ...emptyContribution(), teamWide: emptyContribution() };
+        if (!satisfiable) return out;
+        assignBuckets(out, folded);
+        assignBuckets(out.teamWide, folded.teamWide);
+        out.targetMods = folded.targetMods;
+        return out;
     }
+
+    const out = extractConditionalContribution(text, { resonator, dataset, skipFirstSentence: true, enemyStatuses });
+    // DEF-ignore and RES-shred come from the tables even when the buckets do
+    // not, because the text path has never produced a single value for them:
+    // `extractClause`'s pattern demands an "of" that half the weapons omit, and
+    // even when it matched, `contribution.defIgnore` was read by nothing in the
+    // engine. Nothing to double-count against, nothing taken away.
+    if (folded && satisfiable) out.targetMods = folded.targetMods;
     return out;
 }
 

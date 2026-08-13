@@ -32,6 +32,15 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 const carlotta = d.resonators.find(r => r.id === 1107);          // covered, energy-gated
 const hiyuki = d.resonators.find(r => r.id === 1108);            // covered, energy-gated (real energyMax 125)
 const entryC = metaFor(meta, 1107, 0, standardSonatasFor(carlotta)[0]);
+// The meta's anchor is built with the weapon the OPTIMIZER chose, which is not
+// always `representativeWeaponId` — the search picks the best-scoring weapon,
+// and that pick legitimately moves whenever weapon modelling improves (it moved
+// to The Last Dance once weapon conditionals started coming from the game's own
+// tables rather than from tooltip text). Reconstructing the anchor with the
+// meta's OWN referenceWeapon is what makes this a test of anchorDistance rather
+// than a test of whether two weapon-selection rules happen to agree.
+const ANCHOR_WEAPON_ID = entryC?.referenceWeapon?.id ?? null;
+
 const entryH = metaFor(meta, 1108, 0, standardSonatasFor(hiyuki)[0]);
 // No shipped resonator is non-energy-gated post-Arikatsu (every kit carries a
 // real energy bar), so exercise the not-gated PATH with a synthetic meta entry.
@@ -78,7 +87,7 @@ const entryNoGate = { ...entryH, erMode: { ...entryH.erMode, libCostKnown: false
     assert('bare build is below the 125% target', status.belowTarget === true && status.target === 1.25);
 
     // The anchor build sits at the target → not below.
-    const anchor = withTotalEr(referenceBuild({ resonator: carlotta, dataset: d, sequenceLevel: 0, sonataId: standardSonatasFor(carlotta)[0] }), d, 1.25);
+    const anchor = withTotalEr(referenceBuild({ resonator: carlotta, dataset: d, sequenceLevel: 0, sonataId: standardSonatasFor(carlotta)[0], weaponId: ANCHOR_WEAPON_ID }), d, 1.25);
     assert('anchor build is at/above target', erStatus(anchor, entryC, d).belowTarget === false);
 
     // Hiyuki is energy-gated (real energyMax 125) → erStatus surfaces the cost.
@@ -91,7 +100,7 @@ const entryNoGate = { ...entryH, erMode: { ...entryH.erMode, libCostKnown: false
 
 // ── anchorDistance: anchor ≈ 0, bare build far ───────────────────────────────
 {
-    const anchor = withTotalEr(referenceBuild({ resonator: carlotta, dataset: d, sequenceLevel: 0, sonataId: standardSonatasFor(carlotta)[0] }), d, 1.25);
+    const anchor = withTotalEr(referenceBuild({ resonator: carlotta, dataset: d, sequenceLevel: 0, sonataId: standardSonatasFor(carlotta)[0], weaponId: ANCHOR_WEAPON_ID }), d, 1.25);
     const dAnchor = anchorDistance(anchor, entryC, d);
     assert('anchorDistance at the anchor is near zero', dAnchor != null && dAnchor < 0.05);
     assert('anchor build is NOT flagged far', isFarFromAnchor(anchor, entryC, d) === false);

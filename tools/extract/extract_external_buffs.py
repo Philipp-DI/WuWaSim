@@ -64,6 +64,19 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 SNAPSHOT_MODIFY = 1      # CommonSnapshotModify: attribute id sits in the params
 ADD_BUFF_TRIGGER = 2     # AddBuffTrigger: chains to further buff ids
 ADD_PASSIVE_SKILL = 35   # AddPassiveSkill: routes through db_PassiveSkill
+# DamageAmplifyOnHit / OnBeHit — the MULTIPLICATIVE lane. These carry no
+# GameAttributeID at all; the magnitude is in ExtraEffectParametersGrow1. They
+# compose exactly like Proto_SpecialDamageChange (95), which is the attribute the
+# engine already routes to its `amplify` bucket, so they are emitted under 95.
+AMPLIFY_EFFECTS = (37, 38)
+SPECIAL_DAMAGE_CHANGE = 95
+
+# A passive's TriggerPreset[0] says WHO the grant is for: '0' the wielder, '1'
+# the whole team. The game's own descriptions confirm it — every preset '1'
+# passive on a weapon is named 队伍… ("team…"), and they carry
+# InstigatorType 'Attacker' where the self ones carry 'Owner'. 115 self vs 20
+# team across the weapon roster.
+TEAM_TRIGGER_FLAG = '1'
 
 # Requirement kinds (data/extra-effects.json `requirement`) that ARE a damage
 # scope. DamageTypes carries the same 0..5 tag as `skill.damage[*].type`:
@@ -138,36 +151,49 @@ class Resolver:
     def grants(self, root_ids):
         """Every distinct attribute grant reachable from these buff ids.
 
-        Keyed by buff id so a grant reached by several trigger paths is counted
-        ONCE — see the module docstring.
+        Keyed by (buff id, teamWide) so a grant reached by several trigger paths
+        is counted ONCE — see the module docstring — while still allowing the
+        rare buff that is genuinely handed out both to the wielder and to the
+        team to appear as both.
+
+        The team flag propagates DOWN the walk: it is a property of the passive
+        that hands the buff out, not of the buff row itself. Kumokiri's
+        Liberation stack is reached through a preset-'0' passive and its
+        all-element bonus through preset-'1' ones, which is exactly the
+        self/team split its tooltip describes.
         """
         found = {}
         seen = set()
-        stack = list(root_ids)
+        stack = [(buff_id, False) for buff_id in root_ids]
         while stack:
-            buff_id = stack.pop()
-            if buff_id in seen:
+            buff_id, team_wide = stack.pop()
+            if (buff_id, team_wide) in seen:
                 continue
-            seen.add(buff_id)
+            seen.add((buff_id, team_wide))
             row = self.buffs.get(buff_id)
             if row is None:
                 continue
 
             grant = self._grant_of(row)
             if grant is not None:
-                found[buff_id] = grant
+                found[(buff_id, team_wide)] = dict(grant, teamWide=team_wide)
 
             effect = row.get('ExtraEffectID')
             params = row.get('ExtraEffectParameters') or []
             if effect == ADD_PASSIVE_SKILL:
                 for passive_id in _ids_from(params):
                     for passive in self.passives.get(passive_id, []):
-                        if passive.get('SkillAction') == 'AddBuff':
-                            stack.extend(_ids_from(passive.get('SkillActionParams') or []))
+                        if passive.get('SkillAction') != 'AddBuff':
+                            continue
+                        preset = passive.get('TriggerPreset') or []
+                        to_team = team_wide or (bool(preset) and str(preset[0]) == TEAM_TRIGGER_FLAG)
+                        for next_id in _ids_from(passive.get('SkillActionParams') or []):
+                            stack.append((next_id, to_team))
             elif effect == ADD_BUFF_TRIGGER and params:
                 # The chained buff id is the LAST parameter; the earlier ones are
                 # the trigger's own settings.
-                stack.extend(_ids_from(params[-1]))
+                for next_id in _ids_from(params[-1]):
+                    stack.append((next_id, team_wide))
         return found
 
     @staticmethod
@@ -233,12 +259,22 @@ class Resolver:
             return dict(base, attribute=int(attribute),
                         value=round(magnitudes[0] / 10000.0, 6))
 
-        if row.get('ExtraEffectID') == SNAPSHOT_MODIFY:
+        effect = row.get('ExtraEffectID')
+        grow = row.get('ExtraEffectParametersGrow1') or []
+
+        if effect == SNAPSHOT_MODIFY:
             params = row.get('ExtraEffectParameters') or []
-            grow = row.get('ExtraEffectParametersGrow1') or []
             if len(params) > 1 and str(params[1]).isdigit() and grow:
                 return dict(base, attribute=int(params[1]),
                             value=round(grow[0] / 10000.0, 6))
+
+        # The multiplicative lane states no attribute; its magnitude is the grow
+        # parameter alone. Emitted as Proto_SpecialDamageChange so it routes to
+        # the engine's `amplify` bucket like every other multiplicative value,
+        # with the originating effect id kept for traceability.
+        if effect in AMPLIFY_EFFECTS and grow and grow[0]:
+            return dict(base, attribute=SPECIAL_DAMAGE_CHANGE,
+                        value=round(grow[0] / 10000.0, 6), extraEffectId=int(effect))
         return None
 
 
@@ -267,7 +303,7 @@ def extract_weapons(db, resolver, names):
                 continue
             ranks[str(level)] = [
                 dict(grant, buffId=buff_id, attributeName=names.get(grant['attribute']))
-                for buff_id, grant in sorted(grants.items())
+                for (buff_id, _team), grant in sorted(grants.items())
             ]
         if ranks:
             out[str(item_id)] = {'resonId': reson_id, 'ranks': ranks}

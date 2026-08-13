@@ -9055,3 +9055,99 @@ and `tests/meta-schema.test.mjs` for the new engine module.
 the DamageTypes scope, "All-Attribute" being six element rows rather than one id,
 the dead DEF-ignore/RES-shred hooks, and the leading unconditional stat not being
 in ConfigDB at all. This file.
+
+---
+
+## 2026-08-13 — External buffs, lane 1b: amplify, team routing, and the migration
+
+Extends the previous entry's extractor so the data path is complete enough to
+OWN the stat buckets rather than only add to them.
+
+**[CORRECTION to the previous entry and its commit message]** Both quote
+Aemeath at 3,478,366 / TEAM 5,034,809 / gap 1.298x. Those figures were measured
+BEFORE the DamageTypes scope reached the regenerated dataset, so the DEF-ignore
+was still being credited to every hit instead of to Resonance Liberation hits
+only. The committed state actually reads **Aemeath 3,377,823 / TEAM 4,934,266 /
+gap 1.324x**. The direction of that correction is the scope working — it takes
+damage AWAY, correctly — but the numbers in that entry are wrong and these are
+the right ones. Verified by checking out the commit and re-running the harness.
+
+**[Files Changed]** `tools/extract/extract_external_buffs.py`,
+`src/core/buffs/external-buffs.js`, `src/core/buffs/conditional-buffs.js`,
+`tests/external-buffs.test.mjs`, `tests/stat-ranking.test.mjs`,
+`tests/build-editor-v2.test.mjs`, `data/external-buffs.json`,
+`data/wuwa-data.json`, `data/data-version.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]**
+
+- **The multiplicative lane.** `ExtraEffectID` 37/38 (DamageAmplifyOnHit /
+  OnBeHit) carry no `GameAttributeID` at all — the magnitude is
+  `ExtraEffectParametersGrow1` alone. They are emitted as attribute 95
+  (`Proto_SpecialDamageChange`), which is the attribute the engine already routes
+  to its `amplify` bucket, with the originating effect id kept for traceability.
+
+- **Team routing, read from the data.** A passive's `TriggerPreset[0]` says who
+  the grant is for: '0' the wielder, '1' the whole team. The game's own
+  descriptions confirm it — every preset-'1' weapon passive is named 队伍…
+  ("team…") and carries `InstigatorType` 'Attacker' where the self ones carry
+  'Owner' (115 self vs 20 team across the roster). The flag propagates DOWN the
+  walk, because it belongs to the passive that hands the buff out, not to the
+  buff row. Kumokiri splits exactly as its tooltip reads: the Liberation stack
+  self, the all-element bonus team. A team grant lands in BOTH bundles at the
+  same value, since the wielder is themselves one of "Resonators in the team".
+
+- **The walk now dedupes by (buffId, teamWide)** rather than buffId alone, so a
+  buff genuinely handed out both ways can appear as both without a self-only
+  grant being collapsed into a team one.
+
+- **The migration, and the rule that makes it safe.** The data now wins the stat
+  buckets PER WEAPON, all-or-nothing, whenever it produces a placeable value.
+  All-or-nothing rather than a merge is the whole point: text and data routinely
+  express the SAME grant in different buckets (Bloodpact's Pledge reads as an
+  element amplify from its wording and as a Resonance Skill DMG bonus in the
+  tables), so a union would credit one value twice. Taking one source per weapon
+  cannot.
+
+**[Measured — the comparison that justified migrating]** All 89 weapons at R1,
+both sides gated identically so only the parsing differs:
+
+    identical                       36
+    DATA only (text read nothing)   43     <- nearly half the roster
+    TEXT only (data read nothing)    2     <- Azure Oath, Lux & Umbra
+    both, differing                  8     <- data carries a stack limit or the
+                                              bucket the wording hides
+
+Both TEXT-only weapons are in the known-unplaced set, so they fall through to the
+text reader automatically and nothing is lost.
+
+Benchmark, committed lane 1 -> now:
+
+    Chisa     412,293 -> 449,868     (+37,575)
+    Denia   1,144,150 -> 1,144,150   (unchanged)
+    Aemeath 3,377,823 -> 3,624,182   (+246,359)
+    TEAM    4,934,266 -> 5,218,199   gap 1.324x -> 1.252x
+
+Denia unchanged with both teammates up is the check that nothing double-counts:
+her Forged Dwarf Star grants +24% ATK marked `teamWide`, which she already held
+in her own bundle and which now correctly reaches Chisa and Aemeath. The Tune
+Break anchor stays at 71,015 throughout.
+
+**[Residual Risks]**
+
+- **Scoped amplify is deliberately UNPLACED** (8 weapons, pinned as a contract
+  in `tests/external-buffs.test.mjs`). Lux & Umbra ships +24% scoped to Heavy,
+  +24% scoped to Echo Skill, and +24% scoped to BOTH — the third is the
+  tooltip's "DMG Amplification on each attack is capped at 24%", not a third
+  bonus. The three differ only in `BuffAction`, so telling a cap from a grant
+  needs that chain modelled. Widening them would be exactly the double-count
+  this work exists to avoid, so they fall through to the text reader instead.
+- Uptime and the triggerability gate still come from the text. Only values,
+  buckets, scopes and recipients are data-driven.
+- Two tests had premises that a legitimately better weapon pick invalidated, and
+  were fixed rather than pinned: `stat-ranking` now reconstructs the anchor with
+  the meta's OWN `referenceWeapon` instead of assuming it equals
+  `representativeWeaponId`, and `build-editor-v2`'s signature-vs-suggestion
+  discriminator moved from Carlotta to Jinhsi because the optimizer now picks
+  the REAL signature weapon for Carlotta, Hiyuki and Changli (3 of 6 anchors).
+
+**[Updated Docs]** This entry, including the correction above.

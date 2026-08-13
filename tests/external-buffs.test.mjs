@@ -127,15 +127,32 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     const weapons = dataset.externalBuffs?.weapons ?? {};
     assert('the dataset carries external buffs for the weapon roster',
         Object.keys(weapons).length >= 90);
-    let unplaced = 0;
-    for (const [id, entry] of Object.entries(weapons)) {
-        const folded = foldExternalGrants(entry.ranks?.['1'] ?? []);
-        if (folded.unplaced.length) { unplaced++; console.error(`    unplaced on weapon ${id}`); }
-    }
-    // A scoped grant that is NOT a target modifier has nowhere to go — the stat
-    // buckets are whole-build numbers. None exists today; if one appears it must
-    // be handled rather than silently widened to the whole build.
-    assert('no weapon has a scoped grant the routing cannot place', unplaced === 0);
+    // A scoped grant that is NOT a target modifier has nowhere to go: the stat
+    // buckets are whole-build numbers with no room for "…but only on Heavy
+    // Attacks". Six weapons state a scoped AMPLIFY, and they are deliberately
+    // left unplaced rather than widened, because their rows are mutually
+    // EXCLUSIVE branches rather than simultaneous grants — Lux & Umbra ships
+    // +24% scoped to Heavy, +24% scoped to Echo Skill, and +24% scoped to BOTH,
+    // which is the tooltip's "DMG Amplification on each attack is capped at 24%"
+    // and not a third bonus. They differ only in `BuffAction`, so separating cap
+    // from grant needs that chain modelled first. Until then these weapons fall
+    // through to the text reader, which is why the list is a CONTRACT: it may
+    // shrink, and anything joining it must be understood, not absorbed.
+    const KNOWN_UNPLACED = ['21020046', '21020086', '21020096', '21030036',
+        '21030056', '21040056', '21040066', '21050066'];
+    const unplaced = Object.entries(weapons)
+        .filter(([, entry]) => foldExternalGrants(entry.ranks?.['1'] ?? []).unplaced.length)
+        .map(([id]) => id)
+        .sort();
+    assert(`exactly the known scoped-amplify weapons are unplaced (got ${unplaced.join(',')})`,
+        unplaced.join(',') === [...KNOWN_UNPLACED].sort().join(','));
+    // Whatever cannot be placed must still be READ by the text path, so the
+    // weapon is never left with nothing at all.
+    assert('every unplaced weapon still has a text effect to fall back on',
+        unplaced.every(id => {
+            const weapon = (dataset.weapons ?? []).find(entry => String(entry.id) === id);
+            return typeof weapon?.effect === 'string' && weapon.effect.length > 0;
+        }));
 }
 
 console.log(`external-buffs: ${passed} passed, ${failed} failed`);

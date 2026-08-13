@@ -93,12 +93,24 @@ const FORMULA_BY_DAMAGE_TYPE = Object.freeze({
     0: 'basic', 1: 'heavy', 2: 'liberation', 3: 'intro', 4: 'skill', 5: 'echo',
 });
 
-/** An empty external-grant bundle. Mirrors the conditional-contribution shape. */
-export function emptyExternal() {
+function emptyBuckets() {
     return {
         atkRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0,
         dmgAll: 0, amplifyAll: 0,
         dmgByElement: {}, dmgBySkillType: {},
+    };
+}
+
+/** An empty external-grant bundle. Mirrors the conditional-contribution shape. */
+export function emptyExternal() {
+    return {
+        ...emptyBuckets(),
+        // A grant the game hands to the TEAM lands in both bundles at the same
+        // value: `teamWide` for distribution to the other members, and the self
+        // buckets because the wielder is themselves one of "Resonators in the
+        // team". Same clause, credited once per recipient — not doubled on the
+        // wielder.
+        teamWide: emptyBuckets(),
         // Per-hit TARGET modifiers, each carrying the scope the game states.
         // These are kept as a list rather than summed into a bucket because they
         // apply to some hits and not others — Everbright Polestar's DEF ignore is
@@ -161,8 +173,11 @@ export function foldExternalGrants(grants, into = emptyExternal()) {
         }
 
         if (scope) { into.unplaced.push({ ...grant, bucket: route.bucket }); continue; }
-        if (route.key == null) into[route.bucket] += value;
-        else into[route.bucket][route.key] = (into[route.bucket][route.key] ?? 0) + value;
+        const targets = grant.teamWide ? [into, into.teamWide] : [into];
+        for (const bundle of targets) {
+            if (route.key == null) bundle[route.bucket] += value;
+            else bundle[route.bucket][route.key] = (bundle[route.bucket][route.key] ?? 0) + value;
+        }
     }
     return into;
 }
