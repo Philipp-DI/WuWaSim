@@ -311,6 +311,18 @@ export function computeBuffWindows(build, dataset, steps, enemyStatuses = null) 
             teamWide: true,
         });
     }
+    // The same lane, for an echo whose team grant is ATK rather than a DMG
+    // Boost (Fallacy of No Return, the only one). 'atk' rather than 'amplify'
+    // because it scales the attacker stat, not the per-hit multiplier.
+    if (echoTb?.atkRatio > 0) {
+        allBuffs.push({
+            sonataId: `echo-${echoDef.id}`, sonataName: `${echoDef.name} (Echo)`, pieces: 0,
+            trigger: 'echo', duration: echoTb.duration ?? 15, bonusPct: echoTb.atkRatio,
+            bonusKind: 'atk', element: null, dmgType: null, stacks: 1,
+            raw: `${echoDef.name}: ATK for all team members`,
+            teamWide: true,
+        });
+    }
     if (allBuffs.length === 0) return [];
 
     // Resonator (for triggerability gating below).

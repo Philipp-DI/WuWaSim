@@ -22,7 +22,8 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
-import { createBuild, setChain } from '../src/core/build.js';
+import { createBuild, setChain, setEcho } from '../src/core/build.js';
+import { incomingResonatorContribution } from '../src/core/buffs/conditional-buffs.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
 import { capRaiseOutroGates, capRaiseWindowsFromInflicts, buildEnemyStatusTimeline, STATUS_CAP_RAISES } from '../src/core/enemy-status.js';
 
@@ -218,6 +219,56 @@ function runTeam(names, rotations = {}) {
     for (const [id, name] of [[1508, 'Chisa'], [1211, 'Denia'], [1210, 'Aemeath']]) {
         assert(`${name}'s buff-only outro correctly deals no damage`, outroEntry(id) === null);
     }
+}
+
+// ── Echo buffs handed to the INCOMING resonator (2026-08-13) ────────────────
+// Four echoes grant the next resonator a buff on the Outro swap and NONE was
+// modelled — the only echo buff the pipeline read was the TEAM-wide "DMG Boost"
+// shape, which "grants … to the incoming Resonator" does not match. The values
+// come from the echo's own per-level param ladder, the same way a weapon's come
+// from `effectParams[rank-1]`.
+{
+    const echoOf = (name) => d.echoes.find(entry => entry.name === name);
+    const glommoth = echoOf('Glommoth');
+    assert('Glommoth carries an incoming-resonator buff', !!glommoth?.activeSkill?.incomingBuff);
+    assert('…12% Glacio DMG Bonus for 15s',
+        glommoth?.activeSkill?.incomingBuff?.bucket === 'dmgElement'
+        && glommoth?.activeSkill?.incomingBuff?.elementId === 1
+        && Math.abs(glommoth.activeSkill.incomingBuff.value - 0.12) < 1e-9
+        && glommoth.activeSkill.incomingBuff.duration === 15);
+
+    // The transfer only happens when the echo is in SLOT 0 (only that skill is
+    // ever cast) and the rotation actually casts it — the clause reads "casting
+    // Outro Skill within Ns AFTER summoning".
+    const lucilla = d.resonators.find(entry => entry.id === 1109);
+    const buildWith = (echoId, rotation) => {
+        let build = setChain(createBuild(lucilla), 0);
+        [4, 3, 3, 1, 1].forEach((cost, index) => {
+            build = setEcho(build, index, { id: index === 0 ? echoId : null, cost, level: 25,
+                mainStat: null, subStats: [], sonataId: 30 });
+        });
+        return { ...build, rotation, rotationMeta: rotation.map(() => ({})) };
+    };
+    const glacioOf = (build) =>
+        incomingResonatorContribution(build, d, lucilla).dmgByElement?.[1] ?? 0;
+    const withEcho = glacioOf(buildWith(glommoth.id, ['basic_1', '__echo__']));
+    const withoutCast = glacioOf(buildWith(glommoth.id, ['basic_1']));
+    assert('casting Glommoth adds exactly 12% Glacio to the incoming bundle',
+        Math.abs((withEcho - withoutCast) - 0.12) < 1e-9);
+    assert('…and not casting it adds nothing',
+        Math.abs(withoutCast - glacioOf(buildWith(null, ['basic_1', '__echo__']))) < 1e-9);
+
+    // Fallacy of No Return states its team ATK LITERALLY ("all team members 10%
+    // bonus ATK for 20s") — no {N} param to read, so it does not scale with echo
+    // level either.
+    const fallacy = echoOf('Fallacy of No Return');
+    assert('Fallacy of No Return grants team ATK',
+        Math.abs((fallacy?.activeSkill?.teamBuff?.atkRatio ?? 0) - 0.10) < 1e-9);
+    assert('…for 20s', fallacy?.activeSkill?.teamBuff?.duration === 20);
+    // It is a single echo, not one of several skins — checked because Nightmare
+    // variants ship as separate echoes with different effects.
+    assert('Fallacy of No Return has no variant that would duplicate it',
+        d.echoes.filter(entry => /Fallacy/i.test(String(entry.name))).length === 1);
 }
 
 console.log(`outro: ${passed} passed, ${failed} failed`);

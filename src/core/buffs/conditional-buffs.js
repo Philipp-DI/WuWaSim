@@ -401,8 +401,42 @@ export function distinctApplicatorTierContribution(resonatorId, resonanceMode, c
  * @returns {object} an emptyContribution()-shaped bundle (dmgByElement / amplify
  *          / atk …) the incoming resonator receives.
  */
+// Mirrors sim.js ECHO_STEP_KEY, kept as a literal for the same reason
+// rotation-graph.js does: sim.js imports THIS module, so a back-import would
+// create a cycle.
+const ECHO_STEP_KEY = '__echo__';
+
 export function incomingResonatorContribution(build, dataset, resonator) {
     const out = emptyContribution();
+
+    // The equipped ECHO can hand the incoming resonator a buff too, and four do
+    // — Glommoth and Reminiscence: Denia (12% element DMG Bonus), Hyvatia (10%
+    // All-Attribute) and Voidwing Moth (12% ATK). None was modelled, because the
+    // only echo buff the pipeline read was the TEAM-wide `DMG Boost` shape.
+    //
+    // Only SLOT 0 counts: the echo skill a rotation casts is the slot-0 echo's
+    // (sim.js resolveEchoSkill), so an echo sitting in slots 1-4 grants nothing.
+    // And the transfer is gated on the wielder actually CASTING it — the clause
+    // reads "casting Outro Skill within Ns AFTER summoning", so a rotation with
+    // no echo step never opens the window.
+    const slotZero = build?.echoes?.[0];
+    const echoDef = slotZero?.id != null
+        ? dataset?.echoes?.find(echo => echo.id === slotZero.id) : null;
+    const incomingBuff = echoDef?.activeSkill?.incomingBuff;
+    if (incomingBuff && (build?.rotation ?? []).includes(ECHO_STEP_KEY)) {
+        const value = Number(incomingBuff.value) || 0;
+        if (incomingBuff.bucket === 'atkRatio') out.atkRatio += value;
+        else if (incomingBuff.bucket === 'dmgAll') {
+            // Scoped to nothing, so every element reads it.
+            for (let element = 1; element <= 6; element++) {
+                out.dmgByElement[element] = (out.dmgByElement[element] ?? 0) + value;
+            }
+        } else if (incomingBuff.bucket === 'dmgElement' && incomingBuff.elementId != null) {
+            out.dmgByElement[incomingBuff.elementId] =
+                (out.dmgByElement[incomingBuff.elementId] ?? 0) + value;
+        }
+    }
+
     const counts = {};
     for (const echo of build?.echoes ?? []) if (echo?.sonataId != null) counts[echo.sonataId] = (counts[echo.sonataId] || 0) + 1;
     for (const [idStr, count] of Object.entries(counts)) {

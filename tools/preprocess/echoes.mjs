@@ -18,6 +18,22 @@ import { makeStatOption } from './base-stats.mjs';
 // the roster → read rank 0; the "lasts for {i}s" duration is kept as metadata.
 export function extractEchoTeamBuff(desc, params) {
     if (!desc || !Array.isArray(params) || !params.length) return null;
+
+    // A team ATK grant whose value is written LITERALLY, not as a {N} param.
+    // Fallacy of No Return is the only echo that does this — "all team members
+    // 10% bonus ATK for 20s" — so there is no param column to read and the
+    // number has to come from the sentence. It does not scale with echo level
+    // for the same reason.
+    const literalAtk = desc.match(
+        /\b(?:all\s+)?team\s+members?\s+(\d+(?:\.\d+)?)\s*%\s*(?:bonus\s+)?ATK\b/i);
+    if (literalAtk) {
+        const percent = parseFloat(literalAtk[1]);
+        const seconds = parseFloat(desc.slice(literalAtk.index).match(/for\s+(\d+(?:\.\d+)?)\s*s/i)?.[1]);
+        if (Number.isFinite(percent) && percent > 0) {
+            return { atkRatio: percent / 100, ...(Number.isFinite(seconds) ? { duration: seconds } : {}) };
+        }
+    }
+
     const boostMatch = desc.match(/\{(\d+)\}\s*DMG Boost/i);
     if (!boostMatch) return null;
     // The boost must be granted to the TEAM (not merely the wielder).
@@ -27,6 +43,80 @@ export function extractEchoTeamBuff(desc, params) {
     const durIdx = desc.match(/lasts? for \{(\d+)\}s/i)?.[1];
     const duration = durIdx != null ? parseFloat(params[0]?.[Number(durIdx)]) : null;
     return { dmgBoost: pct / 100, ...(Number.isFinite(duration) ? { duration } : {}) };
+}
+
+// Element word → elementId, the same 1..6 the rest of the pipeline uses.
+const ECHO_ELEMENTS = Object.freeze({
+    glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6,
+});
+
+/**
+ * An echo skill that hands a buff to the INCOMING resonator on the Outro swap.
+ *
+ * Four echoes do this and NONE was modelled: Glommoth and Reminiscence: Denia
+ * (12% element DMG Bonus), Hyvatia (10% All-Attribute) and Voidwing Moth (12%
+ * ATK). They were missed because the only echo buff the pipeline read was the
+ * TEAM-wide `DMG Boost` shape — "grants … to the incoming Resonator" matches
+ * none of that wording, so a whole transfer lane scored zero in silence.
+ *
+ * Values come from the PARAM LADDER, not the sentence: `{2}` and `{3}` index
+ * `params[level]`, exactly as the weapon lane reads `effectParams[rank-1]`. The
+ * MAX level is used because a build equips a maxed echo — matching the cooldown
+ * reader above, and unlike `extractEchoTeamBuff`, which reads level 1 (harmless
+ * only because Bell-Borne's buff params happen not to scale).
+ *
+ * Returns null unless the clause names the incoming resonator AND a stat this
+ * engine models AND resolves to a real percentage — an unreadable clause
+ * contributes nothing rather than a guess.
+ */
+export function extractEchoIncomingBuff(desc, params) {
+    if (!desc || !Array.isArray(params) || !params.length) return null;
+    const maxLevel = params[params.length - 1];
+    if (!Array.isArray(maxLevel)) return null;
+
+    const sentence = desc.split(/(?<=[.!])\s+|\n+/)
+        .find(part => /\b(incoming|next)\s+Resonator\b/i.test(part));
+    if (!sentence) return null;
+
+    // Both orders the game writes, and the STAT is named explicitly rather than
+    // matched as "any word after a placeholder" — the loose form latches onto
+    // the `{1}s` of "within {1}s after summoning" and reads the stat as "s".
+    const STAT = String.raw`(All-Attribute\s+DMG\s+Bonus|(?:Glacio|Fusion|Electro|Aero|Spectro|Havoc)\s+DMG(?:\s+Bonus)?|ATK)`;
+    const match = sentence.match(new RegExp(String.raw`\{(\d+)\}\s*` + STAT, 'i'))
+        || sentence.match(new RegExp(String.raw`\b(?:incoming|next)\s+Resonator(?:'s)?\s+` + STAT + String.raw`\s+by\s+\{(\d+)\}`, 'i'));
+    if (!match) return null;
+    const [rawIndex, rawStat] = /^\d+$/.test(match[1]) ? [match[1], match[2]] : [match[2], match[1]];
+
+    const percent = parseFloat(maxLevel[Number(rawIndex)]);
+    if (!Number.isFinite(percent) || percent <= 0) return null;
+
+    const stat = String(rawStat).toLowerCase();
+    let bucket = null, elementId = null;
+    if (/all-attribute/.test(stat)) bucket = 'dmgAll';
+    else if (/\batk\b/.test(stat)) bucket = 'atkRatio';
+    else {
+        for (const [name, id] of Object.entries(ECHO_ELEMENTS)) {
+            if (stat.includes(name)) { bucket = 'dmgElement'; elementId = id; break; }
+        }
+    }
+    if (!bucket) return null;
+
+    // "for {3}s" — the buff's own life on the receiver; and "within {1}s after"
+    // — how long the wielder has to Outro. Both are recorded; only the first is
+    // used today, the window is carried for when uptime is modelled.
+    const durationIndex = sentence.match(/for\s+\{(\d+)\}\s*s/i)?.[1];
+    const windowIndex = desc.match(/within\s+\{(\d+)\}\s*s/i)?.[1];
+    const readIndex = (index) => {
+        const value = index != null ? parseFloat(maxLevel[Number(index)]) : NaN;
+        return Number.isFinite(value) ? value : null;
+    };
+    return {
+        bucket,
+        ...(elementId != null ? { elementId } : {}),
+        value: percent / 100,
+        duration: readIndex(durationIndex),
+        windowSeconds: readIndex(windowIndex),
+    };
 }
 
 export function projectNanokaEchoFull(nEcho, indexEntry) {
@@ -66,6 +156,7 @@ export function projectNanokaEchoFull(nEcho, indexEntry) {
                 // Team-wide DMG Boost aura (Bell-Borne Geochelone etc.) — a flat
                 // universal amplify applied to every team member (team-sim.js §L3).
                 ...((() => { const teamBuff = extractEchoTeamBuff(skill.desc, skill.param); return teamBuff ? { teamBuff: teamBuff } : {}; })()),
+                ...((() => { const incoming = extractEchoIncomingBuff(skill.desc, skill.param); return incoming ? { incomingBuff: incoming } : {}; })()),
                 desc:            skill.desc ?? undefined,
                 params:          skill.param ?? undefined,
             };

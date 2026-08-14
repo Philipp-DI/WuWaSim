@@ -9492,3 +9492,91 @@ unconditional, which is what makes it reliable.
 **[Residual Risks]** None introduced — nothing was changed. If a future export
 includes server tables or decoded blueprints, the first thing to re-check is
 whether a permanent attribute buff appears in a weapon's `WeaponReson.Effect[]`.
+
+---
+
+## 2026-08-13 — Echoes DO have a source, and a whole transfer lane was unread
+
+A maintainer test — "Lucilla casts Glommoth, Outros into Hiyuki, does Hiyuki get
+the 12% Glacio DMG Bonus?" — answered NO, and finding out why corrected the
+previous entry's conclusion about the echo lane.
+
+**[Files Changed]** `tools/preprocess/echoes.mjs`,
+`src/core/buffs/conditional-buffs.js`, `src/core/buffs/buff-windows.js`,
+`tests/outro.test.mjs`, `data/wuwa-data.json`, `data/data-version.json`,
+`data/wuwa-meta.json`.
+
+**[The correction]** Lane 3 was recorded as having no usable source because
+`phantomskill.BuffIds` is empty for 241 of 243 rows. That was the wrong place to
+look. Echoes have the SAME source shape as weapons:
+
+    weapon   WeaponConf.Desc      + DescParams[param][rank]      -> effectParams
+    echo     phantomskill.DescriptionEx (lang_multi_text)
+                                  + per-level params             -> activeSkill.params
+
+Verified on Bell-Borne to the digit: `{0}` 91.20%->145.92% is `rateByLevel`,
+`{1}` 15 and `{3}` 10% are its modelled `teamBuff`, `{5}` 20 the cooldown. So the
+echo VALUES are structured and level-indexed, exactly like the weapon rank
+ladder — not prose.
+
+**[What was unread]** A first survey said "1 unmodelled echo buff". That survey
+was WRONG: it searched only for TEAM-wide wording and so matched none of the
+INCOMING-RESONATOR transfers. Corrected, there were **5**:
+
+    Hyvatia              c4  10% All-Attribute DMG -> next resonator
+    Reminiscence: Denia  c4  12% Fusion DMG        -> incoming
+    Glommoth             c3  12% Glacio DMG        -> incoming
+    Voidwing Moth        c3  12% ATK               -> incoming
+    Fallacy of No Return c4  10% ATK               -> all team members
+
+**[Logic Altered]**
+
+- `extractEchoIncomingBuff` (new) reads the transfer from the sentence naming
+  the incoming resonator, taking the VALUE from the MAX-level param column —
+  matching the cooldown reader, and unlike `extractEchoTeamBuff`, which reads
+  level 1 (harmless only because Bell-Borne's buff params do not scale). The
+  stat is matched by NAME rather than "any word after a placeholder": the loose
+  form latched onto the `{1}s` of "within {1}s after summoning" and read the
+  stat as "s", which is why the first attempt extracted nothing at all.
+- `incomingResonatorContribution` credits it, gated twice: the echo must be in
+  SLOT 0 (only that skill is ever cast) and the rotation must actually contain
+  the echo step, since the clause reads "casting Outro Skill within Ns AFTER
+  summoning".
+- `extractEchoTeamBuff` also learns the LITERAL team-ATK shape. Fallacy of No
+  Return writes "all team members 10% bonus ATK for 20s" with no `{N}` param, so
+  the number has to come from the sentence and does not scale with echo level.
+  `computeBuffWindows` emits it as an 'atk' window rather than 'amplify',
+  because it scales the attacker stat and not the per-hit multiplier.
+- Checked before wiring, per maintainer instruction: Fallacy of No Return has
+  exactly ONE entry. 26 of 180 echoes are Nightmare variants shipping as separate
+  echoes with different effects, so a duplicate was a real risk.
+
+**[Measured]** The maintainer's own scenario, Lucilla (Glacio) with sonata 30:
+
+    Glommoth slot 0, rotation casts the echo   incoming Glacio 0.37
+    Glommoth slot 0, rotation does NOT cast it incoming Glacio 0.25
+    no echo equipped                           incoming Glacio 0.25
+    Glommoth in slot 1 (skill never cast)      incoming Glacio 0.25
+
+Exactly +0.12 for the echo, on top of the 0.25 Wishes of Quiet Snowfall already
+transfers. The benchmark is UNCHANGED at 1.168x, as predicted: none of the five
+echoes sits in slot 0 for that team (Denia's is Reactor Husk; Aemeath holds
+Glommoth in a 3-cost slot, whose skill is never cast).
+
+**[Verification Method]** `npm test` **72/72** (outro 46/0), `npm run sweep` 68
+imported / 0 failed, `npm run lint` **0 errors**. LOCK A and LOCK B regenerated.
+
+**[Residual Risks]**
+
+- The `windowSeconds` ("within 15s after summoning") is extracted but NOT
+  enforced — the transfer is credited whenever the echo is cast in the rotation.
+  A segment longer than the window would over-credit. Reminiscence: Denia states
+  its window in prose rather than a param, so its `windowSeconds` is null.
+- Fallacy's self "+10% bonus Energy Regen" is still unread; only the team ATK
+  half is wired.
+- The echo lane's remaining unmodelled buffs are the ~37 self/defensive clauses
+  (DMG Reduction, shield values), which the damage model does not consume.
+
+**[Updated Docs]** This entry, which supersedes the previous entry's claim that
+the echo lane has no usable source. It has one; the earlier survey simply asked
+the wrong question of it.

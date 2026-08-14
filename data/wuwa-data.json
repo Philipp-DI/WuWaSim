@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-14T10:08:38.757Z",
+  "generatedAt": "2026-08-14T12:03:01.731Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -61668,6 +61668,10 @@
         ],
         "energyGain": 3.04,
         "cooldown": 20,
+        "teamBuff": {
+          "atkRatio": 0.1,
+          "duration": 20
+        },
         "desc": "Activate the Echo Skill to summon a fraction of the Fallacy of No Return's power and deal a blast to the surrounding area, inflicting Spectro DMG equal to {0} of max HP, after which the Resonator gains 10% bonus Energy Regen and all team members 10% bonus ATK for 20s.\nHold Echo Skill to unleash a series of flurry assaults at the cost of STA, each dealing Spectro DMG equal to {1} of max HP; Release to end the assail in a powerful blow, dealing Spectro DMG equal to {2} of max HP.\nCD: {3}s",
         "params": [
           [
@@ -61863,6 +61867,12 @@
         ],
         "energyGain": 0.03,
         "cooldown": 20,
+        "incomingBuff": {
+          "bucket": "dmgAll",
+          "value": 0.1,
+          "duration": 15,
+          "windowSeconds": 15
+        },
         "desc": "Summon Hyvatia to fire lasers at enemies from mid-air, dealing {0} Spectro DMG 10 times.\n\nCasting Outro Skill within {1}s after summoning Hyvatia grants {2} All-Attribute DMG Bonus to the next Resonator using Intro Skill for {3}s.\n\nCD: {4}s.",
         "params": [
           [
@@ -63516,6 +63526,13 @@
         ],
         "energyGain": 3.8,
         "cooldown": 20,
+        "incomingBuff": {
+          "bucket": "dmgElement",
+          "elementId": 2,
+          "value": 0.12,
+          "duration": 15,
+          "windowSeconds": null
+        },
         "desc": "Summon \"Trickster\" to deal {0} Fusion DMG to enemies. Within the next {1}s, casting Outro Skill grants the incoming Resonator {2} Fusion DMG Bonus for {3}s.\nCD: {4}s",
         "params": [
           [
@@ -65390,6 +65407,13 @@
         ],
         "energyGain": 3.8,
         "cooldown": 20,
+        "incomingBuff": {
+          "bucket": "dmgElement",
+          "elementId": 1,
+          "value": 0.12,
+          "duration": 15,
+          "windowSeconds": 15
+        },
         "desc": "Summon a Glommoth to stomp enemies, dealing {0} Glacio DMG.\nCasting Outro Skill within {1}s after summoning Glommoth grants {2} Glacio DMG Bonus to the incoming Resonator for {3}s.\nCD: {4}s.",
         "params": [
           [
@@ -67371,6 +67395,12 @@
         ],
         "energyGain": 5.62,
         "cooldown": 25,
+        "incomingBuff": {
+          "bucket": "atkRatio",
+          "value": 0.12,
+          "duration": 15,
+          "windowSeconds": 15
+        },
         "desc": "{Cus:Ipt,Touch=Tap PC=Press Gamepad=Press} Echo Skill to transform into Voidwing Moth, dealing {0} Spectro DMG to nearby enemies.\nHold Echo Skill to continuously attack, dealing up to 12 instances of {1} Spectro DMG.\nWithin {2}s after using this Echo skill, casting Outro Skill increases the incoming Resonator's ATK by {3} for {4}s.\nCD: {5}s",
         "params": [
           [
