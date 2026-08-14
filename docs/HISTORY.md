@@ -9887,3 +9887,85 @@ weapon team-wide mechanism against the client rather than against a correlation.
 
 **[Updated Docs]** `CLAUDE.md` gains four invariants; the ~~`TriggerPreset[0]`
 alone~~ claim is struck through with the correction beneath it.
+
+---
+
+## 2026-08-14 (lane 5) — The echo main-slot passive: thirty echoes, credited nowhere
+
+The last of the four external-buff lanes. Echoes were the one source never
+checked against the game's own tables, and the check found a large always-on
+buff the engine had no model for at all.
+
+**[Files Changed]**
+- `tools/extract/extract_external_buffs.py` — `extract_echoes`, a third section
+  in `data/external-buffs.json`.
+- `tools/preprocess/echoes.mjs` — `extractEchoMainSlotBuffs` (join + cross-check
+  + name gate).
+- `tools/preprocess.mjs` — attach pass.
+- `src/core/stats.js` — `echoMainSlotContribution`, folded into 8 total sites.
+- `tests/external-buffs.test.mjs` (107 assertions, was 95); `CLAUDE.md` (2
+  invariants); `docs/OPEN-ITEMS.md` (item 2b).
+
+**[Logic Altered]**
+
+1. **The join, and the discriminator.** An echo's `activeSkill.settleId` is a
+   member of `PhantomSkill.SettleIds`, so the two tables meet without a guess.
+   `BuffEffects` then holds both kinds of buff, and they are told apart
+   STRUCTURALLY rather than by wording: an always-on main-slot passive is a bare
+   `GameAttributeID` + magnitude sitting straight in the list (Lioness of Glory's
+   `290001002` Fusion 12% and `290001014` Liberation 12%, no trigger, no
+   duration — most live in a shared `290001xxx` pool reused across the roster),
+   while a conditional buff sits behind an `ExtraEffectID 2` chain (Glommoth's
+   incoming transfer is three levels deep).
+
+2. **THIRTY echoes state a main-slot passive and the engine credited none.**
+   `echoContribution` read only the equipped echo's gear stats; the echo SPECIES'
+   own passive had no model. So every carry running a cost-4 main echo was short
+   roughly 12% element DMG plus 12% skill-type DMG. This is the single largest
+   correction of the four lanes.
+
+3. **The gate is prose-only, so the values are cross-checked.** ConfigDB carries
+   no restriction — Sigillum's 25% Resonance Liberation row is identical in shape
+   to Lioness of Glory's 12%, and only its sentence says "by Aemeath". So
+   preprocess owns the gate and credits a grant set ONLY when its values equal
+   the percentages the main-slot sentence itself states, as a multiset. Two
+   independent sources agreeing is the whole warrant, and it refuses exactly the
+   five cases that would otherwise be wrong (see the invariant).
+
+**[Verification Method]**
+- Swept all 180 echoes through the join BEFORE building anything: 176 have a
+  phantom-skill row, 39 carry attribute grants, the app modelled 4.
+- Every credited passive is re-cross-checked IN THE TEST against its own
+  sentence, independently of the pipeline — if preprocess ever stops checking,
+  the test fails rather than the data silently drifting.
+- The five refusals are each pinned by name, with the reason each differs.
+- The name gate is asserted BOTH ways: Sigillum pays Aemeath 25% Liberation and
+  pays Denia nothing. Slot-1 placement grants nothing.
+- Benchmark, same reference: TEAM damage **1.165x → 1.114x**, DPS
+  **1.178x → 1.126x**, Aemeath (the worst carry) **1.182x → 1.109x**.
+- `npm test` 72/72 · `npm run sweep` 68/0 · `npm run lint` 0 errors. Data and
+  meta regenerated.
+
+**[Residual Risks]**
+- The five refused echoes now contribute NOTHING where the game gives something.
+  That is a deliberate under-credit, visible rather than silent, but Fleurdelys
+  and Collapsar Blade are real cost-4 echoes whose base half is uncontroversial —
+  crediting the base and dropping only the conditional branch is a reasonable
+  follow-up.
+- The cross-check keys on the max-level param row. An echo whose main-slot
+  values SCALE with level would be credited at max only; none observed, and the
+  rest of this file already reads max level for the same reason.
+- Bell-Borne Geochelone and Fallacy of No Return have EMPTY `BuffEffects`, so
+  their team buffs remain text-derived. Whatever mechanism carries them is not
+  in `PhantomSkill`.
+- `echoMainSlotContribution` reads `PROP.HEALING_BONUS` directly because
+  `bucketForAttribute` has no damage bucket for `Proto_HealChange` — the one
+  place the fold is bypassed, and it will need revisiting if healing ever routes
+  through the shared buckets.
+
+**[Updated Docs]** `CLAUDE.md` gains two invariants. `docs/OPEN-ITEMS.md` gains
+item **2b, per-TYPE crit scoping** (maintainer-corrected framing: nothing varies
+per HIT, it varies per damage TYPE, which every hit already carries as
+`formulaType` — so the shape is `critRateBySkillType` alongside the existing
+`dmgBonusBySkillType`, not a new per-hit pipeline). Flamewing's Shadow is the
+worked case and is currently an over-credit.

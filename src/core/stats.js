@@ -31,6 +31,7 @@
 import { subMainStatFor } from './echo-rules.js';
 import { weaponPassiveStats } from './buffs/weapon-buffs.js';
 import { weaponConditionalContribution, sonataConditionalContribution, emptyContribution } from './buffs/conditional-buffs.js';
+import { foldExternalGrants } from './buffs/external-buffs.js';
 
 // =============================================================================
 // Property ID constants — mirrors PropertyIndex / BaseProperty
@@ -260,6 +261,53 @@ function skillTreeContribution(build, dataset) {
     return out;
 }
 
+/**
+ * The MAIN-SLOT passive the equipped slot-0 echo grants its wielder.
+ *
+ * "The Resonator with this Echo equipped in the main slot gains 12% Fusion DMG
+ * Bonus and 12% Resonance Liberation DMG Bonus" — always on, no trigger, no
+ * duration. THIRTY echoes state one and the engine credited none of them, so
+ * every carry running a cost-4 main echo was short roughly 12% element DMG plus
+ * 12% skill-type DMG.
+ *
+ * SLOT 0 ONLY, which is what "main slot" means and what the rest of the engine
+ * already assumes for echo skills (sim.js resolveEchoSkill). An echo in slots
+ * 1-4 contributes its gear stats and nothing else.
+ *
+ * `requiresResonatorId` is the one gate the game states in prose rather than in
+ * the tables: Sigillum's 25% Resonance Liberation row is identical in shape to
+ * Lioness of Glory's 12%, and only its sentence says "by Aemeath". Crediting it
+ * to anyone else would be a 25% Liberation bonus handed to the wrong build —
+ * and the meta optimizer does pick Sigillum for other resonators.
+ */
+function echoMainSlotContribution(build, dataset) {
+    const empty = { atkRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0, healingBonus: 0,
+        dmgByElement: {}, dmgBySkillType: {} };
+    const slotZero = build?.echoes?.[0];
+    if (slotZero?.id == null) return empty;
+    const echoDef = dataset?.echoes?.find(echo => echo.id === slotZero.id);
+    const passive = echoDef?.activeSkill?.mainSlotBuffs;
+    if (!passive?.grants?.length) return empty;
+    if (passive.requiresResonatorId != null
+        && passive.requiresResonatorId !== build.resonatorId) return empty;
+
+    const folded = foldExternalGrants(passive.grants);
+    return {
+        atkRatio: folded.atkRatio,
+        critRate: folded.critRate,
+        critDmg: folded.critDmg,
+        energyRegen: folded.energyRegen,
+        // Proto_HealChange has no damage bucket, so `bucketForAttribute` returns
+        // null for it and `foldExternalGrants` skips it — read it from the raw
+        // grants instead of inventing a bucket nothing else uses.
+        healingBonus: passive.grants
+            .filter(grant => grant.attribute === PROP.HEALING_BONUS)
+            .reduce((sum, grant) => sum + Number(grant.value || 0), 0),
+        dmgByElement: folded.dmgByElement,
+        dmgBySkillType: folded.dmgBySkillType,
+    };
+}
+
 function echoContribution(build) {
     // Echoes (Phase 3) accept main/sub stats as plain {propId, addType, value}
     // tuples. AddType 1 = flat (in the value's natural units), AddType 2 =
@@ -462,6 +510,8 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     const weapon = weaponContribution(build, dataset);
     const tree = skillTreeContribution(build, dataset);
     const echoes = echoContribution(build);
+    // The slot-0 echo's own always-on main-slot passive (30 echoes state one).
+    const echoMain = echoMainSlotContribution(build, dataset);
 
     if (!resonator) {
         return makeEmpty(`Resonator id ${build.resonatorId} or its base stats not in dataset.`);
@@ -516,7 +566,7 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // An ALL-ATTRIBUTE team bonus is scoped to nothing, so it belongs in the
     // generic bucket every hit reads, not in a per-element or per-type map.
     const teamDmgAll = teamBundle.dmgAll ?? 0;
-    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + sonStats.atkRatio + weaponPassive.atkRatio + weaponConditional.atkRatio + (teamBundle.atkRatio ?? 0);
+    const atkTotalRatio = 1 + (tree?.atkRatio ?? 0) + echoes.atkRatio + echoMain.atkRatio + sonStats.atkRatio + weaponPassive.atkRatio + weaponConditional.atkRatio + (teamBundle.atkRatio ?? 0);
     const hpTotalRatio = 1 + (tree?.hpRatio ?? 0) + echoes.hpRatio + sonStats.hpRatio + weaponPassive.hpRatio + weaponConditional.hpRatio;
     const defTotalRatio = 1 + (tree?.defRatio ?? 0) + echoes.defRatio + sonStats.defRatio + weaponPassive.defRatio + weaponConditional.defRatio;
 
@@ -524,20 +574,20 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     const hpTotal = hpBase * hpTotalRatio + hpFlat;
     const def = defBase * defTotalRatio + defFlat;
 
-    const critRate = resonator.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + sonStats.critRate + weaponPassive.critRate + weaponConditional.critRate + sonataConditional.critRate + (teamBundle.critRate ?? 0);
-    const critDmg = resonator.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + sonStats.critDmg + weaponPassive.critDmg + weaponConditional.critDmg + sonataConditional.critDmg + (teamBundle.critDmg ?? 0);
-    const energyRegen = (resonator.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + sonStats.energyRegen + weaponPassive.energyRegen + weaponConditional.energyRegen + (teamBundle.energyRegen ?? 0);
-    const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + sonStats.healingBonus;
+    const critRate = resonator.critRate + (weapon?.critRate ?? 0) + (tree?.critRate ?? 0) + echoes.critRate + echoMain.critRate + sonStats.critRate + weaponPassive.critRate + weaponConditional.critRate + sonataConditional.critRate + (teamBundle.critRate ?? 0);
+    const critDmg = resonator.critDmg + (weapon?.critDmg ?? 0) + (tree?.critDmg ?? 0) + echoes.critDmg + echoMain.critDmg + sonStats.critDmg + weaponPassive.critDmg + weaponConditional.critDmg + sonataConditional.critDmg + (teamBundle.critDmg ?? 0);
+    const energyRegen = (resonator.energyRegen ?? 1) + (weapon?.energyRegen ?? 0) + echoes.energyRegen + echoMain.energyRegen + sonStats.energyRegen + weaponPassive.energyRegen + weaponConditional.energyRegen + (teamBundle.energyRegen ?? 0);
+    const healingBonus = (tree?.healingBonus ?? 0) + echoes.healingBonus + echoMain.healingBonus + sonStats.healingBonus;
 
     // Combine echo + sonata + skill-tree + weapon-passive + team DMG bonus maps
     // (each bucket adds independently; multiplication happens in the damage formula).
     const dmgBonusByElement = mergeNumericMaps(
         mergeNumericMaps(mergeNumericMaps(echoes.dmgByElement, sonStats.dmgByElement), mergeNumericMaps(weaponPassive.dmgByElement, weaponConditional.dmgByElement)),
-        mergeNumericMaps(tree?.dmgByElement ?? {}, teamBundle.dmgByElement ?? {}),
+        mergeNumericMaps(mergeNumericMaps(tree?.dmgByElement ?? {}, teamBundle.dmgByElement ?? {}), echoMain.dmgByElement),
     );
     const dmgBonusBySkillType = mergeNumericMaps(
         mergeNumericMaps(mergeNumericMaps(echoes.dmgBySkillType, sonStats.dmgBySkillType), mergeNumericMaps(weaponPassive.dmgBySkillType, weaponConditional.dmgBySkillType)),
-        teamBundle.dmgBySkillType ?? {},
+        mergeNumericMaps(teamBundle.dmgBySkillType ?? {}, echoMain.dmgBySkillType),
     );
 
     // The team-recipient half of the weapon/sonata conditional clauses (e.g.

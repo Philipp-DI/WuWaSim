@@ -311,3 +311,89 @@ export function projectEchoSubStats(phantomSub, propDict) {
     }
     return out;
 }
+
+/**
+ * The MAIN-SLOT passive an echo grants its wielder — "The Resonator with this
+ * Echo equipped in the main slot gains 12% Fusion DMG Bonus and 12% Resonance
+ * Liberation DMG Bonus."
+ *
+ * This is a large, always-on buff source the pipeline read NOTHING of: 35
+ * echoes state one and the engine credited zero, so every carry running a
+ * cost-4 main echo was short roughly 12% element DMG plus 12% skill-type DMG.
+ *
+ * ── The two sources, and why BOTH are needed ────────────────────────────────
+ * VALUES come from the game (`data/external-buffs.json` echoes, keyed by the
+ * skill's `settleId`), because the tables state each grant as its own attribute
+ * row and the sentence states only a formatted percentage. The extractor takes
+ * DIRECT rows of `PhantomSkill.BuffEffects` only, which is what separates an
+ * always-on main-slot buff from a triggered one — a conditional buff sits
+ * behind an `ExtraEffectID 2` chain instead.
+ *
+ * The GATE comes from the description, because ConfigDB has none. Sigillum's
+ * 25% Resonance Liberation row is identical in shape to Lioness of Glory's 12%,
+ * and only its sentence says "When equipped in the main slot BY AEMEATH".
+ *
+ * ── The cross-check is the safety net ──────────────────────────────────────
+ * A grant set is credited only when its VALUES equal the percentages the
+ * main-slot sentence itself states, as a multiset. Two independent sources
+ * agreeing is the whole warrant, and it refuses exactly the cases that would
+ * otherwise be wrong:
+ *   - Glacio Dreadmane has a 20% Glacio row and NO main-slot sentence — that
+ *     row is its mid-air damage bonus, not a passive.
+ *   - Reminiscence: Fleurdelys ships THREE 10% Aero rows for a sentence stating
+ *     one, the rest being its "Rover: Aero or Cartethyia" branch.
+ *   - Twin Nova: Collapsar Blade ships three rows for two stated values.
+ *   - Reminiscence - Nightmare: Adam Smasher is gated on Lucy or Rebecca.
+ *   - Nightmare: Lampylumen Myriad states a Coordinated Attack DMG bonus that
+ *     is not an attribute row at all.
+ * 30 of the 35 match exactly; the five above are left uncredited rather than
+ * guessed at.
+ *
+ * @param {object} activeSkill  — the echo's own activeSkill (desc + params)
+ * @param {object} entry        — externalBuffs.echoes[settleId], or null
+ * @param {Array}  roster       — dataset resonators, for the name gate
+ * @returns {{grants, requiresResonatorId}|null}
+ */
+const MAIN_SLOT_RE = /equipped in (?:the|their) main slot/i;
+
+export function extractEchoMainSlotBuffs(activeSkill, entry, roster = []) {
+    const grants = entry?.grants ?? [];
+    if (!grants.length) return null;
+    const sentence = String(activeSkill?.desc ?? '')
+        .split(/\n+|(?<=[.!])\s+/)
+        .find(part => MAIN_SLOT_RE.test(part));
+    if (!sentence) return null;
+
+    // The sentence's own values, resolved through the MAX-level param ladder —
+    // a build equips a maxed echo, matching every other reader in this file.
+    const params = activeSkill?.params?.[activeSkill.params.length - 1];
+    if (!Array.isArray(params)) return null;
+    const stated = [];
+    for (const match of sentence.matchAll(/\{(\d+)\}/g)) {
+        const percent = String(params[Number(match[1])] ?? '').match(/^([\d.]+)\s*%/);
+        if (percent) stated.push(Math.round(Number(percent[1]) * 1e4) / 1e6);
+    }
+    const asKey = (values) => values
+        .map(value => Math.round(value * 1e6))
+        .sort((left, right) => left - right)
+        .join(',');
+    if (asKey(stated) !== asKey(grants.map(grant => grant.value))) return null;
+
+    // "…by Aemeath" / "When Lucy or Rebecca has this Echo…" — the restriction
+    // lives only in the sentence. One echo states one today (Sigillum); an echo
+    // naming SEVERAL is not modelled and is refused above by the value check.
+    // Plain substring, not a word-boundary regex: roster names carry colons and
+    // apostrophes ("Rover: Aero", "Luuk Herssen"), which a regex would have to
+    // escape for no gain — no roster name is a prefix of another.
+    const named = roster.filter(resonator => sentence.includes(resonator.name));
+    if (named.length > 1) return null;
+
+    return {
+        grants: grants.map(grant => ({
+            attribute: grant.attribute,
+            attributeName: grant.attributeName ?? null,
+            value: grant.value,
+        })),
+        ...(named.length === 1 ? { requiresResonatorId: named[0].id } : {}),
+    };
+}

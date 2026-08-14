@@ -413,6 +413,30 @@ timing). Section title below kept for the surviving root-cause gap.
 
 ## Team / meta correctness
 
+2b. **Per-TYPE crit scoping** (opened 2026-08-14, from the lane-4 migration).
+   `ExtraEffectRequirements` type 12 `DamageTypes` scopes a grant to the game's
+   own 0..5 damage-type tag, and the engine honours that for DEF-ignore and
+   RES-shred (per-hit, via `skill.js targetContext`) but has **nowhere to put a
+   scoped CRIT value**: `critRate`/`critDmg` are whole-build stats resolved once,
+   before any hit exists. So `sonataConditionalGrants` refuses a scoped crit
+   grant and the tier falls back to its tooltip, which states the value flatly.
+
+   Concretely, **Flamewing's Shadow** ships its 3-piece as two rows —
+   `damageTypes:[1]` (Heavy) and `damageTypes:[5]` (Echo), 20% Crit Rate each —
+   and the sentence says "20%" with no scope. The sim therefore credits a flat
+   20% Crit Rate on *every* hit the wielder lands. That is an **over-credit**
+   the data can already see and the engine cannot express.
+
+   NOT "per-hit crit" (the first framing, and wrong): nothing here varies per
+   hit. It varies per damage TYPE, which every hit already carries as
+   `formulaType`. So the shape is a per-type crit bucket — `critRateBySkillType`
+   / `critDmgBySkillType`, resolved at `resolveSkill` alongside the existing
+   `dmgBonusBySkillType` — not a new per-hit pipeline.
+
+   Blocked on nothing; it is a real (small) engine feature rather than a routing
+   fix, which is why lane 4 left it. Do it with the damage work.
+
+
 3. **`resolveErTarget` has zero UI consumers** (re-verified 2026-07-23 — only
    `src/core/team-er.js` references it). All 79 real team-context ER numbers
    reach no user. NOT blocked on a design decision — just needs wiring into

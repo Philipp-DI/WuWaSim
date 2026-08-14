@@ -491,6 +491,68 @@ def extract_sonatas(db, resolver, names):
     return out
 
 
+def extract_echoes(db, buffs, names):
+    """Echo MAIN-SLOT passive grants: `PhantomSkill.BuffEffects` -> `db_buff`.
+
+    THE JOIN. An echo's `activeSkill.settleId` in our dataset is a member of the
+    phantom skill's own `SettleIds`, so the two tables meet without a guess.
+
+    WHAT A MAIN-SLOT PASSIVE LOOKS LIKE, and why only DIRECT rows are taken.
+    The game states these as bare attribute rows sitting straight in
+    `BuffEffects` — Lioness of Glory's two are `290001002` (Fusion 12%) and
+    `290001014` (Liberation 12%), each a plain GameAttributeID + magnitude with
+    no trigger and no duration. A buff that is CONDITIONAL instead sits behind a
+    chain: Glommoth's incoming-resonator transfer is an `ExtraEffectID 2`
+    AddBuffTrigger three levels deep. Taking only the direct rows is therefore
+    the discriminator between "always on while this Echo is in the main slot"
+    and "granted when something happens", and it needs no text at all.
+
+    Most of these ids live in a shared `290001xxx` pool — a library of standard
+    main-slot buffs reused across echoes — which is why the same 12% element /
+    12% skill-type pairing recurs across the roster.
+
+    WHAT THIS DELIBERATELY DOES NOT DECIDE. The rows carry no gate: Sigillum's
+    25% Resonance Liberation row is identical in shape to Lioness of Glory's
+    12%, yet its tooltip reads "When equipped in the main slot BY AEMEATH". The
+    restriction is not in ConfigDB, so `preprocess.mjs` owns the gating — it has
+    the descriptions — and cross-checks these values against the sentence's own
+    params before crediting any of them.
+    """
+    skills = db.read('db_phantom', 'PhantomSkill', table='phantomskill')
+    out = {}
+    for row in skills:
+        settle_ids = _ids_from(row.get('SettleIds') or [])
+        grants = []
+        for buff_id in _ids_from(row.get('BuffEffects') or []):
+            buff = buffs.get(buff_id)
+            if not buff or not buff.get('GameAttributeID'):
+                continue
+            # Same flat-magnitude rule as everywhere else: a 2/4/9 policy is a
+            # coefficient in a runtime formula, not a percentage.
+            policy = buff.get('CalculationPolicy') or []
+            if policy and int(policy[0]) not in FLAT_CALCULATION_POLICIES:
+                continue
+            magnitudes = buff.get('ModifierMagnitude') or []
+            if not magnitudes:
+                continue
+            attribute = int(buff['GameAttributeID'])
+            grants.append({
+                'buffId': buff_id,
+                'attribute': attribute,
+                'attributeName': names.get(attribute),
+                'value': round(magnitudes[0] / 10000.0, 6),
+                'stackLimit': int(buff.get('StackLimitCount') or 1),
+            })
+        if not grants:
+            continue
+        for settle_id in settle_ids:
+            out[str(settle_id)] = {
+                'phantomSkillId': int(row.get('PhantomSkillId') or 0),
+                'grants': grants,
+            }
+    return out
+
+
 def main():
     if len(sys.argv) < 2:
         raise SystemExit(__doc__)
@@ -510,6 +572,7 @@ def main():
     resolver = Resolver(buffs, passives)
     weapons = extract_weapons(db, resolver, names)
     sonatas = extract_sonatas(db, resolver, names)
+    echoes = extract_echoes(db, buffs, names)
 
     payload = {
         '_doc': ('External buff grants read from the game ConfigDB — see '
@@ -521,6 +584,7 @@ def main():
         'attributeNames': {str(k): v for k, v in sorted(names.items())},
         'weapons': weapons,
         'sonatas': sonatas,
+        'echoes': echoes,
     }
     destination = os.path.join(ROOT, 'data', 'external-buffs.json')
     with open(destination, 'w', encoding='utf-8') as handle:
@@ -530,7 +594,9 @@ def main():
     grants = sum(len(rank) for w in weapons.values() for rank in w['ranks'].values())
     sonata_grants = sum(len(tier['grants']) for s in sonatas.values() for tier in s['tiers'].values())
     print(f'weapons with conditional grants: {len(weapons)}  (grants, all ranks: {grants})')
+    echo_grants = sum(len(entry['grants']) for entry in echoes.values())
     print(f'sonatas with grants:             {len(sonatas)}  (grants: {sonata_grants})')
+    print(f'echo skills with main-slot rows: {len(echoes)}  (grants: {echo_grants})')
     print(f'wrote {os.path.relpath(destination, ROOT)}')
 
 

@@ -20,7 +20,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { PROP } from '../src/core/stats.js';
+import { PROP, resolveTotalStats } from '../src/core/stats.js';
 import {
     bucketForAttribute, foldExternalGrants, weaponExternalGrants, targetModApplies,
     sonataExternalGrants, sonataWindowGrants, derivedGrantValue, DERIVED_SOURCE,
@@ -418,6 +418,91 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     }
     assert(`every team-wide weapon names the team in its tooltip (${silent.join(',') || 'none'})`,
         silent.length === 0);
+}
+
+// ── LANE 5: the echo MAIN-SLOT passive ──────────────────────────────────────
+//
+// "The Resonator with this Echo equipped in the main slot gains 12% Fusion DMG
+// Bonus and 12% Resonance Liberation DMG Bonus." Always on, no trigger. Thirty
+// echoes state one and the engine credited NONE, so every carry running a
+// cost-4 main echo was short roughly 12% element plus 12% skill-type DMG.
+{
+    const withMain = dataset.echoes.filter(echo => echo.activeSkill?.mainSlotBuffs);
+    assert(`30 echoes carry a main-slot passive (got ${withMain.length})`, withMain.length === 30);
+
+    // THE CROSS-CHECK, RE-DERIVED HERE. The extractor supplies values and the
+    // description supplies the gate; the warrant for crediting either is that
+    // they AGREE. Re-deriving it in the test rather than trusting the pipeline
+    // is the point — if preprocess ever stops checking, this fails.
+    const mismatched = [];
+    for (const echo of withMain) {
+        const active = echo.activeSkill;
+        const sentence = String(active.desc ?? '').split(/\n+|(?<=[.!])\s+/)
+            .find(part => /equipped in (?:the|their) main slot/i.test(part));
+        const params = active.params?.[active.params.length - 1] ?? [];
+        const stated = [];
+        for (const match of String(sentence ?? '').matchAll(/\{(\d+)\}/g)) {
+            const percent = String(params[Number(match[1])] ?? '').match(/^([\d.]+)\s*%/);
+            if (percent) stated.push(Math.round(Number(percent[1]) * 1e4));
+        }
+        const got = active.mainSlotBuffs.grants.map(grant => Math.round(grant.value * 1e6));
+        const key = (list) => list.slice().sort((left, right) => left - right).join(',');
+        if (key(stated) !== key(got)) mismatched.push(echo.name);
+    }
+    assert(`every credited passive matches its own sentence (${mismatched.join(',') || 'none'})`,
+        mismatched.length === 0);
+
+    // The five the cross-check must REFUSE. Each is a different way the data and
+    // the prose disagree, and crediting any of them would over-credit.
+    for (const name of ['Glacio Dreadmane',            // no main-slot sentence — that row is its mid-air bonus
+                        'Reminiscence: Fleurdelys',    // 3 rows for 1 stated value (the Rover/Cartethyia branch)
+                        'Twin Nova: Collapsar Blade',  // 3 rows for 2 stated values
+                        'Nightmare: Lampylumen Myriad' // states a Coordinated Attack bonus that is no attribute row
+                       ]) {
+        const echo = dataset.echoes.find(one => one.name === name);
+        assert(`${name}: refused rather than guessed at`,
+            echo != null && !echo.activeSkill?.mainSlotBuffs);
+    }
+
+    // Sigillum is the one restriction the game states ONLY in prose — its 25%
+    // Liberation row is identical in shape to Lioness of Glory's 12%.
+    const sigillum = dataset.echoes.find(one => one.name === 'Sigillum');
+    const aemeath = dataset.resonators.find(one => one.name === 'Aemeath');
+    assert('Sigillum is gated to Aemeath by name',
+        sigillum?.activeSkill?.mainSlotBuffs?.requiresResonatorId === aemeath.id);
+
+    const equip = (resonatorId, echoName, slot = 0) => {
+        const resonator = dataset.resonators.find(one => one.id === resonatorId);
+        const echo = dataset.echoes.find(one => one.name === echoName);
+        let build = createBuild(resonator);
+        build.level = 90;
+        [4, 3, 3, 1, 1].forEach((cost, index) => {
+            build = setEcho(build, index, { id: index === slot ? echo.id : null, cost,
+                level: 25, sonataId: null, mainStat: null, subStats: [] });
+        });
+        return resolveTotalStats(build, dataset);
+    };
+    const AEMEATH = aemeath.id, DENIA = dataset.resonators.find(one => one.name === 'Denia').id;
+
+    // Lioness of Glory: 12% Fusion + 12% Resonance Liberation, its own tooltip.
+    const lioness = equip(AEMEATH, 'Lioness of Glory');
+    assert('Lioness of Glory grants its wielder 12% Fusion DMG',
+        Math.abs((lioness.dmgBonusByElement[2] ?? 0) - 0.12) < 1e-9);
+    assert('…and 12% Resonance Liberation DMG',
+        Math.abs((lioness.dmgBonusBySkillType.liberation ?? 0) - 0.12) < 1e-9);
+
+    // SLOT 0 ONLY — "main slot" is what the sentence says, and what the echo
+    // skill itself already assumes (sim.js resolveEchoSkill).
+    const offSlot = equip(AEMEATH, 'Lioness of Glory', 1);
+    assert('an echo in slot 1 grants no main-slot passive',
+        (offSlot.dmgBonusByElement[2] ?? 0) === 0
+        && (offSlot.dmgBonusBySkillType.liberation ?? 0) === 0);
+
+    // The name gate, both ways.
+    assert('Sigillum pays Aemeath its 25% Resonance Liberation DMG',
+        Math.abs((equip(AEMEATH, 'Sigillum').dmgBonusBySkillType.liberation ?? 0) - 0.25) < 1e-9);
+    assert('…and pays a different resonator nothing',
+        (equip(DENIA, 'Sigillum').dmgBonusBySkillType.liberation ?? 0) === 0);
 }
 
 console.log(`external-buffs: ${passed} passed, ${failed} failed`);

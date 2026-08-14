@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-14T16:24:28+00:00",
+ "generatedAt": "2026-08-14T17:34:40+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -11366,6 +11366,973 @@
      ]
     }
    }
+  }
+ },
+ "echoes": {
+  "20005501": {
+   "phantomSkillId": 200055,
+   "grants": [
+    {
+     "buffId": 200055001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.2,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20005502": {
+   "phantomSkillId": 200055,
+   "grants": [
+    {
+     "buffId": 200055001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.2,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20006101": {
+   "phantomSkillId": 200061,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20006301": {
+   "phantomSkillId": 200063,
+   "grants": [
+    {
+     "buffId": 290001003,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001401": {
+   "phantomSkillId": 280014,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001013,
+     "attribute": 14,
+     "attributeName": "Proto_DamageChangeNormalSkill",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001402": {
+   "phantomSkillId": 280014,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001013,
+     "attribute": 14,
+     "attributeName": "Proto_DamageChangeNormalSkill",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001501": {
+   "phantomSkillId": 280015,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001011,
+     "attribute": 17,
+     "attributeName": "Proto_DamageChangeAuto",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001701": {
+   "phantomSkillId": 280017,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001011,
+     "attribute": 17,
+     "attributeName": "Proto_DamageChangeAuto",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001801": {
+   "phantomSkillId": 280018,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001802": {
+   "phantomSkillId": 280018,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28001901": {
+   "phantomSkillId": 280019,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002001": {
+   "phantomSkillId": 280020,
+   "grants": [
+    {
+     "buffId": 290001003,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002101": {
+   "phantomSkillId": 280021,
+   "grants": [
+    {
+     "buffId": 290001003,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001013,
+     "attribute": 14,
+     "attributeName": "Proto_DamageChangeNormalSkill",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002201": {
+   "phantomSkillId": 280022,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001011,
+     "attribute": 17,
+     "attributeName": "Proto_DamageChangeAuto",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002301": {
+   "phantomSkillId": 280023,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001013,
+     "attribute": 14,
+     "attributeName": "Proto_DamageChangeNormalSkill",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002302": {
+   "phantomSkillId": 280023,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001013,
+     "attribute": 14,
+     "attributeName": "Proto_DamageChangeNormalSkill",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002401": {
+   "phantomSkillId": 280024,
+   "grants": [
+    {
+     "buffId": 290001005,
+     "attribute": 26,
+     "attributeName": "Proto_DamageChangeElement5",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20008801": {
+   "phantomSkillId": 200088,
+   "grants": [
+    {
+     "buffId": 290001005,
+     "attribute": 26,
+     "attributeName": "Proto_DamageChangeElement5",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20008802": {
+   "phantomSkillId": 200088,
+   "grants": [
+    {
+     "buffId": 290001005,
+     "attribute": 26,
+     "attributeName": "Proto_DamageChangeElement5",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002501": {
+   "phantomSkillId": 280025,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002601": {
+   "phantomSkillId": 280026,
+   "grants": [
+    {
+     "buffId": 290001031,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001032,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001033,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002602": {
+   "phantomSkillId": 280026,
+   "grants": [
+    {
+     "buffId": 290001031,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001032,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001033,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20009401": {
+   "phantomSkillId": 200094,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20009402": {
+   "phantomSkillId": 200094,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002701": {
+   "phantomSkillId": 280027,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002702": {
+   "phantomSkillId": 280027,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002801": {
+   "phantomSkillId": 280028,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002802": {
+   "phantomSkillId": 280028,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28002901": {
+   "phantomSkillId": 280029,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001017,
+     "attribute": 114,
+     "attributeName": "Proto_DamageChangePhantom",
+     "value": 0.2,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003001": {
+   "phantomSkillId": 280030,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003101": {
+   "phantomSkillId": 280031,
+   "grants": [
+    {
+     "buffId": 290001003,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003102": {
+   "phantomSkillId": 280031,
+   "grants": [
+    {
+     "buffId": 290001003,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003201": {
+   "phantomSkillId": 280032,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003202": {
+   "phantomSkillId": 280032,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20009801": {
+   "phantomSkillId": 200098,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001017,
+     "attribute": 114,
+     "attributeName": "Proto_DamageChangePhantom",
+     "value": 0.2,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003301": {
+   "phantomSkillId": 280033,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003401": {
+   "phantomSkillId": 280034,
+   "grants": [
+    {
+     "buffId": 290001034,
+     "attribute": 11,
+     "attributeName": "Proto_EnergyEfficiency",
+     "value": 0.1,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20011701": {
+   "phantomSkillId": 200116,
+   "grants": [
+    {
+     "buffId": 290001005,
+     "attribute": 26,
+     "attributeName": "Proto_DamageChangeElement5",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001011,
+     "attribute": 17,
+     "attributeName": "Proto_DamageChangeAuto",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20011601": {
+   "phantomSkillId": 200117,
+   "grants": [
+    {
+     "buffId": 290001011,
+     "attribute": 17,
+     "attributeName": "Proto_DamageChangeAuto",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 200117006,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 200117007,
+     "attribute": 26,
+     "attributeName": "Proto_DamageChangeElement5",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20011602": {
+   "phantomSkillId": 200117,
+   "grants": [
+    {
+     "buffId": 290001011,
+     "attribute": 17,
+     "attributeName": "Proto_DamageChangeAuto",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 200117006,
+     "attribute": 24,
+     "attributeName": "Proto_DamageChangeElement3",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 200117007,
+     "attribute": 26,
+     "attributeName": "Proto_DamageChangeElement5",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003701": {
+   "phantomSkillId": 280037,
+   "grants": [
+    {
+     "buffId": 290001035,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.25,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003702": {
+   "phantomSkillId": 280037,
+   "grants": [
+    {
+     "buffId": 290001035,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.25,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003801": {
+   "phantomSkillId": 280038,
+   "grants": [
+    {
+     "buffId": 290001004,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001017,
+     "attribute": 114,
+     "attributeName": "Proto_DamageChangePhantom",
+     "value": 0.2,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003901": {
+   "phantomSkillId": 280039,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28003902": {
+   "phantomSkillId": 280039,
+   "grants": [
+    {
+     "buffId": 290001001,
+     "attribute": 22,
+     "attributeName": "Proto_DamageChangeElement1",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001014,
+     "attribute": 19,
+     "attributeName": "Proto_DamageChangeUltra",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004101": {
+   "phantomSkillId": 280041,
+   "grants": [
+    {
+     "buffId": 280041001,
+     "attribute": 8,
+     "attributeName": "Proto_Crit",
+     "value": 0.15,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 280041002,
+     "attribute": 8,
+     "attributeName": "Proto_Crit",
+     "value": 0.15,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004102": {
+   "phantomSkillId": 280041,
+   "grants": [
+    {
+     "buffId": 280041001,
+     "attribute": 8,
+     "attributeName": "Proto_Crit",
+     "value": 0.15,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 280041002,
+     "attribute": 8,
+     "attributeName": "Proto_Crit",
+     "value": 0.15,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004103": {
+   "phantomSkillId": 280041,
+   "grants": [
+    {
+     "buffId": 280041001,
+     "attribute": 8,
+     "attributeName": "Proto_Crit",
+     "value": 0.15,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 280041002,
+     "attribute": 8,
+     "attributeName": "Proto_Crit",
+     "value": 0.15,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "20014901": {
+   "phantomSkillId": 200149,
+   "grants": [
+    {
+     "buffId": 290001036,
+     "attribute": 35,
+     "attributeName": "Proto_HealChange",
+     "value": 0.1,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004201": {
+   "phantomSkillId": 280042,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004202": {
+   "phantomSkillId": 280042,
+   "grants": [
+    {
+     "buffId": 290001002,
+     "attribute": 23,
+     "attributeName": "Proto_DamageChangeElement2",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004301": {
+   "phantomSkillId": 280043,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004303": {
+   "phantomSkillId": 280043,
+   "grants": [
+    {
+     "buffId": 290001006,
+     "attribute": 27,
+     "attributeName": "Proto_DamageChangeElement6",
+     "value": 0.12,
+     "stackLimit": 1
+    },
+    {
+     "buffId": 290001012,
+     "attribute": 18,
+     "attributeName": "Proto_DamageChangeCast",
+     "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
   }
  }
 }

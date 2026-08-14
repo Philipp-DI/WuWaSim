@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-14T16:25:06.869Z",
+  "generatedAt": "2026-08-14T17:36:50.133Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -61576,7 +61576,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 23,
+              "attributeName": "Proto_DamageChangeElement2",
+              "value": 0.12
+            },
+            {
+              "attribute": 17,
+              "attributeName": "Proto_DamageChangeAuto",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33013_UI.webp",
       "source": "nanoka"
@@ -62204,7 +62218,21 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 25,
+              "attributeName": "Proto_DamageChangeElement4",
+              "value": 0.12
+            },
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34018_UI.webp",
       "source": "nanoka"
@@ -62350,7 +62378,21 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 23,
+              "attributeName": "Proto_DamageChangeElement2",
+              "value": 0.12
+            },
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33022_UI.webp",
       "source": "nanoka"
@@ -62413,7 +62455,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 27,
+              "attributeName": "Proto_DamageChangeElement6",
+              "value": 0.12
+            },
+            {
+              "attribute": 17,
+              "attributeName": "Proto_DamageChangeAuto",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33011_UI.webp",
       "source": "nanoka"
@@ -62633,7 +62689,21 @@
             "20",
             "19"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 23,
+              "attributeName": "Proto_DamageChangeElement2",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34030_UI.webp",
       "source": "nanoka"
@@ -62697,7 +62767,21 @@
             "20.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 25,
+              "attributeName": "Proto_DamageChangeElement4",
+              "value": 0.12
+            },
+            {
+              "attribute": 114,
+              "attributeName": "Proto_DamageChangePhantom",
+              "value": 0.2
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34026_UI.webp",
       "source": "nanoka"
@@ -62780,7 +62864,21 @@
             "20.00%",
             "2"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 27,
+              "attributeName": "Proto_DamageChangeElement6",
+              "value": 0.12
+            },
+            {
+              "attribute": 17,
+              "attributeName": "Proto_DamageChangeAuto",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33018_UI.webp",
       "source": "nanoka"
@@ -62848,7 +62946,21 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 25,
+              "attributeName": "Proto_DamageChangeElement4",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33014_UI.webp",
       "source": "nanoka"
@@ -62911,7 +63023,21 @@
             "20.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 27,
+              "attributeName": "Proto_DamageChangeElement6",
+              "value": 0.12
+            },
+            {
+              "attribute": 114,
+              "attributeName": "Proto_DamageChangePhantom",
+              "value": 0.2
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34016_UI.webp",
       "source": "nanoka"
@@ -62974,7 +63100,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 27,
+              "attributeName": "Proto_DamageChangeElement6",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33015_UI.webp",
       "source": "nanoka"
@@ -63042,7 +63182,21 @@
             "283.50%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 23,
+              "attributeName": "Proto_DamageChangeElement2",
+              "value": 0.12
+            },
+            {
+              "attribute": 14,
+              "attributeName": "Proto_DamageChangeNormalSkill",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33019_UI.webp",
       "source": "nanoka"
@@ -63111,7 +63265,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 22,
+              "attributeName": "Proto_DamageChangeElement1",
+              "value": 0.12
+            },
+            {
+              "attribute": 25,
+              "attributeName": "Proto_DamageChangeElement4",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33021_UI.webp",
       "source": "nanoka"
@@ -63238,7 +63406,16 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 26,
+              "attributeName": "Proto_DamageChangeElement5",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33020_UI.webp",
       "source": "nanoka"
@@ -63302,7 +63479,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 24,
+              "attributeName": "Proto_DamageChangeElement3",
+              "value": 0.12
+            },
+            {
+              "attribute": 14,
+              "attributeName": "Proto_DamageChangeNormalSkill",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33017_UI.webp",
       "source": "nanoka"
@@ -63365,7 +63556,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 24,
+              "attributeName": "Proto_DamageChangeElement3",
+              "value": 0.12
+            },
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_YZ_33016_UI.webp",
       "source": "nanoka"
@@ -63434,7 +63639,16 @@
             "20",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 11,
+              "attributeName": "Proto_EnergyEfficiency",
+              "value": 0.1
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34022_UI.webp",
       "source": "nanoka"
@@ -63641,7 +63855,21 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 25,
+              "attributeName": "Proto_DamageChangeElement4",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34015_2_UI.webp",
       "source": "nanoka"
@@ -63799,7 +64027,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 27,
+              "attributeName": "Proto_DamageChangeElement6",
+              "value": 0.12
+            },
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34020_1_UI.webp",
       "source": "nanoka"
@@ -63867,7 +64109,21 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 22,
+              "attributeName": "Proto_DamageChangeElement1",
+              "value": 0.12
+            },
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34027_UI.webp",
       "source": "nanoka"
@@ -63935,7 +64191,21 @@
             "12.00%",
             "25"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 22,
+              "attributeName": "Proto_DamageChangeElement1",
+              "value": 0.12
+            },
+            {
+              "attribute": 14,
+              "attributeName": "Proto_DamageChangeNormalSkill",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33012_UI.webp",
       "source": "nanoka"
@@ -63998,7 +64268,17 @@
             "25.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.25
+            }
+          ],
+          "requiresResonatorId": 1210
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34025_0_UI.webp",
       "source": "nanoka"
@@ -64154,7 +64434,21 @@
             "2",
             "8"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 24,
+              "attributeName": "Proto_DamageChangeElement3",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34017_UI.webp",
       "source": "nanoka"
@@ -64232,7 +64526,21 @@
             "15",
             "1"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 27,
+              "attributeName": "Proto_DamageChangeElement6",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34031_UI.webp",
       "source": "nanoka"
@@ -64488,7 +64796,16 @@
             "12.00%",
             "15"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 22,
+              "attributeName": "Proto_DamageChangeElement1",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32025_UI.webp",
       "source": "nanoka"
@@ -64612,7 +64929,21 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 26,
+              "attributeName": "Proto_DamageChangeElement5",
+              "value": 0.12
+            },
+            {
+              "attribute": 18,
+              "attributeName": "Proto_DamageChangeCast",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32033_UI.webp",
       "source": "nanoka"
@@ -64864,7 +65195,21 @@
             "20.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 23,
+              "attributeName": "Proto_DamageChangeElement2",
+              "value": 0.12
+            },
+            {
+              "attribute": 114,
+              "attributeName": "Proto_DamageChangePhantom",
+              "value": 0.2
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32044_UI.webp",
       "source": "nanoka"
@@ -65264,7 +65609,16 @@
             "20",
             "10.00%"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 35,
+              "attributeName": "Proto_HealChange",
+              "value": 0.1
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32068_UI.webp",
       "source": "nanoka"
@@ -65766,7 +66120,21 @@
             "12.00%",
             "15"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 25,
+              "attributeName": "Proto_DamageChangeElement4",
+              "value": 0.12
+            },
+            {
+              "attribute": 19,
+              "attributeName": "Proto_DamageChangeUltra",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31062_UI.webp",
       "source": "nanoka"
@@ -67199,7 +67567,21 @@
             "2",
             "8"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 26,
+              "attributeName": "Proto_DamageChangeElement5",
+              "value": 0.12
+            },
+            {
+              "attribute": 17,
+              "attributeName": "Proto_DamageChangeAuto",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32049_UI.webp",
       "source": "nanoka"
@@ -67371,7 +67753,16 @@
             "12.00%",
             "20"
           ]
-        ]
+        ],
+        "mainSlotBuffs": {
+          "grants": [
+            {
+              "attribute": 24,
+              "attributeName": "Proto_DamageChangeElement3",
+              "value": 0.12
+            }
+          ]
+        }
       },
       "iconUrl": "https://static.nanoka.cc/assets/ww/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32029_UI.webp",
       "source": "nanoka"

@@ -47,7 +47,7 @@ import {
 } from './preprocess/weapons.mjs';
 import {
     projectEcho, projectNanokaEchoFull, uniqueEchoFamilies,
-    projectEchoMainStats, projectEchoSubStats,
+    projectEchoMainStats, projectEchoSubStats, extractEchoMainSlotBuffs,
 } from './preprocess/echoes.mjs';
 import { projectSonata, projectNanokaSonatas } from './preprocess/sonatas.mjs';
 
@@ -872,9 +872,29 @@ async function main() {
             entry.tiers = moved;
         }
 
+        // ECHO MAIN-SLOT PASSIVES. Attached onto the echo itself rather than
+        // left in `externalBuffs`, because the gate is per echo and needs the
+        // description that only lives here — see extractEchoMainSlotBuffs, which
+        // credits a grant set only when its values match the sentence's own
+        // params. Runs against the ROSTER too, for the one echo that names a
+        // resonator (Sigillum: "…in the main slot by Aemeath").
+        const echoGrants = parsed.echoes ?? {};
+        let mainSlot = 0, gated = 0;
+        for (const echo of echoes) {
+            const activeSkill = echo.activeSkill;
+            if (!activeSkill?.settleId) continue;
+            const buffs = extractEchoMainSlotBuffs(
+                activeSkill, echoGrants[String(activeSkill.settleId)], resonators);
+            if (!buffs) continue;
+            activeSkill.mainSlotBuffs = buffs;
+            mainSlot++;
+            if (buffs.requiresResonatorId != null) gated++;
+        }
+
         process.stderr.write(`  external buffs: ${Object.keys(weapons).length} weapons, ` +
             `${Object.keys(sonataGrants).length} sonatas` +
-            (rekeyed ? `, ${rekeyed} tier(s) re-keyed to the dataset's own piece count` : '') + '\n');
+            (rekeyed ? `, ${rekeyed} tier(s) re-keyed to the dataset's own piece count` : '') +
+            `, ${mainSlot} echo main-slot passives (${gated} resonator-gated)\n`);
         return { attributeNames: parsed.attributeNames ?? {}, weapons, sonatas: sonataGrants };
     })();
 
