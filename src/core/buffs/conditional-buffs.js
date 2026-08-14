@@ -21,7 +21,8 @@
 
 import { canSatisfyCondition } from '../triggerability.js';
 import { isTeamWideBuff } from '../buffs.js';
-import { weaponExternalGrants, sonataExternalGrants, foldExternalGrants } from './external-buffs.js';
+import { weaponExternalGrants, sonataExternalGrants, foldExternalGrants,
+    sonataConditionalGrants } from './external-buffs.js';
 
 const ELEMENT_NAMES = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 const TYPE_PHRASES = Object.freeze([
@@ -276,6 +277,32 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
             // re-name the status, so per-sentence gating alone would miss it).
             // Team-aware: a teammate inflicting the status satisfies the gate.
             if (!canSatisfyCondition(resonator, dataset, tier.effect, enemyStatuses)) continue;
+
+            // DATA FIRST, PER TIER, ALL-OR-NOTHING — the same rule the weapon
+            // path uses, and for the same reason: text and data routinely
+            // express one grant in different buckets, so a UNION would credit it
+            // twice while taking one source per tier cannot.
+            //
+            // The text reader loses more than half of this lane. Over the 11
+            // tiers that state a crit/amplify/DEF-ignore grant it reads FIVE as
+            // zero (Eternal Radiance, Windward Pilgrimage, Crown of Valor, Song
+            // of Feathered Trace, Heart of Evil's Purge) and two more wrong —
+            // Lamp of Nether Road is 5% × 4 stacks and the sentence carries only
+            // the 5%; Flamewing's Shadow ships its 20% as two rows.
+            const fromData = sonataConditionalGrants(
+                sonataExternalGrants(dataset, sonata.id, tier.pieces));
+            if (fromData) {
+                out.critRate += fromData.critRate;
+                out.critDmg += fromData.critDmg;
+                out.defIgnore += fromData.defIgnore;
+                out.amplifyAll += fromData.amplifyAll;
+                teamWide.critRate += fromData.teamWide.critRate;
+                teamWide.critDmg += fromData.teamWide.critDmg;
+                teamWide.defIgnore += fromData.teamWide.defIgnore;
+                teamWide.amplifyAll += fromData.teamWide.amplifyAll;
+                continue;   // this tier is answered — do not also read the text
+            }
+
             // Sonata tier text already has values inline (no {N} placeholders) and
             // its first sentence can itself be conditional → process all sentences.
             const contribution = extractConditionalContribution(tier.effect, { resonator, dataset, skipFirstSentence: false, enemyStatuses });

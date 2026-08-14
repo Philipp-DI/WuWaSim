@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-14T15:05:51.963Z",
+  "generatedAt": "2026-08-14T16:25:06.869Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -245310,7 +245310,7 @@
               "scope": null,
               "attribute": 22,
               "value": 0.2,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039021,
               "attributeName": "Proto_DamageChangeElement1"
             },
@@ -245320,7 +245320,7 @@
               "scope": null,
               "attribute": 23,
               "value": 0.2,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039031,
               "attributeName": "Proto_DamageChangeElement2"
             },
@@ -245330,7 +245330,7 @@
               "scope": null,
               "attribute": 24,
               "value": 0.2,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039041,
               "attributeName": "Proto_DamageChangeElement3"
             },
@@ -245340,7 +245340,7 @@
               "scope": null,
               "attribute": 25,
               "value": 0.2,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039051,
               "attributeName": "Proto_DamageChangeElement4"
             },
@@ -245350,7 +245350,7 @@
               "scope": null,
               "attribute": 26,
               "value": 0.2,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039061,
               "attributeName": "Proto_DamageChangeElement5"
             },
@@ -245360,7 +245360,7 @@
               "scope": null,
               "attribute": 27,
               "value": 0.2,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039071,
               "attributeName": "Proto_DamageChangeElement6"
             }
@@ -245372,7 +245372,7 @@
               "scope": null,
               "attribute": 22,
               "value": 0.225,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039022,
               "attributeName": "Proto_DamageChangeElement1"
             },
@@ -245382,7 +245382,7 @@
               "scope": null,
               "attribute": 23,
               "value": 0.225,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039032,
               "attributeName": "Proto_DamageChangeElement2"
             },
@@ -245392,7 +245392,7 @@
               "scope": null,
               "attribute": 24,
               "value": 0.225,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039042,
               "attributeName": "Proto_DamageChangeElement3"
             },
@@ -245402,7 +245402,7 @@
               "scope": null,
               "attribute": 25,
               "value": 0.225,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039052,
               "attributeName": "Proto_DamageChangeElement4"
             },
@@ -245412,7 +245412,7 @@
               "scope": null,
               "attribute": 26,
               "value": 0.225,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039062,
               "attributeName": "Proto_DamageChangeElement5"
             },
@@ -245422,7 +245422,7 @@
               "scope": null,
               "attribute": 27,
               "value": 0.225,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039072,
               "attributeName": "Proto_DamageChangeElement6"
             }
@@ -245434,7 +245434,7 @@
               "scope": null,
               "attribute": 22,
               "value": 0.25,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039023,
               "attributeName": "Proto_DamageChangeElement1"
             },
@@ -245444,7 +245444,7 @@
               "scope": null,
               "attribute": 23,
               "value": 0.25,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039033,
               "attributeName": "Proto_DamageChangeElement2"
             },
@@ -245454,7 +245454,7 @@
               "scope": null,
               "attribute": 24,
               "value": 0.25,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039043,
               "attributeName": "Proto_DamageChangeElement3"
             },
@@ -245464,7 +245464,7 @@
               "scope": null,
               "attribute": 25,
               "value": 0.25,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039053,
               "attributeName": "Proto_DamageChangeElement4"
             },
@@ -245474,7 +245474,7 @@
               "scope": null,
               "attribute": 26,
               "value": 0.25,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039063,
               "attributeName": "Proto_DamageChangeElement5"
             },
@@ -245484,7 +245484,7 @@
               "scope": null,
               "attribute": 27,
               "value": 0.25,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039073,
               "attributeName": "Proto_DamageChangeElement6"
             }
@@ -245496,7 +245496,7 @@
               "scope": null,
               "attribute": 22,
               "value": 0.275,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039024,
               "attributeName": "Proto_DamageChangeElement1"
             },
@@ -245506,7 +245506,7 @@
               "scope": null,
               "attribute": 23,
               "value": 0.275,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039034,
               "attributeName": "Proto_DamageChangeElement2"
             },
@@ -245516,7 +245516,7 @@
               "scope": null,
               "attribute": 24,
               "value": 0.275,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039044,
               "attributeName": "Proto_DamageChangeElement3"
             },
@@ -245526,7 +245526,7 @@
               "scope": null,
               "attribute": 25,
               "value": 0.275,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039054,
               "attributeName": "Proto_DamageChangeElement4"
             },
@@ -245536,7 +245536,7 @@
               "scope": null,
               "attribute": 26,
               "value": 0.275,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039064,
               "attributeName": "Proto_DamageChangeElement5"
             },
@@ -245546,7 +245546,7 @@
               "scope": null,
               "attribute": 27,
               "value": 0.275,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039074,
               "attributeName": "Proto_DamageChangeElement6"
             }
@@ -245558,7 +245558,7 @@
               "scope": null,
               "attribute": 22,
               "value": 0.3,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039025,
               "attributeName": "Proto_DamageChangeElement1"
             },
@@ -245568,7 +245568,7 @@
               "scope": null,
               "attribute": 23,
               "value": 0.3,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039035,
               "attributeName": "Proto_DamageChangeElement2"
             },
@@ -245578,7 +245578,7 @@
               "scope": null,
               "attribute": 24,
               "value": 0.3,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039045,
               "attributeName": "Proto_DamageChangeElement3"
             },
@@ -245588,7 +245588,7 @@
               "scope": null,
               "attribute": 25,
               "value": 0.3,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039055,
               "attributeName": "Proto_DamageChangeElement4"
             },
@@ -245598,7 +245598,7 @@
               "scope": null,
               "attribute": 26,
               "value": 0.3,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039065,
               "attributeName": "Proto_DamageChangeElement5"
             },
@@ -245608,7 +245608,7 @@
               "scope": null,
               "attribute": 27,
               "value": 0.3,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110039075,
               "attributeName": "Proto_DamageChangeElement6"
             }
@@ -249260,7 +249260,7 @@
               "scope": null,
               "attribute": 7,
               "value": 0.12,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043021,
               "attributeName": "Proto_Atk"
             },
@@ -249270,7 +249270,7 @@
               "scope": null,
               "attribute": 17,
               "value": 0.12,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043031,
               "attributeName": "Proto_DamageChangeAuto"
             }
@@ -249282,7 +249282,7 @@
               "scope": null,
               "attribute": 7,
               "value": 0.135,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043022,
               "attributeName": "Proto_Atk"
             },
@@ -249292,7 +249292,7 @@
               "scope": null,
               "attribute": 17,
               "value": 0.135,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043032,
               "attributeName": "Proto_DamageChangeAuto"
             }
@@ -249304,7 +249304,7 @@
               "scope": null,
               "attribute": 7,
               "value": 0.15,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043023,
               "attributeName": "Proto_Atk"
             },
@@ -249314,7 +249314,7 @@
               "scope": null,
               "attribute": 17,
               "value": 0.15,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043033,
               "attributeName": "Proto_DamageChangeAuto"
             }
@@ -249326,7 +249326,7 @@
               "scope": null,
               "attribute": 7,
               "value": 0.165,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043024,
               "attributeName": "Proto_Atk"
             },
@@ -249336,7 +249336,7 @@
               "scope": null,
               "attribute": 17,
               "value": 0.165,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043034,
               "attributeName": "Proto_DamageChangeAuto"
             }
@@ -249348,7 +249348,7 @@
               "scope": null,
               "attribute": 7,
               "value": 0.18,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043025,
               "attributeName": "Proto_Atk"
             },
@@ -249358,7 +249358,7 @@
               "scope": null,
               "attribute": 17,
               "value": 0.18,
-              "teamWide": true,
+              "teamWide": false,
               "buffId": 110043035,
               "attributeName": "Proto_DamageChangeAuto"
             }
@@ -251078,7 +251078,7 @@
       },
       "19": {
         "tiers": {
-          "2": {
+          "3": {
             "fetterId": 192,
             "params": [
               "0",

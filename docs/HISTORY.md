@@ -9802,3 +9802,88 @@ defects; the fourth was a transparency gap. All four are fixed here.
 
 **[Updated Docs]** `CLAUDE.md` gains four invariants; the ~~two-sim card~~ and
 ~~`FormationPolicy` 1~~ claims are struck through with the correction beneath.
+
+---
+
+## 2026-08-14 (lane 4) — The conditional lane, the piece-count join, and a weapon trigger read as a recipient
+
+Continuing the external-buff lanes from the two items the previous entry named
+as open: migrate `sonataConditionalContribution` off prose, and verify the
+weapon team-wide mechanism against the client rather than against a correlation.
+
+**[Files Changed]**
+- `tools/extract/extract_external_buffs.py` — team-wide needs preset AND
+  `InstigatorType`.
+- `tools/preprocess.mjs` — re-key sonata tiers by the game's own params.
+- `src/core/buffs/external-buffs.js` — `sonataConditionalGrants`,
+  `WINDOW_LANE_BUCKETS`.
+- `src/core/buffs/conditional-buffs.js` — data-first per tier.
+- `tests/external-buffs.test.mjs` (95 assertions, was 82); `CLAUDE.md` (4
+  invariants).
+
+**[Logic Altered]**
+
+1. **A weapon's team TRIGGER is not a team GRANT.** `TriggerPreset` is passed to
+   the trigger as its own `Preset`, so `preset[0]` means something different per
+   TriggerType — it says who may FIRE the passive. The RECIPIENT is
+   `InstigatorType` (`jxm(skillId, r.InstigatorType, ...)`, stored as
+   `TargetKey`): Owner the wielder, Attacker whoever fired it. My original note
+   had already observed the conjunction ("...and they carry InstigatorType
+   'Attacker' where the self ones carry 'Owner'") and the code implemented only
+   half of it. Both counterexamples ship: preset 1 + Owner (Phasic Homogenizer,
+   Boson Astrolabe — "After a Resonator in the team casts a Tune Break skill, it
+   grants ... TO THE WIELDER") and preset 0 + Attacker (Spectrum Blaster).
+   **40 grants flipped team-wide to self**, all of it over-crediting removed.
+
+2. **The sonata piece count is not in `PhantomFetter`,** so the extractor guesses
+   it from the row id — and Dream of the Lost's row 192 filed a THREE-piece
+   tier's grants under "2 pieces". The tier then fell back to the text reader and
+   its 35% Echo Skill DMG Bonus went unread. `EffectDescriptionParam` IS the
+   dataset tier's `params`, so preprocess re-keys on that; a fetter matching
+   nothing keeps the old key, making the pass correct-only. 1 tier re-keyed.
+
+3. **The conditional lane reads the tables.** `sonataConditionalGrants` is the
+   exact complement of `sonataWindowGrants` — between them they partition a
+   tier's grants, asserted roster-wide. Data-first per tier, all-or-nothing, the
+   same rule the weapon path uses and for the same reason (text and data express
+   one grant in different buckets, so a union double-counts). A SCOPED grant
+   still falls back to text: a whole-build bucket has no room for "...but only on
+   Heavy Attacks".
+
+**[Verification Method]**
+- Measured text vs data across every sonata tier BEFORE changing anything: of
+  the 11 tiers stating a crit/amplify/DEF-ignore grant, 3 agreed, **5 read as
+  ZERO in the text**, 2 differed (stack multiplier, sibling row), 1 was
+  text-only (the mis-keyed tier). Zero tiers had the text claiming team-wide
+  where the data said self, so this lane had no Flaming-Clawprint-class bug.
+- Each of the five is pinned to its own tooltip value, resolved BY NAME — two of
+  my first numeric ids were wrong and the test caught it, which is the argument
+  against numeric ids in tests.
+- Every team-wide weapon must NAME the team in its own tooltip: a roster-wide
+  guard where the mechanism is data and the tooltip an independent witness. All
+  10 pass.
+- Investigated 29 sonata buffs the walk never reaches and confirmed **all are
+  legacy config**: each hangs off a `...001`-series tree no `PhantomFetter`
+  references, or off a passive the live root does not add. Halo's fetter reaches
+  `31000025017` alone, so its six element rows and its Crit DMG row are dead.
+  This is a NON-finding, recorded so it is not re-investigated.
+- `npm test` 72/72 · `npm run sweep` 68/0 · `npm run lint` 0 errors. Data and
+  meta regenerated.
+
+**[Residual Risks]**
+- Flamewing's Shadow's two crit grants are scoped (`damageTypes [1]` Heavy and
+  `[5]` Echo), so the tier still falls back to text — which credits a flat 20%
+  on everything. That is now an OVER-credit relative to the data, and closing it
+  needs per-hit crit, a real feature rather than a routing fix.
+- Three sets (Eternal Radiance, Heart of Evil's Purge, and Song of Feathered
+  Trace on a non-Chafe wielder) still contribute zero, gated by the pre-existing
+  tier-level `canSatisfyCondition`. Correct for the wielders tested; not
+  re-examined here.
+- The amplify and DEF-ignore halves of the conditional lane are wired but
+  UNEXERCISED — no sonata grant routes to them today, so those code paths have
+  no live data behind them.
+- The maintainer's broader findings (rotation steps, sequence nodes, damage and
+  DPS figures across the roster) are DEFERRED by agreement and untouched here.
+
+**[Updated Docs]** `CLAUDE.md` gains four invariants; the ~~`TriggerPreset[0]`
+alone~~ claim is struck through with the correction beneath it.

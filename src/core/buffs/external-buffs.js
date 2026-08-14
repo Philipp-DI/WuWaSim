@@ -371,6 +371,52 @@ export function sonataWindowGrants(grants, sources = {}) {
     return out;
 }
 
+// The buckets the WINDOW path owns. Its complement is the conditional lane's,
+// and the two must partition the grants exactly — a bucket in neither is
+// dropped, a bucket in both is counted twice.
+const WINDOW_LANE_BUCKETS = Object.freeze(['dmgByElement', 'atkRatio', 'dmgBySkillType']);
+
+/**
+ * The sonata-tier grants the CONDITIONAL path may credit — the exact complement
+ * of `sonataWindowGrants`.
+ *
+ * That lane (`conditional-buffs.js sonataConditionalContribution`) owns crit,
+ * amplify and DEF-ignore, and derived them by parsing the tier's English. The
+ * text misses more than half of them: measured over the 11 tiers that state one,
+ * it reads FIVE as zero outright (Eternal Radiance's 20% Crit Rate, Windward
+ * Pilgrimage's 10%, Crown of Valor's 20% Crit DMG, Song of Feathered Trace's
+ * 20%, Heart of Evil's Purge's 20% Crit DMG) and gets two more wrong by dropping
+ * the stack multiplier (Lamp of Nether Road is 5% × 4) or a sibling grant
+ * (Flamewing's Shadow ships the 20% twice).
+ *
+ * `teamWide` comes from the GRANT, never from the sentence — the same per-grant
+ * rule the window path needed. Today no sonata crit grant is team-wide, so this
+ * changes no distribution; it is here so that when one ships, the sentence
+ * cannot overrule it.
+ *
+ * @returns {{critRate, critDmg, amplifyAll, defIgnore, teamWide:{…}}|null}
+ *          null when the tier states nothing in this lane (caller keeps text).
+ */
+export function sonataConditionalGrants(grants, sources = {}) {
+    const empty = () => ({ critRate: 0, critDmg: 0, amplifyAll: 0, defIgnore: 0 });
+    const out = empty();
+    const teamWide = empty();
+    let found = false;
+    for (const grant of grants ?? []) {
+        if (grant?.recipient) continue;     // the incoming-resonator lane's
+        if (grant?.scope) continue;         // no room for "…but only on Heavy Attacks"
+        const route = bucketForAttribute(grant?.attribute);
+        if (!route || WINDOW_LANE_BUCKETS.includes(route.bucket)) continue;
+        if (!(route.bucket in out)) continue;   // resistance mods route per-hit
+        const value = grantValue(grant, sources);
+        if (value == null || !Number.isFinite(value) || value === 0) continue;
+        found = true;
+        out[route.bucket] += value;
+        if (grant.teamWide) teamWide[route.bucket] += value;
+    }
+    return found ? { ...out, teamWide } : null;
+}
+
 /** A sonata tier's grants from the dataset, or null when there is no row. */
 export function sonataExternalGrants(dataset, sonataId, pieces) {
     const tier = dataset?.externalBuffs?.sonatas?.[String(sonataId)]?.tiers?.[String(pieces)];

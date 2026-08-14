@@ -838,10 +838,44 @@ async function main() {
         }
         const parsed = JSON.parse(readFileSync(path, 'utf8'));
         const weapons = parsed.weapons ?? {};
-        const sonatas = parsed.sonatas ?? {};
+        // NOT named `sonatas` — that is the DATASET's sonata list, which the
+        // re-key below joins against.
+        const sonataGrants = parsed.sonatas ?? {};
+
+        // THE PIECE COUNT IS NOT IN `PhantomFetter`. Its fields are BuffIds,
+        // EffectDescription(Param), FetterIcon, Id, Name, Priority — no tier
+        // size anywhere. So the extractor has to guess it from the row id
+        // (`sonataId*10 + pieces`), and that guess is wrong wherever the last
+        // digit is a sequence number rather than a size: Dream of the Lost's
+        // row 192 filed its grants under "2 pieces" when the set's only tier is
+        // a THREE-piece one, so the tier fell back to the text reader and its
+        // 35% Echo Skill DMG Bonus went unread.
+        //
+        // The join that does not guess: `EffectDescriptionParam` is the same
+        // list the dataset tier carries as `params` — the values the game
+        // substitutes into that tier's own sentence. Matching on it re-keys the
+        // grants onto the tier they actually belong to. A fetter that matches
+        // nothing keeps the extractor's key, so this can only correct.
+        let rekeyed = 0;
+        for (const sonata of sonatas) {
+            const entry = sonataGrants[String(sonata.id)];
+            if (!entry?.tiers) continue;
+            const byParams = new Map((sonata.tiers ?? [])
+                .map(tier => [JSON.stringify(tier.params ?? []), tier.pieces]));
+            const moved = {};
+            for (const [key, tier] of Object.entries(entry.tiers)) {
+                const real = byParams.get(JSON.stringify(tier.params ?? []));
+                const target = String(real ?? key);
+                if (target !== key) rekeyed++;
+                moved[target] = tier;
+            }
+            entry.tiers = moved;
+        }
+
         process.stderr.write(`  external buffs: ${Object.keys(weapons).length} weapons, ` +
-            `${Object.keys(sonatas).length} sonatas\n`);
-        return { attributeNames: parsed.attributeNames ?? {}, weapons, sonatas };
+            `${Object.keys(sonataGrants).length} sonatas` +
+            (rekeyed ? `, ${rekeyed} tier(s) re-keyed to the dataset's own piece count` : '') + '\n');
+        return { attributeNames: parsed.attributeNames ?? {}, weapons, sonatas: sonataGrants };
     })();
 
     // A clause that NAMES its skills binds to those skills, not to their whole

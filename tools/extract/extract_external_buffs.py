@@ -71,12 +71,33 @@ ADD_PASSIVE_SKILL = 35   # AddPassiveSkill: routes through db_PassiveSkill
 AMPLIFY_EFFECTS = (37, 38)
 SPECIAL_DAMAGE_CHANGE = 95
 
-# A passive's TriggerPreset[0] says WHO the grant is for: '0' the wielder, '1'
-# the whole team. The game's own descriptions confirm it — every preset '1'
-# passive on a weapon is named 队伍… ("team…"), and they carry
-# InstigatorType 'Attacker' where the self ones carry 'Owner'. 115 self vs 20
-# team across the weapon roster.
+# WHO RECEIVES A WEAPON PASSIVE'S GRANT — and why it takes BOTH fields.
+#
+# ~~TriggerPreset[0] says who the grant is for: '0' the wielder, '1' the whole
+# team.~~ That read one half of a conjunction the original note had already
+# observed ("…and they carry InstigatorType 'Attacker' where the self ones carry
+# 'Owner'"). TriggerPreset is handed to the trigger as its own `Preset`
+# (`CharacterPassiveSkillComponent` → `AddTrigger({Type, Preset, …})`), so its
+# meaning is PER TRIGGER TYPE — it says who may FIRE the passive, never who
+# receives what it grants. The recipient is `InstigatorType`, which the same
+# component resolves the action's target from (`jxm(skillId, r.InstigatorType,
+# …)`, stored as `TargetKey`): 'Owner' is the wielder, 'Attacker' is whoever
+# caused the triggering event.
+#
+# A grant is therefore team-wide only when a TEAMMATE CAN FIRE IT *and* the
+# recipient is the firer. Each half alone is wrong, and the game ships both
+# counterexamples:
+#   preset 1 + Owner    — Phasic Homogenizer, Boson Astrolabe: "After a Resonator
+#                         in the team casts a Tune Break skill, it grants …
+#                         TO THE WIELDER." The trigger is team-wide; the buff is
+#                         not. This is the "a trigger's scope is not the effect's
+#                         scope" invariant, in the weapon lane.
+#   preset 0 + Attacker — Spectrum Blaster: only the owner can fire it, so
+#                         "whoever fired it" IS the owner. Self.
+# Both together leave Kumokiri and Forged Dwarf Star, whose tooltips are the
+# only two that say "Resonators in the team".
 TEAM_TRIGGER_FLAG = '1'
+INSTIGATOR_TRIGGERING_ENTITY = 'Attacker'
 
 # `FormationPolicy` is an ENUM, not a flag, and the client branches on each value
 # in a different component. Two of them mean "the whole team gets this":
@@ -268,7 +289,9 @@ class Resolver:
                         if passive.get('SkillAction') != 'AddBuff':
                             continue
                         preset = passive.get('TriggerPreset') or []
-                        to_team = team_wide or (bool(preset) and str(preset[0]) == TEAM_TRIGGER_FLAG)
+                        to_team = team_wide or (
+                            bool(preset) and str(preset[0]) == TEAM_TRIGGER_FLAG
+                            and passive.get('InstigatorType') == INSTIGATOR_TRIGGERING_ENTITY)
                         for next_id in _ids_from(passive.get('SkillActionParams') or []):
                             stack.append((next_id, to_team))
                             # Remember WHAT fires this grant. The text can only

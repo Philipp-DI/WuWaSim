@@ -24,6 +24,7 @@ import { PROP } from '../src/core/stats.js';
 import {
     bucketForAttribute, foldExternalGrants, weaponExternalGrants, targetModApplies,
     sonataExternalGrants, sonataWindowGrants, derivedGrantValue, DERIVED_SOURCE,
+    sonataConditionalGrants,
 } from '../src/core/buffs/external-buffs.js';
 import { incomingResonatorContribution } from '../src/core/buffs/conditional-buffs.js';
 import { createBuild, setChain, setEcho } from '../src/core/build.js';
@@ -323,6 +324,100 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
         Math.abs((transfer.dmgByElement?.[2] ?? 0) - 0.25) < 1e-9);
     assert('…and does not also hand over the wielder\'s own 10%',
         Math.abs((transfer.dmgByElement?.[2] ?? 0) - 0.35) > 1e-9);
+}
+
+// ── LANE 4: the conditional lane reads the tables too ──────────────────────
+//
+// `sonataConditionalGrants` is the exact COMPLEMENT of `sonataWindowGrants`:
+// between them they must partition a tier's grants, because a bucket in neither
+// is dropped and a bucket in both is counted twice.
+{
+    const both = [];
+    for (const [id, entry] of Object.entries(dataset.externalBuffs?.sonatas ?? {})) {
+        for (const [pieces, tier] of Object.entries(entry.tiers ?? {})) {
+            const grants = tier.grants ?? [];
+            const window = sonataWindowGrants(grants);
+            const conditional = sonataConditionalGrants(grants);
+            // A tier's crit can only be claimed by ONE lane.
+            const windowHasCrit = window.some(g => g.bonusKind === 'crit');
+            if (windowHasCrit && conditional) both.push(`${id}/${pieces}`);
+        }
+    }
+    assert(`no sonata grant is claimed by BOTH lanes (${both.join(',') || 'none'})`, both.length === 0);
+
+    // The five tiers the TEXT reader scored as zero. Each value is the set's own
+    // tooltip; every one of them was silently missing before the data path.
+    // Resolved BY NAME: a set's numeric id is not stable knowledge and guessing
+    // one silently tests a different set.
+    const sonataNamed = (name) => dataset.sonatas.find(one => one.name === name)?.id ?? null;
+    const zeroedByText = [
+        ['Eternal Radiance', 5, 'critRate', 0.20],
+        ['Windward Pilgrimage', 5, 'critRate', 0.10],
+        ['Crown of Valor', 3, 'critDmg', 0.20],
+        ['Song of Feathered Trace', 5, 'critRate', 0.20],
+        ["Heart of Evil's Purge", 5, 'critDmg', 0.20],
+    ];
+    for (const [name, pieces, bucket, expected] of zeroedByText) {
+        const id = sonataNamed(name);
+        const lane = sonataConditionalGrants(sonataExternalGrants(dataset, id, pieces));
+        assert(`${name} ${pieces}pc: ${bucket} reads ${expected * 100}% from the tables`,
+            id != null && lane != null && Math.abs(lane[bucket] - expected) < 1e-9);
+    }
+
+    // Lamp of Nether Road is 5% x 4 stacks; the sentence carries only the 5%.
+    const lamp = sonataConditionalGrants(sonataExternalGrants(dataset, sonataNamed('Lamp of Nether Road'), 5));
+    assert('a stacking crit grant is credited at cap (5% x 4), not per stack',
+        lamp != null && Math.abs(lamp.critRate - 0.20) < 1e-9);
+
+    // teamWide comes from the GRANT. No sonata crit grant is team-wide today, so
+    // this pins the CURRENT truth rather than a hoped-for one — if one ships,
+    // this test says so instead of a sentence quietly deciding.
+    let teamWideCrit = 0;
+    for (const entry of Object.values(dataset.externalBuffs?.sonatas ?? {})) {
+        for (const tier of Object.values(entry.tiers ?? {})) {
+            const lane = sonataConditionalGrants(tier.grants ?? []);
+            if (lane && (lane.teamWide.critRate || lane.teamWide.critDmg)) teamWideCrit++;
+        }
+    }
+    assert('no sonata crit grant is team-wide (per the tables, not the prose)', teamWideCrit === 0);
+}
+
+// ── A weapon trigger's SCOPE is not its grant's RECIPIENT ───────────────────
+//
+// `TriggerPreset[0] === '1'` says a TEAMMATE MAY FIRE the passive;
+// `InstigatorType` says who receives what it grants ('Owner' the wielder,
+// 'Attacker' whoever fired it). Only both together mean team-wide. Phasic
+// Homogenizer and Boson Astrolabe are the counterexample the game ships: "After
+// a Resonator in the team casts a Tune Break skill, it grants … TO THE WIELDER"
+// — team trigger, self grant. Reading the preset alone handed their buffs to
+// all three members.
+{
+    const teamWideAt = (weaponId) => (weaponExternalGrants(dataset, weaponId, 1) ?? [])
+        .some(grant => grant.teamWide);
+    const named = (name) => dataset.weapons.find(weapon => weapon.name === name)?.id ?? null;
+
+    for (const name of ['Phasic Homogenizer', 'Boson Astrolabe']) {
+        const id = named(name);
+        assert(`${name}: a team TRIGGER does not make its grant team-wide`,
+            id != null && !teamWideAt(id));
+    }
+    for (const name of ['Kumokiri', 'Forged Dwarf Star']) {
+        const id = named(name);
+        assert(`${name}: names the team in its tooltip AND is team-wide`,
+            id != null && teamWideAt(id));
+    }
+    // Every team-wide weapon must actually say so in its own tooltip. This is
+    // the roster-wide guard: the mechanism is data, but the tooltip is the
+    // independent witness, and they may not disagree.
+    const TEAM_PHRASE = /resonators? in the team|all team|teammates?|party members?|all resonators|other resonators|nearby resonators/i;
+    const silent = [];
+    for (const [weaponId, entry] of Object.entries(dataset.externalBuffs?.weapons ?? {})) {
+        if (!(entry.ranks?.['1'] ?? []).some(grant => grant.teamWide)) continue;
+        const weapon = dataset.weapons.find(one => one.id === Number(weaponId));
+        if (!TEAM_PHRASE.test(String(weapon?.effect ?? ''))) silent.push(weapon?.name ?? weaponId);
+    }
+    assert(`every team-wide weapon names the team in its tooltip (${silent.join(',') || 'none'})`,
+        silent.length === 0);
 }
 
 console.log(`external-buffs: ${passed} passed, ${failed} failed`);
