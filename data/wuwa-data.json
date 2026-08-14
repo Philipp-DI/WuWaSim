@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-14T13:05:20.960Z",
+  "generatedAt": "2026-08-14T13:51:37.199Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -7320,6 +7320,7 @@
         "4": 6000,
         "5": 10000
       },
+      "tuneBreakBoostBase": 10,
       "roles": [
         {
           "id": 1,
@@ -8067,6 +8068,7 @@
         "4": 6000,
         "5": 60000
       },
+      "tuneBreakBoostBase": 10,
       "resonanceModes": [
         {
           "key": "tune_rupture",
@@ -8711,6 +8713,7 @@
         "4": 6000,
         "5": 10000
       },
+      "tuneBreakBoostBase": 10,
       "resonanceModes": [
         {
           "key": "fusion_burst",
@@ -11932,6 +11935,7 @@
         "4": 6000,
         "5": 10000
       },
+      "tuneBreakBoostBase": 10,
       "roles": [
         {
           "id": 3,
@@ -20094,6 +20098,7 @@
         "4": 6000,
         "5": 10000
       },
+      "tuneBreakBoostBase": 10,
       "resonanceModes": [
         {
           "key": "tune_rupture",
@@ -20780,6 +20785,7 @@
         "4": 6000,
         "5": 10000
       },
+      "tuneBreakBoostBase": 10,
       "roles": [
         {
           "id": 2,
@@ -21465,6 +21471,7 @@
         "4": 6000,
         "5": 10000
       },
+      "tuneBreakBoostBase": 10,
       "roles": [
         {
           "id": 2,

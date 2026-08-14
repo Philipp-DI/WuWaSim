@@ -30,6 +30,7 @@ import {
     computeBuffWindows, applyBuffsToSteps, windowStacksAtStep,
     deriveBuffWindows, deriveEffectWindows, deriveStateWindows,
 } from './buffs/buff-windows.js';
+import { DERIVED_SOURCE } from './buffs/external-buffs.js';
 
 // Weapon conditional amplify → per-hit amplify scopes (the format skill.js
 // expects: { scope: {type:'element', elementId} | {type:'skillType', skillType},
@@ -946,8 +947,14 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // own windows — literal team-time overlap, maintainer-directed 2026-07-15 —
     // but are skipped by team-sim's display extraction (the granting member's
     // segment already renders them in the team-wide lane).
+    // A sonata grant the game states as a FORMULA reads another attribute at
+    // runtime (external-buffs.js derivedGrantValue). Song of Feathered Trace
+    // scales off the wielder's own Energy Regen, which only this scope knows —
+    // and the game holds a percentage as 1e4 fixed point, where our `stats`
+    // hold 1.0 = 100%.
+    const derivedSources = { [DERIVED_SOURCE.ENERGY_REGEN]: stats.energyRegen * 10000 };
     const buffWindows = [
-        ...computeBuffWindows(build, dataset, steps, enemyStatuses),
+        ...computeBuffWindows(build, dataset, steps, enemyStatuses, derivedSources),
         ...(externalBuffWindows ?? []),
     ];
 

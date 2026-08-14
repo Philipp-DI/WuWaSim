@@ -95,11 +95,22 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
 }
 
 /**
- * Group parsed sonata buffs that share a source clause (same sonata + raw text)
- * into ONE logical buff carrying the UNION of its trigger types. The parser
- * emits one ParsedBuff per trigger phrase, so a "Basic OR Heavy Attack" clause
- * yields two entries that must be merged — otherwise each would open its own
- * window and the bonus would be double-counted.
+ * Group parsed sonata buffs that share a source clause into ONE logical buff
+ * carrying the UNION of its trigger types. The parser emits one ParsedBuff per
+ * trigger phrase, so a "Basic OR Heavy Attack" clause yields two entries that
+ * must be merged — otherwise each would open its own window and the bonus would
+ * be double-counted.
+ *
+ * WHAT THE KEY MUST INCLUDE. `sonataId::raw` alone was enough only while a tier
+ * could state ONE buff: the text parser reads a single bonusPct/kind per tier
+ * and repeats it per trigger, so every entry sharing a `raw` really was the same
+ * buff. The DATA path (external-buffs.js) reads a tier's grants one row each,
+ * and they share that same tier text — so keying on it alone silently kept the
+ * FIRST and dropped the rest. Song of Feathered Trace is the worked example: its
+ * 35% Heavy Attack DMG and its ATK grant are two rows of one tier, and the ATK
+ * half never reached a window. The bonus itself therefore joins the key; for a
+ * text-parsed buff every field below is identical across its trigger phrases, so
+ * the original merge is unchanged.
  *
  * @param {Array<object>} buffs — ParsedBuffs already carrying sonataId/raw/…
  * @returns {Array<object>} merged buffs: { ...shared, triggerTypes: string[] }
@@ -107,7 +118,8 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
 export function groupStackingBuffs(buffs) {
     const groups = new Map();
     for (const buff of buffs) {
-        const key = `${buff.sonataId}::${buff.raw}`;
+        const key = `${buff.sonataId}::${buff.raw}::${buff.bonusKind}:${buff.element}:`
+            + `${buff.dmgType}:${buff.bonusPct}:${buff.duration}`;
         let group = groups.get(key);
         if (!group) {
             group = { ...buff, triggerTypes: [] };

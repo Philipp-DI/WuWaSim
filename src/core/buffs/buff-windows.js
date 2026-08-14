@@ -262,7 +262,7 @@ export function applyBuffsToSteps(steps, buffWindows) {
 // listing several triggers (e.g. "Basic OR Heavy Attack") is grouped into ONE
 // window over the UNION of triggers so its bonus is credited once, not per
 // trigger phrase.
-export function computeBuffWindows(build, dataset, steps, enemyStatuses = null) {
+export function computeBuffWindows(build, dataset, steps, enemyStatuses = null, derivedSources = {}) {
     if (!steps.length) return [];
 
     // Find active conditional buffs from the resolved sonata metadata.
@@ -280,7 +280,8 @@ export function computeBuffWindows(build, dataset, steps, enemyStatuses = null) 
         if (!sonata) continue;
         for (const tier of sonata.tiers) {
             if (count < tier.pieces) continue;
-            const parsed = parseSonataBuffs(tier, sonataExternalGrants(dataset, sonata.id, tier.pieces));
+            const parsed = parseSonataBuffs(
+                tier, sonataExternalGrants(dataset, sonata.id, tier.pieces), derivedSources);
             for (const buff of parsed) {
                 allBuffs.push({
                     sonataId: sonata.id,

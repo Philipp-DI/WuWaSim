@@ -65,7 +65,7 @@ const TRIGGER_PATTERNS = [
  * Parse one sonata tier's conditional buffs. Returns [] when the tier
  * has no conditional component (i.e., it's a 2pc with only AddProp).
  */
-export function parseSonataBuffs(tier, externalGrants = null) {
+export function parseSonataBuffs(tier, externalGrants = null, derivedSources = {}) {
     if (!tier || !Array.isArray(tier.buffIds) || tier.buffIds.length === 0) return [];
     const text = (tier.effect || '').trim();
     if (!text) return [];
@@ -81,7 +81,7 @@ export function parseSonataBuffs(tier, externalGrants = null) {
     // opens the window — that is what `findAllTriggers` is for — so the trigger
     // and the stack ramp keep coming from the text and only the magnitudes,
     // buckets and durations change hands.
-    const fromData = sonataWindowGrants(externalGrants);
+    const fromData = sonataWindowGrants(externalGrants, derivedSources);
     if (fromData.length) {
         const triggers = findAllTriggers(text);
         const textDuration = parseDurationSeconds(text) ?? 15;

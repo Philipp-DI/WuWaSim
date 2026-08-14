@@ -9580,3 +9580,125 @@ imported / 0 failed, `npm run lint` **0 errors**. LOCK A and LOCK B regenerated.
 **[Updated Docs]** This entry, which supersedes the previous entry's claim that
 the echo lane has no usable source. It has one; the earlier survey simply asked
 the wrong question of it.
+
+---
+
+## 2026-08-14 — The derived magnitudes decoded: three sonatas paid, one grouping bug found
+
+The previous entry left three sonata grants marked `derived` and credited
+nowhere, because `ModifierMagnitude` under `CalculationPolicy[0] ∈ {2,4,9}` is a
+coefficient in a runtime formula rather than a percentage. Reading it flat had
+put a healer at 21× her real output. This session decodes the formula from the
+client's own evaluator and pays all three at their tooltip values.
+
+**[Files Changed]**
+- `src/core/buffs/external-buffs.js` — `derivedGrantValue()`, `DERIVED_SOURCE`,
+  and a shared `grantValue()` both fold paths use; `foldExternalGrants` and
+  `sonataWindowGrants` take a `sources` map.
+- `src/core/buffs/buff-timeline.js` — `groupStackingBuffs` key.
+- `src/core/buffs/sonata-buffs.js`, `buff-windows.js`, `sim.js` — thread the
+  wielder's Energy Regen down to the window path.
+- `src/core/buffs/conditional-buffs.js`, `team-sim.js` — thread the INCOMING
+  member's Tune Break Boost to the transfer path.
+- `src/core/tune-break.js` — Tune Break Boost base; corrected attribute names.
+- `tools/extract-forte.mjs`, `tools/preprocess.mjs` — `_tuneBreakBoostBase` →
+  `resonator.tuneBreakBoostBase`.
+- `tests/external-buffs.test.mjs` (82 assertions), `tests/tune-strain.test.mjs`
+  (59), `CLAUDE.md` (three new invariants).
+
+**[Logic Altered]**
+
+1. **The formula, read off `BaseAttributeComponent.Cbr`.** Subtract `Min`
+   (`policy[5]`) and stop if ≤ 0; divide by `Ratio` (`policy[6]`); multiply by
+   the magnitude; cap at `Max` (`policy[7]`). Mode 9 lands in the same lane as a
+   plain "scale base" modifier, so the fraction is
+   `source / Ratio × Value1 × 1e-8`. The slot names are the client's own — they
+   are what `ActiveBuff.p__` passes to `AddModifier`.
+
+   `policy[2]` picks whose attribute set is read (1 = instigator, 0 = the buff
+   holder), and the three tooltips name exactly those people. `Ratio` says what
+   KIND of quantity the source is: 100 for a percentage read per 1%, 1 for a
+   point count. All three reproduce their tooltip to the digit:
+
+   | set | policy | source | result |
+   | --- | --- | --- | --- |
+   | 25 Halo of Starry Radiance | `[9,141,1,1,0,0,100,2500]` × 20 | Off-Tune Buildup Rate, 10000 on all 2,740 rows | **20% ATK**, cap 25% |
+   | 33 Song of Feathered Trace | `[9,11,1,1,0,0,100,2500]` × 10 | wielder's Energy Regen | **10% at 100% ER**, cap 25% at 250% |
+   | 24 Pact of Neonlight Leap | `[9,142,0,1,0,0,1,1500]` × 30 | incoming member's Tune Break Boost | **0.3%/point**, cap 15% |
+
+   ONE DEPARTURE FROM THE CLIENT: `Cbr` never consults `Max` on the mode-9
+   branch — the `break` precedes the cap check. It is applied anyway, because
+   the tooltip and the `Max` field state the same number independently on all
+   three sets. Honouring it can only under-credit; ignoring it is how +2000% ATK
+   happened.
+
+2. **A source the caller cannot supply stays UNPLACED, not zero.**
+   `derivedGrantValue` returns null rather than 0, so a grant nobody can answer
+   stays visible in `unplaced` instead of silently reading as nothing. Off-Tune
+   Buildup Rate needs no caller at all (it is 10000 on every row and nothing in
+   the model raises it), which is why Halo resolves from data alone.
+
+3. **Tune Break Boost is attribute 142, and it HAS a base.** `tune-break.js` had
+   the two Tune attributes swapped and read a third: it checked
+   `Proto_WeaknessTotalBonus` (140), which is 0 on every resonator and non-zero
+   only on 11 enemy rows, and concluded the stat had no base. The game says
+   otherwise — `Proto_WeaknessMastery` (142) reads **10** on exactly the seven
+   Tune-family responders, and `Proto_BreakWeaknessRatio` (141) is Off-Tune
+   Buildup Rate at a universal 100%. Pact of Neonlight Leap pins which is which
+   twice over: its tooltip says "each POINT", and its `Ratio` is 1.
+
+   This is a REAL BEHAVIOUR CHANGE beyond the derived grants: the Tune Strain
+   payout now reads base + grants, so solo Denia S0 moves 1.2% → 2.4% and S2
+   3.6% → 4.8%. A base of 10 is also what makes Luuk's "every 10 points of Tune
+   Break Boost he has" pay one tick with no grants at all.
+
+4. **A tier's SECOND grant needs its own group key** (found while verifying, not
+   sought). `groupStackingBuffs` keyed a window on `sonataId::raw` to merge the
+   one-entry-per-trigger-phrase the TEXT parser emits. The DATA path reads a
+   tier's grants one row each and they share that same tier text, so the key
+   kept the FIRST and dropped the rest — Song of Feathered Trace's ATK grant
+   never reached a window while its 35% Heavy Attack DMG did. This is the "a
+   tier stating two grants can only carry one" failure the data path was built
+   to fix, resurfacing one layer downstream. The bonus itself now joins the key;
+   every field is identical across a text-parsed buff's triggers, so the
+   original merge is untouched.
+
+**[Verification Method]**
+- Every expected value in `tests/external-buffs.test.mjs` is the SET'S OWN
+  TOOLTIP, so the arithmetic is checked against the game's words rather than
+  against itself: Halo 20%; Feathered Trace 10/18/25/25% at 100/180/250/400% ER;
+  Pact 0/3/12/15/15% at 0/10/40/50/90 points. Both caps are exercised from both
+  sides. A roster-wide sweep asserts every derived grant resolves to a bounded
+  fraction.
+- End-to-end through `incomingResonatorContribution`: Pact hands 15 / 18 / 27 /
+  30% ATK at 0 / 10 / 40 / 60 points — its flat 15% plus the per-point half,
+  capped at +15%, exactly as written.
+- LOCK A: `data/wuwa-data.json` diff is exactly the seven `tuneBreakBoostBase`
+  lines plus the timestamp — no incidental drift.
+- LOCK B: regenerated. The meta re-ranked (Chisa's suggested set moved off 25),
+  which is the intended consequence of the values becoming real.
+- `npm test` 72/72 · `npm run sweep` 68/0 · `npm run lint` 0 errors.
+- Benchmark, measured before/after against the same reference (RUN A 3-pass):
+  team damage gap 1.168x → **1.165x**, DPS gap 1.180x → **1.178x**; RUN B
+  1.122x → **1.120x**. Small, and expected: the harness pins sonatas that are
+  none of the three, so the only change reaching it is the Tune Break Boost
+  base. The gear-independent Tune Break anchor is unmoved at 71,015.
+
+**[Residual Risks]**
+- The mode-9 `Max` departure is a judgement call. If the client's omission is
+  faithful to the server, these three sets are under-credited above their caps —
+  reachable in practice only by Feathered Trace above 250% ER and Pact at 50+
+  Boost points.
+- `derivedGrantValue` handles mode 9 only. Modes 2 and 4 have a different shape
+  (`+ Value2`, and 4 overrides rather than adds) and no shipped grant uses them;
+  it returns null for those, which leaves them unplaced rather than wrong.
+- Uptime for the derived grants is still the existing window model — Halo's 4s
+  on a healing trigger, Feathered Trace's 10s. Only the MAGNITUDE changed hands.
+- The three sets' triggers remain text-derived, so a set whose trigger the
+  sentence does not name still lands on 'unknown'.
+
+**[Updated Docs]** `CLAUDE.md` gains three invariants (the derived-magnitude
+formula, the Tune Break Boost attribute and its base, the group key); the
+existing "A magnitude is only flat if `CalculationPolicy` says so" row is
+amended from "credited nowhere" to "carry the policy". `tune-break.js`'s header
+keeps its wrong claim under strikethrough with the correction beneath it.

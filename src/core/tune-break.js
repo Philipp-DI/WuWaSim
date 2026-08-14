@@ -25,11 +25,24 @@
  * responder caps the target at 1; a full Denia/Lynae/Luuk team caps it at 3.
  *
  * ── What this deliberately does NOT model ───────────────────────────────────
- * `Off-Tune Buildup Rate` is a real property (`WeaknessMastery` in the game's
+ * ~~`Off-Tune Buildup Rate` is a real property (`WeaknessMastery` in the game's
  * baseproperty table) and Denia's inherent scales Boost off the part of it that
  * runs over 100%. It reads **0 for every resonator row** — only 7 rows in the
  * whole 2,740-row table carry a value at all — so the grant evaluates to zero
- * and is omitted rather than guessed at.
+ * and is omitted rather than guessed at.~~
+ *
+ * CORRECTED 2026-08-14 — the two attributes were swapped, and reading the wrong
+ * one is what made both look empty. The client's enum and the game's own sonata
+ * buff rows agree:
+ *   141 `Proto_BreakWeaknessRatio` = **Off-Tune Buildup Rate**, a PERCENTAGE.
+ *       It reads 10000 (100%) on all 2,740 rows — not 0. Halo of Starry
+ *       Radiance's "every 1% of Off-Tune Buildup Rate" scales off it with the
+ *       game's per-percent divisor (`Ratio 100`).
+ *   142 `Proto_WeaknessMastery` = **Tune Break Boost**, counted in POINTS
+ *       (`Ratio 1`). It reads 10 on exactly the seven Tune-family responders,
+ *       which is this stat's BASE — see TUNE_BREAK_BOOST_GRANTS below.
+ * `140 Proto_WeaknessTotalBonus`, the field this module used to read, is 0 on
+ * every resonator and non-zero only on 11 enemy rows.
  *
  * The Tune Rupture and Hack families are the same SHAPE but a different payoff:
  * their responders cast a real RESPONSE SKILL (Mornye's Particle Jet, Lynae's
@@ -39,9 +52,15 @@
  */
 
 /**
- * Grants of Tune Break Boost POINTS. The stat's base is 0 — `WeaknessTotalBonus`
- * reads 0 on 2,729 of the 2,740 baseproperty rows, the exceptions being enemies
- * — so a team's total is exactly the sum of what its kits grant.
+ * Grants of Tune Break Boost POINTS, ON TOP of the base the resonator ships
+ * with (`resonator.tuneBreakBoostBase`, attribute 142 `WeaknessMastery` — 10 for
+ * each of the seven Tune-family responders, absent for everyone else).
+ *
+ * ~~The stat's base is 0 — `WeaknessTotalBonus` reads 0 on 2,729 of the 2,740
+ * baseproperty rows, the exceptions being enemies — so a team's total is exactly
+ * the sum of what its kits grant.~~ That read the wrong attribute; see the
+ * module header. A base of 10 is also what makes Luuk's "every 10 points of Tune
+ * Break Boost" pay one tick with no grants at all.
  *
  * `whileInterfered` marks a grant whose stated trigger is a teammate inflicting
  * Shifting. That is implied by the chain having fired at all: Interfered cannot
@@ -160,10 +179,18 @@ export function interferedCap(members, dataset) {
     return cap;
 }
 
-/** Tune Break Boost points one member holds, from every grant on the team. */
+/**
+ * Tune Break Boost points one member holds: the base they ship with, plus every
+ * grant on the team that reaches them.
+ *
+ * `dataset` is optional so the existing call sites that only care about grants
+ * keep working; without it the base reads 0, which is what this function did
+ * before the base was extracted.
+ */
 export function boostPointsFor(member, members, options = {}) {
-    const { interfered = false, keysCast = null } = options;
-    let points = 0;
+    const { interfered = false, keysCast = null, dataset = null } = options;
+    let points = dataset?.resonators?.find(entry => entry.id === member.resonatorId)
+        ?.tuneBreakBoostBase ?? 0;
     for (const source of members) {
         for (const grant of TUNE_BREAK_BOOST_GRANTS[Number(source.resonatorId)] ?? []) {
             if (!grant.teamWide && source.resonatorId !== member.resonatorId) continue;
@@ -203,7 +230,7 @@ export function resolveTuneStrain({ members = [], dataset, tuneBreaks = 0, shift
     for (const member of members) {
         const resonator = dataset?.resonators?.find(entry => entry.id === member.resonatorId);
         const strain = resonator?.tuneBreak?.strain;
-        const points = boostPointsFor(member, members, { interfered: stacks > 0, keysCast });
+        const points = boostPointsFor(member, members, { interfered: stacks > 0, keysCast, dataset });
         // Only a RESPONDER converts points into damage. A teammate can hold
         // Boost points and get nothing for them, which is the kit text: the
         // payout clause lives on the responder's own Tune Break node.

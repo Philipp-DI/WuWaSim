@@ -76,7 +76,7 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
         interferedCap([member(DENIA), member(CARLOTTA)], d) === 1);
 }
 
-// ── Boost points: base 0, and every grant carries its quote ─────────────────
+// ── Boost points: GRANTS alone (no dataset ⇒ no base) ──────────────────────
 {
     for (const [id, grants] of Object.entries(TUNE_BREAK_BOOST_GRANTS)) {
         assert(`${id}: every Boost grant quotes the kit`,
@@ -84,7 +84,7 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
         assert(`${id}: every Boost grant is a positive point count`,
             grants.every(grant => grant.points > 0));
     }
-    assert('the stat has no base — a kit with no grant holds nothing',
+    assert('a kit with no grant contributes nothing',
         boostPointsFor(member(CARLOTTA), [member(CARLOTTA)]) === 0);
 
     // Denia's mode gate is real: her +10 is "Resonance Mode - Tune Strain".
@@ -108,6 +108,31 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
         boostPointsFor(member(LYNAE), [member(LYNAE)], { keysCast: lynaeCasts }) === 40);
     assert('...and does not apply without it',
         boostPointsFor(member(LYNAE), [member(LYNAE)], { keysCast: new Set() }) === 0);
+}
+
+// ── The BASE the game ships (attribute 142 WeaknessMastery) ────────────────
+{
+    // 10 points for each of the seven Tune-family responders, nothing for
+    // anyone else. This is the attribute Pact of Neonlight Leap's 5-piece
+    // scales off ("each POINT of Tune Break Boost", Ratio 1), and reading the
+    // wrong one (140 WeaknessTotalBonus, 0 on every resonator) is what made the
+    // stat look like it had no base at all.
+    const withBase = d.resonators.filter(entry => entry.tuneBreakBoostBase > 0);
+    assert('exactly seven resonators ship a Tune Break Boost base',
+        withBase.length === 7 && withBase.every(entry => entry.tuneBreakBoostBase === 10));
+    assert('...and every one of them responds to a Tune family',
+        withBase.every(entry => entry.tuneBreak != null));
+
+    assert('a responder holds their base with no grants at all',
+        boostPointsFor(member(LUUK), [member(LUUK)], { dataset: d }) === 10);
+    assert('a non-responder holds nothing',
+        boostPointsFor(member(CARLOTTA), [member(CARLOTTA)], { dataset: d }) === 0);
+    assert('base and grants add: Denia base 10 + her mode grant 10',
+        boostPointsFor(member(DENIA, 0, 'tune_strain'),
+            [member(DENIA, 0, 'tune_strain')], { dataset: d }) === 20);
+    assert('...and a non-responder still gets only the team-wide grant',
+        boostPointsFor(member(CARLOTTA),
+            [member(DENIA, 0, 'tune_strain'), member(CARLOTTA)], { dataset: d }) === 10);
 }
 
 // ── Luuk's flat branch: per 10 points, capped, and S2 REPLACES the rate ─────
@@ -175,7 +200,8 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
     assert('...but converts none of them to damage',
         result.perMember.get(CARLOTTA).amplify === 0);
     assert('while the responder does',
-        Math.abs(result.perMember.get(DENIA).amplify - 10 * 0.0012 * 1) < 1e-9);
+        // Denia holds her base 10 + her own team-wide grant 10.
+        Math.abs(result.perMember.get(DENIA).amplify - 20 * 0.0012 * 1) < 1e-9);
 }
 
 // ── Solo: it reaches real damage, and only with a Tune Break slotted ───────
@@ -190,8 +216,9 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
             .filter(step => step.skillKey !== TUNE_BREAK_STEP_KEY)
             .reduce((total, step) => total + step.stepDamage, 0);
     };
-    // 10 points x 0.12% x 1 stack = 1.2%; at S2 it is (10+20) x 0.12% = 3.6%.
-    for (const [chain, expected] of [[0, 0.012], [2, 0.036]]) {
+    // (base 10 + mode grant 10) x 0.12% x 1 stack = 2.4%; at S2 her +20 lands
+    // too, so (10+10+20) x 0.12% = 4.8%.
+    for (const [chain, expected] of [[0, 0.024], [2, 0.048]]) {
         const uplift = skillDamage(chain, true) / skillDamage(chain, false) - 1;
         assert(`solo Denia S${chain}: +${(expected * 100).toFixed(1)}% on her other steps`,
             Math.abs(uplift - expected) < 5e-4);
@@ -199,7 +226,7 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
     // S6 grants a SECOND Interfered stack, but a solo responder caps at one —
     // so the payout is unchanged, which is the cap doing its job.
     assert('S6\'s extra stack is clamped by her solo cap of 1',
-        Math.abs((skillDamage(6, true) / skillDamage(6, false) - 1) - 0.036) < 5e-4);
+        Math.abs((skillDamage(6, true) / skillDamage(6, false) - 1) - 0.048) < 5e-4);
 }
 
 // ── Team: cap, stacks and payout all reported ─────────────────────────────

@@ -87,6 +87,116 @@ export function bucketForAttribute(attribute) {
     return null;
 }
 
+// ─── Derived grants: a magnitude that is a COEFFICIENT, not a percentage ─────
+//
+// `CalculationPolicy[0]` decides how `ModifierMagnitude` reads. Modes 0 and 1
+// are flat and the extractor ships their value directly; modes 2, 4 and 9 make
+// the grant a function of ANOTHER attribute, and the extractor marks those
+// `derived` with the policy attached rather than guessing.
+//
+// The client states the arithmetic itself, in `BaseAttributeComponent.Cbr` —
+// the function that evaluates every modifier on an attribute:
+//
+//     let source = SnapshotSource ?? GetAttrValue(set, SourceAttributeId, …);
+//     if (Min && (source -= Min) <= 0) break;      // below the floor: nothing
+//     if (Ratio) source /= Ratio;                  // per-unit divisor
+//     if (Type === 9) { scaleBase += source * Value1 * 1e-4; break; }
+//     flat = source * Value1 * 1e-4 + Value2;
+//     if (Max && flat > Max) flat = Max;
+//     …
+//     return Math.floor(base * (scaleBase * 1e-4 + 1) + added);
+//
+// so a mode-9 grant lands in the SAME lane as a plain "scale base" modifier and
+// its fraction is `source / Ratio * Value1 * 1e-8`. Our extracted `value` is
+// already `Value1 / 1e4`, which is why the divisor below is 1e4 and not 1e8.
+//
+// THE POLICY SLOTS, named by the client's own destructuring (ActiveBuff.p__
+// hands them to AddModifier under these names):
+//   [0] Type   [1] SourceAttributeId   [2] 1 = read the INSTIGATOR's attribute
+//   [3] SourceCalculationType   [4] SnapshotSource   [5] Min   [6] Ratio  [7] Max
+//
+// All three shipped derived grants reproduce their tooltip exactly:
+//   sonata 25  [9,141,1,1,0,0,100,2500] × 20  → 100 × 20/1e4 = 0.20, cap 0.25
+//              "every 1% of Off-Tune Buildup Rate grants a 0.2% ATK increase,
+//               up to 25%" — Off-Tune Buildup Rate is 10000 (100%) on all 2,740
+//               baseproperty rows, so 100 units of 1% × 0.2% = 20%.
+//   sonata 24  [9,142,0,1,0,0,  1,1500] × 30  → points × 30/1e4, cap 0.15
+//              "each point of Tune Break Boost … by 0.3%, up to 15%". Ratio 1,
+//              because the source is counted in POINTS rather than percent.
+//   sonata 33  [9, 11,1,1,0,0,100,2500] × 10  → ER% × 10/1e4, cap 0.25
+//              "0.1% ATK … for every 1% of the Resonator's Energy Regen, up to
+//               25%" — 100% Energy Regen is 10000, so the base pays 10%.
+//
+// ONE DELIBERATE DEPARTURE FROM THE CLIENT: `Cbr` never reads `Max` on the
+// mode-9 branch (the `break` above precedes the cap). The cap is applied here
+// anyway, because the tooltip and the `Max` field state the same number
+// independently on all three sets, and honouring it can only under-credit —
+// while ignoring it is the same class of error that made Halo of Starry
+// Radiance read as +2000% ATK.
+const CALCULATION_POLICY = Object.freeze({
+    TYPE: 0, SOURCE_ATTRIBUTE: 1, MIN: 5, RATIO: 6, MAX: 7,
+});
+const SCALE_BASE_POLICY = 9;
+
+/**
+ * Source attribute ids a derived grant reads. Exported so callers name the
+ * value they are supplying instead of passing a bare number.
+ */
+export const DERIVED_SOURCE = Object.freeze({
+    ENERGY_REGEN: 11,
+    OFF_TUNE_BUILDUP_RATE: 141,
+    TUNE_BREAK_BOOST: 142,
+});
+
+// Off-Tune Buildup Rate reads 10000 (100%) on every one of the 2,740
+// `baseproperty` rows and nothing in the engine's model raises it, so it needs
+// no caller to supply it. The others genuinely vary per build or per team.
+const DERIVED_SOURCE_DEFAULTS = Object.freeze({
+    [DERIVED_SOURCE.OFF_TUNE_BUILDUP_RATE]: 10000,
+});
+
+/**
+ * The fraction a `derived` grant is worth, or null when its source attribute is
+ * one the caller could not supply.
+ *
+ * Null is the honest answer, not zero: it lets the caller leave the grant in
+ * `unplaced` (visible) rather than credit it as nothing (silent).
+ *
+ * @param {object} grant   — a `derived: true` row of data/external-buffs.json
+ * @param {object} sources — attribute id → the game's RAW value (1e4 fixed
+ *        point for a percentage, plain units for a point count)
+ */
+export function derivedGrantValue(grant, sources = {}) {
+    const policy = grant?.calculationPolicy;
+    if (!Array.isArray(policy) || policy[CALCULATION_POLICY.TYPE] !== SCALE_BASE_POLICY) return null;
+    const attribute = policy[CALCULATION_POLICY.SOURCE_ATTRIBUTE];
+    const raw = sources?.[attribute] ?? DERIVED_SOURCE_DEFAULTS[attribute];
+    if (!Number.isFinite(raw)) return null;
+
+    let source = raw - (policy[CALCULATION_POLICY.MIN] || 0);
+    if (source <= 0) return 0;
+    const ratio = policy[CALCULATION_POLICY.RATIO] || 0;
+    if (ratio) source /= ratio;
+
+    const value = source * Number(grant.value) / 10000;
+    const max = policy[CALCULATION_POLICY.MAX] || 0;
+    return max ? Math.min(value, max / 10000) : value;
+}
+
+/**
+ * What a grant contributes, derived or not — null when a derived grant's source
+ * is unavailable.
+ *
+ * `stackLimit` is folded in here because the game states it per grant and it is
+ * part of the value's MAGNITUDE, not its uptime: Kumokiri's Liberation bonus is
+ * "8%, stacking up to 3 times", which is 24% at cap.
+ */
+function grantValue(grant, sources) {
+    const base = grant?.derived ? derivedGrantValue(grant, sources) : Number(grant?.value);
+    if (base == null || !Number.isFinite(base)) return null;
+    return base * Math.max(1, Number(grant.stackLimit) || 1);
+}
+
 // The game's own damage-type tag (`skill.damage[*].type`, and the parameter of
 // an ExtraEffect DamageTypes requirement) → our formulaType.
 const FORMULA_BY_DAMAGE_TYPE = Object.freeze({
@@ -148,17 +258,19 @@ function scopeOf(grant) {
  * Heavy Attacks", and quietly widening it to the whole build would over-credit.
  * No weapon needs this today (every scoped grant in the game's weapon tables is
  * DEF-ignore or resistance), so the list is expected to stay empty.
+ *
+ * `sources` supplies the raw attribute values a DERIVED grant scales off (see
+ * derivedGrantValue). A derived grant whose source the caller cannot supply
+ * stays unplaced.
  */
-export function foldExternalGrants(grants, into = emptyExternal()) {
+export function foldExternalGrants(grants, into = emptyExternal(), sources = {}) {
     for (const grant of grants ?? []) {
-        // A DERIVED grant's magnitude is a coefficient in a runtime formula, not
-        // a flat fraction — see the extractor's FLAT_CALCULATION_POLICIES. Halo
-        // of Starry Radiance ships +0.2% ATK per point of Off-Tune Buildup (cap
-        // 25%) as magnitude 200000, which read flat is +2000% ATK.
-        if (grant?.derived) { into.unplaced.push(grant); continue; }
         const route = bucketForAttribute(grant?.attribute);
         if (!route) continue;
-        const value = Number(grant.value) * Math.max(1, Number(grant.stackLimit) || 1);
+        const value = grantValue(grant, sources);
+        // A derived grant with no source value is left visible rather than
+        // credited as zero — the caller can see what it could not answer.
+        if (value == null) { into.unplaced.push(grant); continue; }
         if (!Number.isFinite(value) || value === 0) continue;
         const scope = scopeOf(grant);
 
@@ -219,18 +331,22 @@ export function targetModApplies(mod, formulaType, elementId) {
  *   - a scoped grant, for the same reason as on the weapon side: a window
  *     carries no room for "…but only on Heavy Attacks".
  *
+ * A DERIVED grant is included once `sources` can answer its source attribute,
+ * and silently skipped when it cannot — a window is a timeline entry, so there
+ * is nowhere to surface an unplaced one; `foldExternalGrants` is the path that
+ * keeps them visible.
+ *
  * @returns {Array<{bonusPct, bonusKind, element, dmgType, duration, stacks, teamWide}>}
  */
-export function sonataWindowGrants(grants) {
+export function sonataWindowGrants(grants, sources = {}) {
     const out = [];
     for (const grant of grants ?? []) {
         if (grant?.recipient) continue;
         if (grant?.scope) continue;
-        if (grant?.derived) continue;   // a formula coefficient, not a percentage
         const route = bucketForAttribute(grant?.attribute);
         if (!route) continue;
-        const value = Number(grant.value) * Math.max(1, Number(grant.stackLimit) || 1);
-        if (!Number.isFinite(value) || value === 0) continue;
+        const value = grantValue(grant, sources);
+        if (value == null || !Number.isFinite(value) || value === 0) continue;
 
         // crit / amplify / defIgnore belong to the other sonata lane and are
         // skipped here — crediting them in both would double them.

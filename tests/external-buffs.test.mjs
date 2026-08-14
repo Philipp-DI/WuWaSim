@@ -23,7 +23,7 @@ import { dirname, resolve } from 'path';
 import { PROP } from '../src/core/stats.js';
 import {
     bucketForAttribute, foldExternalGrants, weaponExternalGrants, targetModApplies,
-    sonataExternalGrants, sonataWindowGrants,
+    sonataExternalGrants, sonataWindowGrants, derivedGrantValue, DERIVED_SOURCE,
 } from '../src/core/buffs/external-buffs.js';
 import { incomingResonatorContribution } from '../src/core/buffs/conditional-buffs.js';
 import { createBuild, setChain, setEcho } from '../src/core/build.js';
@@ -233,38 +233,82 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     }
     assert(`no sonata grant is left unrouted (got ${unrouted.join(',') || 'none'})`, unrouted.length === 0);
 
-    // ── DERIVED magnitudes must never be credited as flat values ────────────
-    // `CalculationPolicy[0]` 2/4/9 means the magnitude is a FRACTION OF
-    // policy[1] — a coefficient in a runtime formula, not a percentage. Halo of
-    // Starry Radiance is the worked case: "every 1% of Off-Tune Buildup Rate
-    // grants a 0.2% ATK increase … up to 25%" ships as magnitude 200000 under
-    // [2, 141, 1, 1, 0, 0, 100, 2500]. Read flat that is +2000% ATK, and it put
-    // a HEALER at 3.6M damage on the team page — 21x her real output.
+    // ── DERIVED magnitudes: the FORMULA, not the raw number ─────────────────
+    // `CalculationPolicy[0]` 2/4/9 means the magnitude is a coefficient in a
+    // runtime formula, not a percentage. The client evaluates it in
+    // `BaseAttributeComponent.Cbr`: subtract Min (policy[5]), divide by Ratio
+    // (policy[6]), multiply by the magnitude, cap at Max (policy[7]).
+    //
+    // Every one of these expected values is the SET'S OWN TOOLTIP, so the
+    // arithmetic is checked against the game's words rather than against
+    // itself. Reading the magnitude flat instead put a HEALER at 3.6M damage on
+    // the team page — 21x her real output.
     const halo = sonataExternalGrants(dataset, 25, 5) ?? [];
     const atkGrant = halo.find(grant => grant.attribute === PROP.ATK_FLAT);
     assert('Halo of Starry Radiance\'s ATK grant is marked derived', atkGrant?.derived === true);
     assert('…and its raw magnitude really is the absurd one (2000%)',
         Math.abs((atkGrant?.value ?? 0) - 20) < 1e-9);
+    // "every 1% of Off-Tune Buildup Rate grants a 0.2% ATK increase … up to
+    // 25%". Off-Tune Buildup Rate is 10000 (100%) on all 2,740 baseproperty
+    // rows and nothing raises it, so this resolves with no caller input at all.
+    assert('…but resolves to the tooltip\'s 20% ATK',
+        Math.abs(derivedGrantValue(atkGrant) - 0.20) < 1e-9);
     const haloFolded = foldExternalGrants(halo);
-    assert('…so it contributes NOTHING to the stat buckets', haloFolded.atkRatio === 0);
-    assert('…and is recorded as unplaced rather than dropped silently',
-        haloFolded.unplaced.some(grant => grant.derived));
-    assert('…and never reaches the sonata window path either',
-        sonataWindowGrants(halo).every(grant => grant.bonusKind !== 'atk'));
+    assert('…which is what lands in the ATK bucket',
+        Math.abs(haloFolded.atkRatio - 0.20) < 1e-9);
+    assert('…with nothing left unplaced', haloFolded.unplaced.length === 0);
+    assert('…and the sonata window path carries it too',
+        sonataWindowGrants(halo).some(grant => grant.bonusKind === 'atk'
+            && Math.abs(grant.bonusPct - 0.20) < 1e-9));
 
-    // Roster-wide: no derived grant may leak into a bucket anywhere.
-    let leaked = 0;
-    for (const entry of Object.values(sonatas)) {
-        for (const tier of Object.values(entry.tiers ?? {})) {
-            const derived = (tier.grants ?? []).filter(grant => grant.derived);
-            if (!derived.length) continue;
-            const folded = foldExternalGrants(derived);
-            if (folded.atkRatio || folded.critRate || folded.critDmg
-                || Object.keys(folded.dmgByElement).length
-                || Object.keys(folded.dmgBySkillType).length) leaked++;
+    // Song of Feathered Trace: "0.1% ATK … for every 1% of the Resonator's
+    // Energy Regen, up to 25%". 100% Energy Regen is 10000 in the game's fixed
+    // point, so the floor is 10% and the cap binds at 250% ER.
+    const feathered = (sonataExternalGrants(dataset, 33, 5) ?? [])
+        .find(grant => grant.derived);
+    for (const [regen, expected] of [[1.00, 0.10], [1.80, 0.18], [2.50, 0.25], [4.00, 0.25]]) {
+        assert(`Song of Feathered Trace at ${regen * 100}% ER → ${expected * 100}% ATK`,
+            Math.abs(derivedGrantValue(feathered,
+                { [DERIVED_SOURCE.ENERGY_REGEN]: regen * 10000 }) - expected) < 1e-9);
+    }
+
+    // Pact of Neonlight Leap: "each point of Tune Break Boost the incoming
+    // Resonator has additionally increases their ATK by 0.3%, up to 15%". Its
+    // Ratio is 1, not 100 — the game divides a PERCENT source by 100 and a
+    // POINT source by 1, so the Ratio itself says which kind of quantity the
+    // source is.
+    const pact = (sonataExternalGrants(dataset, 24, 5) ?? []).find(grant => grant.derived);
+    assert('Pact of Neonlight Leap counts POINTS, not percent',
+        pact?.calculationPolicy?.[6] === 1);
+    for (const [points, expected] of [[0, 0], [10, 0.03], [40, 0.12], [50, 0.15], [90, 0.15]]) {
+        assert(`Pact of Neonlight Leap at ${points} Tune Break Boost → ${expected * 100}% ATK`,
+            Math.abs(derivedGrantValue(pact,
+                { [DERIVED_SOURCE.TUNE_BREAK_BOOST]: points }) - expected) < 1e-9);
+    }
+
+    // A source the caller cannot supply stays VISIBLE. Crediting it as zero
+    // would be a silent under-read; unplaced is a number someone can look at.
+    const noSource = foldExternalGrants([feathered, pact]);
+    assert('a derived grant with no source value stays unplaced',
+        noSource.unplaced.length === 2 && noSource.atkRatio === 0);
+
+    // Roster-wide: every derived grant must be a shape this formula can read.
+    const unreadable = [];
+    for (const [id, entry] of Object.entries(sonatas)) {
+        for (const [pieces, tier] of Object.entries(entry.tiers ?? {})) {
+            for (const grant of (tier.grants ?? []).filter(one => one.derived)) {
+                const value = derivedGrantValue(grant, {
+                    [DERIVED_SOURCE.ENERGY_REGEN]: 10000,
+                    [DERIVED_SOURCE.TUNE_BREAK_BOOST]: 10,
+                });
+                // A readable grant is a real, bounded fraction — never the
+                // order-of-magnitude number the raw magnitude would have given.
+                if (!(value > 0 && value <= 1)) unreadable.push(`${id}/${pieces}`);
+            }
         }
     }
-    assert('no derived grant reaches a stat bucket anywhere', leaked === 0);
+    assert(`every derived grant resolves to a sane fraction (bad: ${unreadable.join(',') || 'none'})`,
+        unreadable.length === 0);
 
     // The transfer must reach the incoming-resonator lane, which is what
     // actually pays it. The text reader scored ZERO here for as long as it has

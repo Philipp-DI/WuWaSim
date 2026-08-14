@@ -398,6 +398,11 @@ export function distinctApplicatorTierContribution(resonatorId, resonanceMode, c
  * gate, own kit only, never team-satisfied). The team sim applies the returned
  * bundle to the member who swaps IN after this one.
  *
+ * @param {object} [derivedSources] — raw attribute values for grants the game
+ *        states as a FORMULA (external-buffs.js derivedGrantValue). Pact of
+ *        Neonlight Leap's second half scales off the INCOMING resonator's Tune
+ *        Break Boost, so the value belongs to the recipient, not the wielder,
+ *        and only the team sim knows who that is.
  * @returns {object} an emptyContribution()-shaped bundle (dmgByElement / amplify
  *          / atk …) the incoming resonator receives.
  */
@@ -406,7 +411,7 @@ export function distinctApplicatorTierContribution(resonatorId, resonanceMode, c
 // create a cycle.
 const ECHO_STEP_KEY = '__echo__';
 
-export function incomingResonatorContribution(build, dataset, resonator) {
+export function incomingResonatorContribution(build, dataset, resonator, derivedSources = {}) {
     const out = emptyContribution();
 
     // The equipped ECHO can hand the incoming resonator a buff too, and four do
@@ -460,7 +465,7 @@ export function incomingResonatorContribution(build, dataset, resonator) {
             const incoming = (sonataExternalGrants(dataset, sonata.id, tier.pieces) ?? [])
                 .filter(grant => grant.recipient === 'incoming');
             if (incoming.length) {
-                const folded = foldExternalGrants(incoming);
+                const folded = foldExternalGrants(incoming, undefined, derivedSources);
                 out.atkRatio += folded.atkRatio;
                 out.critRate += folded.critRate;
                 out.critDmg += folded.critDmg;

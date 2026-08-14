@@ -70,6 +70,7 @@
 import { simulateRotation, ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, echoStepTimeOf, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
 import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/buff-windows.js';
 import { resolveTuneStrain } from './tune-break.js';
+import { DERIVED_SOURCE } from './buffs/external-buffs.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
 import { computeOffFieldContribution, offFieldActionIsSimulable } from './off-field.js';
@@ -807,8 +808,17 @@ function runRotationSegment(sim, turn) {
     // Team-wide auras (L3) + the PREVIOUS member's incoming-resonator
     // transfer (e.g. a Wishes wielder's Snowfall Outro → +25% Glacio DMG to
     // whoever swaps in — gated on the prev member's own inflict).
+    // Pact of Neonlight Leap's second half scales off the Tune Break Boost of
+    // the resonator swapping IN — which is THIS member, not the one handing the
+    // buff over (the game reads the buff HOLDER's attribute set, policy[2] = 0).
+    // `sim.tuneStrain.perMember` already holds each member's total for the whole
+    // team, so this reads it rather than recomputing a second, divergable one.
+    const incomingSources = {
+        [DERIVED_SOURCE.TUNE_BREAK_BOOST]:
+            sim.tuneStrain?.perMember?.get(build.resonatorId)?.points ?? 0,
+    };
     const prevIncoming = (turn.handoffFired && turn.prevReso)
-        ? incomingResonatorContribution(turn.prevBuild, sim.dataset, turn.prevReso) : null;
+        ? incomingResonatorContribution(turn.prevBuild, sim.dataset, turn.prevReso, incomingSources) : null;
     // Distinct-applicator tier (Snow Rust-style): how many distinct teammates
     // have, by this point, inflicted a qualifying status — counting earlier
     // members from the shared timeline PLUS this member itself if its own kit

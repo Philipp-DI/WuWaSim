@@ -748,12 +748,18 @@ async function main() {
         // authoritative answer to "how many stacks can this gauge hold", so a
         // curated gauge definition never has to trust a kit-text regex for it —
         // rotation-rules.js resolves a def's cap from here by channel.
-        let capped = 0;
+        let capped = 0, boosted = 0;
         for (const resonator of resonators) {
             const perChannel = forteData._specialEnergyCaps?.[String(resonator.id)];
             if (perChannel) { resonator.specialEnergyCaps = perChannel; capped++; }
+            // Tune Break Boost the resonator starts the fight with (attribute 142
+            // WeaknessMastery). Absent for everyone but the seven responders, so
+            // an absent field means zero — src/core/tune-break.js adds it to the
+            // kit grants, and Pact of Neonlight Leap's 5-piece scales off it.
+            const boostBase = forteData._tuneBreakBoostBase?.[String(resonator.id)];
+            if (boostBase) { resonator.tuneBreakBoostBase = boostBase; boosted++; }
         }
-        process.stderr.write(`  forte overlay: ${Object.keys(forte).length} resonators, ${stamped} skills stamped, ${capped} gauge-cap sets\n`);
+        process.stderr.write(`  forte overlay: ${Object.keys(forte).length} resonators, ${stamped} skills stamped, ${capped} gauge-cap sets, ${boosted} Tune Break Boost bases\n`);
     } else {
         process.stderr.write(`  forte overlay: data/forte-data.json absent — skipped\n`);
     }
