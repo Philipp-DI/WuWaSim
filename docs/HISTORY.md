@@ -9430,3 +9430,65 @@ LOCK B regenerated.
 
 **[Residual Risks]** None introduced. The two undecodable tables are recorded
 above rather than guessed at.
+
+---
+
+## 2026-08-13 — The blueprint hunt: the leading stat is not in the client at all
+
+Prompted by a maintainer request to search the asset tree directly. The answer is
+a NEGATIVE, but an exhaustive one — recorded so the ground is not re-covered.
+
+**[Files Changed]** `docs/HISTORY.md` only.
+
+**[What was searched, and what it found]**
+
+1. **Every ConfigDB file, by ID.** A byte scan of all **486** `db_*.db` files for
+   the int32 / int64 / float64 / ASCII encodings of a weapon id. Kumokiri
+   (21010056) is referenced by exactly: `weaponconf`, `weaponreson`,
+   `weaponbreach`, and UI/gacha/trial tables (`trialweaponinfo`,
+   `prefabrichtextdata`, `gachaviewinfo`, `roledev*`, `modelconfigpreload`).
+   Nothing else in the entire client config knows the weapon exists.
+2. **All three gameplay tables read in full.** `weaponconf` holds base ATK +
+   secondary (`FirstPropId {Id:7}`, `SecondPropId {Id:8}`); `weaponreson` holds
+   the five refinement rows whose `Effect[]` are the CONDITIONAL buff ids already
+   extracted; `weaponbreach` is ascension gating only — level limits, gold costs
+   and condition ids, no stats.
+3. **`buffequipitem`** — the accessor `BuffEquipItem.js` and its
+   `BuffEquipItemByItemId` / `ByRoleId` query helpers looked exactly right, and
+   the table is hidden inside `db_ItemAttributeReward.db` rather than a file of
+   its own. It is **cosmetics**: 32 rows of masks and crowns
+   (`Tips_Mask_Wear`, `Tips_Crown_Wear`). No weapons.
+4. **The asset tree, by filename.** A native
+   `Directory.EnumerateFiles(..., AllDirectories)` pass (19s, vs. the pipeline
+   walk that had to be abandoned) over `Content/Aki`: weapon 21010056 resolves to
+   **icon textures only** (`T_IconWeapon21010056_UI` and friends); echo
+   390080005 resolves to **nothing**; the `110036` hits are unrelated
+   `LevelEntity` configs in a different number space.
+5. **The client script.** `Content/Aki/TypeScript` holds only UE blueprint stubs
+   (.uasset/.uexp), not readable source. In the minified JS, every consumer of
+   `WeaponReson` / `WeaponConf` outside `Define/Config` is UI — tips, forging,
+   gacha, exhibits.
+
+**[Conclusion]** A weapon's unconditional leading stat ("ATK is increased by
+12%") exists in the client ONLY as `WeaponConf.DescParams`, a display parameter
+ladder indexed by refinement rank. There is no attribute row, no per-weapon
+asset, and no equip-buff entry anywhere in the shipped client. The most
+consistent explanation is that it is applied SERVER-SIDE and the client simply
+receives resolved attribute values — which also explains why **0 of 127** rank-1
+`WeaponReson` rows carry a permanent attribute buff while their CONDITIONAL
+grants are all present in `db_buff`.
+
+The same applies to echo skill effects (lane 3): `phantomskill.BuffIds` is empty
+for all but 2 of 243 rows, neither of which is an attribute.
+
+**[What this means for the project]** `weapon-buffs.js weaponPassiveStats` is not
+a stopgap to be replaced later — it is the ONLY available source, and it is
+reading the right thing: the stat NAME from the leading sentence and the VALUE
+from `effectParams[rank-1]`, which is nanoka's mirror of `DescParams`. The value
+is therefore already data-driven and rank-correct; only the stat-name
+classification is textual, and that clause is always first and always
+unconditional, which is what makes it reliable.
+
+**[Residual Risks]** None introduced — nothing was changed. If a future export
+includes server tables or decoded blueprints, the first thing to re-check is
+whether a permanent attribute buff appears in a weapon's `WeaponReson.Effect[]`.
