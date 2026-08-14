@@ -132,6 +132,18 @@ CHECK_ANY = 1
 # A grant with no duration row is permanent for as long as its source holds.
 PERMANENT = None
 
+# `CalculationPolicy[0]` says HOW to read `ModifierMagnitude`, and only two of
+# its modes yield a flat value (CLAUDE.md, the gauge-income invariant):
+#   0  flat add                     1  scale base
+#   2/4/9  a FRACTION OF policy[1]  3  override
+# A 2/4/9 row is a coefficient in a runtime formula, not a percentage. Halo of
+# Starry Radiance is the worked example: "every 1% of Off-Tune Buildup Rate
+# grants a 0.2% ATK increase … up to 25%" ships as magnitude 200000 under
+# `[2, 141, 1, 1, 0, 0, 100, 2500]` — the 100 is the per-unit divisor and the
+# 2500 the 25% cap. Read as a flat fraction that is +2000% ATK, which is exactly
+# what it did to the team page before this guard existed.
+FLAT_CALCULATION_POLICIES = (0, 1)
+
 
 def attribute_names(export_root):
     """id -> Proto_* name, read from the client's own attribute enum.
@@ -323,6 +335,14 @@ class Resolver:
             magnitudes = row.get('ModifierMagnitude') or []
             if not magnitudes:
                 return None
+            # Refuse anything whose magnitude is not a flat value — see
+            # FLAT_CALCULATION_POLICIES. Dropping it understates; reading it
+            # inflates by orders of magnitude.
+            policy = row.get('CalculationPolicy') or []
+            if policy and int(policy[0]) not in FLAT_CALCULATION_POLICIES:
+                return dict(base, attribute=int(attribute),
+                            value=round(magnitudes[0] / 10000.0, 6),
+                            derived=True, calculationPolicy=[int(p) for p in policy])
             return dict(base, attribute=int(attribute),
                         value=round(magnitudes[0] / 10000.0, 6))
 

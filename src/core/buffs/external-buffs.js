@@ -151,6 +151,11 @@ function scopeOf(grant) {
  */
 export function foldExternalGrants(grants, into = emptyExternal()) {
     for (const grant of grants ?? []) {
+        // A DERIVED grant's magnitude is a coefficient in a runtime formula, not
+        // a flat fraction — see the extractor's FLAT_CALCULATION_POLICIES. Halo
+        // of Starry Radiance ships +0.2% ATK per point of Off-Tune Buildup (cap
+        // 25%) as magnitude 200000, which read flat is +2000% ATK.
+        if (grant?.derived) { into.unplaced.push(grant); continue; }
         const route = bucketForAttribute(grant?.attribute);
         if (!route) continue;
         const value = Number(grant.value) * Math.max(1, Number(grant.stackLimit) || 1);
@@ -221,6 +226,7 @@ export function sonataWindowGrants(grants) {
     for (const grant of grants ?? []) {
         if (grant?.recipient) continue;
         if (grant?.scope) continue;
+        if (grant?.derived) continue;   // a formula coefficient, not a percentage
         const route = bucketForAttribute(grant?.attribute);
         if (!route) continue;
         const value = Number(grant.value) * Math.max(1, Number(grant.stackLimit) || 1);

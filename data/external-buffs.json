@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-14T10:05:38+00:00",
+ "generatedAt": "2026-08-14T13:05:04+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -10893,6 +10893,17 @@
        "scope": null,
        "attribute": 7,
        "value": 30.0,
+       "derived": true,
+       "calculationPolicy": [
+        9,
+        142,
+        0,
+        1,
+        0,
+        0,
+        1,
+        1500
+       ],
        "teamWide": false,
        "buffId": 31000024011,
        "attributeName": "Proto_Atk",
@@ -10932,6 +10943,17 @@
        "scope": null,
        "attribute": 7,
        "value": 20.0,
+       "derived": true,
+       "calculationPolicy": [
+        9,
+        141,
+        1,
+        1,
+        0,
+        0,
+        100,
+        2500
+       ],
        "teamWide": false,
        "buffId": 31000025017,
        "attributeName": "Proto_Atk",
@@ -11251,6 +11273,17 @@
        "scope": null,
        "attribute": 7,
        "value": 10.0,
+       "derived": true,
+       "calculationPolicy": [
+        9,
+        11,
+        1,
+        1,
+        0,
+        0,
+        100,
+        2500
+       ],
        "teamWide": false,
        "buffId": 31000033005,
        "attributeName": "Proto_Atk",

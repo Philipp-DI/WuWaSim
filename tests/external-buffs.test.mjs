@@ -233,6 +233,39 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     }
     assert(`no sonata grant is left unrouted (got ${unrouted.join(',') || 'none'})`, unrouted.length === 0);
 
+    // ── DERIVED magnitudes must never be credited as flat values ────────────
+    // `CalculationPolicy[0]` 2/4/9 means the magnitude is a FRACTION OF
+    // policy[1] — a coefficient in a runtime formula, not a percentage. Halo of
+    // Starry Radiance is the worked case: "every 1% of Off-Tune Buildup Rate
+    // grants a 0.2% ATK increase … up to 25%" ships as magnitude 200000 under
+    // [2, 141, 1, 1, 0, 0, 100, 2500]. Read flat that is +2000% ATK, and it put
+    // a HEALER at 3.6M damage on the team page — 21x her real output.
+    const halo = sonataExternalGrants(dataset, 25, 5) ?? [];
+    const atkGrant = halo.find(grant => grant.attribute === PROP.ATK_FLAT);
+    assert('Halo of Starry Radiance\'s ATK grant is marked derived', atkGrant?.derived === true);
+    assert('…and its raw magnitude really is the absurd one (2000%)',
+        Math.abs((atkGrant?.value ?? 0) - 20) < 1e-9);
+    const haloFolded = foldExternalGrants(halo);
+    assert('…so it contributes NOTHING to the stat buckets', haloFolded.atkRatio === 0);
+    assert('…and is recorded as unplaced rather than dropped silently',
+        haloFolded.unplaced.some(grant => grant.derived));
+    assert('…and never reaches the sonata window path either',
+        sonataWindowGrants(halo).every(grant => grant.bonusKind !== 'atk'));
+
+    // Roster-wide: no derived grant may leak into a bucket anywhere.
+    let leaked = 0;
+    for (const entry of Object.values(sonatas)) {
+        for (const tier of Object.values(entry.tiers ?? {})) {
+            const derived = (tier.grants ?? []).filter(grant => grant.derived);
+            if (!derived.length) continue;
+            const folded = foldExternalGrants(derived);
+            if (folded.atkRatio || folded.critRate || folded.critDmg
+                || Object.keys(folded.dmgByElement).length
+                || Object.keys(folded.dmgBySkillType).length) leaked++;
+        }
+    }
+    assert('no derived grant reaches a stat bucket anywhere', leaked === 0);
+
     // The transfer must reach the incoming-resonator lane, which is what
     // actually pays it. The text reader scored ZERO here for as long as it has
     // existed, because the tier writes the value BEFORE the stat.

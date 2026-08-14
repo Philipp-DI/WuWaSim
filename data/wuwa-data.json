@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-14T12:03:01.731Z",
+  "generatedAt": "2026-08-14T13:05:20.960Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -251291,6 +251291,17 @@
                 "scope": null,
                 "attribute": 7,
                 "value": 30,
+                "derived": true,
+                "calculationPolicy": [
+                  9,
+                  142,
+                  0,
+                  1,
+                  0,
+                  0,
+                  1,
+                  1500
+                ],
                 "teamWide": false,
                 "buffId": 31000024011,
                 "attributeName": "Proto_Atk",
@@ -251330,6 +251341,17 @@
                 "scope": null,
                 "attribute": 7,
                 "value": 20,
+                "derived": true,
+                "calculationPolicy": [
+                  9,
+                  141,
+                  1,
+                  1,
+                  0,
+                  0,
+                  100,
+                  2500
+                ],
                 "teamWide": false,
                 "buffId": 31000025017,
                 "attributeName": "Proto_Atk",
@@ -251649,6 +251671,17 @@
                 "scope": null,
                 "attribute": 7,
                 "value": 10,
+                "derived": true,
+                "calculationPolicy": [
+                  9,
+                  11,
+                  1,
+                  1,
+                  0,
+                  0,
+                  100,
+                  2500
+                ],
                 "teamWide": false,
                 "buffId": 31000033005,
                 "attributeName": "Proto_Atk",
