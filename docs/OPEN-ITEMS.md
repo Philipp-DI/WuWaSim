@@ -413,6 +413,40 @@ timing). Section title below kept for the surviving root-cause gap.
 
 ## Team / meta correctness
 
+2c. **The derived "opener" pads every pass, not just the cold start** (opened
+   2026-08-14, measured). `opener.js` says "steady-state passes need no padding
+   by construction". That is only true for a rotation that pays for its own
+   Liberations. One that does not arrives short on EVERY pass and is padded on
+   every pass, so the model stops being a cold-start model:
+
+   | | pass 1 | pass 2 | pass 3 |
+   | --- | --- | --- | --- |
+   | openers ON | 60.78s | **39.64s** | **38.71s** |
+   | openers OFF | 29.06s | 29.86s | 29.86s |
+   | arabwuwa | 27.34s | 25.75s | 25.75s |
+
+   With openers OFF our DPS is **1.010x** of arabwuwa (damage 1.137x and time
+   1.126x, which cancel). With openers ON it is **0.722x** — so the whole visible
+   gap on the team card is this padding: 50.4s of it (Chisa 19.6s, Denia 29.1s,
+   Aemeath 1.7s) against arabwuwa's entire cold-start cost of 1.59s.
+
+   THE ARITHMETIC IS NOT WRONG. Chisa's rotation generates 25.3 Resonance Energy
+   against a 125-cost Liberation, because a published steady-state rotation omits
+   the Resonance Skill and assumes the gauge is already flowing. The model
+   correctly concludes the Liberation is not castable and fills. Also note
+   passes 2 and 3 DISAGREE with openers on (2,568,955 vs 2,610,032) where they
+   are byte-identical with openers off — there is no steady state at all.
+
+   The decision is a design one and belongs to the maintainer, so nothing was
+   changed. The options, cheapest first:
+   (a) treat a non-self-sustaining rotation as a ROTATION defect and surface it,
+       rather than silently buying the shortfall with filler time;
+   (b) give pass 1 its own rotation (arabwuwa do — their R1 differs from R2 for
+       Chisa) and let passes 2+ run the steady loop unpadded;
+   (c) seed a starting gauge, which is what every published rotation implicitly
+       assumes;
+   (d) keep it and rename it, since "opener" is not what it does.
+
 2b. **Per-TYPE crit scoping** (opened 2026-08-14, from the lane-4 migration).
    `ExtraEffectRequirements` type 12 `DamageTypes` scopes a grant to the game's
    own 0..5 damage-type tag, and the engine honours that for DEF-ignore and

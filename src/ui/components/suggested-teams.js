@@ -70,12 +70,29 @@ function echoChip(e, i) {
     return `<span data-tip-title="Echo ${i + 1} (${e.cost}-cost)" data-tip-desc="${esc(tipDesc)}" style="cursor:help;border-bottom:1px dotted var(--faint);">${e.cost}:${esc(main)}</span>`;
 }
 
+// A rotation step, named the way the rest of the app names it. The raw key with
+// its underscores swapped for spaces ("forte heavy sawring blitz 2") is not a
+// name — it is an identifier with the punctuation filed off, and it reads as
+// stale debug output next to the real labels the timeline uses.
+// Literals rather than an import of sim.js — this module otherwise pulls in
+// nothing from the engine, and rotation-graph.js keeps the same two as literals
+// for the same reason.
+const ECHO_STEP_KEY = '__echo__';
+const TUNE_BREAK_STEP_KEY = '__tunebreak__';
+
+function stepLabel(dataset, resonatorId, key) {
+    if (key === ECHO_STEP_KEY) return 'Echo Skill';
+    if (key === TUNE_BREAK_STEP_KEY) return 'Tune Break';
+    const label = dataset?.autoSkillMap?.[String(resonatorId)]?.[key]?.label;
+    return label ?? key.replace(/_/g, ' ');
+}
+
 // The inspectable per-member build row (weapon · sonata · mode · stats · echoes · rotation).
-function buildInspectRow(dataset, mb, dmg) {
+function buildInspectRow(dataset, mb, dmg, resonatorId) {
     if (!mb) return '';
     const s = mb.stats ?? {};
     const echoes = (mb.echoes ?? []).map(echoChip).join(' · ');
-    const rot = (mb.rotation ?? []).map(k => k === '__echo__' ? 'Echo' : k.replace(/_/g, ' ')).join(' → ');
+    const rot = (mb.rotation ?? []).map(key => stepLabel(dataset, resonatorId, key)).join(' → ');
     const statTip = 'Resolved from the real build: base + weapon + echo mains + the real average-roll substats shown by hovering each echo below.';
     return `<div style="padding:8px 10px;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:10.5px;color:var(--dim);">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -102,7 +119,13 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
         : `<span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">SIM</span>`;
     const dpsById = Object.fromEntries((t.perMember ?? []).map(m => [m.id, m]));
     const chips = t.members.map(id => memberChip(dataset, id, id === anchorId, dpsById[id]?.dps)).join('');
-    const reason = t.reason ? `<div style="font-family:var(--font-body);font-size:10px;color:var(--faint);">${esc(t.reason)}</div>` : '';
+    // ~~The curated one-line "reason".~~ DROPPED 2026-08-14 (maintainer): it was
+    // authored per ARCHETYPE and then shown on every team carrying that
+    // archetype tag, so a line like "Denia + Aemeath Fusion Burst carries with
+    // Chisa enabler" rendered verbatim under comps containing neither Denia nor
+    // Chisa. A blurb that is wrong for most of the teams it appears under is
+    // worse than no blurb; the member chips and the numbers already say what
+    // the team is. `reason` is still carried in the meta for whoever wants it.
     // At-a-glance actual numbers (the maintainer-required transparency), plus
     // the §8a load action — the click handler lives in the host page's bind()
     // (build-editor), same delegation contract as appears-in's open-build.
@@ -130,7 +153,7 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
         <button data-act="load-team" data-members="${t.members.join(',')}" title="Load this team into the team simulator" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.8px;padding:4px 10px;border-radius:6px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">OPEN IN TEAM SIM</button>
     </div>`;
     const inspect = `<details style="margin-top:2px;"><summary style="cursor:pointer;font-family:var(--font-display);font-size:9px;letter-spacing:1px;color:var(--faint);outline:none;">INSPECT BUILDS</summary>
-        ${t.members.map(id => buildInspectRow(dataset, memberBuilds?.[String(id)], dpsById[id]?.damage)).join('')}
+        ${t.members.map(id => buildInspectRow(dataset, memberBuilds?.[String(id)], dpsById[id]?.damage, id)).join('')}
     </details>`;
     return `<div style="padding:11px 13px;border:1px solid var(--bd);border-radius:10px;background:var(--node);display:flex;flex-direction:column;gap:8px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
@@ -141,7 +164,6 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
         </div>
         ${numbers}
         <div style="display:flex;gap:8px;flex-wrap:wrap;">${chips}</div>
-        ${reason}
         ${inspect}
     </div>`;
 }

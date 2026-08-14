@@ -8,10 +8,22 @@
  * DERIVED mechanically: when a consuming Liberation arrives with a short
  * projected gauge, splice in k repetitions of the member's OWN pre-Liberation
  * cycle — the shortfall becomes real filler TIME (and real filler damage/
- * generation), not fabricated Liberation damage. Steady-state passes need no
- * padding by construction, so the ER breakpoint (`minViableEr`, computed
- * over an UNPADDED run) keeps its meaning: "the ER at which the authored
- * rotation loops clean".
+ * generation), not fabricated Liberation damage. ~~Steady-state passes need no
+ * padding by construction~~ (see below), so the ER breakpoint (`minViableEr`,
+ * computed over an UNPADDED run) keeps its meaning: "the ER at which the
+ * authored rotation loops clean".
+ *
+ * THAT "BY CONSTRUCTION" IS FALSE, and measurably so (2026-08-14). It holds only
+ * for a rotation that pays for its own Liberations. One that does NOT
+ * self-sustain arrives short on EVERY pass, is padded on every pass, and this
+ * stops being a cold-start model at all: measured on the arabwuwa
+ * Chisa/Denia/Aemeath rotations, pass 2 runs 39.64s against a clean steady state
+ * of 29.86s, and passes 2 and 3 do not even agree with each other (openers OFF,
+ * they are byte-identical). The arithmetic is right — Chisa's rotation generates
+ * 25.3 Resonance Energy against a 125 cost, because the steady-state rotation a
+ * guide publishes omits the Resonance Skill and assumes the gauge is already
+ * flowing — but the RESULT is filler forever, which is not what a reader of the
+ * word "opener" expects. `docs/OPEN-ITEMS.md` item 2c owns the decision.
  *
  * The projection mirrors team-energy.js's accumulation rule exactly
  * (castability judged before the cast's own generation; reset to 0 on cast;

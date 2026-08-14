@@ -9969,3 +9969,84 @@ per HIT, it varies per damage TYPE, which every hit already carries as
 `formulaType` — so the shape is `critRateBySkillType` alongside the existing
 `dmgBonusBySkillType`, not a new per-hit pipeline). Flamewing's Shadow is the
 worked case and is currently an over-credit.
+
+---
+
+## 2026-08-14 (alignment) — arabwuwa rotations adopted, and the "opener" measured
+
+Maintainer supplied arabwuwa's own rotations and per-pass metrics for the
+Chisa/Denia/Aemeath team. Adopting them as the templates turned the DPS gap into
+a single, measurable cause.
+
+**[Files Changed]**
+- `data/reference-rotations.json` — the three rotations replaced.
+- `src/ui/components/suggested-teams.js` — real step labels; the curated
+  one-line "reason" dropped from the card.
+- `src/core/opener.js` — a false docstring claim struck through.
+- `docs/OPEN-ITEMS.md` — items 2b (per-TYPE crit) and 2c (the opener).
+
+**[Logic Altered]**
+
+1. **The templates are arabwuwa's steady loop.** Their Rotation 2 and 3 are
+   byte-identical, so R2 is the loop; only Chisa's R1 differs. The prose→key
+   mapping is not guessable and is recorded in memory: Chisa's basics are
+   numbered 1-4 with **3 = `basic_rending_lunge`** and **4 = `basic_death_snip`**;
+   Aemeath's "Basic 3, 4" are **`skill_mech_3/4`** (her Mech chain is filed under
+   her Resonance Skill node); Denia's "Basic 4" after Intro is
+   `basic_stagecraft_form_4`, which the game's own Intro text confirms.
+
+2. **Two deliberate deviations, both to keep a tested contract.** Their Aemeath
+   rotation slots a Tune Break — `tests/tune-break.test.mjs` forbids a template
+   from slotting a MANUAL step, so it is dropped. Their Echo sits between the
+   Liberation and Basic 2, where `grant.after` needs the chain source
+   IMMEDIATELY before, so it moves one step later. Every cast is preserved and
+   the reason is written into the entry's own `source`.
+
+3. **The card stops printing a blurb that is wrong for most teams it appears
+   under.** The curated `reason` was authored per ARCHETYPE and then rendered on
+   every team carrying that tag, so "Denia + Aemeath Fusion Burst carries with
+   Chisa enabler" showed under comps containing neither. Dropped from the render;
+   still in the meta for whoever wants it. Rotation steps now render their real
+   labels instead of the raw key with underscores swapped for spaces.
+
+**[Verification Method]** — the point of the exercise:
+
+With the rotations aligned, openers OFF puts us within **1%** of arabwuwa:
+
+| | damage | time | DPS |
+| --- | --- | --- | --- |
+| openers OFF | 1.137x | 1.126x | **1.010x** |
+| openers ON | 1.274x | 1.765x | **0.722x** |
+
+So the entire visible gap on the team card is the derived opener — 50.4s of
+padding (Chisa 19.6s, Denia 29.1s, Aemeath 1.7s) against arabwuwa's whole
+cold-start cost of 1.59s.
+
+And it is not a cold start at all. Marginal per-pass, openers ON: 60.78s /
+**39.64s** / **38.71s**, against a clean steady state of 29.06 / 29.86 / 29.86.
+Passes 2 and 3 do not even agree with each other with openers on, where they are
+byte-identical with them off. `opener.js` claims "steady-state passes need no
+padding by construction"; that holds only for a rotation that pays for its own
+Liberations, and these do not — Chisa's generates 25.3 Resonance Energy against
+a 125 cost, because a published steady-state rotation omits the Resonance Skill
+and assumes the gauge is already flowing.
+
+The arithmetic is right; the consequence is filler forever. That is a design
+call, so nothing was changed beyond correcting the false claim — `OPEN-ITEMS`
+item 2c states it with the measurements and four options.
+
+`npm test` 72/72 · `npm run sweep` 68/0 · `npm run lint` 0 errors. Data and meta
+regenerated.
+
+**[Residual Risks]**
+- Dropping the Tune Break costs real damage against arabwuwa's rotation. It is a
+  contract decision, not a modelling one, and the maintainer may want it back.
+- Damage is 1.137x and time 1.126x — both ~13% high, and they cancel into a
+  1.010x DPS. Two errors cancelling is not the same as two correct numbers, and
+  neither has been chased.
+- The meta card still reads 57,837 DPS against arabwuwa's 82,693, because the
+  meta ranks on the openers-ON run. That number will not move until item 2c is
+  decided.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` items 2b and 2c; `opener.js` header.
+Memory: `arabwuwa-reference-rotations`.
