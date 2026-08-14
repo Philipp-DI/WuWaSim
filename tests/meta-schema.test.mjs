@@ -78,16 +78,31 @@ for (const [id, c] of Object.entries(meta.characters)) {
             assert(`teams[${anchor}]: score in [0,1]`, typeof t.score === 'number' && t.score >= 0 && t.score <= 1);
             assert(`teams[${anchor}]: erOverride covers every member`, t.erOverride && t.members.every(m => t.erOverride[String(m)] && typeof t.erOverride[String(m)].recommended === 'number'));
             assert(`teams[${anchor}]: roles aligns with members`, Array.isArray(t.roles) && t.roles.length === 3);
-            // Transparency fields — a single no-derived-opener pass, game time
-            // (team-rank.js's displayRun, not the openers-ON ranking sim).
+            // Transparency fields — the AVERAGE PASS of the openers-ON
+            // multi-pass run, which is also what `score` ranks on.
             assert(`teams[${anchor}]: teamDamage > 0`, typeof t.teamDamage === 'number' && t.teamDamage > 0);
             assert(`teams[${anchor}]: teamTime > 0`, typeof t.teamTime === 'number' && t.teamTime > 0);
             assert(`teams[${anchor}]: teamDps > 0`, typeof t.teamDps === 'number' && t.teamDps > 0);
             assert(`teams[${anchor}]: perMember covers every member`, Array.isArray(t.perMember) && t.perMember.length === 3 && t.members.every(m => t.perMember.some(p => p.id === m)));
-            // rankingDamage is the ranking sim's internal-only signal (feeds
-            // `score` above) — it must never leak into the persisted/displayed
-            // meta shape.
-            assert(`teams[${anchor}]: rankingDamage is not persisted (ranking-only, never displayed)`, !('rankingDamage' in t));
+            // The passes behind the average, so the card can show its working.
+            assert(`teams[${anchor}]: passes carries one entry per pass`,
+                Array.isArray(t.passes) && t.passes.length === 3
+                && t.passes.every(p => typeof p.damage === 'number' && typeof p.time === 'number'));
+            // rankingDamage was the SECOND measurement — the bar's, separate
+            // from the card's. There is only one now, and it must stay that way.
+            assert(`teams[${anchor}]: rankingDamage is gone (one measurement, not two)`, !('rankingDamage' in t));
+        }
+        // THE BAR IS THE DPS. `score` normalizes teamDps against the best team
+        // on the page, so ordering by score and ordering by the displayed DPS
+        // are the same ordering. A card showing a higher DPS at a lower
+        // percentage is the exact defect this replaced, and it is now
+        // structurally impossible rather than merely unlikely.
+        {
+            const ranked = teams.filter(t => !t.curated);
+            for (let i = 1; i < ranked.length; i++) {
+                assert(`teams[${anchor}]: DPS never rises as the bar falls (${ranked[i - 1].teamDps} → ${ranked[i].teamDps})`,
+                    ranked[i].teamDps <= ranked[i - 1].teamDps + 1);
+            }
         }
         // curated team pinned first
         assert(`teams[${anchor}]: any curated team is pinned ahead of non-curated`,

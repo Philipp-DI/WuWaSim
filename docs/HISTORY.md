@@ -9702,3 +9702,103 @@ formula, the Tune Break Boost attribute and its base, the group key); the
 existing "A magnitude is only flat if `CalculationPolicy` says so" row is
 amended from "credited nowhere" to "carry the policy". `tune-break.js`'s header
 keeps its wrong claim under strikethrough with the correction beneath it.
+
+---
+
+## 2026-08-14 (later) — Four spot-check findings: a per-grant recipient, a two-sim card, and a fictional opener
+
+A maintainer spot-check of the running app found four issues. Three were real
+defects; the fourth was a transparency gap. All four are fixed here.
+
+**[Files Changed]**
+- `tools/extract/extract_external_buffs.py` — `FORMATION_TEAM_POLICIES`.
+- `src/core/buffs/buff-windows.js` — emit `teamWide` even when false.
+- `src/core/buffs/conditional-buffs.js` — per-source provenance on the transfer.
+- `src/core/team-sim.js` — `breakdown` on the transfer display entries.
+- `src/ui/components/team-editor-v2.js` — render the breakdown in the tooltip.
+- `tools/optimize/team-rank.js`, `tools/optimize.mjs`,
+  `src/ui/components/suggested-teams.js` — one sim, averaged per pass; opener
+  credibility filter.
+- `tests/team-rank.test.mjs`, `tests/meta-schema.test.mjs`,
+  `tests/suggested-teams.test.mjs`; `CLAUDE.md` (4 invariants).
+
+**[Logic Altered]**
+
+1. **`FormationPolicy` is an ENUM, and the extractor accepted one of its two
+   team values.** The client branches on each value in a different component:
+   **1** `ShareApplyBuffInner` copies the buff to every other team member; **5**
+   `AddBuffInner` routes the add to the FORMATION buff component (216) instead
+   of the character's own; **2/3** are the swap-inheritance lane
+   (`RoleInheritComponent`), already modelled as `recipient: 'incoming'`.
+   Accepting only 1 read exactly ONE of the sixteen team-wide sonata grants.
+
+2. **A recipient is per GRANT, so `false` has to be said out loud.** team-sim
+   reads `window.teamWide ?? isTeamWideBuff(window.raw)`, so an ABSENT flag
+   means "ask the text" — and that fallback is per-TIER, `raw` being the whole
+   tier sentence. Flaming Clawprint's 5-piece grants the team 15% Fusion Bonus
+   **and the caster** 20% Liberation Bonus; both halves read team-wide, so the
+   caster's own buff was handed to the whole team. A data-derived buff now emits
+   the flag even when false. NOTE these two fixes are a PAIR: the data fix alone
+   would still have been overridden by the text, and the engine fix alone would
+   have had nothing but `false` to read.
+
+3. **The suggested-teams bar and its numbers were two different sims.** `score`
+   was the openers-ON 3-pass total damage; the card showed a no-opener single
+   pass. Each is defensible, the pairing is not — the pool shipped a 90% card
+   out-DPSing a 95% one. Per maintainer direction: one sim (openers ON,
+   multi-pass), reported as the AVERAGE of its passes rather than a cumulative
+   total, with `score` normalizing `teamDps` — the figure the card headlines.
+   Per-pass figures are MARGINALS (N-total − (N−1)-total), not per-segment sums,
+   because lanes that accrue post-hoc over the whole timeline (negative-status
+   DoT, kit afflictions) belong to no segment and would silently fall out.
+
+4. **A derived opener can be fiction, and a team of only those is dropped.** The
+   opener is derived, not curated, and for some kits derives absurdity — Jiyan
+   189–211s of filler to charge his first Liberation, Encore 114–144s. The
+   existing `gatedLibs` signal cannot find them: it reads 0 on all 416 shipped
+   teams. The bound is relative and needs no invented constant — a credible
+   opener costs no more than ONE ROTATION of the team it opens — and a team
+   where no member clears it is not suggested. Curated teams are exempt and
+   flagged instead; silently dropping a maintainer-asserted comp would hide the
+   finding rather than report it.
+
+5. **The incoming-transfer strip shows its addends.** "+37% Fusion DMG" is two
+   unrelated pieces of gear; the tooltip now reads "Chromatic Foam (5pc) +25% ·
+   Reminiscence: Denia (Echo) +12%". The text-parsed branch recovers its addends
+   by DIFFING the bundle either side of `extractClause`, which cannot disagree
+   with what was actually added. Display-only — the damage model reads buckets.
+
+**[Verification Method]**
+- Flaming Clawprint end-to-end: `+15% Fusion DMG teamWide=true`, `+20%
+  Resonance Liberation DMG teamWide=false` — the tooltip's own split.
+- Transfer breakdown end-to-end: `dmgByElement {2: 0.37}` with sources
+  `Reminiscence: Denia (Echo) 12%` + `Chromatic Foam (5pc) 25%`.
+- `tests/meta-schema.test.mjs` now asserts DPS never rises as the bar falls,
+  across every anchor. Measured over the regenerated meta: **0 violations on all
+  52 anchors** (the shipped pool had them).
+- `tests/team-rank.test.mjs` recomputes the openers-ON 3-pass run directly and
+  requires the averages to match, the marginals to sum to the total, and pass 1
+  to be the longest (it carries the cold start).
+- Meta regenerated: 141 team slots changed; the dropped comps are the
+  pathological ones (Sanhua/Jianxin/Encore, Youhu/Mortefi/Jiyan). All 52 anchors
+  keep 8 suggestions; 0 curated teams needed the exemption.
+- `npm test` 72/72 · `npm run sweep` 68/0 · `npm run lint` 0 errors.
+
+**[Residual Risks]**
+- The averaged `teamTime` (≈39–46s/pass) describes no individual pass, because
+  pass 1 carries the opener and passes 2–3 do not. The P1/P2/P3 strip exists to
+  show that spread, but a reader who ignores it will over-read the average.
+- Ranking on DPS rather than total damage favours shorter rotations. Harmless at
+  the current spread (all comps run 36–47s/pass), but a future burst comp could
+  exploit it.
+- `sonataConditionalContribution` (crit / amplify / DEF-ignore) is still
+  ENTIRELY text-driven and does NOT read the per-grant data — so the same
+  per-tier team-wide fallacy fixed here in the window path still exists in that
+  lane. It is the next lane to migrate, and it is the honest answer to "is the
+  sonata pipeline robust yet": the window path now is, that one is not.
+- Weapon and echo grants route per-grant already (`foldExternalGrants`), but
+  weapon team-wide-ness reads `TriggerPreset[0]`, a different mechanism from
+  `FormationPolicy` — not re-verified against the client in this session.
+
+**[Updated Docs]** `CLAUDE.md` gains four invariants; the ~~two-sim card~~ and
+~~`FormationPolicy` 1~~ claims are struck through with the correction beneath.

@@ -113,17 +113,20 @@ function runTeamPass(dataset) {
             modes: rankedTeam.modes ?? {},
             erOverride: rankedTeam.erOverride,
             // Transparent numbers for the build page's Suggested Teams card —
-            // 2026-08-04: a single clean pass, no derived opener, game time
-            // (team-rank.js's displayRun — "one rotation, carry plays last").
-            // These are DELIBERATELY not the openers-ON multi-pass ranking
-            // sim (rankingDamage, dropped here — score above already carries
-            // its signal); `opener` below still reports what that ranking
-            // sim's cold start cost, as reference detail only.
+            // 2026-08-14: the AVERAGE PASS of the openers-ON multi-pass run,
+            // which is also what `score` above ranks on (team-rank.js). One sim,
+            // one measurement: the bar can no longer disagree with the numbers
+            // beside it. `passes` carries the three marginals behind the
+            // average, and `opener` what the cold start cost each member.
             teamDamage: Math.round(rankedTeam.teamDamage ?? 0),
             teamTime: Number((rankedTeam.teamTime ?? 0).toFixed(2)),
             teamDps: Math.round(rankedTeam.teamDps ?? 0),
+            passes: rankedTeam.passes ?? [],
             perMember: (rankedTeam.perMember ?? []).map(member => ({ id: member.id, damage: Math.round(member.damage), dps: Math.round(member.dps) })),
             ...(rankedTeam.opener && Object.keys(rankedTeam.opener).length ? { opener: rankedTeam.opener } : {}),
+            // Only false can reach here for a CURATED team (rankTeams drops any
+            // other team that fails), so it is a flag on the card, not a filter.
+            ...(rankedTeam.openerCredible === false ? { openerCredible: false } : {}),
         }));
     }
     // Reverse index: for each member, which suggested teams include them.

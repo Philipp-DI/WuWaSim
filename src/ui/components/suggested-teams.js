@@ -94,6 +94,9 @@ function buildInspectRow(dataset, mb, dmg) {
 
 function teamRow(dataset, anchorId, t, memberBuilds) {
     const pct = Math.max(3, Math.round((t.score ?? 0) * 100));
+    // The bar IS the DPS beside it, relative to the best team on this page —
+    // one measurement, so a longer bar always means a higher DPS.
+    const barTip = `${pct}% of the best suggested team's DPS (${fmtN(t.teamDps)} DPS, averaged per pass)`;
     const badge = t.curated
         ? `<span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--gold);border:1px solid color-mix(in srgb, var(--gold) 50%, transparent);border-radius:5px;padding:1px 6px;white-space:nowrap;">META · ${esc(t.archetype ?? 'Curated')}</span>`
         : `<span style="font-family:var(--font-display);font-size:8px;letter-spacing:1px;color:var(--faint);">SIM</span>`;
@@ -103,10 +106,26 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
     // At-a-glance actual numbers (the maintainer-required transparency), plus
     // the §8a load action — the click handler lives in the host page's bind()
     // (build-editor), same delegation contract as appears-in's open-build.
-    const numbers = `<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:var(--font-display);">
-        <span style="font-size:13px;color:var(--txt);font-weight:700;">${fmtN(t.teamDamage)}<span style="font-size:9px;color:var(--faint);font-weight:400;"> dmg</span></span>
-        <span style="font-size:13px;color:var(--txt);">${(t.teamTime ?? 0).toFixed(1)}<span style="font-size:9px;color:var(--faint);">s</span></span>
+    // The headline is ONE PASS's worth, averaged over the three the sim ran —
+    // the same measurement the bar above is scored on, so the two can never
+    // disagree. `passes` shows the three it averaged, because an average with
+    // no visible spread is just another opaque number: pass 1 carries the cold
+    // start, passes 2-3 the settled loop, and the gap between them is the most
+    // useful thing on the card.
+    const passTip = (t.passes ?? []).length
+        ? `Average of ${t.passes.length} passes · ` + t.passes
+            .map(p => `pass ${p.pass}: ${fmtN(p.damage)} in ${(p.time ?? 0).toFixed(1)}s (${fmtN(p.dps)} DPS)`)
+            .join(' · ')
+        : 'Single pass';
+    const passStrip = (t.passes ?? []).length > 1
+        ? `<div style="display:flex;gap:6px;flex-wrap:wrap;font-family:var(--font-display);font-size:9px;color:var(--faint);" title="${esc(passTip)}">
+            ${t.passes.map(p => `<span style="border:1px solid var(--bd);border-radius:4px;padding:1px 5px;">P${p.pass} <span style="color:var(--dim);">${fmtN(p.dps)}</span></span>`).join('')}
+        </div>` : '';
+    const numbers = `<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-family:var(--font-display);" title="${esc(passTip)}">
+        <span style="font-size:13px;color:var(--txt);font-weight:700;">${fmtN(t.teamDamage)}<span style="font-size:9px;color:var(--faint);font-weight:400;"> dmg/pass</span></span>
+        <span style="font-size:13px;color:var(--txt);">${(t.teamTime ?? 0).toFixed(1)}<span style="font-size:9px;color:var(--faint);">s/pass</span></span>
         <span style="font-size:13px;color:var(--acc);">${fmtN(t.teamDps)}<span style="font-size:9px;color:var(--faint);"> DPS</span></span>
+        ${passStrip}
         <span style="flex:1;"></span>
         <button data-act="load-team" data-members="${t.members.join(',')}" title="Load this team into the team simulator" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.8px;padding:4px 10px;border-radius:6px;cursor:pointer;background:var(--acc);border:none;color:var(--on-acc);">OPEN IN TEAM SIM</button>
     </div>`;
@@ -116,8 +135,9 @@ function teamRow(dataset, anchorId, t, memberBuilds) {
     return `<div style="padding:11px 13px;border:1px solid var(--bd);border-radius:10px;background:var(--node);display:flex;flex-direction:column;gap:8px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
             ${badge}
-            <div style="flex:1;height:6px;border-radius:4px;background:var(--inp);overflow:hidden;"><div style="width:${pct}%;height:100%;background:${t.curated ? 'var(--gold)' : 'var(--acc)'};"></div></div>
-            <span style="font-family:var(--font-display);font-size:9px;color:var(--dim);min-width:30px;text-align:right;">${pct}%</span>
+            <div style="flex:1;height:6px;border-radius:4px;background:var(--inp);overflow:hidden;" title="${esc(barTip)}"><div style="width:${pct}%;height:100%;background:${t.curated ? 'var(--gold)' : 'var(--acc)'};"></div></div>
+            <span style="font-family:var(--font-display);font-size:9px;color:var(--dim);min-width:30px;text-align:right;" title="${esc(barTip)}">${pct}%</span>
+            ${t.openerCredible === false ? `<span title="No member can charge their first Liberation in less than one rotation, so this team's cold start is not credible. Kept because it is a curated META comp." style="font-family:var(--font-display);font-size:8px;color:var(--gold);">⚠ opener</span>` : ''}
         </div>
         ${numbers}
         <div style="display:flex;gap:8px;flex-wrap:wrap;">${chips}</div>

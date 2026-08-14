@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-14T13:05:04+00:00",
+ "generatedAt": "2026-08-14T15:05:10+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -7270,7 +7270,7 @@
       "scope": null,
       "attribute": 114,
       "value": 0.2,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110034015,
       "attributeName": "Proto_DamageChangePhantom"
      }
@@ -7292,7 +7292,7 @@
       "scope": null,
       "attribute": 114,
       "value": 0.25,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110034025,
       "attributeName": "Proto_DamageChangePhantom"
      }
@@ -7314,7 +7314,7 @@
       "scope": null,
       "attribute": 114,
       "value": 0.3,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110034035,
       "attributeName": "Proto_DamageChangePhantom"
      }
@@ -7336,7 +7336,7 @@
       "scope": null,
       "attribute": 114,
       "value": 0.35,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110034045,
       "attributeName": "Proto_DamageChangePhantom"
      }
@@ -7358,7 +7358,7 @@
       "scope": null,
       "attribute": 114,
       "value": 0.4,
-      "teamWide": false,
+      "teamWide": true,
       "buffId": 110034055,
       "attributeName": "Proto_DamageChangePhantom"
      }
@@ -10590,7 +10590,7 @@
        "scope": null,
        "attribute": 25,
        "value": 0.15,
-       "teamWide": false,
+       "teamWide": true,
        "buffId": 31000016003,
        "attributeName": "Proto_DamageChangeElement4",
        "triggerType": "BuffInstigatorTrigger"
@@ -10651,7 +10651,7 @@
        "scope": null,
        "attribute": 23,
        "value": 0.15,
-       "teamWide": false,
+       "teamWide": true,
        "buffId": 31000018002,
        "attributeName": "Proto_DamageChangeElement2",
        "triggerType": null
@@ -10774,7 +10774,7 @@
        "scope": null,
        "attribute": 114,
        "value": 0.04,
-       "teamWide": false,
+       "teamWide": true,
        "buffId": 31000021023,
        "attributeName": "Proto_DamageChangePhantom",
        "triggerType": "VisionTrigger"
@@ -10954,7 +10954,7 @@
         100,
         2500
        ],
-       "teamWide": false,
+       "teamWide": true,
        "buffId": 31000025017,
        "attributeName": "Proto_Atk",
        "triggerType": "DamageTrigger"
@@ -11186,7 +11186,7 @@
        "scope": null,
        "attribute": 142,
        "value": 0.002,
-       "teamWide": false,
+       "teamWide": true,
        "buffId": 31000031002,
        "attributeName": "Proto_WeaknessMastery",
        "triggerType": "BuffInstigatorTrigger"
@@ -11284,7 +11284,7 @@
         100,
         2500
        ],
-       "teamWide": false,
+       "teamWide": true,
        "buffId": 31000033005,
        "attributeName": "Proto_Atk",
        "triggerType": "BuffInstigatorTrigger"

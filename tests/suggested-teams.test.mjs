@@ -31,7 +31,15 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // Transparency: actual team numbers visible at a glance.
     assert('shows team DMG number', /[\d,]+<span[^>]*> dmg/.test(html));
     assert('shows DPS', html.includes('DPS'));
-    assert('shows sim time (s)', />s<\/span>/.test(html));
+    // The headline is one pass's worth, and says so — a bare "27.9s" next to a
+    // 3-pass average invites the reader to compare it to a rotation it is not.
+    assert('shows sim time, labelled per pass', />s\/pass<\/span>/.test(html));
+    assert('labels the damage per pass too', html.includes(' dmg/pass'));
+    // …and shows the three passes it averaged. An average with no visible
+    // spread hides the thing worth seeing: pass 1 carries the cold start.
+    assert('shows the per-pass strip behind the average', /&gt;P1 |>P1 /.test(html));
+    assert('the bar says what it is a percentage OF',
+        html.includes("of the best suggested team&#39;s DPS") || html.includes("of the best suggested team's DPS"));
     // Inspectable builds: weapon + sonata + rotation behind the number.
     assert('has an INSPECT BUILDS expander', html.includes('INSPECT BUILDS'));
     assert('shows Hiyuki\'s weapon (Frostburn)', html.includes('Frostburn'));

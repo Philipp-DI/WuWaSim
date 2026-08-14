@@ -413,6 +413,16 @@ const ECHO_STEP_KEY = '__echo__';
 
 export function incomingResonatorContribution(build, dataset, resonator, derivedSources = {}) {
     const out = emptyContribution();
+    // WHERE EACH PIECE CAME FROM. The buckets below are sums, and a receiver
+    // routinely gets one element bonus from two unrelated places — Chromatic
+    // Foam's 25% Fusion and a Reminiscence: Denia echo's 12% arrive as a single
+    // "+37% Fusion DMG" with nothing to say which set to credit or which piece
+    // to swap. `sources` keeps the addends next to the sum; it is display-only
+    // and never read by the damage model, which reads the buckets.
+    const sources = [];
+    const credit = (label, bucket, key, value) => {
+        if (value > 0) sources.push({ label, bucket, key, value });
+    };
 
     // The equipped ECHO can hand the incoming resonator a buff too, and four do
     // — Glommoth and Reminiscence: Denia (12% element DMG Bonus), Hyvatia (10%
@@ -430,15 +440,20 @@ export function incomingResonatorContribution(build, dataset, resonator, derived
     const incomingBuff = echoDef?.activeSkill?.incomingBuff;
     if (incomingBuff && (build?.rotation ?? []).includes(ECHO_STEP_KEY)) {
         const value = Number(incomingBuff.value) || 0;
-        if (incomingBuff.bucket === 'atkRatio') out.atkRatio += value;
-        else if (incomingBuff.bucket === 'dmgAll') {
+        const label = `${echoDef.name} (Echo)`;
+        if (incomingBuff.bucket === 'atkRatio') {
+            out.atkRatio += value;
+            credit(label, 'atkRatio', null, value);
+        } else if (incomingBuff.bucket === 'dmgAll') {
             // Scoped to nothing, so every element reads it.
             for (let element = 1; element <= 6; element++) {
                 out.dmgByElement[element] = (out.dmgByElement[element] ?? 0) + value;
+                credit(label, 'dmgByElement', element, value);
             }
         } else if (incomingBuff.bucket === 'dmgElement' && incomingBuff.elementId != null) {
             out.dmgByElement[incomingBuff.elementId] =
                 (out.dmgByElement[incomingBuff.elementId] ?? 0) + value;
+            credit(label, 'dmgByElement', incomingBuff.elementId, value);
         }
     }
 
@@ -466,16 +481,18 @@ export function incomingResonatorContribution(build, dataset, resonator, derived
                 .filter(grant => grant.recipient === 'incoming');
             if (incoming.length) {
                 const folded = foldExternalGrants(incoming, undefined, derivedSources);
-                out.atkRatio += folded.atkRatio;
-                out.critRate += folded.critRate;
-                out.critDmg += folded.critDmg;
-                out.energyRegen += folded.energyRegen;
-                out.amplifyAll += folded.amplifyAll;
+                const label = `${sonata.name} (${tier.pieces}pc)`;
+                for (const bucket of ['atkRatio', 'critRate', 'critDmg', 'energyRegen', 'amplifyAll']) {
+                    out[bucket] += folded[bucket];
+                    credit(label, bucket, null, folded[bucket]);
+                }
                 for (const [element, value] of Object.entries(folded.dmgByElement)) {
                     out.dmgByElement[element] = (out.dmgByElement[element] ?? 0) + value;
+                    credit(label, 'dmgByElement', Number(element), value);
                 }
                 for (const [type, value] of Object.entries(folded.dmgBySkillType)) {
                     out.dmgBySkillType[type] = (out.dmgBySkillType[type] ?? 0) + value;
+                    credit(label, 'dmgBySkillType', type, value);
                 }
                 continue;   // this tier is answered — do not also read the text
             }
@@ -483,9 +500,43 @@ export function incomingResonatorContribution(build, dataset, resonator, derived
             const text = String(tier.effect ?? '').replace(/\bCrit\.\s*/gi, 'Crit ');
             for (const sentence of text.split(/(?<=[.!])\s+/)) {
                 if (!/\b(incoming|next)\s+resonator\b/i.test(sentence)) continue;
-                extractClause(sentence, 1, out);   // pull the granted stat into the bundle
+                // The text path writes straight into `out`, so the addends are
+                // recovered by DIFFING the bundle either side of the call —
+                // cheaper and less error-prone than teaching extractClause to
+                // report, and it cannot disagree with what was actually added.
+                const before = bucketSnapshot(out);
+                extractClause(sentence, 1, out);
+                for (const [bucket, key, value] of bucketDelta(before, out)) {
+                    credit(`${sonata.name} (${tier.pieces}pc)`, bucket, key, value);
+                }
             }
         }
+    }
+    out.sources = sources;
+    return out;
+}
+
+// Flat {bucket, key} → value view of the buckets an incoming transfer can fill.
+const TRANSFER_SCALARS = ['atkRatio', 'critRate', 'critDmg', 'energyRegen', 'amplifyAll'];
+const TRANSFER_MAPS = ['dmgByElement', 'dmgBySkillType'];
+
+function bucketSnapshot(bundle) {
+    const out = new Map();
+    for (const bucket of TRANSFER_SCALARS) out.set(`${bucket}|`, bundle[bucket] ?? 0);
+    for (const bucket of TRANSFER_MAPS) {
+        for (const [key, value] of Object.entries(bundle[bucket] ?? {})) out.set(`${bucket}|${key}`, value);
+    }
+    return out;
+}
+
+function bucketDelta(before, bundle) {
+    const out = [];
+    const after = bucketSnapshot(bundle);
+    for (const [id, value] of after) {
+        const gained = value - (before.get(id) ?? 0);
+        if (gained <= 0) continue;
+        const [bucket, key] = id.split('|');
+        out.push([bucket, key === '' ? null : (bucket === 'dmgByElement' ? Number(key) : key), gained]);
     }
     return out;
 }

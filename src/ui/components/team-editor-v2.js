@@ -540,6 +540,10 @@ function buffStripsFor(windows, { sourceName = null } = {}) {
         for (const run of runs) {
             const stackBands = stacking ? stackBandsFromSamples(run.samples, run.start, run.end) : null;
             const durLabel = `${(run.end - run.start).toFixed(1)}s`;
+            // A summed strip carries its addends (team-sim.js incomingDisplayEntries)
+            // so the tooltip can name the gear behind each part of the total.
+            const breakdown = (w.breakdown ?? [])
+                .map(part => `${part.label} +${fmtPctTrim(part.value * 100)}%`).join(" · ");
             strips.push({
                 name,
                 start: run.start,
@@ -549,7 +553,8 @@ function buffStripsFor(windows, { sourceName = null } = {}) {
                 dmgType: w.bonusKind === 'atk' ? null : (w.dmgType ?? null),
                 // sourceName present → team-wide strip: name the granting member.
                 tipTitle: sourceName ? `${sourceName} · ${w.sonataName} — ${name}` : `${w.sonataName} — ${name}`,
-                tipDesc: stacking ? `×${w.maxStacks} stacks · ${durLabel}` : durLabel,
+                tipDesc: [stacking ? `×${w.maxStacks} stacks · ${durLabel}` : durLabel, breakdown]
+                    .filter(Boolean).join("\n"),
             });
         }
     }

@@ -78,12 +78,34 @@ SPECIAL_DAMAGE_CHANGE = 95
 # team across the weapon roster.
 TEAM_TRIGGER_FLAG = '1'
 
-# A buff row's `FormationPolicy` 1 marks a grant handed to the whole FORMATION
-# (the team) rather than to its holder. It is how the sonata sets say it, where
-# weapons use the passive's TriggerPreset: Rejuvenating Glow's ATK buff carries
-# it, and its passive is described 声骸套装-触发治疗时给队友加攻击力 —
-# "echo set: on healing, give TEAMMATES ATK".
-FORMATION_TEAM = 1
+# `FormationPolicy` is an ENUM, not a flag, and the client branches on each value
+# in a different component. Two of them mean "the whole team gets this":
+#
+#   1  RoleBuffComponent.ShareApplyBuffInner — `1 === e.Config?.FormationPolicy`
+#      walks `SceneTeamModel.GetTeamEntities()` and calls `AddBuffLocal` on every
+#      member that is not the holder. The holder keeps their own copy, the others
+#      receive one. Rejuvenating Glow's ATK buff is this, and its passive is
+#      described 声骸套装-触发治疗时给队友加攻击力 — "echo set: on healing, give
+#      TEAMMATES ATK".
+#   5  RoleBuffComponent.AddBuffInner — `5 === t.FormationPolicy` routes the add
+#      to `GetFormationBuffComp()` (component 216) INSTEAD of the character's own
+#      buff component, so the buff is held by the FORMATION. Every read of it in
+#      the file pairs with the same branch (RemoveBuffLocal, RemoveBuffOrder,
+#      GetBuffApplyTarget), so this is a whole-team buff by construction.
+#
+# 2 and 3 are NOT team-wide: `RoleInheritComponent.StateInherit` re-adds those to
+# the INCOMING role on a swap (3 also removes the outgoing copy) — the swap
+# inheritance lane, which the engine models separately as `recipient: 'incoming'`.
+#
+# WHY THIS MATTERS. Accepting only 1 read exactly ONE of the sixteen team-wide
+# sonata grants; the other fifteen are policy 5. With the flag missing, the
+# engine fell back to a per-TIER text check, and a tier that grants one thing to
+# the team and another to the caster ("Casting Resonance Liberation grants all
+# Resonators in the team 15% Fusion DMG Bonus and THE CASTER 20% Resonance
+# Liberation DMG Bonus" — Flaming Clawprint) handed both halves to everyone.
+FORMATION_TEAM_POLICIES = (1, 5)
+# Swap inheritance, listed so a future reader does not mistake them for team-wide.
+FORMATION_INHERIT_ON_SWAP = (2, 3)
 
 # `AddBuffTrigger` parameters, from the client's own InitParameters:
 #   [EventType, TargetType, '#'-joined BuffIds, InstigatorType?]
@@ -235,7 +257,7 @@ class Resolver:
             if grant is not None:
                 found[(buff_id, team_wide)] = dict(
                     grant,
-                    teamWide=team_wide or row.get('FormationPolicy') == FORMATION_TEAM,
+                    teamWide=team_wide or row.get('FormationPolicy') in FORMATION_TEAM_POLICIES,
                 )
 
             effect = row.get('ExtraEffectID')

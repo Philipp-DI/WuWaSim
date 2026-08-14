@@ -263,16 +263,16 @@ export function representativeMemberBuild(resonator, dataset) {
 /**
  * Score one candidate team (array of resonator ids) via the team sim.
  *
- * teamDamage/teamTime(gameTime)/teamDps/teamHeal/teamShield/perMember come
- * from a single no-derived-opener pass (displayRun) — what the build page's
- * Suggested Teams card shows. rankingDamage is the separate openers-ON,
- * multi-pass sim used only to ORDER candidates (rankTeams' score); it is not
- * displayed anywhere.
+ * teamDamage/teamTime(gameTime)/teamDps/teamHeal/teamShield/perMember are the
+ * AVERAGE OF THE THREE PASSES of the openers-ON multi-pass run — one number, one
+ * sim, and the same one `rankTeams` scores the bar on. `passes` carries the
+ * three marginals behind that average so the card can show its working.
  *
  * @returns {{ members:number[], teamDamage:number, teamTime:number, teamDps:number,
- *             teamHeal:number, teamShield:number, rankingDamage:number,
+ *             teamHeal:number, teamShield:number,
+ *             passes:Array<{pass,damage,time,dps}>, openerCredible:boolean,
  *             perMember:Array, erOverride:object,
- *             opener:Object<id,{addedTime,gatedLibs}> }}   // ranking sim's cold-start honesty detail
+ *             opener:Object<id,{addedTime,gatedLibs}> }}   // cold-start honesty detail
  *          or null when a member can't be built (missing rotation).
  */
 export function scoreTeam(memberIds, dataset, target = TARGET) {
@@ -298,31 +298,58 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
         team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target,
         passCount: ENERGY_PASSES, deriveOpeners: true,
     });
-    const rankingDamage = result.totals?.damage ?? 0;
-
-    // Display sim (2026-08-04): the build page's Suggested Teams card shows
-    // "a representative-build single-enemy sim (one rotation, carry plays
-    // last)" — a single clean pass with no derived opener (default
-    // deriveOpeners: false, passCount: 1) and game time (default timingMode
-    // 'toa'), matching the build page's own ROTATION section. The ranking
-    // sim above answers a different question ("which team is honestly best,
-    // cold start included") and must keep doing so unmixed; this one answers
-    // "what does this team actually do," which is what teamDamage/teamTime/
-    // teamDps/perMember below report.
-    const displayRun = simulateTeamRotation({
-        team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target,
+    // ── ONE SIM FAMILY, AVERAGED PER PASS (2026-08-14, maintainer-directed) ──
+    //
+    // ~~A separate no-opener single-pass `displayRun` produced the card's
+    // numbers while `rankingDamage` produced its bar.~~ Two sims meant the bar
+    // and the numbers could disagree in both directions, and they did: a card
+    // reading 90% could out-DPS one reading 95%, which reads as a broken
+    // calculator no matter how defensible each half is on its own.
+    //
+    // Now everything the card shows comes from THIS run, reported as the
+    // AVERAGE of its passes rather than the cumulative total — a 3-pass sum is
+    // not a number anyone can compare to a rotation they know. Averaging is
+    // also what makes the multi-pass worth running: a buff that only pays from
+    // pass 2 (a 35s sonata window, a carried gauge) is valued, while the
+    // cold-start cost stays in the average instead of being dropped.
+    //
+    // PER-PASS FIGURES ARE MARGINALS — the N-pass total minus the (N−1)-pass
+    // total — not per-segment sums. Damage lanes that accrue post-hoc over the
+    // whole timeline (negative-status DoT, kit afflictions) belong to no single
+    // segment, so summing segments would silently drop them; marginals cannot,
+    // because every lane is inside both totals. They sum to the 3-pass total
+    // exactly, which `passes` below is asserted on.
+    const marginalRuns = [];
+    for (let passes = 1; passes <= ENERGY_PASSES; passes++) {
+        marginalRuns.push(passes === ENERGY_PASSES ? result : simulateTeamRotation({
+            team, resolveBuild: (id) => byId.get(id) ?? null, dataset, target,
+            passCount: passes, deriveOpeners: true,
+        }));
+    }
+    const round2 = (x) => Math.round(x * 100) / 100;
+    const passFigures = marginalRuns.map((run, index) => {
+        const previous = index > 0 ? marginalRuns[index - 1] : null;
+        const damage = (run.totals?.damage ?? 0) - (previous?.totals?.damage ?? 0);
+        const time = (run.totals?.gameTime ?? 0) - (previous?.totals?.gameTime ?? 0);
+        return { pass: index + 1, damage: Math.round(damage), time: round2(time),
+                 dps: time > 0 ? Math.round(damage / time) : 0 };
     });
-    const teamTime = displayRun.totals?.gameTime ?? 0;
-    const perMember = (displayRun.memberTotals ?? []).map(member => {
-        const dmg = member.damage + (member.introDamage ?? 0);
+
+    const totalDamage = result.totals?.damage ?? 0;
+    const totalTime = result.totals?.gameTime ?? 0;
+    // The headline: one pass's worth. DPS is total/total, which is identical to
+    // average/average — the ratio does not care that both were divided by 3.
+    const teamTime = totalTime / ENERGY_PASSES;
+    const perMember = (result.memberTotals ?? []).map(member => {
+        const dmg = (member.damage + (member.introDamage ?? 0)) / ENERGY_PASSES;
         return {
             id: member.resonatorId,
             damage: dmg,
             dps: teamTime > 0 ? dmg / teamTime : 0,   // share of team DPS (same window)
-            offFieldDmg: member.offFieldDmg ?? 0,
-            statusDmg: member.statusDmg ?? 0,
-            heal: member.heal ?? 0,
-            shield: member.shield ?? 0,
+            offFieldDmg: (member.offFieldDmg ?? 0) / ENERGY_PASSES,
+            statusDmg: (member.statusDmg ?? 0) / ENERGY_PASSES,
+            heal: (member.heal ?? 0) / ENERGY_PASSES,
+            shield: (member.shield ?? 0) / ENERGY_PASSES,
         };
     });
     // Compact opener transparency for the meta: how much filler time the
@@ -359,14 +386,31 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
         return [String(id), { minViable: round3(minimumEr), recommended: round3(minimumEr) }];
     }));
 
+    // CAN ANYONE ON THIS TEAM ACTUALLY OPEN THE FIGHT? The opener is derived,
+    // not curated, and for some kits it derives something absurd — Jiyan needs
+    // 189–211s of filler to charge his first Liberation, Encore 114–144s. A
+    // team where EVERY member's cold start is that fictional is not a team the
+    // app should suggest, so `rankTeams` drops it.
+    //
+    // The bound is relative, and needs no invented constant: a credible opener
+    // costs no more than one rotation of the team it opens. Charging the first
+    // Liberation for longer than the whole rotation takes is a farm, not an
+    // opener. Measured over the shipped pool this keeps 330 of 416 teams and
+    // costs no anchor its suggestions — all 52 keep at least one.
+    const openerCredible = Object.values(openerByMember)
+        .some(entry => entry.addedTime <= teamTime);
+
     return {
         members: memberIds.slice(),
-        teamDamage: displayRun.totals?.damage ?? 0,
+        // Averages, not totals — see the marginal block above.
+        teamDamage: totalDamage / ENERGY_PASSES,
         teamTime,
-        teamDps: displayRun.totals?.dps ?? 0,
-        teamHeal: displayRun.totals?.heal ?? 0,
-        teamShield: displayRun.totals?.shield ?? 0,
-        rankingDamage,
+        teamDps: totalTime > 0 ? totalDamage / totalTime : 0,
+        teamHeal: (result.totals?.heal ?? 0) / ENERGY_PASSES,
+        teamShield: (result.totals?.shield ?? 0) / ENERGY_PASSES,
+        // The three runs behind that average, so the card can show its working.
+        passes: passFigures,
+        openerCredible,
         perMember,
         erOverride,
         opener: openerByMember,
@@ -428,31 +472,42 @@ export function summarizeMemberBuild(resonator, dataset) {
 }
 
 /**
- * Rank candidate teams (from team-enum.generateCandidates) by the ranking
- * sim's team damage (rankingDamage — openers ON, multi-pass), normalizing the
- * top to score 1.0. Curated teams keep their flag/reason. Deterministic:
- * stable sort with id tie-break.
+ * Rank candidate teams (from team-enum.generateCandidates) by the SAME number
+ * the card displays — average per-pass DPS — normalizing the top to score 1.0.
+ * Curated teams keep their flag/reason. Deterministic: stable sort with id
+ * tie-break.
+ *
+ * THE BAR AND THE NUMBERS ARE ONE MEASUREMENT. ~~The bar was the openers-ON
+ * multi-pass total damage while the card showed a no-opener single pass.~~ Both
+ * halves were individually defensible and the pairing was not: the pool shipped
+ * a 90% card out-DPSing a 95% one, which is indistinguishable from a broken
+ * calculator. Scoring on `teamDps` — the figure the card headlines — makes
+ * "higher DPS ⇒ longer bar" true by construction rather than by coincidence.
  *
  * @param {Array} candidates — [{ members, curated, archetype?, reason? }, …]
- * @returns {Array} ranked [{ members, score, teamDamage, teamTime, teamDps, rankingDamage, curated, archetype?, reason?, roles?, modes?, erOverride, perMember }]
+ * @returns {Array} ranked [{ members, score, teamDamage, teamTime, teamDps, passes, curated, archetype?, reason?, roles?, modes?, erOverride, perMember }]
  */
 export function rankTeams(candidates, dataset, target = TARGET) {
     const scored = [];
     for (const cand of candidates) {
         const score = scoreTeam(cand.members, dataset, target);
         if (!score) continue;
+        // No member can honestly open the fight → not a suggestable team (see
+        // scoreTeam's openerCredible). CURATED teams are exempt: they are the
+        // maintainer's assertion that the comp is real, and silently dropping
+        // one because a DERIVED opener misjudged it would hide the finding
+        // rather than report it.
+        if (!score.openerCredible && !cand.curated) continue;
         scored.push({ ...cand, ...score });
     }
-    const top = Math.max(0, ...scored.map(entry => entry.rankingDamage));
-    for (const entry of scored) entry.score = top > 0 ? entry.rankingDamage / top : 0;
+    const top = Math.max(0, ...scored.map(entry => entry.teamDps));
+    for (const entry of scored) entry.score = top > 0 ? entry.teamDps / top : 0;
     // Curated (maintainer-authoritative known-good) teams pin first — the sim
     // does not yet fully model status-synergy DAMAGE (Snow Rust tiers, incoming
     // transfers, NS DoT), so raw-damage ranking under-rates these comps. The sim
     // score then orders the enumerated alternatives (and ties among curated).
     // Matches the spec's (c)→(a): curated knowledge defines WHICH teams; the sim
-    // RANKS. `score` stays the honest sim-damage signal for the UI bar — from
-    // the openers-ON ranking sim (rankingDamage), NOT the no-opener numbers
-    // the card displays (teamDamage/teamTime/teamDps — see scoreTeam).
+    // RANKS.
     scored.sort((teamA, teamB) => {
         if (teamA.curated !== teamB.curated) return teamA.curated ? -1 : 1;
         if (teamB.score !== teamA.score) return teamB.score - teamA.score;

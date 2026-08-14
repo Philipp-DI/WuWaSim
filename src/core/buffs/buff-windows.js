@@ -371,10 +371,23 @@ export function computeBuffWindows(build, dataset, steps, enemyStatuses = null, 
             trigger: buff.triggerTypes.join('+') || 'unknown', label: shortBuffLabel(buff),
             bonusPct: buff.bonusPct, bonusKind: buff.bonusKind, element: buff.element, dmgType: buff.dmgType,
             stacks: buff.stacks, raw: buff.raw,
-            // Structurally team-wide buffs (the echo team buff) carry the flag
-            // explicitly; parsed sonata buffs are classified from raw text
-            // downstream (team-sim.js, isTeamWideBuff) as before.
-            ...(buff.teamWide ? { teamWide: true } : {}),
+            // WHO RECEIVES THIS, and why `false` has to be said out loud.
+            //
+            // team-sim.js reads `window.teamWide ?? isTeamWideBuff(window.raw)`,
+            // so an ABSENT flag means "ask the text". That fallback is per-TIER,
+            // because `raw` is the whole tier sentence — and a tier that grants
+            // one thing to the team and another to the caster has no way to say
+            // so. Flaming Clawprint is the case: "Casting Resonance Liberation
+            // grants all Resonators in the team 15% Fusion DMG Bonus and THE
+            // CASTER 20% Resonance Liberation DMG Bonus". Both halves read
+            // team-wide, and the caster's own 20% was handed to everyone.
+            //
+            // A DATA-derived buff already knows the answer per GRANT — the game
+            // marks the team half `FormationPolicy 5` and the caster's half not
+            // at all — so it must emit the flag even when it is false, or that
+            // knowledge is thrown away by the `??`. A text-parsed buff has no
+            // per-grant answer and keeps the old behaviour.
+            ...(buff.fromData || buff.teamWide ? { teamWide: !!buff.teamWide } : {}),
         };
 
         const realTriggers = buff.triggerTypes.filter(triggerType => triggerType !== 'unknown');

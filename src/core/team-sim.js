@@ -1359,24 +1359,37 @@ function incomingDisplayEntries(bundle, segStart, segEnd, sourceName) {
     const ELEMENT_NAMES = ['', 'Glacio', 'Fusion', 'Electro', 'Aero', 'Spectro', 'Havoc'];
     const DMG_TYPE_NAMES = { basic: 'Basic Attack', heavy: 'Heavy Attack', skill: 'Resonance Skill', liberation: 'Resonance Liberation', echo: 'Echo', intro: 'Intro Skill', outro: 'Outro Skill' };
     const parts = [];
-    if (bundle.atkRatio > 0) parts.push({ name: `+${pct(bundle.atkRatio)}% ATK`, bonusPct: bundle.atkRatio, bonusKind: 'atk', element: null, dmgType: null });
-    if (bundle.critRate > 0) parts.push({ name: `+${pct(bundle.critRate)}% Crit Rate`, bonusPct: bundle.critRate, bonusKind: 'crit', element: null, dmgType: null });
-    if (bundle.critDmg > 0) parts.push({ name: `+${pct(bundle.critDmg)}% Crit DMG`, bonusPct: bundle.critDmg, bonusKind: 'crit', element: null, dmgType: null });
+    if (bundle.atkRatio > 0) parts.push({ name: `+${pct(bundle.atkRatio)}% ATK`, bonusPct: bundle.atkRatio, bonusKind: 'atk', element: null, dmgType: null, bucket: 'atkRatio', bucketKey: null });
+    if (bundle.critRate > 0) parts.push({ name: `+${pct(bundle.critRate)}% Crit Rate`, bonusPct: bundle.critRate, bonusKind: 'crit', element: null, dmgType: null, bucket: 'critRate', bucketKey: null });
+    if (bundle.critDmg > 0) parts.push({ name: `+${pct(bundle.critDmg)}% Crit DMG`, bonusPct: bundle.critDmg, bonusKind: 'crit', element: null, dmgType: null, bucket: 'critDmg', bucketKey: null });
     for (const [el, value] of Object.entries(bundle.dmgByElement ?? {})) if (value > 0)
-        parts.push({ name: `+${pct(value)}% ${ELEMENT_NAMES[el] ?? '?'} DMG`, bonusPct: value, bonusKind: 'element', element: Number(el), dmgType: null });
+        parts.push({ name: `+${pct(value)}% ${ELEMENT_NAMES[el] ?? '?'} DMG`, bonusPct: value, bonusKind: 'element', element: Number(el), dmgType: null, bucket: 'dmgByElement', bucketKey: Number(el) });
     for (const [type, value] of Object.entries(bundle.dmgBySkillType ?? {})) if (value > 0)
-        parts.push({ name: `+${pct(value)}% ${DMG_TYPE_NAMES[type] ?? type} DMG`, bonusPct: value, bonusKind: 'unknown', element: null, dmgType: type });
+        parts.push({ name: `+${pct(value)}% ${DMG_TYPE_NAMES[type] ?? type} DMG`, bonusPct: value, bonusKind: 'unknown', element: null, dmgType: type, bucket: 'dmgBySkillType', bucketKey: type });
     const amp = (bundle.amplifyAll ?? 0)
         + Object.values(bundle.amplifyByElement ?? {}).reduce((sum, value) => sum + value, 0)
         + Object.values(bundle.amplifyByType ?? {}).reduce((sum, value) => sum + value, 0);
-    if (amp > 0) parts.push({ name: `+${pct(amp)}% DMG Amplify`, bonusPct: amp, bonusKind: 'amplify', element: null, dmgType: null });
-    return parts.map(part => ({
-        ...part, sourceName,
-        sonataName: `${sourceName} · Outro transfer (flat)`, trigger: 'outro',
-        maxStacks: 1, start: segStart, end: segEnd,
-        samples: [{ start: segStart, end: segEnd, stacks: 1 }],
-        teamWide: false, raw: '',
-    }));
+    if (amp > 0) parts.push({ name: `+${pct(amp)}% DMG Amplify`, bonusPct: amp, bonusKind: 'amplify', element: null, dmgType: null, bucket: 'amplifyAll', bucketKey: null });
+
+    // WHAT ADDS UP TO THAT NUMBER. A strip reading "+37% Fusion DMG" is two
+    // unrelated pieces of gear — Chromatic Foam's 25% and a Reminiscence: Denia
+    // echo's 12% — and the sum alone tells a reader neither which set earned it
+    // nor which piece to change. Only split when there IS more than one addend;
+    // a single source repeated under the headline is noise.
+    return parts.map(({ bucket, bucketKey, ...part }) => {
+        const addends = (bundle.sources ?? [])
+            .filter(source => source.bucket === bucket && source.key === bucketKey);
+        return {
+            ...part, sourceName,
+            breakdown: addends.length > 1
+                ? addends.map(source => ({ label: source.label, value: source.value }))
+                : null,
+            sonataName: `${sourceName} · Outro transfer (flat)`, trigger: 'outro',
+            maxStacks: 1, start: segStart, end: segEnd,
+            samples: [{ start: segStart, end: segEnd, stacks: 1 }],
+            teamWide: false, raw: '',
+        };
+    });
 }
 
 // Merge adjacent same-level ACTIVE samples (stacks > 0) into constant-stack

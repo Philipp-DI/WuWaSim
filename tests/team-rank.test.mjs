@@ -35,27 +35,44 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('scoreTeam returns a teamDamage', s && s.teamDamage > 0);
     assert('scoreTeam returns per-member breakdown', Array.isArray(s.perMember) && s.perMember.length === 3);
 
-    // 2026-08-04: the build page's Suggested Teams card must show a single
-    // clean pass with NO derived opener and game time ("one rotation, carry
-    // plays last") — separate from the openers-ON multi-pass sim that RANKS
-    // candidates (rankingDamage). Recompute the display numbers directly
-    // (default simulateTeamRotation params: passCount 1, deriveOpeners false,
-    // timingMode 'toa') and require an EXACT match — proves scoreTeam's
-    // teamDamage/teamTime/teamDps really are that run, not the ranking one.
+    // 2026-08-14: ONE sim, reported as the AVERAGE of its three passes.
+    // ~~The card used a single no-opener pass while the bar used a separate
+    // openers-ON multi-pass total.~~ Two measurements meant the bar could
+    // disagree with the numbers beside it, which it visibly did. Recompute the
+    // openers-ON 3-pass run directly and require the averages to match it
+    // exactly — that is the whole contract.
     {
         const members = [1108, 1109, 1508];
         const builds = members.map(id => representativeMemberBuild(d.resonators.find(r => r.id === id), d));
         const byId = new Map(builds.map(b => [b.id, b]));
         const team = { slots: builds.map(b => b.id) };
-        const displayRun = simulateTeamRotation({ team, resolveBuild: (id) => byId.get(id) ?? null, dataset: d, target: TARGET });
-        assert('scoreTeam.teamDamage matches a direct single-pass no-opener run', s.teamDamage === (displayRun.totals?.damage ?? 0));
-        assert('scoreTeam.teamTime is GAME time (gameTime), matching the direct run', s.teamTime === (displayRun.totals?.gameTime ?? 0));
-        assert('scoreTeam.teamDps matches the direct run', s.teamDps === (displayRun.totals?.dps ?? 0));
-        // rankingDamage (openers-ON, multi-pass — ranking-only, never displayed)
-        // must be a materially different, larger number than the single-pass
-        // display figure, or this whole split is a no-op.
-        assert('rankingDamage (openers-ON multi-pass) is present and exceeds the single-pass teamDamage',
-            typeof s.rankingDamage === 'number' && s.rankingDamage > s.teamDamage);
+        const rankingRun = simulateTeamRotation({ team, resolveBuild: (id) => byId.get(id) ?? null,
+            dataset: d, target: TARGET, passCount: 3, deriveOpeners: true });
+        const totalDamage = rankingRun.totals?.damage ?? 0;
+        const totalTime = rankingRun.totals?.gameTime ?? 0;
+        assert('scoreTeam.teamDamage is the openers-ON 3-pass damage, averaged per pass',
+            Math.abs(s.teamDamage - totalDamage / 3) < 1e-6);
+        assert('scoreTeam.teamTime is GAME time, averaged per pass',
+            Math.abs(s.teamTime - totalTime / 3) < 1e-6);
+        assert('scoreTeam.teamDps is total/total (identical to average/average)',
+            Math.abs(s.teamDps - totalDamage / totalTime) < 1e-6);
+        // The three marginals must ACCOUNT for the average, or the card's
+        // "show your working" strip is decoration. Marginals (N − (N−1)) are
+        // used precisely so post-hoc lanes — negative-status DoT, kit
+        // afflictions, which belong to no single segment — cannot fall out.
+        assert('passes reports one entry per pass', Array.isArray(s.passes) && s.passes.length === 3);
+        assert('…and they sum to the 3-pass total (no lane dropped)',
+            Math.abs(s.passes.reduce((sum, p) => sum + p.damage, 0) - totalDamage) < 3);
+        assert('…and their times sum to the 3-pass game time',
+            Math.abs(s.passes.reduce((sum, p) => sum + p.time, 0) - totalTime) < 0.05);
+        // Pass 1 carries the derived opener's cold start, so it must be the
+        // slowest — if it were not, the multi-pass run would not be modelling
+        // a cold start at all.
+        assert('pass 1 is the cold start (longest of the three)',
+            s.passes[0].time >= s.passes[1].time - 1e-6);
+        assert('openerCredible is decided and boolean', typeof s.openerCredible === 'boolean');
+        assert('rankingDamage is gone — there is only one measurement now',
+            !('rankingDamage' in s));
     }
     assert('scoreTeam erOverride covers every member', [1108, 1109, 1508].every(id => s.erOverride[String(id)]));
     // §5a.2 / §10: honest team-context values carry NO safety margin — the
