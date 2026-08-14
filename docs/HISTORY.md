@@ -9312,3 +9312,57 @@ the incoming bundle AND that the wielder's own 10% does not leak into it.
 enum NAME in the client is not its semantics. `Opponent`, `Instigator` and
 `Owner` are roles in whatever event is firing, and the event decides who fills
 them — which is discoverable, since the dispatcher passes the entity explicitly.
+
+---
+
+## 2026-08-13 — External buffs, lane 3 (echoes): the source does not exist
+
+Lane 3 was investigated to the same depth as lanes 1 and 2 and produced a
+DETERMINATION rather than a change: the exported ConfigDB has no stat-buff data
+for echo skills. Recorded so it is not re-derived.
+
+**[Files Changed]** `docs/HISTORY.md` only. No code, no data.
+
+**[What was checked]**
+
+- **The join EXISTS and is total.** An echo's `activeSkill.settleId` appears in
+  `phantomskill.SettleIds` for **161 of 161** echoes that have one. So the route
+  echo -> skill row is not the problem.
+- **The route is empty.** Only **2 of 243** `phantomskill` rows carry `BuffIds`
+  at all — Tambourinist (200020) and Cruisewing (200024) — and neither leads to
+  an attribute. Both terminate in `ExtraEffectID 4` spawns (Tambourinist's Havoc
+  pulse, Cruisewing's heal), with no `GameAttributeID` anywhere in the chain.
+- **The one echo whose buff the engine models has nothing there.** Bell-Borne
+  Geochelone (390080005, settleId 28000301) is the only echo carrying a
+  `teamBuff` in our dataset (+10% DMG, 15s) — and its `phantomskill` row
+  (PhantomSkillId 280003) has NO `BuffIds`. Its shield and team boost are not in
+  this table.
+- Echo ids resolve only into handbook / reward / exhibit tables
+  (`phantomhandbook`, `calabashdevelopreward`, …) — nothing ability-shaped.
+
+**[Conclusion]** Echo skill effects live in the monster ABILITY BLUEPRINTS, the
+same binary `.uasset` space as a weapon's unconditional leading stat, and are not
+reachable from ConfigDB. This is the same wall `docs/OPEN-ITEMS.md` #23 already
+records as the Monster-tree export. Lane 3 cannot be done the way lanes 1 and 2
+were, and the existing `preprocess.mjs extractEchoTeamBuff` text path remains the
+only source. Only 1 of 180 echoes carries a modelled team buff today, so the
+exposure is small.
+
+**[Also settled — the two `recipient: 'other'` grants]** Both belong to ONE set,
+Crown of Valor (sonata 20) 3pc, and both are SELF grants that the conservative
+rule declined to place:
+
+    31000020006  AddBuffTrigger ["7", "2", "31000020007#31000020008"]  CD 0.5s
+       31000020007  attr 7 Proto_Atk        = 0.06  4s  stack 5
+       31000020008  attr 9 Proto_CritDamage = 0.04  4s  stack 5
+
+EventType 7 is shield-gained, fired by `CharacterShieldComponent` as
+`this.m1t.TriggerEvents(7, this.m1t, {})` — it passes its OWN buff component, so
+the event's counterparty is the same character. TargetType 2 is
+`InstigatorBuffComponent`, which for a self-applied shield is also that
+character. The `ExtraEffectCD: [0.5]` and `StackLimitCount: 5` match the
+tooltip's "once every 0.5s" and "stacks up to 5 times" exactly, and the sibling
+buff `31000020001` reaches the same character via TargetType 0. Widening
+TargetType 2 to self is therefore a one-line change, left for the maintainer.
+
+**[Residual Risks]** None introduced — nothing was changed.
