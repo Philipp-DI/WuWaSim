@@ -204,6 +204,35 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     assert('Rejuvenating Glow does NOT fire on a status inflict (keeps its healing trigger)',
         glow.every(g => g.triggerType !== 'BuffInstigatorTrigger'));
 
+    // Crown of Valor's 3-piece reaches its grants through TargetType 2
+    // (Instigator). For a SELF-applied shield the instigator is the wielder, so
+    // these are self grants — the tooltip agrees ("increase the Resonator's
+    // ATK…"), EventType 7 is fired by CharacterShieldComponent with its OWN buff
+    // component, and the CD/stack values match the sentence exactly.
+    const crown = sonataExternalGrants(dataset, 20, 3) ?? [];
+    assert('Crown of Valor 3pc grants ATK and Crit DMG', crown.length === 2);
+    assert('…6% ATK, 4s, 5 stacks',
+        crown.some(g => g.attribute === PROP.ATK_FLAT && Math.abs(g.value - 0.06) < 1e-9
+            && g.durationSeconds === 4 && g.stackLimit === 5));
+    assert('…4% Crit DMG, 4s, 5 stacks',
+        crown.some(g => g.attribute === PROP.CRIT_DMG && Math.abs(g.value - 0.04) < 1e-9
+            && g.durationSeconds === 4 && g.stackLimit === 5));
+    assert('…and both are SELF, not unrouted', crown.every(g => !g.recipient));
+
+    // With that settled, nothing in the sonata tables is left unrouted: every
+    // grant is either the wielder's or the incoming resonator's.
+    const unrouted = [];
+    for (const [id, entry] of Object.entries(sonatas)) {
+        for (const [pieces, tier] of Object.entries(entry.tiers ?? {})) {
+            for (const grant of tier.grants ?? []) {
+                if (grant.recipient && grant.recipient !== 'incoming') {
+                    unrouted.push(`${id}/${pieces}`);
+                }
+            }
+        }
+    }
+    assert(`no sonata grant is left unrouted (got ${unrouted.join(',') || 'none'})`, unrouted.length === 0);
+
     // The transfer must reach the incoming-resonator lane, which is what
     // actually pays it. The text reader scored ZERO here for as long as it has
     // existed, because the tier writes the value BEFORE the stat.

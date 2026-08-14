@@ -9366,3 +9366,67 @@ buff `31000020001` reaches the same character via TargetType 0. Widening
 TargetType 2 to self is therefore a one-line change, left for the maintainer.
 
 **[Residual Risks]** None introduced — nothing was changed.
+
+---
+
+## 2026-08-13 — Crown of Valor wired; the phantom tables surveyed
+
+**[Files Changed]** `tools/extract/extract_external_buffs.py`,
+`tests/external-buffs.test.mjs`, `data/external-buffs.json`,
+`data/wuwa-data.json`, `data/data-version.json`, `data/wuwa-meta.json`,
+`docs/HISTORY.md`.
+
+**[Logic Altered]** `AddBuffTrigger` TargetType **2** (`InstigatorBuffComponent`)
+now counts as SELF alongside TargetType 0. For a gear grant fired by the
+wielder's own action the instigator IS the wielder, and the single case in the
+data confirms it three ways: Crown of Valor's 3-piece sits behind EventType 7
+(shield gained), which `CharacterShieldComponent` fires as
+`this.m1t.TriggerEvents(7, this.m1t, {})` — passing its OWN buff component; its
+`ExtraEffectCD 0.5` and `StackLimitCount 5` match the tooltip's "once every 0.5s"
+and "stacks up to 5 times"; and its sibling `31000020001` reaches the same
+character through TargetType 0. Sonata recipients are now **59 self / 6 incoming
+/ 0 unrouted**, and the test asserts that nothing is left unrouted.
+
+The benchmark is unchanged (5,595,945) because none of the three members runs
+Crown of Valor — the fix is roster-wide, not team-specific.
+
+**[The phantom ConfigDB files — surveyed, nothing further to extract]**
+
+Prompted by a maintainer nudge that four phantom files looked worth a look. All
+four were opened and every table listed:
+
+- **`db_PhantomBattle.db`** (38 tables, incl. `phantombattlebuff` 154 and
+  `phantombattleskill` 328) — the **card minigame**, not combat. Its skills carry
+  `CostDurability` / `BattlePower` / `ActivateCondition` and its buffs an effect
+  DSL (`EffectType` + `EffectParams` strings like `"1:1:10"`). No
+  `GameAttributeID` anywhere. Not the echo system.
+- **`db_PhantomCollectActivity.db`** — 4 rows total, an activity.
+- **`db_PhantomManagePlan.db`** — saved echo loadouts (`phantommanageplanv2`).
+- **`db_phantom.db`** — the real one, already used for `phantomfetter`.
+
+Two things inside `db_phantom` that had not been examined:
+
+- **`phantomitem.CalabashBuffs`** — 3 distinct buffs (70045/70046/70047) across
+  all 829 rows, all `ExtraEffectID 1` on attribute **114
+  `Proto_DamageChangePhantom`** (Echo DMG). They are the **Data Bank progression
+  curve**, not a build buff: their `ExtraEffectParametersGrow1` ramps to 10000
+  (=100%) across Data Bank levels — 70045 over levels 1-10, 70046 over 11-30,
+  70047 over 21-40 — and sits at 100% thereafter. At endgame all three are
+  saturated, i.e. "echo damage NOT reduced" rather than a bonus, which is what
+  the sim already assumes.
+- **`phantomsumleveleffect`** (101 rows) and **`phantomsubpropaction`** (20 rows)
+  ship NO accessor JS, so their schema cannot be read from the client and this
+  project does not guess FlatBuffers offsets (that is the entire premise of
+  `tools/extract/configdb.py`). Both names point at the same Data Bank / substat
+  progression family as the Calabash curve above, so the expected value is low.
+
+This closes the question the echo lane raised: the phantom files hold no echo
+stat-buff data beyond what is already modelled, and the earlier determination
+stands — echo skill effects live in the monster ability blueprints.
+
+**[Verification Method]** `npm test` **72/72** (external-buffs 64/0),
+`npm run sweep` 68 imported / 0 failed, `npm run lint` **0 errors**. LOCK A and
+LOCK B regenerated.
+
+**[Residual Risks]** None introduced. The two undecodable tables are recorded
+above rather than guessed at.

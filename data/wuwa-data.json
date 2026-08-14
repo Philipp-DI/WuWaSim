@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-13T15:17:42.779Z",
+  "generatedAt": "2026-08-14T10:08:38.757Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -251096,8 +251096,7 @@
                 "teamWide": false,
                 "buffId": 31000020007,
                 "attributeName": "Proto_Atk",
-                "triggerType": null,
-                "recipient": "other"
+                "triggerType": null
               },
               {
                 "durationSeconds": 4,
@@ -251108,8 +251107,7 @@
                 "teamWide": false,
                 "buffId": 31000020008,
                 "attributeName": "Proto_CritDamage",
-                "triggerType": null,
-                "recipient": "other"
+                "triggerType": null
               }
             ]
           }

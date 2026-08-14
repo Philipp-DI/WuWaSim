@@ -95,6 +95,17 @@ FORMATION_TEAM = 1
 # EVENT and nothing more.
 ADD_BUFF_TRIGGER_TARGET_OWNER = 0
 ADD_BUFF_TRIGGER_TARGET_OPPONENT = 1
+# TargetType 2 is `InstigatorBuffComponent` — whoever CAUSED the buff. For a
+# gear grant fired by the wielder's own action that is the wielder, so it is
+# treated as self. The one case in the data confirms it from three directions:
+# Crown of Valor's 3-piece sits behind EventType 7 (shield gained), which
+# `CharacterShieldComponent` fires as `this.m1t.TriggerEvents(7, this.m1t, {})` —
+# passing its OWN buff component, so the instigator of a self-applied shield is
+# that same character; its `ExtraEffectCD 0.5` and `StackLimitCount 5` match the
+# tooltip's "once every 0.5s" and "stacks up to 5 times"; and its sibling
+# `31000020001` reaches the same character through TargetType 0.
+ADD_BUFF_TRIGGER_TARGET_INSTIGATOR = 2
+SELF_TARGET_TYPES = (ADD_BUFF_TRIGGER_TARGET_OWNER, ADD_BUFF_TRIGGER_TARGET_INSTIGATOR)
 
 # EventType is the key `BaseBuffComponent.TriggerEvents(type, entity, ctx)` fires
 # on, and the entity it passes becomes that counterparty. Event 10 is raised by
@@ -242,10 +253,10 @@ class Resolver:
                 if target_type == ADD_BUFF_TRIGGER_TARGET_OPPONENT and \
                         event_type == EVENT_ROLE_SWAP_OUTGOING:
                     recipient = 'incoming'
-                elif target_type != ADD_BUFF_TRIGGER_TARGET_OWNER:
-                    recipient = 'other'
-                else:
+                elif target_type in SELF_TARGET_TYPES:
                     recipient = None
+                else:
+                    recipient = 'other'
                 for next_id in _ids_from(params[2]):
                     stack.append((next_id, team_wide))
                     if recipient:

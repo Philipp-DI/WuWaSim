@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-13T15:16:43+00:00",
+ "generatedAt": "2026-08-14T10:05:38+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -10728,8 +10728,7 @@
        "teamWide": false,
        "buffId": 31000020007,
        "attributeName": "Proto_Atk",
-       "triggerType": null,
-       "recipient": "other"
+       "triggerType": null
       },
       {
        "durationSeconds": 4.0,
@@ -10740,8 +10739,7 @@
        "teamWide": false,
        "buffId": 31000020008,
        "attributeName": "Proto_CritDamage",
-       "triggerType": null,
-       "recipient": "other"
+       "triggerType": null
       }
      ]
     }
