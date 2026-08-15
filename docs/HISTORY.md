@@ -10308,3 +10308,57 @@ Both are stated in the file's `openerSource` and are one-line edits if wrong.
 Nothing else ships an opener, so no other resonator moved.
 
 **[Updated Docs]** `docs/OPEN-ITEMS.md` 2d closed. HISTORY (this entry).
+
+---
+
+## 2026-08-15c — One answer for the whole team
+
+Maintainer report, continuing the Denia thread: build page → OPEN IN TEAM SIM →
+the confirmation dialog → choose "use the suggested build" → Denia still runs the
+user's own rotation. The badge added earlier correctly said so; the dialog should
+have prevented it.
+
+**[Files Changed]** `src/ui/components/build-editor/suggested-teams-panel.js`,
+`tests/suggested-team-slots.test.mjs` (new).
+
+**[Logic Altered]** The `confirm()` was raised inside `buildIdFor` under
+`rid === api.build.resonatorId`, so it was asked about the PAGE'S OWN resonator
+and its answer was scoped to that one slot. The other two fell through to
+`existingReal` — the user's most recent non-template build — without the dialog
+ever mentioning them. Accepting therefore loaded the suggested ANCHOR beside your
+own teammates, which is not what "this suggested team has its own pre-built
+weapon, echoes, and rotation" offers.
+
+Now: one prompt for the whole team, naming every resonator it affects, and the
+answer governs every slot where a real choice exists. `planSuggestedTeamSlots`
+is the pure rule (contested = the team pass has a recipe AND the user owns a
+build with content; `keepOwn` applies the answer), extracted so it is testable
+without a DOM.
+
+Two smaller corrections fell out of stating the rule explicitly:
+
+- An **empty** saved build no longer beats the recipe. The anchor path already
+  required content ("nothing to lose"); the teammate path took any non-template
+  build, so an empty one won and simulated to nothing.
+- A slot with an own build and **no recipe** keeps the own build either way. No
+  choice was put to the user about it, so consent cannot be read from an answer
+  about other slots — the same reasoning as the bug, inverted.
+
+**[Verification Method]** `npm test` 73/73, `npm run sweep` 69/0, `npm run lint`
+0 errors. Driven in the browser through the exact reported flow, with three
+seeded personal builds:
+
+| dialog | slot 0 | slot 1 | slot 2 |
+| --- | --- | --- | --- |
+| accept | Chisa (team suggestion) | Denia (team suggestion) | Aemeath (team suggestion) |
+| dismiss | My Chisa `YOUR BUILD` | My Denia `YOUR BUILD` | My Aemeath `YOUR BUILD` |
+
+One prompt in both cases, naming all three. Clean profile: no prompt, no badges,
+every route renders with zero console errors.
+
+**[Residual Risks]** None known. The dialog is still a native `confirm()`, so it
+cannot offer per-member choice — all-or-nothing across the contested slots. That
+matches the request ("use the template") and is now stated in the prompt rather
+than implied.
+
+**[Updated Docs]** HISTORY (this entry).

@@ -161,16 +161,23 @@ export function applyTeamRecipe(build, recipe) {
 
 /**
  * §8a — materialize a suggested team into a saved Team and open the team-sim
- * screen (#party/<id>). Slot resolution per member:
- *   - the anchor (this page's resonator) → THIS build (saved eagerly: the
+ * screen (#party/<id>).
+ *
+ * ONE question decides the whole team: where the user owns a real build AND the
+ * team pass has a recipe, they choose which to run, and the answer applies to
+ * every such slot. ~~The question was asked for the page's own resonator only
+ * and its answer applied only there~~, so accepting "use the suggested build"
+ * loaded the suggested ANCHOR beside the user's own teammates — silently, since
+ * the other slots were never mentioned.
+ *
+ * Slot resolution per member:
+ *   - the user's own build, when they chose to keep it, or when the team pass
+ *     has no recipe to offer instead (the anchor's is saved eagerly: its
  *     autosave is debounced, and navigating away would drop a pending write),
- *   - a resonator the user already owns a REAL (non-template) build for →
- *     their most recent one,
- *   - a resonator with an existing TEMPLATE build already materialized from a
- *     prior click → reuse it (no duplicate template builds pile up),
- *   - otherwise → materialize the team pass's exact build recipe
- *     (teamMemberBuildFor — same real echoes/substats/weapon/sonata/mode/
- *     rotation the "INSPECT BUILDS" panel showed), or fall back to the solo
+ *   - otherwise the team pass's exact build recipe (teamMemberBuildFor — the
+ *     same real echoes/substats/weapon/sonata/mode/rotation the "INSPECT
+ *     BUILDS" panel showed), reusing an existing TEMPLATE build's id so
+ *     re-clicking never piles up duplicates, and falling back to the solo
  *     suggestion/reference rotation for a character the team pass doesn't
  *     cover. New builds/teams are tagged template:true — hidden from My
  *     Builds/My Teams until the user explicitly saves them (never
@@ -178,6 +185,39 @@ export function applyTeamRecipe(build, recipe) {
  * Re-clicking a suggestion reuses the existing team (same slots, including a
  * still-unsaved template team) instead of accumulating duplicates.
  */
+/**
+ * Which slots have a real choice to make, and — once it is answered — which
+ * keep the user's own build.
+ *
+ * CONTESTED means both options exist: the team pass has a recipe for that
+ * resonator AND the user owns a build of their own. Everything else has nothing
+ * to choose between, so it is never raised and never governed by the answer.
+ *
+ * The answer applies to EVERY contested slot. It used to be asked about the
+ * page's own resonator alone and applied there alone, which meant accepting
+ * "use the suggested build" loaded the suggested anchor beside the user's own
+ * teammates, without those slots ever being mentioned.
+ *
+ * A slot with an own build but NO recipe keeps the own build regardless: no
+ * choice was put to the user about it, so consent cannot be assumed either way,
+ * and the recipe that would replace it does not exist.
+ *
+ * Pure — exported for tests.
+ *
+ * @param {number[]} memberIds
+ * @param {{ownBuildFor: (rid:number)=>object|null, hasRecipe: (rid:number)=>boolean}} lookups
+ * @returns {{contested: number[], keepOwn: (rid:number, useSuggested:boolean)=>boolean}}
+ */
+export function planSuggestedTeamSlots(memberIds, { ownBuildFor, hasRecipe }) {
+  const contested = (memberIds ?? []).filter((rid) => hasRecipe(rid) && ownBuildFor(rid));
+  const contestedSet = new Set(contested);
+  return {
+    contested,
+    keepOwn: (rid, useSuggested) =>
+      !!ownBuildFor(rid) && (!contestedSet.has(rid) || !useSuggested),
+  };
+}
+
 export function loadTeamIntoSim(memberIds) {
   const saved = listBuilds({ dataset: api.dataset, includeTemplates: true });
   // Has the user actually put anything into this build (weapon/echoes/
@@ -220,65 +260,88 @@ export function loadTeamIntoSim(memberIds) {
     return template.id;
   };
 
-  const buildIdFor = (rid) => {
-    const forRid = saved
+  const slots = memberIds.slice(0, TEAM_SLOTS);
+  const nameOf = (rid) =>
+    api.dataset.resonators.find((candidate) => candidate.id === rid)?.name ?? `#${rid}`;
+  const savedFor = (rid) =>
+    saved
       .filter((candidate) => candidate.resonatorId === rid)
       .sort((buildA, buildB) => (buildB.updatedAt ?? 0) - (buildA.updatedAt ?? 0));
-    const existingTemplate = forRid.find((candidate) => candidate.template);
+
+  // The user's OWN build for a slot, or null. For the page's own resonator that
+  // is the editor build; for the others, their most recent non-template save.
+  // An empty one does not count — it has nothing to lose against the recipe,
+  // and it would sim to nothing.
+  const ownBuildFor = (rid) =>
+    rid === api.build.resonatorId
+      ? (!api.build.template && hasContent(api.build) ? api.build : null)
+      : (savedFor(rid).find((candidate) => !candidate.template && hasContent(candidate)) ?? null);
+
+  const { contested, keepOwn: keepOwnFor } = planSuggestedTeamSlots(slots, {
+    ownBuildFor,
+    hasRecipe: (rid) => !!teamMemberBuildFor(api.meta, rid),
+  });
+
+  // ONE prompt, for the WHOLE team.
+  //
+  // ~~Asked only for the page's own resonator, and its answer applied only to
+  // that slot.~~ Choosing "use the suggested build" then loaded the suggested
+  // ANCHOR and the user's own everything else — the other two slots fell
+  // straight through to their saved builds without ever being mentioned. The
+  // dialog says "this suggested team has its own pre-built … rotation", so a
+  // user who accepts it means the TEAM, not one member of it (maintainer
+  // report, 2026-08-15). Naming every affected resonator is also what makes the
+  // choice answerable: the old text named one and silently decided the rest.
+  const useSuggested =
+    contested.length === 0 ||
+    confirm(
+      `This suggested team was measured with its own pre-built weapons, echoes and rotations.\n\n` +
+        `You already have your own build for: ${contested.map(nameOf).join(", ")}.\n\n` +
+        `OK — use the suggested team's builds for all of them (yours are kept, untouched)\n` +
+        `Cancel — keep your own builds`,
+    );
+  const keepOwn = (rid) => keepOwnFor(rid, useSuggested);
+
+  const buildIdFor = (rid) => {
+    const existingTemplate = savedFor(rid).find((candidate) => candidate.template);
+
+    if (keepOwn(rid)) {
+      // The anchor's editor build is saved eagerly: its autosave is debounced,
+      // and navigating to #party would drop a pending write.
+      if (rid === api.build.resonatorId) {
+        saveBuild(api.build, { dataset: api.dataset });
+        return api.build.id;
+      }
+      return ownBuildFor(rid).id;
+    }
 
     if (rid === api.build.resonatorId) {
       // The page's own build IS itself a previously-materialized suggestion
       // (not the user's deliberate work) — always refresh it to the CURRENT
       // recipe rather than silently keeping stale content.
       if (api.build.template) return materializeTemplate(rid, api.build);
-
-      // A real, already-saved build with actual content differs from the
-      // team pass's pre-computed recipe whenever the user has edited it —
-      // carrying over the wrong one silently is the bug the maintainer
-      // flagged: give the user the choice instead of guessing. An
-      // empty/untouched build has nothing to lose, so only ask when there's
-      // something real to choose between.
       const recipe = teamMemberBuildFor(api.meta, rid);
-      if (recipe && hasContent(api.build)) {
-        const resoName =
-          api.dataset.resonators.find((candidate) => candidate.id === rid)?.name ?? `#${rid}`;
-        const useSuggested = confirm(
-          `${resoName}: this suggested team has its own pre-built weapon, echoes, and rotation — different from your current editor build.\n\nOK — use the suggested build (kept separately; your current build is untouched)\nCancel — keep your current editor build`,
-        );
-        if (useSuggested) return materializeTemplate(rid, existingTemplate);
-      }
-      // A never-saved, empty build has nothing worth promoting to a
-      // permanent "My Builds" entry — persisting it unconditionally here
-      // was silently polluting My Builds every time a suggested team was
-      // opened from a fresh/untouched page (2026-07-11). Only save as the
-      // user's own real build when it's already persisted or has real
-      // content; otherwise materialize the recipe (or tag template) so it
-      // stays out of My Builds until the user deliberately saves/edits it.
+      if (recipe) return materializeTemplate(rid, existingTemplate);
+      // No recipe to prefer, so the editor build is the best we have — but a
+      // never-saved, empty one has nothing worth promoting to a permanent "My
+      // Builds" entry. Persisting it unconditionally was silently polluting My
+      // Builds every time a suggested team was opened from a fresh page
+      // (2026-07-11); it stays a template until the user deliberately edits it.
       const alreadyPersisted = saved.some((candidate) => candidate.id === api.build.id);
       if (alreadyPersisted || hasContent(api.build)) {
         saveBuild(api.build, { dataset: api.dataset });
         return api.build.id;
       }
-      if (recipe) return materializeTemplate(rid, existingTemplate);
       const untouched = { ...api.build, template: true };
       saveBuild(untouched, { dataset: api.dataset });
       return untouched.id;
     }
 
-    const existingReal = forRid.find((candidate) => !candidate.template);
-    if (existingReal) return existingReal.id;
     return materializeTemplate(rid, existingTemplate);
   };
 
-  let team = createTeam(
-    memberIds
-      .map(
-        (rid) =>
-          api.dataset.resonators.find((candidate) => candidate.id === rid)?.name ?? `#${rid}`,
-      )
-      .join(" · "),
-  );
-  memberIds.slice(0, TEAM_SLOTS).forEach((rid, i) => {
+  let team = createTeam(slots.map(nameOf).join(" · "));
+  slots.forEach((rid, i) => {
     const id = buildIdFor(rid);
     if (id) team = setTeamSlot(team, i, id);
   });
