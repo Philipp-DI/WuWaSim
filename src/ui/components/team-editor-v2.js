@@ -164,9 +164,22 @@ function segmentsBySlot(segments) {
         // result is not ours to mutate) so the list can divide itself by pass
         // and mark which casts were auto-fired by a swap.
         if (STEP_LIST_KINDS.has(segment.kind)) {
-            for (const step of segment.steps ?? []) {
-                e.steps.push({ ...step, pass: segment.pass ?? 0, segmentKind: segment.kind });
-            }
+            // `simResult.energyTrace` is index-aligned with `steps` by
+            // construction (team-energy.js collectEnergyEvents reads
+            // `steps[j]` for trace entry j), so the per-cast Resonance Energy
+            // basis can be carried onto the step here rather than re-derived.
+            // Its own energyBefore/After are the SEGMENT's, simulated in
+            // isolation from 0 — the team gauge lives in `memberEnergy`.
+            const trace = segment.simResult?.energyTrace;
+            (segment.steps ?? []).forEach((step, index) => {
+                e.steps.push({
+                    ...step,
+                    pass: segment.pass ?? 0,
+                    segmentKind: segment.kind,
+                    energyRawGen: trace?.[index]?.rawGen ?? null,
+                    energyIsLiberation: trace?.[index]?.isLiberation === true,
+                });
+            });
         }
     }
     for (const e of m.values()) e.steps.sort((a, b) => (a.startTime ?? 0) - (b.startTime ?? 0));
@@ -850,14 +863,101 @@ function stepTimeParts(step, clock) {
     };
 }
 
-function renderStepBar(step, maxDmg, skillMap, clock) {
+/**
+ * What one cast did to the Resonance Energy meter.
+ *
+ * The point is verifiability: ER is a multiplier on a per-cast base, and until
+ * now nothing in the UI showed either half. `chip` is the at-a-glance figure
+ * that rides on the step's own stat line; `line` is the audit trail — the meter
+ * before and after, what a Liberation spent, and what a full meter threw away.
+ *
+ * The two numbers come from different places on purpose. GENERATION is
+ * `rawGen × ER`, read off the step's own segment trace, so it is exactly what
+ * the member's own cast produced. The METER is the team-level gauge from
+ * `memberEnergy`, which also carries the 50% off-field share earned while
+ * teammates were on field — so `after − before` is legitimately LARGER than
+ * this cast's own generation, and legitimately smaller when the meter caps.
+ * Overcap is impossible (team-energy.js applyEnergyEvent clamps to the cost),
+ * which is exactly the thing a user cannot otherwise see happening.
+ *
+ * Pure — exported for tests.
+ *
+ * @param {object} step — a step from segmentsBySlot (carries energyRawGen)
+ * @param {?{er:number, liberationCost:?number, gaugeAt:Map}} energy
+ */
+function stepEnergyParts(step, energy) {
+    if (!energy || step?.energyRawGen == null) return { chip: '', line: '' };
+    const { er = 1, liberationCost = null, gaugeAt = null } = energy;
+    const max = liberationCost > 0 ? liberationCost : null;
+    const generated = step.energyRawGen * er;
+    const num = (value) => (Math.round(value * 10) / 10).toFixed(1);
+    const pct = (value) => (max ? ` (${(value / max * 100).toFixed(1)}%)` : '');
+
+    // A consuming Liberation's headline number is what it SPENDS — reporting a
+    // bare "+0" beside a cast that just emptied the meter is the least useful
+    // true thing available.
+    const gain = generated > 0.05 ? `+${num(generated)}${pct(generated)}` : '';
+    const chip = step.energyIsLiberation && max
+        ? `⚡ −${num(max)}${gain ? ` ${gain}` : ''}`
+        : `⚡ ${gain || '+0'}`;
+
+    // The meter itself, when this cast appears in the team-level trace. A cast
+    // generating nothing does not (collectEnergyEvents skips a zero-base
+    // non-Liberation event), so the absence is expected and reads as "no
+    // meter change", never as missing data.
+    const gauge = gaugeAt?.get(energyKeyFor(step)) ?? null;
+    const notes = [];
+    if (step.energyIsLiberation && max) notes.push(`spends the full ${num(max)}`);
+    if (gauge) {
+        const banked = gauge.after - gauge.before;
+        const spilled = !step.energyIsLiberation && generated - banked > 0.05;
+        if (spilled) notes.push(`meter was full — ${num(generated - banked)} spilled`);
+    }
+    const meter = gauge
+        ? `meter ${num(gauge.before)} → ${num(gauge.after)}${max ? ` of ${num(max)}${pct(gauge.after)}` : ''}`
+        : `meter unchanged${max ? ` (max ${num(max)})` : ''}`;
+    const generatedText = generated > 0.05
+        ? `generates ${num(generated)}${pct(generated)} at ${Math.round(er * 100)}% ER`
+        : 'generates no Energy';
+
+    return { chip, line: `Energy: ${[generatedText, meter, ...notes].join(' · ')}` };
+}
+
+// A cast's identity in the team-level energy trace. Time alone is not enough —
+// a zero-time Echo can share an instant with the cast beside it — so the label
+// disambiguates. Measured on the benchmark team: 20 of 20 steps matched
+// uniquely, 0 ambiguous.
+const energyKeyFor = (entry) => `${(entry.t ?? entry.startTime ?? 0).toFixed(4)}|${entry.label ?? ''}`;
+
+/**
+ * Per-member energy context for the step tooltips: the built ER, the meter's
+ * size, and the team-level gauge at each of this member's own casts.
+ */
+function energyContextFor(resonatorId) {
+    const member = api.result?.memberEnergy?.get?.(resonatorId);
+    if (!member) return null;
+    const gaugeAt = new Map();
+    for (const entry of member.trace ?? []) {
+        if (!entry.own) continue;                 // an off-field share is not a cast
+        gaugeAt.set(energyKeyFor(entry), { before: entry.energyBefore, after: entry.energyAfter });
+    }
+    return { er: member.er ?? 1, liberationCost: member.liberationCost ?? null, gaugeAt };
+}
+
+function renderStepBar(step, maxDmg, skillMap, clock, energy = null) {
     const c = DMG_COLOR[step.damageCategory] ?? 'var(--faint)';
     const h = Math.max(18, Math.round((step.stepDamage ?? 0) / maxDmg * 68));
-    const buffs = (step.activeBuffNames ?? []).length ? ` · buffs: ${(step.activeBuffNames).join(', ')}` : '';
+    // ~~Buffs were appended to the stat line.~~ They are a list, often a long
+    // one, and running them onto the same line as the two headline figures
+    // buried both. Own line, own label.
+    const buffLine = (step.activeBuffNames ?? []).length
+        ? `Buffs: ${(step.activeBuffNames).join(', ')}` : '';
     const time = stepTimeParts(step, clock);
     const startsAt = time.startsAt;
     const timeLine = time.line;
-    const statLine = `${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}${buffs}`;
+    const energyParts = stepEnergyParts(step, energy);
+    const statLine = `${DMG_BADGE[step.damageCategory] ?? '??'} · ${fmtDmg(step.stepDamage ?? 0)}`
+        + (energyParts.chip ? ` · ${energyParts.chip}` : '');
     // Cooldown overlay (2026-07-12): team-time re-annotation in team-sim.js
     // §4b — this cast fires before its skill/echo group's CD is ready.
     const cdLine = step.cd?.violated ? `⏱ Cooldown not ready — re-cast ${step.cd.deficit.toFixed(1)}s early (${step.cd.cooldown}s CD)` : '';
@@ -870,7 +970,8 @@ function renderStepBar(step, maxDmg, skillMap, clock) {
     // step (step.echoDesc, filled from the echo's active skill). 2026-07-15.
     const skillDef = skillMap?.[step.skillKey];
     const skillDesc = step.echoDesc ?? (skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '');
-    const tipDesc = [statLine, timeLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
+    const tipDesc = [statLine, buffLine, energyParts.line, timeLine, cdLine, skillDesc]
+        .filter(Boolean).join('\n\n');
     const timeChip = startsAt == null ? ''
         : `<span style="flex:none;font-family:var(--font-display);font-size:8.5px;color:var(--faint);min-width:30px;text-align:right;">${startsAt.toFixed(1)}${clock.suffix}</span>`;
     return `
@@ -939,7 +1040,8 @@ function passDivider(pass) {
 // the sequence — but it IS in the member's total, and leaving it out made the
 // rows visibly fail to add up (on the benchmark comp it was 65% of Denia's
 // total). It gets its own line rather than being folded into a step.
-function renderStepGroups(slotIndex, steps, skillMap, clock, { statusDamage = 0, warnings = [] } = {}) {
+function renderStepGroups(slotIndex, steps, skillMap, clock,
+    { statusDamage = 0, warnings = [], energy = null } = {}) {
     const maxDmg = Math.max(1, ...steps.map(s => s.stepDamage ?? 0));
     const grpHdr = 'display:flex;align-items:center;gap:6px;padding:9px 15px 7px;border-top:1px solid var(--bd);';
     const lblBase = "font-family:var(--font-display);font-size:8px;letter-spacing:1.2px;color:var(--faint);";
@@ -981,7 +1083,7 @@ function renderStepGroups(slotIndex, steps, skillMap, clock, { statusDamage = 0,
     let lastPass = null;
     for (const step of steps) {
         if (multiPass && step.pass !== lastPass) { rows.push(passDivider(step.pass ?? 0)); lastPass = step.pass; }
-        rows.push(renderStepBar(step, maxDmg, skillMap, clock));
+        rows.push(renderStepBar(step, maxDmg, skillMap, clock, energy));
     }
     if (statusDamage > 0) {
         const tip = 'Damage from negative statuses (Fusion Burst, Glacio Chafe, …) this member inflicted. '
@@ -1141,6 +1243,7 @@ function renderMemberColumn(slot) {
         ${renderStepGroups(slotIndex, allSteps, skillMap, clock, {
         statusDamage: total?.statusDmg ?? 0,
         warnings: firstPassWarnings(build.resonatorId, allSteps, skillMap),
+        energy: energyContextFor(build.resonatorId),
     })}
         ${totalsRow}
       </div>`;
@@ -1503,6 +1606,7 @@ export function mount(root, config) {
 // Pure helpers for tests (no DOM / no module state).
 export const __test__ = {
     fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor, differsFromRecipe,
+    stepEnergyParts, energyKeyFor,
     buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 };

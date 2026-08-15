@@ -21,6 +21,7 @@ import { effectiveSkillMap } from '../src/core/sim.js';
 
 const {
     fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor, differsFromRecipe,
+    stepEnergyParts, energyKeyFor,
     buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 } = __test__;
@@ -183,6 +184,77 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // NOT tagged template — keying on that flag flagged a slot that matched.
     assert('a matching build is unflagged regardless of its template flag',
         differsFromRecipe({ ...match, template: false }, template, meta, sonataIdOf) === false);
+}
+
+// ── stepEnergyParts — the per-cast Resonance Energy readout ─────────────────
+// ER is a multiplier on a per-cast base and nothing in the UI showed either
+// half, which makes an ER target unverifiable by eye. `chip` rides on the step's
+// own stat line; `line` is the audit trail.
+{
+    const key = (t, label) => energyKeyFor({ t, label });
+    const gaugeAt = new Map([
+        [key(0.3, 'Rending Lunge'), { before: 125, after: 125 }],   // full, spills
+        [key(5.2, 'Stage 2'), { before: 0, after: 2 }],             // banks it
+        [key(1.5, 'Liberation'), { before: 125, after: 0 }],        // spends it
+    ]);
+    const energy = { er: 1.5, liberationCost: 125, gaugeAt };
+
+    // No data ⇒ no claim. An outro segment carries no energy trace at all.
+    assert('no energy context → nothing rendered',
+        stepEnergyParts({ energyRawGen: 2 }, null).chip === '');
+    assert('a step with no trace entry → nothing rendered',
+        stepEnergyParts({ energyRawGen: null, startTime: 0, label: 'x' }, energy).chip === '');
+
+    // THE HEADLINE: generation is rawGen x ER, and the % is of the meter's size.
+    const banked = stepEnergyParts(
+        { energyRawGen: 2, startTime: 5.2, label: 'Stage 2' }, energy);
+    assert('the chip reports rawGen × ER', banked.chip.includes('+3.0'));
+    assert('…as a percentage of the liberation cost', banked.chip.includes('(2.4%)'));
+    assert('the line names the ER it multiplied by', banked.line.includes('at 150% ER'));
+    assert('…and the meter before and after', banked.line.includes('meter 0.0 → 2.0 of 125.0'));
+
+    // Overcap is impossible, and a full meter throwing generation away is
+    // exactly what a user cannot otherwise see happening.
+    const spilled = stepEnergyParts(
+        { energyRawGen: 2, startTime: 0.3, label: 'Rending Lunge' }, energy);
+    assert('a full meter reports the spill', spilled.line.includes('spilled'));
+    assert('…and still reports what the cast generated', spilled.chip.includes('+3.0'));
+
+    // A consuming Liberation's headline number is what it SPENDS.
+    const lib = stepEnergyParts(
+        { energyRawGen: 0, energyIsLiberation: true, startTime: 1.5, label: 'Liberation' }, energy);
+    assert('a Liberation chip shows the spend, not a bare +0', lib.chip.includes('−125.0'));
+    assert('…and the line says so', lib.line.includes('spends the full 125.0'));
+    assert('…and reports that it generated nothing', lib.line.includes('generates no Energy'));
+
+    // A cast that generates nothing is stated, not omitted — a missing row
+    // reads as a broken app, and "this one gives you nothing" is information
+    // when the question is where the energy comes from.
+    const nothing = stepEnergyParts({ energyRawGen: 0, startTime: 9, label: 'x' }, energy);
+    assert('a zero-generation cast still renders a chip', nothing.chip === '⚡ +0');
+    assert('…and reports the meter as unchanged', nothing.line.includes('meter unchanged'));
+
+    // No liberation cost (a resonator with no energy gate): no percentages,
+    // no invented denominator.
+    const uncapped = stepEnergyParts({ energyRawGen: 2, startTime: 9, label: 'x' },
+        { er: 1, liberationCost: null, gaugeAt: new Map() });
+    // The ER is still stated as a percentage — it is one. What must not appear
+    // is a percentage OF a meter size that does not exist.
+    assert('no meter size → an absolute value with no share-of-max',
+        uncapped.chip === '⚡ +2.0' && !uncapped.line.includes(' of '));
+}
+
+// ── energyKeyFor — matching a cast to its team-level trace entry ────────────
+{
+    // Time alone is not enough: a zero-time Echo shares an instant with the
+    // cast beside it, and the two are different rows in the trace.
+    assert('the key includes the label, not just the time',
+        energyKeyFor({ t: 1.5, label: 'Echo' }) !== energyKeyFor({ t: 1.5, label: 'Liberation' }));
+    // The trace uses `t`, a step uses `startTime` — one key for both shapes.
+    assert('a trace entry and its step produce the same key',
+        energyKeyFor({ t: 1.5667, label: 'A' }) === energyKeyFor({ startTime: 1.5667, label: 'A' }));
+    assert('rounding is stable at the 4th decimal',
+        energyKeyFor({ t: 1.56670001, label: 'A' }) === energyKeyFor({ startTime: 1.5667, label: 'A' }));
 }
 
 // ── clockFor — real team time → the clock the page is drawn on ──────────────

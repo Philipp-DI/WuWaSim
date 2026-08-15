@@ -10362,3 +10362,68 @@ matches the request ("use the template") and is now stated in the prompt rather
 than implied.
 
 **[Updated Docs]** HISTORY (this entry).
+
+---
+
+## 2026-08-15d — The Resonance Energy a cast actually produced, on the step tooltip
+
+Maintainer-directed, opening the ER-robustness work: put the generated Energy on
+the step tooltip — the real value and its share of that resonator's meter — so
+the model can be checked by eye rather than taken on trust.
+
+**[Files Changed]** `src/ui/components/team-editor-v2.js`,
+`tests/team-editor-v2.test.mjs`.
+
+**[Logic Altered]** ER is a multiplier on a per-cast base and the UI showed
+**neither half**, which is what made an ER target unfalsifiable from the app.
+
+The step tooltip now reads:
+
+```
+SK · 19K · ⚡ +2.4 (1.9%)
+
+Buffs: +20% Fusion DMG, +15% Fusion DMG · Chisa, In Instant Response, …
+
+Energy: generates 2.4 (1.9%) at 100% ER · meter 0.0 → 2.4 of 125.0 (1.9%)
+```
+
+Buffs moved off the stat line onto their own labelled line; they are a list,
+often a long one, and running them onto the same line as the headline figures
+buried both.
+
+The two figures come from different places on purpose. GENERATION is
+`rawGen × ER`, read off the step's own segment trace (`simResult.energyTrace` is
+index-aligned with `steps` by construction — `collectEnergyEvents` reads
+`steps[j]` for entry j), so it is exactly what that cast produced. The METER is
+the team-level gauge from `memberEnergy`, which also carries the 50% off-field
+share earned while teammates were on field — so `after − before` is legitimately
+larger than the cast's own generation, and legitimately smaller when the meter
+caps.
+
+Three cases the readout states rather than hides:
+
+- **Spill.** Overcap is impossible, so on a full meter the generation is thrown
+  away. The line says how much. On the benchmark team this is immediately
+  visible: the opener's first three casts spill in full, which is the
+  full-meter framework doing exactly what it claims.
+- **A Liberation's headline is its SPEND** (`⚡ −125.0`), not a bare `+0` beside
+  a cast that just emptied the meter.
+- **A cast that generates nothing still renders a chip.** "This one gives you
+  nothing" is information when the question is where the energy comes from.
+
+`stepEnergyParts` and `energyKeyFor` are pure and exported for tests. The trace
+match is keyed on time AND label because a zero-time Echo can share an instant
+with the cast beside it; measured on the benchmark team, 20 of 20 steps matched
+uniquely with 0 ambiguous. No match ⇒ "meter unchanged", never a guessed number.
+
+**[Verification Method]** `npm test` 73/73 (17 new assertions), `npm run sweep`
+69/0, `npm run lint` 0 errors. Read the real rendered tooltips out of the browser
+for all three members. No data or meta regeneration — this is presentation only.
+
+**[Residual Risks]** None to the sim; nothing here feeds a number back into it.
+One pre-existing artifact is now more visible: a long buff name is cut at 120
+chars (`effects.mjs` stores `condition` for display), so a few read as
+"…grants 20% Havoc DMG Bonus and 20% ,". That truncation is by design for a
+label and is untouched here.
+
+**[Updated Docs]** HISTORY (this entry).
