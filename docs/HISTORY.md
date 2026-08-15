@@ -10050,3 +10050,80 @@ regenerated.
 
 **[Updated Docs]** `docs/OPEN-ITEMS.md` items 2b and 2c; `opener.js` header.
 Memory: `arabwuwa-reference-rotations`.
+
+---
+
+## 2026-08-14 (framework) — A full starting meter, and the end of derived padding
+
+OPEN-ITEMS 2c, closed by replacing the framework rather than tuning the padding.
+Maintainer-directed, and a prerequisite for the ER-target work rather than only a
+gap fix.
+
+**[Files Changed]**
+- `src/core/opener.js` — rewritten; `deriveOpenerPadding` → `deriveEnergyShortfalls`.
+- `src/core/team-sim.js` — the ledger starts full; the report replaces the rewrite.
+- `src/core/team-energy.js` — `accumulateEnergy` starts full; `minViableEr` re-based.
+- `tools/optimize/team-rank.js` — ER binds from pass 1 (the second pass); the
+  credibility filter re-derived.
+- `src/ui/components/team-editor-v2.js` — an energy-shortfall chip with the ER.
+- `tests/opener.test.mjs` (rewritten, 27), `tests/team-energy.test.mjs`,
+  `tests/team-rank.test.mjs`; `docs/OPEN-ITEMS.md` 2c closed.
+
+**[Logic Altered]**
+
+1. **The meter starts FULL.** Tower of Adversity gives every resonator a full
+   Resonance Energy meter on entry. Starting empty made the first Liberation
+   unpayable, and the engine bought it with filler. Concerto and the Forte
+   gauges deliberately still start EMPTY — which is why pass 1 remains the
+   weakest pass, nothing having ramped yet.
+
+2. **Overcap stays impossible, and that is now load-bearing.** A full start means
+   generation before the first Liberation is SPILLED. Correct and cheap: a
+   Liberation is placed for its buff window — Chisa's feeds the +120% on Sawring
+   Blitz, a support's is cast late so it spans the next two members' turns — not
+   for energy efficiency. It is also what gives the ER target its meaning.
+
+3. **A curated rotation is performed as authored.** Padding and gating are both
+   retired: the engine may neither splice steps into a rotation nor delete a cast
+   from it. A short gauge is a BUILD problem, so it is reported — the deficit and
+   the ER that would fund it. `deriveOpeners` is now a pure REPORT.
+
+4. **The ER target binds from the SECOND pass.** Pass 0 is funded by the starting
+   meter and cannot bind, so the target is "the ER at which a full meter is
+   rebuilt within one loop". Was `ENERGY_PASSES - 1` (the last pass only).
+
+**[Verification Method]**
+- On the arabwuwa Chisa/Denia/Aemeath team, damage 1.274x → **1.109x**, time
+  1.765x → **0.989x**, DPS 0.722x → **1.122x**. Per-pass time is now 25.4 / 26.3
+  / 26.3s against a reference 27.34 / 25.75 / 25.75.
+- `tests/opener.test.mjs` pins the contract that matters: `deriveOpeners` on vs
+  off produces byte-identical damage, time and step count. Under the old model
+  they differed by 50.4s.
+- TWO INDEPENDENT DERIVATIONS AGREE. `erOverride.minViable` (bisection over the
+  team-time event stream) and `opener.requiredEr` (a single walk of the rotation)
+  are computed by different code from different inputs, and land within 0.002 on
+  all three members: 1.279/1.28, 1.354/1.354, 1.571/1.572.
+- `requiredEr` is CEILed, not rounded — caught by its own test: 45 base against a
+  100 cost needs 2.2222…, and the rounded 2.222 banks 99.99, leaving the cast
+  short. Advice rounded down is advice that does not work.
+- `npm test` 72/72 · `npm run sweep` 68/0 · `npm run lint` 0 errors.
+
+**[Residual Risks]**
+- The credibility filter took two wrong shapes before landing. "At least one
+  member funded" dropped 206 of 416 team slots and cost five anchors everything;
+  "every member within MAX_CREDIBLE_ER" left 45 anchors of 56. Both inverted what
+  a suggestion is for — the ER target is part of the answer, not a precondition
+  for hearing it. It now drops only the impossible (a Liberation with zero
+  generation before it, which no ER covers): 52 anchors, 416 slots, unchanged.
+- `MAX_CREDIBLE_ER` is consequently no longer consulted by the filter, only by
+  the erOverride fallback. 85 of 416 member-requirements exceed it and are now
+  shown rather than suppressed; whether a >180% ER target should read as advice
+  or as a warning is a UI question, not settled here.
+- Openers still need curation where a kit genuinely wants a different first pass
+  (arabwuwa's Chisa R1 differs from her R2). Nothing derives one now.
+- We are 11% HIGH on damage, which the retired padding was masking. That is the
+  next thing to chase.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` 2c closed with the measurements;
+`opener.js`, `team-energy.js`, `team-sim.js` headers rewritten. Memory:
+`full-energy-start-framework`.

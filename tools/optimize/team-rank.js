@@ -55,9 +55,11 @@
  *
  * TEAM-LEVEL ER (§5a.2): computed from the team energy model (team-energy.js —
  * own casts at per-hit generation + the off-field 50% share,
- * docs/energy-signal-findings.md) on a separate openers-OFF run (padding at
- * the equipped ER would make every cast castable by construction and destroy
- * the breakpoint's meaning). Energy is linear in a member's own ER, so
+ * docs/energy-signal-findings.md). ~~On a separate openers-OFF run, because
+ * padding at the equipped ER would make every cast castable by construction and
+ * destroy the breakpoint's meaning.~~ There is no padding any more, so that
+ * hazard is gone; the gauge simply starts FULL and the requirement binds from
+ * the SECOND pass. Energy is linear in a member's own ER, so
  * the minimum viable ER is closed-form, no iterative sweep. Evaluated at
  * STEADY STATE (liberations in the last of ENERGY_PASSES; the cold-start first
  * cast is covered by the derived opener on the ranking side). With per-hit accounting (P13-fix 2026-07-02) most
@@ -95,6 +97,13 @@ const BALANCED_ER_TARGET = 1.25;
 // Passes for the steady-state energy evaluation: passes 0..n−2 warm the gauge,
 // only last-pass liberations bind the requirement.
 const ENERGY_PASSES = 3;
+// The first pass that BINDS the ER requirement. Pass 0 is funded by the full
+// meter every resonator enters with, so it can never bind; the target is
+// therefore "can you rebuild a full meter within one loop", which is pass 1 —
+// the second pass (maintainer-directed 2026-08-14). ~~Was ENERGY_PASSES - 1~~,
+// i.e. only the LAST pass, which let a member coast on two passes of warm-up
+// that a full start no longer gives them.
+const ER_BINDING_PASS = 1;
 // Above this, the modeled income (own casts + off-field 50%) is clearly not
 // the real energy economy — no guide recommends ER anywhere near it — so the
 // number would be dishonest advice. Fall back to provisional instead.
@@ -272,7 +281,7 @@ export function representativeMemberBuild(resonator, dataset) {
  *             teamHeal:number, teamShield:number,
  *             passes:Array<{pass,damage,time,dps}>, openerCredible:boolean,
  *             perMember:Array, erOverride:object,
- *             opener:Object<id,{addedTime,gatedLibs}> }}   // cold-start honesty detail
+ *             opener:Object<id,{shortfalls,requiredEr}> }}  // energy honesty detail
  *          or null when a member can't be built (missing rotation).
  */
 export function scoreTeam(memberIds, dataset, target = TARGET) {
@@ -352,17 +361,19 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
             shield: (member.shield ?? 0) / ENERGY_PASSES,
         };
     });
-    // Compact opener transparency for the meta: how much filler time the
-    // cold start honestly cost each member, and any gated (unperformable)
-    // Liberations — the detail behind the ranking sim, kept even though the
-    // displayed numbers themselves are the no-opener run.
+    // ENERGY transparency for the meta. ~~How much filler time the cold start
+    // cost each member, and any gated Liberations.~~ Neither exists any more:
+    // the rotation runs as authored and the gauge starts FULL, so what is left
+    // to report is the honest one — which members cannot pay for a cast at their
+    // equipped ER, and the ER that would fix it.
     const openerByMember = {};
     for (const adjustment of result.openerAdjustments ?? []) {
-        const entry = (openerByMember[String(adjustment.resonatorId)] ??= { addedTime: 0, gatedLibs: 0 });
-        entry.addedTime += adjustment.addedTime;
-        entry.gatedLibs += adjustment.gated.length;
+        const entry = (openerByMember[String(adjustment.resonatorId)] ??= { shortfalls: 0, requiredEr: null });
+        entry.shortfalls += (adjustment.shortfalls ?? []).length;
+        if (adjustment.requiredEr != null) {
+            entry.requiredEr = Math.max(entry.requiredEr ?? 0, adjustment.requiredEr);
+        }
     }
-    for (const entry of Object.values(openerByMember)) entry.addedTime = Math.round(entry.addedTime * 10) / 10;
 
     // Team-level ER override (§5a.2): steady-state closed form over the team
     // energy events. A separate multi-pass sim with openers OFF — padding
@@ -376,7 +387,7 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
     const round3 = (x) => Math.round(x * 1000) / 1000;
     const erOverride = Object.fromEntries(memberIds.map(id => {
         const cost = dataset.baseStats?.[String(id)]?.energyMax ?? null;
-        const { minViable, achievable } = minViableEr(events.get(id) ?? [], cost, { fromPass: ENERGY_PASSES - 1 });
+        const { minViable, achievable } = minViableEr(events.get(id) ?? [], cost, { fromPass: ER_BINDING_PASS });
         if (!achievable || minViable > MAX_CREDIBLE_ER) {
             return [String(id), { minViable: BALANCED_ER_TARGET, recommended: BALANCED_ER_TARGET, provisional: true }];
         }
@@ -386,19 +397,34 @@ export function scoreTeam(memberIds, dataset, target = TARGET) {
         return [String(id), { minViable: round3(minimumEr), recommended: round3(minimumEr) }];
     }));
 
-    // CAN ANYONE ON THIS TEAM ACTUALLY OPEN THE FIGHT? The opener is derived,
-    // not curated, and for some kits it derives something absurd — Jiyan needs
-    // 189–211s of filler to charge his first Liberation, Encore 114–144s. A
-    // team where EVERY member's cold start is that fictional is not a team the
-    // app should suggest, so `rankTeams` drops it.
+    // CAN THIS TEAM ACTUALLY PAY FOR ITS ROTATION? ~~A credible opener costs no
+    // more than one rotation of the team it opens~~ — that bound measured the
+    // derived filler, which no longer exists. The honest question left is
+    // whether the rotation is FUNDED: every resonator now starts on a full
+    // meter, so a shortfall means the build cannot rebuild its meter within a
+    // loop, at any pass beyond the first.
     //
-    // The bound is relative, and needs no invented constant: a credible opener
-    // costs no more than one rotation of the team it opens. Charging the first
-    // Liberation for longer than the whole rotation takes is a farm, not an
-    // opener. Measured over the shipped pool this keeps 330 of 416 teams and
-    // costs no anchor its suggestions — all 52 keep at least one.
-    const openerCredible = Object.values(openerByMember)
-        .some(entry => entry.addedTime <= teamTime);
+    // ~~A team is suggestable when at least ONE member funds their whole
+    // rotation at their equipped ER.~~ Measured, that dropped 206 of 416 team
+    // slots and cost FIVE anchors every suggestion they had — because under the
+    // new model a shortfall is not a defect, it is the ordinary state of a build
+    // that has not been geared for ER yet. The median requirement across the
+    // pool is 1.33, which is a perfectly normal target.
+    //
+    // ~~Every member must be fundable within MAX_CREDIBLE_ER.~~ Also measured,
+    // also wrong: that left 45 anchors of 56. Requiring a whole team to be
+    // ER-solved before it may be SUGGESTED inverts what the suggestion is for —
+    // the app is telling you what to build toward, and the ER target is part of
+    // that answer, not a precondition for hearing it.
+    //
+    // So the filter drops only what no build can ever fix: a Liberation with
+    // ZERO generation before it, where `requiredEr` is null because no
+    // multiplier on zero reaches the cost. Everything else is playable at a
+    // stated ER, and `requiredEr` is displayed alongside the flag.
+    const openerCredible = memberIds.every(id => {
+        const entry = openerByMember[String(id)];
+        return !entry || entry.requiredEr != null;
+    });
 
     return {
         members: memberIds.slice(),

@@ -114,7 +114,13 @@ export function applyEnergyEvent(gauge, event, { er, liberationCost }) {
  */
 export function accumulateEnergy(events, { er, liberationCost }) {
     const trace = [];
-    let cursor = 0;
+    // STARTS FULL (2026-08-14, maintainer-directed) — Tower of Adversity gives
+    // every resonator a full Resonance Energy meter on entry, and that is the
+    // scenario this app exists to model. ~~The cold-start convention was 0.~~
+    // Overcap is impossible (applyEnergyEvent clamps to the cost, which IS the
+    // meter's size), so pre-first-Liberation generation is spilled — see
+    // team-sim.js memberGauge for why that is correct and cheap.
+    let cursor = liberationCost ?? 0;
     for (const event of events) {
         const energyBefore = cursor;
         const applied = applyEnergyEvent(cursor, event, { er, liberationCost });
@@ -132,10 +138,16 @@ export function accumulateEnergy(events, { er, liberationCost }) {
  * Minimum ER at which every counted liberation in the member's event stream
  * is castable at cast time.
  *
- * Liberations in passes BEFORE `fromPass` are excluded from the requirement
- * (cold-start convention: the gauge starts at 0, so the first cycle's cast is
- * a player-managed pre-charge concern, not a build requirement) but they
+ * Liberations in passes BEFORE `fromPass` are excluded from the requirement but
  * still reset the gauge afterward — they were cast.
+ *
+ * ~~(cold-start convention: the gauge starts at 0, so the first cycle's cast is
+ * a player-managed pre-charge concern, not a build requirement)~~ — that was a
+ * fudge covering an empty start. With a FULL start the exclusion is arithmetic
+ * instead: pass 0's first Liberation is funded by the meter the resonator walks
+ * in with, so it cannot bind. The requirement genuinely begins at the SECOND
+ * pass, which is the whole point of the target — "the ER at which a full meter
+ * is rebuilt within one loop", so the cast lands where the kit wants it.
  *
  * Binary search over a per-cycle-independent requirement (2026-07-12):
  * accumulateEnergy resets the gauge to exactly 0 after every Liberation with

@@ -764,7 +764,9 @@ function renderStepBar(step, maxDmg, skillMap, clock) {
     const cdLine = step.cd?.violated ? `⏱ Cooldown not ready — re-cast ${step.cd.deficit.toFixed(1)}s early (${step.cd.cooldown}s CD)` : '';
     // Derived-opener filler (2026-07-12): a cast the opener spliced in to
     // honestly charge the next Liberation (opener.js).
-    const fillerLine = step.openerFiller ? '↻ Opener filler — spliced in to charge the next Liberation' : '';
+    // No step is ever spliced now, so nothing carries `openerFiller`. Kept as a
+    // no-op read rather than threaded out of every tooltip caller.
+    const fillerLine = '';
     // Echo steps have no skillMap entry — their real description rides on the
     // step (step.echoDesc, filled from the echo's active skill). 2026-07-15.
     const skillDef = skillMap?.[step.skillKey];

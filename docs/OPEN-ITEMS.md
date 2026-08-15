@@ -413,39 +413,35 @@ timing). Section title below kept for the surviving root-cause gap.
 
 ## Team / meta correctness
 
-2c. **The derived "opener" pads every pass, not just the cold start** (opened
-   2026-08-14, measured). `opener.js` says "steady-state passes need no padding
-   by construction". That is only true for a rotation that pays for its own
-   Liberations. One that does not arrives short on EVERY pass and is padded on
-   every pass, so the model stops being a cold-start model:
+2c. ~~**The derived "opener" pads every pass, not just the cold start.**~~
+   **CLOSED 2026-08-14** — the framework was replaced rather than the padding
+   tuned (maintainer-directed).
 
-   | | pass 1 | pass 2 | pass 3 |
+   THE MODEL NOW: every resonator starts on a FULL Resonance Energy meter, which
+   is what Tower of Adversity actually gives you and the scenario this app exists
+   to model. Overcap is impossible, so generation before the first Liberation is
+   spilled — correct and cheap, because a Liberation is placed for its buff
+   window (Chisa's feeds the +120% on Sawring Blitz; a support's is cast late so
+   it spans the next two members' turns), not for energy efficiency. Concerto and
+   the Forte gauges still start EMPTY, which is why pass 1 remains the weakest
+   pass: nothing has built up yet.
+
+   A CURATED ROTATION IS PERFORMED AS AUTHORED. No filler is spliced and no cast
+   is ever dropped — it states what the player does. A gauge that comes up short
+   is a BUILD that has not been geared for ER, so the engine reports the
+   shortfall and the ER that fixes it (`opener.js deriveEnergyShortfalls`, and
+   `team-energy.js minViableEr` derives the same quantity independently — on the
+   benchmark team the two agree to 0.002).
+
+   Measured, on the arabwuwa Chisa/Denia/Aemeath team:
+
+   | | damage | time | DPS |
    | --- | --- | --- | --- |
-   | openers ON | 60.78s | **39.64s** | **38.71s** |
-   | openers OFF | 29.06s | 29.86s | 29.86s |
-   | arabwuwa | 27.34s | 25.75s | 25.75s |
+   | before (padding) | 1.274x | 1.765x | 0.722x |
+   | after | 1.109x | **0.989x** | 1.122x |
 
-   With openers OFF our DPS is **1.010x** of arabwuwa (damage 1.137x and time
-   1.126x, which cancel). With openers ON it is **0.722x** — so the whole visible
-   gap on the team card is this padding: 50.4s of it (Chisa 19.6s, Denia 29.1s,
-   Aemeath 1.7s) against arabwuwa's entire cold-start cost of 1.59s.
-
-   THE ARITHMETIC IS NOT WRONG. Chisa's rotation generates 25.3 Resonance Energy
-   against a 125-cost Liberation, because a published steady-state rotation omits
-   the Resonance Skill and assumes the gauge is already flowing. The model
-   correctly concludes the Liberation is not castable and fills. Also note
-   passes 2 and 3 DISAGREE with openers on (2,568,955 vs 2,610,032) where they
-   are byte-identical with openers off — there is no steady state at all.
-
-   The decision is a design one and belongs to the maintainer, so nothing was
-   changed. The options, cheapest first:
-   (a) treat a non-self-sustaining rotation as a ROTATION defect and surface it,
-       rather than silently buying the shortfall with filler time;
-   (b) give pass 1 its own rotation (arabwuwa do — their R1 differs from R2 for
-       Chisa) and let passes 2+ run the steady loop unpadded;
-   (c) seed a starting gauge, which is what every published rotation implicitly
-       assumes;
-   (d) keep it and rename it, since "opener" is not what it does.
+   `deriveOpeners` is now a pure REPORT: on and off produce byte-identical
+   damage, time and step counts, which `tests/opener.test.mjs` pins.
 
 2b. **Per-TYPE crit scoping** (opened 2026-08-14, from the lane-4 migration).
    `ExtraEffectRequirements` type 12 `DamageTypes` scopes a grant to the game's

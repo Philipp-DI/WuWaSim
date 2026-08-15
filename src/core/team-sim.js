@@ -47,11 +47,11 @@
  *       resonatorId, index, skillKey, label,
  *       t, deficit, blockedUntil,        // team-time seconds
  *     }],                                // per-step detail on step.cd (see cooldowns.js)
- *     openerAdjustments: [{              // 2026-07-12 — derived openers (opener.js);
- *       resonatorId, pass, addedTime,    // only when deriveOpeners is on and a pass
- *       insertions: [{ beforeKey, cycle, count, addedTime }],   // was padded/gated;
- *       gated: [{ key, deficit, reason }],   // filler steps carry step.openerFiller
- *     }],
+ *     openerAdjustments: [{              // energy shortfalls (opener.js) — REPORT
+ *       resonatorId, pass,               // ONLY: the rotation always runs as
+ *       shortfalls: [{ key, deficit, requiredEr }],   // authored, nothing spliced
+ *       requiredEr,                      // and nothing gated. Present only when
+ *     }],                                // deriveOpeners is on AND a cast is short
  *     concerto: {                        // P13 — swap-gauge economy
  *       enforced,                        // whether readiness gated the handoffs
  *       max,                             // gauge size (100)
@@ -85,7 +85,7 @@ import { teamWideContribution, teamWideWindowSpecs, mergeTeamBundles, isTeamWide
 import { incomingResonatorContribution, distinctApplicatorTierContribution } from './buffs/conditional-buffs.js';
 import { collectEnergyEvents, accumulateEnergy, applyEnergyEvent, OFF_FIELD_SHARE } from './team-energy.js';
 import { annotateStepCooldowns } from './cooldowns.js';
-import { deriveOpenerPadding } from './opener.js';
+import { deriveEnergyShortfalls } from './opener.js';
 
 // Havoc Bane has no DoT — it reduces enemy DEF for the WHOLE team (−2%/stack).
 // It feeds the DefMult bucket of computeDamage via target.defShred
@@ -205,10 +205,32 @@ export function simulateTeamRotation({
         defIgnoreGates,
         externalTeamBuffs, timeline,
         memberCost, memberEchoGain, memberEchoCooldown, memberEchoLock,
-        // Derived-opener support (2026-07-12): a live per-member Resonance
-        // Energy ledger, advanced segment-by-segment with the SAME rule the
-        // reported trace uses (see creditTraceToLedger's header).
-        memberGauge: occupied.map(() => 0),
+        // A live per-member Resonance Energy ledger, advanced segment-by-segment
+        // with the SAME rule the reported trace uses (see creditTraceToLedger).
+        //
+        // IT STARTS FULL (2026-08-14, maintainer-directed). ~~The cold-start
+        // convention was an empty gauge~~, which is not how the mode this app
+        // exists to model works: in Tower of Adversity every resonator enters
+        // with a full Resonance Energy meter. Starting at zero made the FIRST
+        // Liberation of a rotation unpayable, and the engine bought the
+        // shortfall with derived filler — 50.4s of it on the benchmark team,
+        // against arabwuwa's entire cold-start cost of 1.59s.
+        //
+        // OVERCAP IS NOT POSSIBLE, and here that is load-bearing rather than
+        // incidental: `applyEnergyEvent` already clamps to `liberationCost`, and
+        // since the cost IS the meter's size, a full start means every point
+        // generated before the first Liberation is SPILLED. That is correct and
+        // cheap — a Liberation is placed for its buff window, not for its energy
+        // efficiency (Chisa's feeds the +120% on Sawring Blitz; a support's is
+        // cast late so it spans the next two members' turns) — and it is exactly
+        // what makes the ER target meaningful: the target is the ER at which a
+        // full meter is REBUILT within one loop, so the cast can be placed where
+        // the kit wants it rather than where the gauge allows.
+        //
+        // Concerto and the Forte/SpecialEnergy gauges deliberately do NOT get
+        // this treatment: they start empty, which is why pass 1 is still the
+        // weakest pass (no Concerto banked, no buff ramp, nothing built up).
+        memberGauge: occupied.map((_, index) => memberCost[index] ?? 0),
         // Per-member trigger-fire ledger in TEAM time, carried across that
         // member's passes (2026-08-02). A member's own timed effects are
         // resolved inside their segment's isolated simulateRotation, so without
@@ -414,8 +436,7 @@ export function simulateTeamRotation({
  *   with a resolvable castMatch trigger + seconds window (e.g. Changli S4);
  *   non-windowable team effects stay in the FLAT memberTeamWide path.
  * - memberCost/memberEchoGain/memberEchoCooldown/memberEchoLock: Resonance
- *   Energy + timing constants for the derived-opener ledger (the opener casts
- *   the slot-0 Echo Skill on cooldown as a filler generator — opener.js
+ *   Energy constants for the per-member Resonance Energy ledger (opener.js
  *   greedyFiller — and charges it the same timeline time the sim does).
  */
 function resolveMemberContext(occupied, dataset) {
@@ -789,7 +810,7 @@ function runIntroSegment(sim, turn) {
  * Intro/Outro step (those casts are accounted for exclusively by the
  * auto-injected segments, so keeping them would double-count), applies
  * team-aware status gating + team-wide buff bundles + Havoc Bane DEF shred,
- * pads/gates via the derived opener when enabled, and advances the cursor.
+ * reports any Resonance Energy shortfall when enabled, and advances the cursor.
  *
  * Returns { rotTime, memberTarget } — the on-field window the off-field
  * stage needs — or null when the member has no rotation.
@@ -859,20 +880,18 @@ function runRotationSegment(sim, turn) {
 
     // Derived opener (2026-07-12): pad or gate this pass's consuming
     // Liberations against the member's LIVE gauge — see opener.js.
-    const opener = sim.deriveOpeners ? deriveOpenerPadding({
+    // REPORT-ONLY. The rotation runs exactly as authored either way; this names
+    // the Liberations the build cannot pay for and the ER that would fund them.
+    const energy = sim.deriveOpeners ? deriveEnergyShortfalls({
         rotation: teamBuild.rotation,
         skillMap: effectiveSkillMap(sim.dataset, build.resonatorId) ?? {},
-        dataset: sim.dataset,
         echoEnergyGain: sim.memberEchoGain[memberIndex],
-        echoCooldown: sim.memberEchoCooldown[memberIndex],
-        echoLockTime: sim.memberEchoLock[memberIndex],
-        forteCap: sim.dataset.forte?.[String(build.resonatorId)]?.cap ?? 0,
         er: sim.memberStats[memberIndex].stats.energyRegen,
         liberationCost: sim.memberCost[memberIndex],
         gaugeStart: sim.memberGauge[memberIndex],
-        timingMode: sim.timingMode,
     }) : null;
-    const simBuild = opener ? { ...teamBuild, rotation: opener.rotation } : teamBuild;
+    // The rotation is never rewritten now — no filler spliced, no cast dropped.
+    const simBuild = teamBuild;
 
     // Conditional chain/inherent effects auto-resolve from the rotation
     // (trigger × window) — one resolution path for both sims.
@@ -911,14 +930,14 @@ function runRotationSegment(sim, turn) {
         startTime: step.startTime + sim.cursor,
         endTime:   step.endTime   + sim.cursor,
     }));
-    if (opener) {
-        for (const index of opener.fillerIndices) {
-            if (offsetSteps[index]) offsetSteps[index].openerFiller = true;
-        }
+    if (energy) {
         sim.openerAdjustments.push({
             resonatorId: build.resonatorId, pass: turn.pass,
-            insertions: opener.insertions, gated: opener.gated,
-            addedTime: opener.insertions.reduce((sum, x) => sum + x.addedTime, 0),
+            shortfalls: energy.shortfalls,
+            // The ER that would fund every underfunded cast in this pass — the
+            // single number a build page can act on.
+            requiredEr: energy.shortfalls.reduce(
+                (worst, one) => one.requiredEr == null ? worst : Math.max(worst ?? 0, one.requiredEr), null),
         });
     }
 
@@ -941,7 +960,7 @@ function runRotationSegment(sim, turn) {
         damage:        rotDmg,
         steps:         offsetSteps,
         simResult,
-        ...(opener ? { opener: { insertions: opener.insertions, gated: opener.gated } } : {}),
+        ...(energy ? { energyShortfalls: energy.shortfalls } : {}),
     };
     sim.segments.push(segment);
     accrueSegmentWindowsToTimeline(sim.timeline, segment, turn.name);

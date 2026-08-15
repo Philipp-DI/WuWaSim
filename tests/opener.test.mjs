@@ -1,26 +1,34 @@
 /**
- * Tests for derived openers (2026-07-12) — src/core/opener.js
- * (deriveOpenerPadding) + the deriveOpeners wiring in team-sim.js.
+ * Resonance Energy shortfalls — src/core/opener.js (deriveEnergyShortfalls)
+ * plus the `deriveOpeners` wiring in team-sim.js.
  *
  *   node tests/opener.test.mjs
  *
- * Direction under test (maintainer, 2026-07-12, partially revoking "energy
- * never gates damage" for the team path): a consuming Liberation whose gauge
- * can't cover the cost is padded (energy shortfall becomes real filler time),
- * or gated (dropped + reported) when nothing can generate the energy — never
- * kept as free damage.
+ * ~~Direction under test (2026-07-12): a consuming Liberation whose gauge can't
+ * cover the cost is PADDED (the shortfall becomes real filler time), or GATED
+ * (dropped + reported) when nothing can generate the energy — never kept as free
+ * damage.~~
  *
- * Filler model (2026-07-11): a CD-aware greedy — cast the highest-yield ability
- * that is OFF COOLDOWN (the rotation's Resonance Skills + the equipped Echo
- * Skill) and fill the gaps with the CD-free basic chain; Forte-gated casts are
- * excluded. Replaced the former fixed-cycle-×k loop that spun the pre-Liberation
- * prefix's weakest hits (Aero Rover's ~313s pathology).
+ * Superseded 2026-08-14 (maintainer-directed). Two things changed together:
+ *
+ *   1. THE METER STARTS FULL. Tower of Adversity — the mode this app exists to
+ *      model — gives every resonator a full Resonance Energy meter on entry.
+ *      Starting empty made the first Liberation unpayable and the engine bought
+ *      it with 50.4s of filler on the benchmark team, against arabwuwa's entire
+ *      cold-start cost of 1.59s.
+ *   2. A CURATED ROTATION IS PERFORMED AS AUTHORED. It states what the player
+ *      does, so the engine may neither splice steps into it nor delete a cast
+ *      from it. A short gauge is a BUILD problem, and the honest output is to
+ *      name it and name the ER that fixes it.
+ *
+ * So what is under test now is that the report is right and that it changes
+ * NOTHING about what runs.
  */
 
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { deriveOpenerPadding, MAX_FILLER_TIME } from '../src/core/opener.js';
+import { deriveEnergyShortfalls } from '../src/core/opener.js';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
 import { createBuild } from '../src/core/build.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
@@ -34,240 +42,111 @@ const close = (a, b, eps = 1e-9) => Math.abs(a - b) < eps;
 
 const target = { level: 90, atkLv: 90, resistances: {} };
 
-// ── deriveOpenerPadding: synthetic unit tests (CD-aware greedy) ──────────────
+// ── deriveEnergyShortfalls: synthetic unit tests ─────────────────────────────
 {
     const skillMap = {
         basic_1:   { skillType: 'basic', energyGen: 5, stepDuration: 0.5 },
         basic_2:   { skillType: 'basic', energyGen: 5, stepDuration: 0.5 },
         res_skill: { skillType: 'skill', energyGen: 20, stepDuration: 1.0, cooldown: 5 },
-        forte_cd:  { skillType: 'forte_heavy', energyGen: 50, stepDuration: 1.0, cooldown: 5 },
         lib:       { skillType: 'liberation', energyGen: 0, stepDuration: 1.5 },
         lib_free:  { skillType: 'liberation', energyGen: 0, stepDuration: 1.0, consumesResource: false },
     };
-    const base = { skillMap, dataset: {}, er: 1.0, liberationCost: 100 };
-    const seqOf = (p) => p.insertions[0].sequence;
+    const base = { skillMap, er: 1.0, liberationCost: 100 };
 
-    assert('no liberation cost → null (not evaluable)',
-        deriveOpenerPadding({ ...base, rotation: ['basic_1', 'lib'], liberationCost: null }) === null);
-    assert('no consuming liberation → null',
-        deriveOpenerPadding({ ...base, rotation: ['basic_1', 'lib_free'] }) === null);
-    assert('gauge already covers the cost → null',
-        deriveOpenerPadding({ ...base, rotation: ['basic_1', 'lib'], gaugeStart: 100 }) === null);
+    // Nothing to report when there is nothing to pay for.
+    assert('no liberation cost → nothing to report',
+        deriveEnergyShortfalls({ ...base, rotation: ['basic_1', 'lib'], liberationCost: null }) === null);
+    assert('a non-consuming liberation is never a shortfall',
+        deriveEnergyShortfalls({ ...base, rotation: ['basic_1', 'lib_free'] }) === null);
 
-    // Lib is FIRST so the greedy runs from a cold gauge (0). Res Skill (gen 20,
-    // cd 5) is cast whenever off cooldown; the 2-basic chain (gen 5) fills the
-    // gaps. g:0→100 = res_skill, 8 basics, res_skill (off cd at t=5), 4 basics
-    // → 14 steps / 8.0s. This is the whole point: the CD generator is used
-    // repeatedly on cooldown, not looped back-to-back or dropped.
-    const pad = deriveOpenerPadding({ ...base, rotation: ['lib', 'res_skill', 'basic_1', 'basic_2'] });
-    assert('greedy filler reaches the cost (14 steps / 8.0s)',
-        pad.insertions.length === 1 && seqOf(pad).length === 14 && close(pad.insertions[0].addedTime, 8.0, 1e-6));
-    assert('highest-yield off-cooldown ability is cast first, Res Skill exactly twice (on its 5s cd)',
-        seqOf(pad)[0] === 'res_skill' && seqOf(pad).filter(k => k === 'res_skill').length === 2);
-    assert('filler is spliced immediately before the Liberation',
-        pad.insertions[0].beforeKey === 'lib' && pad.rotation[14] === 'lib' &&
-        pad.fillerIndices.length === 14 && pad.fillerIndices.every(i => i < 14));
-    assert('nothing gated when the greedy succeeds', pad.gated.length === 0);
+    // THE HEADLINE: a full starting meter funds the first cast.
+    assert('a FULL meter funds the first liberation — no shortfall',
+        deriveEnergyShortfalls({ ...base, rotation: ['basic_1', 'lib'], gaugeStart: 100 }) === null);
+    // …and an empty one does not, which is what the old model padded away.
+    const empty = deriveEnergyShortfalls({ ...base, rotation: ['basic_1', 'lib'], gaugeStart: 0 });
+    assert('an EMPTY meter reports the first liberation as short',
+        empty?.shortfalls.length === 1 && close(empty.shortfalls[0].deficit, 95));
 
-    // A Forte-gauge-gated ability is EXCLUDED even with a cooldown + high gen —
-    // it can't be scheduled without a Forte model (Lever 2). Falls back to
-    // basics only: 100 / (5 × 1.0 ER) = 20 basics × 0.5s = 10.0s.
-    const forte = deriveOpenerPadding({ ...base, rotation: ['lib', 'forte_cd', 'basic_1', 'basic_2'] });
-    assert('Forte-gated ability is never used as filler', !seqOf(forte).includes('forte_cd'));
-    assert('greedy falls back to the basic chain (20 basics / 10.0s)',
-        seqOf(forte).length === 20 && close(forte.insertions[0].addedTime, 10.0, 1e-6));
+    // The SECOND cast is where a real rotation binds: the meter resets, so the
+    // rotation has to rebuild it out of its own generation.
+    const twoLibs = deriveEnergyShortfalls({
+        ...base, rotation: ['lib', 'basic_1', 'basic_2', 'lib'], gaugeStart: 100 });
+    assert('the first cast is funded but the second is short',
+        twoLibs?.shortfalls.length === 1 && twoLibs.shortfalls[0].key === 'lib');
+    // 10 base generated since the reset; 100 needed ⇒ ER 10.0 would fund it.
+    assert('…and it reports the ER that would have funded it',
+        close(twoLibs.shortfalls[0].requiredEr, 10));
+    // requiredEr scales with what the rotation actually generates: swap the two
+    // basics for a Resonance Skill run and the requirement drops.
+    const richer = deriveEnergyShortfalls({
+        ...base, rotation: ['lib', 'res_skill', 'res_skill', 'basic_1', 'lib'], gaugeStart: 100 });
+    const richerNeeds = richer.shortfalls[0].requiredEr;
+    assert('a rotation that generates more needs less ER',
+        richerNeeds < twoLibs.shortfalls[0].requiredEr);
+    // The reported ER is CEILED to 3 decimals, never rounded: advice that is
+    // rounded down does not fund the cast it is advice about.
+    assert('requiredEr is ceiled, so it is always sufficient',
+        richerNeeds >= 100 / 45 && richerNeeds - 100 / 45 < 1e-3);
 
-    // The equipped Echo Skill is a cooldown-gated generator: cast once (gen 50),
-    // then the basic chain finishes (its 20s cd outlasts the ~6s filler).
-    // echoLockTime is the timeline time the echo step costs — the caller passes
-    // sim.js's echoStepTimeOf, so the opener paces the echo exactly as the sim
-    // does. ECHO_CAST_TIME (1.2s) here = a Transform echo that locks the
-    // resonator; see the parallel-echo case below.
-    const echo = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 1.2 });
-    assert('echo skill is cast as a generator, once (its cooldown outlasts the filler)',
-        seqOf(echo)[0] === '__echo__' && seqOf(echo).filter(k => k === '__echo__').length === 1);
-    assert('echo generation counts toward the projection (1 echo + 10 basics / 6.2s)',
-        seqOf(echo).length === 11 && close(echo.insertions[0].addedTime, 6.2, 1e-6));
+    // Raising ER to the reported number funds the cast — the report is
+    // actionable, not decorative.
+    assert('at the reported ER the shortfall disappears',
+        deriveEnergyShortfalls({ ...base, er: richerNeeds,
+            rotation: ['lib', 'res_skill', 'res_skill', 'basic_1', 'lib'], gaugeStart: 100 }) === null);
 
-    // A PARALLEL echo (Summon / direct-attack — the majority of the roster) casts
-    // at ZERO timeline time, so the same 11-step filler costs 1.2s less. The
-    // opener used to charge every echo the full ECHO_CAST_TIME regardless, which
-    // made a free 50 energy look like a 1.2s investment.
-    const echoParallel = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 0 });
-    assert('a parallel echo costs no filler time (same steps, 1.2s shorter)',
-        seqOf(echoParallel).length === seqOf(echo).length
-        && close(echoParallel.insertions[0].addedTime, echo.insertions[0].addedTime - 1.2, 1e-6));
-    assert('echoLockTime defaults to the parallel case (0), not to ECHO_CAST_TIME',
-        close(deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20 })
-            .insertions[0].addedTime, echoParallel.insertions[0].addedTime, 1e-6));
-
-    // Cooldown seed from the authored prefix (2026-07-15): the Echo Skill cast
-    // BEFORE a consuming Liberation is still on its 20s cooldown when the filler
-    // runs — the greedy must NOT re-cast it immediately (the reported bug: an
-    // impossible back-to-back Echo Skill). The prefix echo (gen 50) leaves a 50
-    // deficit the CD-free basic chain covers; the echo stays blocked.
-    const echoPrefix = deriveOpenerPadding({ ...base, rotation: ['__echo__', 'lib', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 1.2 });
-    assert('filler does NOT re-cast the Echo Skill while its authored-prefix cooldown runs',
-        echoPrefix.insertions.length === 1 && seqOf(echoPrefix).every(k => k !== '__echo__'));
-    // The SAME kit with the echo NOT recently cast (Liberation first, echo after)
-    // → the echo is free to use as a generator, exactly as before.
-    const echoFresh = deriveOpenerPadding({ ...base, rotation: ['lib', '__echo__', 'basic_1'], echoEnergyGain: 50, echoCooldown: 20, echoLockTime: 1.2 });
-    assert('the echo IS used as a generator when it is not on a carried cooldown',
-        seqOf(echoFresh).includes('__echo__'));
-
-    // Higher ER and gauge carry-in both shorten the filler.
-    const highEr = deriveOpenerPadding({ ...base, rotation: ['lib', 'res_skill', 'basic_1', 'basic_2'], er: 2.0 });
-    assert('higher ER shortens the filler', highEr.insertions[0].addedTime < pad.insertions[0].addedTime);
-    const carry = deriveOpenerPadding({ ...base, rotation: ['lib', 'res_skill', 'basic_1', 'basic_2'], gaugeStart: 60 });
-    assert('gauge carry-in shortens the filler', carry.insertions[0].addedTime < pad.insertions[0].addedTime);
-
-    // Gating: nothing generates energy → the cast and its contiguous cost-free
-    // continuations are dropped and reported.
-    const noGen = { lib: skillMap.lib, lib_free: skillMap.lib_free };
-    const gateNF = deriveOpenerPadding({ ...base, skillMap: noGen, rotation: ['lib', 'lib_free'] });
-    assert('no-filler gate drops the cast and its free continuations',
-        gateNF.rotation.length === 0 && gateNF.gated.length === 1 &&
-        gateNF.gated[0].key === 'lib' && gateNF.gated[0].reason === 'no-filler');
-
-    // Near-zero generation → the farm would exceed MAX_FILLER_TIME → gated.
-    const weak = { ...skillMap, basic_1: { skillType: 'basic', energyGen: 0.01, stepDuration: 0.5 }, basic_2: { skillType: 'basic', energyGen: 0.01, stepDuration: 0.5 } };
-    const gateUR = deriveOpenerPadding({ ...base, skillMap: weak, rotation: ['lib', 'basic_1', 'basic_2'] });
-    assert(`near-zero generation gates as unreachable (farm would exceed ${MAX_FILLER_TIME}s)`,
-        gateUR.gated.length === 1 && gateUR.gated[0].reason === 'unreachable');
-
-    // Two consuming Liberations: the reset after the first means the second is
-    // padded from its OWN local gauge, independently.
-    const two = deriveOpenerPadding({ ...base, rotation: ['lib', 'res_skill', 'basic_1', 'lib'] });
-    assert('each consuming Liberation is padded against its own local gauge',
-        two.insertions.length === 2 && two.gated.length === 0);
+    // Zero income can never be covered, and says so rather than inventing a
+    // number.
+    const noIncome = deriveEnergyShortfalls({ ...base, rotation: ['lib', 'lib'], gaugeStart: 100 });
+    assert('zero income between casts → requiredEr is null, not a fabricated value',
+        noIncome?.shortfalls.length === 1 && noIncome.shortfalls[0].requiredEr === null);
 }
 
-// ── The opener's gameTime axis: freeze, and one animation freezing once ─────
-// tNow (what readySeed measures cooldown remainders against) is gameTime, so a
-// cast's freeze shortens its own advance. resolveFreezeTime was being called
-// without an stepDuration or a liberationCost, which silently zeroed every
-// estimated freeze here while the sim applied it — the two clocks disagreed on
-// when a cooldown ability came back. Freeze also has to be credited per
-// ANIMATION, exactly as sim.js's resolveFreezeSchedule does it.
+// ── The wiring: reporting must not change what runs ──────────────────────────
 {
-    // lib_a / lib_b are two damage rows of ONE 3.0s animation frozen for 2.5s.
-    // res_skill (cd 6) is cast first, so how much of its cooldown has burned by
-    // the time lib_2's filler runs is a direct read-out of the gameTime axis.
-    const freezeMap = {
-        basic_1:   { skillType: 'basic', energyGen: 5, stepDuration: 0.5 },
-        res_skill: { skillType: 'skill', energyGen: 20, stepDuration: 1.0, cooldown: 6 },
-        lib_a: { skillType: 'liberation', energyGen: 0, stepDuration: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
-        lib_b: { skillType: 'liberation', energyGen: 0, stepDuration: 3.0, freezeTime: 2.5, freezeSource: 'AM_Burst01', consumesResource: false },
-        lib_2: { skillType: 'liberation', energyGen: 0, stepDuration: 1.5 },
-    };
-    const rotation = ['res_skill', 'lib_a', 'lib_b', 'lib_2'];
-    const fbase = { skillMap: freezeMap, dataset: {}, er: 1.0, liberationCost: 100, gaugeStart: 20 };
-    const seqOf = (p) => p.insertions[0].sequence;
-
-    // res_skill's position in the filler IS the read-out: the later it appears,
-    // the less of its 6s cooldown the authored prefix burned.
-    const resAt = (p) => seqOf(p).indexOf('res_skill');
-
-    // Deduped: tNow at lib_2 = 1.0 + (3.0−2.5) + 3.0 = 4.5, so 1.5s of cooldown
-    // is left — 3 basics (0.5s each) before res_skill comes back.
-    const deduped = deriveOpenerPadding({ ...fbase, rotation });
-    assert('a shared freeze source pays once, so the axis advances by the real animation (1.5s left → index 3)',
-        resAt(deduped) === 3);
-
-    // Unshared sources: BOTH freezes count (1.0 + 0.5 + 0.5 = 2.0), leaving 4.0s
-    // of cooldown — 8 basics. Over-counting freeze makes cooldowns look longer.
-    const unshared = deriveOpenerPadding({ ...fbase, rotation,
-        skillMap: { ...freezeMap, lib_b: { ...freezeMap.lib_b, freezeSource: 'AM_Burst02' } } });
-    assert('two DIFFERENT animations freeze separately (the dedup is per source, not blanket)',
-        resAt(unshared) === 8);
-
-    // No freeze at all → the axis is pure realTime (tNow 7.0), the cooldown is
-    // fully burned and res_skill leads. If the opener ignored freezeTime — as it
-    // did until the resolveFreezeTime call was given its stepDuration — every
-    // case above would collapse onto this one.
-    const unfrozen = Object.fromEntries(Object.entries(freezeMap)
-        .map(([k, v]) => [k, { ...v, freezeTime: undefined, freezeSource: undefined }]));
-    const noFreeze = deriveOpenerPadding({ ...fbase, rotation, skillMap: unfrozen });
-    assert('freeze is actually applied (an unfrozen kit burns the whole cooldown → index 0)',
-        resAt(noFreeze) === 0 && resAt(deduped) !== 0 && resAt(unshared) !== 0);
-
-    // 'open' mode ignores freeze entirely — same axis as the unfrozen kit.
-    const openMode = deriveOpenerPadding({ ...fbase, rotation, timingMode: 'open' });
-    assert("'open' mode ignores freeze (matches the unfrozen kit exactly)",
-        JSON.stringify(seqOf(openMode)) === JSON.stringify(seqOf(noFreeze)));
-}
-
-// ── Forte layer (Lever 2): gauge fill → payoff, and no-data safety ───────────
-{
-    const seqOf = (p) => p.insertions[0].sequence;
-    const forteMap = {
-        basic_1: { skillType: 'basic', energyGen: 2, stepDuration: 0.5 },
-        filler:  { skillType: 'forte_heavy', energyGen: 1, stepDuration: 0.5, forteGen: 50 },  // fast Forte generator
-        payoff:  { skillType: 'forte_heavy', energyGen: 40, stepDuration: 0.5 },               // big gainer, no forteGen
-        lib:     { skillType: 'liberation', energyGen: 0, stepDuration: 1.5 },
-    };
-    const fbase = { skillMap: forteMap, dataset: {}, er: 1.0, liberationCost: 100 };
-
-    // With a real cap: 2 fillers fill the 100 gauge → the payoff (40 energy)
-    // fires, and its high chain-throughput makes the greedy prefer this loop.
-    const fp = deriveOpenerPadding({ ...fbase, forteCap: 100, rotation: ['lib', 'filler', 'payoff'] });
-    assert('Forte generator is used to build the gauge', seqOf(fp).includes('filler'));
-    assert('Forte payoff fires once the gauge is full', seqOf(fp).includes('payoff'));
-
-    // Without Forte data (forteCap 0): the `forte_*` payoff AND generator are
-    // both excluded — byte-for-byte the non-Forte greedy (basics only). This is
-    // the no-regression guarantee for the ~37 uncovered resonators.
-    const noF = deriveOpenerPadding({ ...fbase, forteCap: 0, rotation: ['lib', 'filler', 'payoff'] });
-    assert('no Forte data → forte_* payoff/generator excluded (basic-only fallback)',
-        !seqOf(noF).includes('payoff') && !seqOf(noF).includes('filler') && seqOf(noF).every(k => k === 'basic_1'));
-
-    // A slow filler that only unlocks a slow payoff must NOT be preferred over a
-    // fast basic (chain-throughput fairness → never regress).
-    const slowMap = { ...forteMap, filler: { skillType: 'forte_heavy', energyGen: 0.1, stepDuration: 2.0, forteGen: 5 }, payoff: { skillType: 'forte_heavy', energyGen: 3, stepDuration: 2.0 } };
-    const slow = deriveOpenerPadding({ skillMap: slowMap, dataset: {}, er: 1.0, liberationCost: 100, forteCap: 100, rotation: ['lib', 'filler', 'payoff'] });
-    assert('a low-throughput Forte chain loses to the basic chain', seqOf(slow).every(k => k === 'basic_1'));
-}
-
-// ── Team integration: honest cold start, steady-state self-elimination ─────
-{
-    const refs = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
-    const ids = [1102, 1209];   // Sanhua (lib-first rotation) / Mornye
-    const builds = new Map();
+    const ids = [1108, 1109, 1508];
     let team = createTeam();
-    ids.forEach((id, i) => {
-        const b = createBuild(d.resonators.find(r => r.id === id));
-        b.rotation = [...refs[String(id)].rotation];
-        builds.set(b.id, b);
-        team = setTeamSlot(team, i, b.id);
+    const builds = new Map();
+    ids.forEach((id, index) => {
+        const resonator = d.resonators.find(entry => entry.id === id);
+        const build = { ...createBuild(resonator), level: 90 };
+        const reference = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
+        build.rotation = [...(reference[String(id)]?.rotation ?? [])];
+        build.rotationMeta = build.rotation.map(() => ({}));
+        builds.set(build.id, build);
+        team = setTeamSlot(team, index, build.id);
     });
-    const resolveBuild = (x) => builds.get(x) ?? null;
+    const resolveBuild = (id) => builds.get(id) ?? null;
+    const run = (deriveOpeners) => simulateTeamRotation({
+        team, resolveBuild, dataset: d, target, passCount: 3, deriveOpeners });
 
-    const off = simulateTeamRotation({ team, resolveBuild, dataset: d, target, passCount: 2 });
-    const on  = simulateTeamRotation({ team, resolveBuild, dataset: d, target, passCount: 2, deriveOpeners: true });
+    const on = run(true), off = run(false);
+    // THE CONTRACT. The flag is a REPORT. Turning it on may not move a single
+    // number — no step spliced, no cast dropped, no time added. Under the old
+    // padding model these differed by 50.4s on the benchmark team.
+    assert('deriveOpeners changes no damage', close(on.totals.damage, off.totals.damage, 1e-6));
+    assert('deriveOpeners changes no time', close(on.totals.gameTime, off.totals.gameTime, 1e-6));
+    assert('deriveOpeners changes no step count',
+        [...on.memberSteps.values()].flat().length === [...off.memberSteps.values()].flat().length);
 
-    assert('engine default (deriveOpeners off) reports no adjustments', off.openerAdjustments.length === 0);
-    assert('legacy view has uncastable cold-start Liberations',
-        [...off.memberEnergy.values()].some(me => me.trace.some(e => e.isLiberation && e.liberationCastable === false)));
+    // No step is ever marked as spliced filler any more.
+    assert('no step is flagged as opener filler',
+        [...on.memberSteps.values()].flat().every(step => !step.openerFiller));
 
-    assert('openers produce adjustments on the cold start', on.openerAdjustments.length > 0);
-    assert('every consuming Liberation is castable once padded (prediction matches the reported trace)',
-        [...on.memberEnergy.values()].every(me => me.trace.every(e => !e.isLiberation || e.liberationCastable !== false)));
-    assert('padding costs real time', on.totals.time > off.totals.time);
-    assert('filler steps are marked on the team-time segments',
-        on.segments.some(segment => (segment.steps ?? []).some(step => step.openerFiller === true)));
-    assert('padded segments carry their opener summary',
-        on.segments.some(s => s.opener && s.opener.insertions.length > 0));
+    // The report itself is shaped as the UI reads it.
+    for (const adjustment of on.openerAdjustments ?? []) {
+        assert('every reported adjustment carries shortfalls',
+            Array.isArray(adjustment.shortfalls) && adjustment.shortfalls.length > 0);
+        assert('…and never an addedTime (padding is retired)', !('addedTime' in adjustment));
+        assert('…and never a gated cast (a curated rotation keeps every cast)',
+            !('gated' in adjustment));
+    }
 
-    // Steady state self-eliminates: Sanhua's pass-1 needs less (or no) filler
-    // than pass 0 — energy carried over means the cold start was the problem.
-    const sanhuaAdj = on.openerAdjustments.filter(a => a.resonatorId === 1102);
-    const p0 = sanhuaAdj.find(a => a.pass === 0)?.addedTime ?? 0;
-    const p1 = sanhuaAdj.find(a => a.pass === 1)?.addedTime ?? 0;
-    assert('cold-start pass needs the padding; later passes need less', p0 > 0 && p1 < p0);
-
-    const again = simulateTeamRotation({ team, resolveBuild, dataset: d, target, passCount: 2, deriveOpeners: true });
-    assert('openers are deterministic', again.totals.damage === on.totals.damage && again.totals.time === on.totals.time);
+    // Pass 1 is no longer the long one: the cold start costs nothing now.
+    const passTime = (result, pass) => result.segments
+        .filter(segment => segment.pass === pass)
+        .reduce((sum, segment) => sum + (segment.endTime - segment.startTime), 0);
+    assert('pass 1 costs no more time than pass 2', passTime(on, 0) <= passTime(on, 1) + 1e-6);
 }
 
-console.log(`\nopener: ${passed} passed, ${failed} failed`);
+console.log(`opener: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

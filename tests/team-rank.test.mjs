@@ -65,11 +65,12 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             Math.abs(s.passes.reduce((sum, p) => sum + p.damage, 0) - totalDamage) < 3);
         assert('…and their times sum to the 3-pass game time',
             Math.abs(s.passes.reduce((sum, p) => sum + p.time, 0) - totalTime) < 0.05);
-        // Pass 1 carries the derived opener's cold start, so it must be the
-        // slowest — if it were not, the multi-pass run would not be modelling
-        // a cold start at all.
-        assert('pass 1 is the cold start (longest of the three)',
-            s.passes[0].time >= s.passes[1].time - 1e-6);
+        // ~~Pass 1 carries the derived opener's cold start, so it must be the
+        // slowest.~~ There is no padding any more and the meter starts FULL, so
+        // pass 1 is no LONGER than the rest — the cold start costs no time at
+        // all now, and any remaining difference is the buff/Concerto ramp.
+        assert('pass 1 no longer costs extra time (padding is retired)',
+            s.passes[0].time <= s.passes[1].time + 1e-6);
         assert('openerCredible is decided and boolean', typeof s.openerCredible === 'boolean');
         assert('rankingDamage is gone — there is only one measurement now',
             !('rankingDamage' in s));

@@ -98,7 +98,13 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     const events2 = [gen(50, 0), lib(0), gen(150, 1), lib(1)];
     const all2 = minViableEr(events2, 100);          // lib0's own requirement binds: 100/50 = 2
     const steady2 = minViableEr(events2, 100, { fromPass: 1 });
-    assert('cold-start liberation binds the all-pass requirement', close(all2.minViable, 2));
+    // ~~The cold-start liberation binds the all-pass requirement (100/50 = 2).~~
+    // The gauge now STARTS FULL, so pass 0's cast is funded by the meter the
+    // resonator walks in with and can never bind. What is left is lib1's own
+    // cycle, 100/150 — and that is the point of the change: the requirement is
+    // "rebuild a full meter within one loop", not "charge one from empty".
+    assert('a full start means the cold-start liberation cannot bind',
+        close(all2.minViable, 100 / 150));
     // Excluding lib0 doesn't change how much lib1's OWN cycle needs — the
     // reset before it happens regardless of lib0's castability, so pass 1
     // starts fresh from 0 either way: ER ≥ 100/150 ≈ 0.6667.
@@ -107,7 +113,13 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     // Never fabricate:
     assert('no liberation cost → not achievable', minViableEr(events, null).achievable === false);
     assert('no liberations → not achievable', minViableEr([gen(50, 0)], 100).achievable === false);
-    assert('zero income before a counted liberation → not achievable', minViableEr([lib(0)], 100).achievable === false);
+    // A lone pass-0 liberation is now FUNDED by the starting meter, so it is
+    // achievable at any ER — the honest "no income can ever cover this" case is
+    // a liberation in a LATER pass with nothing generated before it.
+    assert('a lone cold-start liberation is funded by the full meter',
+        minViableEr([lib(0)], 100).achievable === true);
+    assert('zero income before a LATER liberation → not achievable',
+        minViableEr([lib(0), lib(1)], 100, { fromPass: 1 }).achievable === false);
 }
 
 // ── accumulateEnergy: linear in ER, cost constant ───────────────────────────
@@ -119,8 +131,21 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     ];
     const at1 = accumulateEnergy(events, { er: 1.0, liberationCost: 100 });
     const at2 = accumulateEnergy(events, { er: 1.25, liberationCost: 100 });
-    assert('accumulation is linear in ER', close(at1[1].energyAfter, 80) && close(at2[1].energyAfter, 100));
-    assert('below-cost liberation flagged not castable', at1[2].liberationCastable === false);
+    // Starting FULL and clamped at the cost, both ER values are already pinned
+    // to 100 before the first event — which is the overcap rule doing its job:
+    // generation before the first Liberation is spilled.
+    assert('a full start is clamped at the cost, so pre-liberation gain spills',
+        close(at1[1].energyAfter, 100) && close(at2[1].energyAfter, 100));
+    assert('a liberation on a full meter IS castable', at1[2].liberationCastable === true);
+    // Linearity still holds where it matters — AFTER a reset, where the gauge
+    // genuinely rebuilds from 0.
+    const afterReset = [
+        { t: 0, base: 0,  isLiberation: true,  pass: 0 },
+        { t: 1, base: 40, isLiberation: false, pass: 0 },
+    ];
+    assert('accumulation is linear in ER once the gauge has been reset',
+        close(accumulateEnergy(afterReset, { er: 1.0, liberationCost: 100 })[1].energyAfter, 40)
+        && close(accumulateEnergy(afterReset, { er: 1.25, liberationCost: 100 })[1].energyAfter, 50));
     assert('at-cost liberation flagged castable', at2[2].liberationCastable === true);
     assert('the cast always resets to 0 once cost is known, castable or not', close(at1[2].energyAfter, 0));
     const noCost = accumulateEnergy(events, { er: 1.0, liberationCost: null });
@@ -152,18 +177,23 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 
     const se = result.memberEnergy.get(1102);
     assert('liberation cost read from baseStats', se.liberationCost === d.baseStats['1102'].energyMax);
-    assert('trace has entries and starts from 0 (cold start)', se.trace.length > 0 && se.trace[0].energyBefore === 0);
+    // ~~starts from 0 (cold start)~~ — Tower of Adversity hands every resonator a
+    // FULL meter on entry, which is the scenario this app models.
+    assert('trace has entries and starts from a FULL meter',
+        se.trace.length > 0 && close(se.trace[0].energyBefore, se.liberationCost));
     assert('Sanhua\'s liberation casts appear in her team trace', se.trace.filter(e => e.isLiberation).length === 2);
 
     // Independent recomputation of Sanhua's energy before her FIRST liberation,
     // straight from the segments' raw traces (not via team-energy.js):
     // own steps at full rawGen, other members' steps at 50% — all × her ER.
-    let expected = 0;
+    // Starts from the full meter, and every gain is clamped to it.
+    let expected = se.liberationCost;
     outer: for (const segment of result.segments) {
         const trace = segment.simResult?.energyTrace ?? [];
         for (const event of trace) {
             if (segment.resonatorId === 1102 && event.isLiberation) break outer;
-            expected += (segment.resonatorId === 1102 ? 1 : OFF_FIELD_SHARE) * (event.rawGen ?? 0) * se.er;
+            expected = Math.min(se.liberationCost,
+                expected + (segment.resonatorId === 1102 ? 1 : OFF_FIELD_SHARE) * (event.rawGen ?? 0) * se.er);
         }
     }
     const firstLib = se.trace.find(e => e.isLiberation);
