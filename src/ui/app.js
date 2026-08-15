@@ -247,6 +247,10 @@ function showTeamSimV2(teamId) {
 
     mountTeamSimV2(root, {
         dataset,
+        // The team pass's own recipes, so the page can tell when a slot is
+        // running the user's saved build instead of the one the suggested-team
+        // card was measured with (team-editor-v2.js's YOUR BUILD badge).
+        meta,
         team,
         resolveBuild: (id) => readBuild(id, { dataset }),
         listBuilds: () => listBuilds({ dataset }),

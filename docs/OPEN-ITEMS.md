@@ -443,8 +443,19 @@ timing). Section title below kept for the surviving root-cause gap.
    `deriveOpeners` is now a pure REPORT: on and off produce byte-identical
    damage, time and step counts, which `tests/opener.test.mjs` pins.
 
-2d. **A rotation cannot state a different FIRST pass** (opened 2026-08-15, from
-   a UI spot-check). `build.rotation` is one sequence, replayed every pass — so
+2d. ~~**A rotation cannot state a different FIRST pass.**~~ **CLOSED 2026-08-15**
+   (opened and closed the same day). `build.openerRotation` is an OPTIONAL
+   curated opening pass, run on pass 0 only (`team-sim.js withOpeningRotation`)
+   and threaded through the reference file, the optimizer recipe and the UI
+   materialization. Chisa ships arabwuwa's Rotation 1; the other 55 resonators
+   have none, and `tests/team-sim.test.mjs` pins that an absent opener leaves
+   the damage bit-identical. Two grants her kit states were missing and are now
+   curated from its own node text (Liberation → Basic 2, Eye of Unraveling →
+   Rending Lunge), so the opener validates clean.
+
+   Kept because the reasoning is the spec for the next one:
+
+   `build.rotation` is one sequence, replayed every pass — so
    a kit whose opening pass genuinely differs has nowhere to say so.
 
    The concrete case: the very first member on field never gets an Intro (nobody
@@ -457,13 +468,15 @@ timing). Section title below kept for the surviving root-cause gap.
    Chisa**, who is the member they lead with — she opens on a Resonance Skill
    there, and we store R2.
 
-   The team page now SURFACES the warning per member (`firstPassWarnings` in
+   The team page SURFACES the warning per member (`firstPassWarnings` in
    `team-editor-v2.js`) rather than rendering a sequence its own validator
-   rejects in silence. What it cannot do is fix it, and the fix must not be
-   invented: writing a plausible pass-1 opener for Chisa would be fabricating a
-   reference we do not have.
+   rejects in silence — and still does, for any resonator without an opener.
+   What it could not do was fix it, and the fix had to come from the maintainer
+   rather than be invented: writing a plausible pass-1 opener for Chisa would
+   have been fabricating a reference. They supplied arabwuwa's Rotation 1 on
+   2026-08-15 and it is now hers.
 
-   The shape when it is done: an optional `openingRotation` on a reference entry
+   The shape as built: an optional `openerRotation` on a reference entry
    (and on a build), used for a member's first turn only. Distinct from the
    retired padding — this is CURATION, not derivation.
 

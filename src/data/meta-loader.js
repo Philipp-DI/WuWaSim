@@ -125,6 +125,16 @@ export function resolveReferenceRotation(meta, referenceRotations, resonatorId) 
     return referenceRotations?.[String(resonatorId)]?.rotation ?? null;
 }
 
+/**
+ * The OPTIONAL curated opening pass, or null. Only the hand-curated file states
+ * one — the P12 meta's synthesized rotation is a steady-state loop and has no
+ * opener to offer, so unlike resolveReferenceRotation there is no meta branch.
+ */
+export function resolveOpenerRotation(referenceRotations, resonatorId) {
+    const opener = referenceRotations?.[String(resonatorId)]?.openerRotation;
+    return Array.isArray(opener) && opener.length ? opener : null;
+}
+
 /** The set of sequence levels computed for a resonator (for UI fallbacks). */
 export function coveredSequences(meta, resonatorId) {
     const character = meta?.characters?.[String(resonatorId)];

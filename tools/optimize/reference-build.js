@@ -62,6 +62,19 @@ export function curatedRotationFor(resonatorId) {
     return Array.isArray(entry?.rotation) ? entry.rotation.slice() : null;
 }
 
+/**
+ * The OPTIONAL curated opening pass, or null. Distinct from `rotation`, which
+ * is the steady-state loop: the first member on field gets no Intro, so a loop
+ * written to open off its own Intro cannot be performed on pass 1 and the real
+ * answer is a different sequence. Absent for all but a few resonators, and
+ * nothing is derived when it is missing (see core/opener.js).
+ */
+export function curatedOpenerFor(resonatorId) {
+    const entry = curatedRotations()[String(resonatorId)];
+    return Array.isArray(entry?.openerRotation) && entry.openerRotation.length
+        ? entry.openerRotation.slice() : null;
+}
+
 /** The resonance mode a curated rotation is authored for (null = single-mode). */
 export function curatedModeFor(resonatorId) {
     return curatedRotations()[String(resonatorId)]?.resonanceMode ?? null;

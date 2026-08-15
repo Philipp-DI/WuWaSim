@@ -24,6 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const d = JSON.parse(readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8'));
 const meta = JSON.parse(readFileSync(resolve(root, 'data/wuwa-meta.json'), 'utf8'));
+const referenceRotations = JSON.parse(readFileSync(resolve(root, 'data/reference-rotations.json'), 'utf8'));
 d.statRanges = JSON.parse(readFileSync(resolve(root, 'data/stat-ranges.json'), 'utf8'))?.stat_ranges ?? {};
 
 let passed = 0, failed = 0;
@@ -66,11 +67,23 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         assert('…and their times sum to the 3-pass game time',
             Math.abs(s.passes.reduce((sum, p) => sum + p.time, 0) - totalTime) < 0.05);
         // ~~Pass 1 carries the derived opener's cold start, so it must be the
-        // slowest.~~ There is no padding any more and the meter starts FULL, so
-        // pass 1 is no LONGER than the rest — the cold start costs no time at
-        // all now, and any remaining difference is the buff/Concerto ramp.
-        assert('pass 1 no longer costs extra time (padding is retired)',
-            s.passes[0].time <= s.passes[1].time + 1e-6);
+        // slowest.~~ ~~There is no padding any more and the meter starts FULL,
+        // so pass 1 is no LONGER than the rest.~~ Both readings are dead. A
+        // resonator may now ship a CURATED opening pass (build.openerRotation),
+        // and a real one is free to be longer than the loop — Chisa's arabwuwa
+        // Rotation 1 is 11 steps against her 8-step loop, because it spends the
+        // opening on charging Chainsaw Mode.
+        //
+        // What still has to hold is that the difference is EXPLAINED: pass 1
+        // may differ only when some member actually authored a different
+        // opening pass. No opener anywhere ⇒ no cold-start cost, which is the
+        // property the padding retirement bought and the one worth locking.
+        {
+            const anyOpener = members.some(id =>
+                (referenceRotations[String(id)]?.openerRotation ?? []).length > 0);
+            assert('pass 1 costs no extra time unless a member authored an opening pass',
+                anyOpener || s.passes[0].time <= s.passes[1].time + 1e-6);
+        }
         assert('openerCredible is decided and boolean', typeof s.openerCredible === 'boolean');
         assert('rankingDamage is gone — there is only one measurement now',
             !('rankingDamage' in s));

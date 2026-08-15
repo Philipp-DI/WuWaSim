@@ -101,7 +101,14 @@ function buildInspectRow(dataset, mb, dmg, resonatorId) {
     if (!mb) return '';
     const s = mb.stats ?? {};
     const echoes = (mb.echoes ?? []).map(echoChip).join(' · ');
-    const rot = (mb.rotation ?? []).map(key => stepLabel(dataset, resonatorId, key)).join(' → ');
+    const asSequence = (keys) => keys.map(key => stepLabel(dataset, resonatorId, key)).join(' → ');
+    const rot = asSequence(mb.rotation ?? []);
+    // The optional curated opening pass, when this resonator has one. Shown
+    // ABOVE the loop and labelled, because it is what actually runs on pass 1 —
+    // a card that lists only the loop describes a pass the sim never ran.
+    const opener = (mb.openerRotation ?? []).length
+        ? `<div style="margin-top:3px;color:var(--faint);line-height:1.4;"><span style="color:var(--acc);">Opening pass:</span> ${esc(asSequence(mb.openerRotation))}</div>`
+        : '';
     const statTip = 'Resolved from the real build: base + weapon + echo mains + the real average-roll substats shown by hovering each echo below.';
     return `<div style="padding:8px 10px;border-top:1px solid var(--bd);font-family:var(--font-body);font-size:10.5px;color:var(--dim);">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -114,7 +121,8 @@ function buildInspectRow(dataset, mb, dmg, resonatorId) {
         <div data-tip-title="Resolved stats" data-tip-desc="${esc(statTip)}" style="margin-top:3px;color:var(--faint);cursor:help;">
             ATK ${fmtN(s.atk)} · CR ${pctOf(s.critRate)} · CD ${pctOf(s.critDmg)} · ER ${pctOf(s.energyRegen)}${s.healingBonus ? ` · Heal Bonus ${pctOf(s.healingBonus)}` : ''} &nbsp; | &nbsp; Echoes ${echoes}
         </div>
-        <div style="margin-top:3px;color:var(--faint);line-height:1.4;">Rotation: ${esc(rot)}</div>
+        ${opener}
+        <div style="margin-top:3px;color:var(--faint);line-height:1.4;">${opener ? 'Loop (pass 2+)' : 'Rotation'}: ${esc(rot)}</div>
     </div>`;
 }
 

@@ -817,7 +817,8 @@ function runIntroSegment(sim, turn) {
  */
 function runRotationSegment(sim, turn) {
     const { build, memberIndex, accum } = turn;
-    const teamBuild = capTuneBreaksPerPass(withoutAutoCastSteps(build, sim.dataset), sim, turn);
+    const turnBuild = withOpeningRotation(build, turn.pass);
+    const teamBuild = capTuneBreaksPerPass(withoutAutoCastSteps(turnBuild, sim.dataset), sim, turn);
     if (!teamBuild.rotation?.length) return null;
 
     // Team-aware status gating (L2): statuses present at this point in the
@@ -1504,6 +1505,31 @@ function introKeyFor(dataset, resonatorId, build = null) {
     const authored = (build?.rotation ?? []).find(isIntro);
     if (authored) return authored;
     return Object.keys(skillMap).find(isIntro) ?? null;
+}
+
+/**
+ * The rotation this member performs on THIS pass.
+ *
+ * `build.openerRotation` is an OPTIONAL curated opening pass; `build.rotation`
+ * is the steady-state loop. Pass 0 uses the opener when one exists, every later
+ * pass the loop.
+ *
+ * Why it has to be curated rather than derived: the first member on field never
+ * gets an Intro (nobody swapped out), so a loop written to open off its own
+ * Intro is unplayable on the opening pass — Chisa's arabwuwa loop begins on
+ * `basic_2`, which her Intro unlocks and nothing else does. The player's real
+ * answer is a DIFFERENT sequence (hers opens on the Resonance Skill), not the
+ * same one with filler bolted on. Deriving it was tried and retired; see
+ * opener.js. Absent, nothing changes and nothing is invented.
+ *
+ * It is deliberately not restricted to slot 0. A kit can want a different first
+ * pass for its own reasons — a gauge that starts empty, a mode it has to enter
+ * once — and the opener is simply "what this resonator does the first time they
+ * are on field".
+ */
+function withOpeningRotation(build, pass) {
+    if (pass !== 0 || !build?.openerRotation?.length) return build;
+    return { ...build, rotation: [...build.openerRotation], rotationMeta: build.openerRotation.map(() => ({})) };
 }
 
 // Drop any Intro/Outro-type step from a member's own authored rotation

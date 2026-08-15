@@ -47,6 +47,7 @@ import { effectiveSkillMap } from '../../core/sim.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 import { renderEnergyChart, bindEnergyChartHover } from './energy-chart.js';
 import { DEFAULT_TARGET } from '../../core/target.js';
+import { teamMemberBuildFor } from '../../data/meta-loader.js';
 import { analyzeRotation } from '../../core/rotation-graph.js';
 import { resourceDefsForResonator, rulesForResonator, stageGrantsForResonator,
     stateDefsForResonator, swapInEntryForResonator } from '../../core/rotation-rules.js';
@@ -188,6 +189,31 @@ function segColor(kind, el) {
 }
 
 // ── Data lookups (touch api/dataset) ────────────────────────────────────────
+
+/**
+ * Is this member running something OTHER than the recipe the suggested-team
+ * card was measured with?
+ *
+ * Only the fields the recipe actually sets and that visibly move the sim —
+ * rotation, opening rotation, weapon, sonata, mode. Substats and echo ids are
+ * deliberately out: they are resolved per build and differ harmlessly, so
+ * comparing them would flag every slot and the badge would mean nothing.
+ *
+ * Returns false when there is no meta, no recipe, or the team was not opened
+ * from a suggestion — in all three cases there is no claim to contradict.
+ *
+ * Pure (dependencies passed in) so it can be tested without a DOM.
+ */
+function differsFromRecipe(build, team, meta, sonataIdOf) {
+    if (!team?.template || !build) return false;
+    const recipe = teamMemberBuildFor(meta, build.resonatorId);
+    if (!recipe) return false;
+    return (build.rotation ?? []).join() !== (recipe.rotation ?? []).join()
+        || (build.openerRotation ?? []).join() !== (recipe.openerRotation ?? []).join()
+        || (build.weapon?.id ?? null) !== (recipe.weaponId ?? null)
+        || sonataIdOf(build) !== (recipe.sonataId ?? null)
+        || (build.resonanceMode ?? null) !== (recipe.mode ?? null);
+}
 
 function resonatorOf(build) { return api.dataset.resonators.find(r => r.id === build.resonatorId) ?? null; }
 function weaponOf(build) { return build?.weapon ? api.dataset.weapons.find(w => w.id === build.weapon.id) ?? null : null; }
@@ -1016,6 +1042,25 @@ function renderMemberColumn(slot) {
         ? `<div style="font-family:var(--font-display);font-weight:700;font-size:11px;color:${el.c};padding:2px 6px;flex:none;white-space:nowrap;">${sharePct.toFixed(0)}%</div>`
         : '';
 
+    // A SUBSTITUTED member. Opening a suggested team materializes each member's
+    // recipe — EXCEPT where the user already owns a real build for that
+    // resonator, which wins silently (suggested-teams-panel.js buildIdFor). The
+    // page's own resonator at least gets a confirm() about it; the other two
+    // slots do not, so the team quietly runs a different build, with a different
+    // rotation, than the card that sent you here advertised. Reported as a bug
+    // in the displayed rotation, which is exactly how it reads.
+    //
+    // Compared against the RECIPE, not against a `template` flag: the anchor's
+    // own editor build is never flagged as a template yet is materialized from
+    // the same recipe, so the flag alone fired on a slot that matched perfectly.
+    const substituted = differsFromRecipe(build, api.team, api.meta,
+        (candidate) => dominantSonata(candidate)?.id ?? null);
+    const substitutedBadge = substituted
+        ? `<span data-tip-title="Your own build, not the suggestion"
+                 data-tip-desc="${esc(`You already have a saved build for ${resonator?.name ?? 'this resonator'}, so the team simulator used it instead of the one this suggested team was measured with — including its rotation. That is why the numbers here can differ from the suggested-team card. Remove or rename your saved build to see the suggested one, or keep this and read the numbers as yours.`)}"
+                 style="font-family:var(--font-display);font-weight:700;font-size:7.5px;letter-spacing:.7px;padding:2px 6px;border-radius:5px;cursor:help;white-space:nowrap;background:color-mix(in srgb, var(--gold) 14%, transparent);border:1px solid color-mix(in srgb, var(--gold) 45%, transparent);color:var(--gold);">YOUR BUILD</span>`
+        : '';
+
     const donut = `
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:none;">
         <div style="position:relative;width:${DONUT_SIZE}px;height:${DONUT_SIZE}px;" title="${esc(donutTitle(allSteps))}">
@@ -1061,8 +1106,8 @@ function renderMemberColumn(slot) {
           ${resoIcon}${donut}
           <div style="flex:1;min-width:0;">
             <span style="display:block;font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(resonator?.name ?? '—')}</span>
-            <div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
-              ${elemBadge}${sonataBadge}
+            <div style="display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap;">
+              ${elemBadge}${sonataBadge}${substitutedBadge}
             </div>
           </div>
           <div style="display:flex;flex-direction:row;align-items:center;gap:6px;flex:none;">
@@ -1396,6 +1441,9 @@ export function mount(root, config) {
     api = {
         root,
         dataset: config.dataset,
+        // Optional — null when the meta is missing or stale. Only the YOUR BUILD
+        // badge reads it, and it degrades to silence rather than a wrong claim.
+        meta: config.meta ?? null,
         team: config.team,
         resolveBuild: config.resolveBuild,
         listBuilds: config.listBuilds,
@@ -1454,7 +1502,7 @@ export function mount(root, config) {
 
 // Pure helpers for tests (no DOM / no module state).
 export const __test__ = {
-    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor,
+    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor, differsFromRecipe,
     buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 };

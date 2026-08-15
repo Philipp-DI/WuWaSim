@@ -20,7 +20,7 @@ import { createTeam, setTeamSlot, swapTeamSlots } from '../src/core/team.js';
 import { effectiveSkillMap } from '../src/core/sim.js';
 
 const {
-    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor,
+    fmtDmg, fmtDps, fmtDur, donutGradient, donutTitle, segmentsBySlot, clockFor, differsFromRecipe,
     buffStripsFor, segColor, sonataTooltipDesc, ELEM, DMG_COLOR, DMG_BADGE,
     ICON_SIZE, DONUT_SIZE, BADGE_ICON_SIZE,
 } = __test__;
@@ -142,6 +142,47 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('source steps are not mutated', segs[0].steps[0].pass === undefined);
     assert('slot1 rotation steps', m.get(1).steps.length === 1 && m.get(1).steps[0].x === 'd');
     assert('empty input → empty map', segmentsBySlot([]).size === 0 && segmentsBySlot(undefined).size === 0);
+}
+
+// ── differsFromRecipe — the YOUR BUILD badge ────────────────────────────────
+// Opening a suggested team materializes each member's recipe, EXCEPT where the
+// user already owns a real build for that resonator — that one wins silently
+// (suggested-teams-panel.js buildIdFor). The team then runs a different
+// rotation than the card that sent you there advertised, which is exactly how
+// it was reported: as a bug in the displayed rotation.
+{
+    const meta = { teams: { memberBuilds: { 1211: {
+        recipe: { weaponId: 7, sonataId: 3, mode: 'fusion_burst', rotation: ['a', 'b'], openerRotation: [], echoes: [] },
+    } } } };
+    const sonataIdOf = (build) => build.sonataId ?? null;
+    const template = { template: true };
+    const match = { resonatorId: 1211, rotation: ['a', 'b'], openerRotation: [], weapon: { id: 7 }, sonataId: 3, resonanceMode: 'fusion_burst' };
+
+    assert('a member matching the recipe is not flagged',
+        differsFromRecipe(match, template, meta, sonataIdOf) === false);
+    assert('a different ROTATION is flagged (the reported case)',
+        differsFromRecipe({ ...match, rotation: ['a', 'midair_x'] }, template, meta, sonataIdOf) === true);
+    assert('a different OPENING rotation is flagged',
+        differsFromRecipe({ ...match, openerRotation: ['z'] }, template, meta, sonataIdOf) === true);
+    assert('a different weapon is flagged',
+        differsFromRecipe({ ...match, weapon: { id: 9 } }, template, meta, sonataIdOf) === true);
+    assert('a different sonata is flagged',
+        differsFromRecipe({ ...match, sonataId: 4 }, template, meta, sonataIdOf) === true);
+    assert('a different resonance mode is flagged',
+        differsFromRecipe({ ...match, resonanceMode: 'tune_strain' }, template, meta, sonataIdOf) === true);
+
+    // No claim to contradict ⇒ no badge. The badge says "this is not what the
+    // card measured", which is meaningless without a card and a recipe.
+    assert('a team not opened from a suggestion is never flagged',
+        differsFromRecipe({ ...match, rotation: ['x'] }, { template: false }, meta, sonataIdOf) === false);
+    assert('a resonator with no recipe is never flagged',
+        differsFromRecipe({ ...match, resonatorId: 9999, rotation: ['x'] }, template, meta, sonataIdOf) === false);
+    assert('a missing meta is never flagged',
+        differsFromRecipe({ ...match, rotation: ['x'] }, template, null, sonataIdOf) === false);
+    // The anchor's own editor build is materialized from the same recipe but is
+    // NOT tagged template — keying on that flag flagged a slot that matched.
+    assert('a matching build is unflagged regardless of its template flag',
+        differsFromRecipe({ ...match, template: false }, template, meta, sonataIdOf) === false);
 }
 
 // ── clockFor — real team time → the clock the page is drawn on ──────────────

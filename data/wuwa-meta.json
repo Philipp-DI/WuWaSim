@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "9",
-  "generatedAt": "2026-08-15T09:02:55.168Z",
-  "engineHash": "4722f5097c06bba63af8c694d4d12988b88fb66085b6cee538762cd0f8adc054",
+  "generatedAt": "2026-08-15T11:55:03.370Z",
+  "engineHash": "a151a98dc94863dbde7a51666804eed691b8939af6dfdf58e32a121abb1e40c1",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -9645,7 +9645,7 @@
             1508,
             1210
           ],
-          "score": 0.776,
+          "score": 0.773,
           "roles": [
             [
               "buffer"
@@ -9677,21 +9677,21 @@
               "recommended": 1.602
             }
           },
-          "teamDamage": 1460333,
-          "teamTime": 24.79,
-          "teamDps": 58898,
+          "teamDamage": 1491370,
+          "teamTime": 25.42,
+          "teamDps": 58668,
           "passes": [
             {
               "pass": 1,
-              "damage": 1525917,
-              "time": 23.91,
-              "dps": 63831
+              "damage": 1589234,
+              "time": 25.78,
+              "dps": 61636
             },
             {
               "pass": 2,
-              "damage": 1426384,
+              "damage": 1456176,
               "time": 25.24,
-              "dps": 56516
+              "dps": 57696
             },
             {
               "pass": 3,
@@ -9703,18 +9703,18 @@
           "perMember": [
             {
               "id": 1105,
-              "damage": 256561,
-              "dps": 10348
+              "damage": 266492,
+              "dps": 10483
             },
             {
               "id": 1508,
-              "damage": 127394,
-              "dps": 5138
+              "damage": 148500,
+              "dps": 5842
             },
             {
               "id": 1210,
               "damage": 1099458,
-              "dps": 44343
+              "dps": 43251
             }
           ],
           "opener": {
@@ -11352,15 +11352,15 @@
               "recommended": 1.428
             }
           },
-          "teamDamage": 1320310,
-          "teamTime": 27.16,
-          "teamDps": 48609,
+          "teamDamage": 1350362,
+          "teamTime": 27.79,
+          "teamDps": 48595,
           "passes": [
             {
               "pass": 1,
-              "damage": 1302955,
-              "time": 26.63,
-              "dps": 48930
+              "damage": 1393111,
+              "time": 28.51,
+              "dps": 48868
             },
             {
               "pass": 2,
@@ -11378,18 +11378,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 4956
+              "damage": 156664,
+              "dps": 5638
             },
             {
               "id": 1109,
               "damage": 192735,
-              "dps": 7096
+              "dps": 6936
             },
             {
               "id": 1108,
-              "damage": 1012851,
-              "dps": 37289
+              "damage": 1020850,
+              "dps": 36737
             }
           ],
           "opener": {
@@ -12084,15 +12084,15 @@
               "recommended": 1.428
             }
           },
-          "teamDamage": 1320310,
-          "teamTime": 27.16,
-          "teamDps": 48609,
+          "teamDamage": 1350362,
+          "teamTime": 27.79,
+          "teamDps": 48595,
           "passes": [
             {
               "pass": 1,
-              "damage": 1302955,
-              "time": 26.63,
-              "dps": 48930
+              "damage": 1393111,
+              "time": 28.51,
+              "dps": 48868
             },
             {
               "pass": 2,
@@ -12110,18 +12110,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 4956
+              "damage": 156664,
+              "dps": 5638
             },
             {
               "id": 1109,
               "damage": 192735,
-              "dps": 7096
+              "dps": 6936
             },
             {
               "id": 1108,
-              "damage": 1012851,
-              "dps": 37289
+              "damage": 1020850,
+              "dps": 36737
             }
           ],
           "opener": {
@@ -12494,7 +12494,7 @@
             1508,
             1210
           ],
-          "score": 0.802,
+          "score": 0.793,
           "roles": [
             [
               "buffer"
@@ -12527,15 +12527,15 @@
               "recommended": 1.515
             }
           },
-          "teamDamage": 1482215,
-          "teamTime": 23.65,
-          "teamDps": 62661,
+          "teamDamage": 1504268,
+          "teamTime": 24.28,
+          "teamDps": 61953,
           "passes": [
             {
               "pass": 1,
-              "damage": 1509884,
-              "time": 22.75,
-              "dps": 66367
+              "damage": 1576043,
+              "time": 24.63,
+              "dps": 63990
             },
             {
               "pass": 2,
@@ -12554,17 +12554,17 @@
             {
               "id": 1109,
               "damage": 188204,
-              "dps": 7956
+              "dps": 7751
             },
             {
               "id": 1508,
-              "damage": 137230,
-              "dps": 5801
+              "damage": 159283,
+              "dps": 6560
             },
             {
               "id": 1210,
               "damage": 1176676,
-              "dps": 49744
+              "dps": 48461
             }
           ],
           "opener": {
@@ -15797,15 +15797,15 @@
               "recommended": 1.512
             }
           },
-          "teamDamage": 2152599,
-          "teamTime": 25.55,
-          "teamDps": 84255,
+          "teamDamage": 2172976,
+          "teamTime": 26.17,
+          "teamDps": 83018,
           "passes": [
             {
               "pass": 1,
-              "damage": 2147763,
-              "time": 25.02,
-              "dps": 85858
+              "damage": 2208892,
+              "time": 26.89,
+              "dps": 82133
             },
             {
               "pass": 2,
@@ -15823,18 +15823,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 124775,
-              "dps": 4884
+              "damage": 145151,
+              "dps": 5545
             },
             {
               "id": 1205,
               "damage": 613602,
-              "dps": 24017
+              "dps": 23442
             },
             {
               "id": 1210,
               "damage": 1438562,
-              "dps": 56307
+              "dps": 54960
             }
           ],
           "opener": {
@@ -15858,7 +15858,7 @@
             1108,
             1205
           ],
-          "score": 0.87,
+          "score": 0.883,
           "roles": [
             [
               "healer",
@@ -15952,7 +15952,7 @@
             1205,
             1210
           ],
-          "score": 0.817,
+          "score": 0.829,
           "roles": [
             [
               "healer",
@@ -16048,7 +16048,7 @@
             1205,
             1210
           ],
-          "score": 0.801,
+          "score": 0.813,
           "roles": [
             [
               "healer",
@@ -16143,7 +16143,7 @@
             1205,
             1210
           ],
-          "score": 0.768,
+          "score": 0.78,
           "roles": [
             [
               "healer",
@@ -16238,7 +16238,7 @@
             1205,
             1210
           ],
-          "score": 0.732,
+          "score": 0.743,
           "roles": [
             [
               "healer",
@@ -16333,7 +16333,7 @@
             1205,
             1210
           ],
-          "score": 0.725,
+          "score": 0.736,
           "roles": [
             [
               "healer",
@@ -16428,7 +16428,7 @@
             1108,
             1205
           ],
-          "score": 0.699,
+          "score": 0.709,
           "roles": [
             [
               "healer",
@@ -16615,101 +16615,6 @@
         {
           "members": [
             1206,
-            1508,
-            1210
-          ],
-          "score": 0.906,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "healer"
-            ],
-            [
-              "main_dps",
-              "buffer",
-              "tb_rupture"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Brant's Fusion DMG Amplification boosts Aemeath",
-          "modes": {},
-          "erOverride": {
-            "1206": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1210": {
-              "minViable": 1.331,
-              "recommended": 1.331
-            },
-            "1508": {
-              "minViable": 1.65,
-              "recommended": 1.65
-            }
-          },
-          "teamDamage": 1511593,
-          "teamTime": 23.27,
-          "teamDps": 64959,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 1485815,
-              "time": 22.87,
-              "dps": 64967
-            },
-            {
-              "pass": 2,
-              "damage": 1523324,
-              "time": 23.47,
-              "dps": 64906
-            },
-            {
-              "pass": 3,
-              "damage": 1525641,
-              "time": 23.47,
-              "dps": 65004
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1206,
-              "damage": 190501,
-              "dps": 8187
-            },
-            {
-              "id": 1508,
-              "damage": 144440,
-              "dps": 6207
-            },
-            {
-              "id": 1210,
-              "damage": 1200688,
-              "dps": 51598
-            }
-          ],
-          "opener": {
-            "1206": {
-              "shortfalls": 2,
-              "requiredEr": 2.065
-            },
-            "1210": {
-              "shortfalls": 2,
-              "requiredEr": 1.332
-            },
-            "1508": {
-              "shortfalls": 2,
-              "requiredEr": 1.65
-            }
-          }
-        },
-        {
-          "members": [
-            1206,
             1205,
             1210
           ],
@@ -16799,6 +16704,101 @@
             "1210": {
               "shortfalls": 2,
               "requiredEr": 1.139
+            }
+          }
+        },
+        {
+          "members": [
+            1206,
+            1508,
+            1210
+          ],
+          "score": 0.894,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "healer"
+            ],
+            [
+              "main_dps",
+              "buffer",
+              "tb_rupture"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Brant's Fusion DMG Amplification boosts Aemeath",
+          "modes": {},
+          "erOverride": {
+            "1206": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1210": {
+              "minViable": 1.331,
+              "recommended": 1.331
+            },
+            "1508": {
+              "minViable": 1.65,
+              "recommended": 1.65
+            }
+          },
+          "teamDamage": 1530409,
+          "teamTime": 23.9,
+          "teamDps": 64044,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 1554398,
+              "time": 24.75,
+              "dps": 62806
+            },
+            {
+              "pass": 2,
+              "damage": 1511187,
+              "time": 23.47,
+              "dps": 64389
+            },
+            {
+              "pass": 3,
+              "damage": 1525641,
+              "time": 23.47,
+              "dps": 65004
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1206,
+              "damage": 186455,
+              "dps": 7803
+            },
+            {
+              "id": 1508,
+              "damage": 167301,
+              "dps": 7001
+            },
+            {
+              "id": 1210,
+              "damage": 1200688,
+              "dps": 50246
+            }
+          ],
+          "opener": {
+            "1206": {
+              "shortfalls": 2,
+              "requiredEr": 2.065
+            },
+            "1210": {
+              "shortfalls": 2,
+              "requiredEr": 1.332
+            },
+            "1508": {
+              "shortfalls": 2,
+              "requiredEr": 1.65
             }
           }
         },
@@ -17312,21 +17312,21 @@
               "recommended": 1.591
             }
           },
-          "teamDamage": 1728590,
-          "teamTime": 23.79,
-          "teamDps": 72658,
+          "teamDamage": 1747476,
+          "teamTime": 24.42,
+          "teamDps": 71568,
           "passes": [
             {
               "pass": 1,
-              "damage": 1694184,
-              "time": 23.01,
-              "dps": 73635
+              "damage": 1760705,
+              "time": 24.89,
+              "dps": 70748
             },
             {
               "pass": 2,
-              "damage": 1744636,
+              "damage": 1734772,
               "time": 24.18,
-              "dps": 72145
+              "dps": 71737
             },
             {
               "pass": 3,
@@ -17338,18 +17338,18 @@
           "perMember": [
             {
               "id": 1207,
-              "damage": 277449,
-              "dps": 11662
+              "damage": 274161,
+              "dps": 11228
             },
             {
               "id": 1508,
-              "damage": 151971,
-              "dps": 6388
+              "damage": 174145,
+              "dps": 7132
             },
             {
               "id": 1210,
               "damage": 1325222,
-              "dps": 55703
+              "dps": 54274
             }
           ],
           "opener": {
@@ -17373,7 +17373,7 @@
             1207,
             1210
           ],
-          "score": 0.899,
+          "score": 0.913,
           "roles": [
             [
               "healer",
@@ -17468,7 +17468,7 @@
             1207,
             1205
           ],
-          "score": 0.767,
+          "score": 0.779,
           "roles": [
             [
               "healer",
@@ -17562,7 +17562,7 @@
             1207,
             1210
           ],
-          "score": 0.724,
+          "score": 0.735,
           "roles": [
             [
               "healer",
@@ -17657,7 +17657,7 @@
             1601,
             1205
           ],
-          "score": 0.688,
+          "score": 0.698,
           "roles": [
             [
               "buffer"
@@ -17750,7 +17750,7 @@
             1410,
             1208
           ],
-          "score": 0.651,
+          "score": 0.66,
           "roles": [
             [
               "buffer"
@@ -17842,7 +17842,7 @@
             1607,
             1205
           ],
-          "score": 0.623,
+          "score": 0.633,
           "roles": [
             [
               "buffer"
@@ -17935,7 +17935,7 @@
             1207,
             1208
           ],
-          "score": 0.62,
+          "score": 0.629,
           "roles": [
             [
               "healer",
@@ -19572,7 +19572,7 @@
             1211,
             1210
           ],
-          "score": 0.988,
+          "score": 0.992,
           "roles": [
             [
               "healer"
@@ -19608,15 +19608,15 @@
               "recommended": 1.571
             }
           },
-          "teamDamage": 2412812,
-          "teamTime": 26.19,
-          "teamDps": 92139,
+          "teamDamage": 2434865,
+          "teamTime": 26.81,
+          "teamDps": 90810,
           "passes": [
             {
               "pass": 1,
-              "damage": 2373651,
-              "time": 25.65,
-              "dps": 92528
+              "damage": 2439810,
+              "time": 27.53,
+              "dps": 88617
             },
             {
               "pass": 2,
@@ -19634,18 +19634,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 135523,
-              "dps": 5175
+              "damage": 157576,
+              "dps": 5877
             },
             {
               "id": 1211,
               "damage": 578339,
-              "dps": 22085
+              "dps": 21569
             },
             {
               "id": 1210,
               "damage": 1721777,
-              "dps": 65750
+              "dps": 64215
             }
           ],
           "opener": {
@@ -19704,15 +19704,15 @@
               "recommended": 1.404
             }
           },
-          "teamDamage": 1940636,
-          "teamTime": 20.82,
-          "teamDps": 93226,
+          "teamDamage": 1962689,
+          "teamTime": 21.44,
+          "teamDps": 91531,
           "passes": [
             {
               "pass": 1,
-              "damage": 1935682,
-              "time": 20.28,
-              "dps": 95433
+              "damage": 2001841,
+              "time": 22.16,
+              "dps": 90327
             },
             {
               "pass": 2,
@@ -19730,18 +19730,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 6467
+              "damage": 156664,
+              "dps": 7306
             },
             {
               "id": 1509,
               "damage": 277327,
-              "dps": 13322
+              "dps": 12933
             },
             {
               "id": 1210,
               "damage": 1555040,
-              "dps": 74702
+              "dps": 72520
             }
           ],
           "opener": {
@@ -19765,7 +19765,7 @@
             1509,
             1210
           ],
-          "score": 0.973,
+          "score": 0.991,
           "roles": [
             [
               "healer",
@@ -19866,7 +19866,7 @@
             1205,
             1210
           ],
-          "score": 0.904,
+          "score": 0.907,
           "roles": [
             [
               "healer"
@@ -19899,15 +19899,15 @@
               "recommended": 1.512
             }
           },
-          "teamDamage": 2152599,
-          "teamTime": 25.55,
-          "teamDps": 84255,
+          "teamDamage": 2172976,
+          "teamTime": 26.17,
+          "teamDps": 83018,
           "passes": [
             {
               "pass": 1,
-              "damage": 2147763,
-              "time": 25.02,
-              "dps": 85858
+              "damage": 2208892,
+              "time": 26.89,
+              "dps": 82133
             },
             {
               "pass": 2,
@@ -19925,18 +19925,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 124775,
-              "dps": 4884
+              "damage": 145151,
+              "dps": 5545
             },
             {
               "id": 1205,
               "damage": 613602,
-              "dps": 24017
+              "dps": 23442
             },
             {
               "id": 1210,
               "damage": 1438562,
-              "dps": 56307
+              "dps": 54960
             }
           ],
           "opener": {
@@ -19960,7 +19960,7 @@
             1211,
             1210
           ],
-          "score": 0.833,
+          "score": 0.848,
           "roles": [
             [
               "healer",
@@ -20059,7 +20059,7 @@
             1211,
             1210
           ],
-          "score": 0.813,
+          "score": 0.828,
           "roles": [
             [
               "healer",
@@ -20155,7 +20155,7 @@
             1508,
             1210
           ],
-          "score": 0.797,
+          "score": 0.803,
           "roles": [
             [
               "buffer"
@@ -20187,21 +20187,21 @@
               "recommended": 1.579
             }
           },
-          "teamDamage": 1764829,
-          "teamTime": 23.75,
-          "teamDps": 74295,
+          "teamDamage": 1792100,
+          "teamTime": 24.38,
+          "teamDps": 73505,
           "passes": [
             {
               "pass": 1,
-              "damage": 1745296,
-              "time": 22.75,
-              "dps": 76707
+              "damage": 1827672,
+              "time": 24.63,
+              "dps": 74200
             },
             {
               "pass": 2,
-              "damage": 1773438,
+              "damage": 1772873,
               "time": 24.26,
-              "dps": 73115
+              "dps": 73092
             },
             {
               "pass": 3,
@@ -20213,18 +20213,18 @@
           "perMember": [
             {
               "id": 1204,
-              "damage": 363524,
-              "dps": 15303
+              "damage": 368742,
+              "dps": 15124
             },
             {
               "id": 1508,
-              "damage": 137809,
-              "dps": 5801
+              "damage": 159862,
+              "dps": 6557
             },
             {
               "id": 1210,
               "damage": 1286486,
-              "dps": 54158
+              "dps": 52766
             }
           ],
           "opener": {
@@ -20244,17 +20244,19 @@
         },
         {
           "members": [
-            1207,
-            1508,
+            1206,
+            1211,
             1210
           ],
-          "score": 0.779,
+          "score": 0.783,
           "roles": [
             [
+              "healer",
               "buffer"
             ],
             [
-              "healer"
+              "tb_boost",
+              "tb_strain"
             ],
             [
               "main_dps",
@@ -20264,74 +20266,74 @@
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Lupa's Fusion DMG Amplification boosts Aemeath",
+          "reason": "Brant's Fusion DMG Amplification boosts Aemeath",
           "modes": {},
           "erOverride": {
-            "1207": {
-              "minViable": 1.383,
-              "recommended": 1.383
+            "1206": {
+              "minViable": 1.794,
+              "recommended": 1.794
             },
             "1210": {
-              "minViable": 1.292,
-              "recommended": 1.292
+              "minViable": 1.172,
+              "recommended": 1.172
             },
-            "1508": {
-              "minViable": 1.591,
-              "recommended": 1.591
+            "1211": {
+              "minViable": 1.233,
+              "recommended": 1.233
             }
           },
-          "teamDamage": 1728590,
-          "teamTime": 23.79,
-          "teamDps": 72658,
+          "teamDamage": 1967485,
+          "teamTime": 27.46,
+          "teamDps": 71661,
           "passes": [
             {
               "pass": 1,
-              "damage": 1694184,
-              "time": 23.01,
-              "dps": 73635
+              "damage": 1937081,
+              "time": 27.06,
+              "dps": 71596
             },
             {
               "pass": 2,
-              "damage": 1744636,
-              "time": 24.18,
-              "dps": 72145
+              "damage": 1976897,
+              "time": 27.66,
+              "dps": 71483
             },
             {
               "pass": 3,
-              "damage": 1746952,
-              "time": 24.18,
-              "dps": 72241
+              "damage": 1988477,
+              "time": 27.66,
+              "dps": 71902
             }
           ],
           "perMember": [
             {
-              "id": 1207,
-              "damage": 277449,
-              "dps": 11662
+              "id": 1206,
+              "damage": 193380,
+              "dps": 7043
             },
             {
-              "id": 1508,
-              "damage": 151971,
-              "dps": 6388
+              "id": 1211,
+              "damage": 504406,
+              "dps": 18372
             },
             {
               "id": 1210,
-              "damage": 1325222,
-              "dps": 55703
+              "damage": 1296193,
+              "dps": 47211
             }
           ],
           "opener": {
-            "1207": {
+            "1206": {
               "shortfalls": 2,
-              "requiredEr": 1.384
+              "requiredEr": 1.795
             },
             "1210": {
               "shortfalls": 2,
-              "requiredEr": 1.293
+              "requiredEr": 1.172
             },
-            "1508": {
+            "1211": {
               "shortfalls": 2,
-              "requiredEr": 1.591
+              "requiredEr": 1.234
             }
           }
         }
@@ -20379,15 +20381,15 @@
               "recommended": 1.571
             }
           },
-          "teamDamage": 2412812,
-          "teamTime": 26.19,
-          "teamDps": 92139,
+          "teamDamage": 2434865,
+          "teamTime": 26.81,
+          "teamDps": 90810,
           "passes": [
             {
               "pass": 1,
-              "damage": 2373651,
-              "time": 25.65,
-              "dps": 92528
+              "damage": 2439810,
+              "time": 27.53,
+              "dps": 88617
             },
             {
               "pass": 2,
@@ -20405,18 +20407,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 135523,
-              "dps": 5175
+              "damage": 157576,
+              "dps": 5877
             },
             {
               "id": 1211,
               "damage": 578339,
-              "dps": 22085
+              "dps": 21569
             },
             {
               "id": 1210,
               "damage": 1721777,
-              "dps": 65750
+              "dps": 64215
             }
           ],
           "opener": {
@@ -20440,7 +20442,7 @@
             1211,
             1210
           ],
-          "score": 0.843,
+          "score": 0.855,
           "roles": [
             [
               "healer",
@@ -20539,7 +20541,7 @@
             1211,
             1210
           ],
-          "score": 0.822,
+          "score": 0.834,
           "roles": [
             [
               "healer",
@@ -20635,7 +20637,7 @@
             1211,
             1210
           ],
-          "score": 0.778,
+          "score": 0.789,
           "roles": [
             [
               "healer",
@@ -20730,7 +20732,7 @@
             1211,
             1210
           ],
-          "score": 0.758,
+          "score": 0.769,
           "roles": [
             [
               "healer",
@@ -20822,7 +20824,7 @@
             1211,
             1210
           ],
-          "score": 0.747,
+          "score": 0.758,
           "roles": [
             [
               "healer",
@@ -20917,7 +20919,7 @@
             1211,
             1210
           ],
-          "score": 0.634,
+          "score": 0.643,
           "roles": [
             [
               "healer",
@@ -21009,101 +21011,93 @@
         },
         {
           "members": [
-            1209,
+            1508,
             1211,
-            1509
+            1108
           ],
-          "score": 0.585,
+          "score": 0.602,
           "roles": [
             [
-              "healer",
-              "buffer",
-              "tb_rupture",
-              "tb_shifter",
-              "tb_strain"
+              "healer"
             ],
             [
               "tb_boost",
               "tb_strain"
             ],
             [
-              "buffer",
-              "tb_rupture",
-              "tb_boost",
-              "tb_strain"
+              "main_dps"
             ]
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Denia's Tune Break Boost feeds Mornye's Tune Strain Response",
+          "reason": "Fusion Burst: Denia + Aemeath Fusion Burst carries with Chisa enabler",
           "modes": {},
           "erOverride": {
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
+            "1108": {
+              "minViable": 1.16,
+              "recommended": 1.16
             },
             "1211": {
-              "minViable": 1.338,
-              "recommended": 1.338
+              "minViable": 1.284,
+              "recommended": 1.284
             },
-            "1509": {
-              "minViable": 1.362,
-              "recommended": 1.362
+            "1508": {
+              "minViable": 1.478,
+              "recommended": 1.478
             }
           },
-          "teamDamage": 1041251,
-          "teamTime": 19.31,
-          "teamDps": 53920,
+          "teamDamage": 1646195,
+          "teamTime": 30.14,
+          "teamDps": 54627,
           "passes": [
             {
               "pass": 1,
-              "damage": 985225,
-              "time": 18.18,
-              "dps": 54199
+              "damage": 1738926,
+              "time": 30.85,
+              "dps": 56359
             },
             {
               "pass": 2,
-              "damage": 1063474,
-              "time": 19.88,
-              "dps": 53501
+              "damage": 1605060,
+              "time": 29.78,
+              "dps": 53905
             },
             {
               "pass": 3,
-              "damage": 1075055,
-              "time": 19.88,
-              "dps": 54083
+              "damage": 1594598,
+              "time": 29.78,
+              "dps": 53554
             }
           ],
           "perMember": [
             {
-              "id": 1209,
-              "damage": 109680,
-              "dps": 5680
+              "id": 1508,
+              "damage": 157576,
+              "dps": 5229
             },
             {
               "id": 1211,
-              "damage": 565202,
-              "dps": 29268
+              "damage": 582357,
+              "dps": 19325
             },
             {
-              "id": 1509,
-              "damage": 391929,
-              "dps": 20296
+              "id": 1108,
+              "damage": 928721,
+              "dps": 30819
             }
           ],
           "opener": {
-            "1209": {
+            "1108": {
               "shortfalls": 2,
-              "requiredEr": 1.973
+              "requiredEr": 1.16
             },
             "1211": {
               "shortfalls": 2,
-              "requiredEr": 1.338
+              "requiredEr": 1.284
             },
-            "1509": {
+            "1508": {
               "shortfalls": 2,
-              "requiredEr": 1.363
+              "requiredEr": 1.478
             }
           }
         }
@@ -22054,7 +22048,7 @@
             1508,
             1210
           ],
-          "score": 0.944,
+          "score": 0.941,
           "roles": [
             [
               "buffer"
@@ -22086,21 +22080,21 @@
               "recommended": 1.555
             }
           },
-          "teamDamage": 1431800,
-          "teamTime": 25.49,
-          "teamDps": 56177,
+          "teamDamage": 1462143,
+          "teamTime": 26.11,
+          "teamDps": 55991,
           "passes": [
             {
               "pass": 1,
-              "damage": 1449305,
-              "time": 24.69,
-              "dps": 58691
+              "damage": 1525034,
+              "time": 26.57,
+              "dps": 57391
             },
             {
               "pass": 2,
-              "damage": 1421889,
+              "damage": 1437191,
               "time": 25.88,
-              "dps": 54933
+              "dps": 55524
             },
             {
               "pass": 3,
@@ -22112,18 +22106,18 @@
           "perMember": [
             {
               "id": 1302,
-              "damage": 204066,
-              "dps": 8007
+              "damage": 209167,
+              "dps": 8010
             },
             {
               "id": 1508,
-              "damage": 149810,
-              "dps": 5878
+              "damage": 175053,
+              "dps": 6704
             },
             {
               "id": 1210,
               "damage": 1099458,
-              "dps": 43137
+              "dps": 42103
             }
           ],
           "opener": {
@@ -26475,7 +26469,7 @@
             1402,
             1210
           ],
-          "score": 0.906,
+          "score": 0.894,
           "roles": [
             [
               "healer"
@@ -26507,15 +26501,15 @@
               "recommended": 1.681
             }
           },
-          "teamDamage": 1372706,
-          "teamTime": 22.25,
-          "teamDps": 61705,
+          "teamDamage": 1393082,
+          "teamTime": 22.87,
+          "teamDps": 60906,
           "passes": [
             {
               "pass": 1,
-              "damage": 1367863,
-              "time": 21.71,
-              "dps": 62997
+              "damage": 1428992,
+              "time": 23.59,
+              "dps": 60571
             },
             {
               "pass": 2,
@@ -26533,18 +26527,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 125336,
-              "dps": 5634
+              "damage": 145713,
+              "dps": 6371
             },
             {
               "id": 1402,
               "damage": 169998,
-              "dps": 7642
+              "dps": 7432
             },
             {
               "id": 1210,
               "damage": 1100167,
-              "dps": 49454
+              "dps": 48100
             }
           ],
           "opener": {
@@ -29326,15 +29320,15 @@
               "provisional": true
             }
           },
-          "teamDamage": 1393956,
-          "teamTime": 32.67,
-          "teamDps": 42668,
+          "teamDamage": 1421729,
+          "teamTime": 33.3,
+          "teamDps": 42700,
           "passes": [
             {
               "pass": 1,
-              "damage": 1389203,
-              "time": 31.76,
-              "dps": 43740
+              "damage": 1472524,
+              "time": 33.64,
+              "dps": 43774
             },
             {
               "pass": 2,
@@ -29353,17 +29347,17 @@
             {
               "id": 1405,
               "damage": 154040,
-              "dps": 4715
+              "dps": 4626
             },
             {
               "id": 1508,
-              "damage": 161467,
-              "dps": 4942
+              "damage": 189240,
+              "dps": 5684
             },
             {
               "id": 1210,
               "damage": 1099458,
-              "dps": 33654
+              "dps": 33021
             }
           ],
           "opener": {
@@ -36017,7 +36011,7 @@
             1506,
             1507
           ],
-          "score": 0.852,
+          "score": 0.854,
           "roles": [
             [
               "healer"
@@ -36050,15 +36044,15 @@
               "provisional": true
             }
           },
-          "teamDamage": 1240877,
-          "teamTime": 35.68,
-          "teamDps": 34780,
+          "teamDamage": 1264982,
+          "teamTime": 36.3,
+          "teamDps": 34844,
           "passes": [
             {
               "pass": 1,
-              "damage": 1212219,
-              "time": 35.14,
-              "dps": 34492
+              "damage": 1284533,
+              "time": 37.02,
+              "dps": 34695
             },
             {
               "pass": 2,
@@ -36076,18 +36070,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 124775,
-              "dps": 3497
+              "damage": 145151,
+              "dps": 3998
             },
             {
               "id": 1506,
               "damage": 512879,
-              "dps": 14375
+              "dps": 14127
             },
             {
               "id": 1507,
-              "damage": 631433,
-              "dps": 17698
+              "damage": 635162,
+              "dps": 17495
             }
           ],
           "opener": {
@@ -36871,7 +36865,7 @@
             1211,
             1210
           ],
-          "score": 0.988,
+          "score": 0.992,
           "roles": [
             [
               "healer"
@@ -36907,15 +36901,15 @@
               "recommended": 1.571
             }
           },
-          "teamDamage": 2412812,
-          "teamTime": 26.19,
-          "teamDps": 92139,
+          "teamDamage": 2434865,
+          "teamTime": 26.81,
+          "teamDps": 90810,
           "passes": [
             {
               "pass": 1,
-              "damage": 2373651,
-              "time": 25.65,
-              "dps": 92528
+              "damage": 2439810,
+              "time": 27.53,
+              "dps": 88617
             },
             {
               "pass": 2,
@@ -36933,18 +36927,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 135523,
-              "dps": 5175
+              "damage": 157576,
+              "dps": 5877
             },
             {
               "id": 1211,
               "damage": 578339,
-              "dps": 22085
+              "dps": 21569
             },
             {
               "id": 1210,
               "damage": 1721777,
-              "dps": 65750
+              "dps": 64215
             }
           ],
           "opener": {
@@ -36968,7 +36962,7 @@
             1109,
             1108
           ],
-          "score": 0.521,
+          "score": 0.531,
           "roles": [
             [
               "healer"
@@ -37001,15 +36995,15 @@
               "recommended": 1.428
             }
           },
-          "teamDamage": 1320310,
-          "teamTime": 27.16,
-          "teamDps": 48609,
+          "teamDamage": 1350362,
+          "teamTime": 27.79,
+          "teamDps": 48595,
           "passes": [
             {
               "pass": 1,
-              "damage": 1302955,
-              "time": 26.63,
-              "dps": 48930
+              "damage": 1393111,
+              "time": 28.51,
+              "dps": 48868
             },
             {
               "pass": 2,
@@ -37027,18 +37021,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 4956
+              "damage": 156664,
+              "dps": 5638
             },
             {
               "id": 1109,
               "damage": 192735,
-              "dps": 7096
+              "dps": 6936
             },
             {
               "id": 1108,
-              "damage": 1012851,
-              "dps": 37289
+              "damage": 1020850,
+              "dps": 36737
             }
           ],
           "opener": {
@@ -37093,15 +37087,15 @@
               "recommended": 1.404
             }
           },
-          "teamDamage": 1940636,
-          "teamTime": 20.82,
-          "teamDps": 93226,
+          "teamDamage": 1962689,
+          "teamTime": 21.44,
+          "teamDps": 91531,
           "passes": [
             {
               "pass": 1,
-              "damage": 1935682,
-              "time": 20.28,
-              "dps": 95433
+              "damage": 2001841,
+              "time": 22.16,
+              "dps": 90327
             },
             {
               "pass": 2,
@@ -37119,18 +37113,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 6467
+              "damage": 156664,
+              "dps": 7306
             },
             {
               "id": 1509,
               "damage": 277327,
-              "dps": 13322
+              "dps": 12933
             },
             {
               "id": 1210,
               "damage": 1555040,
-              "dps": 74702
+              "dps": 72520
             }
           ],
           "opener": {
@@ -37154,7 +37148,7 @@
             1205,
             1210
           ],
-          "score": 0.904,
+          "score": 0.907,
           "roles": [
             [
               "healer"
@@ -37187,15 +37181,15 @@
               "recommended": 1.512
             }
           },
-          "teamDamage": 2152599,
-          "teamTime": 25.55,
-          "teamDps": 84255,
+          "teamDamage": 2172976,
+          "teamTime": 26.17,
+          "teamDps": 83018,
           "passes": [
             {
               "pass": 1,
-              "damage": 2147763,
-              "time": 25.02,
-              "dps": 85858
+              "damage": 2208892,
+              "time": 26.89,
+              "dps": 82133
             },
             {
               "pass": 2,
@@ -37213,18 +37207,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 124775,
-              "dps": 4884
+              "damage": 145151,
+              "dps": 5545
             },
             {
               "id": 1205,
               "damage": 613602,
-              "dps": 24017
+              "dps": 23442
             },
             {
               "id": 1210,
               "damage": 1438562,
-              "dps": 56307
+              "dps": 54960
             }
           ],
           "opener": {
@@ -37248,7 +37242,7 @@
             1508,
             1210
           ],
-          "score": 0.779,
+          "score": 0.782,
           "roles": [
             [
               "buffer"
@@ -37280,21 +37274,21 @@
               "recommended": 1.591
             }
           },
-          "teamDamage": 1728590,
-          "teamTime": 23.79,
-          "teamDps": 72658,
+          "teamDamage": 1747476,
+          "teamTime": 24.42,
+          "teamDps": 71568,
           "passes": [
             {
               "pass": 1,
-              "damage": 1694184,
-              "time": 23.01,
-              "dps": 73635
+              "damage": 1760705,
+              "time": 24.89,
+              "dps": 70748
             },
             {
               "pass": 2,
-              "damage": 1744636,
+              "damage": 1734772,
               "time": 24.18,
-              "dps": 72145
+              "dps": 71737
             },
             {
               "pass": 3,
@@ -37306,18 +37300,18 @@
           "perMember": [
             {
               "id": 1207,
-              "damage": 277449,
-              "dps": 11662
+              "damage": 274161,
+              "dps": 11228
             },
             {
               "id": 1508,
-              "damage": 151971,
-              "dps": 6388
+              "damage": 174145,
+              "dps": 7132
             },
             {
               "id": 1210,
               "damage": 1325222,
-              "dps": 55703
+              "dps": 54274
             }
           ],
           "opener": {
@@ -37341,7 +37335,7 @@
             1508,
             1210
           ],
-          "score": 0.697,
+          "score": 0.7,
           "roles": [
             [
               "healer",
@@ -37375,21 +37369,21 @@
               "recommended": 1.65
             }
           },
-          "teamDamage": 1511593,
-          "teamTime": 23.27,
-          "teamDps": 64959,
+          "teamDamage": 1530409,
+          "teamTime": 23.9,
+          "teamDps": 64044,
           "passes": [
             {
               "pass": 1,
-              "damage": 1485815,
-              "time": 22.87,
-              "dps": 64967
+              "damage": 1554398,
+              "time": 24.75,
+              "dps": 62806
             },
             {
               "pass": 2,
-              "damage": 1523324,
+              "damage": 1511187,
               "time": 23.47,
-              "dps": 64906
+              "dps": 64389
             },
             {
               "pass": 3,
@@ -37401,18 +37395,18 @@
           "perMember": [
             {
               "id": 1206,
-              "damage": 190501,
-              "dps": 8187
+              "damage": 186455,
+              "dps": 7803
             },
             {
               "id": 1508,
-              "damage": 144440,
-              "dps": 6207
+              "damage": 167301,
+              "dps": 7001
             },
             {
               "id": 1210,
               "damage": 1200688,
-              "dps": 51598
+              "dps": 50246
             }
           ],
           "opener": {
@@ -37436,7 +37430,7 @@
             1508,
             1210
           ],
-          "score": 0.672,
+          "score": 0.677,
           "roles": [
             [
               "buffer"
@@ -37469,15 +37463,15 @@
               "recommended": 1.515
             }
           },
-          "teamDamage": 1482215,
-          "teamTime": 23.65,
-          "teamDps": 62661,
+          "teamDamage": 1504268,
+          "teamTime": 24.28,
+          "teamDps": 61953,
           "passes": [
             {
               "pass": 1,
-              "damage": 1509884,
-              "time": 22.75,
-              "dps": 66367
+              "damage": 1576043,
+              "time": 24.63,
+              "dps": 63990
             },
             {
               "pass": 2,
@@ -37496,17 +37490,17 @@
             {
               "id": 1109,
               "damage": 188204,
-              "dps": 7956
+              "dps": 7751
             },
             {
               "id": 1508,
-              "damage": 137230,
-              "dps": 5801
+              "damage": 159283,
+              "dps": 6560
             },
             {
               "id": 1210,
               "damage": 1176676,
-              "dps": 49744
+              "dps": 48461
             }
           ],
           "opener": {
@@ -37526,7 +37520,7 @@
             1509,
             1108
           ],
-          "score": 0.67,
+          "score": 0.675,
           "roles": [
             [
               "healer"
@@ -37559,15 +37553,15 @@
               "recommended": 1.329
             }
           },
-          "teamDamage": 1507713,
-          "teamTime": 24.14,
-          "teamDps": 62460,
+          "teamDamage": 1529766,
+          "teamTime": 24.77,
+          "teamDps": 61771,
           "passes": [
             {
               "pass": 1,
-              "damage": 1492843,
-              "time": 23.61,
-              "dps": 63241
+              "damage": 1559002,
+              "time": 25.48,
+              "dps": 61175
             },
             {
               "pass": 2,
@@ -37585,18 +37579,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 5577
+              "damage": 156664,
+              "dps": 6326
             },
             {
               "id": 1509,
               "damage": 277327,
-              "dps": 11489
+              "dps": 11198
             },
             {
               "id": 1108,
               "damage": 1123686,
-              "dps": 46551
+              "dps": 45374
             }
           ],
           "opener": {
@@ -37822,7 +37816,7 @@
             1509,
             1210
           ],
-          "score": 0.904,
+          "score": 0.888,
           "roles": [
             [
               "healer"
@@ -37857,15 +37851,15 @@
               "recommended": 1.404
             }
           },
-          "teamDamage": 1940636,
-          "teamTime": 20.82,
-          "teamDps": 93226,
+          "teamDamage": 1962689,
+          "teamTime": 21.44,
+          "teamDps": 91531,
           "passes": [
             {
               "pass": 1,
-              "damage": 1935682,
-              "time": 20.28,
-              "dps": 95433
+              "damage": 2001841,
+              "time": 22.16,
+              "dps": 90327
             },
             {
               "pass": 2,
@@ -37883,18 +37877,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 6467
+              "damage": 156664,
+              "dps": 7306
             },
             {
               "id": 1509,
               "damage": 277327,
-              "dps": 13322
+              "dps": 12933
             },
             {
               "id": 1210,
               "damage": 1555040,
-              "dps": 74702
+              "dps": 72520
             }
           ],
           "opener": {
@@ -38315,7 +38309,7 @@
             1509,
             1108
           ],
-          "score": 0.606,
+          "score": 0.599,
           "roles": [
             [
               "healer"
@@ -38348,15 +38342,15 @@
               "recommended": 1.329
             }
           },
-          "teamDamage": 1507713,
-          "teamTime": 24.14,
-          "teamDps": 62460,
+          "teamDamage": 1529766,
+          "teamTime": 24.77,
+          "teamDps": 61771,
           "passes": [
             {
               "pass": 1,
-              "damage": 1492843,
-              "time": 23.61,
-              "dps": 63241
+              "damage": 1559002,
+              "time": 25.48,
+              "dps": 61175
             },
             {
               "pass": 2,
@@ -38374,18 +38368,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 134611,
-              "dps": 5577
+              "damage": 156664,
+              "dps": 6326
             },
             {
               "id": 1509,
               "damage": 277327,
-              "dps": 11489
+              "dps": 11198
             },
             {
               "id": 1108,
               "damage": 1123686,
-              "dps": 46551
+              "dps": 45374
             }
           ],
           "opener": {
@@ -38903,7 +38897,7 @@
             1211,
             1510
           ],
-          "score": 0.762,
+          "score": 0.766,
           "roles": [
             [
               "healer"
@@ -38935,15 +38929,15 @@
               "recommended": 1.324
             }
           },
-          "teamDamage": 1031592,
-          "teamTime": 39.12,
-          "teamDps": 26368,
+          "teamDamage": 1052794,
+          "teamTime": 39.75,
+          "teamDps": 26486,
           "passes": [
             {
               "pass": 1,
-              "damage": 978244,
-              "time": 38.59,
-              "dps": 25350
+              "damage": 1041850,
+              "time": 40.47,
+              "dps": 25745
             },
             {
               "pass": 2,
@@ -38961,18 +38955,18 @@
           "perMember": [
             {
               "id": 1508,
-              "damage": 139675,
-              "dps": 3570
+              "damage": 161728,
+              "dps": 4069
             },
             {
               "id": 1211,
-              "damage": 569185,
-              "dps": 14549
+              "damage": 568334,
+              "dps": 14298
             },
             {
               "id": 1510,
               "damage": 344038,
-              "dps": 8794
+              "dps": 8655
             }
           ],
           "opener": {
@@ -45844,7 +45838,7 @@
             1207,
             1210
           ],
-          "score": 0.724
+          "score": 0.735
         },
         {
           "anchor": 1211,
@@ -45853,7 +45847,7 @@
             1211,
             1210
           ],
-          "score": 0.634
+          "score": 0.643
         },
         {
           "anchor": 1301,
@@ -46514,7 +46508,7 @@
             1205,
             1210
           ],
-          "score": 0.801
+          "score": 0.813
         },
         {
           "anchor": 1208,
@@ -46532,7 +46526,7 @@
             1211,
             1210
           ],
-          "score": 0.747
+          "score": 0.758
         },
         {
           "anchor": 1301,
@@ -47310,7 +47304,7 @@
             1108,
             1205
           ],
-          "score": 0.87
+          "score": 0.883
         },
         {
           "anchor": 1205,
@@ -47319,7 +47313,7 @@
             1108,
             1205
           ],
-          "score": 0.699
+          "score": 0.709
         },
         {
           "anchor": 1206,
@@ -47338,6 +47332,15 @@
             1108
           ],
           "score": 1
+        },
+        {
+          "anchor": 1211,
+          "members": [
+            1508,
+            1211,
+            1108
+          ],
+          "score": 0.602
         },
         {
           "anchor": 1302,
@@ -47481,7 +47484,7 @@
             1109,
             1108
           ],
-          "score": 0.521
+          "score": 0.531
         },
         {
           "anchor": 1508,
@@ -47490,7 +47493,7 @@
             1509,
             1108
           ],
-          "score": 0.67
+          "score": 0.675
         },
         {
           "anchor": 1509,
@@ -47508,7 +47511,7 @@
             1509,
             1108
           ],
-          "score": 0.606
+          "score": 0.599
         },
         {
           "anchor": 1601,
@@ -47663,7 +47666,7 @@
             1109,
             1108
           ],
-          "score": 0.521
+          "score": 0.531
         },
         {
           "anchor": 1508,
@@ -47672,7 +47675,7 @@
             1508,
             1210
           ],
-          "score": 0.672
+          "score": 0.677
         }
       ],
       "1110": [
@@ -47764,7 +47767,7 @@
             1108,
             1205
           ],
-          "score": 0.87
+          "score": 0.883
         },
         {
           "anchor": 1205,
@@ -47773,7 +47776,7 @@
             1205,
             1210
           ],
-          "score": 0.817
+          "score": 0.829
         },
         {
           "anchor": 1210,
@@ -47782,7 +47785,7 @@
             1211,
             1210
           ],
-          "score": 0.813
+          "score": 0.828
         },
         {
           "anchor": 1211,
@@ -47791,7 +47794,7 @@
             1211,
             1210
           ],
-          "score": 0.822
+          "score": 0.834
         },
         {
           "anchor": 1302,
@@ -48002,7 +48005,7 @@
             1508,
             1210
           ],
-          "score": 0.797
+          "score": 0.803
         },
         {
           "anchor": 1306,
@@ -48211,7 +48214,7 @@
             1207,
             1205
           ],
-          "score": 0.767
+          "score": 0.779
         },
         {
           "anchor": 1207,
@@ -48220,7 +48223,7 @@
             1601,
             1205
           ],
-          "score": 0.688
+          "score": 0.698
         },
         {
           "anchor": 1207,
@@ -48229,7 +48232,7 @@
             1607,
             1205
           ],
-          "score": 0.623
+          "score": 0.633
         },
         {
           "anchor": 1208,
@@ -48274,7 +48277,7 @@
             1205,
             1210
           ],
-          "score": 0.904
+          "score": 0.907
         },
         {
           "anchor": 1301,
@@ -48373,7 +48376,7 @@
             1205,
             1210
           ],
-          "score": 0.904
+          "score": 0.907
         },
         {
           "anchor": 1601,
@@ -48528,7 +48531,7 @@
             1205,
             1210
           ],
-          "score": 0.768
+          "score": 0.78
         },
         {
           "anchor": 1205,
@@ -48537,7 +48540,7 @@
             1108,
             1205
           ],
-          "score": 0.699
+          "score": 0.709
         },
         {
           "anchor": 1207,
@@ -48546,7 +48549,7 @@
             1207,
             1210
           ],
-          "score": 0.899
+          "score": 0.913
         },
         {
           "anchor": 1207,
@@ -48555,7 +48558,7 @@
             1207,
             1205
           ],
-          "score": 0.767
+          "score": 0.779
         },
         {
           "anchor": 1207,
@@ -48564,7 +48567,7 @@
             1207,
             1208
           ],
-          "score": 0.62
+          "score": 0.629
         },
         {
           "anchor": 1208,
@@ -48585,13 +48588,22 @@
           "score": 0.788
         },
         {
+          "anchor": 1210,
+          "members": [
+            1206,
+            1211,
+            1210
+          ],
+          "score": 0.783
+        },
+        {
           "anchor": 1211,
           "members": [
             1206,
             1211,
             1210
           ],
-          "score": 0.778
+          "score": 0.789
         },
         {
           "anchor": 1301,
@@ -48708,7 +48720,7 @@
             1508,
             1210
           ],
-          "score": 0.697
+          "score": 0.7
         },
         {
           "anchor": 1601,
@@ -48839,22 +48851,13 @@
           "score": 0.788
         },
         {
-          "anchor": 1210,
-          "members": [
-            1207,
-            1508,
-            1210
-          ],
-          "score": 0.779
-        },
-        {
           "anchor": 1508,
           "members": [
             1207,
             1508,
             1210
           ],
-          "score": 0.779
+          "score": 0.782
         },
         {
           "anchor": 1601,
@@ -48883,7 +48886,7 @@
             1410,
             1208
           ],
-          "score": 0.651
+          "score": 0.66
         },
         {
           "anchor": 1207,
@@ -48892,7 +48895,7 @@
             1207,
             1208
           ],
-          "score": 0.62
+          "score": 0.629
         },
         {
           "anchor": 1308,
@@ -48984,7 +48987,7 @@
             1509,
             1210
           ],
-          "score": 0.973
+          "score": 0.991
         },
         {
           "anchor": 1210,
@@ -48993,7 +48996,7 @@
             1211,
             1210
           ],
-          "score": 0.833
+          "score": 0.848
         },
         {
           "anchor": 1211,
@@ -49002,16 +49005,7 @@
             1211,
             1210
           ],
-          "score": 0.843
-        },
-        {
-          "anchor": 1211,
-          "members": [
-            1209,
-            1211,
-            1509
-          ],
-          "score": 0.585
+          "score": 0.855
         },
         {
           "anchor": 1301,
@@ -49346,7 +49340,7 @@
             1508,
             1210
           ],
-          "score": 0.776
+          "score": 0.773
         },
         {
           "anchor": 1106,
@@ -49364,7 +49358,7 @@
             1508,
             1210
           ],
-          "score": 0.802
+          "score": 0.793
         },
         {
           "anchor": 1205,
@@ -49382,7 +49376,7 @@
             1205,
             1210
           ],
-          "score": 0.817
+          "score": 0.829
         },
         {
           "anchor": 1205,
@@ -49391,7 +49385,7 @@
             1205,
             1210
           ],
-          "score": 0.801
+          "score": 0.813
         },
         {
           "anchor": 1205,
@@ -49400,7 +49394,7 @@
             1205,
             1210
           ],
-          "score": 0.768
+          "score": 0.78
         },
         {
           "anchor": 1205,
@@ -49409,7 +49403,7 @@
             1205,
             1210
           ],
-          "score": 0.732
+          "score": 0.743
         },
         {
           "anchor": 1205,
@@ -49418,7 +49412,7 @@
             1205,
             1210
           ],
-          "score": 0.725
+          "score": 0.736
         },
         {
           "anchor": 1206,
@@ -49433,19 +49427,19 @@
           "anchor": 1206,
           "members": [
             1206,
-            1508,
+            1205,
             1210
           ],
-          "score": 0.906
+          "score": 0.903
         },
         {
           "anchor": 1206,
           "members": [
             1206,
-            1205,
+            1508,
             1210
           ],
-          "score": 0.903
+          "score": 0.894
         },
         {
           "anchor": 1206,
@@ -49472,7 +49466,7 @@
             1207,
             1210
           ],
-          "score": 0.899
+          "score": 0.913
         },
         {
           "anchor": 1207,
@@ -49481,7 +49475,7 @@
             1207,
             1210
           ],
-          "score": 0.724
+          "score": 0.735
         },
         {
           "anchor": 1209,
@@ -49517,7 +49511,7 @@
             1211,
             1210
           ],
-          "score": 0.843
+          "score": 0.855
         },
         {
           "anchor": 1211,
@@ -49526,7 +49520,7 @@
             1211,
             1210
           ],
-          "score": 0.822
+          "score": 0.834
         },
         {
           "anchor": 1211,
@@ -49535,7 +49529,7 @@
             1211,
             1210
           ],
-          "score": 0.778
+          "score": 0.789
         },
         {
           "anchor": 1211,
@@ -49544,7 +49538,7 @@
             1211,
             1210
           ],
-          "score": 0.758
+          "score": 0.769
         },
         {
           "anchor": 1211,
@@ -49553,7 +49547,7 @@
             1211,
             1210
           ],
-          "score": 0.747
+          "score": 0.758
         },
         {
           "anchor": 1211,
@@ -49562,7 +49556,7 @@
             1211,
             1210
           ],
-          "score": 0.634
+          "score": 0.643
         },
         {
           "anchor": 1302,
@@ -49571,7 +49565,7 @@
             1508,
             1210
           ],
-          "score": 0.944
+          "score": 0.941
         },
         {
           "anchor": 1302,
@@ -49607,7 +49601,7 @@
             1402,
             1210
           ],
-          "score": 0.906
+          "score": 0.894
         },
         {
           "anchor": 1402,
@@ -49670,7 +49664,7 @@
             1211,
             1210
           ],
-          "score": 0.988
+          "score": 0.992
         },
         {
           "anchor": 1508,
@@ -49688,7 +49682,7 @@
             1205,
             1210
           ],
-          "score": 0.904
+          "score": 0.907
         },
         {
           "anchor": 1508,
@@ -49697,7 +49691,7 @@
             1508,
             1210
           ],
-          "score": 0.779
+          "score": 0.782
         },
         {
           "anchor": 1508,
@@ -49706,7 +49700,7 @@
             1508,
             1210
           ],
-          "score": 0.697
+          "score": 0.7
         },
         {
           "anchor": 1508,
@@ -49715,7 +49709,7 @@
             1508,
             1210
           ],
-          "score": 0.672
+          "score": 0.677
         },
         {
           "anchor": 1509,
@@ -49724,7 +49718,7 @@
             1509,
             1210
           ],
-          "score": 0.904
+          "score": 0.888
         },
         {
           "anchor": 1509,
@@ -49798,7 +49792,7 @@
             1211,
             1210
           ],
-          "score": 0.988
+          "score": 0.992
         },
         {
           "anchor": 1210,
@@ -49807,7 +49801,7 @@
             1211,
             1210
           ],
-          "score": 0.833
+          "score": 0.848
         },
         {
           "anchor": 1210,
@@ -49816,7 +49810,16 @@
             1211,
             1210
           ],
-          "score": 0.813
+          "score": 0.828
+        },
+        {
+          "anchor": 1210,
+          "members": [
+            1206,
+            1211,
+            1210
+          ],
+          "score": 0.783
         },
         {
           "anchor": 1303,
@@ -49852,7 +49855,7 @@
             1211,
             1210
           ],
-          "score": 0.988
+          "score": 0.992
         },
         {
           "anchor": 1510,
@@ -49870,7 +49873,7 @@
             1211,
             1510
           ],
-          "score": 0.762
+          "score": 0.766
         }
       ],
       "1301": [
@@ -50204,7 +50207,7 @@
             1211,
             1210
           ],
-          "score": 0.758
+          "score": 0.769
         },
         {
           "anchor": 1402,
@@ -50956,7 +50959,7 @@
             1410,
             1208
           ],
-          "score": 0.651
+          "score": 0.66
         },
         {
           "anchor": 1208,
@@ -51823,7 +51826,7 @@
             1506,
             1507
           ],
-          "score": 0.852
+          "score": 0.854
         },
         {
           "anchor": 1510,
@@ -51852,7 +51855,7 @@
             1508,
             1210
           ],
-          "score": 0.776
+          "score": 0.773
         },
         {
           "anchor": 1108,
@@ -51879,7 +51882,7 @@
             1508,
             1210
           ],
-          "score": 0.802
+          "score": 0.793
         },
         {
           "anchor": 1205,
@@ -51897,7 +51900,7 @@
             1508,
             1210
           ],
-          "score": 0.906
+          "score": 0.894
         },
         {
           "anchor": 1207,
@@ -51915,7 +51918,7 @@
             1211,
             1210
           ],
-          "score": 0.988
+          "score": 0.992
         },
         {
           "anchor": 1210,
@@ -51933,7 +51936,7 @@
             1205,
             1210
           ],
-          "score": 0.904
+          "score": 0.907
         },
         {
           "anchor": 1210,
@@ -51942,16 +51945,7 @@
             1508,
             1210
           ],
-          "score": 0.797
-        },
-        {
-          "anchor": 1210,
-          "members": [
-            1207,
-            1508,
-            1210
-          ],
-          "score": 0.779
+          "score": 0.803
         },
         {
           "anchor": 1211,
@@ -51963,13 +51957,22 @@
           "score": 1
         },
         {
+          "anchor": 1211,
+          "members": [
+            1508,
+            1211,
+            1108
+          ],
+          "score": 0.602
+        },
+        {
           "anchor": 1302,
           "members": [
             1302,
             1508,
             1210
           ],
-          "score": 0.944
+          "score": 0.941
         },
         {
           "anchor": 1402,
@@ -51978,7 +51981,7 @@
             1402,
             1210
           ],
-          "score": 0.906
+          "score": 0.894
         },
         {
           "anchor": 1405,
@@ -51996,7 +51999,7 @@
             1506,
             1507
           ],
-          "score": 0.852
+          "score": 0.854
         },
         {
           "anchor": 1509,
@@ -52005,7 +52008,7 @@
             1509,
             1210
           ],
-          "score": 0.904
+          "score": 0.888
         },
         {
           "anchor": 1509,
@@ -52014,7 +52017,7 @@
             1509,
             1108
           ],
-          "score": 0.606
+          "score": 0.599
         },
         {
           "anchor": 1510,
@@ -52023,7 +52026,7 @@
             1211,
             1510
           ],
-          "score": 0.762
+          "score": 0.766
         }
       ],
       "1509": [
@@ -52124,16 +52127,7 @@
             1509,
             1210
           ],
-          "score": 0.973
-        },
-        {
-          "anchor": 1211,
-          "members": [
-            1209,
-            1211,
-            1509
-          ],
-          "score": 0.585
+          "score": 0.991
         },
         {
           "anchor": 1301,
@@ -52205,7 +52199,7 @@
             1509,
             1108
           ],
-          "score": 0.67
+          "score": 0.675
         },
         {
           "anchor": 1510,
@@ -52436,7 +52430,7 @@
             1205,
             1210
           ],
-          "score": 0.732
+          "score": 0.743
         },
         {
           "anchor": 1207,
@@ -52445,7 +52439,7 @@
             1601,
             1205
           ],
-          "score": 0.688
+          "score": 0.698
         },
         {
           "anchor": 1208,
@@ -52815,7 +52809,7 @@
             1205,
             1210
           ],
-          "score": 0.725
+          "score": 0.736
         },
         {
           "anchor": 1207,
@@ -52824,7 +52818,7 @@
             1607,
             1205
           ],
-          "score": 0.623
+          "score": 0.633
         },
         {
           "anchor": 1301,
@@ -53407,6 +53401,7 @@
           "forte_heavy_detonate_damage",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2560,
           "critRate": 0.698,
@@ -53668,6 +53663,7 @@
             "forte_heavy_detonate_damage",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -53933,6 +53929,7 @@
           "basic_3",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 1454,
           "critRate": 0.455,
@@ -54199,6 +54196,7 @@
             "basic_3",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000044,
@@ -54468,6 +54466,7 @@
           "forte_heavy_stormy_kicks_damage",
           "forte_heavy_tail_strike_damage"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2734,
           "critRate": 0.815,
@@ -54738,6 +54737,7 @@
             "forte_heavy_stormy_kicks_damage",
             "forte_heavy_tail_strike_damage"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000105,
@@ -55002,6 +55002,7 @@
           "liberation_inklit_spirit",
           "forte_heavy_creation_s_zenith"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2589,
           "critRate": 0.535,
@@ -55267,6 +55268,7 @@
             "liberation_inklit_spirit",
             "forte_heavy_creation_s_zenith"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000044,
@@ -55531,6 +55533,7 @@
           "skill",
           "skill_mask"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2327,
           "critRate": 0.895,
@@ -55796,6 +55799,7 @@
             "skill",
             "skill_mask"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000105,
@@ -56064,6 +56068,7 @@
           "skill_chromatic_splendor",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2793,
           "critRate": 0.535,
@@ -56333,6 +56338,7 @@
             "skill_chromatic_splendor",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000105,
@@ -56608,6 +56614,7 @@
           "skill_present",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2997,
           "critRate": 0.778,
@@ -56884,6 +56891,7 @@
             "skill_present",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000044,
@@ -57146,6 +57154,7 @@
           "liberation_letting_it_go",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 3024,
           "critRate": 0.778,
@@ -57409,6 +57418,7 @@
             "liberation_letting_it_go",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000105,
@@ -57671,6 +57681,7 @@
           "__echo__",
           "liberation_healing_per_plume_step"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 1916,
           "critRate": 0.948,
@@ -57934,6 +57945,7 @@
             "__echo__",
             "liberation_healing_per_plume_step"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000199,
@@ -58195,6 +58207,7 @@
           "forte_heavy_thermobaric_bullets_damage",
           "forte_heavy_boom_boom_damage"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2406,
           "critRate": 0.455,
@@ -58457,6 +58470,7 @@
             "forte_heavy_thermobaric_bullets_damage",
             "forte_heavy_boom_boom_damage"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -58725,6 +58739,7 @@
           "liberation_cosmos_rampage_damage",
           "forte_heavy_cosmos_rupture_damage"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 3038,
           "critRate": 0.815,
@@ -58994,6 +59009,7 @@
             "liberation_cosmos_rampage_damage",
             "forte_heavy_cosmos_rupture_damage"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -59258,6 +59274,7 @@
           "liberation_violent_finale_damage",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2478,
           "critRate": 0.455,
@@ -59523,6 +59540,7 @@
             "liberation_violent_finale_damage",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -59789,6 +59807,7 @@
           "forte_heavy_flaming_sacrifice",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2997,
           "critRate": 0.535,
@@ -60056,6 +60075,7 @@
             "forte_heavy_flaming_sacrifice",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000105,
@@ -60319,6 +60339,7 @@
           "midair_mid_air_attack_3_flip",
           "forte_heavy_returned_from_ashes"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2188,
           "critRate": 0.778,
@@ -60583,6 +60604,7 @@
             "midair_mid_air_attack_3_flip",
             "forte_heavy_returned_from_ashes"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 390080005,
@@ -60845,6 +60867,7 @@
           "heavy_wolf_s_claw",
           "forte_heavy_dance_with_the_wolf_climax"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2618,
           "critRate": 0.895,
@@ -61108,6 +61131,7 @@
             "heavy_wolf_s_claw",
             "forte_heavy_dance_with_the_wolf_climax"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -61378,6 +61402,7 @@
           "forte_basic_seraphic_execution_4",
           "forte_basic_seraphic_execution_5"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2824,
           "critRate": 0.455,
@@ -61649,6 +61674,7 @@
             "forte_basic_seraphic_execution_4",
             "forte_basic_seraphic_execution_5"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -61911,6 +61937,7 @@
           "__echo__",
           "liberation"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 1571,
           "critRate": 0.815,
@@ -62174,6 +62201,7 @@
             "__echo__",
             "liberation"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 390080005,
@@ -62443,6 +62471,7 @@
           "heavy_mech_charged_ii",
           "liberation_heavenfall_edict_finale"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2788,
           "critRate": 0.978,
@@ -62713,6 +62742,7 @@
             "heavy_mech_charged_ii",
             "liberation_heavenfall_edict_finale"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000191,
@@ -62979,6 +63009,7 @@
           "liberation_final_act_breakdown_form",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2927,
           "critRate": 1.015,
@@ -63246,6 +63277,7 @@
             "liberation_final_act_breakdown_form",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000191,
@@ -63516,6 +63548,7 @@
           "basic_1",
           "forte_heavy_death_messenger_damage"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2734,
           "critRate": 0.815,
@@ -63787,6 +63820,7 @@
             "basic_1",
             "forte_heavy_death_messenger_damage"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000089,
@@ -64050,6 +64084,7 @@
           "forte_heavy_chameleon_cipher_damage",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2971,
           "critRate": 0.895,
@@ -64314,6 +64349,7 @@
             "forte_heavy_chameleon_cipher_damage",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000089,
@@ -64574,6 +64610,7 @@
           "skill_rumbling_spark_damage",
           "skill"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 1640,
           "critRate": 0.815,
@@ -64835,6 +64872,7 @@
             "skill_rumbling_spark_damage",
             "skill"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000089,
@@ -65109,6 +65147,7 @@
           "forte_heavy_crescent_divinity",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2676,
           "critRate": 0.895,
@@ -65384,6 +65423,7 @@
             "forte_heavy_crescent_divinity",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000189,
@@ -65652,6 +65692,7 @@
           "forte_heavy_law_of_reigns",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2705,
           "critRate": 0.815,
@@ -65921,6 +65962,7 @@
             "forte_heavy_law_of_reigns",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000089,
@@ -66196,6 +66238,7 @@
           "liberation_sublime_is_the_sun_everbright_protector",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2793,
           "critRate": 0.895,
@@ -66472,6 +66515,7 @@
             "liberation_sublime_is_the_sun_everbright_protector",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000089,
@@ -66736,6 +66780,7 @@
           "forte_heavy_flashing_thunder_spell_harmony",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2500,
           "critRate": 0.815,
@@ -67001,6 +67046,7 @@
             "forte_heavy_flashing_thunder_spell_harmony",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 390080005,
@@ -67263,6 +67309,7 @@
           "liberation_mk_31_hmg",
           "liberation_boom_fireworks"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2863,
           "critRate": 0.535,
@@ -67526,6 +67573,7 @@
             "liberation_mk_31_hmg",
             "liberation_boom_fireworks"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000114,
@@ -67790,6 +67838,7 @@
           "forte_heavy_feather_release_damage",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2501,
           "critRate": 0.898,
@@ -68055,6 +68104,7 @@
             "forte_heavy_feather_release_damage",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000192,
@@ -68319,6 +68369,7 @@
           "basic_5",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2510,
           "critRate": 0.655,
@@ -68584,6 +68635,7 @@
             "basic_5",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000192,
@@ -68850,6 +68902,7 @@
           "liberation_lance_of_qingloong_3",
           "skill"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2734,
           "critRate": 1.014,
@@ -69117,6 +69170,7 @@
             "liberation_lance_of_qingloong_3",
             "skill"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000192,
@@ -69380,6 +69434,7 @@
           "liberation_resonance_liberation_explosion_damage",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2501,
           "critRate": 1.014,
@@ -69644,6 +69699,7 @@
             "liberation_resonance_liberation_explosion_damage",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000192,
@@ -69908,6 +69964,7 @@
           "midair_mid_air_attack",
           "forte_heavy_unbound_flow_1"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2938,
           "critRate": 0.555,
@@ -70173,6 +70230,7 @@
             "midair_mid_air_attack",
             "forte_heavy_unbound_flow_1"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000106,
@@ -70437,6 +70495,7 @@
           "forte_heavy_quadruple_downbeat",
           "liberation_improvised_symphonic_poem_skill"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2589,
           "critRate": 0.915,
@@ -70702,6 +70761,7 @@
             "forte_heavy_quadruple_downbeat",
             "liberation_improvised_symphonic_poem_skill"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000106,
@@ -70972,6 +71032,7 @@
           "forte_basic_basic_attack_5",
           "liberation_blade_of_howling_squall"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 1844,
           "critRate": 0.878,
@@ -71243,6 +71304,7 @@
             "forte_basic_basic_attack_5",
             "liberation_blade_of_howling_squall"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000106,
@@ -71507,6 +71569,7 @@
           "forte_heavy_enhanced_arc_beyond_the_edge",
           "forte_heavy_absolute_fullness"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2764,
           "critRate": 0.895,
@@ -71772,6 +71835,7 @@
             "forte_heavy_enhanced_arc_beyond_the_edge",
             "forte_heavy_absolute_fullness"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 390080005,
@@ -72035,6 +72099,7 @@
           "forte_heavy_thus_spoke_the_blade_to_sacrifice",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2793,
           "critRate": 0.978,
@@ -72299,6 +72364,7 @@
             "forte_heavy_thus_spoke_the_blade_to_sacrifice",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000192,
@@ -72567,6 +72633,7 @@
           "forte_heavy_forte_circuit_learn_my_true_name",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2938,
           "critRate": 0.978,
@@ -72836,6 +72903,7 @@
             "forte_heavy_forte_circuit_learn_my_true_name",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000192,
@@ -73099,6 +73167,7 @@
           "forte_heavy_mid_air_attack_starflower_blooms_3",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2501,
           "critRate": 0.455,
@@ -73363,6 +73432,7 @@
             "forte_heavy_mid_air_attack_starflower_blooms_3",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000189,
@@ -73627,6 +73697,7 @@
           "forte_heavy_energized_pounce",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2501,
           "critRate": 0.895,
@@ -73892,6 +73963,7 @@
             "forte_heavy_energized_pounce",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000089,
@@ -74168,6 +74240,7 @@
           "forte_heavy_heavy_attack_starflash",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2676,
           "critRate": 1.015,
@@ -74445,6 +74518,7 @@
             "forte_heavy_heavy_attack_starflash",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000092,
@@ -74711,6 +74785,7 @@
           "forte_heavy_heavy_slash_nightfall",
           "liberation_the_last_stand"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2738,
           "critRate": 0.735,
@@ -74978,6 +75053,7 @@
             "forte_heavy_heavy_slash_nightfall",
             "liberation_the_last_stand"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000092,
@@ -75240,6 +75316,19 @@
           "basic_1",
           "basic_2",
           "basic_rending_lunge"
+        ],
+        "openerRotation": [
+          "skill_eye_of_unraveling",
+          "basic_rending_lunge",
+          "__echo__",
+          "liberation",
+          "basic_2",
+          "basic_rending_lunge",
+          "basic_death_snip",
+          "skill_serrated_loop",
+          "forte_heavy_sawring_blitz_1",
+          "forte_heavy_sawring_blitz_2",
+          "forte_heavy_sawring_blitz_3"
         ],
         "stats": {
           "atk": 2734,
@@ -75505,6 +75594,19 @@
             "basic_2",
             "basic_rending_lunge"
           ],
+          "openerRotation": [
+            "skill_eye_of_unraveling",
+            "basic_rending_lunge",
+            "__echo__",
+            "liberation",
+            "basic_2",
+            "basic_rending_lunge",
+            "basic_death_snip",
+            "skill_serrated_loop",
+            "forte_heavy_sawring_blitz_1",
+            "forte_heavy_sawring_blitz_2",
+            "forte_heavy_sawring_blitz_3"
+          ],
           "echoes": [
             {
               "id": 6000114,
@@ -75766,6 +75868,7 @@
           "forte_basic_visual_impact",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2799,
           "critRate": 0.535,
@@ -76028,6 +76131,7 @@
             "forte_basic_visual_impact",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000189,
@@ -76298,6 +76402,7 @@
           "forte_heavy_gavel_of_earthshaker",
           "liberation"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2997,
           "critRate": 0.778,
@@ -76569,6 +76674,7 @@
             "forte_heavy_gavel_of_earthshaker",
             "liberation"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000189,
@@ -76839,6 +76945,7 @@
           "liberation_spoofing_program_synapse_burnout",
           "liberation_spoofing_program_cripple_movement"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2909,
           "critRate": 0.535,
@@ -77110,6 +77217,7 @@
             "liberation_spoofing_program_synapse_burnout",
             "liberation_spoofing_program_cripple_movement"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000189,
@@ -77378,6 +77486,7 @@
           "skill",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 1952,
           "critRate": 0.815,
@@ -77647,6 +77756,7 @@
             "skill",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000042,
@@ -77914,6 +78024,7 @@
           "forte_heavy_scatterbloom_damage",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2531,
           "critRate": 0.698,
@@ -78182,6 +78293,7 @@
             "forte_heavy_scatterbloom_damage",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 390080005,
@@ -78453,6 +78565,7 @@
           "skill_vining_waltz_4",
           "skill_floral_ravage"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2843,
           "critRate": 0.698,
@@ -78725,6 +78838,7 @@
             "skill_vining_waltz_4",
             "skill_floral_ravage"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000082,
@@ -78995,6 +79109,7 @@
           "liberation",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2880,
           "critRate": 0.698,
@@ -79266,6 +79381,7 @@
             "liberation",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000082,
@@ -79528,6 +79644,7 @@
           "liberation",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2793,
           "critRate": 0.698,
@@ -79791,6 +79908,7 @@
             "liberation",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000042,
@@ -80058,6 +80176,7 @@
           "forte_heavy_perception_drain",
           "__echo__"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2647,
           "critRate": 0.535,
@@ -80326,6 +80445,7 @@
             "forte_heavy_perception_drain",
             "__echo__"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000042,
@@ -80592,6 +80712,7 @@
           "basic_scarlet_coda",
           "liberation_hecate_1"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 3072,
           "critRate": 0.895,
@@ -80859,6 +80980,7 @@
             "basic_scarlet_coda",
             "liberation_hecate_1"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000042,
@@ -81129,6 +81251,7 @@
           "liberation_shadow_of_xuanling",
           "forte_heavy_azure_sword_stance"
         ],
+        "openerRotation": [],
         "stats": {
           "atk": 2909,
           "critRate": 0.778,
@@ -81400,6 +81523,7 @@
             "liberation_shadow_of_xuanling",
             "forte_heavy_azure_sword_stance"
           ],
+          "openerRotation": [],
           "echoes": [
             {
               "id": 6000042,

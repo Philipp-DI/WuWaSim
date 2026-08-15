@@ -78,7 +78,7 @@ import { resolveTotalStats } from '../../src/core/stats.js';
 import { collectEnergyEvents, minViableEr } from '../../src/core/team-energy.js';
 import { allocateSubstats, allocationToEchoSubstats } from '../../src/core/substat-allocate.js';
 import {
-    templateStats, representativeWeaponId, standardSonatasFor, candidateSonatasFor, curatedRotationFor, curatedModeFor,
+    templateStats, representativeWeaponId, standardSonatasFor, candidateSonatasFor, curatedRotationFor, curatedOpenerFor, curatedModeFor,
     candidateWeaponsFor, scalingStatFor, referenceBuild,
 } from './reference-build.js';
 import { rolesOf, contextTeammatesFor } from './synergy-hints.js';
@@ -189,10 +189,12 @@ export function representativeMemberBuild(resonator, dataset) {
     const scaling = scalingStatFor(resonator, dataset, roles);
     const template = templateStats(resonator, dataset, roles);
     const rotation = curatedRotationFor(resonator.id) ?? [];
+    // Optional curated opening pass — team-sim runs it for pass 0 only.
+    const openerRotation = curatedOpenerFor(resonator.id) ?? [];
     const mode = curatedModeFor(resonator.id);
 
     let base = setChain(createBuild(resonator), 0);
-    base = { ...base, id: resonator.id, resonanceMode: mode, rotation, rotationMeta: rotation.map(() => ({})) };
+    base = { ...base, id: resonator.id, resonanceMode: mode, rotation, rotationMeta: rotation.map(() => ({})), openerRotation };
 
     if (!rotation.length) {
         // No curated rotation → nothing to sim-search against; keep the old
@@ -484,6 +486,8 @@ export function summarizeMemberBuild(resonator, dataset) {
         sonataName: sonata?.name ?? null,
         mode: memberBuild.resonanceMode ?? null,
         rotation: memberBuild.rotation ?? [],
+        // Optional; `[]` for the 55 resonators whose loop opens the fight too.
+        openerRotation: memberBuild.openerRotation ?? [],
         stats: {
             atk: Math.round(totals.atk), critRate: round3(totals.critRate), critDmg: round3(totals.critDmg),
             energyRegen: round3(totals.energyRegen), healingBonus: round3(totals.healingBonus ?? 0),
@@ -493,7 +497,7 @@ export function summarizeMemberBuild(resonator, dataset) {
         // `echoes`/`weaponId`/`sonataId`/`mode`/`rotation` above, shaped for
         // direct consumption so the "inspect" display and the materialized
         // build can never independently drift.
-        recipe: { weaponId: memberBuild.weapon?.id ?? null, sonataId, mode: memberBuild.resonanceMode ?? null, rotation: memberBuild.rotation ?? [], echoes },
+        recipe: { weaponId: memberBuild.weapon?.id ?? null, sonataId, mode: memberBuild.resonanceMode ?? null, rotation: memberBuild.rotation ?? [], openerRotation: memberBuild.openerRotation ?? [], echoes },
     };
 }
 

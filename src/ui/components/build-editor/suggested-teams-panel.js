@@ -6,7 +6,7 @@ import { createBuild, pickEchoId, setEcho, setName, setWeapon } from "../../../c
 import { listBuilds, listTeams, saveBuild, saveTeam, setCurrentTeamId } from "../../../data/storage.js";
 import { referenceRotationFor } from "./shared.js";
 import { renderAppearsInTeams, renderSuggestedTeams } from "../suggested-teams.js";
-import { resolveReferenceRotation, suggestedBuildFor, suggestedTeamsFor, teamMemberBuildFor } from "../../../data/meta-loader.js";
+import { resolveOpenerRotation, resolveReferenceRotation, suggestedBuildFor, suggestedTeamsFor, teamMemberBuildFor } from "../../../data/meta-loader.js";
 
 // P13 — Suggested Teams panel (curated META comps + sim alternatives) plus the
 // §8b "appears in teams" reverse lookup. Supports without their own suggestions
@@ -70,6 +70,13 @@ export function defaultFreshBuild(build, resonator, dataset, meta, referenceRota
   if (!updated.rotation?.length) {
     const rotation = resolveReferenceRotation(meta, referenceRotations, resonator.id);
     if (rotation) updated = { ...updated, rotation: [...rotation], rotationMeta: rotation.map(() => ({})) };
+  }
+  // Independent of the branch above: a recipe already carries the opener, but
+  // the solo-suggestion path does not, and neither does a rotation that came
+  // from the P12 meta's synthesized loop.
+  if (!updated.openerRotation?.length) {
+    const opener = resolveOpenerRotation(referenceRotations, resonator.id);
+    if (opener) updated = { ...updated, openerRotation: [...opener] };
   }
   if (resonator.signatureWeaponId != null) updated = setWeapon(updated, resonator.signatureWeaponId);
   return updated;
@@ -146,6 +153,9 @@ export function applyTeamRecipe(build, recipe) {
     resonanceMode: recipe.mode ?? updated.resonanceMode,
     rotation: rot,
     rotationMeta: rot.map(() => ({})),
+    // The optional curated opening pass. `[]` for most resonators — see
+    // core/build.js's openerRotation note for why it is curated, not derived.
+    openerRotation: (recipe.openerRotation ?? []).slice(),
   };
 }
 

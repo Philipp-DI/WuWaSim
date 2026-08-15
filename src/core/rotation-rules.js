@@ -777,9 +777,21 @@ export const STAGE_GRANTS = Object.freeze({
     // (Chainsaw Mode); Serrated Loop: "[Normal Attack] shortly after casting
     // this skill to cast [Sawring - Blitz Stage 2]".
     1508: {
+        // Moment of Nihility states the same chain-in the Intro does, in its own
+        // node text: "While not in Chainsaw Mode, [Normal Attack] shortly after
+        // casting this skill to cast Basic Attack Stage 2." Only `intro` was
+        // listed, so her arabwuwa opener — Liberation straight into Basic 2 —
+        // read as an illegal sequence.
         basic_2: {
-            after: ['intro'],
-            note: 'Intro (Reverberance — Return) chains into Basic Attack Stage 2.',
+            after: ['intro', 'liberation'],
+            note: 'Intro (Reverberance — Return) and Resonance Liberation (Moment of Nihility) both chain into Basic Attack Stage 2.',
+        },
+        // Eye of Unraveling: "While not in Chainsaw Mode, after casting this
+        // skill, [Normal Attack] on the ground or use [Normal Attack] in mid-air
+        // to cast Rending Lunge." That is the opener's first two steps.
+        basic_rending_lunge: {
+            after: ['basic_2', 'skill_eye_of_unraveling', 'basic_dodge_counter'],
+            note: 'Basic Attack Stage 2, Eye of Unraveling and Dodge Counter all chain into Rending Lunge.',
         },
         forte_heavy_sawring_blitz_2: {
             after: ['skill_serrated_loop', 'intro'],

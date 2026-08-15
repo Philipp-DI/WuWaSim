@@ -115,6 +115,17 @@ export function createBuild(resonator) {
         // {} = user-added (default); { autoInserted: true } = machine-inserted
         // by a trigger rule (rotation-triggers.js). Sparse entries read as {}.
         rotationMeta: [],
+        // OPTIONAL opening rotation, used for this member's FIRST turn only;
+        // `rotation` is the steady-state loop every later pass repeats. Empty
+        // means "the loop opens the fight too", which is the common case.
+        //
+        // It exists because an opening pass genuinely differs for some kits and
+        // cannot be derived: the first member on field gets no Intro, so a loop
+        // written to open off its own Intro is unplayable on pass 1, and the
+        // player's real answer is a different sequence rather than a padded one.
+        // Deriving that sequence was tried and retired (see opener.js) — this is
+        // CURATION. Optional by design; nothing is invented when it is absent.
+        openerRotation: [],
         statOverrides: {},
         // Empty until the user sets a count for an effect the engine reports as
         // `stacksUnknown` — see normalizeEffectStacks / setEffectStacks.
@@ -127,7 +138,7 @@ export function createBuild(resonator) {
 // (unmodified since creation) regardless of its name.
 const PRISTINE_FIELDS = [
     'level', 'chain', 'resonanceMode', 'skillLevels', 'inherentSkillsActive', 'statNodesActive',
-    'weapon', 'echoes', 'rotation', 'statOverrides',
+    'weapon', 'echoes', 'rotation', 'openerRotation', 'statOverrides',
 ];
 
 /**
@@ -210,6 +221,11 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
     const srcMeta = Array.isArray(input.rotationMeta) ? input.rotationMeta : [];
     const rotationMeta = rotation.map((_, i) =>
         (srcMeta[i] && typeof srcMeta[i] === 'object') ? { ...srcMeta[i] } : {});
+    // Same sanitation as `rotation`; absent in every build saved before
+    // 2026-08-15, which normalizes to the empty "no opener" state.
+    const openerRotation = Array.isArray(input.openerRotation)
+        ? input.openerRotation.filter(step => typeof step === 'string' && step.length > 0)
+        : [];
 
     let weapon = null;
     if (input.weapon && input.weapon.id != null) {
@@ -266,6 +282,7 @@ export function normalizeBuild(input, { dataset, onNotice } = {}) {
         // v1 → v2: rotation didn't exist; default to empty array.
         rotation,
         rotationMeta,
+        openerRotation,
         statOverrides: input.statOverrides && typeof input.statOverrides === 'object'
             ? { ...input.statOverrides } : {},
         // User-supplied stack counts, keyed `S{level}.{index}` / `IH{node}.{index}`

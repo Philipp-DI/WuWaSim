@@ -10228,3 +10228,83 @@ anchor (Taoqi) swapped its top team on a 1.2% margin under the corrected target.
 **[Updated Docs]** Three new CLAUDE.md invariants (one enemy; a skillType is a
 kind not a key; a member's step list must account for their total).
 `docs/OPEN-ITEMS.md` gains 2d and 2e.
+
+---
+
+## 2026-08-15b — An optional opening rotation, and a build the app swapped in without saying so
+
+Maintainer-directed: templates should hold **two** rotations per resonator, the
+opener staying OPTIONAL because deriving one is unreliable. Plus a reported bug
+in Denia's displayed chain.
+
+**[Files Changed]**
+
+```
+data/reference-rotations.json            Chisa's openerRotation + openerSource
+src/core/build.js                        build.openerRotation (normalized, pristine-checked)
+src/core/team-sim.js                     withOpeningRotation — pass 0 only
+src/core/rotation-rules.js               two Chisa grants, both quoted from the kit
+src/data/meta-loader.js                  resolveOpenerRotation
+src/ui/app.js                            hands the team page its meta
+src/ui/components/team-editor-v2.js      differsFromRecipe + the YOUR BUILD badge
+src/ui/components/suggested-teams.js     inspect row shows both rotations
+src/ui/components/build-editor/suggested-teams-panel.js   carries it through
+tools/optimize/reference-build.js        curatedOpenerFor
+tools/optimize/team-rank.js              recipe + summary carry openerRotation
+tests/{team-sim,team-rank,team-editor-v2}.test.mjs
+data/wuwa-meta.json                      regenerated
+```
+
+**[Logic Altered]**
+
+1. **`build.openerRotation`** — an optional curated opening pass, run on pass 0
+   and nowhere else (`withOpeningRotation`). Absent for 55 of 56 resonators, and
+   absent means nothing changes: `tests/team-sim.test.mjs` pins that an empty
+   opener leaves the damage bit-identical. Not restricted to slot 0 — a kit can
+   want a different first pass for its own reasons.
+
+2. **Chisa's opener is arabwuwa's Rotation 1**, transcribed from the maintainer's
+   prose: Eye of Unraveling → Rending Lunge → Echo → Liberation → Basic 2 →
+   Rending Lunge → Death Snip → Serrated Loop → Sawring Blitz 1/2/3. Every key
+   was resolved from the game's own node text rather than guessed — "Skill" is
+   Eye of Unraveling because its section states *"after casting this skill,
+   Normal Attack on the ground … to cast Rending Lunge"*; "Forte Skill" is
+   Serrated Loop because *"Casting this skill sends Chisa into Chainsaw Mode"*;
+   "Basic 1, 2, 3" in that mode is the Blitz chain, which *"chains up to 3
+   consecutive attacks"*.
+
+3. **Two missing grants, both quoted.** The opener validated with one warning —
+   Basic 2 straight off the Liberation. Moment of Nihility's own node text says
+   *"While not in Chainsaw Mode, Normal Attack shortly after casting this skill
+   to cast Basic Attack Stage 2"*, and only `intro` was listed. Added, along with
+   Eye of Unraveling → Rending Lunge from the same source. The opener now
+   validates clean, and Chisa's team-page sequence warning is gone.
+
+4. **THE DENIA REPORT: not our rotation.** Reproduced only after seeding a saved
+   Denia build — `buildIdFor` prefers a user's own real build over the
+   suggestion's recipe and says nothing. The page's own resonator at least gets a
+   `confirm()`; the other two slots are substituted silently, so the team runs a
+   different rotation than the card that sent you there advertised. `wuwa-data`
+   is fine: her chain is Breakdown Form 1→2→3→4 on both pages, and the mid-air
+   rows sharing the ground chain's multipliers are the game's own duplication
+   (nanoka rows 8–11 and 13–16 carry identical percentages). The fix is to SAY
+   so — a `YOUR BUILD` badge, keyed on a real diff against the recipe
+   (rotation / opener / weapon / sonata / mode), not on a `template` flag, which
+   fired on the anchor's own matching build.
+
+**[Verification Method]** `npm test` 72/72, `npm run sweep` 69/0, `npm run lint`
+0 errors. LOCK A clean. Meta regenerated (52 anchors / 416 slots). Browser: card
+**2,434,865 dmg/pass · 26.8s/pass · 90,810 DPS**, team page **2.43M/pass ·
+26.8s/pass · 91K/s**. Chisa's pass 1 runs the 11-step opener, passes 2–3 the
+8-step loop. Pass 1 is now the weakest pass (88,617 DPS vs 91,688 / 92,213),
+which is what an opener that spends its opening charging Chainsaw Mode should
+look like. Badge fires on a seeded saved build and on nothing in a clean profile.
+
+**[Residual Risks]** The opener transcription is one reading of the prose. Two
+choices are worth naming: "Forte Skill" was read as Serrated Loop rather than its
+Hold variant (`skill_serrated_loop_hold`), and "Hold Basic to hit Basic 1, 2, 3"
+as Blitz stages 1–3, where the kit says a HOLD starts that chain from stage 2.
+Both are stated in the file's `openerSource` and are one-line edits if wrong.
+Nothing else ships an opener, so no other resonator moved.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` 2d closed. HISTORY (this entry).

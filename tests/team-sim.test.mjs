@@ -208,6 +208,52 @@ function teamWith(fillerReso, targetReso, targetRotation) {
             Math.abs(solo.totals.damage - simulateRotation({ build, dataset: d, target }).totals.damage) < 1e-9);
     }
 
+    // ── The optional curated OPENING pass ───────────────────────────────────
+    // `build.openerRotation` runs on pass 0 and nowhere else. It exists because
+    // the first member on field gets no Intro, so a loop written to open off
+    // its own Intro (Chisa's begins on basic_2, which only her Intro unlocks)
+    // cannot be performed on the opening pass — and the player's real answer is
+    // a DIFFERENT sequence, not the same one with filler bolted on.
+    {
+        const chisa = buildFor(1508);
+        const opener = referenceRotations['1508'].openerRotation;
+        assert('Chisa ships a curated opening pass', Array.isArray(opener) && opener.length > 0);
+        assert('…and it is not just the loop again',
+            opener.join() !== referenceRotations['1508'].rotation.join());
+
+        const withOpener = { ...chisa, openerRotation: [...opener] };
+        let team = createTeam();
+        const builds = new Map([[withOpener.id, withOpener]]);
+        team = setTeamSlot(team, 0, withOpener.id);
+        const run = (build) => {
+            const map = new Map([[build.id, build]]);
+            return simulateTeamRotation({
+                team: setTeamSlot(createTeam(), 0, build.id),
+                resolveBuild: (id) => map.get(id) ?? null, dataset: d, target, passCount: 3 });
+        };
+        const keysOf = (result, pass) => (result.segments
+            .find(segment => segment.slotIndex === 0 && segment.kind === 'rotation' && segment.pass === pass)
+            ?.steps ?? []).map(step => step.skillKey);
+
+        const opened = run(withOpener);
+        assert('pass 1 runs the opening rotation', keysOf(opened, 0).join() === opener.join());
+        assert('pass 2 runs the steady-state loop',
+            keysOf(opened, 1).join() === chisa.rotation.filter(key => key !== 'intro').join());
+        assert('pass 3 runs it too', keysOf(opened, 2).join() === keysOf(opened, 1).join());
+
+        // Absent, nothing changes — the 55 resonators without one are untouched.
+        const plain = run({ ...chisa, openerRotation: [] });
+        assert('no opener → every pass is the loop',
+            keysOf(plain, 0).join() === keysOf(plain, 1).join());
+        assert('…and an absent opener leaves the damage exactly as it was',
+            Math.abs(run({ ...chisa, openerRotation: [] }).totals.damage - plain.totals.damage) < 1e-9);
+        assert('an opener changes pass 1 and therefore the total',
+            Math.abs(opened.totals.damage - plain.totals.damage) > 1);
+        // The loop is never mutated — only the turn's copy carries the swap.
+        assert('the build itself is not rewritten', withOpener.rotation.join() === chisa.rotation.join());
+        assert('team is still a valid single-slot team', team.slots.filter(Boolean).length === 1 && builds.size === 1);
+    }
+
     // ── WHICH Intro the swap casts ──────────────────────────────────────────
     // An Intro node can ship several damage rows, so `skillType === 'intro'`
     // does not identify ONE key: Aemeath has intro_songs_across_the_universe
