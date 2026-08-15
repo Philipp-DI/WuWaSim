@@ -83,9 +83,18 @@ const TUNE_BREAK_STEP_KEY = '__tunebreak__';
 function stepLabel(dataset, resonatorId, key) {
     if (key === ECHO_STEP_KEY) return 'Echo Skill';
     if (key === TUNE_BREAK_STEP_KEY) return 'Tune Break';
-    const label = dataset?.autoSkillMap?.[String(resonatorId)]?.[key]?.label;
-    return label ?? key.replace(/_/g, ' ');
+    const skillDef = dataset?.autoSkillMap?.[String(resonatorId)]?.[key];
+    const label = skillDef?.label ?? key.replace(/_/g, ' ');
+    // An Intro/Outro in an authored rotation is NOT an on-field step: the team
+    // sim drops it and fires the cast off the swap instead (team-sim.js
+    // AUTO_CAST_SKILL_TYPES). Saying so here is what reconciles this list with
+    // the team page's, which is one step shorter and starts on what looks like
+    // an impossible mid-chain stage.
+    return AUTO_CAST_SKILL_TYPES.has(skillDef?.skillType) ? `${label} [auto · on swap]` : label;
 }
+
+// Mirrors team-sim.js's set of the same name.
+const AUTO_CAST_SKILL_TYPES = new Set(['intro', 'outro']);
 
 // The inspectable per-member build row (weapon · sonata · mode · stats · echoes · rotation).
 function buildInspectRow(dataset, mb, dmg, resonatorId) {
@@ -179,7 +188,12 @@ export function renderSuggestedTeams(meta, dataset, resonatorId) {
         </section>`;
     }
     const rows = teams.map(t => teamRow(dataset, resonatorId, t, memberBuilds)).join('');
-    const note = `<div style="font-family:var(--font-body);font-size:9.5px;color:var(--faint);margin-top:8px;">META = maintainer-curated meta comp. Numbers are a representative-build single-enemy sim — one clean rotation, no derived opener, game time (matches the ROTATION section above). Open INSPECT BUILDS to see each member's weapon, sonata, stats, and rotation.</div>`;
+    // ~~"one clean rotation, no derived opener"~~ — false since the card became
+    // a 3-pass measurement, and doubly so since padding was retired (there is no
+    // "derived opener" to have or not have any more). A footnote that describes
+    // a model the app no longer runs is the thing that makes the numbers above
+    // it look invented.
+    const note = `<div style="font-family:var(--font-body);font-size:9.5px;color:var(--faint);margin-top:8px;">META = maintainer-curated meta comp. Numbers are a representative-build single-enemy team sim over THREE passes, reported as the average of one pass, on game time. Every fight starts on a full Resonance meter and each rotation runs exactly as authored. OPEN IN TEAM SIM reproduces these numbers against the same enemy; open INSPECT BUILDS to see each member's weapon, sonata, stats, and rotation.</div>`;
     return `<section style="padding:14px 16px;">${header}
         <div style="display:flex;flex-direction:column;gap:8px;">${rows}</div>
         ${note}

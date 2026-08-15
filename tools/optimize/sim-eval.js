@@ -12,8 +12,14 @@
 
 import { simulateRotation } from '../../src/core/sim.js';
 import { PROP } from '../../src/core/stats.js';
+import { DEFAULT_TARGET } from '../../src/core/target.js';
 
-const TARGET = Object.freeze({ level: 90, atkLv: 90, resistances: {} });
+// ~~`{ level: 90, atkLv: 90, resistances: {} }`~~ — a 0%-RES dummy, while every
+// UI surface sims against 10% RES. The optimizer's own rankings were unharmed
+// (a uniform ×0.93 reorders nothing), but the DAMAGE it published to the build
+// page could never match the team page it links to. One enemy now, defined in
+// core/target.js.
+const TARGET = DEFAULT_TARGET;
 
 /** Total expected rotation damage for a build (the optimizer's objective). */
 export function totalDamage(build, dataset, target = TARGET) {

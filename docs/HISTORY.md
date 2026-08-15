@@ -10127,3 +10127,104 @@ gap fix.
 **[Updated Docs]** `docs/OPEN-ITEMS.md` 2c closed with the measurements;
 `opener.js`, `team-energy.js`, `team-sim.js` headers rewritten. Memory:
 `full-energy-start-framework`.
+
+---
+
+## 2026-08-15 — One enemy, one chronology: making the user-facing side agree with the engine
+
+Maintainer-reported, from spot-checking the running app: the build page's team
+suggestions looked "stale" against the TEAMS page, the team page's rotation
+steps did not match the arabwuwa sequence they claim to be, and on a multi-pass
+run the auto-injected Intros were folded to the top of the list instead of
+sitting where they fire. Driven with Playwright throughout — every finding below
+was reproduced in the browser before it was touched, and re-checked there after.
+
+**[Files Changed]**
+
+```
+src/core/target.js                       NEW — the one enemy definition
+src/core/team-sim.js                     introKeyFor honours the authored Intro
+src/core/live-weights.js                 default target ← core/target.js
+src/core/substat-allocate.js             default target ← core/target.js
+src/ui/components/team-editor-v2.js      chronology, accounting, warnings, chips, defaults
+src/ui/components/suggested-teams.js     auto-cast marking + a footnote that is true
+src/ui/components/compare-v2.js          target ← core/target.js
+src/ui/components/build-editor/shared.js makeDmgTarget delegates to makeTarget
+src/ui/components/build-editor/index.js  enemy-panel defaults ← core/target.js
+tools/optimize/sim-eval.js               TARGET ← core/target.js  (0% RES retired)
+tools/optimize.mjs                       ENGINE_FILES += core/target.js
+tools/benchmark-gap.mjs                  comment: the two targets are now one
+tests/{team-editor-v2,team-sim,meta-schema}.test.mjs
+CLAUDE.md, docs/OPEN-ITEMS.md
+data/wuwa-meta.json + data-version.json  regenerated
+```
+
+**[Logic Altered]**
+
+1. **TWO ENEMIES.** The offline optimizer scored teams against
+   `resistances: {}` — a 0%-RES dummy — while every UI surface sims at 10% RES on
+   elements 1–6. That is why the build card and the team page could never agree:
+   measured 2,599,423 dmg/pass against 2.41M, **with the times identical to the
+   centisecond**, which is the tell that only the enemy differed. `core/target.js`
+   is now the single definition and both sides import it. The rescale is near
+   uniform, so it was never a ranking bug: **0 of 6** suggested builds and **0 of
+   6** weight sets moved, and 1 of 52 anchors changed its top team on a 1.2%
+   margin. It was two answers to one question, which is worse than a wrong one.
+
+2. **THE STEP LIST WAS NOT CHRONOLOGICAL.** `[...introSteps, ...rotSteps]` is
+   time-ordered only for a single pass; at three it drew Chisa's Intros from
+   t=43.3s and t=87.5s above her t=0.0s opening cast. One list per member now,
+   sorted by `startTime`, with `PASS n` dividers.
+
+3. **THE STEP LIST DID NOT ADD UP.** Outro segments were excluded (a real cast,
+   up to 795% of ATK) and negative-status DoT had no line at all — 65% of
+   Denia's total on the benchmark comp sat in TOTAL DMG with nothing to explain
+   it. Outros are in the list; status damage gets its own labelled row.
+
+4. **THE TEAM SIM CAST THE WRONG INTRO.** An Intro node can ship several damage
+   rows, so `skillType === 'intro'` does not name one key. `introKeyFor` took
+   whichever the skill map listed first — for Aemeath that is
+   `intro_songs_across_the_universe`, not the `intro_debut_of_meteoric_radiance`
+   her rotation authors, and only the authored one unlocks the `skill_mech_3`
+   her next step casts. `withoutAutoCastSteps` strips the authored step, so
+   nothing downstream could ever see the discrepancy. The rotation picks.
+
+5. **A SEQUENCE THE VALIDATOR REJECTS, RENDERED IN SILENCE.** The first member
+   on field gets no Intro (nobody swapped out), and all three reference
+   rotations open on a mid-chain stage their own Intro unlocks. `analyzeRotation`
+   says so; the team page never asked. It asks now, on the sequence the sim
+   actually ran, and shows the warning on the member card.
+
+6. **A CRASH, AND A CHIP THAT PROMISED A RETIRED MECHANISM.** The previous
+   commit's message claimed an energy-shortfall chip it never wrote: the opener
+   chip still read `a.gated`, which left the payload with padding, and threw
+   *"a.gated is not iterable"* the moment OPENERS was switched on with more than
+   one pass — reproduced in the browser. Rewritten as the shortfall report, and
+   the toggle renamed `ENERGY CHECK` because it no longer pads or gates
+   anything. Dead `openerFiller` reads removed.
+
+7. **DEFAULTS.** The team page opens at 3 passes with the energy check ON —
+   the measurement the build card publishes — and its cumulative totals carry a
+   per-pass sub-line, so the two surfaces are directly comparable. Step groups
+   default expanded (at 3 passes the old 6-step threshold collapsed every card,
+   hiding the thing the page exists to let you check).
+
+**[Verification Method]** `npm test` 72/72, `npm run sweep` 69/0,
+`npm run lint` 0 errors. LOCK A clean (timestamp only — `data` hash unchanged at
+`372c74c3e4ba`). Meta regenerated: 52 anchors / 416 team slots, unchanged.
+Browser, after: card **2,412,812 dmg/pass · 26.2s/pass · 92,139 DPS**; team page
+**2.41M/pass · 26.2s/pass · 92K/s** — agreement on every tile. Pass 2 now opens
+on the Intro at t=25.5s. Every route re-rendered with zero console errors.
+`tools/benchmark-gap.mjs` (its own reference target, untouched by this work) is
+unmoved at 1.114x damage / 0.989x time.
+
+**[Residual Risks]** The Chisa warning is real and stays: her authored rotation
+cannot be performed on pass 1, because arabwuwa lead with her and their Rotation
+1 differs — opening on a Resonance Skill. We do not have that sequence, and
+inventing a plausible one would be fabricating a reference. Logged as
+OPEN-ITEMS 2d (`openingRotation`, curation not derivation). Separately, one
+anchor (Taoqi) swapped its top team on a 1.2% margin under the corrected target.
+
+**[Updated Docs]** Three new CLAUDE.md invariants (one enemy; a skillType is a
+kind not a key; a member's step list must account for their total).
+`docs/OPEN-ITEMS.md` gains 2d and 2e.

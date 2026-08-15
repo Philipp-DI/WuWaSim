@@ -1443,7 +1443,7 @@ function triggerOfSkillType(skillType) {
 }
 
 function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa', carryInResources = null) {
-    const introKey = introKeyFor(dataset, build.resonatorId);
+    const introKey = introKeyFor(dataset, build.resonatorId, build);
     if (!introKey) return null;
     const introBuild = { ...build, rotation: [introKey] };
     try {
@@ -1486,11 +1486,24 @@ function outroKeyFor(dataset, resonatorId) {
 // (e.g. 'intro' vs 'intro_time_to_show_some_colors') — look it up by
 // skillType rather than assuming a fixed key, so every resonator's
 // auto-injected intro segment resolves, not just the ones keyed 'intro'.
-function introKeyFor(dataset, resonatorId) {
+//
+// THE ROTATION PICKS, when it names one. An Intro node can ship SEVERAL damage
+// rows — Aemeath has `intro_songs_across_the_universe` and
+// `intro_debut_of_meteoric_radiance`, Denia `intro_it_s_been_a_while` and
+// `intro_knock_knock` — and taking whichever the skill map happened to list
+// first cast a different Intro than the build asked for. It cost more than a
+// label: Aemeath's reference rotation opens on `skill_mech_3`, which the Intro
+// she names unlocks and the one the map listed first does not, so the team ran
+// a sequence its own validator calls illegal. `withoutAutoCastSteps` then
+// removed the authored step, leaving nothing to explain the swap. A rotation is
+// performed as authored, and that includes WHICH Intro it authored.
+function introKeyFor(dataset, resonatorId, build = null) {
     const skillMap = effectiveSkillMap(dataset, resonatorId);
     if (!skillMap) return null;
-    const found = Object.entries(skillMap).find(([k, def]) => !k.startsWith('_') && def?.skillType === 'intro');
-    return found ? found[0] : null;
+    const isIntro = (key) => !key.startsWith('_') && skillMap[key]?.skillType === 'intro';
+    const authored = (build?.rotation ?? []).find(isIntro);
+    if (authored) return authored;
+    return Object.keys(skillMap).find(isIntro) ?? null;
 }
 
 // Drop any Intro/Outro-type step from a member's own authored rotation

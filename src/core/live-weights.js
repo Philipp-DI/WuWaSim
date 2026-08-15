@@ -20,8 +20,12 @@ import { effectiveSkillMap, simulateRotation } from './sim.js';
 import { PROP, resolveTotalStats } from './stats.js';
 import { resolveSkill } from './skill.js';
 import { rollValueOf, statLabel, NEAR_ZERO } from './stat-priority.js';
+import { DEFAULT_TARGET as SHARED_TARGET } from './target.js';
 
-const DEFAULT_TARGET = Object.freeze({ level: 90, atkLv: 90, resistances: {} });
+// The app's one enemy (core/target.js). Only a fallback — every UI caller
+// passes its own panel-derived target — but a second definition here is exactly
+// how the optimizer and the UI drifted apart in the first place.
+const DEFAULT_TARGET = SHARED_TARGET;
 
 // Echo SUBSTAT-rollable stats and how to inject each. `value` is injected in
 // percentage points (1 = +1%), so injecting rollValueOf(key) is exactly one

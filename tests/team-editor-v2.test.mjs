@@ -110,19 +110,37 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 }
 
 // ── segmentsBySlot ──────────────────────────────────────────────────────────
+// ONE time-ordered list per member. The old shape split intro from rotation and
+// the card rendered `[...introSteps, ...rotSteps]`, which is chronological only
+// for a single pass: on a 3-pass run every auto-injected Intro (t≈43s, t≈87s)
+// was drawn ABOVE the t=0 opening cast.
 {
     const segs = [
-        { slotIndex: 0, kind: 'rotation', steps: [{ x: 'a' }, { x: 'b' }] },
-        { slotIndex: 0, kind: 'intro', steps: [{ x: 'c' }] },
-        { slotIndex: 0, kind: 'outro', steps: [] },
-        { slotIndex: 1, kind: 'rotation', steps: [{ x: 'd' }] },
+        { slotIndex: 0, kind: 'rotation', pass: 0, steps: [{ x: 'a', startTime: 0 }, { x: 'b', startTime: 1 }] },
+        { slotIndex: 0, kind: 'outro',    pass: 0, steps: [{ x: 'o', startTime: 2 }] },
+        { slotIndex: 0, kind: 'intro',    pass: 1, steps: [{ x: 'c', startTime: 40 }] },
+        { slotIndex: 0, kind: 'rotation', pass: 1, steps: [{ x: 'e', startTime: 41 }] },
+        { slotIndex: 0, kind: 'offField', pass: 0, steps: [{ x: 'f', startTime: 0.5 }] },
+        { slotIndex: 1, kind: 'rotation', pass: 0, steps: [{ x: 'd', startTime: 3 }] },
     ];
     const m = segmentsBySlot(segs);
     assert('two slots grouped', m.size === 2);
-    assert('slot0 intro steps split out', m.get(0).introSteps.length === 1 && m.get(0).introSteps[0].x === 'c');
-    assert('slot0 rotation steps concatenated', m.get(0).rotSteps.length === 2);
-    assert('slot0 keeps all segs (incl. outro)', m.get(0).segs.length === 3);
-    assert('slot1 rotation steps', m.get(1).rotSteps.length === 1 && m.get(1).rotSteps[0].x === 'd');
+    assert('slot0 keeps all segs (incl. offField)', m.get(0).segs.length === 5);
+    // THE FIX: chronological, and the pass-2 intro sits at its own time, not on top.
+    assert('slot0 steps are in time order',
+        m.get(0).steps.map(s => s.x).join('') === 'aboce');
+    assert('an intro is not hoisted above the opening cast',
+        m.get(0).steps[0].x === 'a' && m.get(0).steps.findIndex(s => s.x === 'c') === 3);
+    // An OUTRO is a real cast credited to the outgoing member (up to 795% of
+    // ATK) — excluded before, so its damage sat in the total with no row.
+    assert('outro steps are listed', m.get(0).steps.some(s => s.x === 'o'));
+    // offField actions fire while someone ELSE is on field; the timeline owns them.
+    assert('offField steps are NOT listed', !m.get(0).steps.some(s => s.x === 'f'));
+    assert('each step carries its pass', m.get(0).steps.find(s => s.x === 'c').pass === 1);
+    assert('each step carries its segment kind', m.get(0).steps.find(s => s.x === 'o').segmentKind === 'outro');
+    // The sim result is not the renderer's to mutate.
+    assert('source steps are not mutated', segs[0].steps[0].pass === undefined);
+    assert('slot1 rotation steps', m.get(1).steps.length === 1 && m.get(1).steps[0].x === 'd');
     assert('empty input → empty map', segmentsBySlot([]).size === 0 && segmentsBySlot(undefined).size === 0);
 }
 
@@ -342,10 +360,26 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('no separate per-member INTRO group header (folded into ROTATION)', !lastHTML.includes('dealt each time they swap onto the field'));
     assert('pass chips rendered', lastHTML.includes('data-act="pass"'));
 
-    // Openers default OFF (2026-07-31): the headline number should describe the
-    // rotation as written, not one padded with derived cold-start filler.
-    assert('openers default to OFF', lastHTML.includes('OPENERS OFF') && !lastHTML.includes('OPENERS ON'));
-    assert('the openers chip is still there to turn it on', lastHTML.includes('data-act="toggle-openers"'));
+    // ~~Openers default OFF (2026-07-31): the headline should describe the
+    // rotation as written, not one padded with derived cold-start filler.~~
+    // Nothing is padded since 2026-08-14 — the flag is a pure REPORT of which
+    // Liberations the Resonance Energy cannot fund, so defaulting it off only
+    // hid the ER requirement. It is also no longer called OPENERS: a chip whose
+    // label promises a mechanism the engine no longer has is the kind of thing
+    // that makes a user distrust the numbers next to it.
+    assert('the energy check defaults to ON',
+        lastHTML.includes('ENERGY CHECK ON') && !lastHTML.includes('ENERGY CHECK OFF'));
+    assert('the retired padding/gating vocabulary is gone from the chip',
+        !lastHTML.includes('OPENERS ON') && !lastHTML.includes('OPENERS OFF'));
+    assert('the chip is still there to turn it off', lastHTML.includes('data-act="toggle-openers"'));
+
+    // Three passes by default, matching the measurement the build page's
+    // suggested-team card publishes — the same team must not wear two numbers.
+    assert('the 3-pass chip is the selected one',
+        /data-act="pass" data-n="3"[^>]*var\(--acc\)/.test(lastHTML));
+    // …and the cumulative totals carry a per-pass sub-line, which is what makes
+    // the two surfaces directly comparable.
+    assert('multi-pass totals show a per-pass figure', lastHTML.includes('/ pass'));
 
     // Game Time / Real Time. The DURATION chip must name which clock it shows,
     // because it is the number TEAM DPS divides by — a toggle that moved DPS

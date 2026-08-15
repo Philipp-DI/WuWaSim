@@ -443,6 +443,42 @@ timing). Section title below kept for the surviving root-cause gap.
    `deriveOpeners` is now a pure REPORT: on and off produce byte-identical
    damage, time and step counts, which `tests/opener.test.mjs` pins.
 
+2d. **A rotation cannot state a different FIRST pass** (opened 2026-08-15, from
+   a UI spot-check). `build.rotation` is one sequence, replayed every pass — so
+   a kit whose opening pass genuinely differs has nowhere to say so.
+
+   The concrete case: the very first member on field never gets an Intro (nobody
+   swapped out to bring them in), and all three reference rotations open on a
+   mid-chain stage that their own leading Intro unlocks — Chisa `basic_2`, Denia
+   `basic_stagecraft_form_4`, Aemeath `skill_mech_3`. For members 2 and 3 that
+   is legal, because the swap fires the Intro. For whoever starts the fight it
+   is not, and `analyzeRotation` says so on the stripped sequence. arabwuwa's
+   own capture has this shape: their Rotation 1 differs from R2/R3 **only for
+   Chisa**, who is the member they lead with — she opens on a Resonance Skill
+   there, and we store R2.
+
+   The team page now SURFACES the warning per member (`firstPassWarnings` in
+   `team-editor-v2.js`) rather than rendering a sequence its own validator
+   rejects in silence. What it cannot do is fix it, and the fix must not be
+   invented: writing a plausible pass-1 opener for Chisa would be fabricating a
+   reference we do not have.
+
+   The shape when it is done: an optional `openingRotation` on a reference entry
+   (and on a build), used for a member's first turn only. Distinct from the
+   retired padding — this is CURATION, not derivation.
+
+2e. **The team sim casts the Intro the rotation names** (fixed 2026-08-15, noted
+   here because the class of bug outlives the instance). An Intro NODE can ship
+   several damage rows, so `skillType === 'intro'` does not identify one key:
+   Aemeath has `intro_songs_across_the_universe` and
+   `intro_debut_of_meteoric_radiance`, Denia `intro_it_s_been_a_while` and
+   `intro_knock_knock`. `introKeyFor` took whichever the skill map listed first,
+   which for Aemeath cast an Intro her build never asked for and did not unlock
+   the Mech chain her next step needs. Invisible from inside the engine, because
+   `withoutAutoCastSteps` removes the authored step before anything can compare
+   the two. Any other "find the entry with skillType X" lookup has the same
+   exposure wherever a node ships more than one row.
+
 2b. **Per-TYPE crit scoping** (opened 2026-08-14, from the lane-4 migration).
    `ExtraEffectRequirements` type 12 `DamageTypes` scopes a grant to the game's
    own 0..5 damage-type tag, and the engine honours that for DEF-ignore and

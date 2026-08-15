@@ -207,6 +207,47 @@ function teamWith(fillerReso, targetReso, targetRotation) {
         assert('solo sims are unaffected by the carry-in plumbing',
             Math.abs(solo.totals.damage - simulateRotation({ build, dataset: d, target }).totals.damage) < 1e-9);
     }
+
+    // ── WHICH Intro the swap casts ──────────────────────────────────────────
+    // An Intro node can ship several damage rows, so `skillType === 'intro'`
+    // does not identify ONE key: Aemeath has intro_songs_across_the_universe
+    // and intro_debut_of_meteoric_radiance, Denia intro_it_s_been_a_while and
+    // intro_knock_knock. Taking whichever the skill map listed first cast an
+    // Intro the build never asked for — and Aemeath's reference rotation opens
+    // on skill_mech_3, which only the Intro she NAMES unlocks, so the team ran a
+    // sequence its own validator rejects. The authored step is stripped before
+    // the rotation segment, so nothing downstream could see the discrepancy.
+    {
+        const introKeysOf = (resonatorId) => Object.entries(d.autoSkillMap[String(resonatorId)] ?? {})
+            .filter(([key, def]) => !key.startsWith('_') && def?.skillType === 'intro')
+            .map(([key]) => key);
+        const multiIntro = [1210, 1211].filter(id => introKeysOf(id).length > 1);
+        assert('the roster really does ship resonators with more than one Intro row',
+            multiIntro.length === 2);
+
+        const result = runTeam([1508, 1211, 1210], 1);
+        for (const resonatorId of multiIntro) {
+            const authored = buildFor(resonatorId).rotation.find(key => introKeysOf(resonatorId).includes(key));
+            const introStep = result.segments
+                .find(segment => segment.kind === 'intro' && segment.resonatorId === resonatorId)
+                ?.steps?.[0];
+            assert(`${resonatorId}: the swap casts the Intro the rotation names`,
+                !!authored && introStep?.skillKey === authored);
+        }
+        // A build that names no Intro still gets one — the swap-in cast is not
+        // optional, and this is the path every un-authored rotation takes.
+        const bare = { ...buildFor(1210), rotation: ['__echo__'] };
+        let team = createTeam();
+        const builds = new Map();
+        [buildFor(1508), bare].forEach((build, index) => {
+            builds.set(build.id, build);
+            team = setTeamSlot(team, index, build.id);
+        });
+        const fallback = simulateTeamRotation({
+            team, resolveBuild: (id) => builds.get(id) ?? null, dataset: d, target, passCount: 1 });
+        assert('a rotation naming no Intro still gets the auto-injected one',
+            !!fallback.segments.find(segment => segment.kind === 'intro' && segment.resonatorId === 1210)?.steps?.length);
+    }
 }
 
 

@@ -37,6 +37,7 @@ import { resolveTotalStats } from '../../core/stats.js';
 import { simulateRotation } from '../../core/sim.js';
 import { simulateTeamRotation } from '../../core/team-sim.js';
 import { resolveTeamSlots, setTeamSlot } from '../../core/team.js';
+import { DEFAULT_TARGET } from '../../core/target.js';
 
 let api = null;
 
@@ -65,7 +66,7 @@ const DMG_COLOR = {
 };
 const DMG_ORDER = ['basic', 'heavy', 'skill', 'liberation', 'echo', 'intro', 'outro', 'tuneBreak'];
 
-const TARGET = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
+const TARGET = DEFAULT_TARGET;
 const MAX_BUILD_SLOTS = 6;
 const MAX_TEAM_SLOTS = 3;
 

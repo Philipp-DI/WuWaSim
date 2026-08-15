@@ -23,6 +23,7 @@
 
 import { api, setApi } from "./state.js";
 import { createHistory } from "../../history.js";
+import { DEFAULT_ENEMY_LEVEL, DEFAULT_ENEMY_RES } from "../../../core/target.js";
 import { applyFix, computeFixTarget, groupPaletteEntries, renderRotation } from "./rotation.js";
 import { applySuggestion, defaultFreshBuild, isEmptyBuild, renderSuggestedTeamsPanel } from "./suggested-teams-panel.js";
 import { bind } from "./bind.js";
@@ -79,7 +80,7 @@ export function mount(
     sonataOverride: null,
     statMode: "balanced", // P12 Stat Priority panel: solo mode toggle
     dmgExpanded: new Set(),
-    dmgTarget: { level: 90, res: 0.1 },
+    dmgTarget: { level: DEFAULT_ENEMY_LEVEL, res: DEFAULT_ENEMY_RES },
     autoInsertNotice: null,
     rotStepExpanded: null,
     toast: null,

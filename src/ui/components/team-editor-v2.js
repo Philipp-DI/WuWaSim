@@ -46,6 +46,10 @@ import { renderBuffBar as renderBuffStripBar, stackBandsFromSamples, fmtPctTrim 
 import { effectiveSkillMap } from '../../core/sim.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 import { renderEnergyChart, bindEnergyChartHover } from './energy-chart.js';
+import { DEFAULT_TARGET } from '../../core/target.js';
+import { analyzeRotation } from '../../core/rotation-graph.js';
+import { resourceDefsForResonator, rulesForResonator, stageGrantsForResonator,
+    stateDefsForResonator, swapInEntryForResonator } from '../../core/rotation-rules.js';
 
 let api = null;
 
@@ -132,19 +136,46 @@ function donutTitle(steps) {
         .join('\n');
 }
 
-// Group sim segments by slotIndex, splitting each member's steps into the
-// intro group vs. the rotation group (the handoff renders two step groups).
+// Group sim segments by slotIndex into ONE time-ordered step list per member.
+//
+// ~~Split into an `introSteps` group and a `rotSteps` group, which the card
+// then rendered as `[...introSteps, ...rotSteps]`.~~ That concatenation is only
+// chronological for a single pass. On a 3-pass run it put BOTH of Chisa's
+// auto-injected Intros (t=43.3s and t=87.5s) above her t=0.0s opening Basic —
+// the list ran 43s, 87s, 0s, 0.8s, … and read as if she opened on an Intro she
+// casts halfway through the fight.
+//
+// OUTRO steps are included too. They are real casts credited to the OUTGOING
+// member (up to 795% of ATK — see team-sim.js's outro segment), and dropping
+// them left that damage in the member's total with no row to explain it.
+//
+// Sorted by startTime rather than trusting push order: segments are pushed in
+// cursor order, but an outro is deliberately simulated to run in PARALLEL with
+// the incoming member's intro, so the two share a timestamp and only an
+// explicit sort states which the reader sees first.
 function segmentsBySlot(segments) {
     const m = new Map();
     for (const segment of segments ?? []) {
         let e = m.get(segment.slotIndex);
-        if (!e) { e = { introSteps: [], rotSteps: [], segs: [] }; m.set(segment.slotIndex, e); }
+        if (!e) { e = { steps: [], segs: [] }; m.set(segment.slotIndex, e); }
         e.segs.push(segment);
-        if (segment.kind === 'intro') e.introSteps.push(...(segment.steps ?? []));
-        else if (segment.kind === 'rotation') e.rotSteps.push(...(segment.steps ?? []));
+        // Carry the segment's pass and kind onto each step (on a COPY — the sim
+        // result is not ours to mutate) so the list can divide itself by pass
+        // and mark which casts were auto-fired by a swap.
+        if (STEP_LIST_KINDS.has(segment.kind)) {
+            for (const step of segment.steps ?? []) {
+                e.steps.push({ ...step, pass: segment.pass ?? 0, segmentKind: segment.kind });
+            }
+        }
     }
+    for (const e of m.values()) e.steps.sort((a, b) => (a.startTime ?? 0) - (b.startTime ?? 0));
     return m;
 }
+
+// Which segment kinds contribute rows to a member's step list. `offField` is
+// excluded: those are automatic reactions that fire while someone ELSE is on
+// field, and they are reported by the timeline, not as casts the member made.
+const STEP_LIST_KINDS = new Set(['intro', 'rotation', 'outro']);
 
 // Segment colour on the shared timeline — element-tinted, opacity by kind.
 // `el` is an element-colour token reference (e.g. var(--el-aero)); alpha is
@@ -201,12 +232,17 @@ function runSim() {
     if (!slots.length) return null;
     const hasRotations = slots.some(s => (s.build.rotation?.length ?? 0) > 0);
     if (!hasRotations) return { empty: 'no-rotation', occupied: slots.length };
-    const target = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
     return simulateTeamRotation({
-        team: api.team, resolveBuild: previewResolveBuild, dataset: api.dataset, target, passCount: api.passCount,
-        // Both are user-facing chips in the title row. deriveOpeners defaults
-        // OFF so the headline number describes the rotation as written;
-        // timingMode picks which clock divides it (docs/TIMING_MODEL.md).
+        team: api.team, resolveBuild: previewResolveBuild, dataset: api.dataset,
+        // The SAME enemy the optimizer scores suggested teams against
+        // (core/target.js). They were different objects until 2026-08-15, which
+        // is why a card headlining 100,030 DPS opened a page reading 93K.
+        target: DEFAULT_TARGET,
+        passCount: api.passCount,
+        // Both are user-facing chips in the title row. deriveOpeners is a
+        // REPORT (energy shortfalls + the ER that fixes them) and changes
+        // nothing about what runs; timingMode picks which clock divides the
+        // damage (docs/TIMING_MODEL.md).
         deriveOpeners: api.deriveOpeners,
         timingMode: api.timingMode,
     });
@@ -348,9 +384,17 @@ function renderTitleRow() {
           <span style="font-family:var(--font-display);font-size:8.5px;letter-spacing:1.3px;color:var(--faint);">PASSES</span>
           <div style="display:flex;gap:3px;">${passChips}</div>
         </div>
-        ${toggleChip('toggle-openers', api.deriveOpeners, `OPENERS ${api.deriveOpeners ? 'ON' : 'OFF'}`,
-        'Derived openers (honest cold start)',
-        'ON: a Liberation the Resonance Energy gauge can\'t cover yet is padded with that member\'s own pre-Liberation cycle (real filler casts, real time) — or gated when nothing can generate the energy. OFF: every scripted cast lands regardless of energy, so the number describes the rotation exactly as written. OFF is the default.')}
+        ${toggleChip('toggle-openers', api.deriveOpeners, `ENERGY CHECK ${api.deriveOpeners ? 'ON' : 'OFF'}`,
+        'Resonance Energy check',
+        // ~~"OPENERS ON/OFF — a Liberation the gauge can't cover is padded with '
+        // filler casts, or gated."~~ Both mechanisms were retired on 2026-08-14;
+        // the chip kept advertising them for a day. It is a REPORT now, and the
+        // label says so: flipping it cannot move a single number, which
+        // tests/opener.test.mjs pins.
+        'Every fight starts on a FULL Resonance meter (the Tower of Adversity convention), so the first '
+        + 'Liberation is always funded. ON reports the LATER casts this rotation cannot rebuild the meter '
+        + 'for, and the Energy Regen that would fund them. It changes nothing about what runs — the rotation '
+        + 'is always performed exactly as authored, with nothing padded and no cast dropped.')}
         ${toggleChip('toggle-timing-mode', api.timingMode === 'toa', api.timingMode === 'toa' ? 'GAME TIME' : 'REAL TIME',
         'Which clock divides the damage',
         'GAME TIME: a Resonance Liberation freezes the in-game clock, so its animation is excluded from the DPS denominator — the Tower of Adversity convention community DPS figures use. REAL TIME: wall-clock, nothing excluded. The damage total is identical either way; only the divisor changes.')}
@@ -442,16 +486,27 @@ function renderTotalsBanner() {
     const r = api.result;
     const totals = r && !r.empty ? r.totals : null;
 
-    const mkChip = (label, value, valColor) =>
+    // A per-pass sub-line under the cumulative figure. The build page's
+    // suggested-team card publishes dmg/pass and s/pass; without this the same
+    // team reads 7.8M / 78.0s here and 2.60M / 26.0s there, and the reader has
+    // to know it is a 3-pass run to reconcile them. DPS needs no sub-line — a
+    // rate is already per-pass.
+    const perPass = (value) => api.passCount > 1 && totals
+        ? `<span style="font-family:var(--font-display);font-size:8px;color:var(--faint);">${esc(value)} / pass</span>`
+        : '';
+    const mkChip = (label, value, valColor, sub = '') =>
         `<div style="display:flex;flex-direction:column;gap:1px;">
            <span style="font-family:var(--font-display);font-size:7.5px;letter-spacing:1px;color:var(--faint);">${label}</span>
            <span style="font-family:var(--font-display);font-weight:700;font-size:20px;color:${valColor};">${esc(value)}</span>
+           ${sub}
          </div>`;
     const duration = durationChipParts(totals);
     const chips = [
         mkChip('TEAM DPS', totals ? fmtDps(totals.dps) : '—', 'var(--acc)'),
-        mkChip('TOTAL DMG', totals ? fmtDmg(totals.damage) : '—', 'var(--txt)'),
-        mkChip(duration.label, totals ? fmtDur(duration.seconds) : '—', 'var(--txt)'),
+        mkChip('TOTAL DMG', totals ? fmtDmg(totals.damage) : '—', 'var(--txt)',
+            totals ? perPass(fmtDmg(totals.damage / api.passCount)) : ''),
+        mkChip(duration.label, totals ? fmtDur(duration.seconds) : '—', 'var(--txt)',
+            totals ? perPass(fmtDur(duration.seconds / api.passCount)) : ''),
     ].join('');
 
     // Damage share — one segment per occupied member, element-coloured.
@@ -661,20 +716,38 @@ function renderTimelineCard() {
     const nameByRid = new Map(occupied.map(s => [s.build.resonatorId, resonatorOf(s.build)?.name ?? '?']));
     const cdChip = cdViol.length ?
         `<span data-tip-title="Cooldown conflicts" data-tip-desc="${esc(cdViol.map(v => `${nameByRid.get(v.resonatorId) ?? v.resonatorId} · ${v.label} @ ${v.t.toFixed(1)}s — ${v.deficit.toFixed(1)}s early`).join('\n'))}" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.6px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--gold) 12%, transparent);border:1px solid color-mix(in srgb, var(--gold) 45%, transparent);color:var(--warn);cursor:default;">⏱ ${cdViol.length} CD CONFLICT${cdViol.length === 1 ? '' : 'S'}</span>` : '';
-    // Derived-opener chip (2026-07-12): the honest cold-start adjustments —
-    // filler time added / Liberations gated per member-pass (opener.js).
+    // Energy-shortfall chip. ~~Derived-opener chip (2026-07-12): filler time
+    // added / Liberations gated per member-pass.~~ Padding and gating were
+    // retired on 2026-08-14 and `addedTime`/`gated` left the payload with them —
+    // this reader was not updated, so `for (const g of a.gated)` threw
+    // "a.gated is not iterable" the moment OPENERS was switched on with more
+    // than one pass. Reproduced in the browser before rewriting it.
+    //
+    // What it reports now: every Liberation the gauge could not pay for, and the
+    // Energy Regen at which the rotation WOULD have funded it. Nothing was
+    // spliced and nothing was dropped — the rotation ran exactly as authored.
     const openerAdj = hasData ? (r.openerAdjustments ?? []) : [];
-    const openerLines = openerAdj.map(a => {
-        const nm = nameByRid.get(a.resonatorId) ?? a.resonatorId;
-        const parts = [];
-        if (a.addedTime > 0) parts.push(`+${a.addedTime.toFixed(1)}s filler (${a.insertions.reduce((n, x) => n + x.sequence.length, 0)} steps)`);
-        for (const g of a.gated) parts.push(`${g.key} GATED (${g.reason}, ${g.deficit.toFixed(0)} energy short)`);
-        return `${nm} · pass ${a.pass + 1}: ${parts.join(' · ')}`;
+    const shortfallLines = openerAdj.map(adjustment => {
+        const who = nameByRid.get(adjustment.resonatorId) ?? adjustment.resonatorId;
+        const casts = (adjustment.shortfalls ?? [])
+            .map(shortfall => `${shortfall.key} (${Math.round(shortfall.deficit)} energy short)`).join(', ');
+        const needs = adjustment.requiredEr != null
+            ? ` — needs ${Math.round(adjustment.requiredEr * 100)}% ER`
+            : ' — no ER covers it (nothing generates energy before the cast)';
+        return `${who} · pass ${adjustment.pass + 1}: ${casts}${needs}`;
     });
-    const openerTime = openerAdj.reduce((s, a) => s + a.addedTime, 0);
-    const openerGates = openerAdj.reduce((s, a) => s + a.gated.length, 0);
-    const openerChip = openerAdj.length ?
-        `<span data-tip-title="Derived opener (honest cold start)" data-tip-desc="${esc(openerLines.join('\n'))}" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.6px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--acc) 12%, transparent);border:1px solid color-mix(in srgb, var(--acc) 45%, transparent);color:var(--acc);cursor:default;">↻ OPENER ${openerTime > 0 ? `+${openerTime.toFixed(0)}s` : ''}${openerGates ? ` · ${openerGates} GATED` : ''}</span>` : '';
+    const shortfallCount = openerAdj.reduce((sum, adjustment) => sum + (adjustment.shortfalls?.length ?? 0), 0);
+    // The highest requirement across the team — the ER that would clear the
+    // whole report, which is the number a user actually builds toward.
+    const peakEr = openerAdj.reduce((peak, adjustment) =>
+        adjustment.requiredEr != null ? Math.max(peak, adjustment.requiredEr) : peak, 0);
+    const openerChip = shortfallCount ?
+        `<span data-tip-title="Resonance Energy shortfalls" data-tip-desc="${esc(
+            'Every fight starts on a FULL Resonance meter, so pass 1 is always funded. These are the '
+            + 'LATER casts this rotation cannot rebuild the meter for at the current Energy Regen.\n\n'
+            + shortfallLines.join('\n')
+            + '\n\nThe rotation still ran exactly as authored — nothing was padded and no cast was dropped. '
+            + 'This is a build requirement, not a simulation adjustment.')}" style="font-family:var(--font-display);font-weight:700;font-size:9px;letter-spacing:.6px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb, var(--acc) 12%, transparent);border:1px solid color-mix(in srgb, var(--acc) 45%, transparent);color:var(--acc);cursor:default;">⚡ ${shortfallCount} UNDERFUNDED${peakEr > 0 ? ` · NEEDS ${Math.round(peakEr * 100)}% ER` : ''}</span>` : '';
     return `
       <div style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.7;"></span>
@@ -762,56 +835,139 @@ function renderStepBar(step, maxDmg, skillMap, clock) {
     // Cooldown overlay (2026-07-12): team-time re-annotation in team-sim.js
     // §4b — this cast fires before its skill/echo group's CD is ready.
     const cdLine = step.cd?.violated ? `⏱ Cooldown not ready — re-cast ${step.cd.deficit.toFixed(1)}s early (${step.cd.cooldown}s CD)` : '';
-    // Derived-opener filler (2026-07-12): a cast the opener spliced in to
-    // honestly charge the next Liberation (opener.js).
-    // No step is ever spliced now, so nothing carries `openerFiller`. Kept as a
-    // no-op read rather than threaded out of every tooltip caller.
-    const fillerLine = '';
+    // ~~Derived-opener filler (2026-07-12): the `↻` marker and its tooltip line
+    // for a cast the opener spliced in to charge the next Liberation.~~ Removed
+    // 2026-08-15: nothing splices a step any more, so `step.openerFiller` is
+    // never set and every read of it was dead — including a dashed left border
+    // no step could ever get.
     // Echo steps have no skillMap entry — their real description rides on the
     // step (step.echoDesc, filled from the echo's active skill). 2026-07-15.
     const skillDef = skillMap?.[step.skillKey];
     const skillDesc = step.echoDesc ?? (skillDef ? extractSkillSection(skillDef.desc, step.skillKey, skillDef.skillType) : '');
-    const tipDesc = [statLine, timeLine, fillerLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
+    const tipDesc = [statLine, timeLine, cdLine, skillDesc].filter(Boolean).join('\n\n');
     const timeChip = startsAt == null ? ''
         : `<span style="flex:none;font-family:var(--font-display);font-size:8.5px;color:var(--faint);min-width:30px;text-align:right;">${startsAt.toFixed(1)}${clock.suffix}</span>`;
     return `
-      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px ${step.openerFiller ? 'dashed' : 'solid'} ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
+      <div style="height:${h}px;background:color-mix(in srgb, ${c} 10%, transparent);border-left:3px solid ${c};border-radius:5px;display:flex;align-items:center;padding:0 8px 0 10px;gap:6px;" data-tip-title="${esc(step.label)}" data-tip-desc="${esc(tipDesc)}">
         ${timeChip}
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:7px;letter-spacing:.3px;padding:2px 5px;border-radius:3px;background:color-mix(in srgb, ${c} 16%, transparent);color:${c};">${DMG_BADGE[step.damageCategory] ?? '??'}</span>
-        ${step.openerFiller ? `<span style="flex:none;font-size:9px;line-height:1;color:var(--acc);">↻</span>` : ''}
         ${step.cd?.violated ? `<span style="flex:none;font-size:9px;line-height:1;color:var(--warn);">⏱</span>` : ''}
         <span style="flex:1;min-width:0;font-family:var(--font-display);font-size:10px;font-weight:600;color:var(--txt);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(step.label)}</span>
         <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:10px;color:${c};min-width:34px;text-align:right;">${esc(fmtDmg(step.stepDamage ?? 0))}</span>
       </div>`;
 }
 
-// Intro/Outro casts (handled exclusively by the team sim's auto-injected
-// segments — see AUTO_CAST_SKILL_TYPES in team-sim.js) are folded into the
-// same list as the member's own rotation steps. There is no separate
-// "INTRO" group: a swap-in cast is just the first entry here, distinguished
-// by its own damage-category badge/colour like any other step.
-function renderStepGroups(slotIndex, introSteps, rotSteps, skillMap, clock) {
-    const allSteps = [...introSteps, ...rotSteps];
-    const maxDmg = Math.max(1, ...allSteps.map(s => s.stepDamage ?? 0));
+/**
+ * Validate the sequence the TEAM SIM actually ran for this member, which is not
+ * the sequence the build page validates.
+ *
+ * Two things differ. The team sim drops any Intro/Outro step the member
+ * authored (`AUTO_CAST_SKILL_TYPES` — those casts belong to the swap, and
+ * keeping them would double-count), and it fires the Intro automatically on
+ * every entry EXCEPT the very first member's very first pass, because nobody
+ * swapped out to bring them in.
+ *
+ * The consequence is real and was invisible: all three benchmark reference
+ * rotations open on a mid-chain stage that their own leading Intro unlocks
+ * (Chisa `basic_2`, Denia `basic_stagecraft_form_4`, Aemeath `skill_mech_3`).
+ * Legal for whoever swaps in — impossible for whoever starts the fight. Our own
+ * validator says so; the team page simply never asked it.
+ *
+ * `steps` is the member's rendered step list, so what gets validated is what the
+ * sim ran, not a reconstruction of it that could drift from it.
+ */
+function firstPassWarnings(resonatorId, steps, skillMap) {
+    const firstPass = steps.filter(step => (step.pass ?? 0) === 0 && step.segmentKind !== 'outro');
+    const sequence = firstPass.map(step => step.skillKey).filter(Boolean);
+    if (!sequence.length) return [];
+    return analyzeRotation(sequence, {
+        rules: rulesForResonator(resonatorId),
+        skillMap,
+        grants: stageGrantsForResonator(resonatorId),
+        swapInEntry: swapInEntryForResonator(resonatorId),
+        resourceDefs: resourceDefsForResonator(resonatorId, api.dataset),
+        stateDefs: stateDefsForResonator(resonatorId),
+    }).warnings;
+}
+
+// A "PASS n" divider. The list is a single time-ordered sequence across every
+// pass, and without these a 3-pass run is 26 undifferentiated rows in which the
+// reader cannot see where the loop restarts — or that the Intro is missing from
+// pass 1 precisely because nobody swapped in.
+function passDivider(pass) {
+    return `<div style="display:flex;align-items:center;gap:7px;margin:5px 0 2px;">
+        <span style="font-family:var(--font-display);font-size:7.5px;letter-spacing:1.2px;color:var(--faint);">PASS ${pass + 1}</span>
+        <span style="flex:1;height:1px;background:var(--bd);"></span>
+      </div>`;
+}
+
+// The member's casts, in the order they happen.
+//
+// Intro/Outro casts are auto-fired by the swap (see AUTO_CAST_SKILL_TYPES in
+// team-sim.js — a manually-placed one in the member's own rotation is dropped
+// so it cannot double-count) and sit inline here, distinguished by their own
+// damage-category badge/colour like any other step.
+//
+// `statusDamage` is the negative-status damage-over-time credited to this
+// member. It ticks on the ENEMY, so it is not a cast and can never be a row in
+// the sequence — but it IS in the member's total, and leaving it out made the
+// rows visibly fail to add up (on the benchmark comp it was 65% of Denia's
+// total). It gets its own line rather than being folded into a step.
+function renderStepGroups(slotIndex, steps, skillMap, clock, { statusDamage = 0, warnings = [] } = {}) {
+    const maxDmg = Math.max(1, ...steps.map(s => s.stepDamage ?? 0));
     const grpHdr = 'display:flex;align-items:center;gap:6px;padding:9px 15px 7px;border-top:1px solid var(--bd);';
     const lblBase = "font-family:var(--font-display);font-size:8px;letter-spacing:1.2px;color:var(--faint);";
 
     const key = `${slotIndex}_rot`;
-    const defaultExp = allSteps.length <= 6;
-    const expanded = api.expandedGroups[key] ?? defaultExp;
+    // ~~Collapsed once the list passes 6 steps.~~ At the 3-pass default that
+    // collapsed EVERY member (Chisa 26 rows, Aemeath 45), hiding the one thing
+    // the card exists to let you check. The sequence is the point; the toggle
+    // is still there for anyone who wants the page shorter.
+    const expanded = api.expandedGroups[key] ?? true;
     const countStyle = "font-family:var(--font-display);font-size:7.5px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--node);border:1px solid var(--bd);color:var(--dim);";
     let out = `<div style="${grpHdr}">
         <span style="${lblBase}">ROTATION</span>
-        <span style="${countStyle}">${allSteps.length}</span>
+        <span style="${countStyle}">${steps.length}</span>
         <div style="flex:1;"></div>
         <button data-act="toggle-group" data-slot="${slotIndex}" data-key="rot" style="background:transparent;border:none;color:var(--faint);cursor:pointer;font-size:10px;padding:2px 5px;line-height:1;">${expanded ? '▴' : '▾'}</button>
       </div>`;
-    if (expanded) {
-        out += allSteps.length
-            ? `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${allSteps.map(s => renderStepBar(s, maxDmg, skillMap, clock)).join('')}</div>`
-            : `<div style="padding:0 15px 10px;font-family:var(--font-body);font-size:10px;color:var(--faint);">No rotation set for this member.</div>`;
+    // The sequence warning sits ABOVE the fold — it describes the very first
+    // row, and hiding it inside a collapsed group would be hiding the reason
+    // that row looks wrong.
+    if (warnings.length) {
+        const tip = warnings.map(warning => warning.note).join('\n')
+            + '\n\nThis is the sequence as the TEAM SIM ran it. Intro and Outro are cast automatically '
+            + 'by the swap, so they are not rotation steps — and the first member of pass 1 gets no '
+            + 'swap-in at all, which is why a rotation written to open off its own Intro cannot open '
+            + 'the fight. The damage shown still includes these casts; only their legality is in question.';
+        out += `<div data-tip-title="Sequence not reachable on the opening pass" data-tip-desc="${esc(tip)}"
+            style="margin:0 15px 8px;padding:6px 9px;border-radius:7px;cursor:help;background:color-mix(in srgb, var(--warn) 10%, transparent);border:1px solid color-mix(in srgb, var(--warn) 40%, transparent);font-family:var(--font-body);font-size:9.5px;line-height:1.35;color:var(--warn);">
+            ⚠ ${esc(warnings[0].note)}${warnings.length > 1 ? ` (+${warnings.length - 1} more)` : ''}
+          </div>`;
     }
-    return out;
+    if (!expanded) return out;
+    if (!steps.length) {
+        return out + `<div style="padding:0 15px 10px;font-family:var(--font-body);font-size:10px;color:var(--faint);">No rotation set for this member.</div>`;
+    }
+
+    const multiPass = new Set(steps.map(s => s.pass ?? 0)).size > 1;
+    const rows = [];
+    let lastPass = null;
+    for (const step of steps) {
+        if (multiPass && step.pass !== lastPass) { rows.push(passDivider(step.pass ?? 0)); lastPass = step.pass; }
+        rows.push(renderStepBar(step, maxDmg, skillMap, clock));
+    }
+    if (statusDamage > 0) {
+        const tip = 'Damage from negative statuses (Fusion Burst, Glacio Chafe, …) this member inflicted. '
+            + 'It ticks on the enemy over time rather than on a cast, so it has no step of its own — '
+            + 'but it is part of the TOTAL DMG below, which is why it is listed here.';
+        rows.push(`<div data-tip-title="Negative status DMG" data-tip-desc="${esc(tip)}"
+            style="margin-top:5px;display:flex;align-items:center;gap:6px;padding:5px 8px 5px 10px;border-left:3px dotted var(--dmg-echo);border-radius:5px;background:color-mix(in srgb, var(--dmg-echo) 7%, transparent);cursor:help;">
+            <span style="flex:1;min-width:0;font-family:var(--font-display);font-size:9.5px;font-weight:600;color:var(--dim);">Negative status DMG · over time</span>
+            <span style="flex:none;font-family:var(--font-display);font-weight:700;font-size:10px;color:var(--dmg-echo);">${esc(fmtDmg(statusDamage))}</span>
+          </div>`);
+    }
+    return out + `<div style="padding:0 15px 10px;display:flex;flex-direction:column;gap:3px;">${rows.join('')}</div>`;
 }
 
 function renderMemberColumn(slot) {
@@ -827,10 +983,7 @@ function renderMemberColumn(slot) {
     const slotIndex = slot.slotIndex;
     const skillMap = effectiveSkillMap(api.dataset, build.resonatorId);
 
-    const split = api.segBySlot.get(slotIndex);
-    const introSteps = split?.introSteps ?? [];
-    const rotSteps = split?.rotSteps ?? [];
-    const allSteps = [...introSteps, ...rotSteps];
+    const allSteps = api.segBySlot.get(slotIndex)?.steps ?? [];
     const total = (api.result && !api.result.empty)
         ? api.result.memberTotals.find(m => m.slotIndex === slotIndex) ?? null : null;
     const teamDmg = (api.result && !api.result.empty) ? api.result.totals.damage : 0;
@@ -940,7 +1093,10 @@ function renderMemberColumn(slot) {
       <div class="bv2-dnd-card" draggable="true" data-dnd-slot="${slotIndex}" style="position:relative;background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 8px 24px -16px rgba(var(--shadow-rgb),.5);transition:border-color .12s,box-shadow .12s;">
         <span style="position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,${el.c},transparent);z-index:1;"></span>
         ${header}
-        ${renderStepGroups(slotIndex, introSteps, rotSteps, skillMap, clock)}
+        ${renderStepGroups(slotIndex, allSteps, skillMap, clock, {
+        statusDamage: total?.statusDmg ?? 0,
+        warnings: firstPassWarnings(build.resonatorId, allSteps, skillMap),
+    })}
         ${totalsRow}
       </div>`;
 }
@@ -1184,9 +1340,10 @@ function bind() {
     on(root, 'click', '[data-act="pick-weapon"]', (_e, el) => openWeaponPickerForSlot(Number(el.dataset.slot)));
     on(root, 'click', '[data-act="toggle-group"]', (_e, el) => {
         const key = `${el.dataset.slot}_${el.dataset.key}`;
-        const slotIndex = Number(el.dataset.slot);
-        const rotLen = api.segBySlot.get(slotIndex)?.rotSteps?.length ?? 0;
-        const current = api.expandedGroups[key] ?? (rotLen <= 6);
+        // Same default as renderStepGroups — expanded. Reading a different one
+        // here would make the first click a no-op on any card still showing its
+        // default state.
+        const current = api.expandedGroups[key] ?? true;
         api.expandedGroups[key] = !current;
         paint();
     });
@@ -1255,13 +1412,19 @@ export function mount(root, config) {
         // starts empty). commitTeam() records; undoTeam()/redoTeam() walk it.
         history: createHistory(),
         theme: getV2Theme(),
-        passCount: 1,
-        // Openers OFF by default (maintainer call, 2026-07-31). Derived openers
-        // pad a Liberation the energy gauge cannot cover with real filler casts,
-        // which is the honest cold start but makes the headline number answer a
-        // different question than the rotation the user actually wrote. The
-        // OPENERS chip turns it on for the cold-start comparison.
-        deriveOpeners: false,
+        // Three passes, matching the measurement the build page's suggested-team
+        // card publishes. ~~One pass.~~ A card headlining a 3-pass average that
+        // opened a page showing a single cold-start pass was the same team
+        // wearing two different numbers, and the user has no way to know which
+        // question either was answering. Pass 1 is the weakest pass (Concerto
+        // empty, no buff has ramped), so it is not representative on its own.
+        passCount: 3,
+        // ~~Openers OFF by default (2026-07-31), because padding made the
+        // headline answer a different question than the rotation as written.~~
+        // Nothing is padded any more — this is a pure report of which casts the
+        // Resonance Energy cannot fund, so hiding it by default only hides the
+        // ER requirement. ON.
+        deriveOpeners: true,
         // Which clock the DPS denominator uses. 'toa' subtracts Liberation
         // freeze (the Tower-of-Adversity convention community figures use);
         // 'open' counts wall-clock time. See docs/TIMING_MODEL.md.

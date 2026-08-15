@@ -4,6 +4,7 @@ import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY } from "../../../core/sim.js";
 import { SKILL_KEYS, setInherentSkill, setSkillLevel, setStatNode } from "../../../core/build.js";
 import { api } from "./state.js";
 import { applySonataOverride } from "../../../core/sonata-override.js";
+import { makeTarget } from "../../../core/target.js";
 import { extractSkillSection } from "../../tip-format.js";
 import { iconHtml } from "../../icons.js";
 import { resolveReferenceRotation } from "../../../data/meta-loader.js";
@@ -347,22 +348,12 @@ export const resonatorOf = () =>
 
 // Damage target used by the per-ability resolvers (Ability Damage Overview
 // card + the top HUD strip). Enemy level/RES come from api.dmgTarget; the
-// attacker level is the build's own level. Element 0 (physical) always sits at
-// 0 RES; elements 1–6 share the panel's single RES value.
+// attacker level is the build's own level. The shape (element 0 physical at 0
+// RES, elements 1–6 on the panel's single value) lives in core/target.js, which
+// is also what the optimizer scores against — see that file for why the two
+// must not be written out separately.
 export function makeDmgTarget(build, dmgTarget) {
-  return {
-    level: dmgTarget.level,
-    atkLv: build.level,
-    resistances: {
-      0: 0,
-      1: dmgTarget.res,
-      2: dmgTarget.res,
-      3: dmgTarget.res,
-      4: dmgTarget.res,
-      5: dmgTarget.res,
-      6: dmgTarget.res,
-    },
-  };
+  return makeTarget({ level: dmgTarget.level, res: dmgTarget.res, atkLv: build.level });
 }
 
 export const weaponOf = () =>

@@ -309,9 +309,12 @@ const MEMBERS = [
 ];
 const TUNE_MODES = { [DENIA]: 'tune_strain', [AEMEATH]: 'tune_rupture' };
 
-// team-editor-v2.js:204 — the target the app's own team page sims against.
+// core/target.js — the ONE target the app now sims against, team page and
+// offline optimizer alike. Until 2026-08-15 these were two different enemies
+// (the optimizer scored at 0% RES), which is why the build page's suggested-team
+// card and the team page it opens could never agree.
 const TARGET_APP = { level: 90, atkLv: 90, resistances: { 0: 0, 1: 0.1, 2: 0.1, 3: 0.1, 4: 0.1, 5: 0.1, 6: 0.1 } };
-// tools/optimize/sim-eval.js:16 — the offline optimizer's target.
+// The retired optimizer target, kept as a reachable comparison point.
 const TARGET_ZERO_RES = { level: 90, atkLv: 90, resistances: {} };
 // D7 RULING (2026-08-13) — the reference's OWN stated conditions, and now the
 // benchmark default. See the D7 block in the header for the derivation; ANCHOR 1

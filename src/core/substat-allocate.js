@@ -24,8 +24,11 @@ import { simulateRotation } from './sim.js';
 import { PROP } from './stats.js';
 import { rollValueOf } from './stat-priority.js';
 import { possibleRollsFor } from './echo-rules.js';
+import { DEFAULT_TARGET as SHARED_TARGET } from './target.js';
 
-const DEFAULT_TARGET = Object.freeze({ level: 90, atkLv: 90, resistances: {} });
+// The app's one enemy (core/target.js) — see live-weights.js for why this is
+// no longer written out a second time.
+const DEFAULT_TARGET = SHARED_TARGET;
 
 // Flat-stat roll magnitudes (one mid roll), matching the template package.
 const FLAT_ROLL = Object.freeze({ atk: 45, hp: 470, def: 55 });
