@@ -806,10 +806,43 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    call, not a parser one. Until then this is an UNDER-credit, which is the safe
    direction.
 
-2g. **A suffixed level-param key makes a damage row's id NaN, and seven of
-   Chisa's keys then resolve to the same row** (opened 2026-08-17, surfaced by
-   2f's row-level join; NOT fixed, because the fix moves an id space other files
-   join against).
+2g. ~~**A suffixed level-param key makes a damage row's id NaN, and seven of
+   Chisa's keys then resolve to the same row**~~ **CLOSED 2026-08-17**, opened
+   and closed the same day, on its own commit as the maintainer directed.
+
+   **The fix moves no existing id.** `paramIdOf` (skill-rows.mjs) folds the
+   suffix into the PARAM NUMBER rather than into the id formula, so a plain row
+   keeps the id it already has — which is the whole constraint, since a damage
+   row's id is a join key. The stride (150) sits above the largest plain param
+   the roster ships (127) so an encoded value can never equal a real one, and low
+   enough that the largest possible result (5x150+127 = 877) stays inside the
+   1000-wide band `nodeId * 1000` reserves per node. `paramId` feeds nothing else:
+   the two `synId` expressions in preprocess.mjs are its only consumers.
+
+   **Measured, on the whole roster: 4,091 ids unchanged, 9 changed, and all 9
+   were `null`.** Zero row-count drift, zero name drift, zero multiplier changes
+   in the table — the rows always held the right numbers, it was the LOOKUP that
+   was broken. `tests/dmg-attribution.test.mjs` now pins the invariants rather
+   than the encoding: every row has an id, and no two rows of one resonator share
+   one (the only scope that matters, since a row is only looked up inside
+   `damageTable[resonatorId]`).
+
+   **Chisa's seven now read the game's own numbers**, checked against her node
+   text at node level 1: Serrated Loop Hold 60.16% (`3.76%x16`), Blitz Stage 2
+   Hold 53.50% (`5.35%x10`), Stage 2: Discordance 5.40% (`1.80%x3`), Stage 3 Hold
+   48.24% (`8.04%x6`), Stage 3: Falltone 5.40%, Chainsaw Dodge Counter 42.80%
+   (`5.35%x8`) and its Hold 53.50%. The ATTRIBUTION was wrong alongside the
+   number and is fixed with it: the six Forte rows had inherited `skill` from
+   Serrated Loop Hold while they shared its id, and now read `liberation` — which
+   is what her Forte states, *"Sawring - Blitz DMG is considered Resonance
+   Liberation DMG"*.
+
+   **LOCK B is byte-identical** (erModel, characters and teams all unchanged):
+   none of the nine corrected keys appears in any reference rotation, which is
+   the same reason nothing shipped was wrong before. This was a build-page
+   hazard, and it inflated.
+
+   The original report follows, because the numbers in it are the measurement:
 
    `synId = rid*1e7 + nodeId*1000 + Number(paramK)` in `preprocess.mjs`. Eight of
    Chisa's source level-param keys are SUFFIXED — `15_2`, `18_2`, `28_2`, `28_3`,
@@ -836,12 +869,23 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    reference number are untouched. It is a BUILD-PAGE hazard — the page lets a
    user slot any key — and it inflates, which is the direction that looks fine.
 
-   Not fixed here for a reason: the repair is to make the id unique for a suffixed
-   param (or to stop deriving ids arithmetically), and a damage row's id is a JOIN
-   KEY — `hit-map.json`, the timing extracts and anything keyed on a damage id
-   line up against it. Changing the scheme needs its own pass and its own locks,
-   not a ride-along. Pinned meanwhile by `tests/dmg-attribution.test.mjs`, which
-   asserts the current counts so the fix is visible when it lands.
+   ~~Not fixed here for a reason: the repair is to make the id unique for a
+   suffixed param, and a damage row's id is a JOIN KEY.~~ Done as its own change,
+   as described above — and the constraint held: no existing id moved.
+
+   **What the suffixed rows ARE, which is what made the fix safe to shape.** They
+   are VARIANT rows: a Hold version of a stage, or a release-branch sub-move. In
+   Chisa's Forte Circuit, holding Normal Attack through Sawring - Blitz Stage 2
+   casts the Hold variant and auto-continues to Stage 3, while releasing casts
+   [Stage 2: Discordance] instead — so a Hold row is an ALTERNATIVE to its tap
+   row, never an extra cast, and Discordance/Falltone REPLACE the auto-continue
+   rather than adding to it. 22 suffixed keys ship across 12 resonators.
+
+   **Still open, separately:** Chisa's `forte_heavy_bonus_dmg_multiplier_per_ring_of_chainsaw`
+   is `paletteInclude: true` and therefore slottable as a rotation step, but it is
+   not a cast — it is the +1.30% per Ring of Chainsaw modifier on Sawring -
+   Eradication, structurally the same shape as Denia's Dark Core ladder. Ring of
+   Chainsaw itself is not modelled (no `RESOURCE_DEFS` entry for 1508).
 
 3. **`resolveErTarget` has zero UI consumers** (re-verified 2026-07-23 — only
    `src/core/team-er.js` references it). All 79 real team-context ER numbers

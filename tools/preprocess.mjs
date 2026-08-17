@@ -292,7 +292,14 @@ async function main() {
     // Nanoka rows use { nodeId, paramId, skillName, name, type, element, mults }.
     // We convert them to the same row shape the engine reads:
     //   { id, mults, element, relatedProp }
-    // The synthetic id is resonatorId * 1e7 + nodeId * 1000 + paramId (unique).
+    // The synthetic id is resonatorId * 1e7 + nodeId * 1000 + paramId. Unique
+    // WITHIN a resonator, which is all that is required — resolveSkill only ever
+    // looks a row up inside damageTable[resonatorId]. It is not unique across the
+    // roster and never was: node ids are the game's own and reach 1.2e9 (Galbrena),
+    // so the per-resonator `rid * 1e7` bands overlap freely.
+    // `paramId` carries a suffixed level-param key (`15_2`) folded in — see
+    // skill-rows.mjs paramIdOf, and note that a plain row's id is unchanged by it,
+    // because this id is a join key.
     // Build autoSkillMap + supplemental damageTable entries for ALL resonators
     // that have a nanoka character JSON — not just the ones new to Dimbreath.
     // This gives skill data to every Dimbreath char (Sanhua, Jinhsi, etc.) as

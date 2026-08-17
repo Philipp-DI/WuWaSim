@@ -10845,3 +10845,102 @@ unchanged: 38 of 416 slots, 27 up / 11 down, 7 anchors reordered.
 branch resolves to one bucket. What remains is that a branch is only resolvable
 when a mode is named after a damage type, which is true for Lucilla and for no
 one else today.
+
+---
+
+## 2026-08-17c — A variant row gets its own id (OPEN-ITEMS 2g)
+
+Maintainer-directed after reviewing the report: fix it, on its own commit. The
+kit text they supplied — Chisa's Forte Circuit and Resonance Skill multipliers at
+node level 1, plus both node descriptions — is what made the shape of the fix
+obvious and is quoted in the test.
+
+**[Files Changed]**
+
+```text
+tools/preprocess/skill-rows.mjs     paramIdOf (new) — the suffix, folded into the param number
+tools/preprocess/resonators.mjs     three Number(paramK) sites → paramIdOf
+tools/preprocess.mjs                the id-scheme comment, corrected
+tests/dmg-attribution.test.mjs      §3b rewritten: invariants + Chisa's seven, from her kit
+CLAUDE.md, docs/OPEN-ITEMS.md       a new invariant; 2g closed
+data/wuwa-data.json, data-version.json, wuwa-meta.json   regenerated
+```
+
+**[Logic Altered]**
+
+1. **THE BUG.** A level-param key is normally a number, but the game also ships
+   SUFFIXED keys — `15_2`, `29_5` — for a VARIANT row. `Number('15_2')` is NaN,
+   NaN serialises to null, and `resolveSkill` finds a row by
+   `find(row => row.id === id)` — so every variant row of one resonator shared
+   the id `null` and all of them resolved to the FIRST. 22 suffixed keys ship
+   across 12 resonators; 9 produced damage rows, and only Chisa has more than one
+   (seven), so only she collided.
+
+2. **WHAT A VARIANT ROW IS**, which is what made the fix safe to shape. It is a
+   Hold version of a stage or a release-branch sub-move. Chisa's Forte states it:
+   holding Normal Attack through [Sawring - Blitz Stage 2] casts the Hold variant
+   and auto-continues to Stage 3, while releasing casts [Stage 2: Discordance]
+   instead. So a Hold row is an ALTERNATIVE to its tap row, never an extra cast,
+   and Discordance/Falltone REPLACE the auto-continue rather than adding to it.
+
+3. **THE FIX MOVES NO EXISTING ID.** `paramIdOf` folds the suffix into the PARAM
+   NUMBER, not into the id formula, so a plain row keeps the id it already has —
+   the constraint that made this its own change, since a damage row's id is a
+   join key. The stride (150) is above the largest plain param the roster ships
+   (127), so an encoded value can never equal a real one, and low enough that the
+   largest possible result (5×150+127 = 877) stays inside the 1000-wide band
+   `nodeId * 1000` reserves per node. `paramId` feeds nothing else: the two
+   `synId` expressions in preprocess.mjs are its only consumers.
+
+4. **A CORRECTION TO THE ID SCHEME'S OWN COMMENT.** It claimed the synthetic id
+   is "unique". It is not, and never was: node ids are the game's own and reach
+   1.2e9 (Galbrena), so the per-resonator `rid * 1e7` bands overlap freely.
+   Uniqueness is only required WITHIN a resonator, because that is the only scope
+   a row is ever looked up in. The test now pins that, rather than the encoding.
+
+**[Verification Method]**
+
+- **The id diff is the lock: 4,091 ids unchanged, 9 changed, and all 9 were
+  `null`.** Zero row-count drift, zero name drift, zero multiplier changes in the
+  table — the rows always held the right numbers, only the lookup was broken.
+- **Chisa's seven now read the game's own values**, checked against the node text
+  the maintainer supplied (node level 1): Serrated Loop Hold 60.16% (`3.76%×16`),
+  Blitz Stage 2 Hold 53.50% (`5.35%×10`), Stage 2: Discordance 5.40% (`1.80%×3`),
+  Stage 3 Hold 48.24% (`8.04%×6`), Stage 3: Falltone 5.40%, Chainsaw Mode - Dodge
+  Counter 42.80% (`5.35%×8`) and its Hold 53.50%. Every intact row of hers
+  reconciled against the same source too (Blitz 1/2/3, Eradication, Eye of
+  Unraveling, Serrated Loop), which is what validates the reading.
+- **The ATTRIBUTION was wrong alongside the number and is fixed with it.** The
+  six Forte rows had inherited `skill` from Serrated Loop Hold while sharing its
+  id; they now read `liberation`, which is what her Forte states — *"Sawring -
+  Blitz DMG is considered Resonance Liberation DMG"*.
+- **LOCK B byte-identical** — `erModel`, `characters` and `teams` all unchanged.
+  None of the nine corrected keys appears in any reference rotation, which is the
+  same reason nothing shipped was wrong before it.
+- `npm test` 74/74 (dmg-attribution 43 → 64 assertions) · `npm run sweep` 70/0 ·
+  `npm run lint` 0 errors, 3105 warnings unchanged. Meta regenerated before the
+  final suite run.
+
+**[Residual Risks]**
+
+- The encoding assumes a plain param stays under 150 and a suffix under 6. Both
+  hold today (max 127, max `_5`) and neither is asserted directly — what IS
+  asserted is the consequence: no missing id, no duplicate within a resonator.
+  A future key that breaks either bound fails those.
+- `paramIdOf` returns null for a key matching neither `N` nor `N_M`, which would
+  put the id back to NaN. No such key exists on the roster; the no-missing-id
+  assertion is what would catch one.
+- **Not fixed, and now visible:** Chisa's
+  `forte_heavy_bonus_dmg_multiplier_per_ring_of_chainsaw` is
+  `paletteInclude: true` and so slottable as a rotation step, but it is not a
+  cast — it is the +1.30% per Ring of Chainsaw modifier on Sawring - Eradication,
+  the same shape as Denia's Dark Core ladder. Ring of Chainsaw is not modelled at
+  all (no `RESOURCE_DEFS` entry for 1508).
+- Her `openerRotation` ends on `forte_heavy_sawring_blitz_3` and never casts
+  Sawring - Eradication, which is where the shield and the +45 Concerto are.
+  Raised with the maintainer; not changed here, because a reference rotation is
+  curation and moves the benchmark.
+
+**[Updated Docs]** `CLAUDE.md` gains the per-resonator id-uniqueness invariant;
+`docs/OPEN-ITEMS.md` 2g closed with the measurement and the original report kept
+below it. HISTORY (this entry).

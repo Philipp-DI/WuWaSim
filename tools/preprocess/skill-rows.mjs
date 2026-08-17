@@ -139,6 +139,45 @@ export function mechanicalToFormula(baseFormula) {
     return String(baseFormula ?? '').replace(/^forte_/, '');
 }
 
+// A level-param key is normally a number, but the game also ships SUFFIXED keys
+// — `15_2`, `29_5` — for a VARIANT row: a Hold version of a stage, or a
+// release-branch sub-move. Chisa's Forte Circuit is the clearest case: [Sawring
+// - Blitz Stage 2 Hold] is an alternative to Stage 2, not an extra cast, and
+// [Stage 2: Discordance] is what the release branch casts instead of continuing.
+// 22 such keys ship across 12 resonators.
+//
+// `Number('15_2')` is NaN, and NaN serialises to null, so every variant row of
+// one resonator used to share the id `null`. `resolveSkill` finds a row by
+// `row.id === id`, so all of them resolved to the FIRST null-id row: six of
+// Chisa's seven keys read a stranger's multiplier, two of them 11.1x their own
+// (0.1074 read as 1.1936), and inherited its attribution as well — `skill`,
+// where their own rows say `liberation`, which is what her kit states.
+//
+// The suffix is folded into the PARAM NUMBER rather than into the id formula,
+// because a damage-row id is a JOIN KEY and every plain row has to keep the id
+// it already has. `paramId` feeds nothing else — the two `synId` expressions in
+// preprocess.mjs are its only consumers.
+//
+// The stride is above the largest plain param the roster ships (127) so an
+// encoded value can never equal a real one, and small enough that the largest
+// possible result (5 * 150 + 127 = 877) stays inside the 1000-wide band that
+// `nodeId * 1000` reserves per node. Both bounds — and the invariant that
+// matters, no two rows of one resonator sharing an id — are asserted by
+// tests/dmg-attribution.test.mjs.
+const PARAM_SUFFIX_STRIDE = 150;
+
+/**
+ * The param number a level-param key addresses, suffix included.
+ * @returns {number|null} null when the key is neither `N` nor `N_M`
+ */
+export function paramIdOf(paramKey) {
+    const raw = String(paramKey);
+    const plain = Number(raw);
+    if (Number.isFinite(plain)) return plain;
+    const variant = /^(\d+)_(\d+)$/.exec(raw);
+    return variant ? Number(variant[1]) + Number(variant[2]) * PARAM_SUFFIX_STRIDE : null;
+}
+
 export function resolveInstanceFormula(hitTypes, baseFormula) {
     const known = hitTypes.filter(type => Number.isInteger(type) && type >= 0 && type <= 5);
     const isEchoSkill = known.includes(5);

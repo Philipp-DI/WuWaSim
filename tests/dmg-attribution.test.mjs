@@ -175,24 +175,55 @@ const rowsOfKey = (resonatorId, key) => {
     assert(`…and every one keeps a row that states nothing (${fellBack}/7)`, fellBack === AMBIGUOUS.length);
 }
 
-// ── 3b. A row whose synthetic id is NaN — pinned, not fixed ───────────────────
+// ── 3b. A VARIANT row gets its own id (OPEN-ITEMS 2g) ────────────────────────
 //
-// `synId = rid*1e7 + nodeId*1000 + Number(paramK)` is NaN when the source uses a
-// SUFFIXED level-param key (`15_2`, `28_2`, `29_5` …), and NaN serialises to
-// null. `resolveSkill` resolves a row by `find(row => row.id === id)`, so every
-// key holding a null id lands on the FIRST null-id row of that resonator. Chisa
-// has seven, so six of her keys read the wrong multiplier (two of them 0.1074
-// read as 1.1936, ~11x). None is in a curated rotation, so nothing shipped moves.
-// Pinned so the fix is visible when it lands — see OPEN-ITEMS 2g.
+// A level-param key may be SUFFIXED — `15_2`, `29_5` — for a Hold version of a
+// stage or a release-branch sub-move. `Number('15_2')` is NaN and NaN serialises
+// to null, so every variant row of one resonator used to share the id `null`;
+// `resolveSkill` finds a row by `row.id === id`, so all of them resolved to the
+// FIRST. Chisa had seven, and six read a stranger's multiplier.
+//
+// The invariants are what this pins, not the encoding: an id must exist, and it
+// must be unique WITHIN its resonator — which is the only scope that matters,
+// since a row is only ever looked up inside `damageTable[resonatorId]`.
 {
-    let nullRows = 0, keysAffected = 0;
+    let missing = 0, duplicates = [];
     for (const resonator of dataset.resonators) {
-        nullRows += rowsFor(resonator.id).filter(row => row.id === null).length;
-        keysAffected += Object.entries(skillMapFor(resonator.id))
-            .filter(([key, def]) => !key.startsWith('_') && (def.damageIds ?? []).some(id => id === null)).length;
+        const seen = new Set();
+        for (const row of rowsFor(resonator.id)) {
+            if (row.id == null) missing++;
+            if (seen.has(row.id)) duplicates.push(`${resonator.name}: ${row.name}`);
+            seen.add(row.id);
+        }
     }
-    assert(`9 damage rows carry a NaN id (found ${nullRows}) — OPEN-ITEMS 2g`, nullRows === 9);
-    assert(`9 keys point at one (found ${keysAffected}); only Chisa's 7 collide`, keysAffected === 9);
+    assert(`every damage row has an id (${missing} missing)`, missing === 0);
+    assert(`no two rows of one resonator share an id (${duplicates.join(', ') || 'none'})`,
+        duplicates.length === 0);
+
+    // Chisa is the case that proved it: seven variant rows, six of them reading
+    // 1.1936 instead of their own value. The lv.1 figures are the game's own,
+    // from her Forte Circuit and Resonance Skill nodes at node level 1.
+    const chisa = resonatorNamed('Chisa');
+    const CHISA_VARIANTS = [
+        ['skill_serrated_loop_hold', 0.6016, 'skill'],                       // 3.76% x16
+        ['forte_heavy_sawring_blitz_2_hold', 0.5350, 'liberation'],          // 5.35% x10
+        ['forte_heavy_sawring_blitz_2_discordance', 0.0540, 'liberation'],   // 1.80% x3
+        ['forte_heavy_sawring_blitz_3_hold', 0.4824, 'liberation'],          // 8.04% x6
+        ['forte_heavy_sawring_blitz_3_falltone', 0.0540, 'liberation'],      // 1.80% x3
+        ['forte_heavy_chainsaw_mode_dodge_counter', 0.4280, 'liberation'],   // 5.35% x8
+        ['forte_heavy_chainsaw_mode_dodge_counter_hold', 0.5350, 'liberation'], // 5.35% x10
+    ];
+    for (const [key, lv1, attribution] of CHISA_VARIANTS) {
+        const rows = rowsOfKey(chisa.id, key);
+        assert(`Chisa ${key} resolves to exactly one row`, rows.length === 1);
+        assert(`…reading its OWN lv.1 multiplier ${(lv1 * 100).toFixed(2)}%`,
+            Math.abs((rows[0]?.mults?.[0] ?? 0) - lv1) < 5e-5);
+        // "Sawring - Blitz DMG is considered Resonance Liberation DMG" — the six
+        // Forte rows inherited `skill` from Serrated Loop Hold while they shared
+        // its id, so the attribution was wrong alongside the number.
+        assert(`…and its own attribution (${attribution})`,
+            (rows[0]?.dmgTypes ?? [])[0] === attribution);
+    }
 }
 
 // ── 4. What a hit actually collects, through the real resolveSkill path ───────

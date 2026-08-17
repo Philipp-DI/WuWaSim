@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-17T16:33:57.419Z",
+  "generatedAt": "2026-08-17T19:55:09.884Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -134146,7 +134146,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 13090001312,
         "mults": [
           0.9478,
           1.0256,
@@ -142952,7 +142952,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 14060001303,
         "mults": [
           0.3859,
           0.41759999999999997,
@@ -166933,7 +166933,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 15080002318,
         "mults": [
           0.6015999999999999,
           0.6496,
@@ -167194,7 +167194,7 @@
         "concertoGen": 0
       },
       {
-        "id": null,
+        "id": 15080007328,
         "mults": [
           0.535,
           0.579,
@@ -167227,7 +167227,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 15080007478,
         "mults": [
           0.054000000000000006,
           0.058499999999999996,
@@ -167260,7 +167260,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 15080007329,
         "mults": [
           0.48239999999999994,
           0.5219999999999999,
@@ -167293,7 +167293,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 15080007479,
         "mults": [
           0.054000000000000006,
           0.058499999999999996,
@@ -167326,7 +167326,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 15080007629,
         "mults": [
           0.428,
           0.4632,
@@ -167359,7 +167359,7 @@
         ]
       },
       {
-        "id": null,
+        "id": 15080007779,
         "mults": [
           0.535,
           0.579,
@@ -218815,7 +218815,7 @@
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
-          null
+          13090001312
         ],
         "supportIds": [],
         "stepDuration": 0.4796,
@@ -222576,7 +222576,7 @@
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          null
+          14060001303
         ],
         "supportIds": [],
         "stepDuration": 0.6535,
@@ -232891,7 +232891,7 @@
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          null
+          15080002318
         ],
         "supportIds": [],
         "stepDuration": 0.93,
@@ -233227,7 +233227,7 @@
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          null
+          15080007328
         ],
         "supportIds": [],
         "stepDuration": 0.5667,
@@ -233250,7 +233250,7 @@
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          null
+          15080007478
         ],
         "supportIds": [],
         "stepDuration": 0.5667,
@@ -233273,7 +233273,7 @@
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          null
+          15080007329
         ],
         "supportIds": [],
         "stepDuration": 0.777,
@@ -233296,7 +233296,7 @@
         "isEchoSkill": false,
         "paletteInclude": true,
         "damageIds": [
-          null
+          15080007479
         ],
         "supportIds": [],
         "stepDuration": 0.777,
@@ -233319,7 +233319,7 @@
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
-          null
+          15080007629
         ],
         "supportIds": [],
         "stepDuration": 0.5667,
@@ -233342,7 +233342,7 @@
         "isEchoSkill": false,
         "paletteInclude": false,
         "damageIds": [
-          null
+          15080007779
         ],
         "supportIds": [],
         "stepDuration": 0.5667,

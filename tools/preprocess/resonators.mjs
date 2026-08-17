@@ -9,8 +9,7 @@ import {
     classifySkillRow, resolveInstanceFormula, inferRowTypes,
     FORMULA_RECLASSIFICATIONS, FORMULA_RECLASS_AMBIGUOUS, isPaletteIncluded,
     RELATED_PROP_ID, nodeRelatedPropId, scalingStatFromFormat, parseHealParam,
-    generateSkillKey, generateSkillLabel, linkMetaToSteps, parseMult,
-} from './skill-rows.mjs';
+    generateSkillKey, generateSkillLabel, linkMetaToSteps, parseMult, paramIdOf, } from './skill-rows.mjs';
 import { parseEffectsFromDesc } from './effects.mjs';
 import { modeKey } from '../resonance-modes.js';
 
@@ -730,7 +729,7 @@ export function projectNanokaCharacterFull(nChar) {
                 const label = generateSkillLabel(rowName, skillType, skill.name, isEchoSkill);
                 damageByNode[nid].push({
                     nodeId:        nid,
-                    paramId:       Number(paramK),
+                    paramId:       paramIdOf(paramK),
                     skillName:     skill.name,
                     name:          rowName,
                     type:          nodeType,
@@ -773,7 +772,7 @@ export function projectNanokaCharacterFull(nChar) {
                 const key = generateSkillKey(rowName, skillType, skill.name);
                 supportByNode[nid].push({
                     nodeId:        nid,
-                    paramId:       Number(paramK),
+                    paramId:       paramIdOf(paramK),
                     skillName:     skill.name,
                     name:          rowName,
                     rowType:       cls,
@@ -791,7 +790,7 @@ export function projectNanokaCharacterFull(nChar) {
             } else if (cls === 'buff') {
                 buffRows.push({
                     nodeId:    nid,
-                    paramId:   Number(paramK),
+                    paramId:   paramIdOf(paramK),
                     skillName: skill.name,
                     name:      rowName,
                     mults,
