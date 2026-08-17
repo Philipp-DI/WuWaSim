@@ -87,7 +87,8 @@ mapping is not guessable — look it up here rather than inferring it.
 | **rotation** | Ordered list of skill keys. Persisted ONLY as this linear array; the graph view is sim-time-only (invariant). |
 | **step** | One executed cast in a sim result: damage, timing, energy, active buffs. |
 | **`skillType` (node)** | MECHANICAL kind of cast (what you pressed): basic/heavy/skill/liberation/intro/outro/forte_*. Drives cast triggers, multiplierUp matching, stage logic. |
-| **`formulaType`** | DATA-DRIVEN damage categorization (which DMG-bonus bucket + skill-level key the hits use), read from the game's per-instance type tag. Carlotta's Liberation: `skillType 'liberation'`, `formulaType 'skill'`. Never conflate the two. |
+| **`formulaType`** | DATA-DRIVEN damage categorization, read from the game's per-instance type tag. ONE value, because it is also the skill-LEVEL key — there is exactly one level table per hit. Carlotta's Liberation: `skillType 'liberation'`, `formulaType 'skill'`. Never conflate the two. |
+| **attribution** (`dmgTypes` on a row) | WHICH DMG-type bucket a hit reads — exactly ONE, since the client's `GetAttackTypeDamageBonus` is a switch on the instance's `Type` (`core/dmg-attribution.js`). `dmgTypes` records what the tags said: one member normally, TWO when the game ships a per-Resonance-Mode branch (Lucilla's [Letting It Go]), which `build.resonanceMode` resolves. 24 roster rows are attributed to echo ALONE, their `formulaType` being only a mechanical stand-in. Absent ⇒ read `formulaType`. Lives on the row, not the skill key: one key can gather rows that disagree. |
 | **grant** | A curated reason a rotation step is legal despite the generic stage heuristic ("chained from Intro Skill"); rendered as a ⤷ chip. Tables: `STAGE_GRANTS`, `SWAP_IN_ENTRY`, `RESOURCE_DEFS`. |
 | **state** | A named character stance/mode tracked per step (`STATE_DEFS`, e.g. Denia's Stagecraft) — enters on a cast, exits by duration or a consuming cast; gates effects and off-field actions. |
 | **`actionableAt`** | ~~Seconds until the player regains control.~~ **Retired 2026-07-31.** One name over four different quantities. Replaced by `stepDuration` (the animation) + `resolvesAt` (the damage), combined by `resolveStepDuration`. |
@@ -115,7 +116,7 @@ mapping is not guessable — look it up here rather than inferring it.
 | **stack ramp** | Stacking buffs climb 0→cap per qualifying step and decay — never applied at max flat (`buffs/buff-timeline.js`). |
 | **team-wide** | A buff whose recipient is the whole team. Three disjoint application lanes — see ARCHITECTURE.md §4; picking the right lane is an invariant. |
 | **incoming-resonator transfer** | Outro-granted buff targeting the NEXT resonator specifically (not team-wide); applied flat to the receiving segment. |
-| **DMG-bonus bucket** | The additive `(1 + Σ bonuses)` term: element bonuses + `formulaType`-keyed skill-type bonuses. Distinct from amplify/deepen (each multiplicative). |
+| **DMG-bonus bucket** | The additive `(1 + Σ bonuses)` term: element bonus + the ONE skill-type bonus the hit's attribution names (falling back to `formulaType`). Distinct from amplify/deepen (each multiplicative). |
 
 ### Team sim
 

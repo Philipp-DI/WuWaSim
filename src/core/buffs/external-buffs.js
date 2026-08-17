@@ -259,6 +259,13 @@ function scopeOf(grant) {
  * No weapon needs this today (every scoped grant in the game's weapon tables is
  * DEF-ignore or resistance), so the list is expected to stay empty.
  *
+ * CRIT is the one exception with a home — `critRateBySkillType` /
+ * `critDmgBySkillType` — but only `sonataConditionalGrants` routes it there.
+ * Nothing this function feeds (weapon conditionals, echo main-slot passives, the
+ * incoming-resonator transfer) ships a scoped crit grant, verified across every
+ * rank and every echo, so the routing is deliberately not duplicated here. A
+ * scoped crit grant arriving on a weapon or an echo needs it adding.
+ *
  * `sources` supplies the raw attribute values a DERIVED grant scales off (see
  * derivedGrantValue). A derived grant whose source the caller cannot supply
  * stays unplaced.
@@ -302,12 +309,16 @@ export function foldExternalGrants(grants, into = emptyExternal(), sources = {})
 /**
  * Does a target modifier apply to this hit? An absent scope applies to every
  * hit; a stated one must match the hit's own damage type and element.
+ *
+ * `dmgType` is the hit's ATTRIBUTION (dmg-attribution.js), which for an all-echo
+ * row is 'echo' and not its mechanical `formulaType` — so a `damageTypes:[5]`
+ * scope reaches such a row, and a `[2]` scope no longer does.
  */
-export function targetModApplies(mod, formulaType, elementId) {
+export function targetModApplies(mod, dmgType, elementId) {
     if (mod.elementId != null && Number(elementId) !== mod.elementId) return false;
     const scope = mod.scope;
     if (!scope) return true;
-    if (scope.skillTypes?.length && !scope.skillTypes.includes(formulaType)) return false;
+    if (scope.skillTypes?.length && !scope.skillTypes.includes(dmgType)) return false;
     if (scope.elementIds?.length && !scope.elementIds.includes(Number(elementId))) return false;
     return true;
 }
@@ -394,27 +405,79 @@ const WINDOW_LANE_BUCKETS = Object.freeze(['dmgByElement', 'atkRatio', 'dmgBySki
  * changes no distribution; it is here so that when one ships, the sentence
  * cannot overrule it.
  *
- * @returns {{critRate, critDmg, amplifyAll, defIgnore, teamWide:{…}}|null}
+ * A crit grant the game SCOPES to damage types goes to the per-type buckets
+ * (`critScopeTypes`); every other scoped grant is skipped, because an
+ * amplify/DEF-ignore bucket here is a whole-build number with no room for
+ * "…but only on Heavy Attacks".
+ *
+ * @returns {{critRate, critDmg, critRateBySkillType, critDmgBySkillType,
+ *            amplifyAll, defIgnore, teamWide:{…}}|null}
  *          null when the tier states nothing in this lane (caller keeps text).
  */
 export function sonataConditionalGrants(grants, sources = {}) {
-    const empty = () => ({ critRate: 0, critDmg: 0, amplifyAll: 0, defIgnore: 0 });
+    const empty = () => ({
+        critRate: 0, critDmg: 0, amplifyAll: 0, defIgnore: 0,
+        critRateBySkillType: {}, critDmgBySkillType: {},
+    });
     const out = empty();
     const teamWide = empty();
     let found = false;
     for (const grant of grants ?? []) {
         if (grant?.recipient) continue;     // the incoming-resonator lane's
-        if (grant?.scope) continue;         // no room for "…but only on Heavy Attacks"
         const route = bucketForAttribute(grant?.attribute);
         if (!route || WINDOW_LANE_BUCKETS.includes(route.bucket)) continue;
         if (!(route.bucket in out)) continue;   // resistance mods route per-hit
         const value = grantValue(grant, sources);
         if (value == null || !Number.isFinite(value) || value === 0) continue;
+
+        if (grant.scope) {
+            // Only crit has somewhere to hold a scope, and only for the wielder:
+            // the team lane carries whole-build numbers, so a team-wide scoped
+            // crit grant would have to widen to be credited at all. None exists
+            // today; if one ships it stays unclaimed here and the tier keeps its
+            // text, which is the same answer as before this branch existed.
+            const perType = PER_TYPE_CRIT_BUCKET[route.bucket];
+            const scopedTypes = perType && !grant.teamWide ? critScopeTypes(grant.scope) : null;
+            if (!scopedTypes) continue;
+            found = true;
+            for (const type of scopedTypes) {
+                out[perType][type] = (out[perType][type] ?? 0) + value;
+            }
+            continue;
+        }
+
         found = true;
         out[route.bucket] += value;
         if (grant.teamWide) teamWide[route.bucket] += value;
     }
     return found ? { ...out, teamWide } : null;
+}
+
+// The whole-build crit buckets → their per-damage-type counterparts. Only these
+// two stats have a per-type home (formula.js reads them beside
+// `dmgBonusBySkillType`); every other bucket in this lane is whole-build only.
+const PER_TYPE_CRIT_BUCKET = Object.freeze({
+    critRate: 'critRateBySkillType', critDmg: 'critDmgBySkillType',
+});
+
+/**
+ * The formulaTypes a grant's scope names, or null when this engine cannot honour
+ * the scope exactly.
+ *
+ * Refusing is the safe answer in both refusal cases, because an unhonoured scope
+ * is a grant credited to hits the game does not give it to:
+ *   - an ELEMENT scope has no per-type bucket to land in;
+ *   - a damage tag we do not map (sonata 9's `damageTypes: [7]`) would filter to
+ *     an empty list, and an empty list of skill types reads as "no restriction"
+ *     everywhere downstream.
+ */
+function critScopeTypes(scope) {
+    const types = scope?.damageTypes;
+    if (!types?.length) return null;
+    if (scope.elementTypes?.length) return null;
+    const mapped = types.map(type => FORMULA_BY_DAMAGE_TYPE[type]);
+    if (mapped.some(type => !type)) return null;
+    return mapped;
 }
 
 /** A sonata tier's grants from the dataset, or null when there is no row. */

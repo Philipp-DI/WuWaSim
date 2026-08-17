@@ -86,7 +86,11 @@ export function computeDamage({ stats, skill, target, context = {} }) {
     // --- 3. DMG bonus bucket (additive within the bucket) ----------------
     const elementId = skill.element ?? 0;
     const elementDmg = stats.dmgBonusByElement?.[elementId] ?? 0;
-    const typeDmg = stats.dmgBonusBySkillType?.[skill.skillType] ?? 0;
+    // The hit's ATTRIBUTION — exactly one bucket, because the client reads
+    // exactly one (dmg-attribution.js). For an all-echo hit that is 'echo' and
+    // NOT the mechanical `skillType` it keeps for its level table.
+    const dmgType = skill.dmgType ?? skill.skillType;
+    const typeDmg = stats.dmgBonusBySkillType?.[dmgType] ?? 0;
     // dmgBonusAll: a team-wide ALL-ATTRIBUTE bonus, scoped to no element and no
     // skill type, so it lands in the same additive bucket every hit reads.
     const dmgBonus = elementDmg + typeDmg + (stats.dmgBonusAll ?? 0) + (context.dmgBonus ?? 0);
@@ -100,9 +104,18 @@ export function computeDamage({ stats, skill, target, context = {} }) {
     // WuWa convention: Crit DMG is the multiplier *applied on crit*, not
     // a bonus on top. Base 150% means a crit deals 1.5× the non-crit
     // damage. Source: Fandom wiki "Crit. DMG" article.
-    const rawCritRate = (stats.critRate ?? 0) + (context.critRateBonus ?? 0);
+    //
+    // A crit value the game scopes to a damage TYPE is added here and nowhere
+    // else, exactly like `typeDmg` above: it is not part of the build's crit
+    // stat, because it does not apply to every hit. Flamewing's Shadow's two
+    // 20% Crit Rate rows are Heavy-only and Echo-only, and the tooltip states
+    // neither scope — so folding them into `stats.critRate` credited them to
+    // every hit the wielder landed.
+    const typeCritRate = stats.critRateBySkillType?.[dmgType] ?? 0;
+    const typeCritDmg = stats.critDmgBySkillType?.[dmgType] ?? 0;
+    const rawCritRate = (stats.critRate ?? 0) + typeCritRate + (context.critRateBonus ?? 0);
     const critRate = Math.max(0, Math.min(1, rawCritRate));
-    const critDmg = (stats.critDmg ?? 1.5) + (context.critDmgBonus ?? 0);
+    const critDmg = (stats.critDmg ?? 1.5) + typeCritDmg + (context.critDmgBonus ?? 0);
     const critMultExpected = 1 + critRate * (critDmg - 1);
     const critMultRolled = critDmg;        // crit hit
     const critMultMissed = 1;              // non-crit hit
@@ -140,9 +153,9 @@ export function computeDamage({ stats, skill, target, context = {} }) {
             multiplier: skill.multiplier ?? 0,
             flat, flatBonus, baseDmg,
             elementId,
-            elementDmg, typeDmg, dmgBonusContext: context.dmgBonus ?? 0, dmgBonus,
+            elementDmg, typeDmg, dmgType, dmgBonusContext: context.dmgBonus ?? 0, dmgBonus,
             amplify, deepen, bonusMult,
-            critRate, critDmg,
+            critRate, critDmg, typeCritRate, typeCritDmg,
             critMult: { expected: critMultExpected, rolled: critMultRolled, missed: critMultMissed },
             atkLv, defLv, defShred, defIgnore, defMult,
             baseRes, resReduce, resTotal, resMult,

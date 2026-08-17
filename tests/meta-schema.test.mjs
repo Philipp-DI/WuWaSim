@@ -142,6 +142,7 @@ for (const [id, c] of Object.entries(meta.characters)) {
         'core/cooldowns.js', 'core/opener.js',
         'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js', 'core/tune-break.js',
         'core/target.js',
+        'core/dmg-attribution.js',
         'data/loader.js'];   // keep in sync with tools/optimize.mjs ENGINE_FILES
     const h = createHash('sha256');
     for (const f of ENGINE_FILES) h.update(readFileSync(resolve(root, 'src', f)));

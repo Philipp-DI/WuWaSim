@@ -547,7 +547,7 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // Snowfall +25% Crit Rate). Crit folds in here; amplify applies per-hit (sim).
     const sonataConditional = includeConditionals
         ? sonataConditionalContribution(build, dataset, wResonator, enemyStatuses)
-        : { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0, teamWide: emptyTeamWideCond };
+        : { critRate: 0, critDmg: 0, critRateBySkillType: {}, critDmgBySkillType: {}, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0, teamWide: emptyTeamWideCond };
 
     // ATK = (resonatorBase + weaponBase) × (1 + Σratios) + Σflats
     // The game multiplies ratios against the "base ATK" (resonator + weapon only).
@@ -590,6 +590,14 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
         mergeNumericMaps(teamBundle.dmgBySkillType ?? {}, echoMain.dmgBySkillType),
     );
 
+    // Crit the game scopes to a damage TYPE, kept out of the whole-build
+    // `critRate`/`critDmg` above because it does not apply to every hit:
+    // Flamewing's Shadow gives 20% Crit Rate to Heavy Attacks and 20% to Echo
+    // Skills, and folding either into the build total credits it to both — plus
+    // to every Basic, Intro and Liberation the wielder throws.
+    const critRateBySkillType = mergeNumericMaps(sonataConditional.critRateBySkillType ?? {});
+    const critDmgBySkillType = mergeNumericMaps(sonataConditional.critDmgBySkillType ?? {});
+
     // The team-recipient half of the weapon/sonata conditional clauses (e.g.
     // Kumokiri's "at max stacks, when Resonators in the team inflict Negative
     // Statuses, they gain All-Attribute DMG Bonus") — additive to this
@@ -613,6 +621,7 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     return {
         atk, hp: hpTotal, def,
         critRate, critDmg,
+        critRateBySkillType, critDmgBySkillType,
         energyRegen, healingBonus,
         dmgBonusByElement,
         dmgBonusBySkillType,
@@ -645,6 +654,7 @@ function mergeNumericMaps(mapA = {}, mapB = {}) {
 function makeEmpty(error) {
     return {
         atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 1, healingBonus: 0,
+        critRateBySkillType: {}, critDmgBySkillType: {},
         dmgBonusByElement: {}, dmgBonusBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 }, dmgBonusAll: 0,
         breakdown: { error },
         error,

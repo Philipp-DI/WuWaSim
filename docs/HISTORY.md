@@ -10427,3 +10427,421 @@ chars (`effects.mjs` stores `condition` for display), so a few read as
 label and is untouched here.
 
 **[Updated Docs]** HISTORY (this entry).
+
+---
+
+## 2026-08-17 — A scoped crit value, and the loose ends in OPEN-ITEMS 1 → 2b
+
+Maintainer-directed: tie up the loose ends in `docs/OPEN-ITEMS.md` up to (not
+including) item 3, reading the docs and history first so nothing already settled
+gets re-litigated or re-broken. Every claim in that range was re-checked against
+the code and the data rather than inherited. One item in it was genuinely open,
+small and unblocked — item **2b, per-TYPE crit scoping** — and it is now built.
+
+**[Files Changed]**
+
+```text
+src/core/buffs/external-buffs.js     sonataConditionalGrants routes a scoped crit grant;
+                                     critScopeTypes + PER_TYPE_CRIT_BUCKET (new)
+src/core/buffs/conditional-buffs.js  sonataConditionalContribution carries the two maps
+src/core/stats.js                    critRateBySkillType / critDmgBySkillType on TotalStats
+src/core/formula.js                  spends them per hit, beside typeDmg
+src/core/types.js                    TotalStats typedef
+tests/external-buffs.test.mjs        +14 assertions (120 total)
+docs/OPEN-ITEMS.md                   2b closed, 2f opened, 26 re-scoped, 32 de-staled,
+                                     2 + 2e + 29 + 30 corrected/re-verified
+docs/CONFIGDB-RECON.md               open leads re-statused; what ConfigDB now supplies
+CLAUDE.md                            two new invariants
+data/wuwa-meta.json + data-version.json    regenerated
+```
+
+**[Logic Altered]**
+
+1. **A CRIT VALUE THE GAME SCOPES IS NOT A BUILD STAT.** `critRate`/`critDmg`
+   resolve once, before any hit exists, so `sonataConditionalGrants` had nowhere
+   to put a `damageTypes`-scoped crit grant and skipped it — which dropped the
+   tier back to its tooltip, and the tooltip states the value flatly. Two sets
+   ship this shape and BOTH were paying every hit the wielder landed:
+
+   - **Flamewing's Shadow** 3pc — two rows, `damageTypes:[1]` (Heavy) and
+     `[5]` (Echo), 20% Crit Rate each, under one flat "20%".
+   - **Sound of True Name** 5pc — the item never named it, and it is the bigger
+     offender: its *only* crit grant is `[5]`, so the whole 20% was global.
+
+   `stats.critRateBySkillType` / `critDmgBySkillType` now hold them and
+   `formula.js` adds the matching bucket per hit, exactly where `typeDmg` is
+   read. Measured on Aemeath: build-wide Crit Rate 0.33 → 0.13 (her bare value),
+   with 20% in the Heavy bucket and 20% in the Echo one.
+
+2. **REFUSING A SCOPE IS PART OF THE FIX.** A scope this engine cannot honour
+   exactly is left unclaimed, so the tier keeps its text instead of the grant
+   being widened: an ELEMENT scope (no per-element crit bucket), a TEAM-WIDE
+   scope (that lane carries whole-build numbers), and an UNMAPPED damage tag.
+   `critScopeTypes` refuses the WHOLE grant when any tag is unmapped, and
+   refusing rather than FILTERING is the point: `scopeOf` in the same file builds
+   its `skillTypes` with `.filter(Boolean)`, and `targetModApplies` reads an empty
+   `skillTypes` as "applies to every hit" — a dropped tag WIDENS a scope. All
+   three refusals are pinned on synthetic grants, plus a roster count (3) so a
+   future scoped crit grant fails the test rather than quietly falling back to
+   prose. Both guards are PROSPECTIVE — see the correction in the addendum below.
+
+3. **THE UNDER-CREDIT THAT WAS CANCELLING IT — new item 2f.** The two anchors
+   that moved most are Qiuyuan and Sigrika, and that is not a coincidence: their
+   meta builds wear Sound of True Name, and they are two of the five resonators
+   whose kits deal Echo Skill DMG. `isEchoSkill` (the game's `type 5`) is read by
+   **no module in `src/`**, so the only hit that ever presents as `'echo'` is the
+   equipped echo's own cast. 25 rows across 5 resonators (Sigrika 10, Galbrena 6,
+   Phrolova 5, Qiuyuan 3, Lucilla 1) get no Echo-Skill-scoped grant, and 10
+   external grants already route to that bucket (attribute 114). Deliberately NOT
+   widened here: it re-prices `dmgBonusBySkillType.echo` as well, on a boundary
+   CLAUDE.md and `skill-rows.mjs` both draw on purpose. Logged with the counts.
+
+4. **THE DOC ITSELF.** `26` re-scoped — ConfigDB is no longer "largely unused",
+   it is the primary source for six committed extracts, so the item now states
+   only what it genuinely does not answer (the chain walk as a parser
+   replacement, the HIT-lane gauge income, tag hashing). `32`'s table and its
+   "uniform 2.6x → one global factor" paragraph are struck: the paragraph
+   contradicted the LOCALISED note directly above it and had been left standing
+   beneath it, and the figures predate three separate changes to how the
+   benchmark is measured. `2` told that gauge income is no longer curated-only.
+   `29` and `30`'s residuals re-verified as still live and still accurately
+   described.
+
+5. **THE SWEEP 2e ASKED FOR.** "Any other `find the entry with skillType X`
+   lookup has the same exposure" — there is exactly one, `outroKeyFor`, and it
+   cannot misfire: no resonator ships more than one outro row. The
+   `skillType === 'liberation'` reads in `sim.js`/`opener.js` are predicates over
+   an already-named step, not lookups. What the sweep did find: nine resonators
+   ship two Intro rows and eight name the one they want, so `introKeyFor`'s
+   map-order fallback is live for **Lucilla** alone. Left as a curation question
+   rather than answered — picking one of her two Intros to silence a fallback
+   would be inventing a reference.
+
+**[Verification Method]**
+
+- `npm test` **73/73** (external-buffs 120 assertions, up from **107** — +13, not
+  the +14 first written here; HEAD's own copy of the test file was run to count
+  it) · `npm run sweep` 69/0 · `npm run lint` 0 errors. Baseline was captured
+  first and was identical on all three.
+- **LOCK A clean** — `npm run data` moved timestamps only, `data` hash unchanged
+  at `372c74c3e4ba`, and the file was reverted.
+- **LOCK B is a real, one-directional move.** 66 of 416 team slots change,
+  **every one of them DOWN**: median −3.85%, max −11.87% (Sigrika/Qiuyuan comps);
+  10 of 52 anchors reorder their suggested teams. All six suggested builds and all
+  six weight sets are **byte-identical**, which is the shape a scoped over-credit
+  removal should have — it moves teams whose members wear the two sets and nothing
+  else.
+- **The benchmark does not move**, independently: `tools/benchmark-gap.mjs` pins
+  sonatas 7/28/27, and it still reads 1.114x damage / 0.989x time / 1.126x DPS —
+  the same figures recorded on 2026-08-15. That is what confirms the change is
+  scoped to the two sets rather than touching the crit path generally.
+- The per-hit behaviour is asserted directly through `computeDamage`: a Heavy hit
+  crits 20pp above the build rate, a Basic hit at the build rate, same multiplier.
+
+**[Residual Risks]**
+
+- **A visible number gets smaller.** The compare page's CRIT RATE row and the
+  meta's stored member stats include conditionals, so a build wearing either set
+  now reads 20pp lower there, with the scoped part visible only in the damage.
+  The build page is unaffected (both its surfaces resolve with
+  `includeConditionals: false`, matching the stowed stat screen). Nothing is
+  hidden that was shown before — the row is now the build's true global rate —
+  but a maintainer looking at Qiuyuan will see the drop before the reason.
+- **2f is the other half of the same defect** and is still open, so Sigrika and
+  Qiuyuan are now under-credited where they were previously over-credited. The
+  net for them is not necessarily an improvement in accuracy; each error is
+  smaller and neither is masking the other.
+- `critDmgBySkillType` is wired and empty — no scoped Crit DMG grant exists in
+  the tables today. It costs one line in each of the three files and comes from
+  the same generic attribute routing, so it is not a speculative branch.
+- Ten of 52 anchors reordered their suggested teams. The reorders are a
+  consequence of a corrected value, not of a ranking change, but any anchor whose
+  top team moved on a thin margin is worth an eye.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` (2b closed, 2f new, 26 re-scoped, 32
+de-staled, 2/2e/29/30 corrected), `docs/CONFIGDB-RECON.md`, `CLAUDE.md` (two
+invariants: a scoped crit value is not a build stat and an unhonourable scope is
+refused; an Echo Skill DMG grant reaches one cast), HISTORY (this entry).
+
+### Addendum (same day) — what the independent verifier found
+
+An independent agent re-derived every claim above rather than confirming it. Four
+findings, all now fixed; the substantive result (the scoped-crit fix and its
+measured impact) reproduced exactly, including 66/416 slots all-down,
+median −3.85%, max −11.87%, 10/52 anchors reordered, builds and weights
+byte-identical, and the benchmark unmoved at 1.114x.
+
+1. **THE DELIVERED TREE FAILED `npm test` 72/73 — a stale `engineHash`.** This is
+   the finding that matters, because it was reported as 73/73 and was 73/73 when
+   run: `tests/meta-schema.test.mjs` hashes the raw BYTES of every `ENGINE_FILES`
+   member, so anything that rewrites one of those files invalidates the committed
+   meta without changing a single number. Diagnosed rather than assumed: a fresh
+   `npm run meta` produced a file whose `erModel`, `characters` and `teams` blocks
+   are **byte-identical** to the delivered one, with only `generatedAt` and
+   `engineHash` differing. So no behaviour moved and no measurement above is
+   affected — the artifact was simply hashed against a byte state that no longer
+   existed. Regenerated; suite back to 73/73.
+   The exact rewrite is not attributable with certainty (the four edited engine
+   files carry mtimes later than the meta's own `generatedAt`, consistent with the
+   verifier's own stash / mutation / restore cycle, and an EOL flip of those four
+   does not reproduce the committed hash either). The durable lesson is the
+   general one, and this repo has paid it before — commit `c3d1736`, "Refresh the
+   meta engineHash after checkout normalised line endings": **run `npm test` LAST,
+   after every data/meta regeneration and after anything that touches the working
+   tree**, because a byte hash can go stale with the code untouched.
+
+2. **The unmapped-tag example was wrong, and the mechanism it illustrated lives
+   elsewhere.** Sonata 9's `damageTypes: [7]` was cited in three places as the
+   live case of "an unmapped tag filters to an empty type list, which reads as no
+   restriction". It is not: that grant carries attribute 15 (`dmgAll`), so it
+   never reaches `critScopeTypes` (the pre-existing `route.bucket in out` check
+   excludes it) and never reaches `targetModApplies` either. `critScopeTypes` also
+   refuses the WHOLE grant on any unmapped tag rather than filtering — verified on
+   a synthetic mixed `[1,7]`. The hazard is real but belongs to `scopeOf`, which
+   does use `.filter(Boolean)`, and it is LATENT: no scoped grant in the data
+   carries an unmapped tag on a bucket that reaches it. Corrected in `CLAUDE.md`,
+   `OPEN-ITEMS` 2b and item 1 above.
+
+3. **The per-type routing is asymmetric.** Only `sonataConditionalGrants` routes a
+   scoped crit grant; the three lanes fed by `foldExternalGrants` (weapon
+   conditionals, echo main-slot passives, the incoming-resonator transfer) still
+   send any scoped grant to `unplaced` whatever its attribute. Inert today —
+   scanning every weapon rank, every echo main-slot grant and every
+   `recipient: 'incoming'` sonata grant for a scoped attribute 8/9 finds **zero** —
+   and visible rather than silent, since `unplaced` exists to be counted. Now
+   stated in `foldExternalGrants`'s own docstring and in OPEN-ITEMS 2b, so the
+   next scoped crit grant to ship on a weapon or echo finds the second call site.
+
+4. **+13 assertions, not +14** (107 → 120). Corrected above.
+
+One mechanism detail worth keeping, also from the verification: for Flamewing's
+Shadow the pre-fix flat 20% came from ONE of its two clauses, not both. The "Echo
+Skill Crit. Rate" sentence parsed as flat crit; the "Heavy Attack Crit. Rate"
+sentence was classified as a Heavy DMG-TYPE bonus by `classify()`'s
+`TYPE_PHRASES` check and then dropped, because `sonataConditionalContribution`
+never reads `dmgBySkillType` off the text extractor. The net was the claimed flat
++20%, but by a different route than "the tooltip's 20% read once".
+
+---
+
+## 2026-08-17b — Echo Skill DMG credited: a hit's attribution is a SET, its level key is one value
+
+OPEN-ITEMS 2f, closed the day it opened. Maintainer-directed, with the framing
+that carried the whole design: *a type can be "mechanically" and/or "a
+dmg-type-attribution" or both — the data we use is aware of that and our model
+should be too.*
+
+**[Files Changed]**
+
+```text
+src/core/dmg-attribution.js          NEW — the third question, and the three helpers
+tools/preprocess/skill-rows.mjs      resolveInstanceFormula also returns dmgTypes
+tools/preprocess/resonators.mjs      carries it onto the row
+tools/preprocess.mjs                 emits it on the damageTable ROW
+src/core/skill.js                    resolves the set; amplify scope + targetMods read it
+src/core/formula.js                  DMG bonus + the per-type crit buckets read it
+src/core/buffs.js                    resolveChainInherentContext reads it (hitIsType)
+src/core/buffs/buff-windows.js       a window's dmgType reads it
+src/core/buffs/external-buffs.js     targetModApplies takes the set
+src/core/types.js                    typedefs
+tools/optimize.mjs + tests/meta-schema.test.mjs   ENGINE_FILES += core/dmg-attribution.js
+tests/dmg-attribution.test.mjs       NEW — 41 assertions
+CLAUDE.md, docs/OPEN-ITEMS.md        two invariants replace one; 2f closed, 2g opened
+data/wuwa-data.json, wuwa-meta.json, data-version.json   regenerated
+```
+
+**[Logic Altered]**
+
+1. **THE THIRD QUESTION, NAMED.** The engine had two type readings and was using
+   the second for a job it cannot do. `formulaType` is ONE value *because it is
+   also the skill-LEVEL key* — there is exactly one level table per hit — so it
+   can never express what the game states additively. `dmgTypes` is the
+   ATTRIBUTION SET, read from the per-instance `type` tags, and it is a set
+   because the game tags Echo Skill DMG (`type 5`) ON TOP of the other five
+   rather than as one of them.
+
+2. **MEASURED FROM THE GAME'S OWN TABLES, NOT INFERRED.** `hit-map.json`'s per-key
+   hit ids joined to `bindata/damage.json`'s `Type` column (3,072 lookups, 0
+   missing) splits the roster three ways:
+   - **24 rows attributed to echo ALONE** — Sigrika 10, Galbrena 6, Phrolova 5,
+     Qiuyuan 3. Their `formulaType` is a mechanical stand-in.
+   - **1 row attributed BOTH ways** — Lucilla's [Letting It Go], 2 type-0
+     instances + 2 type-5. This row is the reason `dmgTypes` is a set and not a
+     replacement for `formulaType`.
+   - **7 rows AMBIGUOUS** (>1 distinct non-echo type) — state no set, fall back to
+     `[formulaType]`, unchanged. preprocess still logs them and applies nothing;
+     applying two buckets to hits whose split is unknowable is a different
+     correction and must not ride along with this one.
+
+3. **THE DEFECT WAS TWO DEFECTS, POINTING OPPOSITE WAYS.** For all 24 all-echo
+   rows, measured through the real `resolveSkill` path: +50% in their MECHANICAL
+   bucket moved them **+50.0%** — a Basic/Heavy/Skill/Liberation DMG Bonus the
+   game does not give them — and +50% in the echo bucket moved them **0.0%**.
+   `skill-rows.mjs` had documented the intent ("simply receives no type-specific
+   DMG bonus") and the code did the opposite, because the fallback hands the
+   bucket lookup the row's mechanical type. Both are fixed at once; after, the
+   same probe reads 0.0% and +50.0% respectively.
+
+4. **FIVE SITES, ONE CONCEPT.** Every per-hit type comparison now goes through the
+   set, so they cannot drift apart: the gear buckets (`formula.js`, DMG bonus plus
+   the per-type crit buckets 2b added), the chain/inherent/node lane
+   (`resolveChainInherentContext`), a window's `dmgType` (`buff-windows.js`),
+   outro amplify scopes and per-hit target mods (`skill.js`). The KIT lane matters
+   as much as the gear one and was the more embarrassing miss: **Qiuyuan's own
+   node grants Echo Skill DMG Bonus and paid him nothing on his own three echo
+   rows**; Lucilla's 30% likewise. The NODE lens deliberately passes no set and
+   keeps its strict single comparison — a mechanical type is one value by
+   definition, and `multiplierUp` reads it.
+
+5. **THE SET LIVES ON THE ROW.** A key can gather several damage rows and they
+   need not agree: Calcharo's `heavy_heavy_attack` ships one heavy-tagged row and
+   one liberation-tagged row. A key-level field would have to pick one and be
+   wrong for the other hit. This also means a row's attribution may legitimately
+   differ from its key's `formulaType`, which is now asserted rather than assumed
+   — an early version of the test called that "drift" and was wrong.
+
+**[Verification Method]**
+
+- `npm test` **74/74** (new file, 41 assertions) · `npm run sweep` **70**/0 ·
+  `npm run lint` 0 errors, 3105 warnings (unchanged). Meta regenerated LAST, so
+  the `engineHash` is current — the trap from this morning's entry.
+- **LOCK A moves by intent**: `dmgTypes` on 1,048 of 4,100 damage rows (1,023
+  single-attribution — identical to what `formulaType` already said — plus the 24
+  echo-only and the 1 mixed). 3,052 rows state nothing and fall back.
+- **LOCK B: 38 of 416 team slots move, 27 UP and 11 DOWN**, median +0.03%, range
+  −9.54% to +29.66%; 7 anchors reorder (Lupa, Galbrena, Rebecca, Aalto, Qiuyuan,
+  Sigrika, Verina). Both directions is the CORRECT shape here and the thing to
+  check — the two errors had been cancelling. Largest gains are Qiuyuan/Sigrika
+  comps (+25% to +30%) whose echo grants finally land; largest losses are Sigrika
+  and Galbrena comps (−4.6% to −9.5%) losing a bucket they were never owed.
+  `characters` (suggested builds + weights) and `erModel` are **byte-identical**.
+- **The benchmark is unmoved** at 1.114x damage / 0.989x time / 1.126x DPS: its
+  three members ship no echo-tagged row, so this change must not touch it, and
+  does not.
+
+**[Residual Risks]**
+
+- **Lucilla's mixed row over-credits, one row wide.** Both buckets apply to the
+  whole row where the game applies each to half its instances. Exactness needs the
+  multiplier split per attribution, which the display row does not offer — the
+  game sums its four instances into one printed number. Bounded and stated.
+- **The 7 ambiguous rows are still unresolved**, deliberately. They keep the
+  behaviour they had.
+- **A new defect fell out of the row-level join and is NOT fixed — OPEN-ITEMS
+  2g.** `synId = rid*1e7 + nodeId*1000 + Number(paramK)` is NaN when the source
+  uses a SUFFIXED param key (`15_2`, `28_2`, `29_5`…), and NaN serialises to null;
+  `resolveSkill` resolves by `find(row => row.id === id)`, so every key holding a
+  null id lands on the first null-id row. 9 rows / 9 keys / 3 resonators, and only
+  Chisa collides — six of her keys read 1.1936 instead of their own multiplier,
+  two of them against a real 0.1074 (~11x). None of the seven is in her curated
+  rotations, so nothing shipped moves; it is a build-page hazard that INFLATES.
+  Left alone because a damage row's id is a join key (`hit-map.json`, the timing
+  extracts), so changing the scheme needs its own pass and its own locks. Pinned
+  by `tests/dmg-attribution.test.mjs` so the fix is visible when it lands.
+- Chisa is also the member OPEN-ITEMS 32 is currently chasing (1.321x low over
+  three passes). 2g does not explain that — it inflates, and not on her rotation
+  — but it is worth knowing before the next attempt.
+
+**[Updated Docs]** `CLAUDE.md` — the old "an Echo Skill DMG grant reaches ONE
+cast" row is replaced by two: the attribution set vs the level key, and why the
+set belongs to the row. `docs/OPEN-ITEMS.md` — 2f closed with the measurements,
+2g opened. HISTORY (this entry).
+
+### Addendum (same day) — the set was the wrong shape; the client settles it
+
+Maintainer challenge, and it was right to make: *"I'm unsure if a set is the
+correct call — echo-type DMG might have some overlap with other DMG types."*
+Plus two questions: what Lucilla's two-way row actually is, and what the other
+seven ambiguous rows are.
+
+**The overlap question, answered from the client rather than argued.**
+`Content/Aki/JavaScript/.../CharacterDamageCalculations.js`:
+
+```js
+static GetAttackTypeDamageBonus(snapshot, type) {
+  switch (type) {
+    case 0: return Proto_DamageChangeAuto          // basic
+    case 1: return Proto_DamageChangeCast          // heavy
+    case 2: return Proto_DamageChangeUltra         // liberation
+    case 3: return Proto_DamageChangeQte           // intro
+    case 4: return Proto_DamageChangeNormalSkill   // skill
+    case 5: return Proto_DamageChangePhantom       // echo
+  }
+  return 0;
+}
+```
+
+called as `GetAttackTypeDamageBonus(attacker, damage.Type)` and folded in as
+`1 + Proto_DamageChange + elementBonus + attackTypeBonus`. A `switch` with a
+single `return`: **exactly one attack-type bucket per damage instance, and no
+overlap.** A type-5 instance reads Phantom and nothing else even when the move
+that fired it is mechanically a Heavy Attack. `SubType` was checked as a possible
+second tag — empty on all 25 echo instances, and its value space (1005, 3001,
+101…) is not damage types.
+
+So the first pass had the DATA right and the RESOLUTION wrong: `dmgTypes`
+correctly records what a row's instances say, but summing two buckets is
+something the game never does. Corrected — `attributionOf` returns ONE type, all
+five sites compare one value again, and `sumByAttribution` is gone.
+
+**Lucilla's row is a MODE BRANCH, exactly as the maintainer said.** Her two
+Resonance Modes are `glacio_chafe` and `echo`, and [Letting It Go] ships
+`1109014011` (Type 0) and `1109014012` (Type 5) with **identical RateLv (8481),
+identical element and identical energy (34)** — the same hit, computed as Basic
+Attack DMG in one mode and Echo Skill DMG in the other. A mode is a build-level
+toggle locked for the fight, so `build.resonanceMode` resolves it. The link is
+the mode's own KEY, which the game names after the mechanic it switches to, so
+`echo` selects the echo branch and any other mode selects the remainder; a branch
+whose modes name neither type falls back to `formulaType` rather than guessing a
+half. Measured both ways on her row: Echo mode reads the echo bucket and takes
+**nothing** from the basic one, Glacio Chafe mode the reverse.
+
+**The other seven, named** (they state no attribution and are unchanged). Two
+shapes, and neither is a hit that reads two buckets:
+
+| row | instances | reading |
+| --- | --- | --- |
+| Aemeath `skill_sync_strike_armament_merge` | `12102104xx` skill + `12102004xx` basic | branch-shaped |
+| Aemeath `skill_mech_4` | `1210210402` skill 4038 + `1210200402` basic 9421 | branch-shaped |
+| Denia `heavy_mid_air_heavy_attack_breakdown_form` | `…081` heavy 2959 + `…082` liberation 4438 | branch-shaped |
+| Carlotta `heavy_heavy_attack` | 4× heavy 2282 + one basic 6084 (Energy 90) | matcher over-reach |
+| Yuanwu `forte_heavy_thunderweaver_damage` | 1× heavy 3102 + 2× basic 2068 | matcher over-reach |
+| Rover: Havoc `forte_heavy_umbra_thwackblade_damage` | 1× heavy 12665 + 4× the same skill id at 995 | matcher over-reach |
+| Rover: Havoc `forte_heavy_umbra_lifetaker_damage` | 2× skill 27635 + 4× heavy 995 | matcher over-reach |
+
+The three branch-shaped ones belong to resonators that HAVE modes, but neither
+mode is named after a damage type, so they are not resolvable the way Lucilla's
+is. The four over-reach ones look like `matchRowHits` consuming an instance that
+belongs to a different row — a separate finding, not touched here.
+
+**2g, answered before fixing.** Which Chisa key reads what, `resolveSkill`
+resolving every null id to the FIRST null-id row ("Resonance Skill: Serrated Loop
+Hold", 1.1936 at level 10):
+
+| key | own multiplier | reads | ratio |
+| --- | --- | --- | --- |
+| `skill_serrated_loop_hold` | 1.1936 | 1.1936 | 1.00x (correct — it is first) |
+| `forte_heavy_sawring_blitz_2_hold` | 1.0640 | 1.1936 | 1.12x |
+| `forte_heavy_sawring_blitz_2_discordance` | 0.1074 | 1.1936 | **11.11x** |
+| `forte_heavy_sawring_blitz_3_hold` | 0.9588 | 1.1936 | 1.24x |
+| `forte_heavy_sawring_blitz_3_falltone` | 0.1074 | 1.1936 | **11.11x** |
+| `forte_heavy_chainsaw_mode_dodge_counter` | 0.8512 | 1.1936 | 1.40x |
+| `forte_heavy_chainsaw_mode_dodge_counter_hold` | 1.0640 | 1.1936 | 1.12x |
+
+The attribution follows the same wrong row: the resolved row states `['skill']`
+while the six Forte keys' own rows state `['liberation']`. Root cause is the
+suffixed param key (`Number('15_2')` → NaN → `id: null`), 9 rows / 9 keys / 3
+resonators, and only Chisa collides. None of the seven is in her curated
+rotations. Still NOT fixed — a damage row's id is a join key.
+
+**[Verification]** `npm test` 74/74 (dmg-attribution 43 assertions) ·
+`npm run sweep` 70/0 · `npm run lint` 0 errors. Meta regenerated last. The
+corrected single-attribution model produces **byte-identical teams** to the set
+model — Lucilla's row is the only branch and no meta team pairs her Echo mode
+with an Echo Skill DMG grant — so the impact figures in the entry above stand
+unchanged: 38 of 416 slots, 27 up / 11 down, 7 anchors reordered.
+
+**[Residual]** The one-row over-credit the previous entry listed is GONE: a
+branch resolves to one bucket. What remains is that a branch is only resolvable
+when a mode is named after a damage type, which is true for Lucilla and for no
+one else today.

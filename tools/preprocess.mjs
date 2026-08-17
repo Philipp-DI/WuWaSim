@@ -355,6 +355,13 @@ async function main() {
                 name:        row.label,
                 energyGen:   row.energyGen ?? 0,        // P11.5 — see autoSkillMap entry for usage
                 concertoGen: row.concertoGen ?? 0,      // P13 — see autoSkillMap entry for usage
+                // The DMG-type ATTRIBUTIONS this hit carries, from the game's own
+                // per-instance tags. It lives on the ROW and not on the skillMap
+                // entry because a key can gather several rows (`damageIds.push`)
+                // and they need not share an attribution — the row is the hit
+                // `resolveSkill` builds, so it is the honest granularity.
+                // Absent ⇒ read [formulaType], which is today's behaviour.
+                ...(row.dmgTypes ? { dmgTypes: row.dmgTypes } : {}),
             });
 
             if (row.hitIds?.length) {

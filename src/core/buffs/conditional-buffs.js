@@ -260,9 +260,15 @@ export function weaponConditionalContribution(weaponDef, rank, resonator, datase
  * bonus, so those are deliberately excluded here to avoid double-counting). This
  * captures multi-stage mechanics like Wishes of Quiet Snowfall's "+25% Crit Rate
  * after Liberation DMG". Full-uptime, gated by triggerability.
+ *
+ * `critRateBySkillType` / `critDmgBySkillType` carry the crit the game scopes to
+ * a damage type — Flamewing's Shadow states 20% Crit Rate on Heavy Attacks and
+ * 20% on Echo Skills, and the tier text says only "20%". Only the DATA path can
+ * fill them: a tooltip that states a scope states it in prose, and a value read
+ * out of prose has no per-type home to go to.
  */
 export function sonataConditionalContribution(build, dataset, resonator, enemyStatuses = null) {
-    const out = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
+    const out = { critRate: 0, critDmg: 0, critRateBySkillType: {}, critDmgBySkillType: {}, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const teamWide = { critRate: 0, critDmg: 0, amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0, defIgnore: 0 };
     const counts = {};
     for (const echo of build?.echoes ?? []) if (echo?.sonataId != null) counts[echo.sonataId] = (counts[echo.sonataId] || 0) + 1;
@@ -294,6 +300,8 @@ export function sonataConditionalContribution(build, dataset, resonator, enemySt
             if (fromData) {
                 out.critRate += fromData.critRate;
                 out.critDmg += fromData.critDmg;
+                for (const [type, value] of Object.entries(fromData.critRateBySkillType)) out.critRateBySkillType[type] = (out.critRateBySkillType[type] || 0) + value;
+                for (const [type, value] of Object.entries(fromData.critDmgBySkillType)) out.critDmgBySkillType[type] = (out.critDmgBySkillType[type] || 0) + value;
                 out.defIgnore += fromData.defIgnore;
                 out.amplifyAll += fromData.amplifyAll;
                 teamWide.critRate += fromData.teamWide.critRate;

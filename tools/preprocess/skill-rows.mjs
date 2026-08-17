@@ -98,13 +98,25 @@ export const FORMULA_TYPE_MAP = {
 // naturally (each stage is its own paramK → its own instances).
 //
 //   type 0 → basic   1 → heavy   2 → liberation   3 → intro   4 → skill
-//   type 5 → Echo Skill DMG: sets isEchoSkill but does NOT become a
-//     formulaType. dmgBonusBySkillType (src/core/stats.js) has no Echo bucket
-//     and there is no Echo skill-level table, so an echo hit keeps its
-//     mechanical baseFormula for level/scaling and simply receives no
-//     type-specific DMG bonus (dmgBonusBySkillType?.[…] ?? 0 → 0). A real
-//     Echo DMG Bonus stat is a separate, out-of-scope feature; isEchoSkill
-//     stays a dormant flag until then.
+//   type 5 → Echo Skill DMG. It does NOT become the `formulaType`, because that
+//     field also picks the skill-LEVEL table and there is no Echo level table —
+//     an echo row keeps its mechanical baseFormula for level and scaling.
+//     ~~"so an echo hit … simply receives no type-specific DMG bonus
+//     (dmgBonusBySkillType?.[…] ?? 0 → 0)"~~ — that was the INTENT and never the
+//     behaviour: the fallback hands the bucket lookup the row's MECHANICAL type,
+//     so all 24 all-echo rows on the roster were collecting a Basic/Heavy/Skill/
+//     Liberation DMG Bonus the game does not give them (measured: +50% in the
+//     mechanical bucket moved every one of them +50.0%), while every Echo Skill
+//     DMG grant missed them. `dmgTypes` below is what the bonus buckets read now.
+//
+// `dmgTypes` — the DMG-type ATTRIBUTIONS the game's own tags state for this row,
+// which is a different question from `formulaType` and from the mechanical
+// `skillType`. A row can be attributed to one type, or to TWO (Lucilla's
+// [Letting It Go] carries 2 type-0 instances and 2 type-5 ones), and for an
+// all-echo row the `formulaType` is a mechanical stand-in that is not an
+// attribution at all. null means "not readable unambiguously" — the 8 rows with
+// >1 distinct non-echo type, and the 7 with no matched instances — and the
+// engine then falls back to `[formulaType]`, i.e. exactly today's behaviour.
 export const TYPE_TO_FORMULA = { 0: 'basic', 1: 'heavy', 2: 'liberation', 3: 'intro', 4: 'skill' };
 
 // Resolve one display row's formulaType + isEchoSkill from the raw `type`
@@ -132,9 +144,20 @@ export function resolveInstanceFormula(hitTypes, baseFormula) {
     const isEchoSkill = known.includes(5);
     const nonEcho = [...new Set(known.filter(type => type <= 4))];
     const fallback = mechanicalToFormula(baseFormula);
-    if (nonEcho.length === 1) return { formulaType: TYPE_TO_FORMULA[nonEcho[0]], isEchoSkill, ambiguous: false };
-    if (nonEcho.length > 1)   return { formulaType: fallback, isEchoSkill, ambiguous: true };
-    return { formulaType: fallback, isEchoSkill, ambiguous: false };
+    const echoPart = isEchoSkill ? ['echo'] : [];
+    if (nonEcho.length === 1) {
+        const formulaType = TYPE_TO_FORMULA[nonEcho[0]];
+        return { formulaType, isEchoSkill, ambiguous: false, dmgTypes: [formulaType, ...echoPart] };
+    }
+    // >1 distinct non-echo type: the row's attribution is genuinely mixed and
+    // this pass does not pick one (logged, not applied — unchanged). Handing the
+    // engine a two-member set here would silently START applying both buckets,
+    // which is a separate correction from the echo one.
+    if (nonEcho.length > 1) return { formulaType: fallback, isEchoSkill, ambiguous: true, dmgTypes: null };
+    // All-echo, or nothing matched at all. `echoPart` distinguishes them: an
+    // all-echo row IS attributed, to echo alone; a row with no instances has no
+    // attribution to state and keeps the fallback.
+    return { formulaType: fallback, isEchoSkill, ambiguous: false, dmgTypes: echoPart.length ? echoPart : null };
 }
 
 // Derive a row's MECHANICAL skill type (drives energy, cast time, rotation

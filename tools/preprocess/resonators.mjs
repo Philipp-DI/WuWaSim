@@ -717,7 +717,7 @@ export function projectNanokaCharacterFull(nChar) {
                 // are READ from the matched damage instances' raw `type` tags
                 // (resolveInstanceFormula) — no kit-text parsing.
                 const { skillType, baseFormula } = inferRowTypes(nodeType, rowName);
-                const { formulaType, isEchoSkill, ambiguous } = resolveInstanceFormula(rowHitTypes, baseFormula);
+                const { formulaType, isEchoSkill, ambiguous, dmgTypes } = resolveInstanceFormula(rowHitTypes, baseFormula);
                 const key   = generateSkillKey(rowName, skillType, skill.name);
                 // Record data-driven reclassifications (instance type ≠ mechanical
                 // default) and ambiguous rows for the end-of-run eyeball report.
@@ -737,6 +737,11 @@ export function projectNanokaCharacterFull(nChar) {
                     skillType,
                     formulaType,
                     isEchoSkill,
+                    // The DMG-type attributions the game's own tags state, or
+                    // null when they are not unambiguously readable. Distinct
+                    // from formulaType, which is also the skill-LEVEL key and so
+                    // must stay a single mechanical value.
+                    dmgTypes,
                     element:       elementId,
                     relatedPropId: rowRelPropId,
                     mults,

@@ -14,6 +14,18 @@ Everything below is what remains. Ordering within a section is not priority.
 promoted to items 22 (character state modelling) and 23 (echo animation
 timing). Section title below kept for the surviving root-cause gap.
 
+**Updated 2026-08-17 — reconciliation pass over items 1 → 2b.** Every claim in
+that range was re-checked against the code and the data rather than inherited.
+What it changed: **2b is closed** (per-type crit shipped); **26** narrowed to
+what ConfigDB genuinely does not yet answer, the rest of it having become the
+primary source for five lanes; **32**'s stale "uniform 2.6x" framing and its
+"their rotation has not been run" bullet struck, and its table replaced with
+what `tools/benchmark-gap.mjs` prints today; **2** told that gauge income is no
+longer curated-only; **2e** given the sweep it asked for. Residuals in **29**
+and **30** were re-verified as still live and still accurately described — they
+are tracked work, not loose ends. One new item (**2f**) came out of closing 2b.
+Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
+
 ---
 
 ## Root-cause engine gaps (each unlocks several downstream items)
@@ -96,6 +108,20 @@ timing). Section title below kept for the surviving root-cause gap.
    Rust"), and Snow Rust is a team-composition counter, unrelated to the Forte
    channel in `forte-data.json`. Only Changli of the four named kits was ever
    gauge-driven.
+   → **Income is no longer curated-only (2026-08-12).** This item shipped under
+   "gauge INCOME is not in the dumps and stays curated", which held only while
+   the Buff table was undumped. `data/gauge-income.json`
+   (`tools/extract/extract_gauge_income.py`) now reads the per-CAST delta from
+   the game: `DT_SkillInfo` → `SkillBuff`/`SkillStartBuff`/`SkillEndBuff` →
+   `db_buff.GameAttributeID` ∈ `Proto_(Special)Energy*`, 59 resonator entries.
+   Denia's three gauges reproduce her kit to the digit with no text parsing
+   (cap 3/100/100, +1/+25/+40) and her `RESOURCE_DEFS` entry is filled from it.
+   What the cast lane CANNOT see is income earned on a HIT — that lives in
+   `db_PassiveSkill` (`DamageTrigger`, with its own CD) behind ExtraEffect
+   chains, which is why Changli's Enflamement and Camellya's Crimson Bud are
+   still hand-written. That lane is extracted but NOT wired, and
+   `rotation-resources.js` is per-cast by construction, so wiring it is a real
+   change rather than a data swap.
    → **What remains, by cause** (all served by the stepper meanwhile): enemy
    status counts — Yangyang: Xuanling ×2, whose two branches are now correctly
    exclusive (`stackBand`, 2026-08-01) and whose 4-6 band is reachable via her
@@ -121,14 +147,37 @@ timing). Section title below kept for the surviving root-cause gap.
     `fusion_burst` (her kit names all four distinctly), and we model no Trail
     stacks at all. It is also a SET, not an ADD. Mapping it onto a status we do
     model would invent a mechanic.
-26. **The game's ConfigDB is readable and largely unused.** ~500 config tables
-    ship with the client alongside per-table JS accessors that give exact field
-    names/offsets/types; `tools/extract/configdb.py` reads any of them. Our four
-    `data/bindata/*.json` dumps are four of those tables. Named leads: chain
-    node -> buff -> effect semantics (would retire the kit-text stack-cap and
-    gain-trigger regexes), `db_PassiveSkill`'s structured
-    TriggerType/SkillAction, and gauge INCOME for named stack gauges. See
-    `docs/CONFIGDB-RECON.md`.
+26. ~~**The game's ConfigDB is readable and largely unused.**~~ **LARGELY
+    CONSUMED — re-scoped 2026-08-17.** ~500 config tables ship with the client
+    alongside per-table JS accessors that give exact field names/offsets/types;
+    `tools/extract/configdb.py` reads any of them. Our four `data/bindata/*.json`
+    dumps are four of those tables. See `docs/CONFIGDB-RECON.md`.
+    Since this was written it has become the PRIMARY source for five lanes, each
+    with its own committed extract: the affliction LevelModifier curve
+    (`abnormal-damage.json`), a buff value's BUCKET (`buff-facts.json` — the text
+    parse is now the fallback), negative-status damage tables
+    (`status-damage.json`), status appliers (`status-appliers.json`), per-cast
+    gauge income (`gauge-income.json`), and the whole external-buff lane —
+    weapons, sonatas and echoes (`external-buffs.json`), which is where
+    `db_PassiveSkill`'s structured `TriggerType`/`SkillAction`/`InstigatorType`
+    got read.
+    **The three original leads, by status:**
+    → `db_PassiveSkill`'s structured trigger fields — **used** (external buffs
+      lane 1: `ExtraEffectID 35 AddPassiveSkill` → `SkillActionParams`, and the
+      weapon trigger/recipient routing). Not yet used for the kit-text stack
+      GAIN trigger `descStackGain` recovers from prose.
+    → Gauge income — **done for the CAST lane** (see #2), not wired for the HIT
+      lane.
+    → Chain node → buff → effect semantics — **still a validation layer, not a
+      parser replacement**, and this is what is genuinely left of this item.
+      `docs/CONFIGDB-RECON.md` measured it: 4 of 8 stackable chain effects
+      resolve exactly (agreeing with the parser on every field), and 92 of 330
+      roster chain nodes reach at least one stat-modifying buff. The rest express
+      themselves as DMG-multiplier changes or `SkillAction` scripts, so the
+      kit-text stack-cap and gain-trigger regexes stay. Also open: tag hashing —
+      older content carries readable Chinese tags, newer content is hashed, so
+      name-matching alone will not cover the roster (the id-prefix convention
+      does).
 27. ~~**Negative-status damage is TEAM-SIM ONLY.**~~ **CLOSED 2026-08-01.**
     `soloStatusDamage` (enemy-status.js) resolves the whole lane for one
     rotation — per-application, ticks/burst-on-max, and kit-triggered
@@ -238,10 +287,19 @@ timing). Section title below kept for the surviving root-cause gap.
       is the only periodic infliction clause that exists.
       Meta impact: 19 team entries move, every one of them containing Buling,
       all down 1.6-3.1%.
+    **Residuals re-verified 2026-08-17** against `dataset.statusApplyRules` (19
+    rules, 7 resonators, unchanged): all four below are still live and still
+    accurately described. Two are correctable by curation and would each move a
+    visible damage lane, in opposite directions — which is the reason to fix them
+    together rather than one at a time.
     → Ciaccona's "Green Tonic" clause attaches to both her Liberation and its
-      tonic sub-move; one of the two is one application too many.
+      tonic sub-move; one of the two is one application too many. (Confirmed: her
+      third rule carries `keys: [liberation_improvised_symphonic_poem_skill,
+      liberation_symphonic_poem_tonic]`.) OVER-applies.
     → Luuk's Aureole of Execution is described inside his Basic Attack section
       and so is missed — 3 casts of his reference rotation under-apply.
+      (Confirmed: his three rules cover mid-air, `skill_golden_reflux` and the
+      intro, and nothing else.) UNDER-applies.
     → Rover: Aero's "1 stack for each stack removed" is variable; 1 is the floor.
     → Aemeath, Denia, Mornye, Lynae, Phoebe, Zani, Chisa and Yangyang: Xuanling
       derive nothing and are unchanged.
@@ -267,6 +325,14 @@ timing). Section title below kept for the surviving root-cause gap.
     (the plain 1-stack apply her eight named skills use). So the mechanic is
     real and 1 stack per re-seed is right; what is still missing is only the
     stack-removal model it depends on.
+    **Re-verified 2026-08-17:** unchanged and correctly stated.
+    `buildEnemyStatusTimeline`'s own docstring still records the deliberate
+    choice — "resetOnMax is NOT applied to the presence timeline (the
+    explosion/consume is a Layer-4 DAMAGE event; for stack PRESENCE the team
+    keeps the status applied)" — so the presence curve and the detonation path
+    still disagree after a detonation, and Electro Flare's half-stack loss and
+    Electro Rage overflow are still unmodelled. Both directions are
+    understatements of a detonation rate, not overstatements.
 31. ~~**A rotation shorter than a status's tick period strands its DoT**~~ **RESOLVED 2026-08-02**
     (2026-08-02, found while closing #29's periodic residual). Status DoT damage
     is credited only for ticks that land INSIDE the rotation window, which is the
@@ -358,13 +424,35 @@ timing). Section title below kept for the surviving root-cause gap.
     entirely in the team-buff lane. Five defects came out of it (HISTORY addendum
     14) and the gap is now **1.80x**:
 
-    | 1 pass, their rotation | 2026-08-03 | 2026-08-07 | Arabwuwa | ratio now |
-    | --- | --- | --- | --- | --- |
-    | Chisa (leads, receives nothing) | — | 127,180 | 174,451 | 1.37x |
-    | Denia | — | 223,246 | 389,281 | 1.74x |
-    | Aemeath | 588,668 | 821,634 | 1,521,562 | 1.85x |
-    | team | 802,196 | 1,157,011 | 2,085,294 | 1.80x |
-    | rotation time | 27.9s game | 30.07s | 27.34s | 1.10x |
+    ~~| 1 pass, their rotation | 2026-08-03 | 2026-08-07 | Arabwuwa | ratio now |~~
+    ~~Chisa 1.37x · Denia 1.74x · Aemeath 1.85x · team 1.80x · time 1.10x~~
+    **THOSE FIGURES ARE DEAD (2026-08-17).** Every one of them predates the
+    benchmark becoming reproducible, and none can be re-derived: the reference was
+    chat scrollback until `data/benchmark-reference.json` captured it, the harness
+    was measuring a different enemy than the reference until 2026-08-13, and the
+    opener framework was replaced on 2026-08-14. Quoting them invites a comparison
+    against numbers no run produces.
+    **The harness is the live figure.** `node tools/benchmark-gap.mjs` prints it
+    against `data/benchmark-reference.json`, at the REFERENCE's own conditions
+    (level 100, 20% RES), and it is what any future claim about the gap must
+    reproduce. As of 2026-08-17:
+
+    | 3 passes, steady rotations | sim | reference | gap (ref/sim) |
+    | --- | --- | --- | --- |
+    | Chisa (leads, receives nothing) | 449,868 | 594,209 | 1.321x |
+    | Denia | 1,238,793 | 1,306,453 | 1.055x |
+    | Aemeath | 4,176,300 | 4,633,096 | 1.109x |
+    | team damage | 5,864,960 | 6,533,757 | **1.114x** |
+    | team gameTime | 79.71s | 78.84s | 0.989x |
+    | team DPS | 73,582 | 82,874 | **1.126x** |
+
+    The SHAPE inverted, and that is the current finding: Chisa was the closest
+    member when the gap was diagnosed and is now the FURTHEST (1.321x against a
+    1.082x mean for the two who receive team buffs), which the harness reports as
+    "SHAPE DOES NOT REPRODUCE". So the remaining gap is no longer in the team-buff
+    lane — it is Chisa's own kit, on a member who receives nothing from anyone.
+    Her single-pass number is much closer (RUN B: 1.018x), so what diverges is
+    what she does across passes, not what one cast of hers is worth.
 
     An independent, stat-free anchor agrees that solo is close: our Tune Break
     for Aemeath is 62,689, computed from the game's own LevelModifier with no
@@ -373,35 +461,44 @@ timing). Section title below kept for the surviving root-cause gap.
     on the same rotation (**1.14x**). Their stated build target (ATK 2050–2100,
     CR 73–78%, CD 270–275%) is LOWER than ours, so stats are ruled out from both
     sides.
-    **Next:** Chisa's own 1.37x is now the floor, and it is per-character rather
-    than global — reconcile one of her casts end to end. Above that, the residual
-    team-lane gap is most likely the 9 clauses the coverage guardrail lists as
-    deliberately unread (`tests/effect-coverage.test.mjs`) plus the deferred
-    entries in `effect-overrides.json`, both of which are now enumerated instead
-    of invisible.
+    **Next (restated 2026-08-17):** reconcile CHISA across three passes. She
+    receives nothing from anyone, so nothing team-lane can explain her, and her
+    one-pass gap (1.018x) against her three-pass gap (1.321x) localises it to what
+    repeats — her Concerto/Forte ramp, her chain grants, or how much of her second
+    and third pass her rotation actually authors. Above that, the residual is
+    still most likely the 9 clauses the coverage guardrail lists as deliberately
+    unread (`tests/effect-coverage.test.mjs`) plus the deferred entries in
+    `effect-overrides.json`, both of which are enumerated rather than invisible.
+    Also still open from the earlier passes: whether Aemeath's S3 node is hot,
+    which needs a re-measure and not a re-read.
 
-    Two of those rows are the finding. **Timing agrees to 2%** and **the damage
-    SHARE across three different kits agrees to 0.4%**, while every member is low
-    by the same 2.6x. A missing per-kit mechanic — S1, S3's residue, Tune Break —
-    would show up as an Aemeath-shaped hole, not as an even scaling of all three.
-    So the primary cause is a GLOBAL factor in the damage path, and the per-kit
-    items below are second-order until it is found.
-    Ruled out already: enemy DEF (our `defMult` at level 100 is 0.497, the
-    standard curve, and switching targets cost exactly the 0.81x observed), skill
-    levels (default build is level 90 with all skills at 10), and stat-node /
-    inherent unlocks (both default to all-true, not off as first suspected).
-    Prydwen and Arabwuwa independently agree on ~1.5M for Aemeath's rotation
-    (128,145 vs 123,403 DPS), so the reference is not one site's error.
-    **Next:** compare ONE cast end to end — pick a single Aemeath step, print our
-    base multiplier, hit count, ATK, crit and every bucket, and reconcile it by
-    hand against the in-game tooltip. A uniform factor will show up in that one
-    number, and per-cast reconciliation is the only way to see which.
-    → **Their rotation has not been run.** Arabwuwa ship a step-by-step rotation
+    ~~**Two of those rows are the finding. Timing agrees to 2% and the damage
+    SHARE across three different kits agrees to 0.4%, while every member is low by
+    the same 2.6x, so the primary cause is a GLOBAL factor in the damage path and
+    the per-kit items are second-order until it is found. Next: compare ONE cast
+    end to end.**~~ **RETRACTED 2026-08-17 — this paragraph contradicted the
+    LOCALISED note directly above it and had been left standing beneath it.** The
+    uniform-2.6x reading died on 2026-08-07 when the gap stopped being uniform,
+    and its "one global factor" conclusion is now false twice over: the gap is
+    1.114x, and it is concentrated in ONE member. Kept struck rather than deleted
+    because the ruled-out list below it is still load-bearing.
+    Ruled out already, and still ruled out: enemy DEF (our `defMult` at level 100
+    is 0.497, the standard curve, and switching targets cost exactly the 0.81x
+    observed), skill levels (default build is level 90 with all skills at 10), and
+    stat-node / inherent unlocks (both default to all-true, not off as first
+    suspected). Prydwen and Arabwuwa independently agree on ~1.5M for Aemeath's
+    rotation (128,145 vs 123,403 DPS), so the reference is not one site's error.
+    → ~~**Their rotation has not been run.** Arabwuwa ship a step-by-step rotation
       for all three members, but its names ("Tune Break", "Forte Skill", "Hold
-      Basic to hit Basic 1, 2, 3") need mapping to our skill keys. Deliberately
-      not guessed: a benchmark resting on an invented mapping is worse than no
-      benchmark. Mapping it is the highest-value next step, because it removes
-      rotation choice as a variable from the 2.36x gap.
+      Basic to hit Basic 1, 2, 3") need mapping to our skill keys.~~
+      **CLOSED 2026-08-14** — mapped from the maintainer's transcription and
+      adopted as the three reference rotations (`data/reference-rotations.json`,
+      each entry carrying its own `source`); the prose→key map is recorded in
+      HISTORY and in memory. Chisa's Rotation 1 became her `openerRotation` on
+      2026-08-15 (item 2d). Two deliberate deviations are stated in the entries
+      themselves: their Aemeath rotation slots a Tune Break, which
+      `tests/tune-break.test.mjs` forbids a template from doing, and their Echo
+      moves one step later so `grant.after` sees its chain source.
     → ~~**19 Echo-only labels** still read "Basic Attack (Echo): …".~~
       **CLOSED 2026-08-03.** Provenance is now a trailing marker in ALL cases,
       not only where the game's own name took the prefix: `categoryPrefix` no
@@ -492,7 +589,76 @@ timing). Section title below kept for the surviving root-cause gap.
    the two. Any other "find the entry with skillType X" lookup has the same
    exposure wherever a node ships more than one row.
 
-2b. **Per-TYPE crit scoping** (opened 2026-08-14, from the lane-4 migration).
+   **SWEPT 2026-08-17.** One other lookup of that shape exists — `outroKeyFor`
+   (`team-sim.js`), which takes the first `skillType === 'outro'` entry — and it
+   cannot misfire: **no resonator on the roster ships more than one outro row**.
+   The `skillType === 'liberation'` reads in `sim.js` and `opener.js` are
+   predicates over a step the rotation already named, not lookups, so they are
+   not exposed at all.
+   What the sweep DID find is that `introKeyFor`'s fallback is still live for one
+   resonator. Nine resonators ship two Intro rows, and eight of them name the one
+   they want in their reference rotation (Lupa, Aemeath, Denia, Rebecca,
+   Cartethyia, Shorekeeper, Cantarella, Phrolova). **Lucilla names neither**, so
+   her auto-injected Intro is decided by skill-map order — `intro_clip_it` over
+   `intro_hard_cut`. Deliberately not "fixed" here: which of the two she should
+   open with is a CURATION call on her reference rotation, and picking one to
+   silence a fallback would be inventing a reference. It is a one-line edit to
+   `data/reference-rotations.json` once the answer is known.
+
+2b. ~~**Per-TYPE crit scoping**~~ **CLOSED 2026-08-17.** Built exactly as the
+   framing below specifies: `stats.critRateBySkillType` /
+   `critDmgBySkillType`, filled by `sonataConditionalGrants` from the game's own
+   `DamageTypes` requirement and spent in `formula.js` beside the existing
+   `typeDmg` lookup — one bucket read per hit, no new pipeline.
+
+   **Both over-credits are gone, and they were larger than the item suggested.**
+   Flamewing's Shadow now pays 20% Crit Rate on Heavy hits and 20% on Echo Skill
+   hits instead of 20% on everything; **Sound of True Name**'s 5-piece turned out
+   to be the same shape and the bigger offender — its only crit grant is
+   `damageTypes:[5]`, so the whole 20% was reaching every hit. Measured on
+   Aemeath: build-wide Crit Rate 0.33 → 0.13 (her bare value) with the 20% moved
+   into the Heavy and Echo buckets.
+
+   **Refusal is part of the fix.** A scope this engine cannot honour exactly is
+   left unclaimed so the tier keeps its text, rather than being widened: an
+   ELEMENT-scoped crit grant (no per-element crit bucket), a TEAM-WIDE scoped one
+   (the team lane carries whole-build numbers), and a damage tag we do not map.
+   `critScopeTypes` refuses the WHOLE grant when any tag is unmapped, and
+   refusing rather than FILTERING is the point — `scopeOf` in the same file builds
+   its `skillTypes` with `.filter(Boolean)`, and `targetModApplies` reads an empty
+   `skillTypes` as "applies to every hit", so a silently dropped tag widens a
+   scope instead of narrowing it. All three refusals are pinned on synthetic
+   grants in `tests/external-buffs.test.mjs`, plus a roster count so a future
+   scoped crit grant fails the test instead of falling back to prose.
+   **Both guards are prospective, corrected 2026-08-17 after verification.** The
+   only unmapped tag in the data is sonata 9's `damageTypes: [7]`, and it carries
+   attribute 15 (`dmgAll`) — so it reaches neither the crit lane (excluded by the
+   pre-existing `route.bucket in out` check) nor `targetModApplies`. The earlier
+   wording here cited it as the live instance of the filtering hazard; it is not
+   one. The hazard in `scopeOf` is real and currently latent.
+
+   **The routing is asymmetric, and only one lane got it** (found by verification,
+   2026-08-17). `sonataConditionalGrants` routes a scoped crit grant; the three
+   lanes fed by `foldExternalGrants` — weapon conditionals, echo main-slot
+   passives, and the incoming-resonator transfer — still send ANY scoped grant to
+   `unplaced` whatever its attribute. That is inert today, verified by scanning
+   every weapon rank, every echo main-slot grant and every `recipient: 'incoming'`
+   sonata grant for attribute 8/9 with a scope: **zero**. It is also visible
+   rather than silent (`unplaced` exists to be counted, and the weapon lane then
+   falls back to its text), so the failure mode is an under-credit that shows up
+   in a list. Left unbuilt deliberately — there is nothing to route — but the next
+   scoped crit grant to ship on a weapon or echo needs this second call site.
+
+   **Meta impact: 66 of 416 team slots move, every one of them DOWN**, median
+   −3.85%, max −11.87%; 10 of 52 anchors reorder their suggested teams. All six
+   suggested builds and all six weight sets are byte-identical, and the benchmark
+   harness does not move (it pins sonatas 7/28/27). The largest movers are
+   Qiuyuan and Sigrika, whose meta builds wear Sound of True Name — which is the
+   direction removing an over-credit must have.
+
+   Kept because the reasoning is the spec, and because the last paragraph is now
+   the sibling item 2f:
+
    `ExtraEffectRequirements` type 12 `DamageTypes` scopes a grant to the game's
    own 0..5 damage-type tag, and the engine honours that for DEF-ignore and
    RES-shred (per-hit, via `skill.js targetContext`) but has **nowhere to put a
@@ -515,6 +681,167 @@ timing). Section title below kept for the surviving root-cause gap.
    Blocked on nothing; it is a real (small) engine feature rather than a routing
    fix, which is why lane 4 left it. Do it with the damage work.
 
+2f. ~~**An "Echo Skill DMG" bonus reaches the equipped echo's cast and nothing
+   else**~~ **CLOSED 2026-08-17** (opened and closed the same day; maintainer
+   directed, with the framing that a type can be mechanical, an attribution, or
+   both, and that the data already knows which).
+
+   **The model now says which.** `src/core/dmg-attribution.js` holds the third
+   question the engine had been answering with the second: `skillType` is
+   MECHANICAL, `formulaType` is ONE value because it is also the skill-LEVEL key,
+   and the ATTRIBUTION is which DMG-type bucket the hit reads.
+
+   **It is exactly ONE bucket, and the client says so** (checked after the first
+   attempt modelled it as a summed set). `CharacterDamageCalculations.js`:
+
+   ```js
+   static GetAttackTypeDamageBonus(snapshot, type) {
+     switch (type) {
+       case 0: return Proto_DamageChangeAuto        // basic
+       case 1: return Proto_DamageChangeCast        // heavy
+       case 2: return Proto_DamageChangeUltra       // liberation
+       case 3: return Proto_DamageChangeQte         // intro
+       case 4: return Proto_DamageChangeNormalSkill // skill
+       case 5: return Proto_DamageChangePhantom     // echo
+     }
+     return 0;
+   }
+   ```
+
+   fed the instance's own `Type` and folded in as
+   `1 + Proto_DamageChange + elementBonus + attackTypeBonus`. A switch with a
+   single return: a type-5 instance reads Phantom and NOTHING else, even when the
+   move that fired it is mechanically a Heavy Attack. **There is no overlap
+   between the six buckets, so nothing may ever sum two of them.** `SubType` was
+   checked as a possible second tag and is empty on every echo instance.
+
+   **Measured off the game's tables** (`hit-map.json` hit ids joined to
+   `bindata/damage.json` `Type`), the roster splits three ways:
+   → **24 rows are attributed to echo ALONE** (Sigrika 10, Galbrena 6,
+     Phrolova 5, Qiuyuan 3). Their `formulaType` is a mechanical stand-in and not
+     an attribution, so they were wrong TWICE: measured, +50% in their mechanical
+     bucket moved every one of them **+50.0%** — a Basic/Heavy/Skill/Liberation
+     DMG Bonus the game does not give them — while every Echo Skill DMG grant
+     missed them. `skill-rows.mjs` had documented the intended behaviour ("simply
+     receives no type-specific DMG bonus") and the code never did it.
+   → **1 row BRANCHES** — Lucilla's [Letting It Go]. Not a mixture: it ships
+     `1109014011` (Type 0) and `1109014012` (Type 5) with **identical RateLv,
+     element and energy**, one per Resonance Mode. The skill computes as Basic
+     Attack DMG in Resonance Mode - Glacio Chafe and as Echo Skill DMG in
+     Resonance Mode - Echo (maintainer-reported, and the data agrees). A mode is
+     a build-level toggle locked for the fight, so `build.resonanceMode` picks
+     one — never both. A branch that cannot be resolved falls back to
+     `formulaType` rather than guessing a half.
+   → **7 rows are ambiguous** (>1 distinct non-echo type) and **fall back
+     unchanged**. Stating their set would start applying two buckets to hits whose
+     split this pass cannot see, which is a separate correction; preprocess still
+     logs them and applies nothing.
+
+   **All five comparison sites go through the set**, so they cannot drift apart:
+   the gear buckets (`formula.js` — DMG bonus and the 2b crit buckets), the
+   chain/inherent/node lane (`buffs.js resolveChainInherentContext`), a window's
+   `dmgType` (`buff-windows.js`), outro amplify scopes and per-hit target mods
+   (`skill.js`). The kit lane matters as much as the gear one: **Qiuyuan's own
+   node grants Echo Skill DMG Bonus and paid him nothing on his own three echo
+   rows**, and Lucilla's 30% likewise.
+
+   **The set lives on the damageTable ROW, not on the skill entry**, because a key
+   can gather several rows and they need not agree — Calcharo's Heavy Attack
+   ships one heavy-tagged row and one liberation-tagged row. A key-level field
+   would have to pick one and be wrong for the other hit.
+
+   **Meta impact: 38 of 416 team slots move, 27 UP and 11 DOWN**, median +0.03%,
+   range −9.54% to +29.66%; 7 anchors reorder (Lupa, Galbrena, Rebecca, Aalto,
+   Qiuyuan, Sigrika, Verina). Both directions is the correct shape — the two
+   errors had been cancelling. The biggest gains are Qiuyuan/Sigrika comps, whose
+   echo grants finally land; the biggest losses are Sigrika and Galbrena comps
+   losing the mechanical bucket they were never owed. Suggested builds, weights
+   and `erModel` are byte-identical, and the benchmark is unmoved at 1.114x
+   (its three members ship no echo-tagged row).
+
+   **The 7 ambiguous rows, named** (they state no attribution and are unchanged).
+   Two shapes, and neither is a hit that reads two buckets:
+   → *Branch-shaped*, like Lucilla's — **Aemeath** `skill_sync_strike_armament_merge`
+     and `skill_mech_4` (paired ids `12102104xx` / `12102004xx`, skill vs basic),
+     **Denia** `heavy_mid_air_heavy_attack_breakdown_form` (`…081` heavy /
+     `…082` liberation). Both resonators have Resonance Modes, but neither mode
+     is NAMED after a damage type, so the branch is not resolvable the way
+     Lucilla's is and they stay on the fallback.
+   → *Matcher over-reach* — **Carlotta** `heavy_heavy_attack` (4 heavy instances
+     at rate 2282 plus one foreign basic at 6084/Energy 90), **Yuanwu**
+     `forte_heavy_thunderweaver_damage` (1 heavy at 3102 + 2 basic at 2068),
+     **Rover: Havoc** `forte_heavy_umbra_thwackblade_damage` (1 heavy at 12665 +
+     the same skill instance matched 4× at 995) and
+     `forte_heavy_umbra_lifetaker_damage` (2 skill at 27635 + 4 heavy at 995).
+     These look like `matchRowHits` pulling in an instance that belongs to
+     another row, not like a genuine mixed attribution — worth its own pass.
+
+   Kept because the reasoning is the spec:
+
+   The game tags a damage instance `type 5` for Echo Skill DMG, and
+   `preprocess.mjs` records that as `isEchoSkill` while keeping the row's
+   mechanical `formulaType` — a deliberate boundary, stated in CLAUDE.md and in
+   `skill-rows.mjs` ("the Echo DMG Bonus stat is a separate, out-of-scope
+   feature"). The consequence has never been written down: **`isEchoSkill` is
+   read by no module in `src/`**, so the only hit that ever presents as `'echo'`
+   is the equipped echo's own cast, which `resolveEchoSkill` tags directly.
+
+   So an "Echo Skill DMG Bonus" grant is credited on one cast per rotation and on
+   none of the resonator's own rows that deal Echo Skill DMG. **25 such rows exist
+   across 5 resonators** — Sigrika 10, Galbrena 6, Phrolova 5, Qiuyuan 3,
+   Lucilla 1 — and **10 external grants** route to that bucket today (attribute
+   114: one weapon across its five ranks, Dream of the Lost 2pc at 35%, sonata 21
+   3pc, three echoes), plus the three scoped crit grants 2b just wired.
+
+   That Sigrika and Qiuyuan are exactly the two anchors 2b moved most is not a
+   coincidence: their meta builds wear an Echo-Skill-scoped set, and they are two
+   of the five resonators whose kits deal Echo Skill DMG. Removing the blanket
+   credit was right, and it leaves them under-credited on the rows the flag
+   marks. Both errors are real; they had been cancelling.
+
+   The fix is small and the decision is not: matching a hit on `isEchoSkill` as
+   well as `formulaType` is a two-line change in `skill.js` + `formula.js`, but it
+   changes what `dmgBonusBySkillType.echo` pays as well, so it re-prices an
+   existing lane on a boundary the project drew deliberately. Wants a maintainer
+   call, not a parser one. Until then this is an UNDER-credit, which is the safe
+   direction.
+
+2g. **A suffixed level-param key makes a damage row's id NaN, and seven of
+   Chisa's keys then resolve to the same row** (opened 2026-08-17, surfaced by
+   2f's row-level join; NOT fixed, because the fix moves an id space other files
+   join against).
+
+   `synId = rid*1e7 + nodeId*1000 + Number(paramK)` in `preprocess.mjs`. Eight of
+   Chisa's source level-param keys are SUFFIXED — `15_2`, `18_2`, `28_2`, `28_3`,
+   `29_2`…`29_5` — and `Number('15_2')` is NaN, which JSON serialises to **null**.
+   `resolveSkill` resolves a row with `find(row => row.id === id)`, so every key
+   carrying a null id lands on the FIRST null-id row of that resonator.
+
+   Roster-wide: **9 rows, 9 keys, 3 resonators.** Rover: Electro and Rover: Aero
+   have one row and one key each, so they resolve correctly by having no rival.
+   **Chisa has seven of each, so six of her keys read the wrong multiplier:**
+
+   | key | own multiplier | reads |
+   | --- | --- | --- |
+   | `skill_serrated_loop_hold` | 1.1936 | 1.1936 (correct — it is first) |
+   | `forte_heavy_sawring_blitz_2_hold` | 1.0640 | 1.1936 |
+   | `forte_heavy_sawring_blitz_2_discordance` | 0.1074 | 1.1936 (**11x**) |
+   | `forte_heavy_sawring_blitz_3_hold` | 0.9588 | 1.1936 |
+   | `forte_heavy_sawring_blitz_3_falltone` | 0.1074 | 1.1936 (**11x**) |
+   | `forte_heavy_chainsaw_mode_dodge_counter` | 0.8512 | 1.1936 |
+   | `forte_heavy_chainsaw_mode_dodge_counter_hold` | 1.0640 | 1.1936 |
+
+   **Nothing shipped moves today**: none of the seven appears in Chisa's
+   `rotation` or her `openerRotation`, so the benchmark, the meta and every
+   reference number are untouched. It is a BUILD-PAGE hazard — the page lets a
+   user slot any key — and it inflates, which is the direction that looks fine.
+
+   Not fixed here for a reason: the repair is to make the id unique for a suffixed
+   param (or to stop deriving ids arithmetically), and a damage row's id is a JOIN
+   KEY — `hit-map.json`, the timing extracts and anything keyed on a damage id
+   line up against it. Changing the scheme needs its own pass and its own locks,
+   not a ride-along. Pinned meanwhile by `tests/dmg-attribution.test.mjs`, which
+   asserts the current counts so the fix is visible when it lands.
 
 3. **`resolveErTarget` has zero UI consumers** (re-verified 2026-07-23 — only
    `src/core/team-er.js` references it). All 79 real team-context ER numbers

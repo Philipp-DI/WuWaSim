@@ -80,6 +80,8 @@
  * @property {number} def
  * @property {number} critRate   fraction (0..1+, clamped in the formula)
  * @property {number} critDmg    multiplier applied ON crit (1.5 = base)
+ * @property {Object<string, number>} critRateBySkillType  formulaType → fraction, added ONLY to hits of that type
+ * @property {Object<string, number>} critDmgBySkillType   formulaType → fraction, added ONLY to hits of that type
  * @property {Object<number, number>} dmgBonusByElement    elementId → fraction
  * @property {Object<string, number>} dmgBonusBySkillType  formulaType bucket → fraction
  * @property {number} energyRegen  1.0 = 100%
@@ -93,7 +95,8 @@
  * docs/GLOSSARY.md and CLAUDE.md.
  * @typedef {object} SkillDef
  * @property {string} skillType      MECHANICAL cast kind (node): basic/heavy/skill/liberation/intro/outro/forte_*
- * @property {string} [formulaType]  DATA-DRIVEN damage bucket; defaults to skillType when absent
+ * @property {string} [formulaType]  DATA-DRIVEN damage bucket AND skill-level key — one value by construction; defaults to skillType when absent
+ * @property {boolean} [isEchoSkill] the row deals Echo Skill DMG (the game's type 5). The per-hit attribution lives on the damageTable ROW as `dmgTypes` — see core/dmg-attribution.js
  * @property {number[]} [damageIds]  rows in dataset.damageTable[resonatorId]
  * @property {number[]} [supportIds] heal/shield rows in dataset.supportTable[resonatorId]
  * @property {number} [stepDuration] seconds until the player regains control (measured from the game's animation assets for ~95% of steps, else a per-type approximation — see docs/TIMING_MODEL.md)

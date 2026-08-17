@@ -238,7 +238,12 @@ export function applyBuffsToSteps(steps, buffWindows) {
             const hitElement = hit.skill?.element ?? null;
             let multiplier = 1 + flatBonus;
             if (elementBonus > 0 && hitElement === elementId) { multiplier += elementBonus; }
-            if (dmgTypeBonus) { multiplier += dmgTypeBonus[hit.skill?.skillType] ?? 0; }
+            // The hit's ATTRIBUTION, not its formulaType — an "Echo Skill DMG"
+            // window reaches an all-echo row, and an all-echo row does not read
+            // its mechanical bucket (dmg-attribution.js).
+            if (dmgTypeBonus) {
+                multiplier += dmgTypeBonus[hit.skill?.dmgType ?? hit.skill?.skillType] ?? 0;
+            }
             multiplier *= 1 + amplify;
             if (multiplier !== 1) anyApplied = true;
 

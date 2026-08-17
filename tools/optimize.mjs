@@ -64,6 +64,9 @@ const ENGINE_FILES = ['core/formula.js', 'core/stats.js', 'core/skill.js', 'core
     // The enemy every number is measured against. Changing its level or RES
     // rescales the whole meta, so the hash has to move with it.
     'core/target.js',
+    // Which bonus buckets a hit reads. Changing an attribution re-prices every
+    // hit that carries it, so the hash has to move with it.
+    'core/dmg-attribution.js',
     // Not core, but it decides WHICH dataset the meta is computed over:
     // applyPatch folds patch.json's curated overrides (offFieldActions for
     // Phrolova/Ciaccona/Denia) in. A change there changes every ranking.

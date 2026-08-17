@@ -16,6 +16,10 @@
  *     the ignore to Basic Attacks and to the Tune Break response as well.
  *  4. `stackLimit` is part of the VALUE. Kumokiri's Liberation bonus is "8%,
  *     stacking up to 3 times" — 24% at cap, which is what the sim credits.
+ *  5. A SCOPED crit grant stays scoped. Flamewing's Shadow's two 20% Crit Rate
+ *     rows are Heavy-only and Echo-only while its tooltip says a flat "20%", so
+ *     the per-type buckets are the difference between crediting the grant and
+ *     crediting it to every hit the wielder lands.
  */
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -27,6 +31,7 @@ import {
     sonataConditionalGrants,
 } from '../src/core/buffs/external-buffs.js';
 import { incomingResonatorContribution } from '../src/core/buffs/conditional-buffs.js';
+import { computeDamage } from '../src/core/formula.js';
 import { createBuild, setChain, setEcho } from '../src/core/build.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -380,6 +385,101 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
         }
     }
     assert('no sonata crit grant is team-wide (per the tables, not the prose)', teamWideCrit === 0);
+}
+
+// ── A crit value the game SCOPES to a damage type ────────────────────────────
+//
+// `ExtraEffectRequirements` type 12 (DamageTypes) scopes a grant to the game's
+// own 0..5 tag, and two sonata tiers use it for Crit Rate. Their tooltips state
+// the value flatly, so the text reader credits it to every hit the wielder
+// lands — an over-credit the DATA can see and the whole-build `critRate` stat
+// cannot express. The per-type buckets are where it goes.
+{
+    const sonataNamed = (name) => dataset.sonatas.find(one => one.name === name)?.id ?? null;
+    const laneFor = (name, pieces) =>
+        sonataConditionalGrants(sonataExternalGrants(dataset, sonataNamed(name), pieces));
+
+    // Flamewing's Shadow states BOTH halves and scopes each one:
+    // "Dealing Echo Skill DMG increases Heavy Attack Crit. Rate by 20% for 6s.
+    //  Dealing Heavy Attack DMG increases Echo Skill Crit. Rate by 20% for 6s."
+    const flamewing = laneFor("Flamewing's Shadow", 3);
+    assert("Flamewing's Shadow: 20% Crit Rate on Heavy Attacks",
+        Math.abs((flamewing?.critRateBySkillType.heavy ?? 0) - 0.20) < 1e-9);
+    assert("Flamewing's Shadow: 20% Crit Rate on Echo Skills",
+        Math.abs((flamewing?.critRateBySkillType.echo ?? 0) - 0.20) < 1e-9);
+    assert("Flamewing's Shadow: nothing lands in the whole-build crit stat",
+        flamewing?.critRate === 0 && flamewing?.critDmg === 0);
+
+    // Sound of True Name scopes its only crit grant, so the whole tier's crit is
+    // Echo-Skill-only: "increases the Resonator's Echo Skill Crit. Rate by 20%".
+    const trueName = laneFor('Sound of True Name', 5);
+    assert('Sound of True Name: 20% Crit Rate on Echo Skills only',
+        Math.abs((trueName?.critRateBySkillType.echo ?? 0) - 0.20) < 1e-9
+        && Object.keys(trueName?.critRateBySkillType ?? {}).length === 1
+        && trueName?.critRate === 0);
+
+    // NOT SILENTLY DROPPED. Every scoped crit grant in the tables reaches a
+    // per-type bucket — the count is the contract, so a set shipping a shape the
+    // routing cannot honour fails here instead of falling back to its prose.
+    let scopedCritGrants = 0, creditedPerType = 0;
+    for (const entry of Object.values(dataset.externalBuffs?.sonatas ?? {})) {
+        for (const tier of Object.values(entry.tiers ?? {})) {
+            for (const grant of tier.grants ?? []) {
+                const route = bucketForAttribute(grant.attribute);
+                if (grant.scope && (route?.bucket === 'critRate' || route?.bucket === 'critDmg')) scopedCritGrants++;
+            }
+            const lane = sonataConditionalGrants(tier.grants ?? []);
+            creditedPerType += Object.keys(lane?.critRateBySkillType ?? {}).length
+                + Object.keys(lane?.critDmgBySkillType ?? {}).length;
+        }
+    }
+    assert(`all ${scopedCritGrants} scoped sonata crit grants reach a per-type bucket`,
+        scopedCritGrants === 3 && creditedPerType === scopedCritGrants);
+
+    // REFUSALS, on synthetic grants — the data ships neither shape today, and
+    // both would be credited to hits the game excludes if they were let through.
+    // An empty skill-type list is the dangerous one: everywhere downstream reads
+    // "no types" as "no restriction".
+    const unknownTag = sonataConditionalGrants([
+        { attribute: 8, value: 0.2, stackLimit: 1, scope: { damageTypes: [7] } }]);
+    assert('a crit grant scoped to an UNMAPPED damage tag is refused, not widened',
+        unknownTag === null);
+    const elementScoped = sonataConditionalGrants([
+        { attribute: 8, value: 0.2, stackLimit: 1, scope: { elementTypes: [2] } }]);
+    assert('a crit grant scoped to an ELEMENT is refused (no per-element crit bucket)',
+        elementScoped === null);
+    const teamScoped = sonataConditionalGrants([
+        { attribute: 8, value: 0.2, stackLimit: 1, teamWide: true, scope: { damageTypes: [1] } }]);
+    assert('a TEAM-WIDE scoped crit grant is left to the text (the team lane is whole-build)',
+        teamScoped === null);
+
+    // END TO END: the wielder's build total is untouched and the Heavy bucket
+    // holds the grant. 0.13 (Aemeath's base + tree) is what she reads with no
+    // echoes at all — before this lane she read 0.33 on every hit.
+    const flame = dataset.sonatas.find(one => one.name === "Flamewing's Shadow");
+    const aemeath = dataset.resonators.find(one => one.name === 'Aemeath');
+    const pool = dataset.echoes.filter(echo => (echo.sonataIds ?? []).includes(flame.id));
+    let build = createBuild(aemeath);
+    for (let slot = 0; slot < 3; slot++) {
+        build = setEcho(build, slot, { id: pool[slot].id, sonataId: flame.id, level: 25, cost: pool[slot].cost });
+    }
+    const bare = resolveTotalStats(createBuild(aemeath), dataset);
+    const worn = resolveTotalStats(build, dataset);
+    assert('wearing Flamewing does not raise the build-wide Crit Rate',
+        Math.abs(worn.critRate - bare.critRate) < 1e-9);
+    assert('…and the 20% is in the Heavy bucket instead',
+        Math.abs((worn.critRateBySkillType.heavy ?? 0) - 0.20) < 1e-9);
+
+    // The formula is the only place it is spent, and only on a matching hit.
+    const hit = (skillType) => computeDamage({
+        stats: worn, target: { level: 90, resistances: {} },
+        skill: { skillType, multiplier: 1, scaling: 'atk', element: 2 },
+    });
+    assert('a Heavy hit crits 20pp more often than the build-wide rate',
+        Math.abs(hit('heavy').breakdown.critRate - (worn.critRate + 0.20)) < 1e-9);
+    assert('a Basic hit does not', Math.abs(hit('basic').breakdown.critRate - worn.critRate) < 1e-9);
+    assert('and a Heavy hit therefore deals more than a Basic of the same multiplier',
+        hit('heavy').expected > hit('basic').expected);
 }
 
 // ── A weapon trigger's SCOPE is not its grant's RECIPIENT ───────────────────

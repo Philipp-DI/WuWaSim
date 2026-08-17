@@ -26,6 +26,7 @@
 import { computeDamage, computeSupport } from './formula.js';
 import { collectActiveEffects, resolveChainInherentContext } from './buffs.js';
 import { targetModApplies } from './buffs/external-buffs.js';
+import { attributionOf } from './dmg-attribution.js';
 
 /**
  * The chain-added damage instances live for a build on one skill key.
@@ -115,13 +116,20 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         // its two type readings, and a clause that names its skills is scoped by
         // the name whatever stat it grants (S1's Crit. DMG on her two Heavy
         // Attacks resolves through the formula lens, not the node one).
-        const ctxFormula = resolveChainInherentContext(effects, { element: row.element, skillType: formulaType, skillKey });
+        //
+        // The FORMULA lens is fed the hit's ATTRIBUTION, not its `formulaType`:
+        // for an all-echo row those differ, the second being only a mechanical
+        // stand-in that picks the level table (see dmg-attribution.js). Exactly
+        // one bucket, because the client reads exactly one.
+        const dmgType = attributionOf(row, formulaType, { modes: resonator?.resonanceModes, resonanceMode: build.resonanceMode });
+        const ctxFormula = resolveChainInherentContext(effects, { element: row.element, skillType: dmgType, skillKey });
         const ctxNode = resolveChainInherentContext(effects, { element: row.element, skillType: skillDef.skillType, skillKey });
         const baseMult = row.mults?.[skillLv - 1] ?? 0;
         const multiplier = baseMult * (1 + (ctxNode.multiplierUp ?? 0));
 
         const skill = {
             skillType: formulaType,
+            dmgType,
             multiplier: multiplier,
             scaling: SCALING_BY_PROP[row.relatedProp] ?? 'atk',
             element: row.element,
@@ -136,7 +144,7 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
                 if (scope.type === 'element') {
                     if (scope.elementId === null || scope.elementId === row.element) amplify += value;
                 } else if (scope.type === 'skillType') {
-                    if (scope.skillType === formulaType) amplify += value;
+                    if (scope.skillType === dmgType) amplify += value;
                 }
             }
         }
@@ -148,7 +156,7 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         let externalDefIgnore = 0, externalResReduce = 0;
         if (targetContext?.length) {
             for (const mod of targetContext) {
-                if (!targetModApplies(mod, formulaType, row.element)) continue;
+                if (!targetModApplies(mod, dmgType, row.element)) continue;
                 externalDefIgnore += mod.defIgnore ?? 0;
                 externalResReduce += mod.resReduce ?? 0;
             }
@@ -259,7 +267,11 @@ export function resolveEchoSkill({ echo, dataset, stats, target }) {
     const skill = {
         // Echo skills get their own DMG bonus bucket; tag as 'echo' so the
         // formula / buff system can target echo-skill bonuses specifically.
+        // It is no longer the ONLY hit that reads that bucket — a resonator's own
+        // rows tagged Echo Skill DMG do too (dmg-attribution.js) — so the
+        // attribution is stated the same way here as it is for those.
         skillType: 'echo',
+        dmgType: 'echo',
         multiplier: multiplier,
         scaling: SCALING_BY_PROP[active.relatedPropId] ?? 'atk',
         element: active.element,

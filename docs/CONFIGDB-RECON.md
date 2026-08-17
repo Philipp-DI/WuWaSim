@@ -96,18 +96,43 @@ regexes stay.
 **22–27 = DamageChangeElement1..6**, independently confirming the CLAUDE.md
 element-node mapping.
 
-## Known open leads (not yet chased)
+## Known open leads (status as of 2026-08-17)
 
-- **Negative-status stack-limit raises.** Settled what the mechanic IS (kits
-  raise a base cap: Yangyang: Xuanling S3 +3 Havoc Bane, Cartethyia S2 +3 Aero
-  Erosion, Suisui +3 Electro Flare) but not modelled — OPEN-ITEMS #25. Our base
-  caps are correct.
-- **Gauge INCOME for named stack gauges.** Lives in `db_buff` rather than
-  `damage.json`; the walk above reaches buffs but not yet the income edges.
-- **`db_PassiveSkill`'s `TriggerType`/`SkillAction`.** The structured form of the
-  gain trigger `descStackGain` recovers from prose, and the likely home of the
-  four chain effects the walk cannot currently reach.
+- ~~**Negative-status stack-limit raises.**~~ **CLOSED 2026-08-01** —
+  `STATUS_CAP_RAISES`, both trigger shapes live (OPEN-ITEMS #25). The base caps
+  were correct all along.
+- ~~**Gauge INCOME for named stack gauges.**~~ **CLOSED for the CAST lane
+  2026-08-12** — `data/gauge-income.json` (`extract_gauge_income.py`) walks
+  `DT_SkillInfo` → `SkillBuff`/`SkillStartBuff`/`SkillEndBuff` → `db_buff`, 59
+  resonator entries; Denia's three gauges reproduce her kit exactly. STILL OPEN:
+  income earned on a HIT, which lives in `db_PassiveSkill` (`DamageTrigger`)
+  behind ExtraEffect chains — extracted, not wired, because
+  `rotation-resources.js` is per-cast by construction.
+- ~~**`db_PassiveSkill`'s `TriggerType`/`SkillAction`.**~~ **READ 2026-08-13**,
+  by the external-buff extraction (`extract_external_buffs.py`:
+  `ExtraEffectID 35 AddPassiveSkill` → `SkillActionParams`, plus
+  `TriggerType`/`TriggerPreset`/`InstigatorType` for a weapon's trigger and
+  recipient). STILL OPEN as the structured form of the kit-text stack GAIN
+  trigger `descStackGain` recovers from prose.
+- **The chain walk is still a validation layer, not a parser replacement.** The
+  4-of-8 / 92-of-330 coverage above is unchanged, which is why the kit-text
+  stack-cap and gain-trigger regexes stay. This is what remains of OPEN-ITEMS
+  #26.
 - **Tag hashing.** Older content carries readable Chinese tags
   (`角色.…buff相关.心火1层`); newer content is hashed
   (`角色.dc4175dc.9d45e28b.…`), so name-matching alone will not cover the
   roster. The id-prefix convention (buff id starts with the resonator id) does.
+
+## What the ConfigDB now supplies (added 2026-08-17)
+
+One committed extract per lane, none of them depending on the export being
+present at build time:
+
+| Extract | Lane |
+| --- | --- |
+| `data/abnormal-damage.json` | the affliction LevelModifier curve, levels 1–100 |
+| `data/buff-facts.json` | a buff value's BUCKET — **primary**, text is the fallback |
+| `data/status-damage.json` | the six negative statuses' own per-stack tables |
+| `data/status-appliers.json` | which buffs apply a status (bounds the derived counts) |
+| `data/gauge-income.json` | per-CAST gauge income |
+| `data/external-buffs.json` | weapon / sonata / echo grants, by attribute id |
