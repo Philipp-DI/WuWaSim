@@ -38,7 +38,7 @@ Three properties shape everything:
 ## 2 · Data pipeline (offline, run by the maintainer)
 
 ```text
-data/extracted-nanoka/characters/*.json   ← source: nanoka.cc dumps (56 files, schema v9)
+data/extracted-nanoka/characters/*.json   ← source: nanoka.cc dumps (60 files → 56 resonators, schema v9)
 data/extracted-nanoka/{echo,weapon,…}.json + Arikatsu BinData tables (fetched)
 data/patch.json                           ← curated: manual field overrides
 data/reference-rotations.json             ← curated: per-character reference rotations
@@ -54,6 +54,16 @@ data/data-version.json                    ← content-hash manifest (browser cac
 data/wuwa-meta.json                       ← precomputed stat weights, suggested builds, teams
 docs/meta-validation.md                   ← generated QA report (gitignored)
 ```
+
+**Why the source holds more characters than the dataset.** Rover ships as
+male *and* female variants — different ids, identical names and stats — so the
+projection sorts by id and keeps the FIRST per name (`preprocess.mjs`, the
+`seen` filter). That drops the four male ids (1310, 1408, 1502, 1605) and keeps
+the female ones (1309, 1406, 1501, 1604), which is also the project's
+female-Rover rule. A source directory that counts four higher than
+`dataset.counts.resonators` is therefore CORRECT, not stale — verify a
+suspected data gap by re-running `npm run data` and reading LOCK A, never by
+assuming the missing ids were lost.
 
 What `preprocess.mjs` does, in order: download/refresh secondary tables →
 resolve localization text → project each character (damage rows, skill trees,
