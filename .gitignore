@@ -11,6 +11,11 @@ palette_*
 # Local-only material (personal notes, art, pasted references) — never tracked
 docs-local/
 
+# UML model — a local reading aid, regenerated on demand by its own generator
+# (docs/uml/gen-uml.mjs derives the module pages from the real import graph).
+# Kept out of the repo so a stale .drawio can never contradict the code.
+docs/uml/
+
 # Generated QA artifacts — rebuilt by tools/optimize.mjs and tools/audit-effects.mjs
 docs/meta-validation.md
 docs/effect-audit.md
