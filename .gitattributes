@@ -1,8 +1,27 @@
 # .gitattributes
-* text=auto
-*.js text eol=lf
-*.mjs text eol=lf
-*.css text eol=lf
-*.md text eol=lf
-*.json text eol=lf
-*.html text eol=lf
+#
+# LF EVERYWHERE, in the index AND in the working tree.
+#
+# `eol=lf` is the load-bearing part and it is deliberately on the `*` line:
+# without it, `text=auto` normalises on COMMIT but still hands the working tree
+# CRLF wherever core.autocrlf=true, which is the Windows default. That split is
+# not cosmetic here — `tools/optimize.mjs` hashes the RAW BYTES of every
+# ENGINE_FILES member into the meta's engineHash, so a file whose only change is
+# its line endings moves the hash and `tests/meta-schema.test.mjs` fails with no
+# behaviour having changed at all. It has happened twice (commit c3d1736, and
+# again on 2026-08-17 after a stash/restore cycle rewrote four engine files).
+#
+# Listing extensions individually was the old approach and it under-covered:
+# .py, .yml and the dotfiles fell through to plain `text=auto`. One rule for
+# everything cannot under-cover.
+* text=auto eol=lf
+
+# Binaries git must never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.db binary
+*.zip binary

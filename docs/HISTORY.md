@@ -10944,3 +10944,65 @@ data/wuwa-data.json, data-version.json, wuwa-meta.json   regenerated
 **[Updated Docs]** `CLAUDE.md` gains the per-resonator id-uniqueness invariant;
 `docs/OPEN-ITEMS.md` 2g closed with the measurement and the original report kept
 below it. HISTORY (this entry).
+
+---
+
+## 2026-08-17d — LF everywhere: the line endings that kept moving the engineHash
+
+Maintainer-directed: "fix the EOL error that keeps coming up". It came up twice
+in one day — once as `warning: in the working copy of 'CLAUDE.md', CRLF will be
+replaced by LF`, and once, expensively, as a `meta-schema` failure after a
+verification agent's stash/restore cycle rewrote four engine files.
+
+**[Files Changed]** `.gitattributes` (rewritten), `CLAUDE.md` (the rule, beside
+the lock instructions), `data/wuwa-meta.json` + `data-version.json`
+(regenerated), and 51 working-tree files normalised to LF — with no blob change,
+so none of them appears in the commit.
+
+**[Logic Altered]**
+
+1. **THE CAUSE.** `.gitattributes` said `* text=auto` with NO `eol=`, and pinned
+   `eol=lf` on six extensions only. `text=auto` normalises on COMMIT but leaves
+   the working tree to `core.autocrlf`, which is `true` here (the Windows
+   default) — so every file outside those six extensions got CRLF on disk while
+   the index held LF. Measured before the fix: **52 files `i/lf w/crlf`**,
+   including `.py`, `.gitignore` and `.gitattributes` itself, which had no
+   trailing newline either.
+
+2. **WHY IT IS NOT COSMETIC.** `tools/optimize.mjs` hashes the RAW BYTES of every
+   `ENGINE_FILES` member into the meta's `engineHash`. Four of the 52 were engine
+   files — `opener.js`, `rotation-rules.js`, `team-energy.js`, `team-sim.js` — so
+   the hash depended on whether a file had been checked out recently. That is the
+   whole failure: `tests/meta-schema.test.mjs` fails with nothing having changed,
+   and the fix looks like "regenerate the meta" (commit `c3d1736` did exactly
+   that) rather than "pin the line endings".
+
+3. **THE FIX.** One rule, `* text=auto eol=lf`, which cannot under-cover the way
+   an extension list did, plus explicit `binary` for image/db/zip. Attributes
+   beat `core.autocrlf`, so this holds on any machine without asking anyone to
+   change their git config. The 51 CRLF files were then converted in place.
+
+**[Verification Method]**
+
+- `git ls-files --eol`: **52 `w/crlf` → 0**. Every text file is now
+  `i/lf w/lf` (663 of them).
+- **The conversion changed no content.** `git diff --numstat` lists exactly one
+  file, `.gitattributes`; `git diff --quiet` exits 0 for every converted file,
+  so their blobs are identical and there is nothing to commit for them.
+- **LOCK B is the proof it was purely bytes**: `erModel`, `characters` and
+  `teams` are byte-identical to HEAD after regeneration, and only `engineHash`
+  moved (`676748254766` → `c96dca582a76`).
+- `npm test` 74/74 · `npm run sweep` 70/0 · `npm run lint` 0 errors, 3105
+  warnings unchanged — run LAST, after the meta regeneration.
+
+**[Residual Risks]**
+
+- `core.autocrlf=true` is still set in this clone. It no longer matters (the
+  attribute wins) and was left alone rather than mutating a machine-local config.
+- A future clone checks out LF everywhere, so anyone diffing against an older
+  working copy will see one large whitespace-only churn. That is the one-time
+  cost of the renormalisation and it has now been paid.
+
+**[Updated Docs]** `CLAUDE.md` — the lock-reading paragraph now states that
+`engineHash` hashes raw bytes, that `.gitattributes` pins the tree for that
+reason, and that `npm test` runs LAST. HISTORY (this entry).
