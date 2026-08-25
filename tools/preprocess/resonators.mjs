@@ -802,6 +802,7 @@ export function projectNanokaCharacterFull(nChar) {
 
     // Link META rows to their parent damage steps within each node
     const skillMeta = {};    // damageKey → [{ label, mults }]
+    const concertoFolds = []; // audit trail for the flat Concerto fold below
     for (const [nid, dmgRows] of Object.entries(damageByNode)) {
         const links = linkMetaToSteps(dmgRows, metaByNode[nid] ?? []);
         for (const [key, items] of links) {
@@ -853,28 +854,61 @@ export function projectNanokaCharacterFull(nChar) {
             row.cooldownGroup = `${nid}:${cooldownItem.label}`;
         }
 
-        // Intro Skill flat Concerto/Energy Regen (maintainer-confirmed
-        // 2026-07-10): every resonator's Intro Skill carries a flat, level-
-        // invariant "<name> Concerto Regen" row (universally 10, Baizhi's
-        // Discernment variant 20) that the vector-matched `damage[*].element_power`
-        // never captures (53/56 nodes show element_power 0 there) — the game
-        // mechanic is a flat restore on a successful Intro cast, not a per-hit
-        // rate. classifySkillRow buckets it 'meta' (display-only) by design, so
-        // fold its value straight into the linked damage row's concertoGen/
-        // energyGen here — read AS-IS, no ÷100 (unlike the ×100-scaled vector
-        // fields, these meta-row params are already plain numbers). Scoped to
-        // Intro nodes only per maintainer direction — not a general meta-row
-        // energy extraction.
-        if (nodeTypeByNode[nid] === 'intro') {
-            for (const [key, items] of links) {
-                const row = dmgRows.find(candidate => candidate.key === key);
-                if (!row) continue;
-                for (const item of items) {
-                    const flat = parseFloat(item.mults?.[0]);
-                    if (!Number.isFinite(flat)) continue;
-                    if (/Concerto\s*Regen$/i.test(item.label)) row.concertoGen += flat;
-                    else if (/Energy\s*Regen$/i.test(item.label)) row.energyGen += flat;
-                }
+        // Flat Concerto/Energy Regen meta-rows (Intro fold maintainer-confirmed
+        // 2026-07-10; widened to every node type 2026-08-18). A node carries a
+        // flat, level-invariant "<name> Concerto Regen" row that the
+        // vector-matched `damage[*].element_power` never captures — the game
+        // mechanic is a flat restore on a successful CAST, not a per-hit rate.
+        // classifySkillRow buckets it 'meta' (display-only) by design, so fold
+        // its value straight into the linked damage row's concertoGen/energyGen
+        // here — read AS-IS, no ÷100 (unlike the ×100-scaled vector fields,
+        // these meta-row params are already plain numbers).
+        //
+        // ~~Scoped to Intro nodes only per maintainer direction.~~ That scope
+        // read 65 of 261 grants and left the swap economy fictional: only ~5%
+        // of modelled swaps ever filled the 100 gauge, which is why
+        // `enforceConcerto` had to default OFF (tests/concerto.test.mjs states
+        // the reasoning). The other 196 rows are Resonance Skill (65),
+        // Resonance Liberation (65), Forte Circuit (57) and Normal Attack (9) —
+        // 2,884 points across all 56 resonators, and NOT a long tail: Chisa's
+        // Sawring - Eradication alone grants 45, more than her Liberation and
+        // Intro combined, which is the difference between her filling the gauge
+        // in one pass and never filling it at all.
+        //
+        // ENERGY IS NOT THE SAME PROBLEM, and the branch below stays Intro-only
+        // for a different reason than it looks. Resonance energy is ALREADY read
+        // for every node type — `matchRowHits` pulls the per-hit
+        // `damage[*].energy` vector on every row, 3,557 points roster-wide — so
+        // there is no Intro-shaped hole in it. And a "<name> Energy Regen"
+        // meta-row does not exist: **0 rows on the whole roster** match, on any
+        // node type, Intro included. The energy meta-rows the game does write
+        // are COSTS ("Resonance Cost", 44 of them), read elsewhere. The branch
+        // is kept, scoped, as a guard: if such a row ever ships, energy gates
+        // Liberation casts and feeds the whole erModel, so it should enter that
+        // lane deliberately rather than by riding along with Concerto.
+        //
+        // Which row wins, when a key is reached by more than one: the game
+        // writes a BARE row ("Concerto Regen") when the node has a single grant
+        // and PREFIXES it ("Knock Knock Concerto Regen") only to disambiguate a
+        // multi-stage node — the convention META_SUFFIXES already documents for
+        // Cost/Cooldown. So a specific row outranks the bare node-level one,
+        // exactly as the cooldown fold above resolves the same collision.
+        for (const [key, items] of links) {
+            const row = dmgRows.find(candidate => candidate.key === key);
+            if (!row) continue;
+            const concertoRows = items.filter(item => /Concerto\s*Regen$/i.test(item.label));
+            const flatRow = concertoRows.find(item => !item.nodeLevel) ?? concertoRows[0];
+            const flat = parseFloat(flatRow?.mults?.[0]);
+            if (Number.isFinite(flat)) {
+                row.concertoGen += flat;
+                concertoFolds.push({ key, label: flatRow.label, flat, nodeType: nodeTypeByNode[nid],
+                                     ambiguous: !!flatRow.nodeLevel && dmgRows.length > 1 });
+            }
+            if (nodeTypeByNode[nid] !== 'intro') continue;
+            for (const item of items) {
+                const energyFlat = parseFloat(item.mults?.[0]);
+                if (!Number.isFinite(energyFlat)) continue;
+                if (/Energy\s*Regen$/i.test(item.label)) row.energyGen += energyFlat;
             }
         }
     }
@@ -1018,5 +1052,6 @@ export function projectNanokaCharacterFull(nChar) {
         skillSupport,  // heal + shield rows, keyed same as skillDamage
         skillMeta,     // key → [meta items] for the damage panel
         skillBuffs,    // conditional buff rows with parentKey
+        concertoFolds, // [{ key, label, flat, nodeType, ambiguous }] — reporting only
     };
 }

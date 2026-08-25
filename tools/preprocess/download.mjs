@@ -80,8 +80,8 @@ function flattenTextMap(raw) {
     return flat;
 }
 
-export async function downloadAll(lang) {
-    const ref = await resolveRef();
+export async function downloadAll(lang, pinnedRef = null) {
+    const ref = pinnedRef ?? await resolveRef();
     const langDir = LANG_DIR[lang] ?? lang;
     process.stderr.write(`  source: ${REPO}@${ref} (textmap lang dir: ${langDir})\n`);
     const tasks = Object.entries(FILES).map(async ([key, path]) => {

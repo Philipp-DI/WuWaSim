@@ -61,11 +61,12 @@ const SCHEMA_VERSION = 9;
 // =============================================================================
 
 function parseArgs(argv) {
-    const args = { lang: 'en', out: 'data/wuwa-data.json' };
+    const args = { lang: 'en', out: 'data/wuwa-data.json', ref: null };
     for (let i = 2; i < argv.length; i++) {
         const k = argv[i];
         if (k === '--lang')      args.lang = argv[++i];
         else if (k === '--out')  args.out  = argv[++i];
+        else if (k === '--ref')  args.ref  = argv[++i];
         else if (k === '--help') { printHelp(); process.exit(0); }
         else { console.error(`Unknown arg: ${k}`); process.exit(2); }
     }
@@ -73,7 +74,11 @@ function parseArgs(argv) {
 }
 
 function printHelp() {
-    console.log('Usage: node tools/preprocess.mjs [--lang en] [--out data/wuwa-data.json]');
+    console.log('Usage: node tools/preprocess.mjs [--lang en] [--out data/wuwa-data.json] [--ref 3.5]');
+    console.log('  --ref  pin the upstream game-version branch instead of resolving the repo default.');
+    console.log('         Without it this pass fetches whatever version is LIVE, so a rerun can');
+    console.log('         change the dataset with no local edit — pin it to make LOCK A mean');
+    console.log('         "my change moved the data" rather than "upstream shipped a patch".');
 }
 
 /**
@@ -117,7 +122,7 @@ async function main() {
     const args = parseArgs(process.argv);
     process.stderr.write(`Pre-processing WuWa data (lang=${args.lang}) ...\n`);
 
-    const raw = await downloadAll(args.lang);
+    const raw = await downloadAll(args.lang, args.ref);
     const resolveText = makeTextResolver(raw.textMap);
     const propDict = buildPropertyDict(raw.propertyIndex, resolveText);
 
@@ -1155,6 +1160,24 @@ async function main() {
     if (FORMULA_RECLASS_AMBIGUOUS.length) {
         process.stderr.write(`\n⚠ Ambiguous rows (matched instances span >1 non-echo type, kept mechanical): ${FORMULA_RECLASS_AMBIGUOUS.length}\n`);
         for (const entry of FORMULA_RECLASS_AMBIGUOUS) process.stderr.write(`      ${entry.name} ${entry.key} (${entry.baseFormula})\n`);
+    }
+
+    // ── Flat Concerto Regen fold (see resonators.mjs) ────────────────────────
+    // Reported because it is the swap economy's whole income outside the
+    // per-hit `element_power` vector, and because the BARE-row cases are the
+    // ones a future roster addition could get wrong: a node-level row on a
+    // multi-row node is attached by position, not by name.
+    const folds = charsToProcess.flatMap(character =>
+        (character.concertoFolds ?? []).map(fold => ({ ...fold, name: character.name })));
+    const byNodeType = new Map();
+    for (const fold of folds) byNodeType.set(fold.nodeType, (byNodeType.get(fold.nodeType) ?? 0) + 1);
+    const totalFlat = folds.reduce((sum, fold) => sum + fold.flat, 0);
+    process.stderr.write(`\nFlat Concerto Regen folded onto ${folds.length} rows (${totalFlat} points): `
+        + [...byNodeType].map(([type, count]) => `${type} ${count}`).join(', ') + '\n');
+    const ambiguous = folds.filter(fold => fold.ambiguous);
+    if (ambiguous.length) {
+        process.stderr.write(`  ⚠ ${ambiguous.length} attached by POSITION (bare row, multi-row node):\n`);
+        for (const fold of ambiguous) process.stderr.write(`      ${fold.name} ${fold.key} +${fold.flat}\n`);
     }
 }
 

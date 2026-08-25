@@ -11106,3 +11106,127 @@ two weapons and 166 damage rows: **63,001 changed lines with no local source fil
 modified**. `data/wuwa-data.json` and the manifest's `data` hash were reverted to
 HEAD and only the `meta` field kept, so this commit carries no upstream content.
 The roster expansion is real and wants its own deliberate pass.
+
+---
+
+## 2026-08-18b — The Concerto economy was 65 of 261 grants (OPEN-ITEMS 35/36)
+
+Follow-on from the correction above, maintainer-directed: *"With the data
+present and fresh in memory, I want you to do the concerto extraction and wiring
+next."* The Chisa question is what exposed it — her loop's real 56.3/100 could
+not be seen at all while the model read 36.3.
+
+**[Files Changed]**
+
+```text
+tools/preprocess/resonators.mjs   the flat-Regen fold, widened past Intro nodes
+tools/preprocess.mjs              --ref pin; the fold's audit report
+tools/preprocess/download.mjs     downloadAll(lang, pinnedRef)
+tests/concerto.test.mjs           premise updated + scope guard (26 -> 28 asserts)
+data/reference-rotations.json     1508: steady loop REVERTED, opener kept
+data/wuwa-data.json               376 concertoGen lines, nothing else
+data/wuwa-meta.json, data-version.json   regenerated
+docs/OPEN-ITEMS.md                items 35, 36; item 34 partly addressed
+```
+
+**[Logic Altered]**
+
+1. **THE GAP.** `preprocess/resonators.mjs` folded the flat, level-invariant
+   `"<name> Concerto Regen"` meta-row into a cast's `concertoGen` for **Intro
+   nodes only** — an explicit scope decision ("not a general meta-row energy
+   extraction"). The row is not an Intro thing. It exists on Resonance Skill
+   (65), Resonance Liberation (65), Forte Circuit (57) and Normal Attack (9)
+   as well, and **all 56 resonators carry at least one**: 2,884 unread points.
+   The vector the extraction did read, `damage[*].element_power`, is 0 on
+   exactly those nodes, which is what made "Skill and Liberation generate no
+   Concerto" look like a finding instead of a blind spot.
+
+2. **WHAT IT COST.** Concerto is the swap gauge, so this was not a cosmetic
+   number: **0 of 55 curated rotations could fill the 100 gauge in one pass.**
+   Not "few" — zero. That is why `enforceConcerto` had to default OFF, with
+   `tests/concerto.test.mjs` recording the reason as an income gap, and why the
+   app hands every member a free Outro on every swap.
+
+3. **THE FOLD IS NOW NODE-TYPE-BLIND. ENERGY IS UNTOUCHED, AND WAS NEVER THE
+   SAME PROBLEM** — a first draft of this entry said it was, and the maintainer
+   corrected it: *"Energy … should already be modelled extensively. Not sure if
+   bulletproof and correct, but it is modelled beyond 'just Intro'."* Counted
+   afterwards, and they are right twice over: the per-hit `damage[*].energy`
+   vector is read on EVERY node type (3,557 points roster-wide), so energy has
+   no Intro-shaped hole; and a `"<name> Energy Regen"` meta-row **does not exist
+   anywhere on the roster** — the energy meta-rows the game writes are Costs
+   (44 "Resonance Cost" rows), read elsewhere. The fold's Energy branch has
+   therefore never matched anything. It is kept, still Intro-scoped, purely as a
+   guard: energy gates Liberation casts and feeds the whole `erModel`, so if
+   such a row ever ships it should enter that lane deliberately rather than by
+   riding along with Concerto. The test pins that nothing moved.
+
+4. **WHICH ROW WINS A COLLISION.** The game writes a BARE row ("Concerto
+   Regen") when a node has one grant and prefixes it ("Knock Knock Concerto
+   Regen") only to disambiguate a multi-stage node — the convention
+   `META_SUFFIXES` already documents for Cost/Cooldown, maintainer-confirmed
+   2026-07-12. So a specific row outranks the bare node-level one, exactly as
+   the cooldown fold resolves the same collision. No second heuristic was
+   invented.
+
+5. **`--ref` PINS THE UPSTREAM BRANCH.** Not cosmetic: `preprocess` opens with
+   `await downloadAll()`, which resolves the repo's DEFAULT branch, so LOCK A
+   re-fetches whatever is live. Regenerating on a clean tree pulled 3.6 content
+   into a 3.5 dataset — 63,001 changed lines, no local edit. Without the pin
+   this change could not be verified at all.
+
+**[Verification Method]**
+
+- **LOCK A is surgical.** Pinned to 3.5, the whole dataset diff is
+  `376 - concertoGen / 376 + concertoGen` and nothing else — checked by
+  reducing every changed line to its field name.
+- **The income is now the game's own numbers**, spot-checked against the
+  source: Sanhua Skill 15, Liberation 20, Intro 10; Chisa's Sawring -
+  Eradication 45 flat **+ 4.8 per-hit = 49.8**, which is the assertion that
+  pins "a flat grant ADDS to the vector, never replaces it".
+- **The economy moved from fiction to something measurable:** 0 → **25 of 55**
+  curated rotations fill in one pass, median 38.8 → **94.0**, and across 44 meta
+  teams the swap fill rate went ~5% → **61%**.
+- **It reproduces the maintainer's in-game observation to the digit.** Chisa's
+  curated loop sums to **56.3**, and the team sim's swap trace prints
+  `100* / 56.3 / 100*` — fills on the opener, misses the second swap, fills the
+  third on carry-over. That is the whole reason this was believed.
+- **LOCK B moved only where the ROTATION change reaches.** `characters`,
+  `erModel` and `engineHash` byte-identical. Of 395 common team entries 64
+  changed, 42 of them in `score` alone; **all 22 that changed in substance
+  contain Chisa, 0 do not.** With enforcement off nothing consumes the gauge,
+  so the extraction is behaviour-neutral by construction and the measurement
+  confirms it.
+- `npm test` 74/74 (concerto 26 → 28 assertions) · `npm run sweep` 70/0 ·
+  `npm run lint` 0 errors, 3105 warnings unchanged.
+
+**[Residual Risks]**
+
+- **`enforceConcerto` stays OFF by maintainer ruling**, so today this changes
+  no damage anywhere — it makes the gauge honest and stops there. The bar for
+  flipping it is completeness, not cost: *"Only if we're 100% certain to track
+  ALL concerto gains CORRECTLY, we can move towards making an Outro Skill
+  illegal."* Measured cost, for when that day comes: 8.2% mean team DPS across
+  44 teams (OPEN-ITEMS 35).
+- **27 grants attach by POSITION** (bare row, multi-row node). 23 land on a key
+  the resonator's own curated rotation casts; **4 do not** and under-credit —
+  Lucilla +20, Brant +10, Verina +12, Lucy +8. Under-crediting is the safe
+  direction, and no single rule fixes all four: Brant's grant sits on the node's
+  base key while his rotation casts a variant, Lucilla's is the reverse. The
+  maintainer's read is that these are STATE edge cases — every one of the four
+  has a form or mode that changes which key a node casts — which makes it a
+  state-modelling question, not a linking one.
+- **39% of swaps are still short.** Chisa's is real and verified; Youhu (26)
+  and Iuno (22) top the list and have not been checked.
+- **The real remaining gauge gap is per-resonator SPECIAL resources**, not
+  energy (OPEN-ITEMS 36, maintainer-flagged): `RESOURCE_DEFS` curates 3 of 56
+  resonators while the game ships `specialEnergyCaps` for all 56, most with
+  several channels. Chisa's own Ring of Chainsaw is one of the 53.
+- `--ref` makes the lock reproducible but does not decide when to adopt 3.6.
+  The committed dataset is 3.5 and the live branch is 3.6.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — new items 35 (enforcement is now a
+policy call; the 27 position attachments) and 36 (Energy Regen unread); item 34
+marked partly addressed by `--ref`. `tests/concerto.test.mjs`'s header carries
+the superseded rationale struck through with the new measurements. HISTORY
+(this entry, plus the correction banner on the one above).

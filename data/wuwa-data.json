@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-17T19:55:09.884Z",
+  "generatedAt": "2026-08-19T09:16:00.006Z",
   "source": "Dimbreath/WutheringData + nanoka.cc",
   "credits": {
     "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
@@ -77092,7 +77092,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Eternal Frost",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -77125,7 +77125,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Glacial Gaze",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -77224,7 +77224,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Glacier Burst Damage",
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -77257,7 +77257,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Ice Prism Burst Damage",
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -78132,7 +78132,7 @@
         "relatedProp": 2,
         "name": "Resonance Skill: Emergency Plan",
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -78165,7 +78165,7 @@
         "relatedProp": 2,
         "name": "Resonance Liberation: Remnant Entities Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -79444,7 +79444,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Strive — Lion's Vigor",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -79510,7 +79510,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Glorious Plunge Damage",
         "energyGen": 2.6,
-        "concertoGen": 2.6,
+        "concertoGen": 37.6,
         "dmgTypes": [
           "heavy"
         ]
@@ -80687,7 +80687,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Press",
         "energyGen": 7.92,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -80719,7 +80719,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Hold",
         "energyGen": 7.92,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -80751,7 +80751,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Mid-air Press",
         "energyGen": 7.92,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -80783,7 +80783,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Inklit Spirit",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "basic"
         ]
@@ -80879,7 +80879,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Stroke of Genius",
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 13,
         "dmgTypes": [
           "basic"
         ]
@@ -80911,7 +80911,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Creation's Zenith",
         "energyGen": 7.02,
-        "concertoGen": 0,
+        "concertoGen": 13,
         "dmgTypes": [
           "basic"
         ]
@@ -82231,7 +82231,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Scroll Divination",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -82264,7 +82264,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Chime",
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -82297,7 +82297,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Ruyi",
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -82330,7 +82330,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Ding",
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -82363,7 +82363,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Mask",
         "energyGen": 5.010000000000001,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -82396,7 +82396,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Fortune's Favor",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -82462,7 +82462,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Poetic Essence Skill",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -84388,7 +84388,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Containment Tactics",
         "energyGen": 2.2600000000000002,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "heavy"
         ]
@@ -84520,7 +84520,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Art of Violence",
         "energyGen": 2,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "skill"
         ]
@@ -84553,7 +84553,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Chromatic Splendor",
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "skill"
         ]
@@ -84586,7 +84586,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Era of New Wave",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -84619,7 +84619,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Death Knell",
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "skill"
         ]
@@ -84652,7 +84652,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Fatal Finale",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -84718,7 +84718,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Imminent Oblivion",
         "energyGen": 17,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -87680,7 +87680,7 @@
         "relatedProp": 7,
         "name": "Heavy Attack: Bitterfrost — Foreclaimed Self",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "liberation"
         ]
@@ -87944,7 +87944,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Foreclaiming — Inward Vision",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -87977,7 +87977,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Foreclaiming — Blade Liberation Base",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -89467,7 +89467,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Clear As Day",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "basic"
         ]
@@ -89699,7 +89699,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Clip It",
         "energyGen": 11.75,
-        "concertoGen": 24.13,
+        "concertoGen": 14.129999999999999,
         "dmgTypes": [
           "intro"
         ]
@@ -89732,7 +89732,7 @@
         "relatedProp": 7,
         "name": "Intro Skill: Clip It — Hard Cut",
         "energyGen": 12.09,
-        "concertoGen": 24.93,
+        "concertoGen": 14.93,
         "dmgTypes": [
           "intro"
         ]
@@ -92609,7 +92609,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Whizzing Fight Spirit",
         "energyGen": 6,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -92642,7 +92642,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Blazing Flames",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -92708,7 +92708,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Thermobaric Bullets Damage",
         "energyGen": 0.36,
-        "concertoGen": 0,
+        "concertoGen": 0.5,
         "dmgTypes": [
           "skill"
         ]
@@ -94228,7 +94228,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Flaming Woolies Damage",
         "energyGen": 15.28,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -94261,7 +94261,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Energetic Welcome Damage",
         "energyGen": 0.75,
-        "concertoGen": 1.51,
+        "concertoGen": 6.51,
         "dmgTypes": [
           "skill"
         ]
@@ -94294,7 +94294,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Cosmos — Frolicking Stage 1",
         "energyGen": 1.32,
-        "concertoGen": 2.66,
+        "concertoGen": 22.66,
         "dmgTypes": [
           "basic"
         ]
@@ -94558,7 +94558,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Cloudy Frenzy Damage",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "liberation"
         ]
@@ -94591,7 +94591,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Cosmos Rupture Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "liberation"
         ]
@@ -95511,7 +95511,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Passionate Variation",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 18,
         "dmgTypes": [
           "skill"
         ]
@@ -95544,7 +95544,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Violent Finale Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -95643,7 +95643,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Fury Fugue Damage",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 18,
         "dmgTypes": [
           "skill"
         ]
@@ -97053,7 +97053,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: True Sight — Capture",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 14,
         "dmgTypes": [
           "skill"
         ]
@@ -97085,7 +97085,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: True Sight — Conquest",
         "energyGen": 4.04,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "skill"
         ]
@@ -97117,7 +97117,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: True Sight — Charge",
         "energyGen": 2.5700000000000003,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "dmgTypes": [
           "skill"
         ]
@@ -97149,7 +97149,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Radiance of Fealty",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -97213,7 +97213,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Flaming Sacrifice",
         "energyGen": 6.61,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -99805,7 +99805,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Anchors Aweigh!",
         "energyGen": 7.18,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -99871,7 +99871,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: To the Horizon",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -99937,7 +99937,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Returned from Ashes",
         "energyGen": 30,
-        "concertoGen": 30,
+        "concertoGen": 50,
         "dmgTypes": [
           "basic"
         ]
@@ -102096,7 +102096,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Skill Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -105991,7 +105991,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Ascent of Malice",
         "energyGen": 14.76,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "heavy"
         ]
@@ -106024,7 +106024,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Hellfire Absolution · Echo",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "echo"
         ]
@@ -108160,7 +108160,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Distributed Array",
         "energyGen": 18.52,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -108193,7 +108193,7 @@
         "relatedProp": 10,
         "name": "Resonance Liberation: Critical Protocol",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -111401,7 +111401,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Heavenfall Edict — Overdrive",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -111434,7 +111434,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Heavenfall Edict — Finale",
         "energyGen": 20,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -113993,7 +113993,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Final Act — Stagecraft Form",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -114026,7 +114026,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Final Act — Breakdown Form",
         "energyGen": 30,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -116487,7 +116487,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Extermination Order Stage 1",
         "energyGen": 3.1399999999999997,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "dmgTypes": [
           "skill"
         ]
@@ -116520,7 +116520,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Extermination Order Stage 2",
         "energyGen": 4.7299999999999995,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "dmgTypes": [
           "skill"
         ]
@@ -116553,7 +116553,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Extermination Order Stage 3",
         "energyGen": 7.9,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "dmgTypes": [
           "skill"
         ]
@@ -116586,7 +116586,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Phantom Etching",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -116751,7 +116751,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: \"Mercy\" Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "dmgTypes": [
           "heavy"
         ]
@@ -116784,7 +116784,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: \"Death Messenger\" Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "liberation"
         ]
@@ -117955,7 +117955,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Magnetic Roar Damage",
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -117988,7 +117988,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Lightning Execution Damage",
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -118021,7 +118021,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Electromagnetic Blast Damage",
         "energyGen": 0,
-        "concertoGen": 5,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -118054,7 +118054,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Thundering Wrath",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -119684,7 +119684,7 @@
         "relatedProp": 10,
         "name": "Resonance Skill: Leihuang Master",
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 3,
         "dmgTypes": [
           "skill"
         ]
@@ -119783,7 +119783,7 @@
         "relatedProp": 10,
         "name": "Resonance Skill: Rumbling Spark Damage",
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 25,
         "dmgTypes": [
           "skill"
         ]
@@ -119816,7 +119816,7 @@
         "relatedProp": 10,
         "name": "Resonance Liberation: Blazing Might",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -122075,7 +122075,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Overflowing Radiance",
         "energyGen": 1.29,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "dmgTypes": [
           "skill"
         ]
@@ -122107,7 +122107,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Purge of Light",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -122363,7 +122363,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Crescent Divinity",
         "energyGen": 3.1900000000000004,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -122395,7 +122395,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Illuminous Epiphany — Solar Flare",
         "energyGen": 1.9800000000000002,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -122427,7 +122427,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Illuminous Epiphany — Stella Glamor",
         "energyGen": 5.67,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -123920,7 +123920,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Deduction",
         "energyGen": 6.25,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "skill"
         ]
@@ -123953,7 +123953,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Cogitation Model",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -124085,7 +124085,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Divergence",
         "energyGen": 9.940000000000001,
-        "concertoGen": 5,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -124184,7 +124184,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Decipher",
         "energyGen": 1.67,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "liberation"
         ]
@@ -124217,7 +124217,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Law of Reigns",
         "energyGen": 4.779999999999999,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "liberation"
         ]
@@ -124250,7 +124250,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Revamp",
         "energyGen": 2.7800000000000002,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "liberation"
         ]
@@ -126693,7 +126693,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Warrior's Blade",
         "energyGen": 9,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -126726,7 +126726,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Sword of Eternal Oath",
         "energyGen": 4.74,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "heavy"
         ]
@@ -126924,7 +126924,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Undying Sunlight — Plunge · Forte Circuit",
         "energyGen": 11,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "heavy"
         ]
@@ -127522,7 +127522,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Stage 1",
         "energyGen": 1.06,
-        "concertoGen": 3.34,
+        "concertoGen": 18.34,
         "dmgTypes": [
           "basic"
         ]
@@ -127720,7 +127720,7 @@
         "relatedProp": 7,
         "name": "Heavy Attack: Mountain Over Thunder",
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "heavy"
         ]
@@ -127753,7 +127753,7 @@
         "relatedProp": 7,
         "name": "Heavy Attack: Thunder Over Mountain",
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "heavy"
         ]
@@ -127786,7 +127786,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Thunder Talisman",
         "energyGen": 7.5,
-        "concertoGen": 0,
+        "concertoGen": 23,
         "dmgTypes": [
           "skill"
         ]
@@ -127852,7 +127852,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Flashing Thunder Spell",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -131078,7 +131078,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Mk. 31 HMG",
         "energyGen": 0,
-        "concertoGen": 0.56,
+        "concertoGen": 20.56,
         "dmgTypes": [
           "basic"
         ]
@@ -134272,7 +134272,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Ultimate Tactics",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -135985,7 +135985,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Zephyr Domain",
         "energyGen": 11.82,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -136018,7 +136018,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Wind Spirals",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -136117,7 +136117,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Feather Release Damage",
         "energyGen": 6.04,
-        "concertoGen": 13,
+        "concertoGen": 43,
         "dmgTypes": [
           "basic"
         ]
@@ -138011,7 +138011,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Mist Bullet Damage",
         "energyGen": 2,
-        "concertoGen": 1.5,
+        "concertoGen": 16.5,
         "dmgTypes": [
           "skill"
         ]
@@ -138044,7 +138044,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Flower in the Mist",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -140042,7 +140042,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Windqueller",
         "energyGen": 9,
-        "concertoGen": 0,
+        "concertoGen": 16,
         "dmgTypes": [
           "skill"
         ]
@@ -140075,7 +140075,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Lance of Qingloong Stage 1",
         "energyGen": 3.759999999999999,
-        "concertoGen": 7.6000000000000005,
+        "concertoGen": 27.6,
         "dmgTypes": [
           "heavy"
         ]
@@ -141301,7 +141301,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Chi Counter Damage",
         "energyGen": 4,
-        "concertoGen": 0,
+        "concertoGen": 14,
         "dmgTypes": [
           "skill"
         ]
@@ -141334,7 +141334,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Chi Parry Damage",
         "energyGen": 4,
-        "concertoGen": 0,
+        "concertoGen": 14,
         "dmgTypes": [
           "skill"
         ]
@@ -141366,7 +141366,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Continuous Damage",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -141462,7 +141462,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Pushing Punch Damage",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "heavy"
         ]
@@ -141526,7 +141526,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Minor Zhoutian Shock Damage",
         "energyGen": 2,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "heavy"
         ]
@@ -141558,7 +141558,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Major Zhoutian — Inner Shock Damage",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 18,
         "dmgTypes": [
           "heavy"
         ]
@@ -141590,7 +141590,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Major Zhoutian — Outer Shock Damage",
         "energyGen": 15.61,
-        "concertoGen": 0,
+        "concertoGen": 23,
         "dmgTypes": [
           "heavy"
         ]
@@ -141622,7 +141622,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Yielding Pull Damage",
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "heavy"
         ]
@@ -143012,7 +143012,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Awakening Gale",
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -143045,7 +143045,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Skyfall Severance",
         "energyGen": 2.52,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "skill"
         ]
@@ -143078,7 +143078,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Omega Storm",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -144519,7 +144519,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Harmonic Allegro",
         "energyGen": 9.6,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -144552,7 +144552,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Improvised Symphonic Poem Skill",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -144651,7 +144651,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Quadruple Downbeat",
         "energyGen": 14.969999999999999,
-        "concertoGen": 0,
+        "concertoGen": 25,
         "dmgTypes": [
           "heavy"
         ]
@@ -147654,7 +147654,7 @@
         "relatedProp": 2,
         "name": "Resonance Skill: Sword to Bear Their Names",
         "energyGen": 16.279999999999998,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "basic"
         ]
@@ -147687,7 +147687,7 @@
         "relatedProp": 2,
         "name": "Resonance Liberation: Blade of Howling Squall",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -148182,7 +148182,7 @@
         "relatedProp": 2,
         "name": "Forte Circuit: Sword to Answer Waves' Call",
         "energyGen": 2.33,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -148215,7 +148215,7 @@
         "relatedProp": 2,
         "name": "Forte Circuit: May Tempest Break the Tides",
         "energyGen": 8.82,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -149796,7 +149796,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Pulse of Origins",
         "energyGen": 4.58,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "dmgTypes": [
           "skill"
         ]
@@ -149829,7 +149829,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Closing Refrain",
         "energyGen": 8.15,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -149862,7 +149862,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Unfinished Refrain",
         "energyGen": 8.15,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -149895,7 +149895,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Arc Beyond the Edge",
         "energyGen": 9.36,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "liberation"
         ]
@@ -149928,7 +149928,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Beneath Lunar Tides",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -149994,7 +149994,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Flux — Moonbow",
         "energyGen": 3.5,
-        "concertoGen": 7,
+        "concertoGen": 11,
         "dmgTypes": [
           "liberation"
         ]
@@ -151962,7 +151962,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Through the Groves · Echo",
         "energyGen": 15.09,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "echo"
         ]
@@ -151995,7 +151995,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Undaunted Wayfarer · Echo",
         "energyGen": 15.379999999999999,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "echo"
         ]
@@ -152028,7 +152028,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Sundering Strike · Echo",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "echo"
         ]
@@ -154363,7 +154363,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Where Trust Leads Me! · Echo",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "echo"
         ]
@@ -154561,7 +154561,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Learn My True Name · Echo",
         "energyGen": 5.430000000000001,
-        "concertoGen": 20,
+        "concertoGen": 30,
         "dmgTypes": [
           "echo"
         ]
@@ -154923,7 +154923,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Resonating Slashes",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -154956,7 +154956,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Echoing Orchestra",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -155022,7 +155022,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Resonating Spin",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -155088,7 +155088,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Resonating Echoes Stage 1",
         "energyGen": 0.5,
-        "concertoGen": 3,
+        "concertoGen": 11,
         "dmgTypes": [
           "skill"
         ]
@@ -155121,7 +155121,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Resonating Echoes Stage 2",
         "energyGen": 2,
-        "concertoGen": 5,
+        "concertoGen": 13,
         "dmgTypes": [
           "skill"
         ]
@@ -156336,7 +156336,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Botany Experiment",
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 30,
         "dmgTypes": [
           "skill"
         ]
@@ -156369,7 +156369,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Arboreal Flourish",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -156468,7 +156468,7 @@
         "relatedProp": 7,
         "name": "Heavy Attack: Starflower Blooms Damage · Forte Circuit",
         "energyGen": 2.91,
-        "concertoGen": 4.66,
+        "concertoGen": 16.66,
         "dmgTypes": [
           "heavy"
         ]
@@ -157854,7 +157854,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Squeakie Express",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -158085,7 +158085,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Energized Pounce",
         "energyGen": 3.2,
-        "concertoGen": 2.56,
+        "concertoGen": 14.56,
         "dmgTypes": [
           "basic"
         ]
@@ -158118,7 +158118,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Energized Rebound",
         "energyGen": 2.3,
-        "concertoGen": 1.84,
+        "concertoGen": 13.84,
         "dmgTypes": [
           "basic"
         ]
@@ -159178,7 +159178,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Dim Star Butterfly",
         "energyGen": 2,
-        "concertoGen": 2,
+        "concertoGen": 22,
         "dmgTypes": [
           "skill"
         ]
@@ -159310,7 +159310,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Illation",
         "energyGen": 2,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "dmgTypes": [
           "heavy"
         ]
@@ -159343,7 +159343,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Transmutation",
         "energyGen": 1.55,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "dmgTypes": [
           "basic"
         ]
@@ -160491,7 +160491,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Dawn of Enlightenment",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -160557,7 +160557,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Absolution Litany",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "heavy"
         ]
@@ -160590,7 +160590,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Utter Confession",
         "energyGen": 18,
-        "concertoGen": 0,
+        "concertoGen": 40,
         "dmgTypes": [
           "skill"
         ]
@@ -163297,7 +163297,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Standard Defense Protocol",
         "energyGen": 5.67,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "skill"
         ]
@@ -163330,7 +163330,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Pinpoint Strike",
         "energyGen": 2.9299999999999997,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "dmgTypes": [
           "skill"
         ]
@@ -163363,7 +163363,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Targeted Action",
         "energyGen": 5.79,
-        "concertoGen": 10,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -163396,7 +163396,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Forcible Riposte",
         "energyGen": 5.79,
-        "concertoGen": 10,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -163429,7 +163429,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Rekindle",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -163462,7 +163462,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: The Last Stand",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "liberation"
         ]
@@ -166993,7 +166993,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Moment of Nihility",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -167158,7 +167158,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Sawring — Eradication",
         "energyGen": 22.400000000000002,
-        "concertoGen": 4.8,
+        "concertoGen": 49.8,
         "dmgTypes": [
           "liberation"
         ]
@@ -169371,7 +169371,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Prismatic Overblast",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -171998,7 +171998,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Rewritten in Winter's Margins",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "basic"
         ]
@@ -172064,7 +172064,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Gavel of Earthshaker",
         "energyGen": 6,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "basic"
         ]
@@ -174716,7 +174716,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Stage 1",
         "energyGen": 1.9,
-        "concertoGen": 6.17,
+        "concertoGen": 14.17,
         "dmgTypes": [
           "basic"
         ]
@@ -175343,7 +175343,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Pulse Interference",
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "skill"
         ]
@@ -175376,7 +175376,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Deadlock",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "dmgTypes": [
           "heavy"
         ]
@@ -175409,7 +175409,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Netrunner — Override",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "heavy"
         ]
@@ -176557,7 +176557,7 @@
         "relatedProp": 10,
         "name": "Resonance Skill: Fortified Defense",
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -176610,7 +176610,7 @@
         "relatedProp": 10,
         "name": "Resonance Liberation: Unmovable",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -178041,7 +178041,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Consecutive Attack",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -178140,7 +178140,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Chaoscleave Damage",
         "energyGen": 14,
-        "concertoGen": 0,
+        "concertoGen": 50,
         "dmgTypes": [
           "heavy"
         ]
@@ -178206,7 +178206,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Full Energy Chaoscleave Damage",
         "energyGen": 14,
-        "concertoGen": 0,
+        "concertoGen": 50,
         "dmgTypes": [
           "heavy"
         ]
@@ -180428,7 +180428,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Crimson Blossom",
         "energyGen": 3.18,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "basic"
         ]
@@ -180626,7 +180626,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Floral Ravage",
         "energyGen": 3.7,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "dmgTypes": [
           "basic"
         ]
@@ -180725,7 +180725,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Fervor Efflorescent",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -182146,7 +182146,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Wingblade",
         "energyGen": 12,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "dmgTypes": [
           "skill"
         ]
@@ -182179,7 +182179,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Deadening Abyss",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "liberation"
         ]
@@ -182572,7 +182572,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Umbra — Lifetaker Damage",
         "energyGen": 8,
-        "concertoGen": 0
+        "concertoGen": 15
       }
     ],
     "1606": [
@@ -183562,7 +183562,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Acrobatic Trick",
         "energyGen": 14,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "skill"
         ]
@@ -183595,7 +183595,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Commedia Improvviso!",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "heavy"
         ]
@@ -183661,7 +183661,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Stage 1",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "heavy"
         ]
@@ -183694,7 +183694,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Stage 2",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 16,
         "dmgTypes": [
           "heavy"
         ]
@@ -183727,7 +183727,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Stage 3",
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 25,
         "dmgTypes": [
           "heavy"
         ]
@@ -185681,7 +185681,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Graceful Step",
         "energyGen": 1.56,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -185714,7 +185714,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Flickering Reverie",
         "energyGen": 1.65,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -185780,7 +185780,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Flowing Suffocation",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "basic"
         ]
@@ -186044,7 +186044,7 @@
         "relatedProp": 7,
         "name": "Forte Circuit: Perception Drain",
         "energyGen": 21.1,
-        "concertoGen": 0,
+        "concertoGen": 12,
         "dmgTypes": [
           "basic"
         ]
@@ -188314,7 +188314,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Scarlet Coda",
         "energyGen": 6.93,
-        "concertoGen": 0,
+        "concertoGen": 40,
         "dmgTypes": [
           "skill"
         ]
@@ -188413,7 +188413,7 @@
         "relatedProp": 7,
         "name": "Resonance Skill: Whispers in a Fleeting Dream",
         "energyGen": 13.34,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "dmgTypes": [
           "skill"
         ]
@@ -188446,7 +188446,7 @@
         "relatedProp": 7,
         "name": "Basic Attack: Hecate Stage 1 · Echo",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "echo"
         ]
@@ -190760,7 +190760,7 @@
         "relatedProp": 7,
         "name": "Resonance Liberation: Hush of a Thousand Voices",
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "dmgTypes": [
           "heavy"
         ]
@@ -195244,7 +195244,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -195345,7 +195345,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -195532,7 +195532,7 @@
           }
         ],
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.2074,
@@ -195607,7 +195607,7 @@
           }
         ],
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.3003,
@@ -195967,7 +195967,7 @@
           }
         ],
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 16,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -196075,7 +196075,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka"
@@ -196639,7 +196639,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -196753,7 +196753,7 @@
           }
         ],
         "energyGen": 2.6,
-        "concertoGen": 2.6,
+        "concertoGen": 37.6,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.4,
@@ -197225,7 +197225,7 @@
           }
         ],
         "energyGen": 7.92,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "cooldown": 6,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -197279,7 +197279,7 @@
           }
         ],
         "energyGen": 7.92,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.4,
@@ -197354,7 +197354,7 @@
           }
         ],
         "energyGen": 7.92,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.3,
@@ -197459,7 +197459,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -197622,7 +197622,7 @@
           }
         ],
         "energyGen": 7,
-        "concertoGen": 0,
+        "concertoGen": 13,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.3,
@@ -197674,7 +197674,7 @@
           }
         ],
         "energyGen": 7.02,
-        "concertoGen": 0,
+        "concertoGen": 13,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.4667,
@@ -197968,7 +197968,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 15,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -198021,7 +198021,7 @@
           }
         ],
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.1667,
@@ -198073,7 +198073,7 @@
           }
         ],
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.1333,
@@ -198125,7 +198125,7 @@
           }
         ],
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.2,
@@ -198177,7 +198177,7 @@
           }
         ],
         "energyGen": 5.010000000000001,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0001,
@@ -198282,7 +198282,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -198401,7 +198401,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "sequenceLength",
         "resolvesAt": 1.7,
@@ -198586,7 +198586,7 @@
           }
         ],
         "energyGen": 2.2600000000000002,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.6333,
@@ -198770,7 +198770,7 @@
           }
         ],
         "energyGen": 2,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "cooldown": 14,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -198824,7 +198824,7 @@
           }
         ],
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.2667,
@@ -198980,7 +198980,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Skill Cooldown",
         "source": "nanoka",
@@ -199036,7 +199036,7 @@
           }
         ],
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "consumesResource": false,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
@@ -199089,7 +199089,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "consumesResource": false,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
@@ -199257,7 +199257,7 @@
           }
         ],
         "energyGen": 17,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 22,
         "cooldownGroup": "7:Tinted Crystal Cooldown",
         "source": "nanoka",
@@ -199757,7 +199757,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "nextAttAt": 2.5,
@@ -200146,7 +200146,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "consumesResource": false,
         "cooldown": 25,
         "cooldownGroup": "3:Foreclaiming: Inward Vision Cooldown",
@@ -200252,7 +200252,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Foreclaiming: Blade Liberation Cooldown",
         "conditionalBuff": {
@@ -200761,7 +200761,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka"
@@ -201002,7 +201002,7 @@
           }
         ],
         "energyGen": 11.75,
-        "concertoGen": 24.13,
+        "concertoGen": 14.129999999999999,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.6342,
@@ -201087,7 +201087,7 @@
           }
         ],
         "energyGen": 12.09,
-        "concertoGen": 24.93,
+        "concertoGen": 14.93,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.451,
@@ -202088,7 +202088,7 @@
           }
         ],
         "energyGen": 6,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 9,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -202187,7 +202187,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -202323,7 +202323,7 @@
           }
         ],
         "energyGen": 0.36,
-        "concertoGen": 0,
+        "concertoGen": 0.5,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.7008,
@@ -202683,7 +202683,7 @@
           }
         ],
         "energyGen": 15.28,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -202737,7 +202737,7 @@
           }
         ],
         "energyGen": 0.75,
-        "concertoGen": 1.51,
+        "concertoGen": 6.51,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.2333,
@@ -202869,7 +202869,7 @@
           }
         ],
         "energyGen": 1.32,
-        "concertoGen": 2.66,
+        "concertoGen": 22.66,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -203206,7 +203206,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 2.3,
@@ -203257,7 +203257,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 3.39,
@@ -203620,7 +203620,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 18,
         "cooldown": 14,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -203751,7 +203751,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -203882,7 +203882,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 18,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.3333,
@@ -204308,7 +204308,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 14,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0667,
@@ -204360,7 +204360,7 @@
           }
         ],
         "energyGen": 4.04,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.7388,
@@ -204412,7 +204412,7 @@
           }
         ],
         "energyGen": 2.5700000000000003,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.3504,
@@ -204518,7 +204518,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -204636,7 +204636,7 @@
           }
         ],
         "energyGen": 6.61,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.8667,
@@ -205547,7 +205547,7 @@
           }
         ],
         "energyGen": 7.18,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 4,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -205732,7 +205732,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 24,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -205878,7 +205878,7 @@
           }
         ],
         "energyGen": 30,
-        "concertoGen": 30,
+        "concertoGen": 50,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0383,
@@ -206687,7 +206687,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -207455,7 +207455,7 @@
           }
         ],
         "energyGen": 14.76,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 13,
         "cooldownGroup": "2:Resonance Skill - Ascent of Malice Cooldown",
         "source": "nanoka",
@@ -207555,7 +207555,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Resonance Liberation - Hellfire Absolution Cooldown",
         "source": "nanoka"
@@ -208557,7 +208557,7 @@
           }
         ],
         "energyGen": 18.52,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 16,
         "cooldownGroup": "2:Distributed Array Cooldown",
         "source": "nanoka",
@@ -208663,7 +208663,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -209617,7 +209617,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Heavenfall Edict: Overdrive Cooldown",
         "source": "nanoka",
@@ -209695,7 +209695,7 @@
           }
         ],
         "energyGen": 20,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "consumesResource": false,
         "cooldown": 25,
         "cooldownGroup": "3:Heavenfall Edict: Finale Cooldown",
@@ -210855,7 +210855,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Final Act - Stagecraft Form Cooldown",
         "source": "nanoka",
@@ -210936,7 +210936,7 @@
           }
         ],
         "energyGen": 30,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "consumesResource": false,
         "cooldown": 25,
         "cooldownGroup": "3:Final Act - Breakdown Form Cooldown",
@@ -211383,7 +211383,7 @@
           }
         ],
         "energyGen": 3.1399999999999997,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka"
@@ -211426,7 +211426,7 @@
           }
         ],
         "energyGen": 4.7299999999999995,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "source": "nanoka"
       },
       "skill_extermination_order_3": {
@@ -211467,7 +211467,7 @@
           }
         ],
         "energyGen": 7.9,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.68,
@@ -211590,7 +211590,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -211800,7 +211800,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.72,
@@ -211850,7 +211850,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.72,
@@ -212158,7 +212158,7 @@
           }
         ],
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 12,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -212210,7 +212210,7 @@
           }
         ],
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.6655,
@@ -212259,7 +212259,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 5,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "nextAttAt": 0.8332,
@@ -212356,7 +212356,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -212802,7 +212802,7 @@
           }
         ],
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 3,
         "cooldown": 3,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -212934,7 +212934,7 @@
           }
         ],
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 25,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.6044,
@@ -213035,7 +213035,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -213901,7 +213901,7 @@
           }
         ],
         "energyGen": 1.29,
-        "concertoGen": 0,
+        "concertoGen": 4,
         "cooldown": 12,
         "cooldownGroup": "2:Overflowing Radiance Cooldown",
         "source": "nanoka",
@@ -214002,7 +214002,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 24,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -214389,7 +214389,7 @@
           }
         ],
         "energyGen": 3.1900000000000004,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "cooldown": 10,
         "cooldownGroup": "7:Crescent Divinity Cooldown",
         "source": "nanoka",
@@ -214440,7 +214440,7 @@
           }
         ],
         "energyGen": 1.9800000000000002,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.45,
@@ -214492,7 +214492,7 @@
           }
         ],
         "energyGen": 5.67,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 2.13,
@@ -214845,7 +214845,7 @@
           }
         ],
         "energyGen": 6.25,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "cooldown": 5,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -214977,7 +214977,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cogitation Model Cooldown",
         "source": "nanoka",
@@ -215139,7 +215139,7 @@
           }
         ],
         "energyGen": 9.940000000000001,
-        "concertoGen": 5,
+        "concertoGen": 15,
         "consumesResource": false,
         "cooldown": 7,
         "cooldownGroup": "3:Divergence Cooldown",
@@ -215283,7 +215283,7 @@
           }
         ],
         "energyGen": 1.67,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.6,
@@ -215335,7 +215335,7 @@
           }
         ],
         "energyGen": 4.779999999999999,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.3333,
@@ -215413,7 +215413,7 @@
           }
         ],
         "energyGen": 2.7800000000000002,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0333,
@@ -216022,7 +216022,7 @@
           }
         ],
         "energyGen": 9,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 15,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -216152,7 +216152,7 @@
           }
         ],
         "energyGen": 4.74,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Resonance Liberation - Sword of Eternal Oath Cooldown",
         "source": "nanoka",
@@ -216443,7 +216443,7 @@
           }
         ],
         "energyGen": 11,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "source": "nanoka",
         "stepDurationRule": "sequenceLength",
         "interruptLevel": 6,
@@ -216624,7 +216624,7 @@
           }
         ],
         "energyGen": 1.06,
-        "concertoGen": 3.34,
+        "concertoGen": 18.34,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.1371,
@@ -216857,7 +216857,7 @@
           }
         ],
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.8332,
@@ -216932,7 +216932,7 @@
           }
         ],
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.8218,
@@ -217009,7 +217009,7 @@
           }
         ],
         "energyGen": 7.5,
-        "concertoGen": 0,
+        "concertoGen": 23,
         "cooldown": 15,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -217142,7 +217142,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 24,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -218052,7 +218052,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0.56,
+        "concertoGen": 20.56,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka"
@@ -219030,7 +219030,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -219841,7 +219841,7 @@
           }
         ],
         "energyGen": 11.82,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -219948,7 +219948,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -220088,7 +220088,7 @@
           }
         ],
         "energyGen": 6.04,
-        "concertoGen": 13,
+        "concertoGen": 43,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.7096,
@@ -220426,7 +220426,7 @@
           }
         ],
         "energyGen": 2,
-        "concertoGen": 1.5,
+        "concertoGen": 16.5,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -220528,7 +220528,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -221089,7 +221089,7 @@
           }
         ],
         "energyGen": 9,
-        "concertoGen": 0,
+        "concertoGen": 16,
         "cooldown": 7,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -221220,7 +221220,7 @@
           }
         ],
         "energyGen": 3.759999999999999,
-        "concertoGen": 7.6000000000000005,
+        "concertoGen": 27.6,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -221723,7 +221723,7 @@
           }
         ],
         "energyGen": 4,
-        "concertoGen": 0,
+        "concertoGen": 14,
         "cooldown": 12,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -221776,7 +221776,7 @@
           }
         ],
         "energyGen": 4,
-        "concertoGen": 0,
+        "concertoGen": 14,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.2667,
@@ -221899,7 +221899,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -222072,7 +222072,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "idleReturn",
         "resolvesAt": 0.2808,
@@ -222147,7 +222147,7 @@
           }
         ],
         "energyGen": 2,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 1.8497,
@@ -222196,7 +222196,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 18,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 3.9872,
@@ -222245,7 +222245,7 @@
           }
         ],
         "energyGen": 15.61,
-        "concertoGen": 0,
+        "concertoGen": 23,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 5.0245,
@@ -222294,7 +222294,7 @@
           }
         ],
         "energyGen": 3,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.3091,
@@ -222661,7 +222661,7 @@
           }
         ],
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 3,
         "cooldownGroup": "2:Awakening Gale Cooldown",
         "source": "nanoka",
@@ -222740,7 +222740,7 @@
           }
         ],
         "energyGen": 2.52,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "cooldown": 12,
         "cooldownGroup": "2:Skyfall Severance Cooldown",
         "source": "nanoka",
@@ -222849,7 +222849,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 24,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -223467,7 +223467,7 @@
           }
         ],
         "energyGen": 9.6,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -223600,7 +223600,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -223741,7 +223741,7 @@
           }
         ],
         "energyGen": 14.969999999999999,
-        "concertoGen": 0,
+        "concertoGen": 25,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.6333,
@@ -224029,7 +224029,7 @@
           }
         ],
         "energyGen": 16.279999999999998,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 14,
         "cooldownGroup": "2:Resonance Skill Cooldown",
         "source": "nanoka",
@@ -224211,7 +224211,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:A Knight's Heartfelt Prayers Cooldown",
         "source": "nanoka",
@@ -224902,7 +224902,7 @@
           }
         ],
         "energyGen": 2.33,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.6927,
@@ -224954,7 +224954,7 @@
           }
         ],
         "energyGen": 8.82,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0001,
@@ -225240,7 +225240,7 @@
           }
         ],
         "energyGen": 4.58,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "cooldown": 6,
         "cooldownGroup": "2:Pulse of Origins Cooldown",
         "source": "nanoka",
@@ -225319,7 +225319,7 @@
           }
         ],
         "energyGen": 8.15,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "cooldown": 8,
         "cooldownGroup": "2:Closing/Unfinished Refrain Cooldown",
         "source": "nanoka",
@@ -225398,7 +225398,7 @@
           }
         ],
         "energyGen": 8.15,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "cooldown": 8,
         "cooldownGroup": "2:Closing/Unfinished Refrain Cooldown",
         "source": "nanoka",
@@ -225477,7 +225477,7 @@
           }
         ],
         "energyGen": 9.36,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "cooldown": 10,
         "cooldownGroup": "2:Arc Beyond the Edge Cooldown",
         "source": "nanoka",
@@ -225584,7 +225584,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -225942,7 +225942,7 @@
           }
         ],
         "energyGen": 3.5,
-        "concertoGen": 7,
+        "concertoGen": 11,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.1667,
@@ -226426,7 +226426,7 @@
           }
         ],
         "energyGen": 15.09,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 14,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -226480,7 +226480,7 @@
           }
         ],
         "energyGen": 15.379999999999999,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.2333,
@@ -226575,7 +226575,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -227422,7 +227422,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -227652,7 +227652,7 @@
           }
         ],
         "energyGen": 5.430000000000001,
-        "concertoGen": 20,
+        "concertoGen": 30,
         "cooldown": 25,
         "cooldownGroup": "7:Forte Circuit - Learn My True Name Cooldown",
         "source": "nanoka",
@@ -228088,7 +228088,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 6,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -228189,7 +228189,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -228325,7 +228325,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.4886,
@@ -228403,7 +228403,7 @@
           }
         ],
         "energyGen": 0.5,
-        "concertoGen": 3,
+        "concertoGen": 11,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.15,
@@ -228453,7 +228453,7 @@
           }
         ],
         "energyGen": 2,
-        "concertoGen": 5,
+        "concertoGen": 13,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.5515,
@@ -228997,7 +228997,7 @@
           }
         ],
         "energyGen": 15,
-        "concertoGen": 0,
+        "concertoGen": 30,
         "cooldown": 12,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -229130,7 +229130,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -229266,7 +229266,7 @@
           }
         ],
         "energyGen": 2.91,
-        "concertoGen": 4.66,
+        "concertoGen": 16.66,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.2081,
@@ -229795,7 +229795,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -230039,7 +230039,7 @@
           }
         ],
         "energyGen": 3.2,
-        "concertoGen": 2.56,
+        "concertoGen": 14.56,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.8022,
@@ -230091,7 +230091,7 @@
           }
         ],
         "energyGen": 2.3,
-        "concertoGen": 1.84,
+        "concertoGen": 13.84,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.4357,
@@ -230426,7 +230426,7 @@
           }
         ],
         "energyGen": 2,
-        "concertoGen": 2,
+        "concertoGen": 22,
         "cooldown": 16,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -230639,7 +230639,7 @@
           }
         ],
         "energyGen": 2,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.3742,
@@ -230716,7 +230716,7 @@
           }
         ],
         "energyGen": 1.55,
-        "concertoGen": 0,
+        "concertoGen": 6,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.1006,
@@ -231245,7 +231245,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -231360,7 +231360,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.0001,
@@ -231411,7 +231411,7 @@
           }
         ],
         "energyGen": 18,
-        "concertoGen": 0,
+        "concertoGen": 40,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.0001,
@@ -231845,7 +231845,7 @@
           }
         ],
         "energyGen": 5.67,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "cooldown": 5,
         "cooldownGroup": "2:Standard Defense Protocol Cooldown",
         "source": "nanoka",
@@ -231899,7 +231899,7 @@
           }
         ],
         "energyGen": 2.9299999999999997,
-        "concertoGen": 0,
+        "concertoGen": 5,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.6,
@@ -231951,7 +231951,7 @@
           }
         ],
         "energyGen": 5.79,
-        "concertoGen": 10,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.3,
@@ -232003,7 +232003,7 @@
           }
         ],
         "energyGen": 5.79,
-        "concertoGen": 10,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 1.3,
@@ -232133,7 +232133,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -232189,7 +232189,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "consumesResource": false,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
@@ -233005,7 +233005,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -233195,7 +233195,7 @@
           }
         ],
         "energyGen": 22.400000000000002,
-        "concertoGen": 4.8,
+        "concertoGen": 49.8,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "nextAttAt": 2.4,
@@ -234144,7 +234144,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -235067,7 +235067,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -235205,7 +235205,7 @@
           }
         ],
         "energyGen": 6,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "skillEnd",
         "resolvesAt": 0.0332,
@@ -235398,7 +235398,7 @@
           }
         ],
         "energyGen": 1.9,
-        "concertoGen": 6.17,
+        "concertoGen": 14.17,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.04,
@@ -236112,7 +236112,7 @@
           }
         ],
         "energyGen": 5,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.7667,
@@ -236190,7 +236190,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 8,
         "cooldown": 14,
         "cooldownGroup": "2:Resonance Skill - Deadlock Cooldown",
         "source": "nanoka",
@@ -236297,7 +236297,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka"
@@ -236795,7 +236795,7 @@
           }
         ],
         "energyGen": 10,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 15,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -236912,7 +236912,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -237593,7 +237593,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -237735,7 +237735,7 @@
           }
         ],
         "energyGen": 14,
-        "concertoGen": 0,
+        "concertoGen": 50,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.67,
@@ -237811,7 +237811,7 @@
           }
         ],
         "energyGen": 14,
-        "concertoGen": 0,
+        "concertoGen": 50,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.67,
@@ -238193,7 +238193,7 @@
           }
         ],
         "energyGen": 3.18,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "cooldown": 4,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -238519,7 +238519,7 @@
           }
         ],
         "energyGen": 3.7,
-        "concertoGen": 0,
+        "concertoGen": 7,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.09,
@@ -238705,7 +238705,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -239207,7 +239207,7 @@
           }
         ],
         "energyGen": 12,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 12,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -239307,7 +239307,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 16,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -239749,7 +239749,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 15,
         "cooldown": 12,
         "cooldownGroup": "7:Umbra: Lifetaker Cooldown",
         "source": "nanoka",
@@ -240073,7 +240073,7 @@
           }
         ],
         "energyGen": 14,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 10,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -240180,7 +240180,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 20,
         "cooldownGroup": "3:Cooldown",
         "source": "nanoka",
@@ -240296,7 +240296,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0001,
@@ -240347,7 +240347,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 16,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0001,
@@ -240398,7 +240398,7 @@
           }
         ],
         "energyGen": 8,
-        "concertoGen": 0,
+        "concertoGen": 25,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 0.0001,
@@ -240710,7 +240710,7 @@
           }
         ],
         "energyGen": 1.56,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 6,
         "cooldownGroup": "2:Graceful Step Cooldown",
         "source": "nanoka",
@@ -240789,7 +240789,7 @@
           }
         ],
         "energyGen": 1.65,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 12,
         "cooldownGroup": "2:Flickering Reverie Cooldown",
         "source": "nanoka",
@@ -240912,7 +240912,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Flowing Suffocation Cooldown",
         "source": "nanoka",
@@ -241296,7 +241296,7 @@
           }
         ],
         "energyGen": 21.1,
-        "concertoGen": 0,
+        "concertoGen": 12,
         "cooldown": 18,
         "cooldownGroup": "7:Perception Drain Cooldown",
         "source": "nanoka",
@@ -241533,7 +241533,7 @@
           }
         ],
         "energyGen": 6.93,
-        "concertoGen": 0,
+        "concertoGen": 40,
         "source": "nanoka",
         "stepDurationRule": "nextAtt",
         "resolvesAt": 2.28,
@@ -241716,7 +241716,7 @@
           }
         ],
         "energyGen": 13.34,
-        "concertoGen": 0,
+        "concertoGen": 10,
         "cooldown": 12,
         "cooldownGroup": "2:Cooldown",
         "source": "nanoka",
@@ -241793,7 +241793,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "source": "nanoka",
         "stepDurationRule": "sequenceLength",
         "interruptLevel": 10,
@@ -242547,7 +242547,7 @@
           }
         ],
         "energyGen": 0,
-        "concertoGen": 0,
+        "concertoGen": 20,
         "cooldown": 25,
         "cooldownGroup": "3:Hush of a Thousand Voices Cooldown",
         "source": "nanoka",

@@ -6,11 +6,23 @@
  *
  *   node tests/concerto.test.mjs
  *
- * Enforcement defaults OFF: measured on the curated meta teams, only ~5% of
+ * ~~Enforcement defaults OFF: measured on the curated meta teams, only ~5% of
  * swaps fill the 100 gauge within one highlight-cycle rotation, and the
  * modeled income has known gaps (echo skills carry no source field; several
  * kits generate 0 on skill casts) — gating by default would fabricate
- * scarcity. See docs/energy-signal-findings.md (Concerto section).
+ * scarcity.~~ The largest of those gaps is closed (2026-08-18): the flat
+ * "<name> Concerto Regen" meta-row was folded in for INTRO nodes only, which
+ * read 65 of 261 grants and left 2,884 points unread. With Skill/Liberation/
+ * Forte/Normal-Attack folded in too, **0 of 55 curated rotations could fill the
+ * gauge in one pass; 25 now do**, the median jumped 38.8 → 94.0, and measured
+ * across 44 meta teams the swap fill rate went ~5% → **61%**.
+ *
+ * Enforcement still defaults OFF — that is now a POLICY call, not a data
+ * excuse. Turning it on costs 8.2% mean team DPS across those 44 teams, and
+ * 39% of swaps are still short. Some of those shortfalls are real and
+ * maintainer-verified (Chisa's curated loop reaches 56.3 and fires no Outro in
+ * game); others may be remaining income gaps. See docs/energy-signal-findings.md
+ * (Concerto section) and docs/OPEN-ITEMS.md.
  */
 
 import { readFileSync } from 'fs';
@@ -39,14 +51,31 @@ const mornye = d.resonators.find(r => r.id === 1209);
     assert('basic_3 concertoGen 8 (4 hits × 2)', close(sm.basic_3.concertoGen, 8));
     assert('basic_4 concertoGen 8 (2 hits × 4)', close(sm.basic_4.concertoGen, 8));
     assert('basic_5 concertoGen 10', close(sm.basic_5.concertoGen, 10));
-    assert('skill/liberation generate 0 Concerto (raw element_power 0)',
-        close(sm.skill.concertoGen, 0) && close(sm.liberation.concertoGen, 0));
-    // Intro Skill carries a flat, level-invariant "Concerto Regen" meta-row
-    // (universally 10 roster-wide, confirmed 2026-07-10) that the per-hit
-    // element_power vector never captures (0 for Sanhua's Intro) — the real
-    // mechanic is a flat restore on a successful Intro cast, not a per-hit
-    // rate. Folded in at extraction (preprocess.mjs, Intro nodes only).
+    // ~~skill/liberation generate 0 Concerto (raw element_power 0).~~ The
+    // element_power VECTOR is indeed 0 on both, and reading only the vector is
+    // what made that look like the answer. The income is a flat, level-
+    // invariant "<name> Concerto Regen" meta-row instead — the game mechanic is
+    // a restore on a successful CAST, not a per-hit rate — and it exists on
+    // Skill, Liberation, Forte and Normal Attack nodes, not only on Intro
+    // (widened 2026-08-18). Sanhua states 15 and 20; both are read AS-IS, no
+    // ÷100, unlike the ×100-scaled vector fields.
+    assert('skill generates its flat 15 Concerto (meta-row, not element_power)', close(sm.skill.concertoGen, 15));
+    assert('liberation generates its flat 20 Concerto', close(sm.liberation.concertoGen, 20));
     assert('intro generates 10 Concerto (flat Concerto Regen meta-row, not element_power)', close(sm.intro.concertoGen, 10));
+    // A flat grant ADDS to the per-hit vector, never replaces it: Chisa's
+    // Sawring - Eradication states 45 and its own hits carry 4.8. That single
+    // cast is the difference between her filling the 100 gauge in one pass and
+    // never filling it at all (maintainer-verified in game 2026-08-18: the
+    // curated loop, which does NOT cast it, reaches 56.3 and fires no Outro).
+    assert('a flat grant adds to the per-hit vector (Chisa Eradication 45 + 4.8)',
+        close(d.autoSkillMap['1508'].forte_heavy_sawring_eradication.concertoGen, 49.8));
+    // SCOPE GUARD — energy must not move with Concerto. It is a DIFFERENT
+    // shape, not a smaller version of the same hole: the per-hit
+    // `damage[*].energy` vector is already read on every node type (3,557
+    // points roster-wide), and a "<name> Energy Regen" meta-row does not exist
+    // anywhere on the roster — the energy meta-rows the game writes are COSTS.
+    // Sanhua's Skill energy stays the per-hit 10, her Liberation 0 (it spends).
+    assert('the Concerto widening did not move energy', close(sm.skill.energyGen, 10) && close(sm.liberation.energyGen, 0));
 
     let badEntries = 0, withIncome = 0, chars = 0;
     for (const skillMap of Object.values(d.autoSkillMap)) {
@@ -69,7 +98,7 @@ const mornye = d.resonators.find(r => r.id === 1209);
     b.rotation = ['basic_1', 'skill'];
     const sim = simulateRotation({ build: b, dataset: d, target });
     assert('trace entry carries the step\'s rawConcertoGen', close(sim.energyTrace[0].rawConcertoGen, 2));
-    assert('zero-Concerto cast carries rawConcertoGen 0', close(sim.energyTrace[1].rawConcertoGen, 0));
+    assert('a flat-granting cast carries it too (skill 15)', close(sim.energyTrace[1].rawConcertoGen, 15));
 }
 
 // 2-member team fixture: Mornye (slot 0) + Sanhua (slot 1, rotation given).

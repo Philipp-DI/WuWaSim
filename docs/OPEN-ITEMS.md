@@ -1172,8 +1172,76 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     unrelated fix will silently stage a roster expansion. It was caught here only
     because the change had no business touching the dataset at all. Wants either
     a pinned ref or a separate, deliberate "sync upstream" step that is never
-    part of a verification lock. The roster expansion itself is real content and
-    deserves its own pass.
+    part of a verification lock.
+
+    **Partly addressed 2026-08-18:** `--ref` pins the upstream branch
+    (`node tools/preprocess.mjs --ref 3.5`), so LOCK A can be made to mean "my
+    change moved the data" again. That is the verification half. It does NOT
+    decide when to adopt a new version — the live default branch is now **3.6**
+    while the committed dataset is **3.5**, and that gap is real content
+    (Jingran 1212, Qingxiao 1413, two weapons, 166 damage rows) that deserves
+    its own deliberate pass rather than arriving as a side effect. The dataset
+    also records no ref of its own: `source` still reads
+    "Dimbreath/WutheringData + nanoka.cc", stale since the Arikatsu migration,
+    and `gameVersion` is null.
+
+35. **Concerto enforcement is now a POLICY call, not a data excuse**
+    (2026-08-18). The flat "<name> Concerto Regen" fold was Intro-only and read
+    65 of 261 grants; widening it to Skill/Liberation/Forte/Normal Attack added
+    2,884 points and moved the swap economy from fiction to something
+    measurable — **0 of 55 curated rotations could fill the 100 gauge in one
+    pass, 25 now do**, median 38.8 → 94.0, and across 44 meta teams the fill
+    rate went ~5% → **61%**.
+
+    **MAINTAINER RULING 2026-08-18: enforcement stays OFF, and a note/flag is
+    sufficient.** *"Only if we're 100% certain to track ALL concerto gains
+    CORRECTLY, we can move towards making an Outro Skill illegal."* So the bar
+    for flipping it is completeness, not the DPS cost — which is measured at
+    **8.2% mean team DPS** across those 44 teams, and is not the blocker. What
+    is: 39% of swaps are still short, and only some of that is real. Chisa's is
+    verified in game; Youhu (26 shortfalls) and Iuno (22) top the list and are
+    unexamined. Until each shortfall traces to a mechanic rather than to a hole,
+    gating would trade one fiction for another.
+
+    Also unresolved, and smaller: **27 flat grants attach by POSITION.** The
+    game writes a BARE row when a node has one grant and prefixes it only to
+    disambiguate a multi-stage node, so a bare row on a multi-row node has no
+    name to match and lands on the node's first damage row — the same rail the
+    Cost/Cooldown folds already use. 23 of the 27 land on a key the resonator's
+    own curated rotation actually casts; **4 do not** and silently under-credit:
+    Lucilla `liberation_clear_as_day` +20 (she casts `liberation`), Brant
+    `skill` +10 (casts `skill_plunging_attack`), Verina
+    `forte_heavy_heavy_attack_starflower_blooms_damage` +12 (casts the mid-air
+    variants), Lucy `basic_basic_attack_1` +8 (casts stages 2–4). No single
+    heuristic fixes all four — Brant's grant is already on the node's base key
+    and his rotation uses a variant, Lucilla's is the reverse.
+
+    **Leading hypothesis (maintainer, 2026-08-18): these are STATE edge cases**,
+    not parser noise — the same shape as the mode/stance splits elsewhere in the
+    roster. All four resonators have a state or form that changes which key a
+    node actually casts (Lucilla's two Resonance Modes, Brant's plunging branch,
+    Verina's ground-vs-mid-air Starflower, Lucy's chain entry), so a bare row may
+    well be correct for ONE state and wrong for the one the curated rotation
+    happens to use. That makes it a state-modelling question (item 22), not a
+    linking question, and it wants a per-resonator check before any rule moves.
+
+36. **Per-resonator SPECIAL RESOURCES are the real remaining gauge gap**
+    (maintainer, 2026-08-18 — *"where's probably more room for improvement is
+    each resonator's special resource management, some even have multiple
+    ones"*). Counted: `RESOURCE_DEFS` curates **3 of 56** resonators (Changli,
+    Denia, Sigrika), while the game ships `specialEnergyCaps` for **all 56**,
+    every one of them with several channels. That is the lane behind the
+    concrete misses already logged elsewhere in this file — Chisa's Ring of
+    Chainsaw driving Sawring - Eradication's +1.30%-per-point multiplier (2g),
+    and Denia's Dark Core ladder, which only works because she IS one of the
+    three.
+
+    NOT the same thing as Resonance energy, which is fine: the per-hit
+    `damage[*].energy` vector is read on every node type (3,557 points
+    roster-wide), and no `"<name> Energy Regen"` meta-row exists anywhere on the
+    roster — the energy meta-rows the game writes are Costs, already read. An
+    earlier draft of this item claimed energy had the same Intro-shaped hole as
+    Concerto; it does not (maintainer-corrected, then counted).
 
 ## Doc hygiene (minor, mostly already fixed)
 
