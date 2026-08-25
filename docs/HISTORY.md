@@ -11006,3 +11006,103 @@ so none of them appears in the commit.
 **[Updated Docs]** `CLAUDE.md` — the lock-reading paragraph now states that
 `engineHash` hashes raw bytes, that `.gitattributes` pins the tree for that
 reason, and that `npm test` runs LAST. HISTORY (this entry).
+
+---
+
+## 2026-08-18 — Chisa's OPENER ends on Sawring - Eradication; her loop deliberately does not
+
+Maintainer-directed, then maintainer-corrected before commit. The first
+instruction was *"Both of her rotations should end on/after the eradication
+cast"*; after seeing the measurement they reversed half of it — *"This one's on
+me. I mistakenly assumed and said that BOTH her rotations end on eradication"* —
+and verified in game that the steady loop cannot. Curation only; no engine file
+was touched.
+
+**[Files Changed]**
+
+```text
+data/reference-rotations.json    1508: openerRotation + both source notes
+data/wuwa-meta.json              regenerated (LOCK B — expected to move)
+data/data-version.json           `meta` field only; `data` unchanged
+docs/OPEN-ITEMS.md               2g's opener residual closed; new item 34
+```
+
+**[Logic Altered]**
+
+1. **THE OPENER'S PRE-STEPS ARE THE KIT'S OWN.** The Forte names exactly two
+   routes into Sawring - Eradication — *"[Normal Attack] after casting Sawring -
+   Blitz Stage 3: Falltone"* and *"after consuming all Ring of Chainsaw"* — and
+   the gauge settles which applies. The tap chain spends 18 + 23 + 24 of 100 and
+   leaves **35**, so the second route is never reached and
+   `forte_heavy_sawring_blitz_3_falltone` is a genuine requirement. arabwuwa's
+   R1 prose agrees: *"Hold Basic to hit Basic 1, 2, 3"* is the hold path, and
+   the Forte's own instruction row reads *"Sawring - Eradication: In Chainsaw
+   Mode, hold [NA] or [NA]+[NA]+[NA]+[NA]"*.
+
+2. **THE STEADY LOOP IS LEFT EXACTLY AS TRANSCRIBED**, and now says why. It
+   reaches **56.3 of 100 Concerto** and fires no Outro — maintainer-verified in
+   game. The trailing "Outro" in arabwuwa's listing is a swap marker, not a cast.
+
+3. **THE THREE TRAILING BASICS ARE A CONCERTO TOP-UP, NOT FILLER.**
+   `basic_1` 1.4 + `basic_2` 4 + `basic_rending_lunge` 6.37 = **11.77**, which is
+   precisely the gap between the loop with them (56.3/pass) and without
+   (44.6/pass). Concerto carries across passes, so 56.3 × 2 = 112.6 clears the
+   gauge and 44.6 × 2 = 89.2 does not: three cheap basics are the minimum price
+   for an Outro every SECOND swap. The loop is otherwise short on purpose — team
+   DPS divides by the SUM of per-member on-field times, and Chisa contributes
+   ~8–15% of team damage, so every second she spends is one the main DPS does
+   not.
+
+**[Verification Method]**
+
+- **`analyzeRotation` reports zero warnings** on the new opener, and the
+  reference-rotation canary in `tests/stage-grants.test.mjs` still passes. Stated
+  plainly: that canary is silent here either way, because Chisa has no
+  `ROTATION_RULES` entry. The legality argument is the kit text and the gauge
+  arithmetic, not the validator.
+- **The 56.3 is reproduced by the sim, not asserted.** With the flat Concerto
+  grants read, the team-sim swap trace prints `100* / 56.3 / 100*` — the opener
+  fills, the second swap misses, the third fills on carry-over. That extraction
+  ships separately; this entry is the curation that depends on it.
+- **A four-way rotation comparison decided the shape** (gear held fixed, Concerto
+  honest, handoff gated): arabwuwa's loop 73,144 team DPS with 2 of 3 swaps
+  filling; ending it on Eradication 74,175 with 3 of 3; both together 71,797;
+  dropping the trailing basics 72,503 with 1 of 3. The variants are within ~2% of
+  each other and the ordering flips with gear, so no configuration-independent
+  winner exists — which is itself the reason to keep the transcription rather
+  than "improve" it.
+- **LOCK B moved only where Chisa reaches.** `characters`, `erModel` and
+  `engineHash` byte-identical; of 395 common team entries 64 changed, 42 of them
+  in `score` alone (anchor-relative normalisation), and **all 22 that changed in
+  substance contain Chisa, 0 do not.**
+- `npm test` 74/74 · `npm run sweep` 70/0 · `npm run lint` 0 errors, 3105
+  warnings unchanged — run LAST, after the meta regeneration.
+
+**[Residual Risks]**
+
+- **The opener's Eradication is credited without its per-Ring multiplier.** Her
+  kit grants +1.30% DMG Multiplier per point of Ring of Chainsaw consumed, and
+  the chain that reaches Eradication consumes 68 — roughly +88% on that cast,
+  none of which the sim pays: there is no `RESOURCE_DEFS` entry for gauge 1508,
+  so `resourceConsumedAt` returns 0 by design. Understates rather than inflates,
+  but she now pays the full on-field time for a cast missing most of its damage.
+- **The opener's sonata pick flipped** as a consequence — the representative-build
+  search re-ranks in team context and now prefers Havoc Eclipse over Flaming
+  Clawprint, whose +15% Fusion DMG was a team-wide grant. It is memoised per
+  resonator, so it reaches every team she appears in.
+- `forte_heavy_bonus_dmg_multiplier_per_ring_of_chainsaw` is still
+  `paletteInclude: true` and slottable as a step though it is a modifier, not a
+  cast.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — 2g's opener residual struck and closed
+with the derivation above, including why the steady loop keeps its shape; **new
+item 34** records that `npm run data` opens with `await downloadAll()` and
+therefore re-fetches the LIVE upstream, so LOCK A is not a pure function of the
+repo. HISTORY (this entry).
+
+**[Note — a verification trap found on the way]** Running LOCK A on a clean tree
+pulled two resonators the dataset had never seen (Jingran 1212, Qingxiao 1413),
+two weapons and 166 damage rows: **63,001 changed lines with no local source file
+modified**. `data/wuwa-data.json` and the manifest's `data` hash were reverted to
+HEAD and only the `meta` field kept, so this commit carries no upstream content.
+The roster expansion is real and wants its own deliberate pass.

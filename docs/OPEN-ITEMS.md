@@ -887,6 +887,33 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    Eradication, structurally the same shape as Denia's Dark Core ladder. Ring of
    Chainsaw itself is not modelled (no `RESOURCE_DEFS` entry for 1508).
 
+   ~~Her `openerRotation` ends on `forte_heavy_sawring_blitz_3` and never casts
+   Sawring - Eradication.~~ **CLOSED 2026-08-18** — the OPENER now ends on it,
+   with the pre-steps the kit itself states. Her Forte names exactly two routes
+   into Eradication, *"after casting Sawring - Blitz Stage 3: Falltone"* and
+   *"after consuming all Ring of Chainsaw"*, and the gauge settles which: the tap
+   chain spends 18 + 23 + 24 of 100 and leaves 35, so the second route is never
+   reached and `forte_heavy_sawring_blitz_3_falltone` is a requirement, not
+   decoration. arabwuwa's R1 prose agrees — *"Hold Basic to hit Basic 1, 2, 3"*
+   is the hold path, and the Forte's own instruction row reads *"Sawring -
+   Eradication: In Chainsaw Mode, hold [NA] or [NA]+[NA]+[NA]+[NA]"*.
+
+   **Her STEADY loop deliberately does NOT**, and that was worth establishing
+   rather than assuming. The maintainer initially ruled that both rotations end
+   on Eradication, then verified in game and reversed it: the loop reaches only
+   **56.3 of 100 Concerto** and fires **no Outro** — arabwuwa's trailing "Outro"
+   is a swap marker, not a cast. The three trailing basics that look like filler
+   are a Concerto top-up worth 11.8, and that is exactly what puts two passes
+   over the gauge (112.6) instead of under it (89.2), so the Outro lands every
+   SECOND swap. Dropping them reads 44.6/pass, which misses at 89.2. The loop is
+   short on purpose: team DPS divides by the SUM of on-field times and Chisa
+   contributes ~8–15% of team damage, so every second she spends is one her main
+   DPS does not.
+
+   `tools/benchmark-gap.mjs` D4 reads the same *"Spam Basic 1, 2, 3"* as the
+   CHAINSAW chain and is therefore wrong — left alone deliberately, because its
+   arrays exist to reproduce the external capture, not our reference rotation.
+
 3. **`resolveErTarget` has zero UI consumers** (re-verified 2026-07-23 — only
    `src/core/team-er.js` references it). All 79 real team-context ER numbers
    reach no user. NOT blocked on a design decision — just needs wiring into
@@ -1134,6 +1161,19 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     → **No saved-build migration** for Luuk Herssen's slot shift (S6.0 → S6.1).
       A stale `effectStacks` entry addresses a non-stackable effect and is
       ignored; nothing is corrupted.
+
+34. **`npm run data` is not a pure function of the repo** (found 2026-08-18).
+    `tools/preprocess.mjs` opens with `await downloadAll(args.lang)`, so LOCK A
+    re-fetches the LIVE upstream every run. Regenerating on a clean tree that day
+    pulled in two resonators the dataset had never seen (Jingran 1212, Qingxiao
+    1413), two weapons and 166 damage rows — 63,001 changed lines with no source
+    file modified locally. So LOCK A cannot tell "my change moved the dataset"
+    from "upstream shipped a patch", and a reviewer running it during an
+    unrelated fix will silently stage a roster expansion. It was caught here only
+    because the change had no business touching the dataset at all. Wants either
+    a pinned ref or a separate, deliberate "sync upstream" step that is never
+    part of a verification lock. The roster expansion itself is real content and
+    deserves its own pass.
 
 ## Doc hygiene (minor, mostly already fixed)
 

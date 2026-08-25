@@ -764,7 +764,7 @@
  },
  "1508": {
   "name": "Chisa",
-  "source": "arabwuwa steady-state rotation (their Rotation 2, which equals their Rotation 3; captured 2026-08-14)",
+  "source": "arabwuwa steady-state rotation (their Rotation 2, which equals their Rotation 3; captured 2026-08-14). It deliberately reaches only 56.3 of 100 Concerto, so NO Outro fires at its swap point — maintainer-verified in game 2026-08-18. The three trailing basics are a Concerto top-up worth 11.8, which is what puts two passes over 100 (112.6) instead of under it (89.2)",
   "rotation": [
    "intro",
    "basic_2",
@@ -776,7 +776,7 @@
    "basic_2",
    "basic_rending_lunge"
   ],
-  "openerSource": "arabwuwa Rotation 1 — the opening pass, which differs from their steady-state loop only for Chisa (maintainer-transcribed 2026-08-15)",
+  "openerSource": "arabwuwa Rotation 1 — the opening pass, which differs from their steady-state loop only for Chisa (maintainer-transcribed 2026-08-15); it ends on Sawring - Eradication, which holding through Stage 3 reaches automatically (maintainer, 2026-08-18)",
   "openerRotation": [
    "skill_eye_of_unraveling",
    "basic_rending_lunge",
@@ -788,7 +788,9 @@
    "skill_serrated_loop",
    "forte_heavy_sawring_blitz_1",
    "forte_heavy_sawring_blitz_2",
-   "forte_heavy_sawring_blitz_3"
+   "forte_heavy_sawring_blitz_3",
+   "forte_heavy_sawring_blitz_3_falltone",
+   "forte_heavy_sawring_eradication"
   ]
  },
  "1509": {
