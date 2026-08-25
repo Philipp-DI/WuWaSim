@@ -21,7 +21,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { downloadAll, loadNanokaData } from './preprocess/download.mjs';
+import { downloadAll, loadNanokaData, resolveRef, REPO } from './preprocess/download.mjs';
 import { makeTextResolver } from './preprocess/text.mjs';
 import { ELEMENT_COLORS, WEAPON_TYPES } from './preprocess/constants.mjs';
 import {
@@ -122,7 +122,12 @@ async function main() {
     const args = parseArgs(process.argv);
     process.stderr.write(`Pre-processing WuWa data (lang=${args.lang}) ...\n`);
 
-    const raw = await downloadAll(args.lang, args.ref);
+    // Resolved HERE rather than inside downloadAll so the dataset can record
+    // which upstream version produced it. Without that, `npm run data` is a
+    // function of whatever branch is live at the moment it runs and the output
+    // cannot say so — see docs/OPEN-ITEMS.md 34.
+    const ref = args.ref ?? await resolveRef();
+    const raw = await downloadAll(args.lang, ref);
     const resolveText = makeTextResolver(raw.textMap);
     const propDict = buildPropertyDict(raw.propertyIndex, resolveText);
 
@@ -1054,9 +1059,16 @@ async function main() {
     const out = {
         schemaVersion: SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
-        source: 'Dimbreath/WutheringData + nanoka.cc',
+        // The exact upstream this build read. `source` had said
+        // "Dimbreath/WutheringData" since long after the migration to Arikatsu,
+        // and gameVersion did not exist — so a dataset could not report which
+        // game version it described, and two builds a patch apart were
+        // indistinguishable from their own contents.
+        source: `${REPO}@${ref} + nanoka.cc`,
+        gameVersion: ref,
+        sourceRefPinned: args.ref != null,
         credits: {
-            dimbreath: 'https://github.com/Dimbreath/WutheringData — raw datamined config tables',
+            arikatsu:  'https://github.com/Arikatsu/WutheringWaves_Data — raw datamined config tables (per-version branches)',
             nanoka:    'https://ww.nanoka.cc — community game-data service, icon CDN, and current-patch character/weapon coverage',
         },
         lang: args.lang,

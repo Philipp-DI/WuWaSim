@@ -11230,3 +11230,113 @@ policy call; the 27 position attachments) and 36 (Energy Regen unread); item 34
 marked partly addressed by `--ref`. `tests/concerto.test.mjs`'s header carries
 the superseded rationale struck through with the new measurements. HISTORY
 (this entry, plus the correction banner on the one above).
+
+---
+
+## 2026-08-25 — A provenance ledger, and a dataset that can name its own source
+
+Step 1 of the maintainer's "true simulation without gaps or invented numbers"
+plan, and the enforcement arm of the standing rule recorded the same day:
+extracted game data is the single source of truth, and a number that is neither
+in the data nor maintainer-verified must be SURFACED rather than quietly relied
+on. Nothing enforced that — the answer lived in comments, which no run checks.
+
+**[Files Changed]**
+
+```text
+tests/provenance.test.mjs         NEW — the ledger, its scanner, and the ratchet
+tools/preprocess.mjs              resolve the ref in main; stamp it into the dataset
+data/wuwa-data.json               header only: source / gameVersion / sourceRefPinned
+data/data-version.json            `data` hash
+docs/OPEN-ITEMS.md                item 34 closed on its recording half; item 37 added
+```
+
+**[Logic Altered]**
+
+1. **THE LEDGER.** A scanner walks `src/core` and finds every module-level
+   numeric parameter — a bare number, or an object literal whose every value is
+   a number — and requires each to be registered with a status and a reason.
+   **39 found, 39 classified.** Statuses: `game` (8), `verified` (2), `derived`
+   (1), `convention` (2), `technical` (17), and the debt — `assumed` (2),
+   `invented` (7).
+
+2. **THE RATCHET IS THE POINT.** `invented + assumed` may only shrink, and the
+   test also refuses a RATCHET set above the real count, so padding it to make a
+   run pass fails on its own terms. Three failure modes, each verified by
+   deliberately breaking the tree and confirming the message: an unclassified
+   new constant, a registered value silently retuned (the fingerprint is the
+   sorted list of numbers in the initializer, so `0.55 → 0.60` inside a
+   ten-entry map fails), and a registered constant renamed or removed.
+
+3. **WHAT THE CLASSIFICATION ACTUALLY FOUND.** Four of the seven `invented`
+   entries are TIMING — `HARDCODED_STEP_DURATIONS` ("tuned to roughly match
+   in-game animation lengths"), `ECHO_CAST_TIME` 1.20, `OUTRO_CAST_TIME` 1.0 —
+   which makes the unfinished timing extraction the single highest-value lane
+   rather than one item among many. `OFF_FIELD_SHARE = 0.5` is the one that
+   surprised: `team-energy.js` documents its algebra in careful detail and says
+   nothing at all about where the 0.5 came from, and it feeds `erModel` and every
+   minimum-viable-ER figure in the app.
+
+4. **`convention` EXISTS AS A STATUS ON PURPOSE.** The enemy level (90) and RES
+   (0.1) are not claims about the game and cannot be "wrong" — but they must be
+   stated once and shared, which is exactly what `core/target.js` was created to
+   fix. Filing them as `invented` would misdescribe them; filing them as `game`
+   would launder a choice into a fact.
+
+5. **THE DATASET NAMES ITS SOURCE.** `source` had read
+   "Dimbreath/WutheringData + nanoka.cc" since long after the migration to
+   Arikatsu, and there was no `gameVersion` at all — so a dataset could not
+   report which game version it described, and two builds a patch apart were
+   indistinguishable from their own contents. It now stamps
+   `Arikatsu/WutheringWaves_Data@3.5 + nanoka.cc`, `gameVersion: "3.5"` and
+   `sourceRefPinned: true`. The ref is resolved in `main` and passed down rather
+   than resolved inside `downloadAll`, so the value stamped is provably the one
+   the fetch used.
+
+**[Verification Method]**
+
+- **The scanner's coverage was checked against a manual enumeration first:** 106
+  module-level SCREAMING_CASE constants exist in `src/core`, of which 39 are
+  numeric parameters. Every one of the 39 is registered; the other 67 are
+  regexes, string enums and structural tables the shape filter correctly skips.
+- **All three failure modes were provoked and confirmed**, then reverted:
+  injecting `SNEAKY_FUDGE = 0.87` fails with the constant named; retuning
+  `OUTRO_CAST_TIME` 1.0 → 1.4 fails with `ledger [1] vs source [1.4]`; renaming
+  it fails twice, as unclassified AND as a lost entry.
+- **Each status was read off the constant's own stated provenance**, not
+  guessed. `HARDCODED_FREEZE_FRACTIONS` is `verified` because the file cites a
+  maintainer confirmation with a date; `TUNE_BREAK_CAST_TIME` is `derived`
+  because it is the measured median of 56/56 extracted animations;
+  `NS_LEVEL_MODIFIER` is `assumed` because its own comment says "ASSUMED to also
+  hold for other inflicters ... until disproven".
+- **LOCK A is header-only** — 5 insertions, 3 deletions, all inside the
+  dataset's own preamble. No `credits` or `source` consumer exists in `src/` or
+  `index.html`, so renaming the credit key breaks nothing.
+- **LOCK B untouched**: the header carries no computational content, so the meta
+  was deliberately NOT regenerated; its hash in the manifest still describes the
+  same meta.
+- `npm test` **75/75** (the runner auto-discovers the new file) · `npm run sweep`
+  70/0 · `npm run lint` 0 errors, **3105 warnings — unchanged**, after clearing
+  the four `id-length` warnings the new file initially added.
+
+**[Residual Risks]**
+
+- **The ledger covers NAMED module-level constants only.** A bare numeric
+  literal inside a function body is invisible to it. Named constants are this
+  project's convention for model parameters, so that is where they live — but
+  the ledger is a floor on what is known, not a proof that nothing else exists.
+  Stated in the test header rather than left implicit.
+- **`src/ui` and `tools/` are out of scope.** The optimizer in particular holds
+  its own tuning constants; extending the scan there is cheap and has not been
+  done.
+- **A status can be wrong.** Nothing verifies that `game` entries really are
+  game rules — the ledger records a claim and its reason, and its value is that
+  the claim is now written down where a reviewer can disagree with it.
+- The `data` hash moved for a header-only change, which is correct (the manifest
+  hashes content) but means this commit busts the runtime cache for no
+  behavioural reason.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — item 34's "the dataset records no ref"
+half struck and closed; **new item 37** carries the 9-entry debt table, notes
+that four of the seven `invented` entries are timing (so item 23 retires three
+at once), and repeats the scope limit. HISTORY (this entry).

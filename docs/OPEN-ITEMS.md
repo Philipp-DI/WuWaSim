@@ -1181,9 +1181,13 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     while the committed dataset is **3.5**, and that gap is real content
     (Jingran 1212, Qingxiao 1413, two weapons, 166 damage rows) that deserves
     its own deliberate pass rather than arriving as a side effect. The dataset
-    also records no ref of its own: `source` still reads
+    ~~also records no ref of its own: `source` still reads
     "Dimbreath/WutheringData + nanoka.cc", stale since the Arikatsu migration,
-    and `gameVersion` is null.
+    and `gameVersion` is null.~~ **Fixed 2026-08-25:** the dataset now stamps
+    `source: "Arikatsu/WutheringWaves_Data@3.5 + nanoka.cc"`, `gameVersion` and
+    `sourceRefPinned`, so a build can state which upstream produced it and
+    whether the ref was pinned or resolved live. What remains is the ADOPTION
+    decision, which is a content question, not a tooling one.
 
 35. **Concerto enforcement is now a POLICY call, not a data excuse**
     (2026-08-18). The flat "<name> Concerto Regen" fold was Intro-only and read
@@ -1242,6 +1246,34 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     roster — the energy meta-rows the game writes are Costs, already read. An
     earlier draft of this item claimed energy had the same Intro-shaped hole as
     Concerto; it does not (maintainer-corrected, then counted).
+
+37. **Provenance debt: 9 numeric parameters are invented or assumed**
+    (`tests/provenance.test.mjs`, added 2026-08-25). The ledger classifies all
+    39 module-level numeric parameters in `src/core`; 30 trace to the game, to a
+    maintainer verification, to measured data, or to a stated convention. These
+    9 do not, and the test ratchets them — the count may only shrink:
+
+    | constant | value | why it is debt |
+    | --- | --- | --- |
+    | `HARDCODED_STEP_DURATIONS` | 10 per-type times | "tuned to roughly match in-game animation lengths"; reached by the ~11% of curated-rotation steps reporting `estimated` |
+    | `ECHO_CAST_TIME` | 1.20 | "typical echo-skill animation length" — EVERY echo cast in every rotation uses it; no measured echo timing exists (item 23) |
+    | `OUTRO_CAST_TIME` | 1.0 | every swap pays it, and it sits in the DPS denominator |
+    | `OFF_FIELD_SHARE` | 0.5 | off-field energy share; feeds `erModel` and every minimum-viable-ER figure |
+    | `FLAT_ROLL` | 45 / 470 / 55 | "matching the template package", not the game's roll table — `stat-ranges.json` has the real rolls for every other stat |
+    | `DEFAULT_ROLL_VALUE` | 9.0 | a floor its own comment says should be unreachable; should fail loudly instead |
+    | `ANCHOR_FAR_THRESHOLD` | 0.5 | UI caveat threshold, "tuned so a roughly-endgame build clears it" |
+    | `TUNE_AMP` *(assumed)* | 16.00 | carried as universal on "most likely a constant"; scales every Tune Break number |
+    | `NS_LEVEL_MODIFIER` *(assumed)* | 3674 / 716.22 | the values are pinned; the SCOPE is assumed to hold for other inflicters "until disproven" |
+
+    Four of the seven `invented` entries are TIMING, which is why item 23 and the
+    remaining 11% of estimated steps are the highest-value single lane: finishing
+    that extraction retires `HARDCODED_STEP_DURATIONS`, `ECHO_CAST_TIME` and
+    `OUTRO_CAST_TIME` together. The two `assumed` entries are each one in-game
+    measurement away from `verified`.
+
+    SCOPE LIMIT, stated in the test: the ledger covers NAMED module-level
+    constants. A bare numeric literal inside a function body is not caught, so
+    this is a floor on what is known, not a proof that nothing else exists.
 
 ## Doc hygiene (minor, mostly already fixed)
 

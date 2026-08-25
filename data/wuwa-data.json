@@ -1,9 +1,11 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-19T09:16:00.006Z",
-  "source": "Dimbreath/WutheringData + nanoka.cc",
+  "generatedAt": "2026-08-25T15:19:23.581Z",
+  "source": "Arikatsu/WutheringWaves_Data@3.5 + nanoka.cc",
+  "gameVersion": "3.5",
+  "sourceRefPinned": true,
   "credits": {
-    "dimbreath": "https://github.com/Dimbreath/WutheringData — raw datamined config tables",
+    "arikatsu": "https://github.com/Arikatsu/WutheringWaves_Data — raw datamined config tables (per-version branches)",
     "nanoka": "https://ww.nanoka.cc — community game-data service, icon CDN, and current-patch character/weapon coverage"
   },
   "lang": "en",
