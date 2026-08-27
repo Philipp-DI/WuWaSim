@@ -717,7 +717,7 @@ export function renderBuffWindows(sim) {
 // no definition still gets a row.
 export function curatedResourceNames() {
   return new Set(
-    resourceDefsForResonator(api.build.resonatorId, api.dataset).map((def) =>
+    resourceDefsForResonator(api.build.resonatorId, api.dataset, api.build.chain ?? 0).map((def) =>
       def.name.toLowerCase(),
     ),
   );
@@ -1016,7 +1016,7 @@ export function renderRotation() {
       skillMap,
       grants: stageGrantsForResonator(rid),
       swapInEntry: swapInEntryForResonator(rid),
-      resourceDefs: resourceDefsForResonator(rid, api.dataset),
+      resourceDefs: resourceDefsForResonator(rid, api.dataset, api.build.chain ?? 0),
       stateDefs: stateDefsForResonator(rid),
     },
   );

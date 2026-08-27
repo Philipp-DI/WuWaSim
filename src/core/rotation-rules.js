@@ -1031,14 +1031,31 @@ export const RESOURCE_DEFS = Object.freeze({
     // 7.0x/8.5x her 56.34% display row, i.e. base x (1 + 1.5N) — which is the
     // answer key tests/rotation-resources.test.mjs checks the sim against.
     //
-    // KNOWN BOUND: S3 states "Denia now holds up to 5 Dark Cores" (hence five
-    // variant rows), but a cap is per-resonator here, not per-chain, so an S3+
-    // build is held to 3. No reference rotation casts enough Intros to reach
-    // even 3, so nothing today is affected; raising it needs a chain-aware cap.
+    // A GAUGE DOES NOT NECESSARILY START EMPTY, and this one does not. Her
+    // inherent Vestiges of Falsehood: "When Denia engages in combat in
+    // Stagecraft Form: restore Dark Cores to 2 if she has fewer than 2 […] This
+    // effect can be triggered once every 12s." At S3 it is enhanced to "Upon
+    // entering combat, Dark Core and Void Particle are restored to the max",
+    // and the SAME node raises the limit to 5 — so cap and start move together,
+    // and an S3 build opens on 5/5 (which is what makes her Intro grant, needed
+    // at S0, overflow and be wasted at S3).
+    //
+    // Only the S3 branch is in the data: trigger row 1211700101 (cd 12.0, the
+    // enter-combat listener) adds 100% of SpecialEnergy2Max. The base
+    // "restore to 2" floor and the 3→5 bump appear nowhere in gauge-income.json
+    // — no isCap row exists for her — so those two numbers are the kit's, with
+    // the extracted S3 branch as the cross-check that the mechanism is real.
+    //
+    // MODELLED AT FIGHT START ONLY. The kit's "once every 12s" means a later
+    // swap-in can restore the gauge again; the resource model has no swap-in
+    // trigger, so a multi-pass team sim refills only on the opening pass. That
+    // understates her rather than inflating her, which is the safe direction.
     1211: [{
         name: 'Dark Core',
         channel: 2,       // SpecialEnergy2Max = 3 in the game's own baseproperty table
         cap: 3,
+        start: 2,
+        chainOverrides: { 3: { cap: 5, start: 5 } },
         gains: {
             intro_it_s_been_a_while: 1,
             intro_knock_knock: 1,
@@ -1066,16 +1083,51 @@ export const RESOURCE_DEFS = Object.freeze({
  * from the BinData dump) instead of the curated literal. Without it the
  * literal stands — same number today, guarded by a test.
  *
+ * Pass the build's chain level to apply `chainOverrides`. A Resonance Chain
+ * node can move a gauge's cap AND the level it starts a fight on, and Denia's
+ * S3 moves both at once — resolving the cap from the game's base table alone
+ * holds an S3 build to 3 where the kit gives it 5.
+ *
  * @param {number|string} resonatorId
  * @param {object|null} [dataset]
+ * @param {number} [chainLevel] — build.chain (0..6)
  */
-export function resourceDefsForResonator(resonatorId, dataset = null) {
+export function resourceDefsForResonator(resonatorId, dataset = null, chainLevel = 0) {
     const defs = RESOURCE_DEFS[Number(resonatorId)] ?? [];
-    if (!dataset || defs.length === 0) return defs;
-    const caps = dataset.resonators?.find(entry => entry.id === Number(resonatorId))?.specialEnergyCaps;
-    if (!caps) return defs;
+    if (defs.length === 0) return defs;
+    const caps = dataset?.resonators?.find(entry => entry.id === Number(resonatorId))?.specialEnergyCaps ?? null;
     return defs.map(def => {
-        const gameCap = def.channel != null ? caps[def.channel] : null;
-        return gameCap != null ? { ...def, cap: gameCap } : def;
+        const chained = chainOverrideFor(def.chainOverrides, chainLevel);
+        const gameCap = def.channel != null ? caps?.[def.channel] ?? null : null;
+        // A chain node outranks the game's BASE table, which is what it edits.
+        const cap = chained?.cap ?? gameCap ?? def.cap;
+        const start = chained?.start ?? def.start;
+        if (cap === def.cap && start === def.start) return def;
+        return start == null ? { ...def, cap } : { ...def, cap, start };
     });
+}
+
+/**
+ * The chain override in force at a build's chain level, or null.
+ *
+ * The highest key at or below the build's level SUPERSEDES the rest — the same
+ * rule chain-extra-hits.mjs applies within a `family`, and for the same reason:
+ * a node that restates a gauge's limit replaces the earlier statement of it
+ * rather than adding to it.
+ *
+ * @param {Object<string, {cap?: number, start?: number}>|undefined} overrides
+ * @param {number} chainLevel
+ */
+function chainOverrideFor(overrides, chainLevel) {
+    if (!overrides) return null;
+    let best = null;
+    let bestLevel = -1;
+    for (const [levelKey, override] of Object.entries(overrides)) {
+        const level = Number(levelKey);
+        if (level <= chainLevel && level > bestLevel) {
+            bestLevel = level;
+            best = override;
+        }
+    }
+    return best;
 }

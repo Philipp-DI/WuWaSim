@@ -220,6 +220,9 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const defs = resourceDefsForResonator(DENIA, dataset);
     assert('Denia has a Dark Core definition', defs.length === 1 && defs[0].name === 'Dark Core');
     assert('its cap is the game\'s SpecialEnergy2Max', defs[0].cap === 3);
+    // "When Denia engages in combat in Stagecraft Form: restore Dark Cores to 2
+    // if she has fewer than 2." A gauge does not necessarily open a fight empty.
+    assert('and the fight opens on 2, not on 0', defs[0].start === 2);
 
     const consumption = computeResourceConsumption(rotation, defs);
     const levels = computeResourceTimeline(rotation, defs).get('dark core');
@@ -228,12 +231,34 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const introAt = rotation.indexOf('intro_it_s_been_a_while');
     assert('her reference rotation opens with an Intro and casts Banish Stage 2',
         introAt === 0 && banishTwo > 0);
-    assert('the Intro grants a core, so Banish Stage 2 enters holding one',
-        levels[banishTwo] === 1);
+    assert('the opening step already holds the inherent\'s 2', levels[introAt] === 2);
+    assert('the Intro grants a third, so Banish Stage 2 enters holding 3',
+        levels[banishTwo] === 3);
     assert('Banish Stage 2 is the ONLY step that consumes any',
-        spent.filter(amount => amount > 0).length === 1 && spent[banishTwo] === 1);
+        spent.filter(amount => amount > 0).length === 1 && spent[banishTwo] === 3);
     assert('every other step consumes nothing',
         spent.every((amount, i) => i === banishTwo || amount === 0));
+
+    // S3 moves the cap and the start TOGETHER — it raises the limit to 5 and
+    // enhances the inherent to "restored to the max", so an S3 build opens full
+    // and the Intro grant it needs at S0 overflows.
+    const s3Defs = resourceDefsForResonator(DENIA, dataset, 3);
+    assert('S3 raises the cap to 5', s3Defs[0].cap === 5);
+    assert('S3 opens the fight full, at 5', s3Defs[0].start === 5);
+    assert('S2 still reads the base gauge',
+        resourceDefsForResonator(DENIA, dataset, 2)[0].cap === 3
+        && resourceDefsForResonator(DENIA, dataset, 2)[0].start === 2);
+    const s3Levels = computeResourceTimeline(rotation, s3Defs).get('dark core');
+    const s3Spent = computeResourceConsumption(rotation, s3Defs).get('dark core');
+    assert('an S3 build spends 5 on Banish Stage 2', s3Spent[banishTwo] === 5);
+    assert('and its Intro grant is wasted — the gauge was already full',
+        s3Levels[introAt] === 5 && s3Levels[introAt + 1] === 5);
+
+    // A CARRIED level outranks `start`. `start` is what entering the FIGHT
+    // gives you; a segment that legitimately emptied the gauge carries 0, and
+    // re-reading `start` there would refill it once per segment for free.
+    const carried = computeResourceTimeline(rotation, defs, new Map([['dark core', 0]])).get('dark core');
+    assert('a carried 0 stays 0 instead of re-reading start', carried[introAt] === 0);
 
     const denia = dataset.resonators.find(resonator => resonator.id === DENIA);
     const skillMap = dataset.autoSkillMap[String(DENIA)];
@@ -255,8 +280,8 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             .reduce((sum, entry) => sum + (entry.effect.value ?? 0), 0);
     };
 
-    assert('one core consumed → +150% DMG Multiplier on that cast',
-        Math.abs(multiplierUpAt(banishTwo) - 1.5) < 1e-9);
+    assert('three cores consumed → +450% DMG Multiplier on that cast',
+        Math.abs(multiplierUpAt(banishTwo) - 4.5) < 1e-9);
     // The point of the `consumed` reading: she is still HOLDING cores on other
     // steps, so a level-based trigger would pay here too and multiply her kit.
     const leaks = rotation
@@ -282,9 +307,12 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert(`the game's own rows ARE base x (1 + 1.5N) for N = 1..5, at every level (${ladderOk}/5)`,
         ladderOk === 5);
     // The one the reference rotation actually produces, tied to the sim's value.
-    const oneCore = rowOf(VARIANTS[0]);
-    assert('the sim\'s one-core multiplier reproduces the game\'s own row at L1',
-        Math.abs(base.mults[0] * (1 + multiplierUpAt(banishTwo)) - oneCore.mults[0]) < 1e-4);
+    // It is the THREE-core row, because her inherent opens the fight on 2 — the
+    // game's own pre-multiplied row is the independent witness that the start
+    // level is being applied, not just stored.
+    const threeCore = rowOf(VARIANTS[2]);
+    assert('the sim\'s three-core multiplier reproduces the game\'s own row at L1',
+        Math.abs(base.mults[0] * (1 + multiplierUpAt(banishTwo)) - threeCore.mults[0]) < 1e-4);
 }
 
 // ── An effect naming a gauge the resonator has no definition for ────────────

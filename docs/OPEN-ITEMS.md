@@ -1296,9 +1296,83 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     a rotation step, or those grants should move to the trigger lane, is a
     modelling decision, not a join gap.
 
+    KNOWN-BAD JOINS, found while deriving step 2 (2026-08-25): the montage
+    route's "exactly one key" guard is necessary but NOT sufficient — a montage
+    can be unique for a key and still be the wrong row, when the row's real key
+    is absent from `actionable-times.json` altogether. Two confirmed:
+    Denia's `1211053` (二形态-终结技大招, genre liberation) lands on
+    `forte_heavy_erosion_field_dmg_per_tick`, whose only damage id `1211990011`
+    is an unrelated block; and Yangyang's `1402603` is a Rogue-mode row that
+    should not join at all. A genre-vs-skillType veto was measured as the fix and
+    REFUSED: it flags only 5 rows roster-wide, of which Jiyan's `1404304` is
+    correct (his Liberation genuinely lives under a `forte_heavy_` key — the
+    LABEL-vs-TYPE split again) and the two `damageId` rows are exact id identity.
+    A heuristic that breaks correct entries to catch two wrong ones is not worth
+    it; both are named here instead, and Denia's matters because it would hand
+    step 2 a WRONG spender for a resonator that is already curated correctly.
+
     NOT a blocker for item 36: 146 unique-key rows is enough to derive
     `RESOURCE_DEFS` for most of the roster, and each refusal is named so a
     derived entry can state its own coverage instead of silently omitting.
+
+
+39. **Gauge derivation: the join was not the last gap — three schema fields
+    were** (2026-08-27, measured while filling item 36's table).
+
+    Of 70 SpecialEnergy channels, **35 carry at least one joined gain and only
+    15 also carry a joined spend**. The other 20 split cleanly, and neither half
+    is simply "broken":
+
+    | cause | count | who |
+    | --- | --- | --- |
+    | spend row exists, the JOIN failed | 8 | Mornye, Augusta, Rover: Aero, Iuno, Rover: Spectro, Verina, Zani, Lynae. Two of them (1406, 1501) source their spend from the `MaleM/...Nanzhu` tables — the known female-only Rover rule, not a new gap |
+    | no spend row in the cast lane at all | 12 | Lingyang, Zhezhi, Chixia, **Denia**, Rebecca, Yangyang, Jiyan, Chisa, Taoqi, Roccia, Cantarella, Phrolova. Denia is the CALIBRATION: her spender is real, stated only in the ability blueprints, and correctly hand-curated already. Cantarella's lives in the TRIGGER lane |
+
+    THREE SCHEMA FIELDS, each measured rather than assumed:
+
+    - **`start`** — a gauge does not necessarily open a fight empty. SHIPPED for
+      Denia; the roster sweep for enter-combat restores finds only one other,
+      Phrolova ch3 (+10), so this is a narrow field and not a roster-wide
+      unknown.
+    - **`chainOverrides`** — a chain node can move a gauge's cap AND its start
+      together. SHIPPED for Denia S3 (cap 3 -> 5, start 2 -> 5), which closes
+      the KNOWN BOUND `rotation-rules.js` used to carry.
+    - **`unit`** — the divisor that reads a channel in the kit's own units.
+      Aemeath needs /5000 on ch1 (4 stacks) and /100 on ch2 (200 points).
+      NOT SHIPPED, and **the GCD of a channel's amounts does not derive it**:
+      measured, Aemeath ch2 gives 1000 where the truth is 100. It needs the
+      kit's own stated point value as the second witness.
+
+    A proportional spend needs NO new field: `addFraction -0.5 of *Max*`
+    (`policy [2, 61, ...]`, the four Rover rows) is exactly `spend: cap * 0.5`.
+
+    MULTI-GAUGE IS ALREADY EXPRESSIBLE, which the maintainer's own description
+    of Aemeath confirmed against the data. She owns five channels; her "split
+    Forte bar" is not two of them but ONE whose cap is exactly twice its spend
+    (ch2 = Synchronization Rate at x100 — the kit's "recovers 40 points" IS the
+    row's +4000, "30 points" is +3000, cap 20000 = 200 points, spend -10000 per
+    enhanced cast), and her stack counter is ch1 (+5000 per grant, cap 20000 =
+    4 stacks, spent in full by `liberation_heavenfall_edict_finale`). Both fit
+    the existing shape — which is why `spend` exists beside `spendAll`.
+
+    STILL OPEN: Aemeath's `12101103`, the Enhanced Resonance Skill row that both
+    grants ch1 and spends ch2, is unjoined. The join gap lands on the single
+    most important row she has.
+
+40. **`npm run data` silently un-pins the game version, so LOCK A as documented
+    is not reproducible** (2026-08-27). `tools/preprocess.mjs` resolves
+    `const ref = args.ref ?? await resolveRef()`, and `resolveRef()` asks the
+    network for the source repo's live default branch. The committed dataset was
+    built with an explicit `--ref` (`sourceRefPinned: true`), so a bare
+    `npm run data` — exactly what CLAUDE.md's LOCK A prescribes — rebuilt
+    against **3.6** instead of 3.5: `sourceRefPinned` flipped to false,
+    resonators 56 -> 58, weapons 89 -> 91, damageTable 4100 -> 4266, a
+    63k-line diff. `node tools/preprocess.mjs --ref 3.5` reproduces the
+    committed file exactly (only `generatedAt` moves; the content hash is
+    unchanged), which is how this was told apart from a real regression.
+    Two SEPARATE decisions follow: whether LOCK A should pin (it should — a
+    behaviour-preserving check must not double as a version bump), and whether
+    to adopt 3.6 at all, which is its own change with its own review.
 
 
 ## Doc hygiene (minor, mostly already fixed)

@@ -11476,3 +11476,116 @@ enum…", "The DT_SkillInfo id space is not the damage id space").
 `docs/OPEN-ITEMS.md` — new item 38 with the refusals broken out by cause and the
 stance-transition finding. `docs/skill-join-report.md` — new generated report.
 HISTORY (this entry).
+
+---
+
+## 2026-08-27 — A gauge that starts empty when the kit says it does not
+
+Step 2 of the maintainer's "join first, then derive" sequence. The join table
+built on 2026-08-25 was supposed to unlock deriving `RESOURCE_DEFS` from the
+data; deriving it instead surfaced a defect in one of the three entries that
+already existed, and the maintainer's own kit knowledge is what identified it.
+
+**[Files Changed]**
+
+```text
+src/core/rotation-resources.js    `start` honoured in walkResource; module + fn docs
+src/core/rotation-rules.js        RESOURCE_DEFS[1211] start/chainOverrides; chainOverrideFor;
+                                  resourceDefsForResonator takes a chain level
+src/core/sim.js                   passes build.chain to the resolver
+src/ui/components/build-editor/rotation.js   both call sites pass build.chain
+tests/rotation-resources.test.mjs 71 -> 115 assertions
+data/wuwa-meta.json               regenerated (engineHash + re-ranked scores)
+CLAUDE.md                         new invariant (start level, chain-aware cap)
+docs/OPEN-ITEMS.md                new items 39 (derivation gaps) and 40 (LOCK A un-pins)
+```
+
+**[Logic Altered]**
+
+1. **A GAUGE DOES NOT NECESSARILY OPEN A FIGHT EMPTY.** `walkResource` read
+   `startLevels?.get(name) ?? 0`, so every fight began every gauge at zero. The
+   carry existed only BETWEEN SEGMENTS of a turn, never at fight start. Denia's
+   inherent Vestiges of Falsehood restores Dark Cores to 2 on entering combat,
+   so her reference rotation's Banish Stage 2 consumed **1** core where the game
+   gives **3** — her "+150% per Dark Core consumed" effect paid x2.5 instead of
+   x5.5. Measured **2.20x understated at S0-S2 and 3.40x at S3+**, on her single
+   biggest cast. This was an UNDERSTATEMENT, which is why nothing looked wrong.
+
+2. **THE FINDING CAME FROM THE MAINTAINER, AND CORRECTED MY READING OF IT.** I
+   surfaced the extracted trigger row (`1211700101`, cd 12.0, +100% of
+   `SpecialEnergy2Max`) as "Denia may start at 3/3, please verify". That was the
+   S3 branch read as if it were the whole story. The maintainer identified it as
+   an Inherent Skill OVERRIDE from a chain node: the BASE inherent restores to
+   **2**, S3 enhances it to "restored to the max" AND raises the limit to 5, so
+   an S3 build opens on **5/5**. Both readings are now in the code with the kit
+   quoted, and the data carries only the S3 half — no `isCap` row exists for
+   her, so the base floor and the 3->5 bump are the kit's numbers.
+
+3. **CAP AND START MOVE TOGETHER, SO THE CHAIN LEVEL HAD TO REACH THE RESOLVER.**
+   `chainOverrides: { 3: { cap: 5, start: 5 } }`, applied by `chainOverrideFor`
+   with the highest key at or below the build's level winning — the same rule
+   `chain-extra-hits.mjs` applies within a `family`, and for the same reason. A
+   chain override outranks the game's base `SpecialEnergy{N}Max`, which is the
+   table it edits. This closes the KNOWN BOUND `rotation-rules.js` carried
+   verbatim ("a cap is per-resonator here, not per-chain, so an S3+ build is
+   held to 3").
+
+4. **A CARRIED LEVEL OUTRANKS `start`.** `startLevels ?? def.start ?? 0` — the
+   `??` is load-bearing: a segment that legitimately emptied the gauge carries
+   0, and `0 ?? start` keeps the 0. Re-reading `start` per segment would refill
+   the gauge once per segment for free. Asserted directly.
+
+5. **THREADED WHERE A BUILD EXISTS, DEFAULTED WHERE ONE DOES NOT.** `sim.js`
+   (the damage path) and both build-editor call sites pass `build.chain`. The
+   three `analyzeRotation` warning sites (`team-editor-v2.js`,
+   `benchmark-gap.mjs`, `reference-build.js`) take a bare `resonatorId` with no
+   build in scope and keep the default of 0; Denia has no `resource.atLeast`
+   gate, so no behaviour differs there today.
+
+**[Verification Method]**
+
+- **The game's own pre-multiplied rows are the independent witness.** The test
+  already checked the sim's multiplier against `damageTable`'s
+  `12111052110...150` (base x (1 + 1.5N)). It used to reproduce the ONE-core
+  row; it now reproduces the THREE-core row `12111052130`. That is what proves
+  the start level is APPLIED rather than merely stored, and it could only pass
+  if the model were wrong in exactly the way the game is.
+- `tests/rotation-resources.test.mjs` 71 -> **115** assertions: `start` present,
+  the opening step holding 2, Banish entering on 3 and spending 3, S3 reading
+  cap 5 / start 5 while S2 still reads the base, an S3 Intro grant overflowing,
+  and a carried 0 staying 0.
+- `npm test` **76/76** - `npm run sweep` 70 imported / 0 failed - `npm run lint`
+  0 errors, **3105 warnings** (the unchanged baseline; an `s3` identifier that
+  tripped `id-length` was renamed before this was recorded).
+- **LOCK A clean, but only when pinned** — see [Residual Risks] and item 40.
+  `node tools/preprocess.mjs --ref 3.5` moves `generatedAt` alone and leaves the
+  content hash identical.
+- **LOCK B moved, and is meant to.** `engineHash` plus 550 changed value lines,
+  all `score`/`dps`/`damage`/`teamDps` — no structural change. Spot-checked
+  upward (a benchmark comp 2,329,484 -> 2,344,160) with some re-ranking, which
+  is the expected consequence of Denia dealing more.
+
+**[Residual Risks]**
+
+- **Modelled at fight start only.** The kit's "once every 12s" means a later
+  swap-in can restore the gauge again; the resource model has no swap-in
+  trigger, so a multi-pass team sim refills only on the opening pass. That
+  understates her rather than inflating her, which is the safe direction, but
+  it is a real bound and it is stated in the code.
+- **Her other two gauges are deliberately NOT curated.** Void Particle (ch1) and
+  Conformal Charge (ch3) both have joined gains, but Void Particle's spender is
+  `1211053` — a KNOWN-BAD montage join (item 38) — and Conformal Charge's grant
+  row `1211048` is a join refusal. Adding either would create a gauge that
+  fills and never drains, which is the unsafe direction.
+- **`unit` is still missing**, so a per-stack effect on a large-scale channel
+  (Aemeath's 5000-per-star ch1) would multiply by raw points. Nothing reads one
+  today; item 39 records that the GCD does not derive it.
+- The S0 start of 2 and the S3 cap of 5 are the KIT's numbers, not the data's.
+  The mechanism is cross-checked by the extracted S3 branch, and the three-core
+  row validates the result, but the literal 2 rests on the kit text.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant ("A gauge does not necessarily
+START empty, and a chain node moves start and cap TOGETHER"). `docs/OPEN-ITEMS.md`
+— item 39 (the 20 spend-less channels split 8 join-gaps / 12 genuine, the three
+schema fields, Aemeath's multi-gauge decode) and item 40 (`npm run data`
+un-pins the game version). HISTORY (this entry).

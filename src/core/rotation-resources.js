@@ -19,8 +19,12 @@
  * here and stays underivable rather than being approximated.
  *
  * Definitions live in rotation-rules.js RESOURCE_DEFS (curated, hand-editable):
- *   { name, channel?, cap, gains: { skillKey: amount },
+ *   { name, channel?, cap, start?, chainOverrides?, gains: { skillKey: amount },
  *     spend?: { skillKey: amount }, spendAll?: [skillKey] }
+ *
+ * A gauge does NOT necessarily begin a fight empty. Denia's inherent restores
+ * Dark Cores to 2 on entering combat, so `start` is the level the fight opens
+ * on — zero for every gauge that says nothing, which is most of them.
  *
  * Consumption comes in both shapes and kits use both. `spendAll` empties the
  * pool (Changli's Flaming Sacrifice consumes ALL Enflamement); `spend` takes a
@@ -70,6 +74,11 @@ export function computeResourceTimeline(rotation, resourceDefs, startLevels = nu
  * between them. Denia earns her Dark Core on Intro and spends it in the segment
  * after, so without a carried level the spending cast reads an empty gauge.
  *
+ * A carried level OUTRANKS `def.start`, and must: `start` is what entering the
+ * FIGHT gives you, not what entering each segment gives you. A gauge that a
+ * previous segment legitimately emptied carries 0, and `??` keeps that 0 —
+ * re-reading `start` there would refill it once per segment for free.
+ *
  * @param {string[]} rotation
  * @param {object} def — one RESOURCE_DEFS entry
  * @param {Map<string, number>|null} startLevels — lowercased name → level held
@@ -78,7 +87,7 @@ export function computeResourceTimeline(rotation, resourceDefs, startLevels = nu
 function walkResource(rotation, def, startLevels = null) {
     const steps = Array.isArray(rotation) ? rotation : [];
     let level = Math.min(def.cap ?? Infinity,
-        Math.max(0, startLevels?.get(def.name.toLowerCase()) ?? 0));
+        Math.max(0, startLevels?.get(def.name.toLowerCase()) ?? def.start ?? 0));
     const levels = [];
     const consumed = [];
     for (const skillKey of steps) {

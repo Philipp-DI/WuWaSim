@@ -598,7 +598,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // Curated non-energy gauges (Changli's Enflamement, Sigrika's Full Stop).
     // Same timeline rotation-graph.js validates against, so a gauge-scaled buff
     // and a gauge-gated rotation warning can never disagree about the level.
-    const resourceDefs = resourceDefsForResonator(build?.resonatorId, dataset);
+    const resourceDefs = resourceDefsForResonator(build?.resonatorId, dataset, build?.chain ?? 0);
     // `carryInResources` is what these gauges already held — a member's turn is
     // simulated as several rotations (team-sim runs the auto-injected Intro as
     // its own segment) and a gauge does not reset between them.
