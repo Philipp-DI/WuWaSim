@@ -1275,6 +1275,32 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     constants. A bare numeric literal inside a function body is not caught, so
     this is a floor on what is known, not a proof that nothing else exists.
 
+38. **Skill-join refusals: 59 of 224 gauge-income cast rows reach no rotation
+    step** (`data/skill-join.json`, `docs/skill-join-report.md`, 2026-08-25).
+    The bridge itself is built and tested — 165/224 resolved, 146 of them to a
+    single key — but the remainder is refused rather than guessed, and the
+    refusals fall into four causes, only one of which is a defect:
+
+    | cause | rows | what it is |
+    | --- | --- | --- |
+    | `no key owns this row's ids or animation` | 404 (38 with a gauge consumer) | the row's damage lives in an id block the join does not reach — Augusta's eight `[领域]` domain-mode Liberation rows are the clearest cluster, the same shape HISTORY records for Aemeath's Mech form |
+    | `row has no animation and no damage ids` | 215 (7 with a gauge consumer) | **not a defect** — these are state-machine rows (`蓄力状态` "charge state", `清扫模式落地退出逻辑` "sweep-mode landing exit"). They grant gauge without being a cast at all, which the per-cast model has no slot for; see below |
+    | `montage names several keys` | 35 (3 with a gauge consumer) | one animation, several display rows; route 1 could not separate them |
+    | `no DT_SkillInfo row for this resonator` | 11 | the **Rover id-space remap**, already known (HISTORY: "1501 Rover: Spectro joins against raw id 1502"). Affects 1310, 1408, 1502. A remap table closes this one outright |
+
+    THE FINDING WORTH ACTING ON: `gauge-income.json` files a grant as `cast`
+    when it hangs off a `DT_SkillInfo` row, and 7 of those rows are **stance
+    transitions, not casts**. So "cast lane" and "per-cast model" are not the
+    same set, and `rotation-resources.js` — per-cast by construction — cannot
+    reach them however good the join gets. Whether a stance entry should become
+    a rotation step, or those grants should move to the trigger lane, is a
+    modelling decision, not a join gap.
+
+    NOT a blocker for item 36: 146 unique-key rows is enough to derive
+    `RESOURCE_DEFS` for most of the roster, and each refusal is named so a
+    derived entry can state its own coverage instead of silently omitting.
+
+
 ## Doc hygiene (minor, mostly already fixed)
 
 - README "Project layout" + false "Echo grading ✓" claim — already corrected.

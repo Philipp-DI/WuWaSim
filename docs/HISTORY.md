@@ -11340,3 +11340,139 @@ docs/OPEN-ITEMS.md                item 34 closed on its recording half; item 37 
 half struck and closed; **new item 37** carries the 9-entry debt table, notes
 that four of the seven `invented` entries are timing (so item 23 retires three
 at once), and repeats the scope limit. HISTORY (this entry).
+
+---
+
+## 2026-08-25 — The skill-id join table, and a third enum that is not a skill type
+
+Step 1 of the maintainer's "join-table extraction first, then step 2" sequence.
+`data/gauge-income.json` states every resource grant and spend keyed by
+`DT_SkillInfo` skill id, and the sim addresses casts by skill key; nothing
+translated between them, so `RESOURCE_DEFS` could not be derived from the data
+however good the extraction was.
+
+**[Files Changed]**
+
+```text
+tools/extract/skill-row-id.mjs    NEW — the shared longest-exact-prefix id primitive
+tools/extract/build-skill-join.mjs NEW — the join, its three routes and its refusals
+tools/extract/map-timings.mjs     resolveSkillId moved out to the shared module
+data/skill-join.json              NEW (committed output)
+docs/skill-join-report.md         NEW (generated, committed — same as timing-gaps-report)
+tests/skill-join.test.mjs         NEW — 23 assertions
+CLAUDE.md                         two invariants: the third enum; the two id spaces
+docs/OPEN-ITEMS.md                new item 38 (the 59 refusals, by cause)
+```
+
+**[Logic Altered]**
+
+1. **THERE ARE TWO ID SPACES AND THEY ONLY SOMETIMES COINCIDE.** A damage id is
+   usually its owning skill row's id plus a hit index (`1508404` →
+   `15084040010`), which is why a naive prefix match looks like it works — it
+   reached 50.9% of the gauge rows. It is not always: Chisa's Intro damage is
+   `1508008xxx` while the row granting her Intro gauge is `1508600`, and none of
+   Denia's `1211041/048/051/053/061/062` prefix-match anything of hers. The
+   maintainer's own hint (*"regard the 4-digit resonator ID as somewhat of a
+   pre-fix"*) is what exposed the structure: the prefix is real, it is just a
+   prefix of the SKILL ROW, not of the damage instance.
+
+2. **THREE ROUTES, RANKED BY MEASUREMENT, NOT BY PLAUSIBILITY.** `damageId`
+   (713 rows) resolves a key's own raw hit ids to their owning row by longest
+   exact prefix — the same primitive `map-timings.mjs` already had, now shared
+   rather than duplicated. `montage` (269) matches the row's animation against
+   the one `actionable-times.json` measured for a key. `genreSingleton` (17)
+   forces an Intro/Liberation row onto the resonator's only unclaimed key of
+   that type.
+
+   **The route order was set by checking the disagreements, and it came out
+   opposite to the initial reading.** On the six rows both of the first two
+   routes reached, they disagreed — and the raw ids settle it against the
+   montage every time: `1207513` owns `120751301/02/03` and `1207612` owns
+   `120761201/02/03`, so Lupa's two finishers are separated by exact id while
+   the montage route SWAPS them (`AM_Skill02_Spts` and `AM_Skill02_Sp_Ultra` are
+   many-to-one against skill rows). The montage is therefore the fallback, and
+   only when it lands on exactly one key.
+
+3. **THE INDEPENDENT VALIDATION.** Denia's `1211061` (一形态-QTE入场) and
+   `1211062` (二形态-QTE入场) resolve to `intro_it_s_been_a_while` and
+   `intro_knock_knock` — her two forms onto her two distinct Intro keys, which
+   is exactly what the "a skillType identifies a KIND, not a KEY" invariant says
+   must not be collapsed. Nothing in the join knows about that invariant.
+
+4. **`SkillGenre` IS A THIRD ENUM, AND IT IS NOT A SKILL TYPE** (maintainer
+   question: *"Don't we already use genre for DMG & mechanic typisation?"*).
+   Checked rather than answered from memory: nothing in `src/` reads it, and the
+   `SkillGenre` ordinal → category table decoded during the timing work sits in
+   HISTORY only. It is a genuinely separate categorisation — `skill.damage[*].type`
+   is {0 basic, 1 heavy, **2 liberation, 3 intro, 4 skill**, 5 echo} while
+   `SkillGenre` is {0 basic, 1 charged, **2 skill, 3 liberation, 4 intro**, …},
+   so the two agree on 0 and 1 and diverge from 2 on. Reading one as the other
+   silently swaps skill and liberation.
+
+   And it must not be promoted into one: cross-checked against the resolved
+   keys' own mechanical `skillType`, genre `intro` (42/44) and `liberation`
+   (55/58) are clean, but genre `basic` spans 269 basic, 69 midair, 43
+   forte_heavy, 36 forte_basic, 18 skill and 12 liberation keys. That is the
+   game filing a move under the INPUT that casts it — the same LABEL-vs-TYPE
+   split the dataset already handles. Genre is recorded as provenance only, and
+   the test asserts the impurity so a later reader cannot quietly promote it.
+
+5. **REFUSALS ARE NAMED, NOT ABSORBED.** 165 of 224 gauge-income cast rows
+   resolve, 146 to a single key; the other 59 are listed with a reason in
+   `docs/skill-join-report.md`. They are not noise — 11 are the already-known
+   Rover id-space remap (1310, 1408, 1502), 38 are rows whose damage sits in an
+   id block the join does not reach (Augusta's eight `[领域]` domain-mode
+   Liberation rows being the clearest cluster), 3 are one animation serving
+   several display rows, and **7 are not casts at all**: `蓄力状态` "charge
+   state", `清扫模式落地退出逻辑` "sweep-mode landing exit". Those grant gauge on
+   a STANCE TRANSITION, which a per-cast model has no slot for however good the
+   join gets — a modelling decision for step 2, logged as OPEN-ITEMS 38 rather
+   than papered over.
+
+**[Verification Method]**
+
+- **The `resolveSkillId` extraction was proved behaviour-preserving by
+  re-running its consumer**, which turned out to be reproducible from committed
+  data: `map-timings.mjs` re-emitted the identical 1023/1061 keys and
+  `data/actionable-times.json` differed on the `generatedAt` line alone.
+- **The route ranking was measured, not assumed.** All six route disagreements
+  were dumped with their raw hit ids and read individually; the damage-id route
+  is exact identity in all six and the montage route is wrong in all six.
+- **Anchors pinned in the test**: Chisa `1508404`/`1508500` by damage id and
+  `1508600` by montage (the case that motivated the table), Lupa's unswapped
+  pair, Denia's two Intros resolving apart, plus the `resolveSkillId` unit cases
+  including Chixia's bare unpadded index.
+- Every joined key is asserted to exist in `autoSkillMap` — a join that resolves
+  to an uncastable key is worse than a refusal, because it looks resolved. 0
+  orphans.
+- Coverage ratchets on the three headline numbers (165 / 146 / 713) so a route
+  regression or an input move cannot pass quietly.
+- `npm test` **76/76** · `npm run sweep` 70 imported / 0 failed · `npm run lint`
+  0 errors, **3105 warnings — the unchanged baseline** (the 5 the new files
+  first added were cleared).
+- LOCK A / LOCK B untouched: nothing in `src/` reads the new file yet, and no
+  generated dataset was regenerated.
+
+**[Residual Risks]**
+
+- **`genreSingleton` (17 rows) reasons from a category, not an id.** It is
+  restricted to the two clean genre buckets and requires the key to be unclaimed,
+  but those buckets are 95% clean, not 100% — 3 liberation-genre rows resolve to
+  non-liberation keys elsewhere in the table. The route is tagged in the output
+  precisely so a consumer can discount it.
+- **The join is only as good as `hit-map.json` and `actionable-times.json`.** A
+  key those miss cannot be reached by route 1 or 2, which is most of the 38
+  "no key owns this row's ids or animation" rows rather than a fault in the join.
+- **`data/timing-data.json` is gitignored**, so the generator cannot run in CI or
+  for anyone without the raw export. The output is committed and the test reads
+  only the output — the same arrangement as `actionable-times.json` — but the
+  table can go stale against a game version without anything noticing.
+- The genre decode covers ordinals 0–14, read off the row names they label.
+  Ordinal 8 is labelled `passive` on weak evidence (被动表现 "passive
+  presentation"); nothing depends on it.
+
+**[Updated Docs]** `CLAUDE.md` — two new invariants ("`SkillGenre` is a THIRD
+enum…", "The DT_SkillInfo id space is not the damage id space").
+`docs/OPEN-ITEMS.md` — new item 38 with the refusals broken out by cause and the
+stance-transition finding. `docs/skill-join-report.md` — new generated report.
+HISTORY (this entry).
