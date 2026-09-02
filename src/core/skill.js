@@ -175,8 +175,15 @@ export function resolveSkill({ skillDef, build, dataset, stats, target, amplifyC
         // target's own (team DEF-ignore gates) has to be carried in rather than
         // shadowed. Left undefined when nothing external applies, so the
         // no-gear path stays byte-identical.
-        if (externalDefIgnore) context.defIgnore = (target.defIgnore ?? 0) + externalDefIgnore;
-        if (externalResReduce) context.resReduce = externalResReduce;
+        // The wielder's OWN kit clauses land in the same two buckets, resolved by
+        // resolveChainInherentContext so they inherit its skill-name scoping,
+        // element gate and conditional resolution.
+        const kitDefIgnore = ctxFormula.defIgnore ?? 0;
+        const kitResReduce = ctxFormula.resReduce ?? 0;
+        if (externalDefIgnore || kitDefIgnore) {
+            context.defIgnore = (target.defIgnore ?? 0) + externalDefIgnore + kitDefIgnore;
+        }
+        if (externalResReduce || kitResReduce) context.resReduce = externalResReduce + kitResReduce;
         return { id: row.id, skill, result: computeDamage({ stats, skill, target, context }) };
     });
 

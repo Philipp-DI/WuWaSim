@@ -294,6 +294,9 @@ export function resolveChainInherentContext(effects, hit) {
         dmgBonus: 0, amplify: 0, deepen: 0,
         critRateBonus: 0, critDmgBonus: 0, atkRatio: 0,
         healingBonus: 0, multiplierUp: 0,
+        // TARGET-side, per hit. Gear has produced these since the external-buff
+        // lanes landed; a resonator's OWN kit clause reached nothing at all.
+        defIgnore: 0, resReduce: 0,
     };
     if (!effects?.length) return out;
 
@@ -318,6 +321,15 @@ export function resolveChainInherentContext(effects, hit) {
                 break;
             case 'elementBonus':
                 if (named || effect.element == null || effect.element === hit.element) out.dmgBonus += effect.value;
+                break;
+            case 'defIgnore':
+                out.defIgnore += effect.value;
+                break;
+            case 'resReduce':
+                // A shred names the element whose RESISTANCE it removes, so it
+                // only helps hits of that element — the same gate elementBonus
+                // uses, and for the same reason.
+                if (named || effect.element == null || effect.element === hit.element) out.resReduce += effect.value;
                 break;
             case 'skillTypeBonus':
                 if (named || effect.skillType == null || effect.skillType === hit.skillType) out.dmgBonus += effect.value;

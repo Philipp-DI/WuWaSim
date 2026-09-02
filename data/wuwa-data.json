@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-09-02T12:08:31.765Z",
+  "generatedAt": "2026-09-02T12:57:25.750Z",
   "source": "Arikatsu/WutheringWaves_Data@3.5 + nanoka.cc",
   "gameVersion": "3.5",
   "sourceRefPinned": true,
@@ -5987,7 +5987,26 @@
             "3",
             "6%"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "resReduce",
+              "value": 0.03,
+              "element": 2,
+              "skillType": null,
+              "teamWide": true,
+              "condition": "Within 35s: Attacks of all Resonators in the team ignore 3% of the target's Fusion Res. For each Fusion Resonator in the",
+              "conditionKind": "unconditional",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "none"
+              },
+              "window": {
+                "type": "always"
+              }
+            }
+          ]
         }
       ],
       "tuneBreak": {
@@ -16332,6 +16351,35 @@
               "stackTrigger": {
                 "type": "unknown"
               }
+            },
+            {
+              "stat": "defIgnore",
+              "value": 0.075,
+              "element": null,
+              "skillType": "forte",
+              "teamWide": false,
+              "condition": "- Each stack causes Runic Outburst, Runic Chain Whip, Runic Soliskin, and Forte Circuit - Learn My True Name to ignore 7",
+              "conditionKind": "situational",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "stackable": true,
+              "perStack": 0.075,
+              "maxStacks": null,
+              "stackTrigger": {
+                "type": "unknown"
+              },
+              "skillKeys": [
+                "forte_heavy_runic_outburst",
+                "forte_heavy_runic_soliskin"
+              ],
+              "scopeSource": "configdb"
             }
           ]
         }

@@ -457,6 +457,9 @@ export function pctFor(text, keywordRe) {
 // backwards. Recognised from the shared status vocabulary (STATUS_KEYS) rather
 // than a per-character rule, so any kit using the game's standard phrasing
 // lands on the affliction lane automatically.
+// Element name -> elementId, the same 1..6 ordering the dataset uses.
+const ELEMENT_IDS = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
+
 const CRITS_EXPLICITLY_RE = /can\s+critically\s+hit/i;
 const STATUS_DMG_RES = STATUS_KEYS.map(key => new RegExp(`${statusSpaceForm(key)}\\s+DMG`, 'i'));
 
@@ -748,6 +751,48 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
                 push({ stat: 'amplify', value, element: elem, skillType, needsScope: true });
             }
         }
+        // — DEF ignore / RES shred (TARGET-side, per hit) —
+        // "Qiuyuan now ignores 15% of the target's DEF when dealing damage."
+        // "Ignore 10% of the target's Havoc RES when dealing damage."
+        //
+        // These reach the formula through `context.defIgnore` / `context.resReduce`
+        // and, until now, only GEAR produced them (external-buffs.js targetMods)
+        // plus one curated kit entry. A resonator's OWN kit clause was parsed by
+        // nothing at all: 12 of them exist across 9 resonators and every one was
+        // missing damage, up to Ciaccona S4's 45% (x1.29 at level 90 vs 90).
+        //
+        // Emitting them as ordinary effects buys the whole existing pipeline —
+        // conditional gating (a triggered clause resolves OFF by itself), stack
+        // scaling, chain gating, and above all skill-name SCOPING via
+        // skill-scope.mjs, which binds every stat. That scoping is why this is
+        // not a curated table: Lupa's clause names three skills and two of her
+        // Liberation keys are generically named, so hand-picking them would have
+        // been a guess where the binder is exact.
+        //
+        // A RES shred names the ELEMENT whose resistance it removes, and the game
+        // writes it in both orders ("ignore 15% Fusion RES", "ignore 3% of the
+        // target's Fusion RES"), so the element is read from the clause itself
+        // rather than from detectElement's broader scope.
+        const ignores = /ignores?\s+([\d.]+)\s*%\s*(?:of\s+)?(?:the\s+)?(?:targets?['’]?s?\s+)?(?:(Glacio|Fusion|Electro|Aero|Spectro|Havoc)\s+)?(DEF|RES)\b/i
+            .exec(clause);
+        if (ignores) {
+            const value = parseFloat(ignores[1]) / 100;
+            const shredElement = ignores[2] ? ELEMENT_IDS[ignores[2].toLowerCase()] ?? null : null;
+            if (value > 0 && value < 1) {
+                // `needsScope` for the same reason the "deals N% more DMG"
+                // branch carries it: unscoped and always-on, a DEF ignore is
+                // pure inflation, and these clauses hide their conditions in
+                // prose the classifier does not read. Half of them NAME the
+                // skills they cover ("Energized Pounce and Energized Rebound
+                // ignore 20%"), so skill-scope.mjs binds those and DROPS the
+                // rest — leaving the understatement that exists today rather
+                // than replacing it with an overstatement.
+                push(ignores[3].toUpperCase() === 'DEF'
+                    ? { stat: 'defIgnore', value, element: null, skillType, needsScope: true }
+                    : { stat: 'resReduce', value, element: shredElement, skillType, needsScope: true });
+            }
+        }
+
         // — Healing Bonus —
         if (/Healing\s*Bonus/i.test(clause)) {
             const value = pctFor(clause, /Healing\s*Bonus/i);

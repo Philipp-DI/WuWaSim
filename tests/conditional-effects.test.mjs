@@ -416,6 +416,71 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
         (lucy.inherentSkills.find(node => node.name === 'Ghost Cyberware')?.effects ?? []).length === 0);
 }
 
+// ── A kit's own DEF ignore / RES shred reaches the formula, per hit ──────────
+// `context.defIgnore` and `context.resReduce` have always existed in formula.js.
+// Gear produced them (external-buffs targetMods) and one curated table did; a
+// RESONATOR'S OWN kit clause reached nothing at all. 12 such clauses exist
+// across 9 resonators and every one was missing damage — at level 90 vs 90 a
+// 15% DEF ignore is x1.081 and Ciaccona S4's 45% is x1.290.
+{
+    const ignoreEffects = d.resonators.flatMap(resonator =>
+        [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? [])]
+            .flatMap(node => (node.effects ?? [])
+                .filter(effect => effect.stat === 'defIgnore' || effect.stat === 'resReduce')
+                .map(effect => ({ resonator, effect }))));
+
+    // THE guard, and the reason `needsScope` is set at parse time: an always-on
+    // DEF ignore that names no skills multiplies every hit its wielder lands,
+    // which is inflation of exactly the shape guard 1 exists for. A clause that
+    // cannot be scoped is DROPPED instead, leaving the understatement that was
+    // already there rather than replacing it with an overstatement.
+    const unscopedAlwaysOn = ignoreEffects.filter(({ effect }) =>
+        effect.stat === 'defIgnore'
+        && effect.window?.type === 'always' && effect.defaultActive !== false
+        && !effect.skillKeys?.length);
+    for (const { resonator, effect } of unscopedAlwaysOn) {
+        console.error(`  · unscoped always-on defIgnore: ${resonator.name} ${effect.value} "${effect.condition}"`);
+    }
+    assert(`no always-on defIgnore is unscoped (got ${unscopedAlwaysOn.length})`,
+        unscopedAlwaysOn.length === 0);
+
+    // Every survivor earned its place: a bound skill scope, or a team-wide grant.
+    assert('every surviving grant is scoped or team-wide',
+        ignoreEffects.every(({ effect }) => effect.skillKeys?.length || effect.teamWide));
+    assert('`needsScope` is consumed by the scoping pass, never shipped',
+        ignoreEffects.every(({ effect }) => effect.needsScope === undefined));
+
+    // A RES shred names the element whose RESISTANCE it removes, so it may only
+    // help hits of that element — the same gate elementBonus uses.
+    const shred = [{ stat: 'resReduce', value: 0.03, element: 2 }];
+    assert('a shred applies to its own element',
+        Math.abs(resolveChainInherentContext(shred, { element: 2, skillKey: 'x' }).resReduce - 0.03) < 1e-9);
+    assert('...and to nothing else',
+        resolveChainInherentContext(shred, { element: 1, skillKey: 'x' }).resReduce === 0);
+    assert('an elementless shred applies to every hit',
+        Math.abs(resolveChainInherentContext([{ stat: 'resReduce', value: 0.05, element: null }],
+            { element: 4, skillKey: 'x' }).resReduce - 0.05) < 1e-9);
+    // DEF is not an element, so a DEF ignore is never element-gated.
+    assert('a DEF ignore applies whatever the hit\'s element',
+        Math.abs(resolveChainInherentContext([{ stat: 'defIgnore', value: 0.15, element: null }],
+            { element: 3, skillKey: 'x' }).defIgnore - 0.15) < 1e-9);
+    // A named scope still binds it, exactly as it binds every other stat.
+    const named = [{ stat: 'defIgnore', value: 0.20, element: null, skillKeys: ['forte_heavy_energized_pounce'] }];
+    assert('a scoped DEF ignore reaches only its own keys',
+        Math.abs(resolveChainInherentContext(named, { element: 2, skillKey: 'forte_heavy_energized_pounce' }).defIgnore - 0.20) < 1e-9
+        && resolveChainInherentContext(named, { element: 2, skillKey: 'basic_1' }).defIgnore === 0);
+
+    // Lupa's inherent is the one clause that survives scoping AND is live: her
+    // Glory grants the whole team a 3% Fusion RES shred. Measured +3.33% on her
+    // reference rotation (5017 -> 5184 at S0), which is exactly what removing
+    // 3 points of a 10% resistance is worth.
+    const lupaShred = ignoreEffects.find(({ resonator, effect }) =>
+        resonator.id === 1207 && effect.stat === 'resReduce' && effect.teamWide);
+    assert('Lupa\'s Glory shred survives as a team-wide grant', !!lupaShred);
+    assert('...on Fusion, at the value her kit states', lupaShred?.effect.element === 2
+        && Math.abs(lupaShred.effect.value - 0.03) < 1e-9);
+}
+
 // ── A clause that NAMES its skills is scoped by the names, whatever it grants ─
 // Aemeath S1: "In Instant Response, Heavy Attack - Aemeath and Heavy Attack -
 // Mech gain 300% Crit. DMG increase…" and her inherent "Before All Sounds": the

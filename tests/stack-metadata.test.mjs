@@ -106,11 +106,15 @@ for (const resonator of dataset.resonators) {
 
 // ── Live dataset: the roster-wide outcome ────────────────────────────────────
 {
-    // 17 since 2026-08-07: the buff-coverage pass reads two more per-stack
-    // clauses that parsed to nothing at all before — Jiyan S6's Momentum and
-    // Sigrika S6's Innate Gift. Both count a RESOURCE the sim does not track, so
-    // both carry stackTrigger 'unknown' and resolve to one stack.
-    assert('the dataset still holds exactly 17 stackable effects', stackables.size === 17);
+    // ~~17 since 2026-08-07~~ 18 since 2026-09-02: the buff-coverage pass reads
+    // two more per-stack clauses that parsed to nothing at all before — Jiyan
+    // S6's Momentum and Sigrika S6's Innate Gift. Both count a RESOURCE the sim
+    // does not track, so both carry stackTrigger 'unknown' and resolve to one
+    // stack. The 18th is Sigrika S6's DEF ignore, the same Innate Gift clause
+    // read for its OTHER stat ("Each stack causes … to ignore 7.5% of the
+    // target's DEF … up to 30%"), which the kit DEF-ignore lane now emits. It
+    // has the same unknown stack source and so resolves to one stack too.
+    assert('the dataset still holds exactly 18 stackable effects', stackables.size === 18);
 
     // Each entry below was hand-checked against the kit text in wuwa-data.json.
     const expected = {

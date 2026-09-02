@@ -12082,3 +12082,99 @@ remain understated with no rows to model.
 **[Updated Docs]** `CLAUDE.md` — two new invariants: "An 'is enhanced' chain node
 is PARTIAL, an 'is replaced with' node is NOT" and "A chain node can CREATE the
 skill a rotation step names". `docs/HISTORY.md` — this entry.
+
+## 2026-09-02 — Step 3, part 2: a kit's own DEF ignore had no path to the formula
+
+Finishing the condition-removal bucket turned up something larger than the
+bucket. Lupa S3 grants the team a Fusion RES shred and Lupa S6 a 30% DEF ignore,
+and neither reached the damage formula — nor did ten more like them.
+
+**[The gap]** `formula.js` has had `context.defIgnore` and `context.resReduce`
+since the DEF-multiplier work. Two producers exist: gear (`external-buffs.js`
+`targetMods`) and one curated table (`DEF_IGNORE_GRANTS`, Chisa's Thread of
+Bane). A RESONATOR'S OWN kit clause reached neither. Sweeping the roster found
+**12 such clauses across 9 resonators** — Changli, Lupa (x4), Denia, Ciaccona,
+Qiuyuan, Sigrika, Lumi, Chisa, Cantarella — all of them missing damage. At level
+90 vs 90 the arithmetic is `(atkLv+800) / ((atkLv+800) + (defLv+800)(1-ignore))`,
+so 15% is x1.081, 30% is x1.176, and **Ciaccona S4's 45% is x1.290**.
+
+**[Why an EFFECT and not a curated table]** The first design was a
+`KIT_TARGET_MODS` table in the Denia/Chisa shape. Resolving the keys killed it:
+Lupa S6 names three skills and two of her Liberation keys are generically named
+(`liberation_skill_damage`, `liberation_foebreaker`), so hand-picking them would
+have been a guess — and a wrong guess spreads a 30% DEF ignore over her whole
+kit. Emitting them as ordinary effects instead buys the entire existing
+pipeline: conditional gating, stack scaling, chain gating, and above all the
+skill-name binder, which is exact and already covers every stat. One clause
+pattern reads all 12, both word orders, DEF and per-element RES.
+
+**[`needsScope`, and why 11 of 13 are dropped]** Emitted plainly, the result was
+WORSE than the gap: Lupa S6 and Lumi S2 name their skills but did not bind, so
+they landed always-on and unscoped across the whole kit, and Cantarella's 10s
+window read as permanent. That is the unscoped-multiplier failure mode exactly.
+So they carry `needsScope`, like the "deals N% more DMG" branch, and
+`skill-scope.mjs` drops anything that binds no scope and grants to no team —
+leaving the understatement that already existed rather than replacing it with an
+overstatement. Result: **13 emitted, 11 dropped, 2 survive.**
+
+The binder misses them because it knows the TARGET shape ("The DMG Multiplier of
+X is increased") and the SUBJECT shape ("X and Y gain 300% Crit. DMG"), and
+these are neither:
+
+| clause | shape |
+| --- | --- |
+| Lumi S2 "Energized Pounce and Energized Rebound **ignore** 20%" | subject, unknown verb |
+| Lupa S6 "**The damage dealt by** X, Y and Z ignores 30%" | not modelled |
+| Ciaccona S4 "ignores 45% … **when dealing damage with** X" | not modelled |
+
+Widening the binder re-scopes EVERY stat roster-wide, so it is its own change
+with its own measurement, not a rider on this one.
+
+**[What actually changed]** Of the two survivors, Sigrika S6's is conditional and
+resolves OFF, so exactly ONE effect is live: Lupa's inherent Glory, *"Within 35s:
+Attacks of all Resonators in the team ignore 3% of the target's Fusion RES"* —
+team-wide, element-gated, and entirely absent until now. Measured +3.33% on her
+reference rotation (5017 -> 5184 at S0), which is exactly what removing 3 points
+of a 10% resistance is worth.
+
+That one is imprecise in BOTH directions and knowingly so: "Within 35s:" is not a
+duration the classifier reads, so its uptime is credited as permanent (over), and
+the clause scales 3% -> 9% per Fusion teammate, which is not modelled (under). In
+a Fusion team the net is an understatement.
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (clause pattern, `ELEMENT_IDS`,
+`needsScope`); `src/core/buffs.js` (`defIgnore`/`resReduce` in
+`resolveChainInherentContext`, the shred element-gated like `elementBonus`);
+`src/core/skill.js` (kit buckets merged beside the external ones);
+`tests/conditional-effects.test.mjs`; `tests/stack-metadata.test.mjs`;
+`CLAUDE.md`; regenerated `data/wuwa-data.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]** One live team-wide Fusion RES shred (Lupa). One new
+conditional per-stack DEF ignore that resolves OFF (Sigrika S6). Eleven clauses
+parsed and then dropped, which is byte-identical to not parsing them.
+
+**[Verification Method]** LOCK A carries the two surviving effects and Sigrika's
+stackable metadata. LOCK B: **398 identical, 17 changed, all containing Lupa, all
+UP (+0.48%..+1.90%, median +0.73%), zero down, zero non-Lupa teams touched**, 3
+anchor lists reordered. A guard mirroring `multiplier-scope.test.mjs` guard 1
+keeps unscoped always-on `defIgnore` at ZERO, and asserts every survivor is
+scoped or team-wide and that `needsScope` is never shipped. The element gate is
+asserted directly (a Fusion shred pays a Fusion hit and nothing else; a DEF
+ignore is never element-gated; a named scope binds it like any other stat).
+`tests/stack-metadata.test.mjs` 17 -> 18 stackables, the new one being the SAME
+Sigrika clause read for its other stat. `npm test` 76/76; `npm run sweep` 70
+imported, 0 failed; `npm run lint` 0 errors, 3109 warnings (unchanged).
+
+**[Residual Risks]** The Lupa survivor's uptime is over-credited and its
+per-teammate scaling under-credited, as above. The other ELEVEN clauses remain
+unmodelled — the same understatement as before this change, but now visible in
+the data as dropped effects rather than invisible as unparsed text; unlocking
+them needs the binder widened, which is a roster-wide re-scope. Two clauses that
+DO name skills would land immediately once it is (Lumi S2, Lupa S6), and
+Ciaccona S4's 45% is the largest single missing value in this lane.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "A kit's OWN DEF ignore is an
+EFFECT, and unscoped it is inflation", placed directly above the older
+"DEF-ignore and RES-shred had no consumer" row it extends rather than replaces
+(that row is still true of the CONTRIBUTION bucket, which still has no reader).
+`docs/HISTORY.md` — this entry.
