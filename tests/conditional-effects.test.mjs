@@ -477,6 +477,32 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
     const lupaShred = ignoreEffects.find(({ resonator, effect }) =>
         resonator.id === 1207 && effect.stat === 'resReduce' && effect.teamWide);
     assert('Lupa\'s Glory shred survives as a team-wide grant', !!lupaShred);
+
+    // Two clauses NAME their skills and bind, once the binder learned the verb
+    // "ignore" — the game states a DEF ignore in the same target sentences it
+    // states a bonus in. Both are chain-gated, so neither can appear in the meta
+    // (team-rank.js builds every member at chain 0) and both were measured on
+    // the build page instead: Lupa S6 +9.98%, Lumi S2 +3.73%.
+    const scopedIgnore = (resonatorId, level) => (d.resonators.find(entry => entry.id === resonatorId)
+        ?.resonanceChain?.find(node => node.level === level)?.effects ?? [])
+        .find(effect => effect.stat === 'defIgnore');
+    const lupaIgnore = scopedIgnore(1207, 6);
+    assert('Lupa S6 DEF ignore binds the skills it names', lupaIgnore?.skillKeys?.length === 2);
+    assert('...to her Climax and her named Intro, and nothing else',
+        lupaIgnore.skillKeys.includes('forte_heavy_dance_with_the_wolf_climax')
+        && lupaIgnore.skillKeys.includes('intro_nowhere_to_run'));
+    const lumiIgnore = scopedIgnore(1504, 2);
+    assert('Lumi S2 DEF ignore binds both Energized skills',
+        lumiIgnore?.skillKeys?.length === 2
+        && lumiIgnore.skillKeys.every(key => key.startsWith('forte_heavy_energized_')));
+
+    // Widening the binder must not re-scope anything else: "ignore" appears
+    // nowhere else in the kit vocabulary, and the measured roster diff was these
+    // TWO effects and no others. Sigrika's is the third scoped one and bound
+    // before the widening, off her clause's own "Each stack causes X, Y, Z … to
+    // ignore" wording, which the SUBJECT form already read.
+    assert('exactly three ignore clauses bind by name',
+        ignoreEffects.filter(({ effect }) => effect.skillKeys?.length).length === 3);
     assert('...on Fusion, at the value her kit states', lupaShred?.effect.element === 2
         && Math.abs(lupaShred.effect.value - 0.03) < 1e-9);
 }

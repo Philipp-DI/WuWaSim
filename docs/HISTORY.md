@@ -12178,3 +12178,92 @@ EFFECT, and unscoped it is inflation", placed directly above the older
 "DEF-ignore and RES-shred had no consumer" row it extends rather than replaces
 (that row is still true of the CONTRIBUTION bucket, which still has no reader).
 `docs/HISTORY.md` — this entry.
+
+## 2026-09-02 — The binder learns one verb, and two DEF ignores land
+
+The previous entry left eleven kit DEF-ignore clauses dropped for want of a
+scope, and named the reason: `skill-scope.mjs` knows the TARGET and SUBJECT
+sentence shapes, but every one of its forms ends in the verb `increas`, and
+these clauses say `ignor`. It also warned that widening the binder "re-scopes
+EVERY stat roster-wide, so it is its own measured change". This is that
+measurement, and the warning turned out to be pessimistic.
+
+**[The change]** `ignor` joins `increas` in `INCREASED` (shared by six TARGET
+forms), and `ignores?` joins `gains?|deals?` in `SUBJECT_FORM`. That is the
+whole edit.
+
+**[The measurement]** Every effect's `(resonator, stat, value, condition,
+skillKeys)` was captured before and after and diffed:
+
+```
+effects: 354 -> 356
+CHANGED: 2 added, 0 removed
+  + Lupa  defIgnore 0.3  -> forte_heavy_dance_with_the_wolf_climax + intro_nowhere_to_run
+  + Lumi  defIgnore 0.2  -> forte_heavy_energized_pounce + forte_heavy_energized_rebound
+```
+
+**Zero existing effects were re-scoped.** "Ignore" appears nowhere else in the
+kit vocabulary, so the widening reaches only the clauses it was for. The two
+that landed were previously DROPPED, which is why the effect count rises rather
+than staying flat.
+
+Measured on the build page: **Lupa S6 +9.98%** (9549 -> 10502) and **Lumi S2
++3.73%** (5441 -> 5644, correctly absent at S1).
+
+Lupa's binds 2 of the 3 skills her clause names — "Resonance Liberation
+Fire-Kissed Glory" resolves to nothing because her Liberation keys are
+generically named (`liberation_skill_damage`, `liberation_foebreaker`). That
+under-applies, which is the safe half of the failure, and is exactly the guess a
+curated key table would have had to make.
+
+**[What still cannot bind, and why it is deliberate]** Four clauses remain
+dropped, and two of them look bindable but are not:
+
+- **Ciaccona S4** "…when dealing Resonance Liberation DMG" is a genuine CATEGORY
+  scope, and at 45% (x1.290) it is the largest missing value in this lane.
+- **Cantarella S6** "Casting Resonance Liberation Flowing Suffocation makes
+  Cantarella's DMG ignore 30% for 10s" carries the same `skillType: 'liberation'`
+  — but there it is the leading TRIGGER, not the scope; the grant covers ALL her
+  damage. Honouring the category would silently NARROW it.
+
+The two are indistinguishable without reading which role the category plays,
+which is the leading-trigger invariant restated. So `needsScope` continues to
+demand real keys, and `resolveChainInherentContext` deliberately reads no
+`skillType` for this stat. Qiuyuan S5 and Chisa S2 are genuinely whole-build and
+drop for want of any scope at all.
+
+**[Why LOCK B is silent]** Both new binds are CHAIN-GATED (Lupa S6, Lumi S2) and
+`tools/optimize/team-rank.js:196` builds every team member at chain 0, so neither
+can appear in the meta: **416 of 416 teams identical, zero anchor lists moved.**
+That is the expected result, not a null one — the same blind spot that hid the
+Luuk S2 amplify bug, and the reason both figures above were measured on the build
+page instead.
+
+**[Files Changed]** `tools/preprocess/skill-scope.mjs` (two verb alternations);
+`tests/conditional-effects.test.mjs`; `CLAUDE.md`; regenerated
+`data/wuwa-data.json`.
+
+**[Logic Altered]** Two previously-dropped DEF-ignore effects now bind and apply,
+each to the skills its own clause names. Nothing else changed scope.
+
+**[Verification Method]** The before/after scope diff above is the primary
+evidence — 354 -> 356 effects, 2 added, 0 removed, 0 re-scoped. LOCK A carries
+exactly those two. LOCK B: 416/416 teams identical (chain-0 members). Tests pin
+both bindings by key, and assert the roster total of name-bound ignore clauses is
+THREE — the two new ones plus Sigrika's, which bound before this change off its
+own "Each stack causes X, Y, Z … to ignore" wording that the SUBJECT form already
+read. `npm test` 76/76; `npm run sweep` 70 imported, 0 failed; `npm run lint`
+0 errors, 3109 warnings (unchanged).
+
+**[Residual Risks]** Lupa's clause names three skills and binds two; her
+Liberation half is silently absent (understating). The four remaining clauses are
+unchanged from the previous entry — Ciaccona's 45% is the one worth a category
+mechanism, and that mechanism must be able to tell a scope from a trigger before
+it is safe to build. Widening the binder further for shapes like "when dealing
+damage with X" would reach Ciaccona's first clause by NAME and is the smaller,
+safer half of that problem.
+
+**[Updated Docs]** `CLAUDE.md` — the DEF-ignore invariant's "widening re-scopes
+every stat" clause struck through and replaced with the measurement, plus the
+category-vs-trigger reason the rest stay dropped and the note that LOCK B is
+structurally blind to both fixes. `docs/HISTORY.md` — this entry.

@@ -57,7 +57,12 @@ import { stateDefsForResonator } from '../../src/core/rotation-rules.js';
 //
 // Ordered longest-first so "DMG Multiplier" is never matched as bare "DMG".
 const TARGET_STAT = String.raw`(?:DMG\s*Multipliers?|Crit\.?\s*(?:DMG|Rate)|DMG|[Dd]amage)`;
-const INCREASED = String.raw`(?:(?:is|are)\s+)?increas`;
+// `ignor` joins `increas` because the game states a DEF ignore in the SAME
+// target sentences it states a bonus in — "The damage dealt by X, Y and Z
+// ignores 30% of the target's DEF" is DEALT_BY_FORM with a different verb.
+// Nothing else in the kit vocabulary uses "ignore", so the widening reaches
+// only the DEF/RES-ignore clauses it is for.
+const INCREASED = String.raw`(?:(?:is|are)\s+)?(?:increas|ignor)`;
 const OF_FORM = new RegExp(String.raw`${TARGET_STAT}\s+of\s+(.+?)\s+${INCREASED}`, 'i');
 // Comma-free, for the same reason SUBJECT_FORM is: the name PRECEDES the stat
 // here, so a span that reaches back over a comma swallows the leading trigger
@@ -125,7 +130,7 @@ const POSSESSIVE_OWNER = /^\s*[A-Z][\w:.-]*(?:\s+[A-Z][\w:.-]*)?(?:'s|s')\s+/;
 // clause comes after it — Luuk Herssen S4 is "After a Resonator in the team
 // deals Tune Break DMG, all Resonators in the team deal 20% more DMG", where the
 // first match is the trigger and only the second is the subject.
-const SUBJECT_FORM = /(?:^|[,.;])\s*([^,.;]+?)\s+(?:gains?|deals?)\s/gi;
+const SUBJECT_FORM = /(?:^|[,.;])\s*([^,.;]+?)\s+(?:gains?|deals?|ignores?)\s/gi;
 
 // A clause's leading "In <X>," qualifier, which the game uses for both a
 // Resonance Mode and an in-combat state. Only the latter is a state.
