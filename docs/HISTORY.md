@@ -11779,3 +11779,111 @@ optimizer, not of this change.
 NOTHING, and the number after 'instead of' is the DEAD one". `docs/HISTORY.md` —
 this entry. `src/core/tune-break.js` — the incorrect "S2 restates no cap" claim
 struck through in place rather than deleted.
+
+## 2026-09-02 — Gauge ticks: the clock the resource model never had (plan step 2a+2b)
+
+`rotation-resources.js` was per-CAST by construction and said so: *"a kit whose
+gauge fills on a timer, like Lynae's Premixed Hue at 1 stack/s, cannot be
+modelled here"*. This closes that, on the axis the rest of the engine already
+runs its timers on.
+
+**[The enabling fact]** No reordering was needed. `sim.js` already computes
+`stepTimes` at line 591, before `computeResourceTimeline` at 605, and line 592
+already hands the same `stepTimes` to `computeStateTimeline` — which takes it as
+an optional 4th argument, prefers `gameStart ?? start`, and degrades gracefully
+when a caller omits it. The resource walk now follows that precedent exactly.
+
+**[2a — time and state threaded]** `computeResourceTimeline`,
+`computeResourceConsumption` and `computeResourceEndLevels` take a 4th
+`context` argument (`{ stepTimes, activeStates, tickPhases }`). A caller with no
+timing info — `rotation-graph.js`'s legality check — passes nothing and gets an
+INERT clock rather than a guessed schedule, so a question about legality behaves
+exactly as it did before ticks existed.
+
+**[2b — what the data actually supports, and what it does not]** The plan called
+for an `internalCooldown` on per-cast gains. **It was not built, because the data
+has no consumer for it.** Sweeping `gauge-income.json`, 35 rows carry a real
+`cooldownSeconds` and every one of them is in the `trigger` lane —
+DamageTrigger, HitTrigger, TagTrigger — which this module cannot read by
+construction (CLAUDE.md, "Gauge income is readable ON A CAST, and only there").
+Not one `cast` row carries a cooldown. Building the primitive would have been
+dead code.
+
+What the 35 rows DO contain is Denia's pair: `1211700101`, TagTrigger,
+`cooldownSeconds` **12.0**, `addFraction` 100% of `SpecialEnergy1Max` and
+`SpecialEnergy2Max`. That is the maintainer's point #1 — the 12s restore is a
+CYCLE, not a one-shot — and it is a TICK, so the tick is what got built.
+
+**[The tick]** `RESOURCE_DEFS.tick = { period, refillTo?, amount?, state? }`.
+Fires at elapsed 0 and every `period` after, on gameTime. `refillTo` raises to a
+floor and never lowers, which is what "restore Dark Cores to 2 if she has fewer
+than 2" means; `amount` is the additive shape. Three decisions worth recording:
+
+- **The gate withholds the EFFECT, not the CLOCK.** A firing skipped because its
+  state was inactive still advances the count, so it cannot push the next one
+  later. The kit says "can be triggered once every 12s" — a rate limit on a
+  passive that re-checks, not a countdown that starts when the condition holds.
+- **The phase CARRIES across segments.** `resourceEndTickPhases` ->
+  `carryInResourceTicks`, threaded through `sim.js` and `team-sim.js` exactly
+  like the levels already were. Without it every segment restarts the cycle and
+  re-fires the opening tick — one free refill per swap-in, per pass.
+- **Counting FIRINGS, not timestamps.** The number owed by elapsed T is always
+  `floor(T / period) + 1`, which makes the carry exact with no "already fired at
+  0" special case.
+
+`start` stays and now reads as the t=0 firing of the same tick. The two state the
+same level for Denia and a refill to a floor is idempotent, so they agree by
+construction — and a test asserts `def.start === def.tick.refillTo` on both
+gauges at both chain branches, turning the duplication into a checked invariant
+rather than a drift risk.
+
+**[Chain overrides MERGE into a tick]** `resourceDefsForResonator` merges rather
+than replaces: Denia's S3 states only `refillTo`, and the period and the state
+gate must survive it. A partial override that silently dropped the gate would
+have paid the tick in both forms.
+
+**[Verification]** LOCK A clean (`--ref 3.5`, `generatedAt` only) — these are
+engine files, not preprocess. LOCK B has REAL movement, and its shape is the
+evidence: of 416 scored meta teams, **390 identical, 26 changed, all 26 contain
+Denia, all 26 UP, zero down, and zero non-Denia teams moved at all**; deltas
++0.31% to +1.46%; exactly one anchor's list reordered (a Denia team moved from
+slot 5 to 4 in anchor 1202, same 8 members). Direct team measurement: 1 pass
+identical (55,203), 3 passes 209,701 -> 210,411 (+0.34%) — the tick binds only
+once cumulative time passes 12s, which is the whole point. `walkResource` was
+then decomposed (`gaugeClock` extracted, complexity 43 -> 27 + 16) and the meta
+regenerated: **exactly 2 lines differed** (`generatedAt`, `engineHash`), proving
+the decomposition behaviour-preserving. `npm test` 76/76 (rotation-resources
+139 -> 171 assertions); `npm run sweep` 70 imported, 0 failed; `npm run lint`
+0 errors, 3105 -> 3107 warnings — both new warnings are the split halves of one
+43-complexity function, which the count penalises and the code does not.
+
+**[Files Changed]** `src/core/rotation-resources.js` (tick engine, `gaugeClock`,
+new `computeResourceTickPhases` export); `src/core/rotation-rules.js` (Denia's
+two ticks, tick-aware `chainOverrides` merge); `src/core/sim.js`
+(`carryInResourceTicks` in, `resourceEndTickPhases` out, walk context);
+`src/core/team-sim.js` (`memberResourceTicks` ledger, both segment kinds);
+`tests/rotation-resources.test.mjs`; `CLAUDE.md`; regenerated
+`data/wuwa-meta.json`.
+
+**[Residual Risks]** The tick is gated on **Stagecraft Form** because the base
+clause says "When Denia engages in combat in Stagecraft Form", but the S3 clause
+drops that qualifier ("Upon entering combat") and the maintainer described the
+regen as happening in Breakdown Form too, limited to 2 cores in Stagecraft below
+S3. **These readings disagree and the base branch is not in the data** — no
+`isCap` row and no base floor exists in `gauge-income.json`, so only the S3
+`addFraction` row is extractable. The gate is applied to BOTH branches because a
+gate can only ever WITHHOLD income, which is the understating direction; if the
+maintainer confirms the regen runs in both forms, dropping `state` from the two
+entries is the whole fix. Separately, the carried phase accumulates the member's
+own simulated gameTime, so time spent off-field does not advance their tick —
+also understating, and the same limit the entry already documented. Lynae's
+Premixed Hue (1 stack/s) is now expressible but is NOT wired: she has no
+`RESOURCE_DEFS` entry at all, which is the roster-wide curation gap, not a tick
+gap.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "A gauge tick is a CLOCK, and the
+gate withholds the EFFECT not the CLOCK"; the "Modelled at fight start only"
+clause in the neighbouring gauge invariant struck through and pointed at it.
+`docs/HISTORY.md` — this entry. `src/core/rotation-resources.js` module header —
+the "real-time ticks are out of scope" paragraph struck through in place, with
+the boundary that REMAINS (hit income) restated.

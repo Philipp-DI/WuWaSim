@@ -245,6 +245,10 @@ export function simulateTeamRotation({
         // gauge belongs to the character, not to a segment: Denia earns a Dark
         // Core on Intro and spends it in the segment after.
         memberResources: occupied.map(() => null),
+        // How far each member's gauge TICK CLOCKS have run. Carried for the same
+        // reason as the levels: a gauge belongs to the character, and a clock
+        // restarted per segment re-fires its opening tick every swap-in.
+        memberResourceTicks: occupied.map(() => null),
         segments: [],
         cursor: 0,
         concertoGauge: occupied.map(() => initialConcerto),
@@ -758,11 +762,12 @@ function runIntroSegment(sim, turn) {
     const { build, memberIndex, accum } = turn;
     const introResult = simulateIntro(build, sim.dataset, sim.target, turn.amplifyContext,
         timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode,
-        sim.memberResources[memberIndex]);
+        sim.memberResources[memberIndex], sim.memberResourceTicks[memberIndex]);
     // Hand the gauge on to the rotation segment of this same turn — the Intro
     // is a cast like any other and its income has to reach the cast that spends
     // it. Only on a real intro: a refused one (null) leaves the gauge alone.
     if (introResult?.resourceEndLevels) sim.memberResources[memberIndex] = introResult.resourceEndLevels;
+    if (introResult?.resourceEndTickPhases) sim.memberResourceTicks[memberIndex] = introResult.resourceEndTickPhases;
     const introTime = introResult?.totals.time ?? OUTRO_CAST_TIME;
     // SKILL damage only — see the note on rotDmg below.
     const introDmg  = introResult?.totals.skillDamage ?? 0;
@@ -906,6 +911,7 @@ function runRotationSegment(sim, turn) {
         timingMode: sim.timingMode,
         carryInFires: shiftFiresToLocal(sim.memberFires[turn.memberIndex], sim.cursor),
         carryInResources: sim.memberResources[turn.memberIndex],
+        carryInResourceTicks: sim.memberResourceTicks[turn.memberIndex],
         // The Tune Strain chain is a TEAM fact — the stack cap is the sum of the
         // responders present and the Boost points are pooled — so it is resolved
         // once for the roster and handed to each member, never re-derived from
@@ -915,6 +921,7 @@ function runRotationSegment(sim, turn) {
     // Hand this segment's ending ledger to this member's NEXT pass.
     sim.memberFires[turn.memberIndex] = shiftFiresToTeam(simResult.fires, sim.cursor);
     sim.memberResources[turn.memberIndex] = simResult.resourceEndLevels;
+    sim.memberResourceTicks[turn.memberIndex] = simResult.resourceEndTickPhases;
     const rotTime = simResult.totals.time;
     // SKILL damage only. simulateRotation resolves negative-status damage against
     // an enemy of its OWN (2026-08-01, so the build page stops omitting it), but
@@ -1443,12 +1450,12 @@ function triggerOfSkillType(skillType) {
     return null;
 }
 
-function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa', carryInResources = null) {
+function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa', carryInResources = null, carryInResourceTicks = null) {
     const introKey = introKeyFor(dataset, build.resonatorId, build);
     if (!introKey) return null;
     const introBuild = { ...build, rotation: [introKey] };
     try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows, timingMode, carryInResources });
+        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows, timingMode, carryInResources, carryInResourceTicks });
         if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
         return result;
     } catch { return null; }

@@ -1046,16 +1046,28 @@ export const RESOURCE_DEFS = Object.freeze({
     // — no isCap row exists for her — so those two numbers are the kit's, with
     // the extracted S3 branch as the cross-check that the mechanism is real.
     //
-    // MODELLED AT FIGHT START ONLY. The kit's "once every 12s" means a later
+    // ~~MODELLED AT FIGHT START ONLY. The kit's "once every 12s" means a later
     // swap-in can restore the gauge again; the resource model has no swap-in
-    // trigger, so a multi-pass team sim refills only on the opening pass. That
-    // understates her rather than inflating her, which is the safe direction.
+    // trigger, so a multi-pass team sim refills only on the opening pass.~~
+    // It is a CYCLE, not a one-shot: "This effect can be triggered once every
+    // 12s" is a rate limit on a passive that re-checks its condition, so it
+    // fires at fight start and every 12s of gameTime after. Both extracted rows
+    // carry cooldownSeconds 12.0, which is the period. `start` states the same
+    // opening level and stays: a refill to a floor is idempotent, so the two
+    // agree at t=0 by construction and a test asserts it.
+    //
+    // The tick is GATED on Stagecraft Form, because the base clause says "When
+    // Denia engages in combat in Stagecraft Form". The S3 clause drops that
+    // qualifier ("Upon entering combat"), but keeping the gate on both branches
+    // is the understating direction, and the gate only ever withholds income.
     1211: [{
         name: 'Dark Core',
         channel: 2,       // SpecialEnergy2Max = 3 in the game's own baseproperty table
         cap: 3,
         start: 2,
-        chainOverrides: { 3: { cap: 5, start: 5 } },
+        // Trigger row 1211700101, cooldownSeconds 12.0, +100% of SpecialEnergy2Max.
+        tick: { period: 12, refillTo: 2, state: 'Stagecraft Form' },
+        chainOverrides: { 3: { cap: 5, start: 5, tick: { refillTo: 5 } } },
         gains: {
             intro_it_s_been_a_while: 1,
             intro_knock_knock: 1,
@@ -1077,7 +1089,9 @@ export const RESOURCE_DEFS = Object.freeze({
         channel: 1,
         cap: 100,
         start: 20,
-        chainOverrides: { 3: { start: 100 } },
+        // Trigger row 1211700101, cooldownSeconds 12.0, +100% of SpecialEnergy1Max.
+        tick: { period: 12, refillTo: 20, state: 'Stagecraft Form' },
+        chainOverrides: { 3: { start: 100, tick: { refillTo: 100 } } },
         gains: {
             intro_it_s_been_a_while: 25,
             intro_knock_knock: 25,
@@ -1154,8 +1168,16 @@ export function resourceDefsForResonator(resonatorId, dataset = null, chainLevel
         // A chain node outranks the game's BASE table, which is what it edits.
         const cap = chained?.cap ?? gameCap ?? def.cap;
         const start = chained?.start ?? def.start;
-        if (cap === def.cap && start === def.start) return def;
-        return start == null ? { ...def, cap } : { ...def, cap, start };
+        // A chain node EDITS a tick rather than restating it: Denia's S3 moves
+        // only `refillTo`, and the period stays the kit's 12s. Merging keeps a
+        // partial override partial, so a node that changes the ceiling cannot
+        // silently drop the state gate or the period with it.
+        const tick = chained?.tick ? { ...def.tick, ...chained.tick } : def.tick;
+        if (cap === def.cap && start === def.start && tick === def.tick) return def;
+        const resolved = { ...def, cap };
+        if (start != null) resolved.start = start;
+        if (tick) resolved.tick = tick;
+        return resolved;
     });
 }
 

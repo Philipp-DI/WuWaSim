@@ -16,7 +16,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { computeResourceConsumption, computeResourceTimeline, resourceConsumedAt, resourceLevelAt } from '../src/core/rotation-resources.js';
+import { computeResourceConsumption, computeResourceTickPhases, computeResourceTimeline, resourceConsumedAt, resourceLevelAt } from '../src/core/rotation-resources.js';
 import { RESOURCE_DEFS, resourceDefsForResonator } from '../src/core/rotation-rules.js';
 import { effectsActiveAtStepDetailed, unlockedEffects } from '../src/core/buffs.js';
 import { createBuild } from '../src/core/build.js';
@@ -394,6 +394,124 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // The entering level a step READS is still the level before its own spend.
     const timeline = computeResourceTimeline(['fill', 'tap'], def).get('pool');
     assert('the spending step enters holding what it is about to spend', timeline[1] === 50);
+}
+
+// ── tick: a gauge that fills on the CLOCK ───────────────────────────────────
+// The clock runs on gameTime, fires at elapsed 0 and every `period` after, and
+// carries its phase across segments. Every case below is unit-level on purpose:
+// Denia's own rotation is 9.8s, shorter than one period, so her reference run
+// exercises the t=0 firing ONLY and cannot prove any of the cycle behaviour.
+{
+    const times = (starts, ends) => ({ gameStart: starts, gameEnd: ends ?? starts });
+    const floorDef = [{ name: 'Pool', cap: 5, gains: {}, spendAll: ['burn'],
+        tick: { period: 10, refillTo: 2 } }];
+    const walk = (rotation, context, defs = floorDef, carry = null) =>
+        computeResourceTimeline(rotation, defs, carry, context).get('pool');
+
+    // Without stepTimes the tick is inert — rotation-graph's legality check has
+    // no timing info and must behave exactly as it did before ticks existed.
+    assert('a tick with no stepTimes does nothing',
+        JSON.stringify(walk(['x', 'x', 'x'], null)) === JSON.stringify([0, 0, 0]));
+    assert('a tick with no stepTimes does nothing (empty context)',
+        JSON.stringify(walk(['x', 'x', 'x'], {})) === JSON.stringify([0, 0, 0]));
+
+    // Fires at elapsed 0, then every period.
+    assert('the opening tick fires at elapsed 0',
+        JSON.stringify(walk(['x', 'x'], { stepTimes: times([0, 1]) })) === JSON.stringify([2, 2]));
+    assert('a refillTo tick RAISES to its floor and never lowers',
+        JSON.stringify(walk(['burn', 'x'], { stepTimes: times([0, 1], [1, 2]) },
+            [{ name: 'Pool', cap: 5, gains: { x: 4 }, spendAll: ['burn'],
+               tick: { period: 10, refillTo: 2 } }])) === JSON.stringify([2, 0]));
+    assert('a later firing refills a gauge the rotation emptied',
+        JSON.stringify(walk(['burn', 'x', 'x'],
+            { stepTimes: times([0, 1, 11]) })) === JSON.stringify([2, 0, 2]));
+    assert('the clock does not re-fire within one period',
+        JSON.stringify(walk(['burn', 'x', 'x'],
+            { stepTimes: times([0, 1, 9]) })) === JSON.stringify([2, 0, 0]));
+
+    // A refill never exceeds the cap, and `amount` is the additive shape.
+    assert('refillTo clamps to the cap',
+        JSON.stringify(walk(['x'], { stepTimes: times([0]) },
+            [{ name: 'Pool', cap: 3, gains: {}, tick: { period: 10, refillTo: 99 } }])) === JSON.stringify([3]));
+    assert('an `amount` tick ADDS instead of flooring',
+        JSON.stringify(walk(['x', 'x', 'x'], { stepTimes: times([0, 10, 20]) },
+            [{ name: 'Pool', cap: 9, gains: {}, tick: { period: 10, amount: 2 } }]))
+            === JSON.stringify([2, 4, 6]));
+    assert('an `amount` tick clamps at the cap',
+        JSON.stringify(walk(['x', 'x', 'x'], { stepTimes: times([0, 10, 20]) },
+            [{ name: 'Pool', cap: 3, gains: {}, tick: { period: 10, amount: 2 } }]))
+            === JSON.stringify([2, 3, 3]));
+
+    // The PHASE carry. This is what a measurement cannot show: a refill to a
+    // floor is idempotent, so a wrongly re-fired opening tick is invisible
+    // whenever the gauge is already at or above the floor.
+    const phaseOf = (rotation, context, carry) =>
+        computeResourceTickPhases(rotation, floorDef, null, { ...context, tickPhases: carry }).get('pool');
+    assert('the end phase is the elapsed gameTime of the segment',
+        Math.abs(phaseOf(['x', 'x'], { stepTimes: times([0, 4], [4, 7]) }, null) - 7) < 1e-9);
+    assert('a carried phase accumulates across segments',
+        Math.abs(phaseOf(['x'], { stepTimes: times([0], [5]) }, new Map([['pool', 7]])) - 12) < 1e-9);
+    assert('a segment resuming mid-cycle does NOT re-fire the opening tick',
+        JSON.stringify(computeResourceTimeline(['burn', 'x'],
+            [{ name: 'Pool', cap: 5, gains: {}, spendAll: ['burn'],
+               tick: { period: 10, refillTo: 2 } }],
+            new Map([['pool', 4]]),
+            { stepTimes: times([0, 1]), tickPhases: new Map([['pool', 5]]) }).get('pool')) === JSON.stringify([4, 0]));
+    assert('...but it DOES fire once the carried clock crosses the next period',
+        JSON.stringify(computeResourceTimeline(['burn', 'x'],
+            [{ name: 'Pool', cap: 5, gains: {}, spendAll: ['burn'],
+               tick: { period: 10, refillTo: 2 } }],
+            new Map([['pool', 4]]),
+            { stepTimes: times([0, 6]), tickPhases: new Map([['pool', 5]]) }).get('pool')) === JSON.stringify([4, 2]));
+
+    // The state gate withholds the EFFECT while the CLOCK keeps running: a tick
+    // missed because its condition was false must not delay the next one.
+    const gated = [{ name: 'Pool', cap: 5, gains: {}, tick: { period: 10, amount: 1, state: 'Form A' } }];
+    const states = (list) => list.map(names => new Set(names));
+    assert('a gated tick pays nothing while its state is off',
+        JSON.stringify(computeResourceTimeline(['x', 'x'], gated, null,
+            { stepTimes: times([0, 10]), activeStates: states([[], []]) }).get('pool')) === JSON.stringify([0, 0]));
+    // A firing that lands exactly on a step's start is credited BEFORE that step
+    // reads its level — the same rule that lets the t=0 firing supply `start`.
+    assert('a gated tick pays while its state is on',
+        JSON.stringify(computeResourceTimeline(['x', 'x'], gated, null,
+            { stepTimes: times([0, 10]), activeStates: states([['form a'], ['form a']]) }).get('pool'))
+            === JSON.stringify([1, 2]));
+    assert('the CLOCK advances through a withheld firing, so the next is on schedule',
+        JSON.stringify(computeResourceTimeline(['x', 'x', 'x'], gated, null,
+            { stepTimes: times([0, 10, 20]), activeStates: states([[], ['form a'], ['form a']]) }).get('pool'))
+            === JSON.stringify([0, 0, 1]));
+}
+
+// ── Denia's 12s inherent, both chain branches ───────────────────────────────
+{
+    const byTickName = (list, name) => list.find(def => def.name === name);
+    const baseDefs = resourceDefsForResonator(1211, dataset, 0);
+    const s3TickDefs = resourceDefsForResonator(1211, dataset, 3);
+
+    for (const [defs, level] of [[baseDefs, 'S0'], [s3TickDefs, 'S3']]) {
+        for (const gauge of ['Dark Core', 'Void Particle']) {
+            const def = byTickName(defs, gauge);
+            assert(`${level} ${gauge} ticks on the extracted 12s period`, def.tick?.period === 12);
+            assert(`${level} ${gauge} tick is gated on Stagecraft Form`,
+                def.tick?.state === 'Stagecraft Form');
+            // The documented agreement: `start` is the t=0 firing of this tick,
+            // so the two must state the same level or one of them is wrong.
+            assert(`${level} ${gauge} start agrees with its tick floor`,
+                def.start === def.tick.refillTo);
+        }
+    }
+    assert('S3 raises the Dark Core floor to its raised cap',
+        byTickName(s3TickDefs, 'Dark Core').tick.refillTo === 5
+        && byTickName(s3TickDefs, 'Dark Core').cap === 5);
+    assert('S3 raises the Void Particle floor to the cap',
+        byTickName(s3TickDefs, 'Void Particle').tick.refillTo === 100);
+    assert('Conformal Charge has no tick — no row grants it on a clock',
+        byTickName(baseDefs, 'Conformal Charge').tick === undefined);
+    // A partial chain override must not drop the fields it does not mention.
+    assert('the S3 tick override keeps the period and the state gate',
+        byTickName(s3TickDefs, 'Dark Core').tick.period === 12
+        && byTickName(s3TickDefs, 'Dark Core').tick.state === 'Stagecraft Form');
 }
 
 console.log(`rotation-resources: ${passed} passed, ${failed} failed`);

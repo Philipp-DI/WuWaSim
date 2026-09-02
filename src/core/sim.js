@@ -24,7 +24,7 @@ import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
-import { computeResourceConsumption, computeResourceEndLevels, computeResourceTimeline } from './rotation-resources.js';
+import { computeResourceConsumption, computeResourceEndLevels, computeResourceTickPhases, computeResourceTimeline } from './rotation-resources.js';
 
 import {
     computeBuffWindows, applyBuffsToSteps, windowStacksAtStep,
@@ -506,7 +506,7 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
  *     }],
  *   }
  */
-export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null, carryInResources = null, tuneStrainAmplify = null }) {
+export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null, carryInResources = null, carryInResourceTicks = null, tuneStrainAmplify = null }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
     // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
@@ -602,11 +602,20 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // `carryInResources` is what these gauges already held — a member's turn is
     // simulated as several rotations (team-sim runs the auto-injected Intro as
     // its own segment) and a gauge does not reset between them.
-    const resourceLevels = computeResourceTimeline(rotation, resourceDefs, carryInResources);
+    // A gauge can also fill on a CLOCK (Denia's inherent restores Dark Core and
+    // Void Particle every 12s). The walk needs the same two things the state
+    // walk above needed — per-step gameTime, and which states are live — plus
+    // how far this member's ticker already ran in earlier segments of the fight.
+    const resourceContext = {
+        stepTimes,
+        activeStates: stateTimeline.activeAt,
+        tickPhases: carryInResourceTicks,
+    };
+    const resourceLevels = computeResourceTimeline(rotation, resourceDefs, carryInResources, resourceContext);
     // What each step SPENDS, for a "for each [X] consumed" multiplier. Separate
     // from the level series because the two answer different questions on the
     // same step — see computeResourceConsumption.
-    const resourceConsumed = computeResourceConsumption(rotation, resourceDefs, carryInResources);
+    const resourceConsumed = computeResourceConsumption(rotation, resourceDefs, carryInResources, resourceContext);
 
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     //
@@ -1054,7 +1063,10 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // the caller hands them to the next segment as `carryInResources`.
         // Unlike `fires` these carry no timestamps, so nothing has to be
         // shifted between the segment's frame and the team's.
-        resourceEndLevels: computeResourceEndLevels(rotation, resourceDefs, carryInResources),
+        resourceEndLevels: computeResourceEndLevels(rotation, resourceDefs, carryInResources, resourceContext),
+        // The tick clock's counterpart: a gauge tick belongs to the FIGHT, so
+        // without carrying this every segment re-fires the opening tick.
+        resourceEndTickPhases: computeResourceTickPhases(rotation, resourceDefs, carryInResources, resourceContext),
         totals: {
             damage: totalDamage,
             skillDamage: cumulative,
