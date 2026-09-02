@@ -218,11 +218,31 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const DENIA = 1211;
     const rotation = rotationsById[String(DENIA)]?.rotation ?? [];
     const defs = resourceDefsForResonator(DENIA, dataset);
-    assert('Denia has a Dark Core definition', defs.length === 1 && defs[0].name === 'Dark Core');
-    assert('its cap is the game\'s SpecialEnergy2Max', defs[0].cap === 3);
+    const byName = (list, name) => list.find(def => def.name === name);
+    const darkCore = byName(defs, 'Dark Core');
+    assert('Denia has a Dark Core definition', !!darkCore);
+    assert('its cap is the game\'s SpecialEnergy2Max', darkCore.cap === 3);
     // "When Denia engages in combat in Stagecraft Form: restore Dark Cores to 2
     // if she has fewer than 2." A gauge does not necessarily open a fight empty.
-    assert('and the fight opens on 2, not on 0', defs[0].start === 2);
+    assert('and the fight opens on 2, not on 0', darkCore.start === 2);
+
+    // Her other two gauges share ONE spender: row 1211053 carries a spendAll on
+    // SpecialEnergy1 AND SpecialEnergy3, which is the kit's "When [Conformal
+    // Charge] is full, consume all [Conformal Charge] and [Void Particle]".
+    const voidParticle = byName(defs, 'Void Particle');
+    const conformal = byName(defs, 'Conformal Charge');
+    assert('Void Particle is defined at the game\'s SpecialEnergy1Max',
+        voidParticle?.cap === 100 && voidParticle.channel === 1);
+    assert('Conformal Charge is defined at the game\'s SpecialEnergy3Max',
+        conformal?.cap === 100 && conformal.channel === 3);
+    assert('the same inherent floors Void Particle at 20', voidParticle.start === 20);
+    assert('Conformal Charge states no floor, so it opens empty', conformal.start === undefined);
+    assert('both are emptied by Final Act - Breakdown Form, the one row that spends both',
+        voidParticle.spendAll[0] === 'liberation_final_act_breakdown_form'
+        && conformal.spendAll[0] === 'liberation_final_act_breakdown_form');
+    assert('S3 fills Void Particle to the max too, and leaves its cap alone',
+        byName(resourceDefsForResonator(DENIA, dataset, 3), 'Void Particle').start === 100
+        && byName(resourceDefsForResonator(DENIA, dataset, 3), 'Void Particle').cap === 100);
 
     const consumption = computeResourceConsumption(rotation, defs);
     const levels = computeResourceTimeline(rotation, defs).get('dark core');
@@ -243,11 +263,11 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // enhances the inherent to "restored to the max", so an S3 build opens full
     // and the Intro grant it needs at S0 overflows.
     const s3Defs = resourceDefsForResonator(DENIA, dataset, 3);
-    assert('S3 raises the cap to 5', s3Defs[0].cap === 5);
-    assert('S3 opens the fight full, at 5', s3Defs[0].start === 5);
+    assert('S3 raises the cap to 5', byName(s3Defs, 'Dark Core').cap === 5);
+    assert('S3 opens the fight full, at 5', byName(s3Defs, 'Dark Core').start === 5);
     assert('S2 still reads the base gauge',
-        resourceDefsForResonator(DENIA, dataset, 2)[0].cap === 3
-        && resourceDefsForResonator(DENIA, dataset, 2)[0].start === 2);
+        byName(resourceDefsForResonator(DENIA, dataset, 2), 'Dark Core').cap === 3
+        && byName(resourceDefsForResonator(DENIA, dataset, 2), 'Dark Core').start === 2);
     const s3Levels = computeResourceTimeline(rotation, s3Defs).get('dark core');
     const s3Spent = computeResourceConsumption(rotation, s3Defs).get('dark core');
     assert('an S3 build spends 5 on Banish Stage 2', s3Spent[banishTwo] === 5);

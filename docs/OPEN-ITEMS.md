@@ -1307,9 +1307,17 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     REFUSED: it flags only 5 rows roster-wide, of which Jiyan's `1404304` is
     correct (his Liberation genuinely lives under a `forte_heavy_` key — the
     LABEL-vs-TYPE split again) and the two `damageId` rows are exact id identity.
-    A heuristic that breaks correct entries to catch two wrong ones is not worth
-    it; both are named here instead, and Denia's matters because it would hand
-    step 2 a WRONG spender for a resonator that is already curated correctly.
+    ~~A heuristic that breaks correct entries to catch two wrong ones is not
+    worth it; both are named here instead.~~ **RESOLVED for Denia 2026-08-27**
+    by a narrower rule than the veto: a GENRE DEMOTION that fires only on the
+    MONTAGE route (a `damageId` join is exact identity and outranks a category),
+    only in the two clean genre buckets, and only when exactly ONE key of that
+    type is unclaimed. Measured, it fires on **one row roster-wide** — Denia's
+    `1211053` -> `liberation_final_act_breakdown_form` — while Jiyan's `1404304`
+    and Calcharo's `1301410` survive untouched (both are the LABEL-vs-TYPE split,
+    not errors) and Jianxin's two-candidate case refuses. Yangyang's `1402603`
+    is unresolved and unresolvable this way: no unclaimed intro key exists,
+    which is correct, since it is a Rogue-mode row that should not join at all.
 
     NOT a blocker for item 36: 146 unique-key rows is enough to derive
     `RESOURCE_DEFS` for most of the roster, and each refusal is named so a
@@ -1358,6 +1366,17 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     STILL OPEN: Aemeath's `12101103`, the Enhanced Resonance Skill row that both
     grants ch1 and spends ch2, is unjoined. The join gap lands on the single
     most important row she has.
+
+    DONE 2026-08-27: Denia's remaining two gauges are curated. Void Particle
+    (ch1, cap 100, +25 x3, floored at 20 by the same inherent, 100 at S3) and
+    Conformal Charge (ch3, cap 100, +40 on Banish Stage 2) are both emptied by
+    `liberation_final_act_breakdown_form` — ONE row (`1211053`) carries a
+    spendAll on both channels, which is the kit's "consume all [Conformal
+    Charge] and [Void Particle]" verbatim. Their `Normal Attack` HIT income is
+    absent from the extraction, so both read LOW; the cast gate ("when Conformal
+    Charge is full", maintainer-confirmed as the ONLY condition) is therefore
+    deliberately NOT enforced, because gating on an under-filled gauge would
+    flag a legal rotation as illegal.
 
 40. **`npm run data` silently un-pins the game version, so LOCK A as documented
     is not reproducible** (2026-08-27). `tools/preprocess.mjs` resolves

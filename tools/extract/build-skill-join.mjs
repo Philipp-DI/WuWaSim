@@ -137,6 +137,39 @@ function keysByMontage(rid) {
 
 const join = {};
 const refusals = [];
+/**
+ * A montage join that CONTRADICTS a clean genre, demoted to the genre singleton.
+ *
+ * The montage route's "exactly one key" guard is necessary but NOT sufficient: a
+ * montage can be unique for a key and still be the wrong row, when the row's
+ * real key is absent from actionable-times.json altogether. Denia's `1211053`
+ * (二形态-终结技大招, genre liberation) landed on a forte_heavy per-tick key
+ * while `liberation_final_act_breakdown_form` sat unclaimed — and that row is
+ * the one carrying her Final Act spend, on two channels at once.
+ *
+ * Deliberately narrow, and MEASURED at exactly one row roster-wide:
+ *  - only the two clean genre buckets (intro 42/44, liberation 55/58);
+ *  - only the MONTAGE route, because a damageId join is exact identity and
+ *    outranks a category every time — Calcharo's `1301410` is a QTE that
+ *    genuinely owns liberation damage ids, and Jiyan's `1404304` is a
+ *    Liberation that genuinely lives under a `forte_heavy_` key. Both are the
+ *    LABEL-vs-TYPE split, not errors, and both must survive this;
+ *  - only when EXACTLY ONE key of that type is left unclaimed, so an ambiguous
+ *    case (Jianxin's two liberation keys) refuses rather than guessing.
+ *
+ * @returns {string|null} the key to use instead, or null to keep the montage join
+ */
+function demoteToGenreSingleton({ skillId, montageKey, category, skillMap, damageClaimed, soleMontageKey }) {
+    const wanted = SINGLETON_GENRES[category];
+    if (!wanted) return null;
+    if (skillMap[montageKey]?.skillType === wanted) return null;   // consistent — keep it
+    const takenElsewhere = new Set(damageClaimed);
+    for (const [otherId, key] of soleMontageKey) if (otherId !== skillId) takenElsewhere.add(key);
+    const free = Object.keys(skillMap).filter(key => !key.startsWith('_')
+        && skillMap[key]?.skillType === wanted && !takenElsewhere.has(key));
+    return free.length === 1 ? free[0] : null;
+}
+
 const routeCounts = { damageId: 0, montage: 0, genreSingleton: 0 };
 let rowsSeen = 0;
 
@@ -148,6 +181,23 @@ for (const rid of rosterIds) {
     const skillMap = dataset.autoSkillMap?.[rid] ?? {};
     const claimed = new Set(Object.values(byDamageId).flatMap(keys => [...keys]));
     const perResonator = {};
+
+    const montageKeysOf = (row) => {
+        const keys = new Set();
+        for (const montage of row.montages ?? []) {
+            const normalized = normalizeMontage(montage.game_path ?? montage.asset);
+            for (const key of byMontage[normalized] ?? []) keys.add(key);
+        }
+        return keys;
+    };
+    // Precomputed so the demotion can ask what the OTHER rows already claim
+    // without depending on the order Object.entries happens to walk.
+    const soleMontageKey = new Map();
+    for (const [skillId, row] of Object.entries(skills)) {
+        if ([...(byDamageId[skillId] ?? [])].length) continue;
+        const keys = montageKeysOf(row);
+        if (keys.size === 1) soleMontageKey.set(skillId, [...keys][0]);
+    }
 
     for (const [skillId, row] of Object.entries(skills)) {
         rowsSeen++;
@@ -161,13 +211,18 @@ for (const rid of rosterIds) {
             continue;
         }
 
-        const montageKeys = new Set();
-        for (const montage of row.montages ?? []) {
-            const normalized = normalizeMontage(montage.game_path ?? montage.asset);
-            for (const key of byMontage[normalized] ?? []) montageKeys.add(key);
-        }
+        const montageKeys = montageKeysOf(row);
         if (montageKeys.size === 1) {
-            perResonator[skillId] = { ...base, keys: [...montageKeys], route: 'montage' };
+            const [montageKey] = [...montageKeys];
+            const demoted = demoteToGenreSingleton({
+                skillId, montageKey, category, skillMap, damageClaimed: claimed, soleMontageKey,
+            });
+            if (demoted) {
+                perResonator[skillId] = { ...base, keys: [demoted], route: 'genreSingleton' };
+                routeCounts.genreSingleton++;
+                continue;
+            }
+            perResonator[skillId] = { ...base, keys: [montageKey], route: 'montage' };
             routeCounts.montage++;
             continue;
         }

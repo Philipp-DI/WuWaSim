@@ -11589,3 +11589,102 @@ START empty, and a chain node moves start and cap TOGETHER"). `docs/OPEN-ITEMS.m
 — item 39 (the 20 spend-less channels split 8 join-gaps / 12 genuine, the three
 schema fields, Aemeath's multi-gauge decode) and item 40 (`npm run data`
 un-pins the game version). HISTORY (this entry).
+
+---
+
+## 2026-08-27 — One wrong montage join, and the two gauges it was hiding
+
+Follow-on to the same day's start-level fix. The maintainer asked whether Denia's
+other two gauges — both capped at 100, both consumed by [Final Act - Breakdown
+Form] — could be derived rather than hand-written. They could: the data already
+named the consumer, and a single mis-routed join was all that stood in the way.
+
+**[Files Changed]**
+
+```text
+tools/extract/build-skill-join.mjs  demoteToGenreSingleton + order-independent
+                                    montage precompute
+data/skill-join.json                regenerated (ONE entry changed)
+docs/skill-join-report.md           regenerated
+src/core/rotation-rules.js          RESOURCE_DEFS[1211] gains Void Particle + Conformal Charge
+tests/rotation-resources.test.mjs   115 -> 139 assertions
+data/wuwa-meta.json                 regenerated (engineHash only)
+docs/OPEN-ITEMS.md                  items 38 and 39 amended
+```
+
+**[Logic Altered]**
+
+1. **A MONTAGE JOIN CAN BE UNIQUE AND STILL WRONG.** The route's "exactly one
+   key" guard is necessary but not sufficient: it fails when the row's REAL key
+   is absent from `actionable-times.json` altogether. Denia's `1211053`
+   (二形态-终结技大招, genre liberation) landed on
+   `forte_heavy_erosion_field_dmg_per_tick` while
+   `liberation_final_act_breakdown_form` sat unclaimed.
+
+2. **THE FIX IS A DEMOTION, NOT THE VETO THAT WAS REFUSED.** On 2026-08-25 a
+   genre-vs-skillType veto was measured and rejected for flagging 5 rows of
+   which 2 were correct. The narrower rule fires only on the MONTAGE route
+   (a `damageId` join is exact identity and outranks a category), only in the
+   two clean genre buckets, and only when exactly ONE key of that type is
+   unclaimed. **Measured: it fires on one row roster-wide.** Jiyan's `1404304`
+   (a Liberation genuinely under a `forte_heavy_` key) and Calcharo's `1301410`
+   (a QTE that genuinely OWNS liberation damage ids) both survive — they are the
+   LABEL-vs-TYPE split, not errors — and Jianxin's two-candidate case refuses.
+   The "claimed" set is precomputed from all rows' sole-montage keys, so the
+   result does not depend on the order `Object.entries` happens to walk.
+
+3. **ONE ROW SPENDS TWO CHANNELS.** `1211053` carries a `spendAll` on
+   SpecialEnergy1 AND SpecialEnergy3 — the kit's "When [Conformal Charge] is
+   full, consume all [Conformal Charge] and [Void Particle] to perform this
+   skill" verbatim. That single row is what made both gauges derivable at once.
+
+4. **THE GATE IS DELIBERATELY NOT ENFORCED.** The maintainer confirmed the only
+   condition is a full Conformal Charge — Void Particle is consumed but never
+   required — which the kit text states and my earlier reading had queried. It
+   is still not wired as a `resource.atLeast` gate, because the `Normal Attack`
+   HIT income for both gauges is absent from the extraction, so Conformal Charge
+   reads 40 on her reference rotation where the game has 100. Gating on an
+   under-filled gauge would flag a LEGAL rotation as illegal.
+
+**[Verification Method]**
+
+- **The join diff is one entry.** `montage` 269 -> 268, `genreSingleton` 17 ->
+  18, total resolved unchanged at 999; the only changed keys line is
+  `forte_heavy_erosion_field_dmg_per_tick` -> `liberation_final_act_breakdown_form`.
+- Four independent witnesses agree on that key: the row's own Chinese name
+  ("form-2 finisher ultimate"), its genre (liberation), its sibling `1211051`
+  (一形态-大招) already resolving to `liberation_final_act_stagecraft_form`, and
+  the kit sentence naming exactly the two gauges the row spends.
+- `tests/rotation-resources.test.mjs` 115 -> **139** assertions; the Denia block
+  now looks defs up BY NAME rather than by index, and pins both new gauges'
+  caps against the game's own `SpecialEnergy{1,3}Max`.
+- `npm test` **76/76** - `npm run sweep` 70 imported / 0 failed - `npm run lint`
+  0 errors, **3105 warnings** (unchanged baseline).
+- **LOCK A clean** (`--ref 3.5`; see item 40): only `generatedAt` moved.
+- **LOCK B is two lines** — `generatedAt` and `engineHash`, nothing else. The
+  two new gauges moved NO damage, which is the expected result: no effect scales
+  on either one today, so this is bookkeeping that makes them visible and
+  correct rather than a damage change.
+
+**[Residual Risks]**
+
+- **Both new gauges read LOW.** Their `Normal Attack` hit income is not in
+  `gauge-income.json` at all (Denia's only trigger row is the enter-combat one),
+  so they fill from casts alone. Understates, never inflates — but it is why the
+  cast gate stays unenforced.
+- **Conformal Charge's gain key is the KIT's, not the join's.** Row `1211048`
+  (黑-强化E2, +40 on SpecialEnergy3) is still refused, so the magnitude and
+  channel are the game's while `skill_banish_breakdown_form_2` comes from the
+  kit sentence.
+- **The demotion reasons from a category.** It is restricted to the two buckets
+  that measured 95% clean and to the weakest route, and it is tagged
+  `genreSingleton` in the output so a consumer can discount it — but it is not
+  id identity, and one row now depends on it.
+- Denia has a chain node at **S2** as well as S3 (20 nodes roster-wide use
+  replace/override language across 14 resonators); only S3 is modelled.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — item 38's KNOWN-BAD JOINS paragraph
+struck through and resolved for Denia (Yangyang's row named as correctly
+unresolvable), item 39 extended with the two curated gauges. HISTORY (this
+entry). No CLAUDE.md change: the demotion is a tool detail, and the invariant it
+serves ("a montage is many-to-one against skill rows") is already stated.

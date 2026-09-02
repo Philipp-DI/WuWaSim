@@ -1061,6 +1061,58 @@ export const RESOURCE_DEFS = Object.freeze({
             intro_knock_knock: 1,
         },
         spendAll: ['skill_banish_breakdown_form_2'],
+    }, {
+        // "Denia can hold up to 100 of [Void Particle]." — "Casting Intro Skill
+        // [It's Been A While!], Intro Skill [Knock Knock] or Resonance Skill
+        // [Phantom Bubble - Stagecraft Form] grants 25 of [Void Particle]."
+        // Rows 1211041/1211061/1211062, each +25 on SpecialEnergy1. The same
+        // inherent that floors Dark Core floors this one: "restore Void Particle
+        // to 20 if she has fewer than 20", and S3 restores it to the max.
+        //
+        // NOT MODELLED: "While in [Stagecraft Form], dealing damage through
+        // [Normal Attack] grants [Void Particle]" is HIT income, and her only
+        // extracted trigger row is the enter-combat one — so this gauge fills
+        // from casts alone and reads LOW, never high.
+        name: 'Void Particle',
+        channel: 1,
+        cap: 100,
+        start: 20,
+        chainOverrides: { 3: { start: 100 } },
+        gains: {
+            intro_it_s_been_a_while: 25,
+            intro_knock_knock: 25,
+            skill_phantom_bubble_stagecraft_form: 25,
+        },
+        spendAll: ['liberation_final_act_breakdown_form'],
+    }, {
+        // "Denia can hold up to 100 points of [Conformal Charge]." — "Casting
+        // Resonance Skill [Banish - Breakdown Form Stage 2] grants 40 of
+        // [Conformal Charge]." The grant is row 1211048 (+40 on
+        // SpecialEnergy3), whose join is REFUSED, so the KEY here is the kit's
+        // while the magnitude and channel are the game's.
+        //
+        // NOT MODELLED: the [Breakdown Form] Normal Attack / [Beckon] hit
+        // income, same lane and same reason as Void Particle above.
+        //
+        // ONE ROW SPENDS BOTH: 1211053 carries a spendAll on SpecialEnergy1 AND
+        // SpecialEnergy3, which is the kit's "When [Conformal Charge] is full,
+        // consume all [Conformal Charge] and [Void Particle] to perform this
+        // skill" verbatim. Its montage join was wrong — it landed on a
+        // forte_heavy per-tick key — and the genre demotion in
+        // build-skill-join.mjs resolves it to the liberation key.
+        //
+        // The GATE is deliberately NOT enforced. Maintainer-confirmed, the only
+        // condition is a full Conformal Charge (Void Particle is consumed but
+        // never required), but the hit income above is missing, so this gauge
+        // reads 40 on her reference rotation where the game has 100. Gating on
+        // it would flag a LEGAL rotation as illegal.
+        name: 'Conformal Charge',
+        channel: 3,
+        cap: 100,
+        gains: {
+            skill_banish_breakdown_form_2: 40,
+        },
+        spendAll: ['liberation_final_act_breakdown_form'],
     }],
     1412: [{
         name: 'Full Stop',
