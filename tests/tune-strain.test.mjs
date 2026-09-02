@@ -143,7 +143,16 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
     assert('it caps at 30%', selfAmplifyFor(member(LUUK), 500) === 0.30);
     assert('S2 doubles the rate rather than adding to it',
         Math.abs(selfAmplifyFor(member(LUUK, 2), 10) - 0.10) < 1e-9);
-    assert('...still capped at 30%', selfAmplifyFor(member(LUUK, 2), 500) === 0.30);
+    // S2 moves the RATE and the CEILING together — "now Amplify this instance of
+    // damage by 10%. This effect now increases the DMG Amplification up to 60%
+    // instead of 30%." Pinned at 30% this asserted the defect: at 40 Boost points
+    // he earned 40% and was paid 30%, and 40 is what a Denia S2 team hands him.
+    assert('...and S2 raises the ceiling to 60% with it',
+        selfAmplifyFor(member(LUUK, 2), 500) === 0.60);
+    assert('S2 pays the full 40% at 40 points, where the old ceiling used to bind',
+        Math.abs(selfAmplifyFor(member(LUUK, 2), 40) - 0.40) < 1e-9);
+    assert('S0 still binds at the 30% the base inherent states',
+        selfAmplifyFor(member(LUUK), 500) === 0.30);
     assert('nobody else has a flat branch', Object.keys(INTERFERED_SELF_AMPLIFY).length === 1);
 }
 

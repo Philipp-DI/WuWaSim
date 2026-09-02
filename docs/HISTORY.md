@@ -11688,3 +11688,94 @@ struck through and resolved for Denia (Yangyang's row named as correctly
 unresolvable), item 39 extended with the two curated gauges. HISTORY (this
 entry). No CLAUDE.md change: the demotion is a tool detail, and the invariant it
 serves ("a montage is many-to-one against skill rows") is already stated.
+
+## 2026-09-02 — A cap restatement read as a grant: Luuk Herssen's silent +30%
+
+The maintainer asked me to re-check the chain-override bucket before acting on
+it, noting Aemeath's S3 had already been handled in an earlier session. That was
+correct and my plan was stale: `tools/preprocess/inherent-replace.mjs` shipped
+2026-08-03, stamps `replacedByChain`, and `src/core/buffs.js` gates on it — the
+Aemeath case is fixed and still working, validated then against an in-game
+capture (3.152x, not 3.452x).
+
+Tracing it, however, showed the pass reads exactly ONE wording,
+`Inherent Skill (.+?) is replaced with`, and its own comment says only one node
+in the roster does that. Three further nodes say **"is enhanced"** instead and
+the regex cannot see them: Denia S3, Lucy S5, Luuk Herssen S2. Two are harmless
+— Denia's and Lucy's superseded inherents parse to `effects: []`, so there is
+nothing to double-count. The third was not.
+
+**[The defect]** Luuk Herssen's S2 enhancement is stated as two sentences, a
+RATE and a CEILING. The ceiling sentence — *"This effect now increases the DMG
+Amplification up to 60% instead of 30%."* — parsed as an effect:
+`amplify 0.3`, `conditionKind: unconditional`, `defaultActive: true`,
+`window.type: 'always'`, no element and no skillType. That is a permanent,
+unscoped multiplier on his entire kit, the same shape as the unscoped-
+`multiplierUp` invariant, and in the same direction: **inflation**, so nothing
+about the output looks wrong. Measured on his reference rotation, dropping the
+effect from the dataset in memory: S1 1.0000x, **S2 1.3000x, S6 1.3000x**.
+
+**[Root cause]** `pctFor` (`tools/preprocess/effects.mjs`) already skips a value
+introduced by "up to", because that is a ceiling and never the grant — it
+correctly skipped the 60%. But the loop then kept scanning and returned the
+**30% after "instead of"**, which is by definition the value the clause
+REPLACES: the one number in the sentence guaranteed not to be a grant. Fixed by
+skipping that prefix in the same loop. Only two sentences roster-wide use
+"instead of", and they need opposite halves of the loop: Phoebe S1's
+*"increases DMG Multiplier by 480% instead of 255%"* keeps its 480% (unprefixed,
+so it still wins on the first iteration), while Luuk's has every number behind a
+cap word and now reads as nothing — which is the truth.
+
+**[A second defect, opposite direction]** `INTERFERED_SELF_AMPLIFY` in
+`src/core/tune-break.js` already handled the rate replacement (5% -> 10% per 10
+Tune Break Boost at minChain 2), but carried the comment *"S2 restates no cap,
+so the inherent's 30% stands"*. The kit restates it in the very next sentence,
+to 60%. The rate and the ceiling move together; reading only the rate capped him
+at the S0 ceiling. It binds on any real Tune Strain team: base 10 + Denia's 10
+(+20 at S2) + Lynae's 40 + Rebecca's 30 puts him far past the 30 points where
+the two ceilings diverge — at 40 points he earned 40% and was paid 30%.
+
+**[Why no generated-data lock caught it]** `tools/optimize/team-rank.js:196`
+builds every team member at **chain 0** (`setChain(createBuild(resonator), 0)`),
+so an S2-gated defect cannot move `wuwa-meta.json` at all. LOCK B is clean here
+for that reason, verified rather than assumed — 10 scored teams contain Luuk and
+none changed. The bug was only ever visible on the build and team pages, where a
+user sets a real sequence level. Same blind spot CLAUDE.md already records for
+the derived-magnitude sonata bug ("the benchmark could not catch it").
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (`pctFor` cap-word skip);
+`src/core/tune-break.js` (S2 cap 0.30 -> 0.60, comment corrected with
+strikethrough); `tests/tune-strain.test.mjs`; `tests/multiplier-scope.test.mjs`
+(new guard 3); `tests/effect-coverage.test.mjs` (7th UNREAD entry + growth
+guard 6 -> 7); `CLAUDE.md`; regenerated `data/wuwa-data.json`,
+`data/wuwa-meta.json`.
+
+**[Logic Altered]** One always-on unscoped `amplify` effect removed from the
+dataset (Luuk S2, the only such clause roster-wide). Luuk's S2+ self-amplify
+ceiling raised 30% -> 60%. No other resonator's parse changed.
+
+**[Verification Method]** LOCK A: the ONLY content diff is the removal of that
+one effect object (19 deletions, 1 insertion, `generatedAt` aside), pinned with
+`--ref 3.5`. LOCK B: two hash lines only, explained above and checked against
+`byCharacter`. Damage re-measured after the fix: 1.0000x at S1/S2/S6 — the 1.30x
+is gone. Phoebe's 4.8 `multiplierUp` confirmed intact; Luuk's `S6.1` override
+slot confirmed unmoved (an effect-count change on node S2 cannot re-slot node
+S6, and the parser runs before the overrides). Guard 3 proven to fire on the
+defect's own text and to pass Phoebe, Sanhua and Sigrika. `npm test` 76/76;
+`npm run sweep` 70 imported, 0 failed; `npm run lint` 0 errors, 3105 warnings
+(baseline unchanged).
+
+**[Residual Risks]** The "is enhanced" wording remains unmodelled as a general
+replacement mechanism — `inherent-replace.mjs` still reads only "is replaced
+with". Of the three nodes using it, the two remaining (Denia S3, Lucy S5)
+supersede inherents whose effect lists are empty, so nothing double-counts
+today; a future kit using that wording over a VALUED inherent would. Guard 3
+covers the cap-restatement shape roster-wide but only for always-on effects, by
+design — a conditional one is already OFF. Chain-0-only meta membership means no
+generated lock can detect a chain-gated regression; that is a property of the
+optimizer, not of this change.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "A CAP restatement grants
+NOTHING, and the number after 'instead of' is the DEAD one". `docs/HISTORY.md` —
+this entry. `src/core/tune-break.js` — the incorrect "S2 restates no cap" claim
+struck through in place rather than deleted.

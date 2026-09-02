@@ -53,11 +53,13 @@ const BUFF_VOCABULARY = [
 // game's own data that settles it. Keyed by a distinctive fragment so the entry
 // survives re-wording of the surrounding sentence.
 //
-// Every one of these was traced to source on 2026-08-07. None is a hole in the
-// data — the game states all six. Five need an engine SHAPE this parser has no
-// bucket for (a status-damage amplify, a chain-selected affliction table, a
-// stat-scaled flat add, an added damage instance); the sixth is a restatement
-// that must stay unread because reading it would double-count. `why` names the
+// Every one of these was traced to source on 2026-08-07 (the seventh 2026-09-02).
+// None is a hole in the data — the game states all seven. Five need an engine
+// SHAPE this parser has no bucket for (a status-damage amplify, a chain-selected
+// affliction table, a stat-scaled flat add, an added damage instance); the other
+// TWO are restatements that must stay unread because reading them would
+// double-count — and the seventh did not merely double-count, it read the
+// SUPERSEDED half of "60% instead of 30%". `why` names the
 // shape that is missing, so an entry can only be cleared by building it.
 const UNREAD = [
     { id: 1108, match: 'Glacio Bite DMG taken by targets',
@@ -91,6 +93,14 @@ const UNREAD = [
            + '(param 8) plus 5%/Crimson Bud to a 50% cap (params 9, 10), and S6\'s own leading '
            + 'clause adds 150%, which IS read as multiplierUp. 50 + 150 + 50 = 250. Reading this '
            + 'sentence as well would count the same 150% twice.' },
+    { id: 1510, match: 'DMG Amplification up to 60% instead of 30%',
+        why: 'NOT a grant — a restated ceiling, the same shape as the Cartethyia entry above. S2 '
+           + 'enhances Uncaused Diagnosis, and the enhancement is stated as two sentences: the '
+           + 'RATE ("now Amplify this instance of damage by 10%") and then this CEILING. Both '
+           + 'are read, but by tune-break.js INTERFERED_SELF_AMPLIFY, which owns the per-point '
+           + 'branch — 10% per 10 Tune Break Boost to a 60% cap at minChain 2. Reading it here '
+           + 'as well fed pctFor the superseded 30% and shipped a permanent, unconditional +30% '
+           + 'amplify on his whole kit, measured x1.3000 on every hit at S2+.' },
 ];
 
 // ── Scan ─────────────────────────────────────────────────────────────────────
@@ -134,7 +144,7 @@ for (const resonator of dataset.resonators) {
     // A ratchet on the total. 109 of 324 were unread before this pass; the list
     // above is 9. It may only ever shrink — a rise means a new kit phrasing went
     // in unnoticed, which is the exact failure this file exists to catch.
-    assert(`unread buff clauses have not grown past 6 (got ${unread.length})`, unread.length <= 6);
+    assert(`unread buff clauses have not grown past 7 (got ${unread.length})`, unread.length <= 7);
     assert('the scan still sees the whole roster (>= 300 buff clauses in scope)', inScope >= 300);
 }
 

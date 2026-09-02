@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-08-25T15:19:23.581Z",
+  "generatedAt": "2026-09-02T10:08:20.617Z",
   "source": "Arikatsu/WutheringWaves_Data@3.5 + nanoka.cc",
   "gameVersion": "3.5",
   "sourceRefPinned": true,
@@ -20323,24 +20323,6 @@
               },
               "window": {
                 "type": "persist"
-              }
-            },
-            {
-              "stat": "amplify",
-              "value": 0.3,
-              "element": null,
-              "skillType": null,
-              "teamWide": false,
-              "condition": "This effect now increases the DMG Amplification up to 60% instead of 30%.",
-              "conditionKind": "unconditional",
-              "structuralTrigger": null,
-              "defaultAssume": true,
-              "defaultActive": true,
-              "trigger": {
-                "type": "none"
-              },
-              "window": {
-                "type": "always"
               }
             }
           ]

@@ -426,7 +426,18 @@ export function pctFor(text, keywordRe) {
     // Skipping any "up to N%" — that is the CEILING of a per-stack value, never
     // the value. Sigrika S6's "…15% DMG Amplification, up to 60%" otherwise
     // reads 60% per stack, i.e. the whole cap on the first stack.
-    for (const found of after.matchAll(/(up\s+to\s+)?([\d.]+)\s*%/gi)) {
+    //
+    // "instead of N%" is skipped for the MIRROR reason: it names the value the
+    // clause REPLACES, so it is the one number in the sentence that is
+    // certainly not the grant. Both roster sentences using it are chain nodes
+    // restating an earlier value, and they need opposite halves of this loop —
+    // Phoebe's "increases DMG Multiplier by 480% instead of 255%" grants the
+    // 480 (unprefixed, so it still wins on the first iteration), while Luuk
+    // Herssen's "increases the DMG Amplification up to 60% instead of 30%" has
+    // EVERY number behind a cap word and therefore grants nothing at all.
+    // Reading its 30% shipped an unconditional, always-on +30% amplify across
+    // his whole kit at S2+ — measured x1.3000 on every hit he lands.
+    for (const found of after.matchAll(/(up\s+to\s+|instead\s+of\s+)?([\d.]+)\s*%/gi)) {
         if (!found[1]) return parseFloat(found[2]) / 100;
     }
     return backward ? parseFloat(backward[1]) / 100 : null;

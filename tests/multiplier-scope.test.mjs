@@ -187,5 +187,33 @@ function effectsOf(resonator) {
     assert(`every resolvable skill name is bound (got ${unread.length} unread)`, unread.length === 0);
 }
 
+// ── Guard 3: a CAP restatement is not a grant ──────────────────────────────
+// The game raises a ceiling by restating it — "This effect now increases the
+// DMG Amplification up to 60% instead of 30%" — and such a sentence grants
+// nothing on its own. `pctFor` skips a value behind "up to" or "instead of"
+// for exactly that reason, but it used to keep scanning past the ceiling and
+// land on the SUPERSEDED number after "instead of": Luuk Herssen S2 shipped a
+// permanent, unconditional +30% amplify across his whole kit, measured at
+// x1.3000 on every hit at S2+. Same failure mode as guard 1 — always-on, no
+// scope, and it INFLATES, so nothing about the output looks wrong.
+//
+// A clause with no percentage outside a cap phrase can only be a restatement.
+{
+    const capOnly = [];
+    for (const resonator of dataset.resonators) {
+        for (const [slot, effect] of effectsOf(resonator)) {
+            if (effect.window?.type !== 'always' || effect.defaultActive === false) continue;
+            const text = String(effect.condition ?? '');
+            if (!/%/.test(text)) continue;
+            let granted = false;
+            for (const found of text.matchAll(/(up\s+to\s+|instead\s+of\s+)?([\d.]+)\s*%/gi)) if (!found[1]) granted = true;
+            if (!granted) capOnly.push(`${resonator.name} ${slot} ${effect.stat}=${effect.value} — "${text}"`);
+        }
+    }
+    for (const row of capOnly) console.error(`  · always-on effect from a cap restatement: ${row}`);
+    assert(`no always-on effect is parsed from a cap-only clause (got ${capOnly.length})`,
+        capOnly.length === 0);
+}
+
 console.log(`multiplier-scope: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

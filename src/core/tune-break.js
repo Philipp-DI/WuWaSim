@@ -131,14 +131,21 @@ export const INTERFERED_SELF_AMPLIFY = Object.freeze({
     // S2 REPLACES the rate rather than adding to it — "Inherent Skill Uncaused
     // Diagnosis is enhanced: … now Amplify this instance of damage by 10%" —
     // so the highest applicable entry wins, the same way a chain-scaled value
-    // does elsewhere. S2 restates no cap, so the inherent's 30% stands.
+    // does elsewhere. ~~S2 restates no cap, so the inherent's 30% stands.~~ It
+    // does restate it, in the very next sentence: "This effect now increases the
+    // DMG Amplification up to 60% instead of 30%." The rate and the ceiling move
+    // TOGETHER, and reading only the rate capped him at the S0 ceiling — with 40
+    // Boost points he earned 40% and was paid 30%. The cap binds on any real
+    // Tune Strain team: base 10 + Denia's 10 (+20 at S2) + Lynae's 40 + Rebecca's
+    // 30 puts him well past 30 points, which is where the two caps diverge.
     1510: [
         { perPoints: 10, value: 0.05, cap: 0.30, minChain: 0,
           quote: 'Every 10 points of Tune Break Boost he has Amplifies this instance of damage '
               + 'by 5%, up to 30%.' },
-        { perPoints: 10, value: 0.10, cap: 0.30, minChain: 2,
+        { perPoints: 10, value: 0.10, cap: 0.60, minChain: 2,
           quote: 'Inherent Skill Uncaused Diagnosis is enhanced: … now Amplify this instance '
-              + 'of damage by 10%.' },
+              + 'of damage by 10%. This effect now increases the DMG Amplification up to 60% '
+              + 'instead of 30%.' },
     ],
 });
 
