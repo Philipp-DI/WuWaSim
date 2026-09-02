@@ -1393,6 +1393,49 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     behaviour-preserving check must not double as a version bump), and whether
     to adopt 3.6 at all, which is its own change with its own review.
 
+41. **A team-wide grant can COST a teammate a stacking buff — Verina S4+ takes
+    39% off her own carry** (2026-09-02, surfaced by the Sequence Node
+    Evaluation). Verina S4 reads *"Heavy Attack Starflower Blooms, Mid-Air
+    Attack Starflower Blooms, Resonance Liberation Arboreal Flourish and Outro
+    Skill Blossom increases the Spectro DMG Bonus of all team members by 15%
+    for 24s"* — a pure addition. In her own meta team (Youhu / Verina / Hiyuki)
+    raising her from S3 to S4 moves **Hiyuki 1,349,707 -> 825,153 (-39%)** and
+    the team **-33.1%**, while Verina's own damage rises 1.3% as expected.
+
+    A sequence node cannot make a team worse, so this is a modelling defect. It
+    **predates the evaluation** — the same two runs are byte-identical at
+    `8241d5e`, before any of this session's work — and it was invisible until
+    now only because `tools/optimize/team-rank.js` builds every team member at
+    chain 0, so no meta team has ever contained a Verina above S0.
+
+    What is measured so far:
+    - The loss is a clean multiplicative factor per step, and it GROWS across
+      the rotation: successive steps read x0.800, x0.667, then x0.571 for all
+      the rest — i.e. 1/1.25, 1/1.5, 1/1.75. That is a **stacking buff worth
+      25% per stack to 3 stacks** that Hiyuki holds at Verina S3 and loses
+      ENTIRELY at S4.
+    - Hiyuki is Glacio (element 1) and the added grant is Spectro (element 5),
+      so the new buff cannot legitimately touch her damage at all.
+    - Her step's `activeBuffNames` at S4 is a strict SUPERSET of S3's — she
+      gains "+15% Spectro DMG · Verina" and loses nothing by name. Whatever is
+      dropped is therefore not in that list.
+    - `mergeTeamBundles` (buffs.js) adds per key and cannot be the culprit.
+      `groupStackingBuffs` (buff-timeline.js) keys on
+      `sonataId::raw::bonusKind:element:dmgType:bonusPct:duration`, which is
+      the known shape for a collision dropping a sibling grant (CLAUDE.md, "A
+      tier's SECOND grant needs its own group key") — the first place to look.
+    - NOT reproduced through `resolved.totalExpected`, which is identical in
+      both runs; the divergence is in `stepDamage`. Those two are assigned from
+      one expression in `sim.js`, so the step's `resolved` reference appears to
+      be shared or re-used across steps. That is worth confirming on its own —
+      if `resolved` is stale, every UI surface reading it is showing a hit
+      breakdown that does not match the step total beside it.
+
+    The evaluation FLAGS rather than hides it: the rows carry
+    `suspect: 'negative-gain'` and `tests/meta-schema.test.mjs` asserts a
+    negative gain is never silent, so this cannot be "fixed" by dropping the
+    row.
+
 
 ## Doc hygiene (minor, mostly already fixed)
 

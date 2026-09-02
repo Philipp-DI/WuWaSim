@@ -150,5 +150,79 @@ for (const [id, c] of Object.entries(meta.characters)) {
     assert('committed meta engineHash matches the current engine (regenerate via node tools/optimize.mjs)', meta.engineHash === current);
 }
 
+// ── Sequence Node Evaluation ────────────────────────────────────────────────
+// What each Resonance Chain node is WORTH: the resonator simmed in their own
+// baseline meta team with ONLY their sequence level raised, teammates at S0.
+// S0 is the ranking baseline because duplicate copies cost luck or money, so
+// this is the table that prices the copies rather than assuming them.
+{
+    const evaluation = meta.sequenceEval;
+    assert('the meta ships a sequence evaluation', !!evaluation && typeof evaluation === 'object');
+    const entries = Object.entries(evaluation ?? {});
+    assert('every anchor with a suggested team is evaluated',
+        entries.length === Object.keys(meta.teams.byCharacter).length);
+
+    for (const [anchorId, entry] of entries) {
+        const card = meta.teams.byCharacter[anchorId]?.[0];
+        assert(`${anchorId}: evaluated in a team it actually anchors`, !!card);
+        assert(`${anchorId}: the team is the top-ranked one, member for member`,
+            JSON.stringify(entry.team) === JSON.stringify(card.members));
+        assert(`${anchorId}: the subject is in their own team`, entry.team.includes(Number(anchorId)));
+
+        // ONE MEASUREMENT: the S0 row and the suggested-team card are both
+        // scoreTeam at chain 0, so they must agree exactly. If they ever drift,
+        // the eval is pricing a different team than the card shows.
+        assert(`${anchorId}: the S0 baseline equals the card's own teamDamage`,
+            entry.baseline.teamDamage === card.teamDamage);
+
+        assert(`${anchorId}: one row per sequence node`, entry.nodes.length === 6);
+        assert(`${anchorId}: rows are S1..S6 in order`,
+            entry.nodes.every((node, index) => node.chain === index + 1));
+        assert(`${anchorId}: gains are finite numbers`,
+            entry.nodes.every(node => Number.isFinite(node.teamGain) && Number.isFinite(node.ownGain)));
+        assert(`${anchorId}: fullChain is the S6 own gain`,
+            entry.fullChain === entry.nodes[entry.nodes.length - 1].ownGain);
+
+        // A node only ever ADDS to a kit, so the climb cannot go backwards.
+        // Where it does, the row carries `suspect` rather than being clamped or
+        // dropped — a missing row reads as "this node does nothing", which is a
+        // different and wrong claim.
+        for (const node of entry.nodes) {
+            const negative = node.teamGain < 0 || node.ownGain < 0;
+            assert(`${anchorId} S${node.chain}: a negative gain is flagged, never silent`,
+                !negative || node.suspect === 'negative-gain');
+            assert(`${anchorId} S${node.chain}: a non-negative gain carries no flag`,
+                negative || node.suspect === undefined);
+        }
+    }
+
+    // Only ONE resonator's chain moves — a teammate's copies are the user's
+    // business, and pricing them here would answer a question nobody asked.
+    // Verified structurally: two anchors sharing a team must still report
+    // different baselines only because their OWN damage differs, never the
+    // team's.
+    const byTeam = new Map();
+    for (const [anchorId, entry] of entries) {
+        const key = entry.team.join(',');
+        (byTeam.get(key) ?? byTeam.set(key, []).get(key)).push({ anchorId, entry });
+    }
+    for (const shared of byTeam.values()) {
+        if (shared.length < 2) continue;
+        const first = shared[0].entry.baseline.teamDamage;
+        assert('anchors sharing one team agree on its S0 team damage',
+            shared.every(other => other.entry.baseline.teamDamage === first));
+    }
+
+    // The known modelling defect this table surfaced, pinned so it cannot be
+    // "fixed" by hiding the row. Verina's S4 team-wide grant costs Hiyuki a
+    // stacking buff worth 75%; the bug predates the eval (identical at 8241d5e)
+    // and is filed in docs/OPEN-ITEMS.md.
+    const verina = evaluation['1503'];
+    if (verina) {
+        assert('Verina S4+ is still flagged as a negative-gain anomaly',
+            verina.nodes.filter(node => node.suspect === 'negative-gain').length >= 1);
+    }
+}
+
 console.log(`\nmeta-schema: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

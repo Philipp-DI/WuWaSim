@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.5",
-  "generatedAt": "2026-09-02T13:02:09.122Z",
+  "generatedAt": "2026-09-02T15:59:13.361Z",
   "engineHash": "16ac80023631bec4527bee9421e981777a624d82eb74b2f8e5dbbdd24a51d01a",
   "erModel": "mode-based-v1",
   "characters": {
@@ -81767,6 +81767,3131 @@
             }
           ]
         }
+      }
+    }
+  },
+  "sequenceEval": {
+    "1102": {
+      "team": [
+        1102,
+        1106,
+        1603
+      ],
+      "baseline": {
+        "teamDamage": 1002350,
+        "ownDamage": 102567
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1002350,
+          "ownDamage": 102567,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1002350,
+          "ownDamage": 102567,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1002350,
+          "ownDamage": 102567,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1048569,
+          "ownDamage": 148786,
+          "teamGain": 0.0461,
+          "ownGain": 0.4506
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1048569,
+          "ownDamage": 148786,
+          "teamGain": 0.0461,
+          "ownGain": 0.4506
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1080727,
+          "ownDamage": 153022,
+          "teamGain": 0.0782,
+          "ownGain": 0.4919
+        }
+      ],
+      "fullChain": 0.4919,
+      "bestNode": {
+        "chain": 4,
+        "step": 0.4506
+      }
+    },
+    "1103": {
+      "team": [
+        1103,
+        1106,
+        1107
+      ],
+      "baseline": {
+        "teamDamage": 1864068,
+        "ownDamage": 56072
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1864068,
+          "ownDamage": 56072,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1864068,
+          "ownDamage": 56072,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1864068,
+          "ownDamage": 56072,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1864068,
+          "ownDamage": 56072,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1864068,
+          "ownDamage": 56072,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1958009,
+          "ownDamage": 56072,
+          "teamGain": 0.0504,
+          "ownGain": 0
+        }
+      ],
+      "fullChain": 0,
+      "bestNode": {
+        "chain": null,
+        "step": 0
+      }
+    },
+    "1104": {
+      "team": [
+        1105,
+        1106,
+        1104
+      ],
+      "baseline": {
+        "teamDamage": 1044561,
+        "ownDamage": 650618
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1044561,
+          "ownDamage": 650618,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1044561,
+          "ownDamage": 650618,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1075022,
+          "ownDamage": 681080,
+          "teamGain": 0.0292,
+          "ownGain": 0.0468
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1130975,
+          "ownDamage": 712471,
+          "teamGain": 0.0827,
+          "ownGain": 0.0951
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1130975,
+          "ownDamage": 712471,
+          "teamGain": 0.0827,
+          "ownGain": 0.0951
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1263572,
+          "ownDamage": 845068,
+          "teamGain": 0.2097,
+          "ownGain": 0.2989
+        }
+      ],
+      "fullChain": 0.2989,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.2038
+      }
+    },
+    "1105": {
+      "team": [
+        1105,
+        1106,
+        1107
+      ],
+      "baseline": {
+        "teamDamage": 2121072,
+        "ownDamage": 302162
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2140427,
+          "ownDamage": 321516,
+          "teamGain": 0.0091,
+          "ownGain": 0.0641
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2140427,
+          "ownDamage": 321516,
+          "teamGain": 0.0091,
+          "ownGain": 0.0641
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2168908,
+          "ownDamage": 349997,
+          "teamGain": 0.0226,
+          "ownGain": 0.1583
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2168908,
+          "ownDamage": 349997,
+          "teamGain": 0.0226,
+          "ownGain": 0.1583
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2168908,
+          "ownDamage": 349997,
+          "teamGain": 0.0226,
+          "ownGain": 0.1583
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2168908,
+          "ownDamage": 349997,
+          "teamGain": 0.0226,
+          "ownGain": 0.1583
+        }
+      ],
+      "fullChain": 0.1583,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.0942
+      }
+    },
+    "1106": {
+      "team": [
+        1105,
+        1106,
+        1107
+      ],
+      "baseline": {
+        "teamDamage": 2121072,
+        "ownDamage": 130645
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2121072,
+          "ownDamage": 130645,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2121072,
+          "ownDamage": 130645,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2145790,
+          "ownDamage": 156774,
+          "teamGain": 0.0117,
+          "ownGain": 0.2
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2145790,
+          "ownDamage": 156774,
+          "teamGain": 0.0117,
+          "ownGain": 0.2
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2145790,
+          "ownDamage": 156774,
+          "teamGain": 0.0117,
+          "ownGain": 0.2
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2145790,
+          "ownDamage": 156774,
+          "teamGain": 0.0117,
+          "ownGain": 0.2
+        }
+      ],
+      "fullChain": 0.2,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.2
+      }
+    },
+    "1107": {
+      "team": [
+        1105,
+        1106,
+        1107
+      ],
+      "baseline": {
+        "teamDamage": 2121072,
+        "ownDamage": 1724465
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2268262,
+          "ownDamage": 1871655,
+          "teamGain": 0.0694,
+          "ownGain": 0.0854
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2539617,
+          "ownDamage": 2143010,
+          "teamGain": 0.1973,
+          "ownGain": 0.2427
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2827771,
+          "ownDamage": 2431164,
+          "teamGain": 0.3332,
+          "ownGain": 0.4098
+        },
+        {
+          "chain": 4,
+          "teamDamage": 3026571,
+          "ownDamage": 2626363,
+          "teamGain": 0.4269,
+          "ownGain": 0.523
+        },
+        {
+          "chain": 5,
+          "teamDamage": 3142396,
+          "ownDamage": 2742187,
+          "teamGain": 0.4815,
+          "ownGain": 0.5902
+        },
+        {
+          "chain": 6,
+          "teamDamage": 3809915,
+          "ownDamage": 3409707,
+          "teamGain": 0.7962,
+          "ownGain": 0.9773
+        }
+      ],
+      "fullChain": 0.9773,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.3871
+      }
+    },
+    "1108": {
+      "team": [
+        1508,
+        1109,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 2344394,
+        "ownDamage": 1830208
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 3240427,
+          "ownDamage": 2726242,
+          "teamGain": 0.3822,
+          "ownGain": 0.4896
+        },
+        {
+          "chain": 2,
+          "teamDamage": 3851684,
+          "ownDamage": 3337498,
+          "teamGain": 0.6429,
+          "ownGain": 0.8236
+        },
+        {
+          "chain": 3,
+          "teamDamage": 4366365,
+          "ownDamage": 3852180,
+          "teamGain": 0.8625,
+          "ownGain": 1.1048
+        },
+        {
+          "chain": 4,
+          "teamDamage": 4366365,
+          "ownDamage": 3852180,
+          "teamGain": 0.8625,
+          "ownGain": 1.1048
+        },
+        {
+          "chain": 5,
+          "teamDamage": 4527694,
+          "ownDamage": 4013509,
+          "teamGain": 0.9313,
+          "ownGain": 1.1929
+        },
+        {
+          "chain": 6,
+          "teamDamage": 5225624,
+          "ownDamage": 4711439,
+          "teamGain": 1.229,
+          "ownGain": 1.5743
+        }
+      ],
+      "fullChain": 1.5743,
+      "bestNode": {
+        "chain": 1,
+        "step": 0.4896
+      }
+    },
+    "1109": {
+      "team": [
+        1508,
+        1109,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 2344394,
+        "ownDamage": 254810
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2370580,
+          "ownDamage": 280997,
+          "teamGain": 0.0112,
+          "ownGain": 0.1028
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2370580,
+          "ownDamage": 280997,
+          "teamGain": 0.0112,
+          "ownGain": 0.1028
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2486895,
+          "ownDamage": 397312,
+          "teamGain": 0.0608,
+          "ownGain": 0.5592
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2486895,
+          "ownDamage": 397312,
+          "teamGain": 0.0608,
+          "ownGain": 0.5592
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2486895,
+          "ownDamage": 397312,
+          "teamGain": 0.0608,
+          "ownGain": 0.5592
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2486895,
+          "ownDamage": 397312,
+          "teamGain": 0.0608,
+          "ownGain": 0.5592
+        }
+      ],
+      "fullChain": 0.5592,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.4564
+      }
+    },
+    "1110": {
+      "team": [
+        1110,
+        1509,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 2117918,
+        "ownDamage": 76878
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2117918,
+          "ownDamage": 76878,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2396333,
+          "ownDamage": 76878,
+          "teamGain": 0.1315,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2396333,
+          "ownDamage": 76878,
+          "teamGain": 0.1315,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2396333,
+          "ownDamage": 76878,
+          "teamGain": 0.1315,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2396333,
+          "ownDamage": 76878,
+          "teamGain": 0.1315,
+          "ownGain": 0
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2438487,
+          "ownDamage": 161185,
+          "teamGain": 0.1514,
+          "ownGain": 1.0966
+        }
+      ],
+      "fullChain": 1.0966,
+      "bestNode": {
+        "chain": 6,
+        "step": 1.0966
+      }
+    },
+    "1202": {
+      "team": [
+        1206,
+        1202,
+        1205
+      ],
+      "baseline": {
+        "teamDamage": 1066548,
+        "ownDamage": 252167
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1066548,
+          "ownDamage": 252167,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1066548,
+          "ownDamage": 252167,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1066548,
+          "ownDamage": 252167,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1066548,
+          "ownDamage": 252167,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1066548,
+          "ownDamage": 252167,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1066548,
+          "ownDamage": 252167,
+          "teamGain": 0,
+          "ownGain": 0
+        }
+      ],
+      "fullChain": 0,
+      "bestNode": {
+        "chain": null,
+        "step": 0
+      }
+    },
+    "1203": {
+      "team": [
+        1410,
+        1203,
+        1511
+      ],
+      "baseline": {
+        "teamDamage": 1503417,
+        "ownDamage": 381544
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1503417,
+          "ownDamage": 381544,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1503417,
+          "ownDamage": 381544,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1530521,
+          "ownDamage": 408647,
+          "teamGain": 0.018,
+          "ownGain": 0.071
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1530521,
+          "ownDamage": 408647,
+          "teamGain": 0.018,
+          "ownGain": 0.071
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1542268,
+          "ownDamage": 420395,
+          "teamGain": 0.0258,
+          "ownGain": 0.1018
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1542268,
+          "ownDamage": 420395,
+          "teamGain": 0.0258,
+          "ownGain": 0.1018
+        }
+      ],
+      "fullChain": 0.1018,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.071
+      }
+    },
+    "1204": {
+      "team": [
+        1204,
+        1410,
+        1404
+      ],
+      "baseline": {
+        "teamDamage": 1481422,
+        "ownDamage": 322841
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1481422,
+          "ownDamage": 322841,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1481422,
+          "ownDamage": 322841,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1481422,
+          "ownDamage": 322841,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1481422,
+          "ownDamage": 322841,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1481422,
+          "ownDamage": 322841,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1622603,
+          "ownDamage": 322841,
+          "teamGain": 0.0953,
+          "ownGain": 0
+        }
+      ],
+      "fullChain": 0,
+      "bestNode": {
+        "chain": null,
+        "step": 0
+      }
+    },
+    "1205": {
+      "team": [
+        1110,
+        1108,
+        1205
+      ],
+      "baseline": {
+        "teamDamage": 2063830,
+        "ownDamage": 432505
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2063830,
+          "ownDamage": 432505,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2152073,
+          "ownDamage": 520748,
+          "teamGain": 0.0428,
+          "ownGain": 0.204
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2202873,
+          "ownDamage": 571548,
+          "teamGain": 0.0674,
+          "ownGain": 0.3215
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2325513,
+          "ownDamage": 650785,
+          "teamGain": 0.1268,
+          "ownGain": 0.5047
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2445394,
+          "ownDamage": 770667,
+          "teamGain": 0.1849,
+          "ownGain": 0.7819
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2445394,
+          "ownDamage": 770667,
+          "teamGain": 0.1849,
+          "ownGain": 0.7819
+        }
+      ],
+      "fullChain": 0.7819,
+      "bestNode": {
+        "chain": 5,
+        "step": 0.2772
+      }
+    },
+    "1206": {
+      "team": [
+        1206,
+        1211,
+        1210
+      ],
+      "baseline": {
+        "teamDamage": 2005915,
+        "ownDamage": 193380
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2005915,
+          "ownDamage": 193380,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2005915,
+          "ownDamage": 193380,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2049031,
+          "ownDamage": 236497,
+          "teamGain": 0.0215,
+          "ownGain": 0.223
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2049031,
+          "ownDamage": 236497,
+          "teamGain": 0.0215,
+          "ownGain": 0.223
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2061295,
+          "ownDamage": 248761,
+          "teamGain": 0.0276,
+          "ownGain": 0.2864
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2073696,
+          "ownDamage": 261161,
+          "teamGain": 0.0338,
+          "ownGain": 0.3505
+        }
+      ],
+      "fullChain": 0.3505,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.223
+      }
+    },
+    "1207": {
+      "team": [
+        1206,
+        1207,
+        1210
+      ],
+      "baseline": {
+        "teamDamage": 1627563,
+        "ownDamage": 299533
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1638431,
+          "ownDamage": 310401,
+          "teamGain": 0.0067,
+          "ownGain": 0.0363
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1797570,
+          "ownDamage": 317152,
+          "teamGain": 0.1045,
+          "ownGain": 0.0588
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1797570,
+          "ownDamage": 317152,
+          "teamGain": 0.1045,
+          "ownGain": 0.0588
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1797570,
+          "ownDamage": 317152,
+          "teamGain": 0.1045,
+          "ownGain": 0.0588
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1802634,
+          "ownDamage": 322216,
+          "teamGain": 0.1076,
+          "ownGain": 0.0757
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2054556,
+          "ownDamage": 574138,
+          "teamGain": 0.2624,
+          "ownGain": 0.9168
+        }
+      ],
+      "fullChain": 0.9168,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.8411
+      }
+    },
+    "1208": {
+      "team": [
+        1106,
+        1205,
+        1208
+      ],
+      "baseline": {
+        "teamDamage": 1498777,
+        "ownDamage": 383636
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1498777,
+          "ownDamage": 383636,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1498777,
+          "ownDamage": 383636,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1607243,
+          "ownDamage": 492103,
+          "teamGain": 0.0724,
+          "ownGain": 0.2827
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1715274,
+          "ownDamage": 492103,
+          "teamGain": 0.1444,
+          "ownGain": 0.2827
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1728258,
+          "ownDamage": 505087,
+          "teamGain": 0.1531,
+          "ownGain": 0.3166
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1795712,
+          "ownDamage": 572541,
+          "teamGain": 0.1981,
+          "ownGain": 0.4924
+        }
+      ],
+      "fullChain": 0.4924,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.2827
+      }
+    },
+    "1209": {
+      "team": [
+        1209,
+        1509,
+        1510
+      ],
+      "baseline": {
+        "teamDamage": 972588,
+        "ownDamage": 78103
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 972588,
+          "ownDamage": 78103,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 974917,
+          "ownDamage": 78103,
+          "teamGain": 0.0024,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 974917,
+          "ownDamage": 78103,
+          "teamGain": 0.0024,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 974917,
+          "ownDamage": 78103,
+          "teamGain": 0.0024,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 993217,
+          "ownDamage": 96403,
+          "teamGain": 0.0212,
+          "ownGain": 0.2343
+        },
+        {
+          "chain": 6,
+          "teamDamage": 993217,
+          "ownDamage": 96403,
+          "teamGain": 0.0212,
+          "ownGain": 0.2343
+        }
+      ],
+      "fullChain": 0.2343,
+      "bestNode": {
+        "chain": 5,
+        "step": 0.2343
+      }
+    },
+    "1210": {
+      "team": [
+        1508,
+        1211,
+        1210
+      ],
+      "baseline": {
+        "teamDamage": 2376761,
+        "ownDamage": 1558005
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2526722,
+          "ownDamage": 1707966,
+          "teamGain": 0.0631,
+          "ownGain": 0.0963
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2871548,
+          "ownDamage": 2052792,
+          "teamGain": 0.2082,
+          "ownGain": 0.3176
+        },
+        {
+          "chain": 3,
+          "teamDamage": 3303791,
+          "ownDamage": 2497712,
+          "teamGain": 0.39,
+          "ownGain": 0.6031
+        },
+        {
+          "chain": 4,
+          "teamDamage": 3519210,
+          "ownDamage": 2647940,
+          "teamGain": 0.4807,
+          "ownGain": 0.6996
+        },
+        {
+          "chain": 5,
+          "teamDamage": 3519210,
+          "ownDamage": 2647940,
+          "teamGain": 0.4807,
+          "ownGain": 0.6996
+        },
+        {
+          "chain": 6,
+          "teamDamage": 5279920,
+          "ownDamage": 4408650,
+          "teamGain": 1.2215,
+          "ownGain": 1.8297
+        }
+      ],
+      "fullChain": 1.8297,
+      "bestNode": {
+        "chain": 6,
+        "step": 1.1301
+      }
+    },
+    "1211": {
+      "team": [
+        1508,
+        1211,
+        1210
+      ],
+      "baseline": {
+        "teamDamage": 2376761,
+        "ownDamage": 560074
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2425744,
+          "ownDamage": 609751,
+          "teamGain": 0.0206,
+          "ownGain": 0.0887
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2556039,
+          "ownDamage": 742700,
+          "teamGain": 0.0754,
+          "ownGain": 0.3261
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2780396,
+          "ownDamage": 967058,
+          "teamGain": 0.1698,
+          "ownGain": 0.7267
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2780396,
+          "ownDamage": 967058,
+          "teamGain": 0.1698,
+          "ownGain": 0.7267
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2853998,
+          "ownDamage": 1040660,
+          "teamGain": 0.2008,
+          "ownGain": 0.8581
+        },
+        {
+          "chain": 6,
+          "teamDamage": 5144706,
+          "ownDamage": 3351540,
+          "teamGain": 1.1646,
+          "ownGain": 4.9841
+        }
+      ],
+      "fullChain": 4.9841,
+      "bestNode": {
+        "chain": 6,
+        "step": 4.126
+      }
+    },
+    "1301": {
+      "team": [
+        1209,
+        1509,
+        1301
+      ],
+      "baseline": {
+        "teamDamage": 1542814,
+        "ownDamage": 946579
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1542814,
+          "ownDamage": 946579,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1542814,
+          "ownDamage": 946579,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1604096,
+          "ownDamage": 1007861,
+          "teamGain": 0.0397,
+          "ownGain": 0.0647
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1614526,
+          "ownDamage": 1079044,
+          "teamGain": 0.0465,
+          "ownGain": 0.1399
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1614526,
+          "ownDamage": 1079044,
+          "teamGain": 0.0465,
+          "ownGain": 0.1399
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1614526,
+          "ownDamage": 1079044,
+          "teamGain": 0.0465,
+          "ownGain": 0.1399
+        }
+      ],
+      "fullChain": 0.1399,
+      "bestNode": {
+        "chain": 4,
+        "step": 0.0752
+      }
+    },
+    "1302": {
+      "team": [
+        1302,
+        1508,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 1970077,
+        "ownDamage": 231892
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1986570,
+          "ownDamage": 248385,
+          "teamGain": 0.0084,
+          "ownGain": 0.0711
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1986570,
+          "ownDamage": 248385,
+          "teamGain": 0.0084,
+          "ownGain": 0.0711
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1986570,
+          "ownDamage": 248385,
+          "teamGain": 0.0084,
+          "ownGain": 0.0711
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2015959,
+          "ownDamage": 248385,
+          "teamGain": 0.0233,
+          "ownGain": 0.0711
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2015959,
+          "ownDamage": 248385,
+          "teamGain": 0.0233,
+          "ownGain": 0.0711
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2015959,
+          "ownDamage": 248385,
+          "teamGain": 0.0233,
+          "ownGain": 0.0711
+        }
+      ],
+      "fullChain": 0.0711,
+      "bestNode": {
+        "chain": 1,
+        "step": 0.0711
+      }
+    },
+    "1303": {
+      "team": [
+        1106,
+        1303,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 1352013,
+        "ownDamage": 145095
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1352013,
+          "ownDamage": 145095,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1352013,
+          "ownDamage": 145095,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1352013,
+          "ownDamage": 145095,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1352013,
+          "ownDamage": 145095,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1352013,
+          "ownDamage": 145095,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1352013,
+          "ownDamage": 145095,
+          "teamGain": 0,
+          "ownGain": 0
+        }
+      ],
+      "fullChain": 0,
+      "bestNode": {
+        "chain": null,
+        "step": 0
+      }
+    },
+    "1304": {
+      "team": [
+        1106,
+        1607,
+        1304
+      ],
+      "baseline": {
+        "teamDamage": 1418304,
+        "ownDamage": 408764
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1418304,
+          "ownDamage": 408764,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1418304,
+          "ownDamage": 408764,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1418304,
+          "ownDamage": 408764,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1448262,
+          "ownDamage": 438721,
+          "teamGain": 0.0211,
+          "ownGain": 0.0733
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1631392,
+          "ownDamage": 621852,
+          "teamGain": 0.1502,
+          "ownGain": 0.5213
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1652257,
+          "ownDamage": 642717,
+          "teamGain": 0.165,
+          "ownGain": 0.5723
+        }
+      ],
+      "fullChain": 0.5723,
+      "bestNode": {
+        "chain": 5,
+        "step": 0.448
+      }
+    },
+    "1305": {
+      "team": [
+        1209,
+        1509,
+        1305
+      ],
+      "baseline": {
+        "teamDamage": 1775179,
+        "ownDamage": 1236433
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2004739,
+          "ownDamage": 1465993,
+          "teamGain": 0.1293,
+          "ownGain": 0.1857
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2109968,
+          "ownDamage": 1571222,
+          "teamGain": 0.1886,
+          "ownGain": 0.2708
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2109968,
+          "ownDamage": 1571222,
+          "teamGain": 0.1886,
+          "ownGain": 0.2708
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2240610,
+          "ownDamage": 1685621,
+          "teamGain": 0.2622,
+          "ownGain": 0.3633
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2717758,
+          "ownDamage": 2162770,
+          "teamGain": 0.531,
+          "ownGain": 0.7492
+        },
+        {
+          "chain": 6,
+          "teamDamage": 3706882,
+          "ownDamage": 3151893,
+          "teamGain": 1.0882,
+          "ownGain": 1.5492
+        }
+      ],
+      "fullChain": 1.5492,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.8
+      }
+    },
+    "1306": {
+      "team": [
+        1106,
+        1410,
+        1306
+      ],
+      "baseline": {
+        "teamDamage": 1964672,
+        "ownDamage": 998634
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1964672,
+          "ownDamage": 998634,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1964672,
+          "ownDamage": 998634,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2123093,
+          "ownDamage": 1157056,
+          "teamGain": 0.0806,
+          "ownGain": 0.1586
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2328438,
+          "ownDamage": 1314317,
+          "teamGain": 0.1852,
+          "ownGain": 0.3161
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2328438,
+          "ownDamage": 1314317,
+          "teamGain": 0.1852,
+          "ownGain": 0.3161
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2328438,
+          "ownDamage": 1314317,
+          "teamGain": 0.1852,
+          "ownGain": 0.3161
+        }
+      ],
+      "fullChain": 0.3161,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.1586
+      }
+    },
+    "1308": {
+      "team": [
+        1308,
+        1410,
+        1306
+      ],
+      "baseline": {
+        "teamDamage": 1809248,
+        "ownDamage": 180913
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1828336,
+          "ownDamage": 200002,
+          "teamGain": 0.0106,
+          "ownGain": 0.1055
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1986102,
+          "ownDamage": 207600,
+          "teamGain": 0.0978,
+          "ownGain": 0.1475
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2034879,
+          "ownDamage": 256376,
+          "teamGain": 0.1247,
+          "ownGain": 0.4171
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2034879,
+          "ownDamage": 256376,
+          "teamGain": 0.1247,
+          "ownGain": 0.4171
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2051634,
+          "ownDamage": 273132,
+          "teamGain": 0.134,
+          "ownGain": 0.5097
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2051634,
+          "ownDamage": 273132,
+          "teamGain": 0.134,
+          "ownGain": 0.5097
+        }
+      ],
+      "fullChain": 0.5097,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.2696
+      }
+    },
+    "1402": {
+      "team": [
+        1209,
+        1402,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 1690410,
+        "ownDamage": 250295
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1690410,
+          "ownDamage": 250295,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1690410,
+          "ownDamage": 250295,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1696584,
+          "ownDamage": 256469,
+          "teamGain": 0.0037,
+          "ownGain": 0.0247
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1725504,
+          "ownDamage": 285389,
+          "teamGain": 0.0208,
+          "ownGain": 0.1402
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1807270,
+          "ownDamage": 367155,
+          "teamGain": 0.0691,
+          "ownGain": 0.4669
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1936240,
+          "ownDamage": 367155,
+          "teamGain": 0.1454,
+          "ownGain": 0.4669
+        }
+      ],
+      "fullChain": 0.4669,
+      "bestNode": {
+        "chain": 5,
+        "step": 0.3267
+      }
+    },
+    "1403": {
+      "team": [
+        1403,
+        1410,
+        1404
+      ],
+      "baseline": {
+        "teamDamage": 1451834,
+        "ownDamage": 98082
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1451834,
+          "ownDamage": 98082,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1451834,
+          "ownDamage": 98082,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1451834,
+          "ownDamage": 98082,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1453852,
+          "ownDamage": 100099,
+          "teamGain": 0.0014,
+          "ownGain": 0.0206
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1453852,
+          "ownDamage": 100099,
+          "teamGain": 0.0014,
+          "ownGain": 0.0206
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1460812,
+          "ownDamage": 107690,
+          "teamGain": 0.0062,
+          "ownGain": 0.098
+        }
+      ],
+      "fullChain": 0.098,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.0774
+      }
+    },
+    "1404": {
+      "team": [
+        1106,
+        1410,
+        1404
+      ],
+      "baseline": {
+        "teamDamage": 1699124,
+        "ownDamage": 746208
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1699124,
+          "ownDamage": 746208,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1699124,
+          "ownDamage": 746208,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1788638,
+          "ownDamage": 835722,
+          "teamGain": 0.0527,
+          "ownGain": 0.12
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1855590,
+          "ownDamage": 902674,
+          "teamGain": 0.0921,
+          "ownGain": 0.2097
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1873704,
+          "ownDamage": 920788,
+          "teamGain": 0.1027,
+          "ownGain": 0.234
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1873704,
+          "ownDamage": 920788,
+          "teamGain": 0.1027,
+          "ownGain": 0.234
+        }
+      ],
+      "fullChain": 0.234,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.12
+      }
+    },
+    "1405": {
+      "team": [
+        1405,
+        1509,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 1987829,
+        "ownDamage": 142181
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1987829,
+          "ownDamage": 142181,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1987829,
+          "ownDamage": 142181,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1987829,
+          "ownDamage": 142181,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1987829,
+          "ownDamage": 142181,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1987829,
+          "ownDamage": 142181,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1987829,
+          "ownDamage": 142181,
+          "teamGain": 0,
+          "ownGain": 0
+        }
+      ],
+      "fullChain": 0,
+      "bestNode": {
+        "chain": null,
+        "step": 0
+      }
+    },
+    "1406": {
+      "team": [
+        1406,
+        1404,
+        1409
+      ],
+      "baseline": {
+        "teamDamage": 945876,
+        "ownDamage": 160431
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 945876,
+          "ownDamage": 160431,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 945876,
+          "ownDamage": 160431,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 955470,
+          "ownDamage": 170707,
+          "teamGain": 0.0101,
+          "ownGain": 0.0641
+        },
+        {
+          "chain": 4,
+          "teamDamage": 958647,
+          "ownDamage": 173884,
+          "teamGain": 0.0135,
+          "ownGain": 0.0839
+        },
+        {
+          "chain": 5,
+          "teamDamage": 965242,
+          "ownDamage": 180480,
+          "teamGain": 0.0205,
+          "ownGain": 0.125
+        },
+        {
+          "chain": 6,
+          "teamDamage": 970346,
+          "ownDamage": 185583,
+          "teamGain": 0.0259,
+          "ownGain": 0.1568
+        }
+      ],
+      "fullChain": 0.1568,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.0641
+      }
+    },
+    "1407": {
+      "team": [
+        1406,
+        1407,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 1587397,
+        "ownDamage": 355310
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1663734,
+          "ownDamage": 431647,
+          "teamGain": 0.0481,
+          "ownGain": 0.2148
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1687498,
+          "ownDamage": 431647,
+          "teamGain": 0.0631,
+          "ownGain": 0.2148
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1687498,
+          "ownDamage": 431647,
+          "teamGain": 0.0631,
+          "ownGain": 0.2148
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1687498,
+          "ownDamage": 431647,
+          "teamGain": 0.0631,
+          "ownGain": 0.2148
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1714972,
+          "ownDamage": 459121,
+          "teamGain": 0.0804,
+          "ownGain": 0.2922
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1714972,
+          "ownDamage": 459121,
+          "teamGain": 0.0804,
+          "ownGain": 0.2922
+        }
+      ],
+      "fullChain": 0.2922,
+      "bestNode": {
+        "chain": 1,
+        "step": 0.2148
+      }
+    },
+    "1409": {
+      "team": [
+        1410,
+        1404,
+        1409
+      ],
+      "baseline": {
+        "teamDamage": 1551995,
+        "ownDamage": 392672
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1551995,
+          "ownDamage": 392672,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1634752,
+          "ownDamage": 475428,
+          "teamGain": 0.0533,
+          "ownGain": 0.2108
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1743731,
+          "ownDamage": 584407,
+          "teamGain": 0.1235,
+          "ownGain": 0.4883
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1743731,
+          "ownDamage": 584407,
+          "teamGain": 0.1235,
+          "ownGain": 0.4883
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1743731,
+          "ownDamage": 584407,
+          "teamGain": 0.1235,
+          "ownGain": 0.4883
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1743731,
+          "ownDamage": 584407,
+          "teamGain": 0.1235,
+          "ownGain": 0.4883
+        }
+      ],
+      "fullChain": 0.4883,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.2775
+      }
+    },
+    "1410": {
+      "team": [
+        1403,
+        1410,
+        1404
+      ],
+      "baseline": {
+        "teamDamage": 1451834,
+        "ownDamage": 579435
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1451834,
+          "ownDamage": 579435,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1681954,
+          "ownDamage": 579435,
+          "teamGain": 0.1585,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1681954,
+          "ownDamage": 579435,
+          "teamGain": 0.1585,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1681954,
+          "ownDamage": 579435,
+          "teamGain": 0.1585,
+          "ownGain": 0
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1733566,
+          "ownDamage": 631047,
+          "teamGain": 0.1941,
+          "ownGain": 0.0891
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2162380,
+          "ownDamage": 1059861,
+          "teamGain": 0.4894,
+          "ownGain": 0.8291
+        }
+      ],
+      "fullChain": 0.8291,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.74
+      }
+    },
+    "1411": {
+      "team": [
+        1410,
+        1411,
+        1412
+      ],
+      "baseline": {
+        "teamDamage": 1413862,
+        "ownDamage": 444214
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1457930,
+          "ownDamage": 494022,
+          "teamGain": 0.0312,
+          "ownGain": 0.1121
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1585344,
+          "ownDamage": 522794,
+          "teamGain": 0.1213,
+          "ownGain": 0.1769
+        },
+        {
+          "chain": 3,
+          "teamDamage": 3394746,
+          "ownDamage": 2332196,
+          "teamGain": 1.401,
+          "ownGain": 4.2502
+        },
+        {
+          "chain": 4,
+          "teamDamage": 3847761,
+          "ownDamage": 2794106,
+          "teamGain": 1.7215,
+          "ownGain": 5.29
+        },
+        {
+          "chain": 5,
+          "teamDamage": 3847761,
+          "ownDamage": 2794106,
+          "teamGain": 1.7215,
+          "ownGain": 5.29
+        },
+        {
+          "chain": 6,
+          "teamDamage": 4770597,
+          "ownDamage": 3716942,
+          "teamGain": 2.3742,
+          "ownGain": 7.3675
+        }
+      ],
+      "fullChain": 7.3675,
+      "bestNode": {
+        "chain": 3,
+        "step": 4.0733
+      }
+    },
+    "1412": {
+      "team": [
+        1106,
+        1411,
+        1412
+      ],
+      "baseline": {
+        "teamDamage": 1107335,
+        "ownDamage": 560556
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1158501,
+          "ownDamage": 611722,
+          "teamGain": 0.0462,
+          "ownGain": 0.0913
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1331124,
+          "ownDamage": 784345,
+          "teamGain": 0.2021,
+          "ownGain": 0.3992
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1331124,
+          "ownDamage": 784345,
+          "teamGain": 0.2021,
+          "ownGain": 0.3992
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1365643,
+          "ownDamage": 784345,
+          "teamGain": 0.2333,
+          "ownGain": 0.3992
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1396329,
+          "ownDamage": 815031,
+          "teamGain": 0.261,
+          "ownGain": 0.454
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1563435,
+          "ownDamage": 984813,
+          "teamGain": 0.4119,
+          "ownGain": 0.7569
+        }
+      ],
+      "fullChain": 0.7569,
+      "bestNode": {
+        "chain": 2,
+        "step": 0.3079
+      }
+    },
+    "1503": {
+      "team": [
+        1106,
+        1503,
+        1108
+      ],
+      "baseline": {
+        "teamDamage": 1666732,
+        "ownDamage": 162339
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1666732,
+          "ownDamage": 162339,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1666732,
+          "ownDamage": 162339,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1666732,
+          "ownDamage": 162339,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1115611,
+          "ownDamage": 164397,
+          "teamGain": -0.3307,
+          "ownGain": 0.0127,
+          "suspect": "negative-gain"
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1115611,
+          "ownDamage": 164397,
+          "teamGain": -0.3307,
+          "ownGain": 0.0127,
+          "suspect": "negative-gain"
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1119351,
+          "ownDamage": 168137,
+          "teamGain": -0.3284,
+          "ownGain": 0.0357,
+          "suspect": "negative-gain"
+        }
+      ],
+      "fullChain": 0.0357,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.023
+      }
+    },
+    "1504": {
+      "team": [
+        1601,
+        1107,
+        1504
+      ],
+      "baseline": {
+        "teamDamage": 1846410,
+        "ownDamage": 234296
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1846410,
+          "ownDamage": 234296,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1854288,
+          "ownDamage": 242174,
+          "teamGain": 0.0043,
+          "ownGain": 0.0336
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1872812,
+          "ownDamage": 260698,
+          "teamGain": 0.0143,
+          "ownGain": 0.1127
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1890077,
+          "ownDamage": 277963,
+          "teamGain": 0.0236,
+          "ownGain": 0.1864
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1890077,
+          "ownDamage": 277963,
+          "teamGain": 0.0236,
+          "ownGain": 0.1864
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1928606,
+          "ownDamage": 307697,
+          "teamGain": 0.0445,
+          "ownGain": 0.3133
+        }
+      ],
+      "fullChain": 0.3133,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.1269
+      }
+    },
+    "1506": {
+      "team": [
+        1209,
+        1506,
+        1507
+      ],
+      "baseline": {
+        "teamDamage": 1445496,
+        "ownDamage": 747553
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1672509,
+          "ownDamage": 974566,
+          "teamGain": 0.157,
+          "ownGain": 0.3037
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1672509,
+          "ownDamage": 974566,
+          "teamGain": 0.157,
+          "ownGain": 0.3037
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1819907,
+          "ownDamage": 1121964,
+          "teamGain": 0.259,
+          "ownGain": 0.5008
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1819907,
+          "ownDamage": 1121964,
+          "teamGain": 0.259,
+          "ownGain": 0.5008
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1819907,
+          "ownDamage": 1121964,
+          "teamGain": 0.259,
+          "ownGain": 0.5008
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1907706,
+          "ownDamage": 1209763,
+          "teamGain": 0.3198,
+          "ownGain": 0.6183
+        }
+      ],
+      "fullChain": 0.6183,
+      "bestNode": {
+        "chain": 1,
+        "step": 0.3037
+      }
+    },
+    "1507": {
+      "team": [
+        1410,
+        1507,
+        1511
+      ],
+      "baseline": {
+        "teamDamage": 2187825,
+        "ownDamage": 745982
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2187825,
+          "ownDamage": 745982,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2337138,
+          "ownDamage": 898924,
+          "teamGain": 0.0682,
+          "ownGain": 0.205
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2337138,
+          "ownDamage": 898924,
+          "teamGain": 0.0682,
+          "ownGain": 0.205
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2552312,
+          "ownDamage": 1024409,
+          "teamGain": 0.1666,
+          "ownGain": 0.3732
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2631932,
+          "ownDamage": 1104029,
+          "teamGain": 0.203,
+          "ownGain": 0.48
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2832007,
+          "ownDamage": 1304103,
+          "teamGain": 0.2944,
+          "ownGain": 0.7482
+        }
+      ],
+      "fullChain": 0.7482,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.2682
+      }
+    },
+    "1508": {
+      "team": [
+        1508,
+        1211,
+        1210
+      ],
+      "baseline": {
+        "teamDamage": 2376761,
+        "ownDamage": 279433
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2376761,
+          "ownDamage": 279433,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2775741,
+          "ownDamage": 339707,
+          "teamGain": 0.1679,
+          "ownGain": 0.2157
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2822084,
+          "ownDamage": 386049,
+          "teamGain": 0.1874,
+          "ownGain": 0.3815
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2822084,
+          "ownDamage": 386049,
+          "teamGain": 0.1874,
+          "ownGain": 0.3815
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2874365,
+          "ownDamage": 438331,
+          "teamGain": 0.2094,
+          "ownGain": 0.5686
+        },
+        {
+          "chain": 6,
+          "teamDamage": 3001159,
+          "ownDamage": 566216,
+          "teamGain": 0.2627,
+          "ownGain": 1.0263
+        }
+      ],
+      "fullChain": 1.0263,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.4577
+      }
+    },
+    "1509": {
+      "team": [
+        1209,
+        1509,
+        1510
+      ],
+      "baseline": {
+        "teamDamage": 972588,
+        "ownDamage": 492891
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1356941,
+          "ownDamage": 877244,
+          "teamGain": 0.3952,
+          "ownGain": 0.7798
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1529320,
+          "ownDamage": 1052534,
+          "teamGain": 0.5724,
+          "ownGain": 1.1354
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1766803,
+          "ownDamage": 1290016,
+          "teamGain": 0.8166,
+          "ownGain": 1.6172
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2020895,
+          "ownDamage": 1547601,
+          "teamGain": 1.0779,
+          "ownGain": 2.1398
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2105194,
+          "ownDamage": 1631899,
+          "teamGain": 1.1645,
+          "ownGain": 2.3109
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2105194,
+          "ownDamage": 1631899,
+          "teamGain": 1.1645,
+          "ownGain": 2.3109
+        }
+      ],
+      "fullChain": 2.3109,
+      "bestNode": {
+        "chain": 1,
+        "step": 0.7798
+      }
+    },
+    "1510": {
+      "team": [
+        1209,
+        1509,
+        1510
+      ],
+      "baseline": {
+        "teamDamage": 972588,
+        "ownDamage": 435344
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1036890,
+          "ownDamage": 499647,
+          "teamGain": 0.0661,
+          "ownGain": 0.1477
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1095962,
+          "ownDamage": 558719,
+          "teamGain": 0.1269,
+          "ownGain": 0.2834
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1225939,
+          "ownDamage": 688695,
+          "teamGain": 0.2605,
+          "ownGain": 0.582
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1225939,
+          "ownDamage": 688695,
+          "teamGain": 0.2605,
+          "ownGain": 0.582
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1234430,
+          "ownDamage": 697186,
+          "teamGain": 0.2692,
+          "ownGain": 0.6015
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1234430,
+          "ownDamage": 697186,
+          "teamGain": 0.2692,
+          "ownGain": 0.6015
+        }
+      ],
+      "fullChain": 0.6015,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.2986
+      }
+    },
+    "1511": {
+      "team": [
+        1106,
+        1410,
+        1511
+      ],
+      "baseline": {
+        "teamDamage": 2046044,
+        "ownDamage": 1178150
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2155660,
+          "ownDamage": 1287766,
+          "teamGain": 0.0536,
+          "ownGain": 0.093
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2155660,
+          "ownDamage": 1287766,
+          "teamGain": 0.0536,
+          "ownGain": 0.093
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2359839,
+          "ownDamage": 1491945,
+          "teamGain": 0.1534,
+          "ownGain": 0.2663
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2451087,
+          "ownDamage": 1491945,
+          "teamGain": 0.198,
+          "ownGain": 0.2663
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2451087,
+          "ownDamage": 1491945,
+          "teamGain": 0.198,
+          "ownGain": 0.2663
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2451087,
+          "ownDamage": 1491945,
+          "teamGain": 0.198,
+          "ownGain": 0.2663
+        }
+      ],
+      "fullChain": 0.2663,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.1733
+      }
+    },
+    "1601": {
+      "team": [
+        1601,
+        1205,
+        1210
+      ],
+      "baseline": {
+        "teamDamage": 1801513,
+        "ownDamage": 173756
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1801513,
+          "ownDamage": 173756,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1810783,
+          "ownDamage": 183027,
+          "teamGain": 0.0051,
+          "ownGain": 0.0534
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1810783,
+          "ownDamage": 183027,
+          "teamGain": 0.0051,
+          "ownGain": 0.0534
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1810783,
+          "ownDamage": 183027,
+          "teamGain": 0.0051,
+          "ownGain": 0.0534
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1810783,
+          "ownDamage": 183027,
+          "teamGain": 0.0051,
+          "ownGain": 0.0534
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1810783,
+          "ownDamage": 183027,
+          "teamGain": 0.0051,
+          "ownGain": 0.0534
+        }
+      ],
+      "fullChain": 0.0534,
+      "bestNode": {
+        "chain": 2,
+        "step": 0.0534
+      }
+    },
+    "1602": {
+      "team": [
+        1508,
+        1602,
+        1610
+      ],
+      "baseline": {
+        "teamDamage": 1804944,
+        "ownDamage": 132703
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1804944,
+          "ownDamage": 132703,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1804944,
+          "ownDamage": 132703,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1808017,
+          "ownDamage": 135776,
+          "teamGain": 0.0017,
+          "ownGain": 0.0232
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1808017,
+          "ownDamage": 135776,
+          "teamGain": 0.0017,
+          "ownGain": 0.0232
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1808017,
+          "ownDamage": 135776,
+          "teamGain": 0.0017,
+          "ownGain": 0.0232
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1936116,
+          "ownDamage": 139529,
+          "teamGain": 0.0727,
+          "ownGain": 0.0514
+        }
+      ],
+      "fullChain": 0.0514,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.0282
+      }
+    },
+    "1603": {
+      "team": [
+        1410,
+        1511,
+        1603
+      ],
+      "baseline": {
+        "teamDamage": 2174434,
+        "ownDamage": 637837
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2174434,
+          "ownDamage": 637837,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2337695,
+          "ownDamage": 801098,
+          "teamGain": 0.0751,
+          "ownGain": 0.256
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2668349,
+          "ownDamage": 1131752,
+          "teamGain": 0.2271,
+          "ownGain": 0.7744
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2668349,
+          "ownDamage": 1131752,
+          "teamGain": 0.2271,
+          "ownGain": 0.7744
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2712764,
+          "ownDamage": 1220582,
+          "teamGain": 0.2476,
+          "ownGain": 0.9136
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2712764,
+          "ownDamage": 1220582,
+          "teamGain": 0.2476,
+          "ownGain": 0.9136
+        }
+      ],
+      "fullChain": 0.9136,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.5184
+      }
+    },
+    "1604": {
+      "team": [
+        1606,
+        1607,
+        1604
+      ],
+      "baseline": {
+        "teamDamage": 1395541,
+        "ownDamage": 463700
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 1402505,
+          "ownDamage": 470665,
+          "teamGain": 0.005,
+          "ownGain": 0.015
+        },
+        {
+          "chain": 2,
+          "teamDamage": 1402505,
+          "ownDamage": 470665,
+          "teamGain": 0.005,
+          "ownGain": 0.015
+        },
+        {
+          "chain": 3,
+          "teamDamage": 1402505,
+          "ownDamage": 470665,
+          "teamGain": 0.005,
+          "ownGain": 0.015
+        },
+        {
+          "chain": 4,
+          "teamDamage": 1402505,
+          "ownDamage": 470665,
+          "teamGain": 0.005,
+          "ownGain": 0.015
+        },
+        {
+          "chain": 5,
+          "teamDamage": 1402505,
+          "ownDamage": 470665,
+          "teamGain": 0.005,
+          "ownGain": 0.015
+        },
+        {
+          "chain": 6,
+          "teamDamage": 1482030,
+          "ownDamage": 552678,
+          "teamGain": 0.062,
+          "ownGain": 0.1919
+        }
+      ],
+      "fullChain": 0.1919,
+      "bestNode": {
+        "chain": 6,
+        "step": 0.1769
+      }
+    },
+    "1606": {
+      "team": [
+        1606,
+        1607,
+        1610
+      ],
+      "baseline": {
+        "teamDamage": 2103214,
+        "ownDamage": 280146
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2103214,
+          "ownDamage": 280146,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2241798,
+          "ownDamage": 291858,
+          "teamGain": 0.0659,
+          "ownGain": 0.0418
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2241798,
+          "ownDamage": 291858,
+          "teamGain": 0.0659,
+          "ownGain": 0.0418
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2241798,
+          "ownDamage": 291858,
+          "teamGain": 0.0659,
+          "ownGain": 0.0418
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2266468,
+          "ownDamage": 316527,
+          "teamGain": 0.0776,
+          "ownGain": 0.1299
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2266468,
+          "ownDamage": 316527,
+          "teamGain": 0.0776,
+          "ownGain": 0.1299
+        }
+      ],
+      "fullChain": 0.1299,
+      "bestNode": {
+        "chain": 5,
+        "step": 0.0881
+      }
+    },
+    "1607": {
+      "team": [
+        1106,
+        1607,
+        1107
+      ],
+      "baseline": {
+        "teamDamage": 1792725,
+        "ownDamage": 844839
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2015389,
+          "ownDamage": 1067503,
+          "teamGain": 0.1242,
+          "ownGain": 0.2636
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2015389,
+          "ownDamage": 1067503,
+          "teamGain": 0.1242,
+          "ownGain": 0.2636
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2371375,
+          "ownDamage": 1423489,
+          "teamGain": 0.3228,
+          "ownGain": 0.6849
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2371375,
+          "ownDamage": 1423489,
+          "teamGain": 0.3228,
+          "ownGain": 0.6849
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2371375,
+          "ownDamage": 1423489,
+          "teamGain": 0.3228,
+          "ownGain": 0.6849
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2487598,
+          "ownDamage": 1539712,
+          "teamGain": 0.3876,
+          "ownGain": 0.8225
+        }
+      ],
+      "fullChain": 0.8225,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.4213
+      }
+    },
+    "1608": {
+      "team": [
+        1508,
+        1608,
+        1610
+      ],
+      "baseline": {
+        "teamDamage": 2165006,
+        "ownDamage": 551057
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2311812,
+          "ownDamage": 697863,
+          "teamGain": 0.0678,
+          "ownGain": 0.2664
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2476733,
+          "ownDamage": 862785,
+          "teamGain": 0.144,
+          "ownGain": 0.5657
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2480031,
+          "ownDamage": 866082,
+          "teamGain": 0.1455,
+          "ownGain": 0.5717
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2609526,
+          "ownDamage": 866082,
+          "teamGain": 0.2053,
+          "ownGain": 0.5717
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2609526,
+          "ownDamage": 866082,
+          "teamGain": 0.2053,
+          "ownGain": 0.5717
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2609526,
+          "ownDamage": 866082,
+          "teamGain": 0.2053,
+          "ownGain": 0.5717
+        }
+      ],
+      "fullChain": 0.5717,
+      "bestNode": {
+        "chain": 2,
+        "step": 0.2993
+      }
+    },
+    "1610": {
+      "team": [
+        1410,
+        1606,
+        1610
+      ],
+      "baseline": {
+        "teamDamage": 2069052,
+        "ownDamage": 1205483
+      },
+      "nodes": [
+        {
+          "chain": 1,
+          "teamDamage": 2069052,
+          "ownDamage": 1205483,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 2,
+          "teamDamage": 2069052,
+          "ownDamage": 1205483,
+          "teamGain": 0,
+          "ownGain": 0
+        },
+        {
+          "chain": 3,
+          "teamDamage": 2826035,
+          "ownDamage": 1949601,
+          "teamGain": 0.3659,
+          "ownGain": 0.6173
+        },
+        {
+          "chain": 4,
+          "teamDamage": 2826035,
+          "ownDamage": 1949601,
+          "teamGain": 0.3659,
+          "ownGain": 0.6173
+        },
+        {
+          "chain": 5,
+          "teamDamage": 2826035,
+          "ownDamage": 1949601,
+          "teamGain": 0.3659,
+          "ownGain": 0.6173
+        },
+        {
+          "chain": 6,
+          "teamDamage": 2826035,
+          "ownDamage": 1949601,
+          "teamGain": 0.3659,
+          "ownGain": 0.6173
+        }
+      ],
+      "fullChain": 0.6173,
+      "bestNode": {
+        "chain": 3,
+        "step": 0.6173
       }
     }
   }

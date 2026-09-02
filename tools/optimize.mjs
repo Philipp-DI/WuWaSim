@@ -18,6 +18,7 @@ import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyPatch } from '../src/data/loader.js';
+import { evaluateSequenceNodes } from './optimize/sequence-eval.js';
 
 // localStorage shim — core modules touch it transitively (storage.js) on import.
 const __ls = new Map();
@@ -251,6 +252,19 @@ function run() {
     // ── P13 team pass (§5/§6): rank curated + enumerated teams per anchor ──────
     meta.teams = runTeamPass(dataset);
     process.stderr.write(`  teams: ${Object.keys(meta.teams.byCharacter).length} anchor(s), ${Object.keys(meta.teams.appearsIn).length} appearsIn entr(ies)\n`);
+
+    // What each Resonance Chain node is WORTH, measured in the resonator's own
+    // baseline meta team with only their sequence level raised. Cheap because
+    // the per-member build cache is warm by now — the gear search is what costs,
+    // and runTeamPass has already paid it.
+    const sequenceStart = Date.now();
+    meta.sequenceEval = evaluateSequenceNodes(meta.teams.byCharacter, dataset);
+    const evaluated = Object.keys(meta.sequenceEval).length;
+    const deadNodes = Object.values(meta.sequenceEval)
+        .reduce((count, entry) => count + entry.nodes.filter(node => node.teamGain === 0 && node.ownGain === 0).length, 0);
+    process.stderr.write(`  sequence eval: ${evaluated} resonator(s), `
+        + `${deadNodes} node level(s) worth nothing in their own team, `
+        + `${((Date.now() - sequenceStart) / 1000).toFixed(1)}s` + String.fromCharCode(10));
 
     const metaSerialized = JSON.stringify(meta, null, 2) + '\n';
     writeFileSync(resolve(root, 'data/wuwa-meta.json'), metaSerialized, 'utf8');

@@ -12267,3 +12267,107 @@ safer half of that problem.
 every stat" clause struck through and replaced with the measurement, plus the
 category-vs-trigger reason the rest stay dropped and the note that LOCK B is
 structurally blind to both fixes. `docs/HISTORY.md` — this entry.
+
+## 2026-09-02 — Sequence Node Evaluation: what a copy actually buys
+
+**[A correction first]** I had questioned whether ranking at chain 0 was the
+right default, on the reasoning that "most players don't run at S0". That was an
+assumption with no source behind it, and the maintainer's is better grounded:
+sequence nodes need duplicate copies, which cost either extreme luck or real
+money, so **S0 with a signature weapon (S0/R1) is the realistic build** and the
+honest baseline for an overview. Refinement past that is user-driven, which is
+what the app is for. `team-rank.js` building every member at chain 0 stands as a
+deliberate choice, and is now documented as one rather than treated as a defect.
+
+**[What was actually missing]** Not a different baseline — a different TABLE.
+The app could not answer "for this resonator, what does each copy buy?".
+`tools/optimize/sequence-eval.js` answers it, to the maintainer's specification:
+
+- The resonator is simmed in their OWN baseline meta team, `byCharacter[id][0]`.
+- ONLY their sequence level is raised. Teammates stay at S0 — whale comps are
+  the user's business.
+- Reported as damage and percentage over S0, per node.
+
+Gear is held fixed: `scoreTeam` gained an optional `chainLevels` argument and
+reuses the cached `representativeMemberBuild`, applying only `setChain`. Same
+weapon, same echoes, same sonata, same rotation — which is what isolates the
+node's own worth from a gear difference.
+
+**[Two gains, because a support kit needs both]** `own` is the resonator's own
+damage, the whole story for a carry and legitimately ZERO for a buffer whose node
+grants the team a stat. `team` is the team total, which catches exactly that. A
+node moving neither is genuinely dead weight in that comp, and saying so is the
+point of the table: **75 of 312 node levels (24%) are worth nothing in their own
+team.**
+
+**[Cost]** 12–14s for all 52 anchors, because `runTeamPass` has already paid for
+the per-member gear search and the build cache is warm — the marginal
+`scoreTeam` is 0.06s. It runs unconditionally in `npm run meta`.
+
+**[One measurement]** The S0 row is measured in the same loop as the rest rather
+than read back from the ranked team, so every ratio divides two figures from one
+code path. It must nevertheless EQUAL the suggested-team card's own
+`teamDamage`, because both are `scoreTeam` at chain 0 — **all 52 agree exactly**,
+and `tests/meta-schema.test.mjs` now pins that.
+
+Spot figures: Lupa +91.7% own across the full chain (S6 alone +84.1%), Denia
++498.4% (S6 +412.6%), Chisa +102.6%.
+
+**[What it immediately found]** A pre-existing engine defect, which is the whole
+reason a table like this earns its place. **Verina S4+ costs her own carry 39%.**
+Her S4 grants the team +15% Spectro for 24s — a pure addition — yet in her meta
+team (Youhu / Verina / Hiyuki) it moves Hiyuki 1,349,707 -> 825,153 and the team
+-33.1%, while Verina's own damage rises 1.3% as it should. The two runs are
+byte-identical at `8241d5e`, so this predates every change in this session; it
+was invisible only because no meta team has ever held a Verina above S0.
+
+Measured signature: the loss is multiplicative per step and GROWS — x0.800,
+x0.667, then x0.571 for the rest, i.e. 1/1.25, 1/1.5, 1/1.75. A **stacking buff
+worth 25%/stack to 3 stacks** that Hiyuki holds at S3 and loses entirely at S4.
+Hiyuki is Glacio and the grant is Spectro, so it cannot legitimately touch her.
+Her `activeBuffNames` at S4 is a strict SUPERSET of S3's, so whatever is dropped
+is not in that list. Filed as **OPEN-ITEMS 41** with the full trace, including a
+second thing worth confirming on its own: `stepDamage` and
+`resolved.totalExpected` diverge on the same step object although `sim.js`
+assigns them from one expression, which suggests the step's `resolved` reference
+is shared or re-used — if so, every UI surface reading it shows a hit breakdown
+that does not match the step total beside it.
+
+The evaluation FLAGS the anomaly rather than hiding it: those rows carry
+`suspect: 'negative-gain'`, and a test asserts a negative gain is never silent.
+Clamping or filtering would have turned "this node breaks the sim" into "this
+node does nothing" — a different and wrong claim.
+
+**[Files Changed]** new `tools/optimize/sequence-eval.js`;
+`tools/optimize/team-rank.js` (`scoreTeam` gains `chainLevels`);
+`tools/optimize.mjs` (runs it, logs the dead-node count);
+`tests/meta-schema.test.mjs`; `CLAUDE.md`; `docs/OPEN-ITEMS.md` (item 41);
+regenerated `data/wuwa-meta.json`.
+
+**[Logic Altered]** None in the engine. `scoreTeam`'s new argument defaults to
+null and the chain-0 path is unchanged, which is why the 52 S0 baselines still
+match the card exactly.
+
+**[Verification Method]** All 52 S0 baselines equal their card's `teamDamage`.
+Structural assertions per anchor: the team is the top-ranked one member for
+member, the subject is in it, six rows S1..S6 in order, gains finite,
+`fullChain` equals the S6 own gain, and every negative gain flagged (and every
+non-negative one NOT flagged). Anchors sharing a team must agree on its S0 team
+damage. The Verina anomaly is pinned so it cannot be silently removed. Whether
+the defect predates the work was settled by running the identical probe at
+`8241d5e` — same numbers. `npm test` 76/76 (meta-schema 9,582 -> 10,630
+assertions); `npm run sweep` 70 imported, 0 failed; `npm run lint` 0 errors,
+3110 warnings (+1, the new module's evaluation function).
+
+**[Residual Risks]** Only the 52 anchors with a suggested team are evaluated; a
+resonator who anchors none has no row. The measurement is for ONE team — a node
+that shines in a comp the meta did not rank is priced at its value in the ranked
+one, which is a real limitation and the reason the team is reported alongside
+the numbers. `fullChain`/`bestNode` are convenience headlines derived from
+`ownGain` alone, so for a pure support both read low while `teamGain` carries the
+truth; a UI must show the team column for those kits. Verina's rows are wrong
+until OPEN-ITEMS 41 is fixed, and are flagged rather than corrected.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "S0 is the ranking BASELINE, and
+what a chain costs is a SEPARATE table", recording WHY chain 0 is deliberate.
+`docs/OPEN-ITEMS.md` — item 41. `docs/HISTORY.md` — this entry.

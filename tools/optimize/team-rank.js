@@ -286,14 +286,19 @@ export function representativeMemberBuild(resonator, dataset) {
  *             opener:Object<id,{shortfalls,requiredEr}> }}  // energy honesty detail
  *          or null when a member can't be built (missing rotation).
  */
-export function scoreTeam(memberIds, dataset, target = TARGET) {
+export function scoreTeam(memberIds, dataset, target = TARGET, chainLevels = null) {
     const builds = [];
     for (const id of memberIds) {
         const resonator = dataset.resonators.find(resonator => resonator.id === id);
         if (!resonator) return null;
         const memberBuild = representativeMemberBuild(resonator, dataset);
         if (!memberBuild.rotation.length) return null;          // no curated rotation → can't rank honestly
-        builds.push(memberBuild);
+        // `chainLevels` raises ONE member's sequence level and leaves the build
+        // otherwise untouched — same weapon, same echoes, same rotation — which
+        // is what isolates the node's own worth from a gear difference. The
+        // cached build is never mutated: setChain returns a new one.
+        const chain = chainLevels?.[String(id)] ?? chainLevels?.[id] ?? null;
+        builds.push(chain ? setChain(memberBuild, chain) : memberBuild);
     }
     const byId = new Map(builds.map(memberBuild => [memberBuild.id, memberBuild]));
     const team = { slots: builds.map(memberBuild => memberBuild.id) };
