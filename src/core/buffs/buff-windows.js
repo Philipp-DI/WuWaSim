@@ -194,8 +194,16 @@ export function applyBuffsToSteps(steps, buffWindows) {
         // Sum applicable bonus fractions by kind for this step's time.
         // Different sonatas stack additively within the same kind (matches
         // WuWa's additive DMG bonus model).
-        let elementBonus = 0;   // applies to hits matching the buff element
-        let elementId = null;
+        // Per ELEMENT, exactly as dmgTypeBonus below is per DMG type. ~~One
+        // accumulator plus a last-wins elementId~~ summed bonuses from
+        // DIFFERENT elements into one number and then tested the hit against
+        // whichever window happened to come last, which is wrong in both
+        // directions: a hit matching the last element received every other
+        // element's bonus too, and a hit matching an EARLIER one received
+        // nothing at all. Measured: Verina S4 grants her team +15% Spectro, and
+        // that alone cost Hiyuki — who is Glacio — her own +30% Glacio window,
+        // -39% on her damage and -33% on the team.
+        let elementBonusByElement = null;
         let flatBonus = 0;   // atk / generic — applies to whole step
         let amplify = 0;     // DMG amplification (echo team auras) — its own
                              // MULTIPLICATIVE layer per hit, matching how
@@ -215,10 +223,8 @@ export function applyBuffsToSteps(steps, buffWindows) {
             if (stk <= 0) continue;
 
             if (window.bonusKind === 'element' && window.element) {
-                // Only the matching element accumulates; mixed-element windows
-                // are rare, so last-wins on elementId is acceptable.
-                elementBonus += window.bonusPct * stk;
-                elementId = window.element;
+                (elementBonusByElement ??= {})[window.element] =
+                    (elementBonusByElement[window.element] ?? 0) + window.bonusPct * stk;
             } else if (window.bonusKind === 'amplify') {
                 amplify += window.bonusPct * stk;
             } else if (window.dmgType) {
@@ -229,7 +235,7 @@ export function applyBuffsToSteps(steps, buffWindows) {
             }
         }
 
-        if (elementBonus === 0 && flatBonus === 0 && amplify === 0 && !dmgTypeBonus) continue;
+        if (!elementBonusByElement && flatBonus === 0 && amplify === 0 && !dmgTypeBonus) continue;
 
         // Rescale each hit. element bonus only multiplies matching-element hits.
         let newExpected = 0, newCrit = 0, newNonCrit = 0;
@@ -237,7 +243,9 @@ export function applyBuffsToSteps(steps, buffWindows) {
         for (const hit of step.resolved.hits) {
             const hitElement = hit.skill?.element ?? null;
             let multiplier = 1 + flatBonus;
-            if (elementBonus > 0 && hitElement === elementId) { multiplier += elementBonus; }
+            // Only this hit's OWN element pays it — a Spectro window must not
+            // reach a Glacio hit, nor silence one.
+            if (elementBonusByElement) multiplier += elementBonusByElement[hitElement] ?? 0;
             // The hit's ATTRIBUTION, not its formulaType — an "Echo Skill DMG"
             // window reaches an all-echo row, and an all-echo row does not read
             // its mechanical bucket (dmg-attribution.js).

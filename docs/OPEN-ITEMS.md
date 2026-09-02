@@ -1393,8 +1393,16 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     behaviour-preserving check must not double as a version bump), and whether
     to adopt 3.6 at all, which is its own change with its own review.
 
-41. **A team-wide grant can COST a teammate a stacking buff — Verina S4+ takes
-    39% off her own carry** (2026-09-02, surfaced by the Sequence Node
+41. **~~A team-wide grant can COST a teammate a stacking buff — Verina S4+ takes
+    39% off her own carry~~ RESOLVED 2026-09-02.** Root cause was
+    `applyBuffsToSteps` (buff-windows.js) summing DIFFERENT elements into one
+    accumulator and testing every hit against a last-wins `elementId`, so a
+    foreign element's window silenced a matching one. Fixed by accumulating
+    per element; regression test in `tests/buff-timeline.test.mjs`, and
+    `tests/meta-schema.test.mjs` now guards that NO sequence node reads
+    negative. The `stepDamage` / `resolved` divergence noted below is NOT a
+    second bug and NOT staleness — see the note at the end. Original report:
+    **Verina S4+ took 39% off her own carry** (2026-09-02, surfaced by the Sequence Node
     Evaluation). Verina S4 reads *"Heavy Attack Starflower Blooms, Mid-Air
     Attack Starflower Blooms, Resonance Liberation Arboreal Flourish and Outro
     Skill Blossom increases the Spectro DMG Bonus of all team members by 15%
@@ -1431,10 +1439,15 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       if `resolved` is stale, every UI surface reading it is showing a hit
       breakdown that does not match the step total beside it.
 
-    The evaluation FLAGS rather than hides it: the rows carry
-    `suspect: 'negative-gain'` and `tests/meta-schema.test.mjs` asserts a
-    negative gain is never silent, so this cannot be "fixed" by dropping the
-    row.
+    RESOLUTION. The `stepDamage` vs `resolved.totalExpected` divergence above is
+    real but is NOT a bug and NOT staleness: `applyBuffsToSteps` rescales
+    `stepDamage`/`stepCrit`/`stepNonCrit` from the hits and deliberately leaves
+    `step.resolved` at its pre-window values. Swept and quantified — 0 of 610
+    solo steps diverge (no windows apply), 335 of 416 team steps do, and no
+    `resolved` object is ever shared between steps. It remains worth knowing
+    for any UI that renders a per-hit breakdown next to a step total: those two
+    numbers legitimately disagree whenever `step.buffed` is true, and the
+    breakdown is the UNBUFFED one.
 
 
 ## Doc hygiene (minor, mostly already fixed)

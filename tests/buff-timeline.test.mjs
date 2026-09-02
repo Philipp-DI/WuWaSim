@@ -5,6 +5,7 @@
  */
 
 import { stackTimeline, groupStackingBuffs } from '../src/core/buffs/buff-timeline.js';
+import { applyBuffsToSteps } from '../src/core/buffs/buff-windows.js';
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
@@ -83,6 +84,78 @@ function mkSteps(types) {
     const g1 = grouped.find(g => g.sonataId === 1);
     assert('same-clause basic+heavy merged into one group', g1.triggerTypes.length === 2 && g1.triggerTypes.includes('basic') && g1.triggerTypes.includes('heavy'));
     assert('shared bonus preserved on the merged group', g1.bonusPct === 0.1 && g1.stacks === 3);
+}
+
+// ── Element windows accumulate PER ELEMENT, never into one bucket ────────────
+// ~~One `elementBonus` accumulator plus a last-wins `elementId`~~ summed the
+// bonuses of DIFFERENT elements together and then tested each hit against
+// whichever window happened to come last. Wrong in both directions, and the
+// second is the one that bit: a hit matching an EARLIER element received
+// nothing at all. Measured in the meta team Youhu / Verina / Hiyuki — Verina S4
+// grants the team +15% Spectro, and that alone silenced Hiyuki's own +30%
+// Glacio window: -39% on her damage, -33.1% on the team, from a node that only
+// ADDS. 52 of the 55 teams this fix moved are mixed-element, which is the only
+// shape it can touch.
+{
+    const stepFor = (hitElements) => ({
+        index: 0, startTime: 0, endTime: 1, stepDamage: 100, buffed: false,
+        resolved: {
+            totalExpected: 100 * hitElements.length,
+            hits: hitElements.map(element => ({
+                skill: { element, dmgType: 'basic' },
+                result: { expected: 100, crit: 200, nonCrit: 50 },
+            })),
+        },
+    });
+    const window = (element, pct) => ({ bonusKind: 'element', element, bonusPct: pct, start: 0, end: 10 });
+    const GLACIO = 1, SPECTRO = 5;
+
+    // A foreign element's window must neither silence nor feed a Glacio hit.
+    const glacioOnly = stepFor([GLACIO]);
+    applyBuffsToSteps([glacioOnly], [window(GLACIO, 0.30)]);
+    assert('a matching element window pays its own hit', Math.abs(glacioOnly.stepDamage - 130) < 1e-9);
+
+    const withForeign = stepFor([GLACIO]);
+    applyBuffsToSteps([withForeign], [window(GLACIO, 0.30), window(SPECTRO, 0.15)]);
+    assert('a LATER foreign-element window cannot silence it',
+        Math.abs(withForeign.stepDamage - 130) < 1e-9);
+
+    // Order must not matter — the old code was order-dependent by construction.
+    const reversed = stepFor([GLACIO]);
+    applyBuffsToSteps([reversed], [window(SPECTRO, 0.15), window(GLACIO, 0.30)]);
+    assert('...and the result does not depend on window order',
+        Math.abs(reversed.stepDamage - 130) < 1e-9);
+
+    // The other half of the old error: a hit matching the LAST element used to
+    // collect every other element's bonus too.
+    const spectroHit = stepFor([SPECTRO]);
+    applyBuffsToSteps([spectroHit], [window(GLACIO, 0.30), window(SPECTRO, 0.15)]);
+    assert('a hit never collects a foreign element\'s bonus',
+        Math.abs(spectroHit.stepDamage - 115) < 1e-9);
+
+    // Same-element windows still stack additively, which is the behaviour the
+    // single accumulator was there for.
+    const stacked = stepFor([GLACIO]);
+    applyBuffsToSteps([stacked], [window(GLACIO, 0.30), window(GLACIO, 0.20)]);
+    assert('two windows of the SAME element still add', Math.abs(stacked.stepDamage - 150) < 1e-9);
+
+    // A mixed-element step pays each hit its own element and nothing else.
+    const mixed = stepFor([GLACIO, SPECTRO]);
+    applyBuffsToSteps([mixed], [window(GLACIO, 0.30), window(SPECTRO, 0.15)]);
+    assert('a mixed-element step pays each hit its own element',
+        Math.abs(mixed.stepDamage - (130 + 115)) < 1e-9);
+
+    // An element-less window is a whole-step multiplier, unchanged.
+    const flat = stepFor([GLACIO]);
+    applyBuffsToSteps([flat], [{ bonusKind: 'atk', element: null, bonusPct: 0.20, start: 0, end: 10 }]);
+    assert('an element-less window still multiplies the whole step',
+        Math.abs(flat.stepDamage - 120) < 1e-9);
+
+    // A step nothing applies to is left alone, not zeroed.
+    const untouched = stepFor([GLACIO]);
+    applyBuffsToSteps([untouched], [window(SPECTRO, 0.15)]);
+    assert('a step no window matches keeps its damage', Math.abs(untouched.stepDamage - 100) < 1e-9);
+    assert('...and is not marked buffed', untouched.buffed !== true);
 }
 
 console.log(`\nbuff-timeline: ${passed} passed, ${failed} failed`);

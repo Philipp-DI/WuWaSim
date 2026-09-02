@@ -213,15 +213,19 @@ for (const [id, c] of Object.entries(meta.characters)) {
             shared.every(other => other.entry.baseline.teamDamage === first));
     }
 
-    // The known modelling defect this table surfaced, pinned so it cannot be
-    // "fixed" by hiding the row. Verina's S4 team-wide grant costs Hiyuki a
-    // stacking buff worth 75%; the bug predates the eval (identical at 8241d5e)
-    // and is filed in docs/OPEN-ITEMS.md.
-    const verina = evaluation['1503'];
-    if (verina) {
-        assert('Verina S4+ is still flagged as a negative-gain anomaly',
-            verina.nodes.filter(node => node.suspect === 'negative-gain').length >= 1);
-    }
+    // ~~The known modelling defect this table surfaced, pinned so it cannot be
+    // "fixed" by hiding the row: Verina's S4 team-wide grant cost Hiyuki a
+    // stacking buff worth 75%.~~ FIXED 2026-09-02 — it was `applyBuffsToSteps`
+    // summing DIFFERENT elements into one accumulator and testing each hit
+    // against whichever window came last, so Verina's +15% Spectro silenced
+    // Hiyuki's own +30% Glacio (buff-windows.js; regression test in
+    // tests/buff-timeline.test.mjs). The assertion inverts into the guard it
+    // should always have been: a sequence node only ever ADDS to a kit, so
+    // NOTHING may read negative.
+    const flagged = entries.flatMap(([anchorId, entry]) =>
+        entry.nodes.filter(node => node.suspect).map(node => `${anchorId} S${node.chain}`));
+    for (const row of flagged) console.error(`  · sequence node with a negative gain: ${row}`);
+    assert(`no sequence node makes its own team worse (got ${flagged.length})`, flagged.length === 0);
 }
 
 console.log(`\nmeta-schema: ${passed} passed, ${failed} failed`);

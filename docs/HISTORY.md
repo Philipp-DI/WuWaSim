@@ -12371,3 +12371,101 @@ until OPEN-ITEMS 41 is fixed, and are flagged rather than corrected.
 **[Updated Docs]** `CLAUDE.md` — new invariant "S0 is the ranking BASELINE, and
 what a chain costs is a SEPARATE table", recording WHY chain 0 is deliberate.
 `docs/OPEN-ITEMS.md` — item 41. `docs/HISTORY.md` — this entry.
+
+## 2026-09-02 — An element window silenced another element's window
+
+The Sequence Node Evaluation shipped one commit earlier flagged Verina S4+ as
+taking 39% off her own carry — a node that only ADDS. This is the root cause,
+and it is not what the trace first suggested.
+
+**[The sweep that partitioned it]** The open question was whether
+`stepDamage !== resolved.totalExpected` was a general staleness bug (roster-wide,
+every hit breakdown disagreeing with its step total) or a Verina-specific
+symptom. One sweep answered it:
+
+```
+SOLO reference rotations : 610 steps,   0 divergent,   0 shared resolved objects
+TEAM sims (12 anchors)   : 416 steps, 335 divergent,   0 shared resolved objects
+```
+
+Not staleness — nothing is shared, and `resolved.totalExpected` always equals the
+sum of its own hits. `applyBuffsToSteps` rescales `stepDamage`/`stepCrit`/
+`stepNonCrit` from the hits and deliberately leaves `step.resolved` at its
+pre-window values. That is by design, and solo diverges nowhere because no
+windows apply there. Recorded in OPEN-ITEMS 41 as a UI caveat rather than a
+defect: a per-hit breakdown rendered beside a step total legitimately disagrees
+with it whenever `step.buffed` is true, and the breakdown is the unbuffed one.
+
+**[The actual bug]** With staleness ruled out, the lead pointed at the same
+module, and Hiyuki's own windows named it:
+
+```
+Verina S3 -> Hiyuki: [element Glacio 30%] [atk 20%]
+Verina S4 -> Hiyuki: [element Glacio 30%] [element SPECTRO 15%] [atk 20%]
+```
+
+`applyBuffsToSteps` accumulated every element window into ONE `elementBonus` and
+kept a single last-wins `elementId`:
+
+```js
+elementBonus += window.bonusPct * stk;
+elementId = window.element;          // "mixed-element windows are rare"
+...
+if (elementBonus > 0 && hitElement === elementId) multiplier += elementBonus;
+```
+
+Hiyuki is Glacio (1). Verina's Spectro window (5) arrived second, overwrote
+`elementId`, and her Glacio hits stopped matching — losing her **entire** 30%
+window. Wrong in both directions and the mirror error is just as real: a hit that
+DOES match the last element collects every other element's bonus too. It was also
+ORDER-DEPENDENT, so the same team could score differently for no reason a user
+could see.
+
+**[The fix]** Element bonuses accumulate PER ELEMENT, exactly as `dmgTypeBonus`
+two lines below always did. Four lines.
+
+**[Blast radius]** Roster-wide, 55 of 378 teams moved — 41 up, 14 down, median
++6.14%, max +46.48%, min -11.85%; 25 anchor lists reordered. **52 of the 55 are
+mixed-element**, which is the only shape this bug can touch, and the two
+directions match the two-sided error exactly: the drops are near-mono-element
+teams that had been collecting foreign element windows (Brant/Lupa/Changli, all
+Fusion, -10.25%), the gains are mixed teams whose carry had been silenced
+(Mortefi/Iuno/Yangyang across three elements, **+46.48%**). Verina now reads
+S3 -> S4 as team 1,548,403 -> 1,550,399 with **Hiyuki unchanged**, which is
+correct: a Spectro buff cannot touch a Glacio carry.
+
+**[Why nothing caught it]** No lock could. `team-rank.js` builds every member at
+chain 0, and the second element window only exists once a member is above S0 —
+so no generated artifact has ever contained the trigger. It took the sequence
+evaluation, whose whole job is to raise one member's chain.
+
+**[Files Changed]** `src/core/buffs/buff-windows.js` (per-element accumulation);
+`tests/buff-timeline.test.mjs` (regression); `tests/meta-schema.test.mjs` (the
+Verina pin inverted into a roster-wide guard); `CLAUDE.md`;
+`docs/OPEN-ITEMS.md` (41 resolved); regenerated `data/wuwa-meta.json`.
+
+**[Logic Altered]** An element window now pays only hits of its own element.
+Same-element windows still stack additively; element-less windows still multiply
+the whole step; a step no window matches is untouched and unmarked.
+
+**[Verification Method]** Eight-case unit regression covering both halves of the
+old error and the order-independence it lacked: a foreign window can neither
+silence nor feed a hit, order does not matter, same-element windows still add, a
+mixed-element step pays each hit its own element. The meta diff's SHAPE is the
+field evidence — 52 of 55 changed teams mixed-element, drops on mono-element
+teams, gains on mixed ones. `tests/meta-schema.test.mjs` now asserts NO sequence
+node reads negative (was: assert Verina's does), and it passes with zero flagged
+rows. `npm test` 76/76; `npm run sweep` 70 imported, 0 failed; `npm run lint`
+0 errors, 3110 warnings (unchanged).
+
+**[Residual Risks]** The 14 teams that lost damage were over-credited before, so
+those numbers were wrong in the app's favour and any external comparison made
+against them is now stale. The `stepDamage`/`resolved` divergence is left as-is —
+it is intended behaviour, but a UI showing a per-hit breakdown beside a buffed
+step total is showing two numbers that do not add up, and no surface has been
+audited for that yet.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "An element WINDOW pays its own
+element, and nothing else". `docs/OPEN-ITEMS.md` — item 41 struck through and
+resolved, with the divergence note rewritten from suspicion to finding.
+`docs/HISTORY.md` — this entry.
