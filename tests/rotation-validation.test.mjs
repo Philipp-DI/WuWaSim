@@ -14,7 +14,10 @@ import {
     fromLinear, toLinear, addPrerequisite, prerequisitesSatisfied,
     validateRotation, buildRuleGraph, EdgeKind,
 } from '../src/core/rotation-graph.js';
-import { rulesForResonator, hasRules, ROTATION_RULES } from '../src/core/rotation-rules.js';
+import {
+    rulesForResonator, hasRules, ROTATION_RULES,
+    CHAIN_LOCKED_SKILLS, resolveChainLockedRotation,
+} from '../src/core/rotation-rules.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -130,6 +133,60 @@ function assert(name, cond) {
         }
     }
     assert('all rule keys reference real skill-map entries', invalid === 0);
+}
+
+// ── Chain-locked skills: a sequence node can CREATE the skill a step names ───
+// Lupa S6 replaces Forte Circuit "Dance With the Wolf" with "Dance With the
+// Wolf: Climax". The game ships both as damage rows, so both resolve as
+// ordinary keys and nothing stopped an S0 rotation from casting the S6 one —
+// her own reference rotation does. Measured: 1.35x on that step, 8.13% across
+// her whole reference rotation.
+{
+    const dataset = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
+    const references = JSON.parse(readFileSync(resolve(__dirname, '../data/reference-rotations.json'), 'utf8'));
+    const rotationsById = references.rotations ?? references;
+    const LUPA = 1207;
+    const CLIMAX = 'forte_heavy_dance_with_the_wolf_climax';
+    const BASE = 'forte_heavy_dance_with_the_wolf';
+
+    const at = (chain) => resolveChainLockedRotation(['heavy_wolf_s_claw', CLIMAX], LUPA, chain);
+    assert('below the unlocking node the step falls back', at(0).rotation[1] === BASE);
+    assert('...and says so rather than substituting silently',
+        at(0).substitutions.length === 1 && at(0).substitutions[0].from === CLIMAX
+        && at(0).substitutions[0].to === BASE && at(0).substitutions[0].minChain === 6);
+    assert('one level short still falls back', at(5).rotation[1] === BASE);
+    assert('at the unlocking node the real skill is cast', at(6).rotation[1] === CLIMAX);
+    assert('...with nothing to report', at(6).substitutions.length === 0);
+    assert('above it too', at(6).rotation[1] === CLIMAX && at(6).substitutions.length === 0);
+
+    // The common path must not allocate: callers may compare by identity.
+    const untouched = ['basic_1', 'skill'];
+    assert('a rotation with no locked step is returned unchanged, by identity',
+        resolveChainLockedRotation(untouched, LUPA, 0).rotation === untouched);
+    assert('a resonator with no locked skills is a no-op',
+        resolveChainLockedRotation(untouched, 9999, 0).rotation === untouched);
+    assert('a non-array rotation does not throw',
+        resolveChainLockedRotation(null, LUPA, 0).substitutions.length === 0);
+
+    // Roster guard: a lock is only expressible when BOTH keys really exist —
+    // a replacement the dataset has no row for is a missing-damage gap instead.
+    for (const [resonatorId, locks] of Object.entries(CHAIN_LOCKED_SKILLS)) {
+        const keys = Object.keys(dataset.autoSkillMap?.[resonatorId] ?? {});
+        for (const [locked, lock] of Object.entries(locks)) {
+            assert(`${resonatorId} ${locked} exists in the skill map`, keys.includes(locked));
+            assert(`${resonatorId} ${locked} falls back to a key that exists`, keys.includes(lock.fallback));
+            assert(`${resonatorId} ${locked} states the node text that creates it`,
+                typeof lock.quote === 'string' && lock.quote.length > 0);
+            assert(`${resonatorId} ${locked} is gated on a real chain level`,
+                Number.isInteger(lock.minChain) && lock.minChain >= 1 && lock.minChain <= 6);
+        }
+    }
+
+    // The reason this exists at all: her shipped reference rotation names it.
+    const lupaRotation = (rotationsById[String(LUPA)] ?? rotationsById[LUPA])?.rotation ?? [];
+    assert('Lupa\'s reference rotation still names the chain-locked skill',
+        lupaRotation.includes(CLIMAX));
+    assert('...and the lock covers it', CHAIN_LOCKED_SKILLS[LUPA][CLIMAX]?.minChain === 6);
 }
 
 // ── Summary ───────────────────────────────────────────────────────────────────

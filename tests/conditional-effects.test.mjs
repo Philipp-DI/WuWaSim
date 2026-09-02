@@ -21,6 +21,7 @@ globalThis.localStorage = { getItem: k => ls.get(k) ?? null, setItem: (k, v) => 
 
 const { createBuild, setChain } = await import('../src/core/build.js');
 const { collectActiveEffects, unlockedEffects, effectsActiveAtStep, resolveChainInherentContext } = await import('../src/core/buffs.js');
+const { markSupersededInherents } = await import('../tools/preprocess/inherent-replace.mjs');
 const { resolveTotalStats } = await import('../src/core/stats.js');
 const { resolveSkill } = await import('../src/core/skill.js');
 const { simulateRotation } = await import('../src/core/sim.js');
@@ -320,6 +321,99 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
         marked.every(({ resonator, node }) => (resonator.resonanceChain ?? []).some(chainNode =>
             chainNode.level === node.replacedByChain
             && new RegExp(`Inherent\\s+Skill\\s+${node.name}\\s+is\\s+replaced`, 'i').test(chainNode.desc ?? ''))));
+}
+
+// ── A sequence node that ENHANCES an inherent supersedes only what it RESTATES ─
+// The game writes two different edits and they must not be conflated. "is
+// replaced with" takes the whole inherent out (Aemeath, above); "is enhanced"
+// is PARTIAL — Luuk Herssen S2 raises one amplify rate and says nothing about
+// the rest of Uncaused Diagnosis, so reading it as a replacement would DELETE
+// kit the node never touched.
+{
+    const luuk = d.resonators.find(entry => entry.id === 1510);
+    const diagnosis = luuk.inherentSkills.find(node => node.name === 'Uncaused Diagnosis');
+    assert('an ENHANCED inherent is never marked wholly replaced',
+        diagnosis?.replacedByChain == null);
+    assert('...its restated effect is superseded at the enhancing node instead',
+        diagnosis?.effects?.[0]?.supersededByChain === 2);
+
+    const amplifyKeys = (chain) => unlockedEffects(setChain(createBuild(luuk), chain), luuk)
+        .filter(entry => entry.effect.stat === 'amplify' && entry.key.startsWith('IH'))
+        .map(entry => entry.key);
+    assert('below S2 the inherent 5% branch is live', amplifyKeys(1).includes('IH1.0'));
+    assert('at S2 it is gone — the node states 10% INSTEAD, not on top',
+        !amplifyKeys(2).includes('IH1.0'));
+
+    // Suppression must not renumber a frozen IH key (CLAUDE.md): effect-overrides
+    // and saved builds' effectStacks address effects positionally.
+    const keysAt = (chain) => unlockedEffects(setChain(createBuild(luuk), chain), luuk)
+        .map(entry => entry.key).filter(key => key.startsWith('IH'));
+    assert('a superseded effect is DROPPED, never reindexed',
+        keysAt(2).every(key => keysAt(1).includes(key)));
+
+    // The partial property, proven directly: the live roster has no enhanced
+    // inherent with a SIBLING effect to keep, so a synthetic one is the only way
+    // to show a replacement-shaped read would be wrong here.
+    const synthetic = {
+        inherentSkills: [{
+            name: 'Test Passive',
+            effects: [
+                { stat: 'amplify', value: 0.05, element: null, skillType: null },
+                { stat: 'critDmg', value: 0.20, element: null, skillType: null },
+                { stat: 'amplify', value: 0.05, element: null, skillType: 'heavy' },
+            ],
+        }],
+        resonanceChain: [{
+            level: 4,
+            desc: 'Inherent Skill Test Passive is enhanced: it now amplifies by 10%.',
+            effects: [{ stat: 'amplify', value: 0.10, element: null, skillType: null,
+                condition: 'Inherent Skill Test Passive is enhanced: it now amplifies by 10%.' }],
+        }],
+    };
+    assert('a partial enhancement marks exactly one effect', markSupersededInherents(synthetic) === 1);
+    const marks = synthetic.inherentSkills[0].effects.map(effect => effect.supersededByChain ?? null);
+    assert('...the restated effect', marks[0] === 4);
+    assert('...NOT the sibling with a different stat', marks[1] === null);
+    assert('...NOT the same stat under a different scope', marks[2] === null);
+    assert('...and the inherent itself is never wholly replaced',
+        synthetic.inherentSkills[0].replacedByChain == null);
+
+    // A node effect from an UNRELATED clause must not supersede by stat alone.
+    const unrelated = {
+        inherentSkills: [{ name: 'Test Passive',
+            effects: [{ stat: 'amplify', value: 0.05, element: null, skillType: null }] }],
+        resonanceChain: [{ level: 4,
+            desc: 'Inherent Skill Test Passive is enhanced: it gains something else. '
+                + 'Separately, her Liberation amplifies by 30%.',
+            effects: [{ stat: 'amplify', value: 0.30, element: null, skillType: null,
+                condition: 'Separately, her Liberation amplifies by 30%.' }] }],
+    };
+    assert('a node effect outside the enhancement clause supersedes nothing',
+        markSupersededInherents(unrelated) === 0);
+
+    // Lucy S5 names its inherent TWICE in one node; an unbounded capture ran
+    // from the first mention to the second and resolved to nothing.
+    const lucy = d.resonators.find(entry => entry.name === 'Lucy');
+    const s5 = lucy?.resonanceChain?.find(node => node.level === 5);
+    assert('Lucy S5 states an enhancement of a real inherent', /is\s+now\s+enhanced/i.test(s5?.desc ?? ''));
+
+    // Roster guard, mirroring the replacement one above: only a node that SAYS
+    // it enhances a named inherent may suppress any of that inherent's effects.
+    const enhanced = d.resonators.flatMap(resonator =>
+        (resonator.inherentSkills ?? []).flatMap(node =>
+            (node.effects ?? []).filter(effect => effect.supersededByChain != null)
+                .map(effect => ({ resonator, node, effect }))));
+    assert('every supersession mark is backed by a chain node that states it',
+        enhanced.every(({ resonator, node, effect }) => (resonator.resonanceChain ?? []).some(chainNode =>
+            chainNode.level === effect.supersededByChain
+            && new RegExp(`Inherent\\s+Skill\\s*-?\\s*${node.name}\\s+is\\s+(?:now\\s+)?enhanced`, 'i')
+                .test(chainNode.desc ?? ''))));
+    assert('no effect is both wholly replaced and individually superseded',
+        d.resonators.every(resonator => (resonator.inherentSkills ?? []).every(node =>
+            node.replacedByChain == null
+            || (node.effects ?? []).every(effect => effect.supersededByChain == null))));
+    assert('...and it supersedes nothing, because that inherent carries no parsed effect',
+        (lucy.inherentSkills.find(node => node.name === 'Ghost Cyberware')?.effects ?? []).length === 0);
 }
 
 // ── A clause that NAMES its skills is scoped by the names, whatever it grants ─

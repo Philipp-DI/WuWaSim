@@ -43,7 +43,7 @@ function weaponAmplifyScopes(weaponConditional) {
     return out;
 }
 import { computeStateTimeline } from './rotation-state.js';
-import { resourceDefsForResonator, stateDefsForResonator } from './rotation-rules.js';
+import { resolveChainLockedRotation, resourceDefsForResonator, stateDefsForResonator } from './rotation-rules.js';
 import { soloStatusDamage, resolveTuneBreakStep, statusesInflictedBy } from './enemy-status.js';
 import { resolveTuneStrain } from './tune-break.js';
 
@@ -530,7 +530,13 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         ...(sonataConditional?.targetMods ?? []),
     ];
 
-    const rotation = Array.isArray(build?.rotation) ? build.rotation : [];
+    // A step can name a skill the build's chain level has not created — Lupa's
+    // reference rotation casts her S6-only "Dance With the Wolf: Climax", which
+    // inflated an S0 run of it by 8.13%. Substitute rather than drop: the player
+    // presses the same input and the game decides which move comes out.
+    const { rotation, substitutions: chainLockedSubstitutions } =
+        resolveChainLockedRotation(Array.isArray(build?.rotation) ? build.rotation : [],
+            build?.resonatorId, build?.chain ?? 0);
 
     // ── Tune Strain chain (src/core/tune-break.js) ───────────────────────────
     // A Tune Break on a target carrying Tune Strain - Shifting makes it
@@ -1063,6 +1069,11 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // the caller hands them to the next segment as `carryInResources`.
         // Unlike `fires` these carry no timestamps, so nothing has to be
         // shifted between the segment's frame and the team's.
+        // Steps the build's chain level could not cast, swapped for what the same
+        // input actually produces. Reported rather than applied silently — the
+        // timeline already shows the substituted skill's own name, and a caller
+        // that wants to say WHY needs the pair.
+        chainLockedSubstitutions,
         resourceEndLevels: computeResourceEndLevels(rotation, resourceDefs, carryInResources, resourceContext),
         // The tick clock's counterpart: a gauge tick belongs to the FIGHT, so
         // without carrying this every segment re-fires the opening tick.

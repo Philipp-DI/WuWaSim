@@ -415,7 +415,15 @@ export function unlockedEffects(build, resonator) {
         // plus the replacement alone (maintainer's in-game capture, 2026-08-03).
         if ((ihs[nodeIndex].replacedByChain ?? Infinity) <= seqLevel) continue;
         const effs = ihs[nodeIndex].effects ?? [];
-        for (let i = 0; i < effs.length; i++) out.push({ effect: effs[i], key: `IH${nodeIndex}.${i}` });
+        for (let i = 0; i < effs.length; i++) {
+            // An ENHANCEMENT is partial: it supersedes the individual effects it
+            // restates and leaves the rest of the inherent standing. Luuk
+            // Herssen S2 raises Uncaused Diagnosis from 5% to 10% amplify per 10
+            // Tune Break Boost, so applying both would pay 15%. The index is the
+            // ORIGINAL one — skipping must never renumber a frozen IH key.
+            if ((effs[i].supersededByChain ?? Infinity) <= seqLevel) continue;
+            out.push({ effect: effs[i], key: `IH${nodeIndex}.${i}` });
+        }
     }
     // Effects the game states inside a SKILL node — a Resonance Liberation,
     // Resonance Skill or Forte Circuit — whose source is therefore a CAST, not a

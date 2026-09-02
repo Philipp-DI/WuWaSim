@@ -1166,6 +1166,64 @@ export const RESOURCE_DEFS = Object.freeze({
  * @param {object|null} [dataset]
  * @param {number} [chainLevel] — build.chain (0..6)
  */
+/**
+ * Skills that only EXIST once a Resonance Chain node creates them.
+ *
+ * A sequence node can replace a Forte/Resonance Skill outright: Lupa S6 says
+ * "Forte Circuit Dance With the Wolf is replaced with Dance With the Wolf:
+ * Climax". The game ships BOTH as damage rows (12070007001 and 12070007002),
+ * so both resolve as ordinary skill keys and nothing stopped a rotation from
+ * casting the S6 one on an S0 build — her own reference rotation does exactly
+ * that, and the replacement is worth 1.35x the skill it replaces.
+ *
+ * `fallback` is what the same button produces below `minChain`, which is what
+ * makes SUBSTITUTION the faithful model rather than dropping the step: the
+ * player presses the same input either way and the game decides which move
+ * comes out. Dropping it would understate by removing a cast that happens.
+ *
+ * Only entries whose BOTH keys exist may be listed — a replacement the dataset
+ * has no row for (Qiuyuan S3's Straw Cape in Drizzly Rain, Camellya S6's
+ * Perennial) is a missing-damage gap, not something this can express.
+ */
+export const CHAIN_LOCKED_SKILLS = Object.freeze({
+    // Lupa S6: "Forte Circuit Dance With the Wolf is replaced with Dance With
+    // the Wolf: Climax." Measured on her reference rotation: casting Climax at
+    // S0 inflated the whole rotation 8.13%, and at S6 Climax is worth 61% more
+    // than the base skill, so neither key is right for both builds.
+    1207: {
+        forte_heavy_dance_with_the_wolf_climax: {
+            minChain: 6,
+            fallback: 'forte_heavy_dance_with_the_wolf',
+            quote: 'Forte Circuit Dance With the Wolf is replaced with Dance With the Wolf: Climax.',
+        },
+    },
+});
+
+/**
+ * Swap any chain-locked step a build has not unlocked for what the same input
+ * actually produces at that chain level.
+ *
+ * Returns the rotation unchanged (the SAME array) when nothing is locked, so
+ * the common path allocates nothing and callers can compare by identity.
+ *
+ * @param {string[]} rotation
+ * @param {number|string} resonatorId
+ * @param {number} chainLevel
+ * @returns {{ rotation: string[], substitutions: Array<{from: string, to: string, minChain: number}> }}
+ */
+export function resolveChainLockedRotation(rotation, resonatorId, chainLevel = 0) {
+    const locks = CHAIN_LOCKED_SKILLS[Number(resonatorId)];
+    if (!locks || !Array.isArray(rotation)) return { rotation, substitutions: [] };
+    const substitutions = [];
+    const resolved = rotation.map(key => {
+        const lock = locks[key];
+        if (!lock || (chainLevel ?? 0) >= lock.minChain) return key;
+        substitutions.push({ from: key, to: lock.fallback, minChain: lock.minChain });
+        return lock.fallback;
+    });
+    return substitutions.length ? { rotation: resolved, substitutions } : { rotation, substitutions };
+}
+
 export function resourceDefsForResonator(resonatorId, dataset = null, chainLevel = 0) {
     const defs = RESOURCE_DEFS[Number(resonatorId)] ?? [];
     if (defs.length === 0) return defs;

@@ -11964,3 +11964,121 @@ sentence struck through and replaced with the form-sets-the-ceiling rule, the
 `'cap'` indirection, and the step-boundary rule; measured figures updated to the
 corrected model. `docs/HISTORY.md` — this entry, appended rather than editing the
 one above it, so the wrong reading and its correction both stay on the record.
+
+## 2026-09-02 — Step 3, part 1: what a chain node REPLACES, and what it CREATES
+
+Two of the five chain-override buckets, plus a measured retraction of a third.
+
+### The "is enhanced" generalisation (approved with a constraint)
+
+`inherent-replace.mjs` read one wording, `is replaced with`, and its own comment
+said only one node in the roster does that. Four more say **"is enhanced"** and
+were invisible to it: Denia S3, Lucy S5, Luuk Herssen S2, Luuk Herssen S3.
+
+The maintainer's constraint was the whole design problem: *"it must be robust
+enough to not break the ability by replacing the full ability/skill/passive with
+a PARTIAL enhancement/replacement."* So the two wordings get opposite
+treatments:
+
+- **REPLACED** suppresses the inherent ENTIRE (`replacedByChain`, unchanged).
+- **ENHANCED** suppresses per EFFECT (`supersededByChain`), matched on the
+  `(stat, element, skillType)` triple so a differently-scoped grant survives,
+  and only node effects whose OWN `condition` carries the enhancement phrase may
+  supersede anything — a sequence node states several unrelated grants and one
+  of them sharing a stat with the inherent is coincidence, not restatement.
+
+A restatement the parser did not attach to that clause supersedes NOTHING, which
+leaves a pre-existing double-count rather than silently deleting kit. That is the
+safe failure direction and it is deliberate.
+
+**One live case, latent:** Luuk Herssen S2 raises Uncaused Diagnosis from 5% to
+10% amplify per 10 Tune Break Boost. Both the inherent effect and the node
+effect are `defaultActive: false`, so nothing double-counts until a user enables
+both — at which point they paid 15% where the game gives 10%. `IH1.0` is now
+dropped at S2+ and kept below it, with the frozen `IH{node}.{index}` key
+unrenumbered (the loop skips, it does not re-index).
+
+**A parser bug found on the way:** the inherent NAME was unbounded, and Lucy S5
+mentions "Inherent Skill - Ghost Cyberware" twice in one node. The capture ran
+from the first mention to the second — `"Ghost Cyberware is increased to 2.
+Inherent Skill - Ghost Cyberware"` — and resolved to nothing at all. Bounded to
+one sentence (`[^.]`).
+
+### A chain node can CREATE the skill a rotation step names
+
+Lupa S6: *"Forte Circuit Dance With the Wolf is replaced with Dance With the
+Wolf: Climax."* The game ships BOTH as damage rows (`12070007001`,
+`12070007002`), so both resolve as ordinary skill keys, nothing gated either, and
+**her own reference rotation casts the S6 one**. At S0 that is a skill she does
+not have: measured **1.35x on that step and 8.13% across her whole reference
+rotation** — in every meta team, since `team-rank.js` builds members at chain 0.
+
+`CHAIN_LOCKED_SKILLS` + `resolveChainLockedRotation` SUBSTITUTE rather than drop.
+That is the faithful model: the player presses the same input either way and the
+game decides which move comes out, so dropping the step would understate by
+removing a cast that really happens. Swapping the reference rotation to the base
+key instead would have been wrong in the other direction — Climax is worth 61%
+more at S6. The pair is returned as `chainLockedSubstitutions` rather than
+applied silently, and the timeline already shows the substituted skill's own
+name.
+
+A lock is only expressible when BOTH keys exist. **Qiuyuan S3's Straw Cape in
+Drizzly Rain and Camellya S6's Perennial have no damage rows at all** — those are
+missing-damage gaps (understating), not something this can express, and are
+recorded as such rather than curated around.
+
+### Retracted: the "resource/cap edits" bucket
+
+The step-2 plan listed Sigrika S3 and Luuk Herssen S3 as gauge-cap changes in the
+Denia S3 shape. Reading them, both are **stack-cap raises on effects**, not gauge
+caps: Sigrika's is on Innate Gift (not her curated `Full Stop` gauge) and Luuk's
+on Perpetuating Daytime. Neither is a damage defect —
+
+- **Luuk's Perpetuating Daytime is referenced by no parsed effect at all**, so
+  there is nothing for a cap to change.
+- **Sigrika's per-stack amplify carries `maxStacks: null`**, and the
+  "underivable stack count is ONE" invariant resolves it to 1 stack regardless of
+  any cap. Raising the cap would move the UI dial, not the damage.
+
+So no mechanism was built for them. Recorded rather than curated around.
+
+**[Files Changed]** `tools/preprocess/inherent-replace.mjs` (rewritten:
+`markSupersededInherents`, both wordings, sentence-bounded name);
+`tools/preprocess.mjs` (caller + log line); `src/core/buffs.js`
+(`supersededByChain` skip); `src/core/rotation-rules.js` (`CHAIN_LOCKED_SKILLS`,
+`resolveChainLockedRotation`); `src/core/sim.js` (rotation resolved at entry,
+`chainLockedSubstitutions` in the result); `tests/conditional-effects.test.mjs`;
+`tests/rotation-validation.test.mjs`; `CLAUDE.md`; regenerated
+`data/wuwa-data.json`, `data/wuwa-meta.json`.
+
+**[Logic Altered]** One inherent effect suppressed at S2+ (Luuk `IH1.0`); one
+rotation step substituted below S6 (Lupa's Climax). No other resonator's parse or
+rotation changed.
+
+**[Verification Method]** LOCK A: the ONLY content diff is one added field,
+`supersededByChain: 2` on Luuk's `IH1.0` (`--ref 3.5`). LOCK B in two stages —
+the enhancement pass moved **only the hash lines**, exactly as predicted since
+both Luuk effects default OFF (a latent fix, not a live number change); the chain
+lock then moved 17 of 416 teams, **all containing Lupa, all DOWN
+(-1.42%..-5.37%, median -2.24%), zero up, zero non-Lupa teams touched**, 4 anchor
+lists reordered. The partial-enhancement property is asserted DIRECTLY against a
+synthetic inherent, because no live inherent has a sibling effect to keep — the
+test proves a replacement-shaped read would drop a different-stat sibling and a
+same-stat-different-scope sibling, and that an unrelated clause supersedes
+nothing. Roster guards added for both mechanisms. `npm test` 76/76; `npm run
+sweep` 70 imported, 0 failed; `npm run lint` 0 errors, 3107 -> 3109 warnings (two
+new functions, both under the complexity ceiling).
+
+**[Residual Risks]** `CHAIN_LOCKED_SKILLS` is curated and holds ONE entry; a
+replacement whose keys both exist but which nobody noticed would still go
+ungated. The sweep that found Lupa's covered only the five nodes using
+replace/enhance wording, so a node phrasing it differently is not ruled out. The
+enhancement pass keys "which node effects belong to the enhancement" on the
+effect's `condition`, which `effects.mjs` truncates to 120 chars — a restatement
+whose clause is longer than that would not match and would silently keep the
+double-count (safe direction, but a real limit). Qiuyuan S3 and Camellya S6
+remain understated with no rows to model.
+
+**[Updated Docs]** `CLAUDE.md` — two new invariants: "An 'is enhanced' chain node
+is PARTIAL, an 'is replaced with' node is NOT" and "A chain node can CREATE the
+skill a rotation step names". `docs/HISTORY.md` — this entry.

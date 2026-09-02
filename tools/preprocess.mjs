@@ -36,7 +36,7 @@ import { applyResonanceModesAndOverrides, applyResonatorRoles, parseEffectsFromD
 import { buildStatusApplyRules } from './preprocess/status-apply.mjs';
 import { bindSkillScopes } from './preprocess/skill-scope.mjs';
 import { applyBuffFacts, loadBuffFacts } from './preprocess/buff-facts.mjs';
-import { markReplacedInherents } from './preprocess/inherent-replace.mjs';
+import { markSupersededInherents } from './preprocess/inherent-replace.mjs';
 import { applyTuneStrain } from './preprocess/tune-strain.mjs';
 import { buildChainExtraHits } from './preprocess/chain-extra-hits.mjs';
 import {
@@ -1018,8 +1018,8 @@ async function main() {
 
     // A sequence node can REPLACE an inherent skill; applying both stacks two
     // readings of one effect (see inherent-replace.mjs).
-    const replacedInherents = resonators.reduce((count, resonator) => count + markReplacedInherents(resonator), 0);
-    process.stderr.write(`  inherent replacements: ${replacedInherents} superseded by a sequence node\n`);
+    const supersededInherents = resonators.reduce((count, resonator) => count + markSupersededInherents(resonator), 0);
+    process.stderr.write(`  inherent supersessions: ${supersededInherents} (whole inherents replaced + single effects enhanced away)\n`);
 
     // WHICH casts inflict a negative status, read off each kit's own text
     // (OPEN-ITEMS #29). A resonator whose text states no rule is absent here and
