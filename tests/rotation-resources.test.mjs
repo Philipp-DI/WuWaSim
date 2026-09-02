@@ -464,54 +464,94 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             new Map([['pool', 4]]),
             { stepTimes: times([0, 6]), tickPhases: new Map([['pool', 5]]) }).get('pool')) === JSON.stringify([4, 2]));
 
-    // The state gate withholds the EFFECT while the CLOCK keeps running: a tick
-    // missed because its condition was false must not delay the next one.
-    const gated = [{ name: 'Pool', cap: 5, gains: {}, tick: { period: 10, amount: 1, state: 'Form A' } }];
+    // `byState` varies what a firing is WORTH, never the schedule. One passive on
+    // one clock can restore to different ceilings in different forms.
+    const perForm = [{ name: 'Pool', cap: 6, gains: {}, spendAll: ['burn'],
+        tick: { period: 10, refillTo: 'cap', byState: { 'Form A': 2 } } }];
     const states = (list) => list.map(names => new Set(names));
-    assert('a gated tick pays nothing while its state is off',
-        JSON.stringify(computeResourceTimeline(['x', 'x'], gated, null,
-            { stepTimes: times([0, 10]), activeStates: states([[], []]) }).get('pool')) === JSON.stringify([0, 0]));
-    // A firing that lands exactly on a step's start is credited BEFORE that step
-    // reads its level — the same rule that lets the t=0 firing supply `start`.
-    assert('a gated tick pays while its state is on',
-        JSON.stringify(computeResourceTimeline(['x', 'x'], gated, null,
-            { stepTimes: times([0, 10]), activeStates: states([['form a'], ['form a']]) }).get('pool'))
-            === JSON.stringify([1, 2]));
-    assert('the CLOCK advances through a withheld firing, so the next is on schedule',
-        JSON.stringify(computeResourceTimeline(['x', 'x', 'x'], gated, null,
-            { stepTimes: times([0, 10, 20]), activeStates: states([[], ['form a'], ['form a']]) }).get('pool'))
-            === JSON.stringify([0, 0, 1]));
+    assert('a named state supplies its own floor',
+        JSON.stringify(computeResourceTimeline(['x'], perForm, null,
+            { stepTimes: times([0]), activeStates: states([['form a']]) }).get('pool'))
+            === JSON.stringify([2]));
+    assert('an UNNAMED state falls through to the default branch',
+        JSON.stringify(computeResourceTimeline(['x'], perForm, null,
+            { stepTimes: times([0]), activeStates: states([['form b']]) }).get('pool'))
+            === JSON.stringify([6]));
+    assert("refillTo 'cap' resolves to the gauge's own cap, never a repeated literal",
+        JSON.stringify(computeResourceTimeline(['x'], [{ name: 'Pool', cap: 4, gains: {},
+            tick: { period: 10, refillTo: 'cap' } }], null,
+            { stepTimes: times([0]) }).get('pool')) === JSON.stringify([4]));
+    assert('an empty byState leaves every firing on the default branch',
+        JSON.stringify(computeResourceTimeline(['x'], [{ name: 'Pool', cap: 6, gains: {},
+            tick: { period: 10, refillTo: 'cap', byState: {} } }], null,
+            { stepTimes: times([0]), activeStates: states([['form a']]) }).get('pool'))
+            === JSON.stringify([6]));
+    // The clock is indifferent to which branch pays: firings still land on
+    // 0 / 10 / 20 / 30 when the form changes underneath them, and the new form's
+    // value applies from the next firing. It takes effect one step later than
+    // the switch because a firing landing exactly on step i's start belongs to
+    // the step already IN PROGRESS, so it reads step i-1's states — the same
+    // rule that lets the t=0 firing be credited before step 0 reads its level.
+    assert('a form switch changes the value but not the schedule',
+        JSON.stringify(computeResourceTimeline(['burn', 'burn', 'burn', 'burn'], perForm, null,
+            { stepTimes: times([0, 10, 20, 30]),
+              activeStates: states([['form a'], ['form a'], ['form b'], ['form b']]) })
+            .get('pool')) === JSON.stringify([2, 2, 2, 6]));
 }
 
-// ── Denia's 12s inherent, both chain branches ───────────────────────────────
+// ── Denia's 12s inherent, both forms and both chain branches ────────────────
 {
     const byTickName = (list, name) => list.find(def => def.name === name);
     const baseDefs = resourceDefsForResonator(1211, dataset, 0);
     const s3TickDefs = resourceDefsForResonator(1211, dataset, 3);
+    // She opens the fight in Stagecraft Form (STATE_DEFS initiallyActive), which
+    // is what makes `start` and the t=0 firing describe the same instant.
+    const inForm = (form) => [new Set([form.toLowerCase()])];
+    const levelIn = (defs, gauge, form) => computeResourceTimeline(['x'],
+        [byTickName(defs, gauge)], null,
+        { stepTimes: { gameStart: [0], gameEnd: [0] }, activeStates: inForm(form) }).get(gauge.toLowerCase())[0];
 
     for (const [defs, level] of [[baseDefs, 'S0'], [s3TickDefs, 'S3']]) {
         for (const gauge of ['Dark Core', 'Void Particle']) {
             const def = byTickName(defs, gauge);
             assert(`${level} ${gauge} ticks on the extracted 12s period`, def.tick?.period === 12);
-            assert(`${level} ${gauge} tick is gated on Stagecraft Form`,
-                def.tick?.state === 'Stagecraft Form');
-            // The documented agreement: `start` is the t=0 firing of this tick,
-            // so the two must state the same level or one of them is wrong.
-            assert(`${level} ${gauge} start agrees with its tick floor`,
-                def.start === def.tick.refillTo);
+            // `start` is the t=0 firing of this same tick, and at t=0 she is in
+            // Stagecraft Form — so the two must agree or one of them is wrong.
+            assert(`${level} ${gauge} start agrees with its opening firing`,
+                def.start === levelIn(defs, gauge, 'Stagecraft Form'));
         }
     }
-    assert('S3 raises the Dark Core floor to its raised cap',
-        byTickName(s3TickDefs, 'Dark Core').tick.refillTo === 5
-        && byTickName(s3TickDefs, 'Dark Core').cap === 5);
-    assert('S3 raises the Void Particle floor to the cap',
-        byTickName(s3TickDefs, 'Void Particle').tick.refillTo === 100);
+
+    // The correction of 2026-09-02: the form decides HOW FAR the passive
+    // refills, not WHETHER it fires. Gated on Stagecraft, Breakdown paid nothing.
+    assert('S0 Dark Core stops at 2 in Stagecraft Form',
+        levelIn(baseDefs, 'Dark Core', 'Stagecraft Form') === 2);
+    assert('S0 Dark Core is UNLIMITED in Breakdown Form — it fills to the cap',
+        levelIn(baseDefs, 'Dark Core', 'Breakdown Form') === 3);
+    assert('S0 Void Particle stops at 20 in Stagecraft Form',
+        levelIn(baseDefs, 'Void Particle', 'Stagecraft Form') === 20);
+    assert('S0 Void Particle is UNLIMITED in Breakdown Form',
+        levelIn(baseDefs, 'Void Particle', 'Breakdown Form') === 100);
+    // The cap is 3 in BOTH forms — the 2 is a floor on this passive, not a
+    // second limit — so an Intro grant still takes a Stagecraft Denia to 3.
+    assert('the cap is the same in both forms', byTickName(baseDefs, 'Dark Core').cap === 3);
+
+    // S3 restores "to the max" with no form qualifier, so no branch survives.
+    assert('S3 refills to the max in Stagecraft Form too',
+        levelIn(s3TickDefs, 'Dark Core', 'Stagecraft Form') === 5);
+    assert('S3 refills to the max in Breakdown Form',
+        levelIn(s3TickDefs, 'Dark Core', 'Breakdown Form') === 5);
+    assert('S3 Void Particle refills to its cap in either form',
+        levelIn(s3TickDefs, 'Void Particle', 'Stagecraft Form') === 100
+        && levelIn(s3TickDefs, 'Void Particle', 'Breakdown Form') === 100);
+    // 'cap' is written rather than a literal, so the S3 cap bump carries in.
+    assert("the floor is stated as 'cap', so raising the cap raises it too",
+        byTickName(s3TickDefs, 'Dark Core').tick.refillTo === 'cap');
     assert('Conformal Charge has no tick — no row grants it on a clock',
         byTickName(baseDefs, 'Conformal Charge').tick === undefined);
     // A partial chain override must not drop the fields it does not mention.
-    assert('the S3 tick override keeps the period and the state gate',
-        byTickName(s3TickDefs, 'Dark Core').tick.period === 12
-        && byTickName(s3TickDefs, 'Dark Core').tick.state === 'Stagecraft Form');
+    assert('the S3 tick override keeps the 12s period',
+        byTickName(s3TickDefs, 'Dark Core').tick.period === 12);
 }
 
 console.log(`rotation-resources: ${passed} passed, ${failed} failed`);

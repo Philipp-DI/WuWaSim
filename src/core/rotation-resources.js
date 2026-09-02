@@ -23,7 +23,7 @@
  * Definitions live in rotation-rules.js RESOURCE_DEFS (curated, hand-editable):
  *   { name, channel?, cap, start?, chainOverrides?, gains: { skillKey: amount },
  *     spend?: { skillKey: amount }, spendAll?: [skillKey],
- *     tick?: { period, refillTo?, amount?, state? } }
+ *     tick?: { period, refillTo?, amount?, byState? } }
  *
  * A gauge does NOT necessarily begin a fight empty. Denia's inherent restores
  * Dark Cores to 2 on entering combat, so `start` is the level the fight opens
@@ -79,10 +79,11 @@ export function computeResourceTimeline(rotation, resourceDefs, startLevels = nu
  * the additive shape ("gain 1 point per second"). A tick states one or the
  * other, never both.
  *
- * `state` gates the EFFECT, not the CLOCK: the timer keeps cycling while the
- * condition is false and simply produces nothing on those firings. That is what
- * "this effect can be triggered once every 12s" describes — a rate limit, not a
- * countdown that starts when the condition becomes true.
+ * `byState` varies what a firing is WORTH without varying the clock: the timer
+ * keeps cycling and each firing pays whatever the live state says. That is what
+ * "this effect can be triggered once every 12s" describes — a rate limit on a
+ * passive that re-checks, not a countdown that starts when a condition becomes
+ * true. `refillTo: 'cap'` names the gauge's own limit instead of repeating it.
  *
  * The first firing is at elapsed 0, deliberately: the kit checks its condition
  * on entering combat and then cycles. `start` states the same opening level for
@@ -118,7 +119,7 @@ function gaugeClock(def, cap, name, context) {
     if (!period || !Array.isArray(stepStarts)) {
         return { phaseIn, elapsedAtStep: () => 0, fireThrough: (level) => level };
     }
-    const gate = def.tick.state ?? null;
+    const isFloor = def.tick.refillTo !== undefined;
     let fired = phaseIn > 0 ? tickFiringsBy(phaseIn, period) : 0;
     return {
         phaseIn,
@@ -126,19 +127,39 @@ function gaugeClock(def, cap, name, context) {
         fireThrough(level, elapsedSeconds, stepIndex) {
             const owed = tickFiringsBy(elapsedSeconds, period);
             while (fired < owed) {
-                // The gate withholds the EFFECT, never the CLOCK: `fired` still
-                // advances, so a firing missed for want of its state does not
-                // push the next one later.
-                if (!gate || stateActive(context?.activeStates?.[stepIndex], gate)) {
-                    level = def.tick.refillTo != null
-                        ? Math.max(level, Math.min(cap, def.tick.refillTo))
-                        : Math.min(cap, level + (def.tick.amount ?? 0));
+                // `fired` advances whatever the firing pays: a state that lowers
+                // the value must not also push the next firing later.
+                const target = tickValue(def.tick, cap, context?.activeStates?.[stepIndex]);
+                if (target != null) {
+                    level = isFloor
+                        ? Math.max(level, Math.min(cap, target))
+                        : Math.min(cap, level + target);
                 }
                 fired++;
             }
             return level;
         },
     };
+}
+
+/**
+ * What one firing is worth, given the states live when it lands.
+ *
+ * `byState` exists because a kit can run ONE passive on ONE clock whose value
+ * depends on the form it fires in. Denia's Vestiges of Falsehood restores Dark
+ * Cores "to 2" in Stagecraft Form and is UNLIMITED in Breakdown Form — one
+ * timer, two ceilings, and reading it as a gate on Stagecraft withheld the
+ * Breakdown branch entirely (maintainer, 2026-09-02).
+ *
+ * `'cap'` names the gauge's own limit rather than repeating the number, so a
+ * chain node that raises the cap raises this with it and the two cannot drift.
+ */
+function tickValue(tick, cap, activeStates) {
+    let value = tick.refillTo !== undefined ? tick.refillTo : tick.amount;
+    for (const [stateName, stated] of Object.entries(tick.byState ?? {})) {
+        if (stateActive(activeStates, stateName)) { value = stated; break; }
+    }
+    return value === 'cap' ? cap : value;
 }
 
 /**

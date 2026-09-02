@@ -1056,18 +1056,26 @@ export const RESOURCE_DEFS = Object.freeze({
     // opening level and stays: a refill to a floor is idempotent, so the two
     // agree at t=0 by construction and a test asserts it.
     //
-    // The tick is GATED on Stagecraft Form, because the base clause says "When
-    // Denia engages in combat in Stagecraft Form". The S3 clause drops that
-    // qualifier ("Upon entering combat"), but keeping the gate on both branches
-    // is the understating direction, and the gate only ever withholds income.
+    // ~~The tick is GATED on Stagecraft Form, because the base clause says "When
+    // Denia engages in combat in Stagecraft Form".~~ That withheld the whole
+    // Breakdown Form branch. The form does not decide WHETHER the passive fires,
+    // it decides HOW FAR it refills (maintainer, 2026-09-02): in Stagecraft Form
+    // the passive generation stops at 2 Dark Cores, in Breakdown Form it is not
+    // limited and fills to the gauge's own cap. The CAP itself is 3 in both
+    // forms — the 2 is a floor on this passive, never a second limit.
+    //
+    // Only the Stagecraft half is in the kit text; the Breakdown half is the
+    // maintainer's, and neither appears in gauge-income.json (which carries the
+    // S3 addFraction row alone). `refillTo: 'cap'` is written rather than a
+    // literal so the S3 cap bump carries into it automatically.
     1211: [{
         name: 'Dark Core',
         channel: 2,       // SpecialEnergy2Max = 3 in the game's own baseproperty table
         cap: 3,
         start: 2,
         // Trigger row 1211700101, cooldownSeconds 12.0, +100% of SpecialEnergy2Max.
-        tick: { period: 12, refillTo: 2, state: 'Stagecraft Form' },
-        chainOverrides: { 3: { cap: 5, start: 5, tick: { refillTo: 5 } } },
+        tick: { period: 12, refillTo: 'cap', byState: { 'Stagecraft Form': 2 } },
+        chainOverrides: { 3: { cap: 5, start: 5, tick: { byState: {} } } },
         gains: {
             intro_it_s_been_a_while: 1,
             intro_knock_knock: 1,
@@ -1090,8 +1098,8 @@ export const RESOURCE_DEFS = Object.freeze({
         cap: 100,
         start: 20,
         // Trigger row 1211700101, cooldownSeconds 12.0, +100% of SpecialEnergy1Max.
-        tick: { period: 12, refillTo: 20, state: 'Stagecraft Form' },
-        chainOverrides: { 3: { start: 100, tick: { refillTo: 100 } } },
+        tick: { period: 12, refillTo: 'cap', byState: { 'Stagecraft Form': 20 } },
+        chainOverrides: { 3: { start: 100, tick: { byState: {} } } },
         gains: {
             intro_it_s_been_a_while: 25,
             intro_knock_knock: 25,

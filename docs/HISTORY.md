@@ -11887,3 +11887,80 @@ clause in the neighbouring gauge invariant struck through and pointed at it.
 `docs/HISTORY.md` — this entry. `src/core/rotation-resources.js` module header —
 the "real-time ticks are out of scope" paragraph struck through in place, with
 the boundary that REMAINS (hit income) restated.
+
+## 2026-09-02 — Denia's tick: the form sets the CEILING, not the switch
+
+Correction to the entry above, from the maintainer: I had the Stagecraft/
+Breakdown relationship backwards in the only way that mattered.
+
+**[What was wrong]** I modelled the 12s inherent as GATED on Stagecraft Form,
+reasoning that the base clause says "When Denia engages in combat in Stagecraft
+Form" and that a gate can only withhold income, which is the safe direction. It
+is not a gate. The maintainer's reading:
+
+> "Stagecraft Form has the initial limit of 2 (passive generation), while the
+> possibly gained limit is still 3, and equal for both forms. […] In breakdown
+> form, the passive generation is NOT limited."
+
+So the form decides HOW FAR the passive refills, never WHETHER it fires:
+
+| | Stagecraft Form | Breakdown Form |
+| --- | --- | --- |
+| passive refills to | 2 Dark Cores | the cap |
+| the gauge's CAP | 3 | 3 |
+
+The 2 is a floor on THIS PASSIVE, not a second limit on the gauge — an Intro
+grant still takes a Stagecraft Denia to 3. Gated on Stagecraft, the entire
+Breakdown branch paid nothing, which is a straight understatement of her income
+in the form she spends her cores in.
+
+**[The fix]** The `state` gate is replaced by `byState`, a per-state VALUE map,
+and the default branch carries what an unnamed state gets. One passive, one
+clock, two ceilings. `refillTo: 'cap'` now names the gauge's own limit instead of
+repeating a literal, so the S3 cap bump (3 -> 5) carries into the floor with no
+second edit — and S3, which states "restored to the max" with no form qualifier,
+is expressed by an EMPTY `byState`, the chain merge simply removing the branch.
+
+Two things this made explicit that the gate had hidden:
+- The count of firings advances whatever a firing pays, so a form that lowers
+  the value cannot push the next firing later. That was true of the gate too, but
+  it is now the only reading — there is no "withheld" case left.
+- A firing landing exactly on step i's start belongs to the step already IN
+  PROGRESS, so it reads step i-1's states. A form switch therefore takes effect
+  one step later than the switch itself, which is the same rule that credits the
+  t=0 firing before step 0 reads its level. Asserted directly.
+
+**[Provenance]** Only the Stagecraft half is in the kit text; the Breakdown half
+is the maintainer's, and NEITHER is in `gauge-income.json`, which carries the S3
+`addFraction` row alone. Recorded as such in `rotation-rules.js`.
+
+**[Verification]** LOCK A clean (`--ref 3.5`). LOCK B keeps the same clean
+signature against the PRE-TICK baseline: **389 identical, 26 changed, all 26
+contain Denia, all 26 UP, zero down, zero non-Denia teams touched.** The deltas
+roughly tripled as the Breakdown branch started paying — +0.31%..+1.46% (gated)
+becomes **+0.93%..+4.38%** (correct), median +1.18%. Anchor lists moved from 1 to
+5: four reorders plus one real membership change (anchor 1210 gains a Denia team,
+drops a non-Denia one) — every one Denia-driven, which is what a real strength
+increase looks like. Direct team measurement: 3 passes 209,701 (pre-tick) ->
+210,411 (gated) -> **211,830** (correct), +1.02% overall; 1 pass still identical,
+because her rotation is 9.8s and one period is 12s. `npm test` 76/76
+(rotation-resources 171 -> 176 assertions); `npm run sweep` 70 imported, 0
+failed; `npm run lint` 0 errors, 3107 warnings (unchanged).
+
+**[Files Changed]** `src/core/rotation-resources.js` (`byState` + `tickValue`,
+replacing the `state` gate); `src/core/rotation-rules.js` (both ticks, both chain
+branches, provenance comment); `tests/rotation-resources.test.mjs`; `CLAUDE.md`;
+regenerated `data/wuwa-meta.json`.
+
+**[Residual Risks]** The Breakdown-Form ceiling rests on the maintainer's
+statement alone — it is neither in the kit text nor in the extracted rows — so it
+is the one number here with a single witness. Everything else about the tick
+(period 12.0, the S3 restore-to-max) is data-backed. Unchanged from the previous
+entry: the carried phase accumulates only the member's own simulated gameTime, so
+off-field time does not advance their tick, which understates.
+
+**[Updated Docs]** `CLAUDE.md` — the tick invariant rewritten: the `state`-gate
+sentence struck through and replaced with the form-sets-the-ceiling rule, the
+`'cap'` indirection, and the step-boundary rule; measured figures updated to the
+corrected model. `docs/HISTORY.md` — this entry, appended rather than editing the
+one above it, so the wrong reading and its correction both stay on the record.
