@@ -60,6 +60,29 @@ const SCHEMA_VERSION = 9;
 // Args + IO
 // =============================================================================
 
+// The upstream game version this dataset is BUILT FOR, pinned deliberately.
+//
+// `resolveRef()` asks GitHub for the repo's default branch, which tracks the
+// LIVE game version — so `npm run data` was a function of the calendar, not of
+// this checkout. It moved to 3.6 on 2026-09-03 and rewrote 63,091 lines of
+// `wuwa-data.json` on a run whose only local change was engine code, which is
+// indistinguishable from a regression in the LOCK A diff that verifies a
+// refactor.
+//
+// Adopting a new version is a DECISION, not a side effect, and it is gated on
+// more than the Arikatsu branch existing: the BinData half arrives from
+// Arikatsu, but the kit half (inherentSkills, resonanceChain, outroBuffs,
+// skillTreeBonuses, statNodeBonuses, specialEnergyCaps, tuneBreak, roles)
+// comes from the nanoka export in `data/extracted-nanoka/`, and a resonator
+// present in one and absent from the other ships as a SHELL — an id, a name and
+// an element with no kit to cast. Bump this only together with the nanoka
+// refresh and the derived tables keyed by id (external-buffs, gauge-income,
+// status-*, buff-facts, skill-join, hit-map, bullet-timings, forte-data).
+//
+// `--ref` still overrides, so probing a new version costs nothing:
+//     node tools/preprocess.mjs --ref 3.6 --out /tmp/probe.json
+const PINNED_REF = '3.5';
+
 function parseArgs(argv) {
     const args = { lang: 'en', out: 'data/wuwa-data.json', ref: null };
     for (let i = 2; i < argv.length; i++) {
@@ -75,7 +98,7 @@ function parseArgs(argv) {
 
 function printHelp() {
     console.log('Usage: node tools/preprocess.mjs [--lang en] [--out data/wuwa-data.json] [--ref 3.5]');
-    console.log('  --ref  pin the upstream game-version branch instead of resolving the repo default.');
+    console.log(`  --ref  override the pinned upstream game-version branch (currently ${PINNED_REF}).`);
     console.log('         Without it this pass fetches whatever version is LIVE, so a rerun can');
     console.log('         change the dataset with no local edit — pin it to make LOCK A mean');
     console.log('         "my change moved the data" rather than "upstream shipped a patch".');
@@ -126,7 +149,7 @@ async function main() {
     // which upstream version produced it. Without that, `npm run data` is a
     // function of whatever branch is live at the moment it runs and the output
     // cannot say so — see docs/OPEN-ITEMS.md 34.
-    const ref = args.ref ?? await resolveRef();
+    const ref = args.ref ?? PINNED_REF ?? await resolveRef();
     const raw = await downloadAll(args.lang, ref);
     const resolveText = makeTextResolver(raw.textMap);
     const propDict = buildPropertyDict(raw.propertyIndex, resolveText);
@@ -1066,7 +1089,9 @@ async function main() {
         // indistinguishable from their own contents.
         source: `${REPO}@${ref} + nanoka.cc`,
         gameVersion: ref,
-        sourceRefPinned: args.ref != null,
+        // True whenever the ref was DECIDED rather than resolved from whatever
+        // branch is live — by `--ref` or by PINNED_REF above.
+        sourceRefPinned: args.ref != null || PINNED_REF != null,
         credits: {
             arikatsu:  'https://github.com/Arikatsu/WutheringWaves_Data — raw datamined config tables (per-version branches)',
             nanoka:    'https://ww.nanoka.cc — community game-data service, icon CDN, and current-patch character/weapon coverage',

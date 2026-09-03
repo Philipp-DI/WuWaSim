@@ -58,7 +58,31 @@ docs/meta-validation.md                   ← generated QA report (gitignored)
 ```
 
 Re-run `npm run data` (preprocess) whenever source data or a curated input
-changes, then `npm run meta` (optimize) to refresh the meta. Never edit the
+changes, then `npm run meta` (optimize) to refresh the meta.
+
+**The upstream version is PINNED** (`PINNED_REF` in `tools/preprocess.mjs`,
+currently `3.5`). `resolveRef()` asks GitHub for the default branch, which
+tracks the LIVE game — so a bare `npm run data` used to be a function of the
+calendar, not of the checkout, and it silently rewrote 63,091 lines when
+upstream moved to 3.6 during an unrelated engine change. That is
+indistinguishable from a regression in the LOCK A diff. `--ref` still overrides,
+so probing costs nothing: `node tools/preprocess.mjs --ref 3.6 --out /tmp/x.json`.
+
+Adopting a version is gated on MORE than the Arikatsu branch existing. Arikatsu
+supplies the BinData half (stats, damage rows, weapon conf, growth curves); the
+KIT half — `inherentSkills`, `resonanceChain`, `outroBuffs`, `skillTreeBonuses`,
+`statNodeBonuses`, `specialEnergyCaps`, `tuneBreak`, `roles` — comes from the
+nanoka export in `data/extracted-nanoka/`, and inclusion is driven by Arikatsu's
+`roleinfo` with no completeness filter. A resonator in one and not the other
+ships as a **shell**: an id, a name and an element with no kit to cast. Measured
+for 3.6 (2026-09-03): existing content is byte-identical (0 of 56 resonators, 0
+of 89 weapons, 0 of 180 echoes, 0 of 34 sonatas differ), and it adds exactly 2
+resonators (Jingran 1212, Qingxiao 1413 — both shells, nanoka is still on 3.5)
+and 2 weapons (no `external-buffs.json` rows, so text-reader only). Bump
+`PINNED_REF` only together with the nanoka refresh and the derived tables keyed
+by id (`external-buffs`, `gauge-income`, `status-*`, `buff-facts`, `skill-join`,
+`hit-map`, `bullet-timings`, `forte-data`), whose extractors live outside this
+repo. Never edit the
 generated files directly. When an engine file changes, keep the `ENGINE_FILES`
 lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
 
