@@ -12469,3 +12469,108 @@ audited for that yet.
 element, and nothing else". `docs/OPEN-ITEMS.md` — item 41 struck through and
 resolved, with the divergence note rewritten from suspicion to finding.
 `docs/HISTORY.md` — this entry.
+
+## 2026-09-03 — The recipient is part of a grant's identity
+
+The maintainer's follow-up to the element-window fix stated the principle behind
+it: *"resonators should be correctly credited any buffs they receive, regardless
+of element and/or dmg type. The correct addition, multiplication and
+contribution to the dmg output should then be in a separate step, not
+disregarding, tossing any buffs that 'don't match element or type'
+prematurely."* This entry answers the data question that came with it and ships
+the one defect that survived a six-lane audit of the buff pipeline.
+
+**[The data question]** Yes — element is fully present and reliable. All 4,100
+`damageTable` rows carry an element, and all 610 live resolved hits across the
+reference rotations carry a real element 1–6. The only element-`0` rows are 85
+empty placeholders (no name, no rates, no `formulaType`) that never surface as
+hits. The element-window bug was never missing data; it was the pipeline
+discarding a dimension before the step that needed it.
+
+**[The defect]** `groupStackingBuffs` keys a sonata window on the tier text plus
+the BONUS, and the header comment records why the bonus was added (Song of
+Feathered Trace's ATK grant, dropped because it shared its tier's sentence). The
+RECIPIENT is a per-grant field on exactly the same footing and was never in the
+key. Gusts of Welkin's 5-piece is the live case:
+
+```
+sonata 16 tier 5, grants as the game ships them
+  31000016002  attr 25 (Aero)  0.15  teamWide=false
+  31000016003  attr 25 (Aero)  0.15  teamWide=true
+  tooltip: "...increases Aero DMG for all Resonators in the team by 15%,
+            and for the Resonator triggering this effect by an additional 15%"
+  params:  ["15%", "15%", "20"]        <- the game states TWO values
+```
+
+Both rows are identical in every keyed field, so the merge kept the first and
+absorbed the second as a trigger alias, discarding its value and its recipient.
+Executed, not inspected: `parsed=2 grouped=1`, surviving `teamWide=false`.
+
+It compounds. A data-derived buff must emit `teamWide` explicitly (the tables
+know the answer per grant, and the `??` fallback exists to be overridden), so
+the surviving `false` also blocked `window.teamWide ?? isTeamWideBuff(raw)` in
+team-sim — and `isTeamWideBuff` returns TRUE on that sentence. The data path was
+strictly WORSE here than the text path it replaced. It was also
+order-dependent: had the extractor emitted the rows the other way round, the
+team would get 15% and the wielder would still be short.
+
+**[The fix]** `teamWide` joins the key. One field.
+
+**[What must NOT join it]** `buffId`. Void Thunder's 5-piece is the only other
+colliding tier on the roster, and its two rows differ ONLY in `buffId` — they
+must stay merged, because `stacks` is read from the TEXT even on the data path
+("stacks up to 2 times") and doubles the single merged window to the correct
+30%. Keying on `buffId` would split it and halve it. Measured across every
+sonata tier: exactly two tiers collide, and the fix splits exactly one.
+
+**[Blast radius]** LOCK A clean (timestamp churn only), LOCK B clean
+(`generatedAt` + `engineHash` only) — no meta team equips Gusts of Welkin, the
+same LOCK-B blind spot already documented for chain-gated defects. The
+correction is real but reachable only on a user's own build: the wielder now
+holds both windows (30% Aero, which is what "an additional 15%" means) and each
+teammate receives 15% where they previously received nothing.
+
+**[A LOCK A hazard worth recording]** `npm run data` resolves the upstream
+default branch, which has moved to **3.6** — it rewrote 63,091 lines of
+`wuwa-data.json` on a run whose only local change was engine code. Reverted and
+re-run as `node tools/preprocess.mjs --ref 3.5`, which is clean. Adopting 3.6 is
+a maintainer decision, not a side effect of an unrelated verification step.
+
+**[Files Changed]** `src/core/buffs/buff-timeline.js` (`teamWide` joins the key,
+with the reasoning and the `buffId` counterexample in the header);
+`tests/buff-timeline.test.mjs` (6-assertion regression); `CLAUDE.md` (the
+existing group-key invariant extended); regenerated `data/wuwa-meta.json`
+(hash churn only).
+
+**[Logic Altered]** Two sonata grants of one tier that differ only in recipient
+now produce two windows instead of one. Everything else groups exactly as before.
+
+**[Verification Method]** The collapse was reproduced by EXECUTION against the
+shipped data before the fix (`parsed=2 grouped=1`, `teamWide=false`) and the
+split verified after (2 windows, both recipients, Void Thunder still 1 window at
+`stacks: 2`). The regression test was confirmed to FAIL without the fix (3 of its
+6 assertions) and pass with it. A roster-wide sweep of every sonata tier
+identified the two colliding tiers and confirmed only one splits. `npm test`
+76/76; `npm run sweep` 70 imported, 0 failed; `npm run lint` 0 errors, 3110
+warnings (unchanged — the first draft added 4, from `g` identifiers since renamed
+to `entry` per the naming rule).
+
+**[Residual Risks]** The audit surfaced a SECOND live defect that is NOT fixed
+here, deliberately: `foldExternalGrants` (external-buffs.js:299) drops a scoped
+non-target-mod grant into `unplaced`, which nothing reads. Measured, four
+weapons lose a scoped amplify entirely because the data lane wins on an
+unrelated grant and the text fallback never runs — Bloodpact's Pledge (10% Aero),
+Spectral Trigger (30% Heavy), Daybreaker's Spine (20% Basic), Lethean Elegy (32%
+Echo Skill). It is a genuine instance of the maintainer's principle, but it is
+an UNBUILT lane rather than a destroyed dimension (`emptyExternal()` has no
+`amplifyByElement`/`amplifyByType`, and `assignBuckets` therefore cannot copy
+one), it is pinned by the `KNOWN_UNPLACED` contract, and Lux & Umbra blocks a
+blanket fix — its three 0.24 rows scoped `[1]`, `[5]` and `[1,5]` are
+mutually-exclusive branches encoding a 24% CAP, which naive placement would read
+as 72%. Spectral Trigger and Daybreaker's Spine are equipped in the shipped
+meta, so fixing it MOVES LOCK B and belongs in its own commit with its own
+measured blast radius.
+
+**[Updated Docs]** `CLAUDE.md` — the "A tier's SECOND grant needs its own group
+key" invariant extended with the recipient half, the `buffId` counterexample and
+the LOCK-B blindness. `docs/HISTORY.md` — this entry.

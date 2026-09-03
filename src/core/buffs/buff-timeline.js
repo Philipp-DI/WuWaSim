@@ -112,6 +112,18 @@ export function stackTimeline(steps, { triggerTypes, maxStacks = 1, duration = 1
  * text-parsed buff every field below is identical across its trigger phrases, so
  * the original merge is unchanged.
  *
+ * The RECIPIENT is a per-grant field too, and it was the half still missing.
+ * Gusts of Welkin's 5-piece ships the team's 15% Aero and the inflicter's
+ * ADDITIONAL 15% as two rows identical in every keyed field, so the merge kept
+ * the wielder's row and DELETED the team's. A data-derived buff emits `teamWide`
+ * explicitly (it must — the tables know the answer per grant), so the surviving
+ * `false` then also blocked the `window.teamWide ?? isTeamWideBuff(raw)` text
+ * fallback that would otherwise have caught it: the data path was strictly worse
+ * here than the text path it replaced. `teamWide` therefore joins the key.
+ * `buffId` deliberately does NOT — Void Thunder's two rows differ only there and
+ * must stay merged, because its "stacks up to 2 times" is read from the TEXT and
+ * doubles the single merged window.
+ *
  * @param {Array<object>} buffs — ParsedBuffs already carrying sonataId/raw/…
  * @returns {Array<object>} merged buffs: { ...shared, triggerTypes: string[] }
  */
@@ -119,7 +131,7 @@ export function groupStackingBuffs(buffs) {
     const groups = new Map();
     for (const buff of buffs) {
         const key = `${buff.sonataId}::${buff.raw}::${buff.bonusKind}:${buff.element}:`
-            + `${buff.dmgType}:${buff.bonusPct}:${buff.duration}`;
+            + `${buff.dmgType}:${buff.bonusPct}:${buff.duration}:${buff.teamWide}`;
         let group = groups.get(key);
         if (!group) {
             group = { ...buff, triggerTypes: [] };

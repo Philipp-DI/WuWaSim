@@ -158,5 +158,57 @@ function mkSteps(types) {
     assert('...and is not marked buffed', untouched.buffed !== true);
 }
 
+// -- The RECIPIENT is part of a grant's identity -----------------------------
+// The grouping key carried the bonus but not who RECEIVES it, so two grants of
+// one tier differing ONLY in recipient collided and the second was absorbed as a
+// trigger alias, its value and its recipient discarded. Gusts of Welkin's
+// 5-piece is the live case: the game ships the team's 15% Aero and the
+// inflicter's ADDITIONAL 15% as two rows, and the merge kept the wielder's and
+// deleted the team's. Because a data-derived buff states `teamWide` explicitly,
+// the surviving `false` also blocked the `?? isTeamWideBuff(raw)` text fallback
+// in team-sim, making the data path strictly worse than the text path it
+// replaced.
+{
+    const raw = 'Inflicting Aero Erosion upon enemies increases Aero DMG for all Resonators '
+        + 'in the team by 15%, and for the Resonator triggering this effect by an additional '
+        + '15%, lasting for 20s.';
+    const grant = (teamWide, buffId) => ({
+        sonataId: 16, raw, trigger: 'unknown', fromData: true,
+        bonusKind: 'element', element: 4, dmgType: null,
+        bonusPct: 0.15, duration: 20, stacks: 1, teamWide, buffId,
+    });
+
+    const grouped = groupStackingBuffs([grant(false, 31000016002), grant(true, 31000016003)]);
+    assert('grants differing only in RECIPIENT stay separate', grouped.length === 2);
+    assert('...and both recipients survive',
+        grouped.some(entry => entry.teamWide === true) && grouped.some(entry => entry.teamWide === false));
+    assert('...each keeping its own value',
+        grouped.every(entry => entry.bonusPct === 0.15 && entry.element === 4));
+
+    // The wielder holds BOTH windows, which is what "an additional 15%" means:
+    // 15% to the team, 30% to the Resonator who inflicted the status.
+    const step = {
+        index: 0, startTime: 0, endTime: 1, stepDamage: 100, buffed: false,
+        resolved: { totalExpected: 100, hits: [{ skill: { element: 4, dmgType: 'basic' },
+            result: { expected: 100, crit: 200, nonCrit: 50 } }] },
+    };
+    applyBuffsToSteps([step], grouped.map(entry => ({ ...entry, start: 0, end: 10 })));
+    assert('the wielder receives BOTH halves (30%, not 15%)', Math.abs(step.stepDamage - 130) < 1e-9);
+
+    // `buffId` must NOT join the key: Void Thunder's two rows differ only there
+    // and must stay MERGED, because its "stacks up to 2 times" is read from the
+    // text and doubles the single merged window.
+    const voidThunderText = 'Electro DMG + 15% after releasing Heavy Attack or Resonance Skill. '
+        + 'This effect stacks up to 2 times, each stack lasts 15s.';
+    const voidThunderGrant = (buffId) => ({
+        sonataId: 3, raw: voidThunderText, trigger: 'unknown', fromData: true,
+        bonusKind: 'element', element: 3, dmgType: null,
+        bonusPct: 0.15, duration: 15, stacks: 2, teamWide: false, buffId,
+    });
+    const merged = groupStackingBuffs([voidThunderGrant(30000003003), voidThunderGrant(30000003004)]);
+    assert('identical grants differing only in buffId STAY merged', merged.length === 1);
+    assert('...at the text-read stack count', merged[0].stacks === 2);
+}
+
 console.log(`\nbuff-timeline: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);
