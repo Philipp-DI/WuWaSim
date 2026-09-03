@@ -136,25 +136,68 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     const weapons = dataset.externalBuffs?.weapons ?? {};
     assert('the dataset carries external buffs for the weapon roster',
         Object.keys(weapons).length >= 90);
-    // A scoped grant that is NOT a target modifier has nowhere to go: the stat
-    // buckets are whole-build numbers with no room for "…but only on Heavy
-    // Attacks". Six weapons state a scoped AMPLIFY, and they are deliberately
-    // left unplaced rather than widened, because their rows are mutually
-    // EXCLUSIVE branches rather than simultaneous grants — Lux & Umbra ships
-    // +24% scoped to Heavy, +24% scoped to Echo Skill, and +24% scoped to BOTH,
-    // which is the tooltip's "DMG Amplification on each attack is capped at 24%"
-    // and not a third bonus. They differ only in `BuffAction`, so separating cap
-    // from grant needs that chain modelled first. Until then these weapons fall
-    // through to the text reader, which is why the list is a CONTRACT: it may
-    // shrink, and anything joining it must be understood, not absorbed.
-    const KNOWN_UNPLACED = ['21020046', '21020086', '21020096', '21030036',
-        '21030056', '21040056', '21040066', '21050066'];
+    // ~~A scoped grant that is NOT a target modifier has nowhere to go, so all
+    // eight scoped-amplify weapons are left unplaced.~~ A scoped AMPLIFY does
+    // have a per-hit home — `amplifyByElement`/`amplifyByType`, which
+    // `sim.js weaponAmplifyScopes` turns into the same per-hit scopes the
+    // sibling DEF-ignore grant of the very same weapon already uses — so seven
+    // of the eight are now PLACED with their scope intact.
+    //
+    // Lux & Umbra is the one that stays, and it is the reason the guard exists:
+    // it ships +24% scoped to Heavy, +24% scoped to Echo Skill and +24% scoped
+    // to BOTH, which is the tooltip's "DMG Amplification on each attack is
+    // capped at 24%" written as three mutually-exclusive BuffAction branches.
+    // Summed that reads 72%. Overlapping scopes are the signature of a branch,
+    // so the fold refuses the whole set and the weapon falls through to the text
+    // reader exactly as before. The list is a CONTRACT: it may shrink, and
+    // anything joining it must be understood, not absorbed.
+    const KNOWN_UNPLACED = ['21030036'];
     const unplaced = Object.entries(weapons)
         .filter(([, entry]) => foldExternalGrants(entry.ranks?.['1'] ?? []).unplaced.length)
         .map(([id]) => id)
         .sort();
     assert(`exactly the known scoped-amplify weapons are unplaced (got ${unplaced.join(',')})`,
         unplaced.join(',') === [...KNOWN_UNPLACED].sort().join(','));
+
+    // The seven that DO place must land in the bucket their scope names, keyed —
+    // never widened into the whole-build `amplifyAll`, which is the failure
+    // direction that inflates.
+    const PLACED = {
+        '21020046': { amplifyByElement: { 4: 0.10 } },   // Bloodpact's Pledge, team-wide Aero
+        '21020086': { amplifyByElement: { 1: 0.28 } },   // Frostburn, Glacio
+        '21020096': { amplifyByType: { heavy: 0.36 } },  // Azure Oath
+        '21030056': { amplifyByType: { heavy: 0.30 } },  // Spectral Trigger
+        '21040056': { amplifyByType: { basic: 0.20 } },  // Daybreaker's Spine
+        '21040066': { amplifyByType: { echo: 0.32 } },   // Solsworn Ciphers
+        '21050066': { amplifyByType: { echo: 0.32 } },   // Lethean Elegy
+    };
+    for (const [id, want] of Object.entries(PLACED)) {
+        const folded = foldExternalGrants(weapons[id]?.ranks?.['1'] ?? []);
+        for (const [bucket, entries] of Object.entries(want)) {
+            for (const [key, value] of Object.entries(entries)) {
+                assert(`${id}: ${bucket}[${key}] = ${value}`,
+                    Math.abs((folded[bucket][key] ?? 0) - value) < 1e-9);
+            }
+        }
+        assert(`${id}: the scoped amplify is NOT widened to amplifyAll`, folded.amplifyAll === 0);
+        assert(`${id}: nothing left unplaced`, folded.unplaced.length === 0);
+    }
+
+    // Lux & Umbra's three branches must ALL be refused — a partial placement
+    // would make hasPlaceableValue true and silently suppress the text fallback
+    // that currently carries the weapon.
+    const luxUmbra = foldExternalGrants(weapons['21030036']?.ranks?.['1'] ?? []);
+    assert('Lux & Umbra: all three cap branches refused', luxUmbra.unplaced.length === 3);
+    assert('Lux & Umbra: nothing placed into the amplify buckets',
+        Object.keys(luxUmbra.amplifyByType).length === 0
+        && Object.keys(luxUmbra.amplifyByElement).length === 0
+        && luxUmbra.amplifyAll === 0);
+
+    // A team-wide scoped amplify reaches the teamWide bundle too, keyed — the
+    // wielder is one of "Resonators in the team", so it lands in both.
+    const pledge = foldExternalGrants(weapons['21020046']?.ranks?.['1'] ?? []);
+    assert('a team-wide scoped amplify is credited to the team bundle, keyed',
+        Math.abs((pledge.teamWide.amplifyByElement[4] ?? 0) - 0.10) < 1e-9);
     // Whatever cannot be placed must still be READ by the text path, so the
     // weapon is never left with nothing at all.
     assert('every unplaced weapon still has a text effect to fall back on',

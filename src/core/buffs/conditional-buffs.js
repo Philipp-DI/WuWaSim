@@ -197,7 +197,8 @@ function hasPlaceableValue(folded) {
     for (const key of ['atkRatio', 'defRatio', 'critRate', 'critDmg', 'energyRegen', 'dmgAll', 'amplifyAll']) {
         if (folded[key]) return true;
     }
-    return Object.keys(folded.dmgByElement).length > 0 || Object.keys(folded.dmgBySkillType).length > 0;
+    return Object.keys(folded.dmgByElement).length > 0 || Object.keys(folded.dmgBySkillType).length > 0
+        || Object.keys(folded.amplifyByElement).length > 0 || Object.keys(folded.amplifyByType).length > 0;
 }
 
 function assignBuckets(into, folded) {
@@ -210,6 +211,10 @@ function assignBuckets(into, folded) {
     into.dmgAll = folded.dmgAll;
     into.dmgByElement = { ...folded.dmgByElement };
     into.dmgBySkillType = { ...folded.dmgBySkillType };
+    // A scoped amplify keeps its scope all the way to the per-hit decision in
+    // skill.js; the fold no longer has to choose between widening and dropping.
+    into.amplifyByElement = { ...folded.amplifyByElement };
+    into.amplifyByType = { ...folded.amplifyByType };
 }
 
 export function weaponConditionalContribution(weaponDef, rank, resonator, dataset, enemyStatuses = null) {

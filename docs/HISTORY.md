@@ -12574,3 +12574,108 @@ measured blast radius.
 **[Updated Docs]** `CLAUDE.md` — the "A tier's SECOND grant needs its own group
 key" invariant extended with the recipient half, the `buffId` counterexample and
 the LOCK-B blindness. `docs/HISTORY.md` — this entry.
+
+## 2026-09-03 — A scoped amplify has a per-hit home
+
+The restructure the previous entry filed. `foldExternalGrants` kept a scoped
+DEF-ignore or RES-shred in `targetMods` **with its scope intact**, then dropped
+every OTHER scoped grant into `unplaced` — a field nothing reads — on a docblock
+claim that was false in both halves:
+
+> A grant that states a SCOPE and is not a target modifier is left unplaced: the
+> stat buckets are whole-build numbers with nowhere to record "…but only on Heavy
+> Attacks". No weapon needs this today, so the list is expected to stay empty.
+
+Ten scoped amplify grants ship across eight weapons, and the per-hit lane not
+only exists but was already being fed by the SIBLING GRANT OF THE SAME WEAPON.
+Spectral Trigger states both halves with an identical `{damageTypes:[1]}` scope:
+its attribute-99 DEF-ignore is routed to `targetMods` and decided per hit, while
+its attribute-95 amplify is discarded three lines earlier.
+
+**[Where the wire was missing]** `emptyContribution()` already had
+`amplifyByElement`/`amplifyByType`; `sim.js weaponAmplifyScopes` already turned
+them into `{type:'skillType'|'element'}` per-hit scopes; `skill.js` already
+matched those against each hit's own element and attribution; `stats.js` already
+merged the team-wide halves. The only gap was the fold's OWN bundle —
+`emptyBuckets()` lacked the two maps, so `assignBuckets` had nothing to copy and
+`hasPlaceableValue` had nothing to count. This was an UNBUILT LANE, not a
+destroyed dimension, which is why it reads as a gap rather than as corruption.
+
+**[What it cost]** Four weapons lost their amplify entirely, because the data
+lane wins on an unrelated row and `hasPlaceableValue` then suppresses the text
+fallback that used to half-cover them:
+
+```
+Spectral Trigger     30% amplify, Heavy        data lane wins -> credited NOWHERE
+Daybreaker's Spine   20% amplify, Basic        data lane wins -> credited NOWHERE
+Lethean Elegy        32% amplify, Echo Skill   data lane wins -> credited NOWHERE
+Bloodpact's Pledge   10% amplify, Aero (team)  data lane wins -> credited NOWHERE
+```
+
+**[The grant-vs-cap guard]** What the rows do not say is which of them is a
+GRANT and which a CAP. Lux & Umbra ships +24% scoped to Heavy, +24% scoped to
+Echo Skill and +24% scoped to BOTH — the tooltip's "DMG Amplification on each
+attack is capped at 24%" written as three mutually-exclusive `BuffAction`
+branches. Placed naively that is 72% against a stated 24% ceiling.
+
+OVERLAPPING SCOPES ARE THE SIGNATURE: two grants that can both pay one hit are
+alternatives, not addends, or the game would double-pay every hit in the
+overlap. So a source whose scoped amplify grants overlap has ALL of them refused
+and falls through to the text reader exactly as before. Refusing the whole set
+rather than the colliding pair is deliberate — a partial placement makes
+`hasPlaceableValue` true and silently suppresses the fallback that carries the
+refused half. A scope naming both dimensions, or one whose damage tags are all
+unmapped (`scopeOf` filters those out and leaves an EMPTY list, which every
+downstream reader treats as "applies to everything"), is refused for the same
+reason the crit lane refuses one.
+
+Measured: 7 of the 8 weapons now place with their scope keyed; Lux & Umbra alone
+stays unplaced, with `unplaced.length === 3` asserted so a future partial
+placement cannot slip through.
+
+**[Blast radius]** LOCK A clean. LOCK B moved: **65 of 406 teams (52 up, 13
+down)**, median +6.90%, max +14.70%, min -8.73%; 2 of 52 anchors reordered their
+top team. The shape is the evidence — **all 65 moved teams contain a member who
+equips an affected weapon, and zero teams moved without one**. Three member
+builds re-geared (Rover: Aero and Cartethyia onto Bloodpact's Pledge, Sigrika
+onto Solsworn Ciphers), which is the gear search correctly valuing weapons it
+had been blind to. **No anchor's best team regressed** and 14 improved; the 13
+drops are lower-ranked alternatives where a re-geared member's new weapon fits
+worse, which is the known one-representative-build-per-character limitation
+rather than a loss.
+
+**[Files Changed]** `src/core/buffs/external-buffs.js` (`emptyBuckets` gains the
+two maps; `placeableScopedAmplify` + `amplifyScopeKeys` guard; the fold places
+instead of dropping; stale docblock struck through);
+`src/core/buffs/conditional-buffs.js` (`hasPlaceableValue` counts them,
+`assignBuckets` copies them); `tests/external-buffs.test.mjs` (`KNOWN_UNPLACED`
+8 -> 1, plus per-weapon placement, no-widening, Lux & Umbra refusal and
+team-bundle assertions); `CLAUDE.md`; regenerated `data/wuwa-meta.json`.
+
+**[Logic Altered]** A scoped amplify grant is credited to the element or
+skill-type it names and decided per hit, instead of being dropped. Everything
+else in the fold is untouched: target mods keep their existing path, unscoped
+grants keep theirs, and a scope no bucket can express is still refused.
+
+**[Verification Method]** The fold was measured per weapon before and after
+(7 placing into the correct keyed bucket, `amplifyAll` still 0 so nothing was
+widened, Lux & Umbra still 3 unplaced); `weaponConditionalContribution` was
+confirmed to carry the buckets end-to-end. The complexity refactor extracting
+`amplifyScopeKeys` was proven behaviour-preserving by regenerating the meta and
+diffing: **exactly 2 changed lines**, `generatedAt` and `engineHash`. LOCK B was
+analysed by team rather than by line count — movement direction, holder
+membership and per-anchor best-team regression. `npm test` 76/76; `npm run
+sweep` 70 imported, 0 failed; `npm run lint` 0 errors, 3110 warnings (unchanged;
+the first draft added one, a complexity warning removed by the refactor).
+
+**[Residual Risks]** Lux & Umbra remains uncredited on the data path and depends
+on the text reader, which puts its value in a different bucket — separating cap
+from grant needs the `BuffAction` chain modelled, which is untouched here. The
+13 lower-ranked teams that dropped were over-ranked before only in the sense
+that their member carried a weaker build; the underlying one-build-per-character
+limitation is unchanged and unaddressed. `unplaced` is now nearly empty but is
+still read by nothing outside tests, so a NEW unplaceable shape will still go
+uncredited silently — the `KNOWN_UNPLACED` contract is the only alarm.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "A scoped AMPLIFY has a per-hit
+home, and a CAP branch is not a grant". `docs/HISTORY.md` — this entry.

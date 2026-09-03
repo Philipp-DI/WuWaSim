@@ -208,6 +208,10 @@ function emptyBuckets() {
         atkRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0,
         dmgAll: 0, amplifyAll: 0,
         dmgByElement: {}, dmgBySkillType: {},
+        // A SCOPED amplify has a real per-hit home (sim.js weaponAmplifyScopes →
+        // skill.js), so it is kept keyed here rather than widened into
+        // `amplifyAll` or dropped. See `placeableScopedAmplify`.
+        amplifyByElement: {}, amplifyByType: {},
     };
 }
 
@@ -244,6 +248,64 @@ function scopeOf(grant) {
 }
 
 /**
+ * Which scoped amplify grants may be PLACED into the per-scope amplify buckets.
+ *
+ * A scoped amplify HAS a home — `amplifyByElement`/`amplifyByType`, which
+ * `sim.js weaponAmplifyScopes` turns into per-hit scopes and `skill.js` matches
+ * against each hit's own element and attribution, byte-identically to how the
+ * sibling DEF-ignore grant of the same weapon is already decided. What the rows
+ * do NOT say is which of them is a GRANT and which a CAP: Lux & Umbra ships
+ * +24% scoped to Heavy, +24% scoped to Echo Skill and +24% scoped to BOTH, which
+ * is the tooltip's "DMG Amplification on each attack is capped at 24%" written
+ * as three mutually-exclusive BuffAction branches. Summed, that reads 72%
+ * against a stated 24% ceiling.
+ *
+ * OVERLAPPING SCOPES ARE THE SIGNATURE. Two grants that can both apply to one
+ * hit are alternatives, not addends — the game would otherwise double-pay every
+ * hit in the overlap. So if any two of a source's scoped amplify grants share a
+ * scope key, ALL of them are refused and the source falls through to the text
+ * reader exactly as before. Refusing the whole set rather than the colliding
+ * pair is deliberate: a partial placement makes `hasPlaceableValue` true, which
+ * suppresses the text fallback and loses the refused half silently.
+ *
+ * A scope naming BOTH dimensions, or one whose damage tags are all unmapped
+ * (`scopeOf` filters those out and leaves an empty list, which every downstream
+ * reader treats as "applies to everything"), is refused for the same reason the
+ * crit lane refuses one — no single bucket can express it, and widening is the
+ * failure direction that inflates.
+ */
+// The scope keys one amplify grant occupies, or null when no single bucket can
+// express it: BOTH dimensions at once, or a damage tag `scopeOf` could not map
+// (which leaves an empty list, and every downstream reader treats an empty scope
+// list as "applies to everything").
+function amplifyScopeKeys(scope) {
+    if (scope.skillTypes && scope.elementIds) return null;
+    const keys = scope.skillTypes
+        ? scope.skillTypes.map(type => `type:${type}`)
+        : (scope.elementIds ?? []).map(elementId => `element:${elementId}`);
+    return keys.length ? keys : null;
+}
+
+function placeableScopedAmplify(grants) {
+    const scoped = [];
+    for (const grant of grants ?? []) {
+        if (bucketForAttribute(grant?.attribute)?.bucket !== 'amplifyAll') continue;
+        const scope = scopeOf(grant);
+        if (scope) scoped.push({ grant, scope });
+    }
+    const seen = new Set();
+    for (const { scope } of scoped) {
+        const keys = amplifyScopeKeys(scope);
+        if (!keys) return new Set();
+        for (const key of keys) {
+            if (seen.has(key)) return new Set();
+            seen.add(key);
+        }
+    }
+    return new Set(scoped.map(entry => entry.grant));
+}
+
+/**
  * Fold a list of grants (one row of `data/external-buffs.json` each) into a
  * bundle.
  *
@@ -253,11 +315,16 @@ function scopeOf(grant) {
  * problem; this returns the at-cap value, matching how the existing weapon and
  * sonata conditional paths already credit their buffs.
  *
- * A grant that states a SCOPE and is not a target modifier is left unplaced: the
- * stat buckets are whole-build numbers with nowhere to record "…but only on
- * Heavy Attacks", and quietly widening it to the whole build would over-credit.
- * No weapon needs this today (every scoped grant in the game's weapon tables is
- * DEF-ignore or resistance), so the list is expected to stay empty.
+ * ~~A grant that states a SCOPE and is not a target modifier is left unplaced:
+ * the stat buckets are whole-build numbers with nowhere to record "…but only on
+ * Heavy Attacks". No weapon needs this today, so the list is expected to stay
+ * empty.~~ Both halves were false. Ten scoped amplify grants ship across eight
+ * weapons, and a scoped AMPLIFY does have a per-hit home — the same one
+ * `targetMods` uses — so it is now placed into `amplifyByElement`/`amplifyByType`
+ * (see `placeableScopedAmplify` for the grant-vs-cap guard that keeps Lux &
+ * Umbra out). What stays unplaced is what no bucket can express: a scope naming
+ * two dimensions, an all-unmapped damage tag, and any other bucket's scoped
+ * grant. Those are counted, never silently dropped.
  *
  * CRIT is the one exception with a home — `critRateBySkillType` /
  * `critDmgBySkillType` — but only `sonataConditionalGrants` routes it there.
@@ -271,6 +338,7 @@ function scopeOf(grant) {
  * stays unplaced.
  */
 export function foldExternalGrants(grants, into = emptyExternal(), sources = {}) {
+    const placeable = placeableScopedAmplify(grants);
     for (const grant of grants ?? []) {
         const route = bucketForAttribute(grant?.attribute);
         if (!route) continue;
@@ -296,7 +364,21 @@ export function foldExternalGrants(grants, into = emptyExternal(), sources = {})
             continue;
         }
 
-        if (scope) { into.unplaced.push({ ...grant, bucket: route.bucket }); continue; }
+        if (scope) {
+            if (route.bucket === 'amplifyAll' && placeable.has(grant)) {
+                const bundles = grant.teamWide ? [into, into.teamWide] : [into];
+                for (const bundle of bundles) {
+                    if (scope.skillTypes) {
+                        for (const type of scope.skillTypes) bundle.amplifyByType[type] = (bundle.amplifyByType[type] ?? 0) + value;
+                    } else {
+                        for (const elementId of scope.elementIds) bundle.amplifyByElement[elementId] = (bundle.amplifyByElement[elementId] ?? 0) + value;
+                    }
+                }
+                continue;
+            }
+            into.unplaced.push({ ...grant, bucket: route.bucket });
+            continue;
+        }
         const targets = grant.teamWide ? [into, into.teamWide] : [into];
         for (const bundle of targets) {
             if (route.key == null) bundle[route.bucket] += value;
