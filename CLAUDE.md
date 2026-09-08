@@ -68,9 +68,21 @@ upstream moved to 3.6 during an unrelated engine change. That is
 indistinguishable from a regression in the LOCK A diff. `--ref` still overrides,
 so probing costs nothing: `node tools/preprocess.mjs --ref 3.6 --out /tmp/x.json`.
 
-**Targeted FModel export.** A full Client export is ~1 GB of ConfigDB alone
-(486 `db_*.db`); the extractors read **8 of them plus a handful of small
-JavaScript files — ~22 MB**. `tools/extract/export-manifest.json` is the list and
+**Targeted FModel export.** Three steps, none of which need the whole client:
+`node tools/plan-export.mjs --link` reads FModel's own log for each pak's MOUNT
+POINT and resolves the smallest set that can hold what we need — **8 paks of 110,
+2.3 GB of 81 GB** — emitting symlinks for a slim game root (FModel resolves
+`<GameDirectory>/Client/Content/Paks`, so the tree must mirror that shape). It
+then lists the folders to export. The paks are AES-encrypted (main key plus ~450
+per-chunk dynamic keys) and Oodle-compressed, so reading them directly would mean
+reimplementing CUE4Parse — the mount point is the cheap lever instead. Content is
+chunked BY FOLDER, so the MOST SPECIFIC mount covering a path is the chunk that
+holds it; a plain prefix test is useless because the bulk chunks mount at
+`Client/Content/` and match everything (it selects 69 of 81 GB). That is a
+heuristic about Kuro's chunking, which is why the flow ends at the verifier.
+A full Client export is ~1 GB of ConfigDB alone (486 `db_*.db`); the extractors
+read **8 of them plus a handful of small JavaScript files — ~22 MB**.
+`tools/extract/export-manifest.json` is the list and
 `node tools/check-export.mjs <root>` proves an export satisfies it
 (`--list` prints the FModel selection, `--for <id>` adds one resonator's asset
 dir, read from `timing-data.json`'s own `source_table`). VERIFY BEFORE

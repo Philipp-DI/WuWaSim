@@ -12820,3 +12820,89 @@ half of the manifest is a PATTERN, not a file list.
 section; the "extractors live outside this repo" claim corrected; the 3.6
 measurement rewritten to state that the Arikatsu diff alone is not sufficient
 evidence, with the nanoka fetch traps recorded. `docs/HISTORY.md` — this entry.
+
+## 2026-09-08 — Make the LOCAL export targeted, not just verified
+
+Follow-up to the entry above, and a correction of what it delivered. I built
+`check-export.mjs`, a VERIFIER — it tells you what a client export is missing
+after you have already made it. The actual ask was the opposite end: make the
+export itself cheap, so a patch does not mean dumping all client files through
+FModel again.
+
+**[Why not just read the paks]** The game ships 110 `.pak` files, ~81 GB, under
+`Client/Content/Paks`. They are AES-encrypted — a main key plus ~450 per-chunk
+dynamic keys, all sitting in FModel's `AppSettings.json` — and Oodle-compressed.
+Writing our own reader would mean reimplementing CUE4Parse against a proprietary
+codec, to reach files FModel already reaches. Rejected.
+
+**[The cheap lever]** Every pak declares a MOUNT POINT, and FModel logs it on
+every run:
+
+```
+Pak "pakchunk2-WindowsNoEditor.pak": 644 files, mount point: "Client/Content/Aki/ConfigDB/"
+```
+
+A pak whose mount point cannot cover a path we need never has to be loaded. So
+`tools/plan-export.mjs` parses the newest FModel log, resolves the minimal pak
+set for the manifest's paths, and emits symlink commands for a slim game root.
+Measured on the live install: **8 paks of 220 mounted entries, 2.31 GB of
+80.9 GB** — ConfigDB from `pakchunk2`/`pakchunk44`, the JavaScript accessors from
+`pakchunk3`, character animations from `pakchunk23`, each with its `_P` patch
+pak. 464 of the mounts are Wwise audio that nothing here reads.
+
+**[The selection rule, and why the obvious one fails]** A plain prefix test is
+useless: the bulk chunks mount at `Client/Content/`, which is a prefix of
+everything, and the first implementation duly selected **69 of 81 GB**. The
+content is chunked BY FOLDER — the game ships dedicated paks mounted at
+`Client/Content/Aki/ConfigDB/` and `.../Character/Role/` — so the MOST SPECIFIC
+mount covering a path is the chunk that actually holds it. That is a heuristic
+about how Kuro chunks, not a guarantee, which is exactly why the flow still ends
+at `check-export.mjs`: if a file turns out to live elsewhere, the verifier names
+it and you widen by one pak. The mapping is DERIVED from the log each run rather
+than hardcoded, so it follows the game when the paks are re-chunked.
+
+**[One practical detail that would otherwise waste an evening]** FModel resolves
+`<GameDirectory>/Client/Content/Paks`, so a bare folder of paks is not something
+it can be pointed at — the slim root has to mirror that shape. The emitted
+commands build `G:\WuWaSlim\Client\Content\Paks\` and the AES keys still apply,
+because they are keyed per pak GUID and nothing about the pak changed.
+
+**[The flow, end to end]**
+
+```
+node tools/plan-export.mjs --link     # which paks, and the slim-root symlinks
+  ... point FModel at the slim root, export the folders it lists
+node tools/check-export.mjs <root>    # prove the export is complete
+  ... then the extractors, in the manifest's runOrder
+```
+
+**[Files Changed]** new `tools/plan-export.mjs`;
+`tools/extract/export-manifest.json` (`_doc` now describes the three-step flow);
+`CLAUDE.md`.
+
+**[Logic Altered]** None — no engine or dataset change. This is tooling around
+the manual export step.
+
+**[Verification Method]** Run against the live install and its 2026-09-08 FModel
+log: 8 paks selected, and the four folder groups resolve to the paks whose mount
+points name them exactly (`ConfigDB` to the two ConfigDB-mounted chunks,
+`Character/Role` to `pakchunk23`), which is the independent check that the
+most-specific rule picked the right ones. The naive prefix rule was measured
+first (69.27 GB, 74 paks) to establish that the refinement is load-bearing rather
+than cosmetic. `--link` output inspected for the mirrored `Client/Content/Paks`
+shape. `npm run lint` 0 errors, 3110 warnings (unchanged);
+`tests/export-manifest.test.mjs` 30/30.
+
+**[Residual Risks]** The pak selection is a heuristic, unverified against a
+patch that re-chunks content — the failure mode is a missing file, which
+`check-export.mjs` catches by name rather than silently. `plan-export.mjs`
+depends on an FModel log existing, so a machine that has never run FModel gets a
+clear error and no plan. The symlink commands need an elevated PowerShell. The
+slim root was NOT actually built and loaded in FModel here — the pak selection is
+verified from the log, but the end-to-end "FModel mounts only these and still
+finds the files" step is the maintainer's to confirm on the next patch.
+
+**[Updated Docs]** `CLAUDE.md` — the targeted-export section now leads with
+`plan-export.mjs`, records why direct pak reading was rejected, and states the
+most-specific-mount rule with the 69 GB counterexample. `docs/HISTORY.md` — this
+entry.
