@@ -43,8 +43,16 @@ const CAP_RAISE_RE =
     /max\s+stack\s+limit\s+of\s+\[?Tune\s+Strain\s*-\s*Interfered\]?[^.]*?increased\s+by\s+(\d+)|max\s+stack\s+limit\s+of\s+\[?Tune\s+Strain\s*-\s*Interfered\]?\s+is\s+increased\s+by\s+(\d+)/i;
 
 // "each point of X's Tune Break Boost increases … DMG against the target by 0.12%"
+//
+// EACH or EVERY. The game writes the same rule both ways — four responders say
+// "each point", Qingxiao says "every point of Qingxiao's Tune Break Boost
+// increases the total DMG Qingxiao deals to that target by 0.12%". Reading only
+// "each" returned null for her while her cap raise parsed fine, so she shipped
+// as a responder that responds for ZERO. The rate is the same 0.12% in every
+// kit; a responder whose rate does not parse is a parser gap, not a kit that
+// differs, which is why the roster test pins them all to one value.
 const PER_POINT_RE =
-    /each\s+point\s+of[^.]*?Tune\s+Break\s+Boost[^.]*?by\s+([\d.]+)\s*%/i;
+    /(?:each|every)\s+point\s+of[^.]*?Tune\s+Break\s+Boost[^.]*?by\s+([\d.]+)\s*%/i;
 
 /**
  * Read the Tune Strain facts off one resonator's Tune Break node.

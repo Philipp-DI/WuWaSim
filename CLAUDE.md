@@ -61,12 +61,27 @@ Re-run `npm run data` (preprocess) whenever source data or a curated input
 changes, then `npm run meta` (optimize) to refresh the meta.
 
 **The upstream version is PINNED** (`PINNED_REF` in `tools/preprocess.mjs`,
-currently `3.5`). `resolveRef()` asks GitHub for the default branch, which
+currently `3.6`, bumped from 3.5 on 2026-09-08). `resolveRef()` asks GitHub for the default branch, which
 tracks the LIVE game — so a bare `npm run data` used to be a function of the
 calendar, not of the checkout, and it silently rewrote 63,091 lines when
 upstream moved to 3.6 during an unrelated engine change. That is
 indistinguishable from a regression in the LOCK A diff. `--ref` still overrides,
 so probing costs nothing: `node tools/preprocess.mjs --ref 3.6 --out /tmp/x.json`.
+
+**Targeted FModel export.** A full Client export is ~1 GB of ConfigDB alone
+(486 `db_*.db`); the extractors read **8 of them plus a handful of small
+JavaScript files — ~22 MB**. `tools/extract/export-manifest.json` is the list and
+`node tools/check-export.mjs <root>` proves an export satisfies it
+(`--list` prints the FModel selection, `--for <id>` adds one resonator's asset
+dir, read from `timing-data.json`'s own `source_table`). VERIFY BEFORE
+EXTRACTING: a missing table does not fail loudly — the extractor writes a smaller
+JSON and a buff quietly stops existing. A ZERO-BYTE file is the nastier form and
+the shipped export already carries two, so size is checked, not just existence.
+`tests/export-manifest.test.mjs` greps the extractors for `db_*` names and fails
+if the manifest omits one — it caught `db_property` and `db_resonate_chain`
+missing on the first draft. `data/bindata/*` and `data/extracted-nanoka/**` come
+from Arikatsu and nanoka and need NO client export at all, which is why most of a
+version bump is cheap.
 
 Adopting a version is gated on MORE than the Arikatsu branch existing. Arikatsu
 supplies the BinData half (stats, damage rows, weapon conf, growth curves); the
@@ -74,15 +89,24 @@ KIT half — `inherentSkills`, `resonanceChain`, `outroBuffs`, `skillTreeBonuses
 `statNodeBonuses`, `specialEnergyCaps`, `tuneBreak`, `roles` — comes from the
 nanoka export in `data/extracted-nanoka/`, and inclusion is driven by Arikatsu's
 `roleinfo` with no completeness filter. A resonator in one and not the other
-ships as a **shell**: an id, a name and an element with no kit to cast. Measured
-for 3.6 (2026-09-03): existing content is byte-identical (0 of 56 resonators, 0
-of 89 weapons, 0 of 180 echoes, 0 of 34 sonatas differ), and it adds exactly 2
-resonators (Jingran 1212, Qingxiao 1413 — both shells, nanoka is still on 3.5)
-and 2 weapons (no `external-buffs.json` rows, so text-reader only). Bump
-`PINNED_REF` only together with the nanoka refresh and the derived tables keyed
-by id (`external-buffs`, `gauge-income`, `status-*`, `buff-facts`, `skill-join`,
-`hit-map`, `bullet-timings`, `forte-data`), whose extractors live outside this
-repo. Never edit the
+ships as a **shell**: an id, a name and an element with no kit to cast. ~~Measured
+for 3.6 (2026-09-03): existing content is byte-identical … both shells, nanoka is
+still on 3.5.~~ nanoka published 3.6 (its manifest reads `live: 3.6`,
+`latest: 3.7.0`) and **3.6 was adopted on 2026-09-08**. What the two halves
+actually said, measured: the ARIKATSU half is byte-identical for existing content
+(0 of 56 resonators, 0 of 89 weapons, 0 of 180 echoes, 0 of 34 sonatas; all 9,697
+common `damage` rows differ only by a new `ExecutionTiming` field), but the
+NANOKA half is NOT — 8 character files and 28 echo files changed, mostly typos
+and icon paths but three of them semantic (Yangyang: Xuanling S6 rewords
+"DMG is increased by" to "targets take … more DMG", her Forte gains ", considered
+Heavy Attack DMG", and Rover: Electro's Basic drops a param). **Check both
+halves; the Arikatsu diff alone will tell you a patch changed nothing.**
+Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
+whose index files must be refreshed from `ww/<version>/<type>.json` — note NO
+`/en/` in that path, and that the fetchers read `manifest.ww.latest`, which can
+run AHEAD of `live`) and the derived tables keyed by id. Those extractors DO live
+in this repo (`tools/extract/`); what they need is a client export, per the
+targeted-export note above. Never edit the
 generated files directly. When an engine file changes, keep the `ENGINE_FILES`
 lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
 

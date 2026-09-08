@@ -1129,6 +1129,16 @@
     "zh": "不熄猎手",
     "ja": "熄えぬ狩人"
   },
+  "310001030": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31103_UI.T_IconMonsterHead_31103_UI",
+    "rank": 1,
+    "element": 2,
+    "echo": 0,
+    "en": "Jade Nether Serpent",
+    "ko": "옥명사(玉冥蛇)",
+    "zh": "玉冥蛇",
+    "ja": "機玉の冥蛇"
+  },
   "320000010": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_185_UI.T_IconMonsterHead_185_UI",
     "rank": 2,
@@ -1829,6 +1839,16 @@
     "zh": "封庭械囿",
     "ja": "封庭の械囿"
   },
+  "320000690": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32069_UI.T_IconMonsterHead_32069_UI",
+    "rank": 2,
+    "element": 4,
+    "echo": 0,
+    "en": "Skywatch Lancer",
+    "ko": "순소창위(巡霄槍衛)",
+    "zh": "巡霄枪卫",
+    "ja": "霄巡りの槍衛"
+  },
   "330000010": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_225_UI.T_IconMonsterHead_225_UI",
     "rank": 3,
@@ -2149,6 +2169,16 @@
     "zh": "凯尔匹",
     "ja": "ケルピー"
   },
+  "340000113": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33021_UI.T_IconMonsterHead_33021_UI",
+    "rank": 2,
+    "element": 1,
+    "echo": 0,
+    "en": "Phantom of Sunken Reverie",
+    "ko": "악몽의 그림자",
+    "zh": "溺梦魔影",
+    "ja": "溺夢の魔影"
+  },
   "340000120": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34012_UI.T_IconMonsterHead_34012_UI",
     "rank": 4,
@@ -2179,6 +2209,16 @@
     "zh": "芙露德莉斯",
     "ja": "フルールドリス"
   },
+  "340000123": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34012_UI.T_IconMonsterHead_34012_UI",
+    "rank": 4,
+    "element": 4,
+    "echo": 0,
+    "en": "Vessel of the Fallen Dream",
+    "ko": "꿈에 빠진 신의 껍데기",
+    "zh": "堕梦神躯",
+    "ja": "堕夢の神躯"
+  },
   "340000130": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34013_UI.T_IconMonsterHead_34013_UI",
     "rank": 2,
@@ -2208,6 +2248,16 @@
     "ko": "영광의 사자",
     "zh": "荣耀狮像",
     "ja": "誉れのライオネス"
+  },
+  "340000142": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_33022_UI.T_IconMonsterHead_33022_UI",
+    "rank": 3,
+    "element": 2,
+    "echo": 0,
+    "en": "Apex Champion of the Citadel",
+    "ko": "영광의 성 무신",
+    "zh": "荣城武神",
+    "ja": "栄城の武神"
   },
   "340000150": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34015_UI.T_IconMonsterHead_34015_UI",
@@ -2258,6 +2308,16 @@
     "ko": "거짓의 신왕",
     "zh": "伪作的神王",
     "ja": "偽りの神王"
+  },
+  "340000172": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34017_UI.T_IconMonsterHead_34017_UI",
+    "rank": 3,
+    "element": 3,
+    "echo": 0,
+    "en": "Eternal Husk of Sovereign",
+    "ko": "영세의 대왕 에코",
+    "zh": "终世王骸",
+    "ja": "終世の王骸"
   },
   "340000180": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34018_UI.T_IconMonsterHead_34018_UI",
@@ -2329,6 +2389,26 @@
     "zh": "海维夏",
     "ja": "ハイヴェイシャ"
   },
+  "340000212": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34021_UI.T_IconMonsterHead_34021_UI",
+    "rank": 3,
+    "element": 5,
+    "echo": 0,
+    "en": "Star Gazer of Silent Void",
+    "ko": "쓸쓸한 별의 눈",
+    "zh": "寂空星视",
+    "ja": "寂空の星眼"
+  },
+  "340000213": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34021_UI.T_IconMonsterHead_34021_UI",
+    "rank": 3,
+    "element": 0,
+    "echo": 0,
+    "en": "Star Gazer of Silent Void",
+    "ko": "쓸쓸한 별의 눈",
+    "zh": "寂空星视",
+    "ja": "寂空の星眼"
+  },
   "340000220": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34022_UI.T_IconMonsterHead_34022_UI",
     "rank": 3,
@@ -2338,6 +2418,26 @@
     "ko": "리액터 허스크",
     "zh": "炉芯机骸",
     "ja": "ドライブの機骸"
+  },
+  "340000221": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34022_UI.T_IconMonsterHead_34022_UI",
+    "rank": 3,
+    "element": 2,
+    "echo": 0,
+    "en": "Feral Meltdown",
+    "ko": "불붙은 짐승",
+    "zh": "燃核兽形",
+    "ja": "燃核の獣形"
+  },
+  "340000222": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34022_UI.T_IconMonsterHead_34022_UI",
+    "rank": 3,
+    "element": 0,
+    "echo": 0,
+    "en": "Feral Meltdown",
+    "ko": "불붙은 짐승",
+    "zh": "燃核兽形",
+    "ja": "燃核の獣形"
   },
   "340000230": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34023_UI.T_IconMonsterHead_34023_UI",
@@ -2379,6 +2479,16 @@
     "zh": "辛吉勒姆",
     "ja": "シギルム"
   },
+  "340000252": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34025_0_UI.T_IconMonsterHead_34025_0_UI",
+    "rank": 4,
+    "element": 0,
+    "echo": 0,
+    "en": "Stellar Wayfarer",
+    "ko": "별을 쫓는자",
+    "zh": "逐星行者",
+    "ja": "星追いの旅人"
+  },
   "340000260": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34026_UI.T_IconMonsterHead_34026_UI",
     "rank": 3,
@@ -2388,6 +2498,16 @@
     "ko": "이름없는 탐색자",
     "zh": "无铭探索者",
     "ja": "名もない探索者"
+  },
+  "340000261": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34026_UI.T_IconMonsterHead_34026_UI",
+    "rank": 3,
+    "element": 4,
+    "echo": 0,
+    "en": "Desolate Apparition",
+    "ko": "고독한 유혼",
+    "zh": "孤寂遗魂",
+    "ja": "孤寂の遺魂"
   },
   "340000270": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34027_UI.T_IconMonsterHead_34027_UI",
@@ -2468,6 +2588,16 @@
     "ko": "천괴중루",
     "zh": "千傀重楼",
     "ja": "千傀の重楼"
+  },
+  "340000320": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34032_UI.T_IconMonsterHead_34032_UI",
+    "rank": 3,
+    "element": 4,
+    "echo": 6000221,
+    "en": "Calamity Effigy",
+    "ko": "하늘의 기관 인형 · 겁살",
+    "zh": "天傀劫煞",
+    "ja": "天傀劫殺"
   },
   "350000010": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1006_UI.T_IconMonsterHead_1006_UI",
@@ -2878,5 +3008,15 @@
     "ko": "이상 · 분해된 전사",
     "zh": "异相·融躯战士",
     "ja": "異相・融躯の戦士"
+  },
+  "350000430": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_SG_34030_UI.T_IconMonsterHead_SG_34030_UI",
+    "rank": 3,
+    "element": 2,
+    "echo": 6010217,
+    "en": "Phantom: Myriad Snare: Rustfire Chassis",
+    "ko": "이상 · 만와뢰 · 잔해",
+    "zh": "异相·万囮牢·朽躯",
+    "ja": "異相・万囮の檻・朽躯"
   }
 }

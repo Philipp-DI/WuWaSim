@@ -510,14 +510,29 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // preprocess.mjs actually stamps, so all ~1,020 measured steps reported
 // 'estimated' downstream — a measured number and a per-type guess looked alike.
 {
+    // A resonator the TIMING EXTRACTION has never seen resolves 'estimated' for
+    // every one of its keys, which is honest but says nothing about whether the
+    // measured pipeline still reaches the roster it HAS measured. `timing-data`
+    // comes from the FModel client export, and that export lags a game patch by
+    // however long it takes to re-run it — so the ratio below is taken over the
+    // covered roster and the uncovered set is asserted SEPARATELY by name,
+    // turning a silent threshold slip into a visible, countable gap.
+    const timingCovered = new Set(Object.keys(
+        JSON.parse(readFileSync(resolve(__dirname, '../data/timing-data.json'), 'utf8')).resonators ?? {}));
+    const awaitingExport = d.resonators
+        .filter(resonator => !timingCovered.has(String(resonator.id)))
+        .map(resonator => resonator.id)
+        .sort((left, right) => left - right);
+
     let extracted = 0, curated = 0, estimated = 0, provisional = 0;
     let freezeStamped = 0, badClamp = 0, sourceless = 0;
     for (const [rid, map] of Object.entries(d.autoSkillMap)) {
+        const covered = timingCovered.has(String(rid));
         for (const [key, def] of Object.entries(map)) {
             const source = resolveTimingSource(def, d);
             if (source === 'extracted') extracted++;
             else if (source === 'curated') curated++;
-            else if (source === 'estimated') estimated++;
+            else if (source === 'estimated' && covered) estimated++;
             if (def.timingProvisional) provisional++;
             if (!(def.freezeTime > 0)) continue;
             freezeStamped++;
@@ -527,8 +542,14 @@ const target = { level: 90, atkLv: 90, resistances: {} };
             if (resolveFreezeTime(def, d, stepDuration, 125) > stepDuration + 1e-9) badClamp++;
         }
     }
-    assert('most of the roster resolves to a MEASURED provenance, not "estimated"',
+    assert('most of the COVERED roster resolves to a MEASURED provenance, not "estimated"',
         extracted > 900 && extracted > estimated * 10);
+    // 3.6 added Jingran and Qingxiao; the client export that feeds
+    // data/timing-data.json is still 3.5, so every one of their steps falls back
+    // to a per-type estimate. Named rather than tolerated: this list must shrink
+    // to nothing the next time the export is refreshed.
+    assert(`resonators awaiting a timing export are exactly the 3.6 additions (got ${awaitingExport.join(',')})`,
+        awaitingExport.join(',') === '1212,1413');
     assert('curated pins resolve as "curated"', curated > 0);
     assert('the unreachable remainder still resolves as "estimated" (honest, not zero)', estimated > 0);
     assert('provisional steps are flagged for the UI', provisional > 0);

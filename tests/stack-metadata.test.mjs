@@ -114,7 +114,12 @@ for (const resonator of dataset.resonators) {
     // read for its OTHER stat ("Each stack causes … to ignore 7.5% of the
     // target's DEF … up to 30%"), which the kit DEF-ignore lane now emits. It
     // has the same unknown stack source and so resolves to one stack too.
-    assert('the dataset still holds exactly 18 stackable effects', stackables.size === 18);
+    // ~~18 since 2026-09-02~~ 21 since the 3.6 bump: Qingxiao ships three
+    // per-stack clauses (S3.1 multiplierUp, S6.1 amplify, S6.3 multiplierUp).
+    // All three count a RESOURCE the sim does not track, so all three carry
+    // stackTrigger 'unknown' and resolve to ONE stack — the underivable-stack
+    // rule, which understates rather than asserting a cap.
+    assert('the dataset still holds exactly 21 stackable effects', stackables.size === 21);
 
     // Each entry below was hand-checked against the kit text in wuwa-data.json.
     const expected = {

@@ -37,17 +37,20 @@ let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
 
 const target = { level: 90, resistances: {} };
-const DENIA = 1211, LUUK = 1510, LYNAE = 1509, MORNYE = 1209, CARLOTTA = 1107;
+const DENIA = 1211, LUUK = 1510, LYNAE = 1509, MORNYE = 1209, CARLOTTA = 1107, QINGXIAO = 1413;
 const member = (id, chain = 0, mode = null, rotation = []) =>
     ({ resonatorId: id, chain, resonanceMode: mode, rotation });
 
 // ── The derivation, and the uniformity that justifies it ────────────────────
 {
     const responders = d.resonators.filter(resonator => resonator.tuneBreak?.strain);
-    assert('exactly four resonators respond to Tune Strain - Interfered',
-        responders.length === 4);
-    assert('...and they are Mornye, Denia, Lynae and Luuk Herssen',
-        [MORNYE, DENIA, LYNAE, LUUK].every(id => responders.some(entry => entry.id === id)));
+    // Five since the 3.6 bump — Qingxiao's Tune Break node states the same
+    // rule as the other four, verbatim except for saying "every point" where
+    // they say "each point".
+    assert('exactly five resonators respond to Tune Strain - Interfered',
+        responders.length === 5);
+    assert('...and they are Mornye, Denia, Lynae, Luuk Herssen and Qingxiao',
+        [MORNYE, DENIA, LYNAE, LUUK, QINGXIAO].every(id => responders.some(entry => entry.id === id)));
 
     // The game states ONE rule; these are four copies of it. Disagreement is a
     // finding about the kit, not a parser bug to paper over.
@@ -118,8 +121,10 @@ const member = (id, chain = 0, mode = null, rotation = []) =>
     // wrong one (140 WeaknessTotalBonus, 0 on every resonator) is what made the
     // stat look like it had no base at all.
     const withBase = d.resonators.filter(entry => entry.tuneBreakBoostBase > 0);
-    assert('exactly seven resonators ship a Tune Break Boost base',
-        withBase.length === 7 && withBase.every(entry => entry.tuneBreakBoostBase === 10));
+    // Eight since 3.6: Qingxiao is the eighth Tune-family responder and ships
+    // the same base of 10.
+    assert('exactly eight resonators ship a Tune Break Boost base',
+        withBase.length === 8 && withBase.every(entry => entry.tuneBreakBoostBase === 10));
     assert('...and every one of them responds to a Tune family',
         withBase.every(entry => entry.tuneBreak != null));
 

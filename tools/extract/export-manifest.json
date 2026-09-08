@@ -1,0 +1,199 @@
+{
+  "_doc": "What a targeted FModel export must contain for the ConfigDB/client extractors to run. The full Client export is ~1 GB of ConfigDB alone (486 db files); the extractors touch SIX of them. Verify an export with `node tools/check-export.mjs <export-root>` BEFORE running any extractor — a missing or zero-byte file otherwise surfaces as a wrong number, not an error. Paths are relative to the export root (the directory containing Content/, e.g. G:/Software/fmodel/Output/Exports/Client). Generated-by-hand reference; keep in sync when an extractor grows a new input.",
+  "exportRootExample": "G:/Software/fmodel/Output/Exports/Client",
+  "groups": {
+    "configdb": {
+      "why": "SQLite tables of (Id, BinData) FlatBuffers blobs. Each needs its JS accessor from the `accessors` group to be readable at all — configdb.py pairs db_<X>.db with Define/Config/<Accessor>.js and reads the field offsets out of the JavaScript, so the schema is never guessed. The last two are read only by reconcile_effects.py, which writes a QA report (docs/effect-reconciliation.md) rather than committed data -- skip them if you are not running it.",
+      "paths": [
+        {
+          "path": "Content/Aki/ConfigDB/db_buff.db",
+          "neededBy": [
+            "extract_external_buffs.py",
+            "extract_buff_facts.py",
+            "extract_gauge_income.py",
+            "extract_status_damage.py",
+            "extract_status_appliers.py",
+            "extract_affliction_damage.py",
+            "reconcile_effects.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_PassiveSkill.db",
+          "neededBy": [
+            "extract_external_buffs.py",
+            "extract_gauge_income.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_weapon.db",
+          "neededBy": [
+            "extract_external_buffs.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_phantom.db",
+          "neededBy": [
+            "extract_external_buffs.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_damage.db",
+          "neededBy": [
+            "extract_affliction_damage.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_AbnormalDamage.db",
+          "neededBy": [
+            "extract_abnormal_damage.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_property.db",
+          "neededBy": [
+            "reconcile_effects.py"
+          ],
+          "note": "propertyindex table: attribute id -> key + IsPercent"
+        },
+        {
+          "path": "Content/Aki/ConfigDB/db_resonate_chain.db",
+          "neededBy": [
+            "reconcile_effects.py"
+          ],
+          "note": "one row per S1..S6 node with its BuffIds"
+        }
+      ]
+    },
+    "accessors": {
+      "why": "The client's own schema for the tables above (Content/Aki/JavaScript/Core/Define/Config). Small, but an extraction silently cannot start without them.",
+      "paths": [
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/Buff.js",
+          "neededBy": [
+            "db_buff"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/PassiveSkill.js",
+          "neededBy": [
+            "db_PassiveSkill"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/WeaponConf.js",
+          "neededBy": [
+            "db_weapon"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/WeaponReson.js",
+          "neededBy": [
+            "db_weapon"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/PhantomFetter.js",
+          "neededBy": [
+            "db_phantom"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/PhantomSkill.js",
+          "neededBy": [
+            "db_phantom"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/Damage.js",
+          "neededBy": [
+            "db_damage"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/AbnormalDamageConfig.js",
+          "neededBy": [
+            "db_AbnormalDamage"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/PropertyIndex.js",
+          "neededBy": [
+            "db_property"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Config/ResonantChain.js",
+          "neededBy": [
+            "db_resonate_chain"
+          ]
+        }
+      ]
+    },
+    "clientLogic": {
+      "why": "Client source read as TEXT, not as data. These change only when the game's own logic changes, so they can be skipped on a pure content patch.",
+      "paths": [
+        {
+          "path": "Content/Aki/JavaScript/Core/Define/Net/Protocol.js",
+          "neededBy": [
+            "extract_external_buffs.py"
+          ],
+          "note": "Aki.Protocol.Vks attribute-id enum"
+        },
+        {
+          "path": "Content/Aki/JavaScript/Game/NewWorld/Character/Common/Component/Abilities/ExtraEffect/ExtraEffectDefine.js",
+          "neededBy": [
+            "extract_extra_effects.py"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Game/NewWorld/Character/Common/Component/Abilities/ExtraEffect/ExtraEffectBase.js",
+          "neededBy": [
+            "extract_extra_effects.py"
+          ],
+          "required": false
+        },
+        {
+          "path": "Content/Aki/JavaScript/Game/AnimNotify",
+          "kind": "dir",
+          "neededBy": [
+            "scan_notify_semantics.mjs"
+          ]
+        },
+        {
+          "path": "Content/Aki/JavaScript/Game/AnimNotifyState",
+          "kind": "dir",
+          "neededBy": [
+            "scan_notify_semantics.mjs"
+          ]
+        }
+      ]
+    },
+    "characterAssets": {
+      "why": "PER-RESONATOR animation and skill tables. This is the only group that scales with the roster, and the only one a CONTENT patch really forces you to re-export -- and then only for the resonators that changed. extract_timings.py and scan_bullet_timings.py os.walk() whatever root they are given, so point them at a single character directory to do one resonator.",
+      "pathPattern": "Content/Aki/Character/Role/<BodyType>/<CharacterDir>/",
+      "notes": [
+        "DT_SkillInfo lives at <CharacterDir>/Data/DT_SkillInfo.uasset (+ .uexp). Both halves are required -- the readers strip and re-append the extension.",
+        "Animations live at <CharacterDir>/CommonAnim/*.uasset (+ .uexp).",
+        "data/timing-data.json records each covered resonator's own source_table path, so the <BodyType>/<CharacterDir> for an EXISTING resonator can be read straight out of the repo. A brand-new resonator is not in there yet -- find their directory by name under Content/Aki/Character/Role/.",
+        "Rover is FEMALE only in this project: FemaleM/*Nvzhu, never MaleM/*Nanzhu. Both ship separate bullet-id blocks applying the SAME damage ids."
+      ]
+    }
+  },
+  "runOrder": [
+    "node tools/preprocess.mjs                       # writes data/hit-map.json, needed by extract-forte and extract_buff_facts",
+    "python tools/extract/extract_extra_effects.py <root>",
+    "python tools/extract/extract_external_buffs.py <root>",
+    "python tools/extract/extract_gauge_income.py <root> -o data/gauge-income.json",
+    "python tools/extract/extract_status_damage.py <root>",
+    "python tools/extract/extract_status_appliers.py <root>",
+    "python tools/extract/extract_abnormal_damage.py <root>",
+    "python tools/extract/extract_affliction_damage.py <root>",
+    "python tools/extract/extract_buff_facts.py <root>   # needs data/hit-map.json + data/bullet-timings.json",
+    "node tools/extract/scan_notify_semantics.mjs <root> --json data/notify-semantics.json",
+    "node tools/extract-forte.mjs                    # NO export needed: reads data/bindata/* + data/hit-map.json",
+    "node tools/preprocess.mjs && npm run meta       # re-bake, then re-rank"
+  ],
+  "notInExport": [
+    "data/bindata/*.json and data/extracted-nanoka/** come from Arikatsu and nanoka respectively, NOT from FModel. tools/extract-forte.mjs and the whole preprocess pass need no client export at all."
+  ]
+}

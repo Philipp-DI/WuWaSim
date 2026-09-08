@@ -405,6 +405,20 @@ export const STATE_DEFS = Object.freeze({
           exit:  { mode: 'seconds', seconds: 8 } },
     ],
 
+    // Jingran — Resonance Liberation "Burial of Thousand Souls" states its own
+    // entry and its own timer: "Enter the Yinghuo state for 15s" (the skill's
+    // param[5]). A REAL timed expiry, so 'seconds' rather than 'persist'.
+    // His S2 gates a second +46% multiplier increase on being in it, and an
+    // effect naming a state the resonator lacks can never fire — it would have
+    // shipped silently dead. The Fire-of-Life clearing that Yinghuo's end
+    // performs is not modelled (that gauge has no RESOURCE_DEFS entry yet), so
+    // this def carries the window only.
+    1212: [
+        { name: 'Yinghuo',
+          enter: { keys: ['liberation_burial_of_thousand_souls'] },
+          exit:  { mode: 'seconds', seconds: 15 } },
+    ],
+
     // Lucilla — "Clear As Day Buff" (S2.0's Déjà Vu / Resonance-Mode-gated
     // enhancement): entered by casting Liberation "Clear As Day" itself, per
     // her own kit text "continue to exist when in Reminiscence [entered by

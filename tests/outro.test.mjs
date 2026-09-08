@@ -49,7 +49,10 @@ const outroEntry = (id) => Object.entries(d.autoSkillMap[String(id)] ?? {})
     // damage at all — they are buff/heal transfers, which is ordinary WuWa
     // design, so this number is NOT expected to keep climbing toward 56.
     const withRow = d.resonators.filter(r => outroEntry(r.id));
-    assert(`15 resonators have an outro damage row (got ${withRow.length})`, withRow.length === 15);
+    // 17 since the 3.6 bump: Jingran (795% of ATK) and Qingxiao (800%) both
+    // ship a pure DAMAGE outro, so both gain a row and neither gains an
+    // outroBuff — the two halves are mutually exclusive by design.
+    assert(`17 resonators have an outro damage row (got ${withRow.length})`, withRow.length === 17);
 
     const [key, def] = outroEntry(byName('Carlotta').id);
     const row = d.damageTable['1107'].find(entry => entry.id === def.damageIds[0]);

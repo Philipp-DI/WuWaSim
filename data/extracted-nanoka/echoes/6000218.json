@@ -7,8 +7,8 @@
   "place": "",
   "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34031_UI.T_IconMonsterHead_34031_UI",
   "skill": {
-    "desc": "Use Echo Skill to attack nearby enemies, dealing {1} Havoc DMG and summoning 4 Blades of Thousand Memories that last {5}s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal {0} Havoc DMG once to the target. This effect can be triggered once every {6}s.\n\nResonators with this Echo equipped in the main slot gain {2} Havoc DMG and {3} Heavy Attack DMG.\n\nCD: {4}s",
-    "simple_desc": "Deal Havoc DMG to nearby targets and summon Blades of Thousand Memories. When inflicting Havoc Bane, consume a Blade of Thousand Memories to deal Havoc DMG.",
+    "desc": "Use Echo Skill to attack nearby enemies, dealing {1} Havoc DMG and summoning 4 Blades of Thousand Memories that last {5}s.\n\nWhile Blades of Thousand Memories last, when the Resonator inflicts Havoc Bane, consume 1 Blade of Thousand Memories to deal {0} Havoc DMG once to the target. This effect can be triggered once every {6}s.\n\nResonators with this Echo equipped in the main slot gain {2} Havoc DMG and {3} Heavy Attack DMG bonuses.\n\nCD: {4}s",
+    "simple_desc": "Deal Havoc DMG to nearby targets and summon Blades of Thousand Memories. When inflicting Havoc Bane, consume a Blade of Thousand Memories to deal Havoc DMG.\nResonators with this Echo equipped in the main slot deal higher Havoc and Heavy Attack DMG.",
     "param": [
       [
         "22.80%",

@@ -239,6 +239,18 @@
     "zh": "纹秋",
     "ja": "秋の名残"
   },
+  "21010076": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21010076_UI.T_IconWeapon21010076_UI",
+    "rank": 5,
+    "type": 1,
+    "en": "Thousandfold Deliverance",
+    "desc": "Endless stretches the Netherworld; the long night knows no end. Ten thousand souls lie hushed, and all sound fades to silence.\nWhen cold, golden rays illuminate the Nether Gate, the sunken dreams of ages past shall at last be brought to light.",
+    "atk": 412,
+    "sub": "HP",
+    "ko": "수많은 인도",
+    "zh": "千般渡",
+    "ja": "幾千の導き"
+  },
   "21010084": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21010084_UI.T_IconWeapon21010084_UI",
     "rank": 4,
@@ -586,6 +598,18 @@
     "ko": "예리한 날개깃",
     "zh": "翼锋",
     "ja": "鋭利な翼"
+  },
+  "21020106": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21020106_UI.T_IconWeapon21020106_UI",
+    "rank": 5,
+    "type": 2,
+    "en": "Glint of Clouds",
+    "desc": "Wreathed in mist and cloud, still waters blend with the sky in seamless blue. Sparse shadows slant across as a rain of petals falls.\nMay I bear this jade blade into the mortal realm, cleanse a tarnished age, and put the wicked to the sword.",
+    "atk": 500,
+    "sub": "Crit. Rate",
+    "ko": "옥빛 구름",
+    "zh": "云琅",
+    "ja": "雲琅"
   },
   "21030011": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21030011_UI.T_IconWeapon21030011_UI",
@@ -1518,5 +1542,15 @@
     "ko": "투영 · 바다의 선물",
     "zh": "投影·大海的馈赠",
     "ja": "投影・海の恩恵"
+  },
+  "80080009": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon80080009_UI.T_IconWeapon80080009_UI",
+    "rank": 5,
+    "type": 2,
+    "en": "Projection: Blade of a Thousand Arts",
+    "desc": "A projection that reshapes the sword.\nThe silhouette of this sword clearly echoes ancient Huanglong craftsmanship, yet its creator gave it a radical redesign: swapping the traditional metallic edge for an ultra-fine energy jet.\nMuch like other entities from the Endstate Matrix, a familiar weapon has been digitally warped into something entirely unprecedented.",
+    "ko": "투영 · 수천의 기예가 벼린 칼날",
+    "zh": "投影·千技成锋",
+    "ja": "投影・千技の鋭鋒"
   }
 }

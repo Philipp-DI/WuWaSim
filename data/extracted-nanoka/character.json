@@ -246,6 +246,19 @@
     "zh": "达妮娅",
     "ja": "ダーニャ"
   },
+  "1212": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_74_UI.T_IconRoleHead256_74_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Jingran_UI.T_IconRole_Pile_Jingran_UI",
+    "rank": 5,
+    "weapon": 1,
+    "element": 2,
+    "en": "Jingran",
+    "nickname": "",
+    "desc": "A Nethermancer from Mengzhou. An explorer wandering amid Mirage Realms and forgotten ruins. With his own eyes, he beholds the world's lingering echoes and the ancient traces it left behind.\n\nHe follows no sect and bows to no doctrine, heeding neither gods nor decrees. Through Mirage Realms and shadowed lands he walks, judging right from wrong by his own heart alone, and in doing so, he has forged a path entirely his own.",
+    "ko": "경연",
+    "zh": "景燃",
+    "ja": "景燃"
+  },
   "1301": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_18_UI.T_IconRoleHead256_18_UI",
     "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_kakaluo_UI.T_IconRole_Pile_kakaluo_UI",
@@ -518,6 +531,19 @@
     "ko": "시그리카",
     "zh": "西格莉卡",
     "ja": "シグリカ"
+  },
+  "1413": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_73_UI.T_IconRoleHead256_73_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Qingxiao_UI.T_IconRole_Pile_Qingxiao_UI",
+    "rank": 5,
+    "weapon": 2,
+    "element": 4,
+    "en": "Qingxiao",
+    "nickname": "Lumi",
+    "desc": "A reclusive sword cultivator who holds the nominal title of Xuan Paragon of Xuanfang Hold, and a peerless master of both qin and sword. Aloof and distant, she seems untouched by emotion.\nThe world knows her as the Sword Transcendent. For years beyond counting, she has stood guard over these lands, and the cold light of her blade remains as keen as the day she first drew it.",
+    "ko": "청초",
+    "zh": "清宵",
+    "ja": "清宵"
   },
   "1501": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_4_UI.T_IconRoleHead256_4_UI",

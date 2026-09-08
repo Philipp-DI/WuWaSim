@@ -81,7 +81,7 @@ const SCHEMA_VERSION = 9;
 //
 // `--ref` still overrides, so probing a new version costs nothing:
 //     node tools/preprocess.mjs --ref 3.6 --out /tmp/probe.json
-const PINNED_REF = '3.5';
+const PINNED_REF = '3.6';
 
 function parseArgs(argv) {
     const args = { lang: 'en', out: 'data/wuwa-data.json', ref: null };

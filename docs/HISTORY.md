@@ -12679,3 +12679,144 @@ uncredited silently — the `KNOWN_UNPLACED` contract is the only alarm.
 
 **[Updated Docs]** `CLAUDE.md` — new invariant "A scoped AMPLIFY has a per-hit
 home, and a CAP branch is not a grant". `docs/HISTORY.md` — this entry.
+
+## 2026-09-08 — Adopt game version 3.6, and stop exporting the whole client
+
+Two requests: refresh the nanoka extraction for 3.6 and check it for
+completeness, then build a way to re-export only what the extractors actually
+need instead of the whole FModel client dump.
+
+**[A correction to the previous entry]** I reported that "3.6 changes nothing for
+existing content". That was measured on the ARIKATSU half only, and it is half an
+answer. The nanoka half changed **8 character files and 28 echo files** — mostly
+typos, carriage-return removals and icon paths, but three are semantic: Yangyang:
+Xuanling's S6 rewords "DMG is increased by {1}" to "targets take {1} more DMG" (a
+BUCKET wording, and the bucket invariant says the sentence does not decide it —
+`buff-facts.json` does), her Forte gains ", considered Heavy Attack DMG", and
+Rover: Electro's Basic restructures `Stage {6}` to `- Repel` and drops a param.
+The lesson is procedural: **the Arikatsu diff alone will tell you a patch changed
+nothing.**
+
+**[nanoka is ahead of where its committed manifest said]** Its live manifest
+reads `live: 3.6`, `latest: 3.7.0`, and the committed snapshot said 3.5. Two
+traps found in the existing fetchers, both now recorded in CLAUDE.md: the type
+INDEXES live at `ww/<version>/<type>.json` with **no `/en/`** (the detail files
+have it), and `fetch-nanoka-chars.mjs` keys off `manifest.ww.latest` — which is
+now 3.7.0 and would have pulled a version Arikatsu has no branch for. Everything
+was fetched at **3.6** so both halves sit on one version. 374 files, 0 failures.
+
+**[Completeness]** Both new resonators are structurally complete in nanoka — 29
+top-level keys, 6 chains, 17 skill trees, populated role tags. Through the
+pipeline they resolve to full kits with 92 and 117 damage rows. Three gaps found,
+two closed:
+
+- `specialEnergyCaps` was empty. It comes from `forte-data.json`, whose inputs
+  (`data/bindata/*`) are **Arikatsu downloads, not FModel exports** — so it was
+  regenerable with no client export at all. Refreshed at 3.6 (`baseproperty`
+  schema identical, 0 changed rows) and re-run: both resonators now have caps,
+  Qingxiao gains a Forte model and a `tuneBreakBoostBase` of 10, and **0 existing
+  entries changed**.
+- `outroBuffs` empty is CORRECT: both ship pure DAMAGE outros (795% / 800% of
+  ATK), which is why both also gained an outro damage ROW. The two halves are
+  mutually exclusive by design.
+- Timing data is genuinely missing (client export required) — see below.
+
+**[What the roster tests caught]** Eight failures, and treating them all as
+count-bumps would have buried two real defects:
+
+- **Qingxiao's Tune Strain rate parsed to `null`.** Her kit states the same rule
+  as the other four responders, verbatim except that she says "**every** point of
+  Qingxiao's Tune Break Boost" where they say "**each** point". `PER_POINT_RE`
+  only read "each", so she shipped as a responder that responds for ZERO while
+  her cap raise parsed fine. Fixed to `(?:each|every)`; all five now read 0.0012.
+  The test's own comment is why this was not papered over: "Disagreement is a
+  finding about the kit, not a parser bug."
+- **Jingran's S2 gated on an undefined state.** "While in the Yinghuo state"
+  parsed to `state: 'yinghuo'`, which `STATE_DEFS` did not define — and an effect
+  naming a state its resonator lacks can never fire, so it would have shipped
+  silently dead. His Liberation states its own entry and timer ("Enter the
+  Yinghuo state for 15s", the skill's own `param[5]`), so the def is read from
+  the kit, not guessed.
+
+The rest were legitimate roster growth, each verified to be exactly the new
+resonators before the pin moved: outro rows 15 to 17, stackable effects 18 to 21
+(all three Qingxiao's, all `stackTrigger: 'unknown'` so each resolves to one
+stack), Tune Strain responders 4 to 5, Tune Break Boost bases 7 to 8. One missing
+echo icon (Calamity Effigy) downloaded.
+
+**[The timing assertion, made honest instead of looser]** `extracted > estimated
+* 10` fell to 8.74 because the two new resonators contribute 43 of the 116
+estimated steps — they have no timing data because that comes from the client
+export, which is 3.5. Lowering the threshold would have hidden a real gap, so the
+ratio is now taken over the roster `timing-data.json` actually COVERS, and the
+uncovered set is asserted BY NAME (`1212,1413`). That list must shrink to nothing
+when the export is refreshed.
+
+**[Targeted FModel export]** The headline: a full Client export is **1,031 MB of
+ConfigDB across 486 `db_*.db`**; the extractors read **8 of them plus about 1 MB
+of JavaScript — 22.6 MB, a 98% reduction.** `tools/extract/export-manifest.json`
+lists them with which extractor needs each and the correct run order;
+`tools/check-export.mjs` verifies an export against it, prints the FModel
+selection (`--list`), and resolves one resonator's asset directory (`--for <id>`)
+out of `timing-data.json`'s own `source_table` rather than guessing.
+
+Two design points earn their place. **Size is checked, not just existence** — the
+shipped export already carries two zero-byte tables (`db_PropertyIndex`,
+`db_ElementalReaction`) which pass any `existsSync` check and parse as an empty
+table. And the manifest is **checked against the extractor sources**:
+`tests/export-manifest.test.mjs` greps every `tools/extract/*` for `db_*` names
+and fails if the manifest omits one. It immediately caught `db_property` and
+`db_resonate_chain` missing from the first draft — which is exactly the failure
+mode the tool exists to prevent, since a targeted export missing a table does not
+error, it just writes a smaller JSON.
+
+Also corrected: CLAUDE.md said these extractors "live outside this repo". They do
+not — all fifteen are in `tools/extract/`, along with `configdb.py` (which reads
+each table's schema out of the client's own JS accessor rather than guessing) and
+the UE asset readers. What lives outside the repo is the client EXPORT.
+
+**[What 3.6 still lacks]** Seven artifacts are keyed by id and have no rows for
+the new content, because the local export is 3.5: `external-buffs` (both new
+weapons), `gauge-income`, `status-appliers`, `buff-facts`, `skill-join`,
+`timing-data`, `actionable-times`. Existing content is unaffected — these are
+keyed lookups, not global tables. A targeted re-export per the manifest closes
+all seven.
+
+**[Files Changed]** `tools/preprocess.mjs` (`PINNED_REF` 3.5 to 3.6);
+`tools/preprocess/tune-strain.mjs` (each|every); `src/core/rotation-rules.js`
+(Jingran's Yinghuo state); new `tools/check-export.mjs`, new
+`tools/extract/export-manifest.json`, new `tests/export-manifest.test.mjs`;
+`tests/{timing-model,tune-strain,stack-metadata,outro}.test.mjs`;
+`data/extracted-nanoka/**` (374 files at 3.6), `data/bindata/*` (4 files at 3.6),
+`data/forte-data.json`, `assets/icons/monsters/T_IconMonsterHead_34032_UI.webp`;
+regenerated `data/wuwa-data.json` + `data/wuwa-meta.json`; `CLAUDE.md`.
+
+**[Logic Altered]** A Tune Strain responder stating "every point" is now read.
+Jingran's Yinghuo state exists, so his S2 second multiplier can fire. The roster
+is 58 resonators, 91 weapons, 181 echoes.
+
+**[Verification Method]** nanoka 3.6 fetched to a temp tree and diffed against the
+committed 3.5 files BEFORE installing, per file, so the 8 changed characters were
+found rather than assumed. BinData 3.6 verified row by row: all 9,697 common
+`damage` rows differ only by the added `ExecutionTiming` field, 0 value changes.
+Effect-slot key sets compared across the bump — 0 existing resonators changed, so
+`effect-overrides.json` keys still address the same effects (7 keys resolve
+against neither 3.5 nor 3.6 under a simplified reconstruction, i.e. pre-existing,
+not caused here). `check-export.mjs` run against the live export in all three
+modes, including the new-resonator case, which correctly reports assets never
+exported. `npm test` 77/77; `npm run sweep` 70 imported, 0 failed; `npm run lint`
+0 errors, 3110 warnings (unchanged).
+
+**[Residual Risks]** The seven id-keyed artifacts above are stale for the new
+content until a targeted re-export. The two new resonators have no reference
+rotation, so they anchor no meta team and their sim output is unexercised beyond
+the roster tests. Yangyang: Xuanling's reworded S6 was NOT re-audited against
+`buff-facts.json` — the bucket comes from data, so the wording change should be
+inert, but that is reasoned rather than measured. `montage_timeline.py` and the
+two timing scanners walk whatever root they are given, so the character-asset
+half of the manifest is a PATTERN, not a file list.
+
+**[Updated Docs]** `CLAUDE.md` — `PINNED_REF` now 3.6; a new targeted-export
+section; the "extractors live outside this repo" claim corrected; the 3.6
+measurement rewritten to state that the Arikatsu diff alone is not sufficient
+evidence, with the nanoka fetch traps recorded. `docs/HISTORY.md` — this entry.

@@ -2704,6 +2704,7 @@
     ],
     "en": "Myriad Snare: Rustfire Chassis",
     "intensity": 2,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_34030_UI.T_IconMonsterGoods_SG_34030_UI",
     "ko": "만와뢰 · 잔해",
     "zh": "万囮牢·朽躯",
     "ja": "万囮の檻・朽躯"
@@ -2725,6 +2726,25 @@
     "ko": "천괴중루",
     "zh": "千傀重楼",
     "ja": "千傀の重楼"
+  },
+  "6000221": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34032_UI.T_IconMonsterHead_34032_UI",
+    "code": "X81-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      34,
+      35
+    ],
+    "en": "Calamity Effigy",
+    "intensity": 2,
+    "ko": "하늘의 기관 인형 · 겁살",
+    "zh": "天傀劫煞",
+    "ja": "天傀劫殺"
   },
   "390070051": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_011_UI.T_IconMonsterGoods_011_UI",
