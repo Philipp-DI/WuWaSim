@@ -5,8 +5,8 @@
  *
  * The problem this solves is not "which files do I export" (that is
  * `tools/extract/export-manifest.json`, checked by `tools/check-export.mjs`).
- * It is that FModel mounts every `.pak` in the game's Paks directory — 110 of
- * them, ~81 GB — before you can export a single byte, and 464 of those mounts
+ * It is that FModel mounts every `.pak` in the game's Paks directory — 55 of
+ * them, ~81 GB — before you can export a single byte, and most of those mounts
  * are Wwise audio that nothing here reads.
  *
  * The paks are AES-encrypted with a main key plus ~450 per-chunk dynamic keys
@@ -116,12 +116,28 @@ for (const pak of [...chosen.keys()]) {
     }
 }
 
-const allBytes = [...mounts.keys()].reduce((sum, pak) => sum + sizeOf(pak), 0);
+// THE LOG IS HISTORY, THE DISK IS NOW. FModel's log accumulates every pak it
+// ever mounted, across game versions, and a Steam update rewrites the pak set —
+// the `_P` patch paks of one version are folded into the base paks of the next
+// and vanish. The first version of this script listed four of them as "0 MB",
+// and a symlink to a file that does not exist is a dangling link FModel cannot
+// mount. So a pak the log names but the disk lacks is dropped here and reported,
+// never emitted.
+const onDisk = new Set(pakDir && existsSync(pakDir) ? readdirSync(pakDir).filter(name => name.endsWith('.pak')) : []);
+const stale = [...chosen.keys()].filter(pak => onDisk.size && !onDisk.has(pak));
+for (const pak of stale) chosen.delete(pak);
+
+const allBytes = [...onDisk].reduce((sum, pak) => sum + sizeOf(pak), 0);
 const keepBytes = [...chosen.keys()].reduce((sum, pak) => sum + sizeOf(pak), 0);
 
 console.log(`log:  ${logPath}`);
-console.log(`paks: ${chosen.size} of ${mounts.size} needed`
-    + (allBytes ? `  (${(keepBytes / 1e9).toFixed(2)} GB of ${(allBytes / 1e9).toFixed(1)} GB)` : ''));
+console.log(`disk: ${onDisk.size} paks in ${pakDir ?? '(unknown — no FModel GameDirectory)'}`);
+console.log(`paks: ${chosen.size} needed`
+    + (allBytes ? `  (${(keepBytes / 1e9).toFixed(2)} GB of ${(allBytes / 1e9).toFixed(1)} GB on disk)` : ''));
+if (stale.length) {
+    console.log(`\n  dropped ${stale.length} pak(s) the log names but the disk no longer has (an older patch's files):`);
+    for (const pak of stale) console.log(`    ${pak}`);
+}
 console.log();
 for (const [pak, entry] of [...chosen].sort((left, right) => sizeOf(right[0]) - sizeOf(left[0]))) {
     console.log(`  ${pak.padEnd(44)} ${(sizeOf(pak) / 1e6).toFixed(0).padStart(6)} MB   ${entry.info.mount}`);
@@ -134,15 +150,24 @@ if (argv.includes('--link')) {
     // pointed at. Symlinks, so nothing is copied and no disk is spent.
     const slimRoot = flag('--slim') ?? 'G:\\WuWaSlim';
     const slimPaks = join(slimRoot, 'Client', 'Content', 'Paks');
+    // Errors are left VISIBLE: the first draft piped every line to Out-Null,
+    // which is precisely what hid a silent failure from the maintainer. Each
+    // link prints its LinkType and Target on success, so a dangling or missing
+    // link is obvious in the transcript.
     console.log(`\n# Build a slim game root (symlinks — nothing is copied).`);
-    console.log(`# Run in an ELEVATED PowerShell (symlinks need it), then set FModel's`);
-    console.log(`# Game Directory to:  ${slimRoot}`);
-    console.log(`New-Item -ItemType Directory -Force '${slimPaks}' | Out-Null`);
+    console.log(`# Symlinks need Developer Mode (Settings > System > For developers) OR an`);
+    console.log(`# elevated PowerShell. Then set FModel's Game Directory to:  ${slimRoot}`);
+    console.log(`New-Item -ItemType Directory -Force '${slimPaks}' | Select-Object FullName`);
+    // Every pak ships with a `.sig` beside it, and CUE4Parse can refuse a pak
+    // whose signature file is missing — so the sig travels with the pak.
     for (const pak of [...chosen.keys()].sort()) {
-        console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, pak)}' -Target '${join(pakDir ?? '', pak)}' -Force | Out-Null`);
+        for (const file of [pak, pak.replace(/\.pak$/, '.sig')]) {
+            if (!existsSync(join(pakDir ?? '', file))) continue;
+            console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, file)}' -Target '${join(pakDir ?? '', file)}' -Force | Select-Object Name, LinkType`);
+        }
     }
     console.log(`# The AES keys are per-pak GUID and unchanged, so FModel's stored keys still apply.`);
-    console.log(`# Keep the slim root across patches: re-run this after a patch adds a _P pak.`);
+    console.log(`# Re-run after every game patch: Steam rewrites the pak set and stale links dangle.`);
 } else {
     console.log('\nRun again with --link for the slim-directory commands.');
 }

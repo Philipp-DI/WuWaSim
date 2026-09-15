@@ -12906,3 +12906,65 @@ finds the files" step is the maintainer's to confirm on the next patch.
 `plan-export.mjs`, records why direct pak reading was rejected, and states the
 most-specific-mount rule with the 69 GB counterexample. `docs/HISTORY.md` — this
 entry.
+
+## 2026-09-15 — The log is history, the disk is now
+
+The maintainer ran the slim-root commands from the previous entry in an elevated
+PowerShell and nothing was created. Diagnosed on the machine rather than
+reasoned about.
+
+**[What was actually wrong]** Not elevation, and not the drive — `G:` is a fixed
+NTFS volume, and from an UNELEVATED session both the directory and a symlink
+created fine (Windows 11 with Developer Mode does not need elevation). The real
+defect was in the planner: `Test-Path` on the symlink's TARGET returned
+`False`. **There are zero `_P` patch paks on disk** — 55 paks, none of them
+patches. FModel's log accumulates every pak it has ever mounted across game
+versions, and a Steam update folds one version's `_P` paks into the next
+version's base paks. The planner trusted the log, printed the four phantoms as
+"0 MB" (`sizeOf` returns 0 for a missing file and nothing flagged it), and its
+sibling rule then ADDED them. Even had the maintainer's commands executed, the
+result would have been four dangling symlinks FModel cannot mount.
+
+Two secondary faults compounded it. Every emitted command ended in `| Out-Null`,
+which is precisely what hid the failure from the maintainer. And the header
+claimed 110 paks — that was paks plus their `.sig` files; the true count is 55.
+
+**[The fix]** The planner now reads the pak directory and DROPS any pak the log
+names but the disk lacks, reporting them by name. The output moved from "8 paks
+(4 missing)" to **4 paks, 2.31 GB of 87.2 GB**. Each pak's `.sig` is linked
+beside it, because CUE4Parse can refuse a pak whose signature file is absent.
+The emitted commands print `Name, LinkType` on success instead of swallowing
+output, and the elevation note now says Developer Mode OR elevation.
+
+**[Built and verified here]** `G:\WuWaSlim\Client\Content\Paks\` now holds 8
+symlinks — `pakchunk2`, `pakchunk3`, `pakchunk23`, `pakchunk44`, each `.pak` and
+`.sig` — and every target resolves. FModel's Game Directory can be pointed at
+`G:\WuWaSlim`.
+
+**[Why the maintainer's paste produced nothing]** Unresolved. The same commands
+work from this session, so the likeliest causes are PSReadLine treating the
+multi-line paste as one pending submission (no final Enter), or an error the
+`Out-Null` swallowed. The first is why the commands no longer suppress output.
+
+**[Files Changed]** `tools/plan-export.mjs`; `CLAUDE.md`.
+
+**[Logic Altered]** None in the engine. Planner selection now intersects the log
+with the disk.
+
+**[Verification Method]** Each step measured on the live machine: `Test-Path` on
+every planned target, a directory listing grouped by extension (55 `.pak`, 55
+`.sig`, 0 `_P`), the corrected planner's output, then the slim root built from
+its own emitted commands and every link checked for `LinkType` and a resolving
+target. `npm run lint` 0 errors, 1574 warnings — down from 3110 because the
+stale `agent-a4fdaa440f4723d64` worktree that lint had been double-scanning is
+gone; `tests/export-manifest.test.mjs` 30/30.
+
+**[Residual Risks]** FModel has still not been LAUNCHED against the slim root
+in this session — the links resolve and the sigs are present, but the "mounts
+only these four and finds every file" step is the maintainer's to run. The
+most-specific-mount rule is unchanged and remains a heuristic; `check-export.mjs`
+is the backstop.
+
+**[Updated Docs]** `CLAUDE.md` — pak counts corrected to 4 of 55, the
+stale-log rule, the `.sig` rule, the Out-Null lesson. `docs/HISTORY.md` — this
+entry.

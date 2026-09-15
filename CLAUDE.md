@@ -70,10 +70,17 @@ so probing costs nothing: `node tools/preprocess.mjs --ref 3.6 --out /tmp/x.json
 
 **Targeted FModel export.** Three steps, none of which need the whole client:
 `node tools/plan-export.mjs --link` reads FModel's own log for each pak's MOUNT
-POINT and resolves the smallest set that can hold what we need — **8 paks of 110,
-2.3 GB of 81 GB** — emitting symlinks for a slim game root (FModel resolves
-`<GameDirectory>/Client/Content/Paks`, so the tree must mirror that shape). It
-then lists the folders to export. The paks are AES-encrypted (main key plus ~450
+POINT and resolves the smallest set that can hold what we need — **4 paks of 55,
+2.3 GB of 87 GB** — emitting symlinks for a slim game root (FModel resolves
+`<GameDirectory>/Client/Content/Paks`, so the tree must mirror that shape, and
+each pak's `.sig` travels with it). It then lists the folders to export. THE LOG
+IS HISTORY, THE DISK IS NOW: FModel's log accumulates every pak it ever mounted
+across game versions, and a Steam update folds one version's `_P` patch paks
+into the next version's base paks — the first draft listed four of them as
+"0 MB" and would have emitted dangling symlinks. A pak the log names but the
+disk lacks is dropped and reported. Symlinks need Developer Mode OR elevation;
+the emitted commands leave errors VISIBLE (`| Out-Null` is what hid the failure
+the first time). Re-run after every patch. The paks are AES-encrypted (main key plus ~450
 per-chunk dynamic keys) and Oodle-compressed, so reading them directly would mean
 reimplementing CUE4Parse — the mount point is the cheap lever instead. Content is
 chunked BY FOLDER, so the MOST SPECIFIC mount covering a path is the chunk that
