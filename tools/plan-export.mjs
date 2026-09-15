@@ -27,10 +27,13 @@
  *   node tools/plan-export.mjs                 # newest FModel log
  *   node tools/plan-export.mjs --log <path>    # a specific log
  *   node tools/plan-export.mjs --link          # emit the slim-directory commands
+ *   node tools/plan-export.mjs --profile       # FModel CLOSED: give the slim root the
+ *                                              # game's AES keys + UE version profile
  */
-import { readFileSync, readdirSync, existsSync, statSync } from 'fs';
+import { readFileSync, readdirSync, existsSync, statSync, writeFileSync, copyFileSync } from 'fs';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const manifest = JSON.parse(readFileSync(resolve(here, 'extract/export-manifest.json'), 'utf8'));
@@ -166,10 +169,74 @@ if (argv.includes('--link')) {
             console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, file)}' -Target '${join(pakDir ?? '', file)}' -Force | Select-Object Name, LinkType`);
         }
     }
-    console.log(`# The AES keys are per-pak GUID and unchanged, so FModel's stored keys still apply.`);
+    console.log(`# Then, with FModel CLOSED:  node tools/plan-export.mjs --profile`);
     console.log(`# Re-run after every game patch: Steam rewrites the pak set and stale links dangle.`);
+} else if (argv.includes('--profile')) {
+    applyProfile(flag('--slim') ?? 'G:\\WuWaSlim');
 } else {
     console.log('\nRun again with --link for the slim-directory commands.');
+}
+
+// FModel keys EVERYTHING that makes a game loadable — the AES keys AND the UE
+// version — to the exact GameDirectory path string (`PerDirectory` in its
+// AppSettings.json). Pointing it at the slim root therefore creates a FRESH
+// profile with FModel's defaults: one key and generic UE 4.26. That produced
+// `Mounted: 0/4 | AES: 0/1` seven times over, and saving the setting also reset
+// the ORIGINAL profile's UE version, which is how a directory switch broke the
+// full game too (`Mounted: 26/248`, 468 ArgumentOutOfRangeException in MountTo —
+// Kuro's pak format parsed as stock 4.26). None of it was the keys: the run that
+// worked that same morning read `AES: 39/39`.
+//
+// 68812811 is `0x041A000B`: `0x041A0000` is CUE4Parse's GAME_UE4_26 and the +11
+// selects the Wuthering Waves entry in that family. It is the value the profile
+// carried on every full mount in the logs and the one FModel's own "Wuthering
+// Waves" preset sets; `--ue-version` overrides it if a later FModel renumbers
+// the enum. FModel rewrites the file on exit, so this refuses to run while it
+// is open — an edit made underneath it is silently lost.
+const WUWA_EGAME = 68812811;
+
+function applyProfile(slimRoot) {
+    const fmodelRunning = (() => {
+        try { return execSync('tasklist /FI "IMAGENAME eq FModel.exe" /NH', { encoding: 'utf8' }).includes('FModel.exe'); }
+        catch { return false; }
+    })();
+    if (fmodelRunning) {
+        console.error('FModel is running. Close it first — it rewrites AppSettings.json on exit and would undo this.');
+        process.exit(1);
+    }
+    if (!existsSync(settingsPath)) {
+        console.error(`No FModel settings at ${settingsPath}.`);
+        process.exit(1);
+    }
+    const ueVersion = Number(flag('--ue-version') ?? WUWA_EGAME);
+    const profiles = settings.PerDirectory ?? (settings.PerDirectory = {});
+    // The SOURCE is the real game directory: whichever profile is not the slim
+    // root and holds the most keys, so this still works when FModel's current
+    // GameDirectory has already been switched to the slim root.
+    const source = Object.entries(profiles)
+        .filter(([path]) => path !== slimRoot)
+        .sort((left, right) => (right[1].AesKeys?.dynamicKeys?.length ?? 0) - (left[1].AesKeys?.dynamicKeys?.length ?? 0))[0];
+    if (!source) {
+        console.error('No source game profile found in FModel settings — open the real game directory in FModel once first.');
+        process.exit(1);
+    }
+    const backup = `${settingsPath}.bak-${new Date().toISOString().slice(0, 10)}`;
+    copyFileSync(settingsPath, backup);
+
+    const [sourcePath, sourceProfile] = source;
+    profiles[slimRoot] = {
+        ...structuredClone(sourceProfile),
+        GameDirectory: slimRoot,
+        UeVersion: ueVersion,
+    };
+    const before = sourceProfile.UeVersion;
+    sourceProfile.UeVersion = ueVersion;
+    writeFileSync(settingsPath, JSON.stringify(settings, null, 2));
+
+    console.log(`backup:  ${backup}`);
+    console.log(`source:  ${sourcePath}   UeVersion ${before} -> ${ueVersion}, ${sourceProfile.AesKeys?.dynamicKeys?.length ?? 0} dynamic keys`);
+    console.log(`slim:    ${slimRoot}   cloned from source, UeVersion ${ueVersion}`);
+    console.log('\nLaunch FModel, set Game Directory to the slim root, and check the log reads Mounted: 4/4.');
 }
 
 console.log('\nThen, in FModel, export these folders (right-click > Export Folder\'s Packages Raw Data):');

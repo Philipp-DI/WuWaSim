@@ -12968,3 +12968,61 @@ is the backstop.
 **[Updated Docs]** `CLAUDE.md` — pak counts corrected to 4 of 55, the
 stale-log rule, the `.sig` rule, the Out-Null lesson. `docs/HISTORY.md` — this
 entry.
+
+## 2026-09-15 — It looked like expired keys, and was the UE version
+
+The maintainer reported FModel could load nothing from the slim root and only a
+few paks from the full game, and suspected the AES keys had expired. Read the
+FModel log instead of guessing.
+
+**[What the log said]** The same morning's FIRST load read `Project: Client |
+Mounted: 248/248 | AES: 39/39` — every pak, every key, identical to last week.
+Then seven attempts of `Project: (empty) | Mounted: 0/4 | AES: 0/1` — the slim
+root, with ONE key submitted. Then, back on the full game, `Project: Wuthering
+Waves | Mounted: 26/248` and 468 `ArgumentOutOfRangeException` thrown from
+`AbstractAesVfsReader.MountTo`. A wrong key fails differently; an index parsed
+with the wrong STRUCT LAYOUT throws exactly that.
+
+**[Root cause]** FModel keys everything that makes a game loadable — the AES
+keys and the UE version — to the exact `GameDirectory` path string, in
+`PerDirectory` of its `AppSettings.json`. Pointing it at `G:\WuWaSlim` created a
+fresh profile with FModel's defaults: one key and stock UE 4.26. Saving that
+setting also reset the ORIGINAL profile's UE version. Confirmed by diffing the
+settings file against what this session read from it on 2026-09-08:
+`UeVersion` **68812811 → 68812800** on both profiles. `68812800` is
+`0x041A0000`, CUE4Parse's GAME_UE4_26; `68812811` is +11, the Wuthering Waves
+entry in that family. Kuro modified the pak format, and stock 4.26 cannot parse
+it. The keys were never the problem.
+
+**[The fix, and where it lives]** `node tools/plan-export.mjs --profile` clones
+the real game's profile (all 486 dynamic keys) onto the slim root and restores
+`UeVersion` 68812811 on both, backing the settings file up first. It REFUSES to
+run while FModel is open, because FModel rewrites the file on exit and an edit
+made underneath it is silently lost — verified: with FModel running it exited 1
+and left both profiles untouched. The constant is documented by derivation and
+overridable with `--ue-version` should a later FModel renumber the enum. A
+one-off Python fix was written first and then removed from the repo: this will
+recur every time FModel is pointed at a new directory, so it belongs in the
+planner.
+
+**[Files Changed]** `tools/plan-export.mjs` (`--profile`); `CLAUDE.md`.
+
+**[Logic Altered]** None in the engine.
+
+**[Verification Method]** Mount summaries extracted from both the broken and
+the working log and compared line by line; the exception type counted (468, all
+`ArgumentOutOfRangeException`); the settings file read and both profiles'
+`UeVersion` compared against the 09-08 reading; the running-FModel guard
+exercised against the live process. `npm run lint` 0 errors, 1574 warnings;
+`tests/export-manifest.test.mjs` 30/30.
+
+**[Residual Risks]** `--profile` has not yet been RUN to completion here —
+FModel was open, and killing the maintainer's process is not mine to do. The
+`Project: Client` vs `Project: Wuthering Waves` name change between the working
+and broken runs is consistent with the preset having been switched in FModel's
+UI but was not traced to a specific click. The EGame constant is FModel-version
+specific.
+
+**[Updated Docs]** `CLAUDE.md` — the per-directory profile rule, the
+exact-symptom note ("looked like expired keys"), and the `--profile` flow.
+`docs/HISTORY.md` — this entry.

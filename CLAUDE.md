@@ -80,7 +80,15 @@ into the next version's base paks — the first draft listed four of them as
 "0 MB" and would have emitted dangling symlinks. A pak the log names but the
 disk lacks is dropped and reported. Symlinks need Developer Mode OR elevation;
 the emitted commands leave errors VISIBLE (`| Out-Null` is what hid the failure
-the first time). Re-run after every patch. The paks are AES-encrypted (main key plus ~450
+the first time). Re-run after every patch. **FModel keys the AES keys AND the UE
+version to the exact GameDirectory path**, so pointing it at the slim root makes
+a fresh default profile — one key, stock UE 4.26 — and saving that setting reset
+the ORIGINAL profile too (`Mounted: 26/248`, 468 `ArgumentOutOfRangeException`
+in `MountTo`: Kuro's pak format parsed as stock 4.26). That looked exactly like
+expired keys and was not — the same morning's first load read `AES: 39/39`.
+`node tools/plan-export.mjs --profile` (FModel CLOSED, it rewrites the file on
+exit) clones the game's profile onto the slim root and restores `UeVersion`
+68812811 (`0x041A0000` GAME_UE4_26 + 11 = the Wuthering Waves entry) on both. The paks are AES-encrypted (main key plus ~450
 per-chunk dynamic keys) and Oodle-compressed, so reading them directly would mean
 reimplementing CUE4Parse — the mount point is the cheap lever instead. Content is
 chunked BY FOLDER, so the MOST SPECIFIC mount covering a path is the chunk that
