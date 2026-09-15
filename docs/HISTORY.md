@@ -13135,3 +13135,92 @@ change with no committed diff to show for it.
 invariant now names the weapon source; the "seven artifacts lag 3.6" note
 closed with the measurements and the gitignore rule; the Crit DMG
 contradiction recorded. `docs/HISTORY.md` — this entry.
+
+## 2026-09-15 — The base paks are not the live game
+
+The maintainer measured Thousandfold Deliverance in game: 24% Crit DMG at 6
+stacks, 4% per stack — the tooltip, not the table's 600. They also said, rightly,
+that an override would be the wrong fix: data mismatching behaviour is the worst
+case, and curating around it means curating everything. So the question became
+WHY the table said 600, and the answer was not in the table.
+
+**[Ruling out the rule]** Every stacking row on the roster was checked against
+its tooltip (32 of 36 verbatim, two display-rounding), attr 9's scale confirmed
+via Starfield Calibrator (`[2000]` = 20%), and the buff block read end to end:
+`110053003` is Cradle of Life (consumed by Heavies via `x06`/`x07`),
+`110053105` is Nature's Order (the 600 row, and the one `x08` gates on at 6
+stacks), both applied together by the Intro path (`x02`) and the shield passive
+(`ShieldTrigger`, CD 0.5s) alike. Then the client's own code: `ActiveBuff.p__`
+applies `GetLevelValue(ModifierMagnitude, level) × StackCount`, and
+`GetLevelValue([600], any)` is 600. No hidden scale, no second row. By the
+client's arithmetic the row it loads MUST say 400 — so I was holding the wrong
+row.
+
+**[The other directory]** Steam's `Content/Paks` is the client as INSTALLED:
+`BuildInfo.txt` in that export read `PatchVersion=3.6.0`. Everything since
+lives under `Client/Saved/Resources/3.6.0/Resource/3.6.15/` — 46 `_P` patch paks,
+9 GB, mounted OVER the base — which is why a full-root FModel load reads 248 paks
+when `Content/Paks` holds 55. `pakchunk44_P` alone is 931 MB, a near-complete
+ConfigDB re-ship dated 2026-09-12. The slim root had linked only the four base
+paks, so the extractors had been reading launch day.
+
+Two earlier claims of mine fall with this. "The log is history, the disk is now
+— the `_P` paks were folded into the base": they were never gone, they were in
+`Saved/Resources`, and the planner had not looked there. And "the table says
+6%": the OLD table said 6%.
+
+**[The planner]** `plan-export.mjs` now discovers the newest hotfix lane
+(version-shaped names only — `Saved/Resources` also holds `Video`, which a plain
+sort puts first), resolves each chosen base pak's `_P` sibling there, and links
+both into one slim Paks dir where the suffix gives the patch mount priority as
+it does in the real install. It also sources from the REAL install rather than
+FModel's current Game Directory, which once the slim root is in use IS the slim
+root and has no `Saved/Resources` — the same rule `--profile` already used.
+Result: **8 paks, 3.35 GB of 89.5 GB**, nothing dropped. Rebuilt and verified:
+16 links, all resolving.
+
+**[Confirmed]** The maintainer re-exported from the rebuilt root: `Mounted:
+8/8`, `BuildInfo.txt` now `PatchVersion=3.6.15`, changelist 8779263. The row:
+R1 `[400]`, R2–R5 `500/600/700/800` — tooltip, table and stat sheet agree. No
+override was written.
+
+**[What the hotfix changed]** Every extractor re-run against 3.6.15 and diffed
+against the 3.6.0 outputs. The 931 MB re-ship moved exactly THREE sim inputs:
+Thousandfold Deliverance's Crit DMG (6/7.5/9/10.5/12% → 4/5/6/7/8%); Phrolova's
+gauge triggers, which the hotfix deduplicated (four base passives now point at
+the Chaos-variant ids and the four duplicate rows are gone — same four +100
+SpecialEnergy2 grants, zero sim impact since that lane is not wired); and
+Qingxiao's 40% amplify scope, narrowed from all 20 of her damage rows to four
+named skills. `status-*`, `affliction`, `abnormal`, `extra-effects`,
+`skill-join`, `actionable-times` and every timing table: byte-identical. In
+`wuwa-data.json` only Qingxiao's object and the weapon's rows changed; 0 skill
+timings moved. LOCK B: 0 of 416 teams.
+
+**[Files Changed]** `tools/plan-export.mjs`; `tests/external-buffs.test.mjs`
+(the pin corrected from the launch-day 36% to the live 24%, with the reason);
+`data/external-buffs.json`, `data/gauge-income.json`, `data/buff-facts.json`
+(regenerated at 3.6.15); regenerated `data/wuwa-data.json` + `data/wuwa-meta.json`;
+`CLAUDE.md`.
+
+**[Logic Altered]** None in the engine. The extractors read a different, correct
+input.
+
+**[Verification Method]** The client formula read from `ActiveBuff.js` and
+`AbilityUtils.js` rather than inferred; the hotfix lane found by listing the
+install's newest non-pak files and following `Saved/`; the re-export confirmed
+by `BuildInfo.txt` and the mount summary before the row was read; every
+artifact diffed 3.6.0 vs 3.6.15 per table and the three changes read leaf by
+leaf. `npm test` 77/77; `npm run sweep` 70 imported, 0 failed; `npm run lint`
+0 errors, 1574 warnings.
+
+**[Residual Risks]** Novaburst's ATK row (`[300]`, policy `[1]` scale-base)
+still reads 3% against a 4% tooltip at 3.6.15 — unresolved, unverified in game,
+and a 3★ weapon no ranked build equips. Qingxiao's narrowed amplify scope is
+recorded from the live requirement list but not audited against her kit text.
+The hotfix lane resolver assumes Kuro's `Saved/Resources/<ver>/Resource/<hotfix>`
+layout; a relayout would surface as "hotfix: 0 patch paks", which the planner
+prints rather than hides.
+
+**[Updated Docs]** `CLAUDE.md` — the stale-log claim struck through and
+replaced with the hot-patch rule; the contradiction struck through and closed;
+pak counts corrected to 8 of 101. `docs/HISTORY.md` — this entry.

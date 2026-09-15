@@ -196,12 +196,15 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     assert('...its Heavy DEF ignore still routes per hit (15% x 2 stacks)',
         deliverance.targetMods.some(mod => Math.abs(mod.defIgnore - 0.30) < 1e-9 && mod.scope?.skillTypes?.includes('heavy')));
     assert('...and nothing is left unplaced', deliverance.unplaced.length === 0);
-    // The game's own row for its Crit DMG is 600 (6%) per stack under
-    // CalculationPolicy [0], x6 stacks — 36% at cap — where the tooltip says
-    // "4%, up to 24%". Data outranks tooltip until the maintainer verifies it
-    // in game; this pins what the DATA says so a silent change is caught.
-    assert('...Crit DMG credited from the DATA row (6% x 6), not the tooltip (4% x 6)',
-        Math.abs(deliverance.critDmg - 0.36) < 1e-9);
+    // ~~The game's own row for its Crit DMG is 600 (6%) per stack, where the
+    // tooltip says "4%, up to 24%" — data outranks tooltip.~~ The 600 was the
+    // LAUNCH-DAY row: an export built from Content/Paks alone is version 3.6.0,
+    // and the 3.6.15 hotfix under Client/Saved/Resources re-shipped db_buff with
+    // 400/500/600/700/800 across ranks — exactly the tooltip, exactly the
+    // maintainer's stat sheet (24% at 6 stacks, 4% each). The contradiction was
+    // never data-vs-behaviour; it was a stale export. This pins the LIVE value.
+    assert('...Crit DMG is 4% x 6 stacks = 24%, the 3.6.15 row and the tooltip agreeing',
+        Math.abs(deliverance.critDmg - 0.24) < 1e-9);
 
     // Lux & Umbra's three branches must ALL be refused — a partial placement
     // would make hasPlaceableValue true and silently suppress the text fallback

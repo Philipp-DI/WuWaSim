@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-09-15T09:40:30.970Z",
+  "generatedAt": "2026-09-15T13:14:24.905Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -17420,26 +17420,10 @@
                 "type": "always"
               },
               "skillKeys": [
-                "basic_dodge_counter_stringblade",
-                "basic_plunging_attack",
                 "basic_stringblade_1",
-                "basic_stringblade_2",
-                "basic_stringblade_3",
-                "basic_stringblade_4",
-                "forte_basic_ephemeral_transcendence_1",
-                "forte_basic_ephemeral_transcendence_2",
-                "forte_basic_ephemeral_transcendence_3",
-                "forte_basic_ephemeral_transcendence_4",
-                "forte_heavy_dodge_counter_ephemeral_transcendence",
                 "forte_heavy_heaven_s_reckoning_ephemeral_transcendence",
                 "heavy_stringblade",
-                "intro",
-                "liberation",
-                "midair_stringblade_1",
-                "midair_stringblade_2",
-                "midair_stringblade_3",
-                "skill_ascendant",
-                "skill_judgement"
+                "liberation"
               ],
               "scopeSource": "configdb"
             },
@@ -255379,7 +255363,7 @@
               "stackLimit": 6,
               "scope": null,
               "attribute": 9,
-              "value": 0.06,
+              "value": 0.04,
               "teamWide": false,
               "buffId": 110053105,
               "attributeName": "Proto_CritDamage"
@@ -255419,7 +255403,7 @@
               "stackLimit": 6,
               "scope": null,
               "attribute": 9,
-              "value": 0.075,
+              "value": 0.05,
               "teamWide": false,
               "buffId": 110053205,
               "attributeName": "Proto_CritDamage"
@@ -255459,7 +255443,7 @@
               "stackLimit": 6,
               "scope": null,
               "attribute": 9,
-              "value": 0.09,
+              "value": 0.06,
               "teamWide": false,
               "buffId": 110053305,
               "attributeName": "Proto_CritDamage"
@@ -255499,7 +255483,7 @@
               "stackLimit": 6,
               "scope": null,
               "attribute": 9,
-              "value": 0.105,
+              "value": 0.07,
               "teamWide": false,
               "buffId": 110053405,
               "attributeName": "Proto_CritDamage"
@@ -255539,7 +255523,7 @@
               "stackLimit": 6,
               "scope": null,
               "attribute": 9,
-              "value": 0.12,
+              "value": 0.08,
               "teamWide": false,
               "buffId": 110053505,
               "attributeName": "Proto_CritDamage"

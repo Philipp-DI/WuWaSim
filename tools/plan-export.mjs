@@ -43,7 +43,17 @@ const flag = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 
 
 const settingsPath = join(process.env.APPDATA ?? '', 'FModel', 'AppSettings.json');
 const settings = existsSync(settingsPath) ? JSON.parse(readFileSync(settingsPath, 'utf8')) : {};
-const gameDir = settings.GameDirectory ?? null;
+const slimRootArg = flag('--slim') ?? 'G:\\WuWaSlim';
+// The REAL install, not whatever FModel currently points at — once the slim
+// root is in use that is the slim root, which has no Saved/Resources and
+// would send the planner looking for hotfixes inside its own output. Same rule
+// `--profile` uses: the profile that is not the slim root and holds the keys.
+const gameDir = (() => {
+    const profiles = Object.keys(settings.PerDirectory ?? {})
+        .filter(path => path !== slimRootArg && existsSync(join(path, 'Client', 'Content', 'Paks')))
+        .sort((left, right) => (settings.PerDirectory[right].AesKeys?.dynamicKeys?.length ?? 0) - (settings.PerDirectory[left].AesKeys?.dynamicKeys?.length ?? 0));
+    return profiles[0] ?? (settings.GameDirectory !== slimRootArg ? settings.GameDirectory : null) ?? null;
+})();
 const pakDir = gameDir ? join(gameDir, 'Client', 'Content', 'Paks') : null;
 const logDir = settings.OutputDirectory ? join(settings.OutputDirectory, 'Logs') : null;
 
@@ -119,31 +129,65 @@ for (const pak of [...chosen.keys()]) {
     }
 }
 
-// THE LOG IS HISTORY, THE DISK IS NOW. FModel's log accumulates every pak it
-// ever mounted, across game versions, and a Steam update rewrites the pak set —
-// the `_P` patch paks of one version are folded into the base paks of the next
-// and vanish. The first version of this script listed four of them as "0 MB",
-// and a symlink to a file that does not exist is a dangling link FModel cannot
-// mount. So a pak the log names but the disk lacks is dropped here and reported,
-// never emitted.
-const onDisk = new Set(pakDir && existsSync(pakDir) ? readdirSync(pakDir).filter(name => name.endsWith('.pak')) : []);
-const stale = [...chosen.keys()].filter(pak => onDisk.size && !onDisk.has(pak));
+// THE BASE PAKS ARE NOT THE LIVE GAME. Steam's Content/Paks holds the version
+// the client was INSTALLED at (BuildInfo said 3.6.0); everything since arrives
+// as `_P` patch paks under Client/Saved/Resources/<version>/<lane>/<hotfix>/,
+// which the client mounts OVER the base. That is why a full-root FModel load
+// read 248 paks when Content/Paks holds 55: the other 193 are hot-patches. An
+// export that links only the base paks is an export of launch day — and that is
+// exactly how Thousandfold Deliverance's Crit DMG read 6%/stack from the base
+// `db_buff` while the live stat sheet showed 4%: the 3.6.15 patch to pakchunk44
+// (931 MB, a near-full ConfigDB re-ship) had never been mounted. ~~"The log is
+// history, the disk is now": a `_P` pak the log names but Content/Paks lacks was
+// dropped as stale.~~ It was not stale; it was in the other directory. So the
+// planner resolves every chosen base pak's `_P` sibling in the NEWEST hotfix of
+// the Resource lane, and a pak found in neither place is what gets dropped.
+const hotfixDir = (() => {
+    const resources = gameDir ? join(gameDir, 'Client', 'Saved', 'Resources') : null;
+    if (!resources || !existsSync(resources)) return null;
+    // Only version-shaped names: Saved/Resources also holds "Video", which a
+    // plain sort puts above "3.6.0".
+    const byVersion = (dir) => readdirSync(dir)
+        .filter(name => /^\d+(\.\d+)*$/.test(name) && statSync(join(dir, name)).isDirectory())
+        .sort((left, right) => right.localeCompare(left, undefined, { numeric: true }));
+    const version = byVersion(resources)[0];
+    const lane = version ? join(resources, version, 'Resource') : null;
+    if (!lane || !existsSync(lane)) return null;
+    const hotfix = byVersion(lane)[0];
+    return hotfix ? join(lane, hotfix) : null;
+})();
+const patchOnDisk = new Set(hotfixDir ? readdirSync(hotfixDir).filter(name => name.endsWith('_P.pak')) : []);
+const baseOnDisk = new Set(pakDir && existsSync(pakDir) ? readdirSync(pakDir).filter(name => name.endsWith('.pak')) : []);
+// Where a pak actually lives, so the link targets the right directory.
+const locate = (pak) => baseOnDisk.has(pak) ? join(pakDir, pak)
+    : patchOnDisk.has(pak) && hotfixDir ? join(hotfixDir, pak) : null;
+
+for (const pak of [...chosen.keys()]) {
+    const patch = baseName(pak).replace(/\.pak$/, '_P.pak');
+    if (patchOnDisk.has(patch) && !chosen.has(patch)) {
+        chosen.set(patch, { info: { mount: chosen.get(pak).info.mount + ' (hotfix)' }, wants: new Set(chosen.get(pak).wants) });
+    }
+}
+const stale = [...chosen.keys()].filter(pak => (baseOnDisk.size || patchOnDisk.size) && !locate(pak));
 for (const pak of stale) chosen.delete(pak);
 
-const allBytes = [...onDisk].reduce((sum, pak) => sum + sizeOf(pak), 0);
-const keepBytes = [...chosen.keys()].reduce((sum, pak) => sum + sizeOf(pak), 0);
+const sizeAt = (pak) => { const path = locate(pak); return path && existsSync(path) ? statSync(path).size : 0; };
+const allBytes = [...baseOnDisk].reduce((sum, pak) => sum + sizeOf(pak), 0)
+    + [...patchOnDisk].reduce((sum, pak) => sum + (hotfixDir ? statSync(join(hotfixDir, pak)).size : 0), 0);
+const keepBytes = [...chosen.keys()].reduce((sum, pak) => sum + sizeAt(pak), 0);
 
-console.log(`log:  ${logPath}`);
-console.log(`disk: ${onDisk.size} paks in ${pakDir ?? '(unknown — no FModel GameDirectory)'}`);
-console.log(`paks: ${chosen.size} needed`
+console.log(`log:     ${logPath}`);
+console.log(`base:    ${baseOnDisk.size} paks in ${pakDir ?? '(unknown — no FModel GameDirectory)'}`);
+console.log(`hotfix:  ${patchOnDisk.size} patch paks in ${hotfixDir ?? '(none found under Client/Saved/Resources)'}`);
+console.log(`paks:    ${chosen.size} needed`
     + (allBytes ? `  (${(keepBytes / 1e9).toFixed(2)} GB of ${(allBytes / 1e9).toFixed(1)} GB on disk)` : ''));
 if (stale.length) {
-    console.log(`\n  dropped ${stale.length} pak(s) the log names but the disk no longer has (an older patch's files):`);
+    console.log(`\n  dropped ${stale.length} pak(s) the log names but neither directory has:`);
     for (const pak of stale) console.log(`    ${pak}`);
 }
 console.log();
-for (const [pak, entry] of [...chosen].sort((left, right) => sizeOf(right[0]) - sizeOf(left[0]))) {
-    console.log(`  ${pak.padEnd(44)} ${(sizeOf(pak) / 1e6).toFixed(0).padStart(6)} MB   ${entry.info.mount}`);
+for (const [pak, entry] of [...chosen].sort((left, right) => sizeAt(right[0]) - sizeAt(left[0]))) {
+    console.log(`  ${pak.padEnd(44)} ${(sizeAt(pak) / 1e6).toFixed(0).padStart(6)} MB   ${entry.info.mount}`);
     console.log(`  ${' '.repeat(44)}        for: ${[...entry.wants].join(', ')}`);
 }
 
@@ -151,7 +195,7 @@ if (argv.includes('--link')) {
     // FModel resolves <GameDirectory>/Client/Content/Paks, so the slim tree has
     // to MIRROR that shape — a bare folder of paks is not something it can be
     // pointed at. Symlinks, so nothing is copied and no disk is spent.
-    const slimRoot = flag('--slim') ?? 'G:\\WuWaSlim';
+    const slimRoot = slimRootArg;
     const slimPaks = join(slimRoot, 'Client', 'Content', 'Paks');
     // Errors are left VISIBLE: the first draft piped every line to Out-Null,
     // which is precisely what hid a silent failure from the maintainer. Each
@@ -162,17 +206,24 @@ if (argv.includes('--link')) {
     console.log(`# elevated PowerShell. Then set FModel's Game Directory to:  ${slimRoot}`);
     console.log(`New-Item -ItemType Directory -Force '${slimPaks}' | Select-Object FullName`);
     // Every pak ships with a `.sig` beside it, and CUE4Parse can refuse a pak
-    // whose signature file is missing — so the sig travels with the pak.
+    // whose signature file is missing — so the sig travels with the pak. A base
+    // pak links from Content/Paks and its `_P` hotfix from Saved/Resources; both
+    // land in ONE slim Paks dir, where the `_P` suffix gives the patch mount
+    // priority exactly as it does in the real install.
     for (const pak of [...chosen.keys()].sort()) {
-        for (const file of [pak, pak.replace(/\.pak$/, '.sig')]) {
-            if (!existsSync(join(pakDir ?? '', file))) continue;
-            console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, file)}' -Target '${join(pakDir ?? '', file)}' -Force | Select-Object Name, LinkType`);
+        const source = locate(pak);
+        if (!source) continue;
+        for (const file of [source, source.replace(/\.pak$/, '.sig')]) {
+            if (!existsSync(file)) continue;
+            const name = file.slice(file.lastIndexOf('\\') + 1);
+            console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, name)}' -Target '${file}' -Force | Select-Object Name, LinkType`);
         }
     }
     console.log(`# Then, with FModel CLOSED:  node tools/plan-export.mjs --profile`);
-    console.log(`# Re-run after every game patch: Steam rewrites the pak set and stale links dangle.`);
+    console.log(`# Re-run after every game patch AND every hotfix: a new Saved/Resources/<ver>/Resource/<hotfix>/`);
+    console.log(`# directory means new _P paks, and an export without them is the previous hotfix's data.`);
 } else if (argv.includes('--profile')) {
-    applyProfile(flag('--slim') ?? 'G:\\WuWaSlim');
+    applyProfile(slimRootArg);
 } else {
     console.log('\nRun again with --link for the slim-directory commands.');
 }

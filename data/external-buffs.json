@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-09-15T09:33:51+00:00",
+ "generatedAt": "2026-09-15T13:11:02+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -10123,7 +10123,7 @@
       "stackLimit": 6,
       "scope": null,
       "attribute": 9,
-      "value": 0.06,
+      "value": 0.04,
       "teamWide": false,
       "buffId": 110053105,
       "attributeName": "Proto_CritDamage"
@@ -10163,7 +10163,7 @@
       "stackLimit": 6,
       "scope": null,
       "attribute": 9,
-      "value": 0.075,
+      "value": 0.05,
       "teamWide": false,
       "buffId": 110053205,
       "attributeName": "Proto_CritDamage"
@@ -10203,7 +10203,7 @@
       "stackLimit": 6,
       "scope": null,
       "attribute": 9,
-      "value": 0.09,
+      "value": 0.06,
       "teamWide": false,
       "buffId": 110053305,
       "attributeName": "Proto_CritDamage"
@@ -10243,7 +10243,7 @@
       "stackLimit": 6,
       "scope": null,
       "attribute": 9,
-      "value": 0.105,
+      "value": 0.07,
       "teamWide": false,
       "buffId": 110053405,
       "attributeName": "Proto_CritDamage"
@@ -10283,7 +10283,7 @@
       "stackLimit": 6,
       "scope": null,
       "attribute": 9,
-      "value": 0.12,
+      "value": 0.08,
       "teamWide": false,
       "buffId": 110053505,
       "attributeName": "Proto_CritDamage"

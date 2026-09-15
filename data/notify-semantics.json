@@ -1,7 +1,7 @@
 {
  "_meta": {
   "source": "G:\\Software\\fmodel\\Output\\Exports\\Client\\Content\\Aki\\JavaScript\\Game (shipped client JavaScript)",
-  "generatedAt": "2026-09-15T09:34:02.701Z",
+  "generatedAt": "2026-09-15T13:11:10.293Z",
   "note": "GetNotifyName() is the designer-facing label and the authority on what a notify does. `dead` lists declared-but-never-read properties — do not classify on those.",
   "count": 206
  },
@@ -770,19 +770,13 @@
    "notify": "TsAnimNotifyFinishPokerPerformAction",
    "kind": "instant",
    "label": "猜鬼牌完成动作动画通知",
-   "declared": [
-    "PokerState"
-   ],
-   "used": [
-    "PokerState"
-   ],
+   "declared": [],
+   "used": [],
    "dead": [],
    "calls": [
-    "Emit",
-    "CheckWarn",
-    "Warn"
+    "Emit"
    ],
-   "bytes": 834
+   "bytes": 682
   },
   {
    "notify": "TsAnimNotifyFishingSkill",

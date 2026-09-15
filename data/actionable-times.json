@@ -2,7 +2,7 @@
   "_meta": {
     "source": "tools/extract/scan_bullet_timings.py + extract_timings.py — offline raw-asset parse (no FModel JSON export step)",
     "assetRoot": "docs-local/Role (user-provided, gitignored — not redistributed)",
-    "generatedAt": "2026-09-15T09:36:12.502Z",
+    "generatedAt": "2026-09-15T13:13:07.417Z",
     "join": "Two routes, in precedence order, both keyed on the hitMap[rid][skillKey] BinData damage id. route=\"bulletChain\": damage id -> the bullet(s) applying it (bullet table 伤害ID/多伤害ID, transitively through child bullets) -> the animation whose notify fires that bullet. Exact id identity at every hop, and it resolves to the ONE animation producing this exact damage instance. route=\"skillRow\": the older DT_SkillInfo join -- raw resonator id from the hit id's own leading 4 digits (not assumed equal to rid, see Rover), longest exact-prefix match against that resonator's row ids, then the row's merged montages. Coarser (distinct abilities often share one row, so they share one number), so it is only the fallback. sourceResonatorId is present on a skillRow entry only when it differs from the dataset's own rid.",
     "routeCounts": {
       "bulletChain": 899,

@@ -948,26 +948,10 @@
     "bucket": "amplify",
     "scopeByFamily": {
      "damage": [
-      "basic_dodge_counter_stringblade",
-      "basic_plunging_attack",
       "basic_stringblade_1",
-      "basic_stringblade_2",
-      "basic_stringblade_3",
-      "basic_stringblade_4",
-      "forte_basic_ephemeral_transcendence_1",
-      "forte_basic_ephemeral_transcendence_2",
-      "forte_basic_ephemeral_transcendence_3",
-      "forte_basic_ephemeral_transcendence_4",
-      "forte_heavy_dodge_counter_ephemeral_transcendence",
       "forte_heavy_heaven_s_reckoning_ephemeral_transcendence",
       "heavy_stringblade",
-      "intro",
-      "liberation",
-      "midair_stringblade_1",
-      "midair_stringblade_2",
-      "midair_stringblade_3",
-      "skill_ascendant",
-      "skill_judgement"
+      "liberation"
      ]
     }
    },

@@ -70,15 +70,22 @@ so probing costs nothing: `node tools/preprocess.mjs --ref 3.6 --out /tmp/x.json
 
 **Targeted FModel export.** Three steps, none of which need the whole client:
 `node tools/plan-export.mjs --link` reads FModel's own log for each pak's MOUNT
-POINT and resolves the smallest set that can hold what we need — **4 paks of 55,
-2.3 GB of 87 GB** — emitting symlinks for a slim game root (FModel resolves
-`<GameDirectory>/Client/Content/Paks`, so the tree must mirror that shape, and
-each pak's `.sig` travels with it). It then lists the folders to export. THE LOG
-IS HISTORY, THE DISK IS NOW: FModel's log accumulates every pak it ever mounted
-across game versions, and a Steam update folds one version's `_P` patch paks
-into the next version's base paks — the first draft listed four of them as
-"0 MB" and would have emitted dangling symlinks. A pak the log names but the
-disk lacks is dropped and reported. Symlinks need Developer Mode OR elevation;
+POINT and resolves the smallest set that can hold what we need — **8 paks of
+101, 3.35 GB of 89.5 GB**: 4 base plus their 4 hotfix patches — emitting
+symlinks for a slim game root (FModel resolves `<GameDirectory>/Client/Content/
+Paks`, so the tree must mirror that shape, and each pak's `.sig` travels with
+it). It then lists the folders to export. **THE BASE PAKS ARE NOT THE LIVE
+GAME.** `Content/Paks` holds the client as INSTALLED (`BuildInfo.txt` said
+3.6.0); every hotfix since arrives as `_P` patch paks under
+`Client/Saved/Resources/<version>/Resource/<hotfix>/` (46 paks, 9 GB, at 3.6.15)
+which the client mounts OVER the base. That is why a full-root FModel load reads
+248 paks when `Content/Paks` holds 55. ~~"The log is history, the disk is now":
+a `_P` pak the log names but `Content/Paks` lacks was dropped as stale.~~ It was
+never stale — it was in the other directory — and the export built without it
+was launch day's data. The planner now resolves each chosen base pak's `_P`
+sibling in the NEWEST hotfix lane and sources from the REAL install (not
+FModel's current Game Directory, which is the slim root itself once in use).
+Re-run after every hotfix, not just every patch. Symlinks need Developer Mode OR elevation;
 the emitted commands leave errors VISIBLE (`| Out-Null` is what hid the failure
 the first time). Re-run after every patch. **FModel keys the AES keys AND the UE
 version to the exact GameDirectory path**, so pointing it at the slim root makes
@@ -138,14 +145,20 @@ Basic rework shows in the animation assets too: `sequence_length_s` 1.0s → 11.
 `AM_Attack04_Loop` gone), and LOCK B moved ZERO teams because none of those
 steps is in a reference rotation. `timing-data.json` and `bullet-timings.json`
 are GITIGNORED (11 MB + 5 MB, regenerable); a test that needs coverage reads
-the committed `actionable-times.json`, never those. **One data-vs-tooltip
-contradiction to verify in game:** Thousandfold Deliverance's Crit DMG row is
-`ModifierMagnitude [600]`, `CalculationPolicy [0]`, 6 stacks — flat 6%/stack,
-36% at cap — where the tooltip says "4%, up to 24%" at every rank (exactly
-1.5×). The DEF-ignore and Crit-Rate rows match the tooltip at every rank, so
-this is not a rank misread. Data outranks tooltip and the sim credits 36%;
-`tests/external-buffs.test.mjs` pins the data value so a silent change is
-caught. Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
+the committed `actionable-times.json`, never those. ~~**One data-vs-tooltip contradiction to verify in game:** Thousandfold
+Deliverance's Crit DMG row is `[600]` … where the tooltip says "4%, up to 24%"
+… Data outranks tooltip and the sim credits 36%.~~ **Resolved, and the lesson
+is the one above.** The maintainer measured 24% at 6 stacks in game; the 600
+was the launch-day row and the 3.6.15 hotfix re-shipped `db_buff` with
+400/500/600/700/800 — tooltip, table and stat sheet all agree. No override was
+needed and none was written: a data-vs-behaviour mismatch is the worst case and
+this was not one, it was a stale export. The hotfix changed exactly three sim
+inputs — that weapon, Phrolova's gauge triggers (deduplicated, same grants) and
+Qingxiao's 40% amplify scope (20 keys → 4 named skills). Re-read the client's
+own code before believing a mismatch: `ActiveBuff.p__` applies
+`GetLevelValue(ModifierMagnitude, level) × StackCount` with no other input, so
+when that arithmetic disagrees with the stat sheet, the ROW is wrong — and the
+first question is which version of the row you are holding. Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
 whose index files must be refreshed from `ww/<version>/<type>.json` — note NO
 `/en/` in that path, and that the fetchers read `manifest.ww.latest`, which can
 run AHEAD of `live`) and the derived tables keyed by id. Those extractors DO live
