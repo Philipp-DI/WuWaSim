@@ -141,7 +141,7 @@ def main():
         raise SystemExit('routing ids absent from both switches: %s' % unknown)
 
     destination = os.path.join(ROOT, 'data', 'extra-effects.json')
-    with open(destination, 'w', encoding='utf-8') as handle:
+    with open(destination, 'w', encoding='utf-8', newline='\n') as handle:
         json.dump(out, handle, indent=1, ensure_ascii=False)
         handle.write('\n')
     print('effect classes:    %d' % len(effects))

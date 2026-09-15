@@ -376,7 +376,7 @@ def write_report(res, path):
                   'these manually — they often hold the in-burst attack timings.', '']
         for u in m['unreferenced_montages'][:120]:
             lines.append(f'- `{u}`')
-    open(path, 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
+    open(path, 'w', encoding='utf-8', newline='\n').write('\n'.join(lines) + '\n')
 
 
 def main():
@@ -386,7 +386,7 @@ def main():
     ap.add_argument('--report', default=None)
     a = ap.parse_args()
     res = extract(a.root)
-    json.dump(res, open(a.out, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
+    json.dump(res, open(a.out, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=2)
     print(f"wrote {a.out}: {res['_meta']['resonators_found']} resonators, "
           f"{res['_meta']['montages_parsed']} montages", file=sys.stderr)
     if a.report:

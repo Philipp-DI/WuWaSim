@@ -96,7 +96,7 @@ def main(export_root):
         'appliers': dict(sorted(appliers.items(), key=lambda item: int(item[0]))),
     }
     out_path = os.path.join(ROOT, 'data', 'status-appliers.json')
-    with open(out_path, 'w', encoding='utf-8') as handle:
+    with open(out_path, 'w', encoding='utf-8', newline='\n') as handle:
         json.dump(payload, handle, indent=1, ensure_ascii=False)
         handle.write('\n')
     print(f'{len(appliers)} status appliers -> {out_path}')

@@ -386,7 +386,7 @@ def main():
     result = extract(args.root, verbose=not args.quiet)
     payload = json.dumps(result, ensure_ascii=False, indent=1)
     if args.out:
-        with open(args.out, 'w', encoding='utf-8') as handle:
+        with open(args.out, 'w', encoding='utf-8', newline='\n') as handle:
             handle.write(payload + '\n')
         if not args.quiet:
             total = sum(len(v['cast']) + len(v['trigger'])

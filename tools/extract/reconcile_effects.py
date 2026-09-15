@@ -496,7 +496,7 @@ def main():
                '| node | stat | game | ours |', '| --- | --- | --- | --- |'] + lines
 
     out = os.path.join(ROOT, 'docs', 'effect-reconciliation.md')
-    with open(out, 'w', encoding='utf-8') as handle:
+    with open(out, 'w', encoding='utf-8', newline='\n') as handle:
         handle.write('\n'.join(report) + '\n')
     print('\n'.join(report[:20]))
     print('\nWrote', out, '(%d disagreements listed)' % len(lines))

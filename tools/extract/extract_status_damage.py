@@ -113,7 +113,7 @@ def main(export_root):
         'statuses': statuses,
     }
     path = os.path.join(ROOT, 'data', 'status-damage.json')
-    with open(path, 'w', encoding='utf-8') as handle:
+    with open(path, 'w', encoding='utf-8', newline='\n') as handle:
         json.dump(out, handle, indent=1)
         handle.write('\n')
 

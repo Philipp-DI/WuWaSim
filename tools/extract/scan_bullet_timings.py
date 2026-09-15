@@ -374,7 +374,7 @@ def main():
     ap.add_argument('-o', '--out', default='bullet-timings.json')
     a = ap.parse_args()
     res = scan(a.root)
-    json.dump(res, open(a.out, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    json.dump(res, open(a.out, 'w', encoding='utf-8', newline='\n'), ensure_ascii=False, indent=1)
     print(f"wrote {a.out}", file=sys.stderr)
 
 
