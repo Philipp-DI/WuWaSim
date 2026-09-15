@@ -1,9 +1,9 @@
 {
  "_meta": {
   "source": "G:\\Software\\fmodel\\Output\\Exports\\Client\\Content\\Aki\\JavaScript\\Game (shipped client JavaScript)",
-  "generatedAt": "2026-07-31T07:19:56.927Z",
+  "generatedAt": "2026-09-15T09:34:02.701Z",
   "note": "GetNotifyName() is the designer-facing label and the authority on what a notify does. `dead` lists declared-but-never-read properties — do not classify on those.",
-  "count": 202
+  "count": 206
  },
  "notifies": [
   {
@@ -590,6 +590,24 @@
    "bytes": 888
   },
   {
+   "notify": "TsAnimNotifyDetachFromVehicle",
+   "kind": "instant",
+   "label": "下载具时从载具解绑",
+   "declared": [],
+   "used": [],
+   "dead": [],
+   "calls": [
+    "GetRidingVehicle",
+    "GetComponent",
+    "RemoveTag",
+    "SetNpcVehicleRideState",
+    "TryLeave",
+    "CheckInfo",
+    "Info"
+   ],
+   "bytes": 1205
+  },
+  {
    "notify": "TsAnimNotifyDisableAllRoleWithoutControl",
    "kind": "instant",
    "label": "下场所有前台不受控角色（开启特效时有延迟）",
@@ -1005,6 +1023,27 @@
    "bytes": 746
   },
   {
+   "notify": "TsAnimNotifyRemoveBuff",
+   "kind": "instant",
+   "label": "移除BUFF",
+   "declared": [
+    "BuffId"
+   ],
+   "used": [
+    "BuffId"
+   ],
+   "dead": [],
+   "calls": [
+    "GetComponent",
+    "HasBuffAuthority",
+    "IsRole",
+    "CreateAnimNotifyContent",
+    "GetName",
+    "RemoveBuff"
+   ],
+   "bytes": 1012
+  },
+  {
    "notify": "TsAnimNotifyRemoveSummonedEntity",
    "kind": "instant",
    "label": "删除技能召唤的实体",
@@ -1174,7 +1213,7 @@
     "GetComponent",
     "DoSitDownAction"
    ],
-   "bytes": 562
+   "bytes": 692
   },
   {
    "notify": "TsAnimNotifySendGamePlayEvent",
@@ -1303,7 +1342,7 @@
     "BeginAbsoluteTimeStop",
     "EndAbsoluteTimeStop"
    ],
-   "bytes": 893
+   "bytes": 963
   },
   {
    "notify": "TsAnimNotifyStateAccelInSplineMove",
@@ -1330,7 +1369,7 @@
     "ToUeVectorOld",
     "CacheVelocityInfo"
    ],
-   "bytes": 3584
+   "bytes": 3655
   },
   {
    "notify": "TsAnimNotifyStateAddBuff",
@@ -1352,7 +1391,7 @@
     "AddBuff",
     "RemoveBuff"
    ],
-   "bytes": 1458
+   "bytes": 1528
   },
   {
    "notify": "TsAnimNotifyStateAddGameplayCue",
@@ -1370,7 +1409,7 @@
     "AddCue",
     "RemoveCueByHandle"
    ],
-   "bytes": 1151
+   "bytes": 1399
   },
   {
    "notify": "TsAnimNotifyStateAddLocationBlackboard",
@@ -1397,7 +1436,7 @@
     "Multiply",
     "MoveCharacter"
    ],
-   "bytes": 3062
+   "bytes": 3132
   },
   {
    "notify": "TsAnimNotifyStateAddMoveByInputDirect",
@@ -1433,7 +1472,7 @@
     "GetFloatValue",
     "Normalize"
    ],
-   "bytes": 4449
+   "bytes": 4520
   },
   {
    "notify": "TsAnimNotifyStateAddTag",
@@ -1462,7 +1501,7 @@
     "AddAns",
     "ReduceAns"
    ],
-   "bytes": 2101
+   "bytes": 2172
   },
   {
    "notify": "TsAnimNotifyStateAicAnimEvent",
@@ -1479,7 +1518,7 @@
     "GetController",
     "AicTriggerEvent"
    ],
-   "bytes": 804
+   "bytes": 874
   },
   {
    "notify": "TsAnimNotifyStateAttach",
@@ -1510,7 +1549,7 @@
     "IsNearlyZero",
     "StepFrameLocationOffset"
    ],
-   "bytes": 6330
+   "bytes": 6400
   },
   {
    "notify": "TsAnimNotifyStateAttachActorToSocket",
@@ -1530,7 +1569,7 @@
     "K2_AttachToComponent",
     "K2_DetachFromActor"
    ],
-   "bytes": 1154
+   "bytes": 1241
   },
   {
    "notify": "TsAnimNotifyStateAttachGroupMonster",
@@ -1561,7 +1600,7 @@
     "IsNearlyZero",
     "StepFrameLocationOffset"
    ],
-   "bytes": 6484
+   "bytes": 6554
   },
   {
    "notify": "TsAnimNotifyStateAttackWindUp",
@@ -1588,7 +1627,7 @@
     "SetupEffectTransform",
     "GetEffectActor"
    ],
-   "bytes": 2316
+   "bytes": 2403
   },
   {
    "notify": "TsAnimNotifyStateAudioEvent",
@@ -1621,7 +1660,33 @@
     "GetReplaceEffect",
     "GetPreviewReplaceEffectPath"
    ],
-   "bytes": 4001
+   "bytes": 4089
+  },
+  {
+   "notify": "TsAnimNotifyStateBase",
+   "kind": "state",
+   "label": null,
+   "declared": [
+    "ConditionFail",
+    "ANS执行的前提条件"
+   ],
+   "used": [
+    "ConditionFail",
+    "ANS执行的前提条件"
+   ],
+   "dead": [],
+   "calls": [
+    "SetConditionFail",
+    "GetConditionResult",
+    "ClearConditionResult",
+    "CreateBeginConditionParam",
+    "GetComponent",
+    "K2_NotifyBeginConditionCheck",
+    "SatisfyGroup",
+    "K2_NotifyTickConditionCheck",
+    "K2_NotifyEndConditionCheck"
+   ],
+   "bytes": 1904
   },
   {
    "notify": "TsAnimNotifyStateBonesShowControl",
@@ -1641,7 +1706,7 @@
     "HideWeaponsWhenHideBones",
     "UnHideBoneByName"
    ],
-   "bytes": 1020
+   "bytes": 1090
   },
   {
    "notify": "TsAnimNotifyStateBulletDuration",
@@ -1680,7 +1745,7 @@
     "GetWorldType",
     "GetWorld"
    ],
-   "bytes": 3172
+   "bytes": 3260
   },
   {
    "notify": "TsAnimNotifyStateBulletPattern",
@@ -1706,7 +1771,7 @@
     "SpawnPatternFromAN",
     "DestroyPatternById"
    ],
-   "bytes": 1413
+   "bytes": 1501
   },
   {
    "notify": "TsAnimNotifyStateBurst",
@@ -1724,7 +1789,7 @@
     "GetEntityNoBlueprint",
     "ResetHitPriorityAndGoThrough"
    ],
-   "bytes": 1357
+   "bytes": 1427
   },
   {
    "notify": "TsAnimNotifyStateCameraModify",
@@ -1754,7 +1819,7 @@
     "CheckApplyCameraModifyCondition",
     "ApplyCameraModify"
    ],
-   "bytes": 2987
+   "bytes": 3058
   },
   {
    "notify": "TsAnimNotifyStateCameraSensitivity",
@@ -1767,7 +1832,7 @@
     "CheckInfo",
     "Info"
    ],
-   "bytes": 1807
+   "bytes": 1877
   },
   {
    "notify": "TsAnimNotifyStateCameraShake",
@@ -1794,7 +1859,7 @@
     "PlayCameraShake",
     "StopForceFeedbackFromCameraShake"
    ],
-   "bytes": 2332
+   "bytes": 2420
   },
   {
    "notify": "TsAnimNotifyStateCameraStateChange",
@@ -1804,7 +1869,7 @@
    "used": [],
    "dead": [],
    "calls": [],
-   "bytes": 1176
+   "bytes": 1246
   },
   {
    "notify": "TsAnimNotifyStateCaughtBinding",
@@ -1831,7 +1896,7 @@
     "GetHitCount",
     "GetCollisionProfileName"
    ],
-   "bytes": 3209
+   "bytes": 3296
   },
   {
    "notify": "TsAnimNotifyStateCaughtTrigger",
@@ -1852,7 +1917,7 @@
     "BeginCaughtTrigger",
     "EndCaughtTrigger"
    ],
-   "bytes": 956
+   "bytes": 1026
   },
   {
    "notify": "TsAnimNotifyStateChangeSlot",
@@ -1875,7 +1940,7 @@
     "SetSubMeshAttach",
     "ResetSubMeshAttach"
    ],
-   "bytes": 865
+   "bytes": 935
   },
   {
    "notify": "TsAnimNotifyStateCleanBurstCamera",
@@ -1902,7 +1967,7 @@
     "EnableActor",
     "SetEffectHidden"
    ],
-   "bytes": 2555
+   "bytes": 2626
   },
   {
    "notify": "TsAnimNotifyStateClearInputCache",
@@ -1915,7 +1980,7 @@
     "GetComponent",
     "ClearInputCache"
    ],
-   "bytes": 611
+   "bytes": 681
   },
   {
    "notify": "TsAnimNotifyStateConcomitantInherit",
@@ -1939,7 +2004,7 @@
     "EndConcomitantInherit",
     "RemoveListenConcomitantInherit"
    ],
-   "bytes": 1859
+   "bytes": 1929
   },
   {
    "notify": "TsAnimNotifyStateControllerShake",
@@ -1962,7 +2027,7 @@
     "PlayKuroForceFeedback",
     "StopKuroForceFeedback"
    ],
-   "bytes": 1625
+   "bytes": 1696
   },
   {
    "notify": "TsAnimNotifyStateCounterAttack",
@@ -1997,7 +2062,7 @@
     "CheckError",
     "Error"
    ],
-   "bytes": 3585
+   "bytes": 3673
   },
   {
    "notify": "TsAnimNotifyStateCurveMove",
@@ -2083,7 +2148,7 @@
     "EditorUpdateSplineCurve",
     "LoadAsync"
    ],
-   "bytes": 32579
+   "bytes": 32667
   },
   {
    "notify": "TsAnimNotifyStateDetectBox",
@@ -2112,7 +2177,7 @@
     "GetName",
     "GetPathName"
    ],
-   "bytes": 3933
+   "bytes": 4020
   },
   {
    "notify": "TsAnimNotifyStateDetectSphere",
@@ -2141,7 +2206,7 @@
     "GetPathName",
     "SetStartLocation"
    ],
-   "bytes": 3794
+   "bytes": 3881
   },
   {
    "notify": "TsAnimNotifyStateDisableCameraCollision",
@@ -2156,7 +2221,7 @@
     "Info",
     "UnlockCameraCollision"
    ],
-   "bytes": 1158
+   "bytes": 1228
   },
   {
    "notify": "TsAnimNotifyStateDrinksTalk",
@@ -2193,7 +2258,7 @@
     "K2_AttachToComponent",
     "GetDynamicFName"
    ],
-   "bytes": 3153
+   "bytes": 3241
   },
   {
    "notify": "TsAnimNotifyStateDuration",
@@ -2205,7 +2270,7 @@
    "calls": [
     "EmitWithTarget"
    ],
-   "bytes": 943
+   "bytes": 1013
   },
   {
    "notify": "TsAnimNotifyStateEffectTrig",
@@ -2234,7 +2299,7 @@
     "GetAttackMagnitudeParameterName",
     "GetTextureHeightParameterName"
    ],
-   "bytes": 4101
+   "bytes": 4189
   },
   {
    "notify": "TsAnimNotifyStateEnableAimIK",
@@ -2265,7 +2330,7 @@
     "GetName",
     "D_K2_GetActorLocation"
    ],
-   "bytes": 2391
+   "bytes": 2479
   },
   {
    "notify": "TsAnimNotifyStateEnablePhotograph",
@@ -2278,7 +2343,7 @@
     "GetComponent",
     "GetPbDataId"
    ],
-   "bytes": 1275
+   "bytes": 1345
   },
   {
    "notify": "TsAnimNotifyStateEnableSequenceCameraDither",
@@ -2291,7 +2356,30 @@
     "SetDitherEffectEnable",
     "SetDitherEffectDisable"
    ],
-   "bytes": 743
+   "bytes": 813
+  },
+  {
+   "notify": "TsAnimNotifyStateEnterVehicleFixOffset",
+   "kind": "state",
+   "label": "进入载具修正初始位置旋转偏差",
+   "declared": [],
+   "used": [],
+   "dead": [],
+   "calls": [
+    "Create",
+    "GetEnterVehicleDirection",
+    "GetComponent",
+    "Initialize",
+    "FromUeVector",
+    "GetSocketLocation",
+    "RotateVector",
+    "AdditionEqual",
+    "Quaternion",
+    "Multiply",
+    "GetCurrentTimeLength",
+    "GetEnterVehicleStartTransform"
+   ],
+   "bytes": 9765
   },
   {
    "notify": "TsAnimNotifyStateEnterWaterMoveOffset",
@@ -2310,7 +2398,7 @@
     "GetName",
     "D_K2_GetActorLocation"
    ],
-   "bytes": 1372
+   "bytes": 1442
   },
   {
    "notify": "TsAnimNotifyStateFoleyAudioEvent",
@@ -2334,7 +2422,7 @@
     "FoleyEventHandle",
     "ExecuteAction"
    ],
-   "bytes": 1569
+   "bytes": 1640
   },
   {
    "notify": "TsAnimNotifyStateGoThrough",
@@ -2348,7 +2436,7 @@
     "GetComponent",
     "ResetHitPriorityAndGoThrough"
    ],
-   "bytes": 1270
+   "bytes": 1341
   },
   {
    "notify": "TsAnimNotifyStateHideActor",
@@ -2364,7 +2452,7 @@
     "SetActorHiddenInGame",
     "EnableActor"
    ],
-   "bytes": 1557
+   "bytes": 1627
   },
   {
    "notify": "TsAnimNotifyStateHideBattleUi",
@@ -2388,7 +2476,7 @@
     "RemoveTag",
     "ShowBattleView"
    ],
-   "bytes": 1745
+   "bytes": 1815
   },
   {
    "notify": "TsAnimNotifyStateHideBone",
@@ -2402,7 +2490,7 @@
     "GetComponent",
     "GetDynamicFName"
    ],
-   "bytes": 1188
+   "bytes": 1258
   },
   {
    "notify": "TsAnimNotifyStateHideMesh",
@@ -2429,7 +2517,7 @@
     "CheckDebug",
     "Debug"
    ],
-   "bytes": 3394
+   "bytes": 3481
   },
   {
    "notify": "TsAnimNotifyStateIgnoreLockOnTarget",
@@ -2444,7 +2532,7 @@
     "GetComponent",
     "LockOnInfo"
    ],
-   "bytes": 1103
+   "bytes": 1173
   },
   {
    "notify": "TsAnimNotifyStateInteractionRotateToLocation",
@@ -2461,7 +2549,7 @@
     "HeadingAngle",
     "SmoothCharacterRotationByValue"
    ],
-   "bytes": 1372
+   "bytes": 1443
   },
   {
    "notify": "TsAnimNotifyStateJumpLandDetect",
@@ -2491,7 +2579,7 @@
     "GetCurveRotator",
     "InverseTransformPositionNoScale"
    ],
-   "bytes": 6569
+   "bytes": 6657
   },
   {
    "notify": "TsAnimNotifyStateKeepAwayFromGround",
@@ -2519,7 +2607,7 @@
     "AddActorWorldOffset",
     "ToUeVector"
    ],
-   "bytes": 2741
+   "bytes": 3049
   },
   {
    "notify": "TsAnimNotifyStateKeepRelativeLocation",
@@ -2548,7 +2636,7 @@
     "Subtraction",
     "Size"
    ],
-   "bytes": 4567
+   "bytes": 4654
   },
   {
    "notify": "TsAnimNotifyStateMeshDitherDetect",
@@ -2570,7 +2658,7 @@
     "GetName",
     "DisableDetectDither"
    ],
-   "bytes": 1439
+   "bytes": 1510
   },
   {
    "notify": "TsAnimNotifyStateMeshVisibility",
@@ -2593,7 +2681,7 @@
     "CheckError",
     "Error"
    ],
-   "bytes": 1761
+   "bytes": 1849
   },
   {
    "notify": "TsAnimNotifyStateModifyMeshLocation",
@@ -2614,7 +2702,7 @@
     "AddModelLocation",
     "UnaryNegation"
    ],
-   "bytes": 1218
+   "bytes": 1288
   },
   {
    "notify": "TsAnimNotifyStateModifyTough",
@@ -2635,7 +2723,7 @@
     "BigIntToLong",
     "RemoveToughModifier"
    ],
-   "bytes": 2004
+   "bytes": 2074
   },
   {
    "notify": "TsAnimNotifyStateMontageSpeedChange",
@@ -2650,7 +2738,7 @@
     "Montage_SetPlayRate",
     "GetAnimInstance"
    ],
-   "bytes": 951
+   "bytes": 1021
   },
   {
    "notify": "TsAnimNotifyStateNextAtt",
@@ -2668,7 +2756,7 @@
     "HasBuffAuthority",
     "RemoveBuff"
    ],
-   "bytes": 1090
+   "bytes": 1160
   },
   {
    "notify": "TsAnimNotifyStateNpcStateSwitching",
@@ -2682,7 +2770,7 @@
     "GetComponent",
     "MarkAnimStateSwitching"
    ],
-   "bytes": 747
+   "bytes": 817
   },
   {
    "notify": "TsAnimNotifyStateOpenSimpleGameplay",
@@ -2711,7 +2799,7 @@
     "BindInputActionFromInfo",
     "OpenInteractHintView"
    ],
-   "bytes": 7392
+   "bytes": 7480
   },
   {
    "notify": "TsAnimNotifyStatePosition",
@@ -2735,7 +2823,7 @@
     "D_GetTransform",
     "StopAddMoveWithMesh"
    ],
-   "bytes": 1110
+   "bytes": 1197
   },
   {
    "notify": "TsAnimNotifyStatePositionBranchTarget",
@@ -2781,7 +2869,7 @@
     "Reset",
     "Quaternion"
    ],
-   "bytes": 12034
+   "bytes": 12105
   },
   {
    "notify": "TsAnimNotifyStatePositionTarget",
@@ -2812,7 +2900,7 @@
     "Multiply",
     "GetClampedToMaxSize"
    ],
-   "bytes": 2003
+   "bytes": 2074
   },
   {
    "notify": "TsAnimNotifyStatePreloadPlot",
@@ -2841,7 +2929,7 @@
     "Error",
     "PreloadPlot"
    ],
-   "bytes": 2134
+   "bytes": 2222
   },
   {
    "notify": "TsAnimNotifyStateQta",
@@ -2868,7 +2956,7 @@
     "StartQta",
     "EnableExternalConditionMet"
    ],
-   "bytes": 3301
+   "bytes": 3371
   },
   {
    "notify": "TsAnimNotifyStateReplaceHitEffect",
@@ -2889,7 +2977,7 @@
     "GetName",
     "RemoveHitEffectReplaced"
    ],
-   "bytes": 989
+   "bytes": 1059
   },
   {
    "notify": "TsAnimNotifyStateRequestSignal",
@@ -2909,7 +2997,7 @@
     "AddRequestSignal",
     "RemoveRequestSignal"
    ],
-   "bytes": 1436
+   "bytes": 1506
   },
   {
    "notify": "TsAnimNotifyStateResponseSignal",
@@ -2927,7 +3015,7 @@
     "AddResponseSignal",
     "RemoveResponseSignal"
    ],
-   "bytes": 1218
+   "bytes": 1288
   },
   {
    "notify": "TsAnimNotifyStateRoleRotate",
@@ -2956,7 +3044,7 @@
     "DotProduct",
     "SetActorRotationWithPriority"
    ],
-   "bytes": 2400
+   "bytes": 2471
   },
   {
    "notify": "TsAnimNotifyStateRotate",
@@ -2987,7 +3075,7 @@
     "SetSkillCanRotate",
     "SetSkillRotateToTarget"
    ],
-   "bytes": 6296
+   "bytes": 6384
   },
   {
    "notify": "TsAnimNotifyStateRotateAlignGravity",
@@ -3010,7 +3098,7 @@
     "Inverse",
     "Multiply"
    ],
-   "bytes": 3980
+   "bytes": 4068
   },
   {
    "notify": "TsAnimNotifyStateRotateBonesToTarget",
@@ -3031,7 +3119,7 @@
     "SetDefaultTarget",
     "SetBoneToTarget"
    ],
-   "bytes": 1796
+   "bytes": 1886
   },
   {
    "notify": "TsAnimNotifyStateRotateMesh",
@@ -3062,7 +3150,7 @@
     "GetRotation",
     "Rotator"
    ],
-   "bytes": 2440
+   "bytes": 2528
   },
   {
    "notify": "TsAnimNotifyStateRotateToPlayer",
@@ -3097,7 +3185,7 @@
     "Quaternion",
     "Rotator"
    ],
-   "bytes": 3123
+   "bytes": 3194
   },
   {
    "notify": "TsAnimNotifyStateRunRotateBoneToLocation",
@@ -3124,7 +3212,7 @@
     "GetCurrentTriggerOffsetInThisNotifyTick",
     "SetBoneRotateToLocationInfoRunTick"
    ],
-   "bytes": 1861
+   "bytes": 1950
   },
   {
    "notify": "TsAnimNotifyStateSceneInteract",
@@ -3153,7 +3241,7 @@
     "GetEntityId",
     "BindEntityId"
    ],
-   "bytes": 2674
+   "bytes": 2762
   },
   {
    "notify": "TsAnimNotifyStateSetCollisionChannel",
@@ -3169,7 +3257,7 @@
    "calls": [
     "SetCollisionResponseToChannel"
    ],
-   "bytes": 912
+   "bytes": 982
   },
   {
    "notify": "TsAnimNotifyStateSetCollisionLv",
@@ -3179,7 +3267,7 @@
    "used": [],
    "dead": [],
    "calls": [],
-   "bytes": 687
+   "bytes": 757
   },
   {
    "notify": "TsAnimNotifyStateSetCollisionSize",
@@ -3195,7 +3283,7 @@
     "SetRadiusAndHalfHeight",
     "ResetCapsuleRadiusAndHeight"
    ],
-   "bytes": 1172
+   "bytes": 1242
   },
   {
    "notify": "TsAnimNotifyStateSetHitPriority",
@@ -3209,7 +3297,7 @@
     "GetComponent",
     "ResetHitPriorityAndGoThrough"
    ],
-   "bytes": 736
+   "bytes": 806
   },
   {
    "notify": "TsAnimNotifyStateSetLockPointState",
@@ -3226,7 +3314,7 @@
     "Error",
     "GetName"
    ],
-   "bytes": 1873
+   "bytes": 1944
   },
   {
    "notify": "TsAnimNotifyStateSetMass",
@@ -3236,7 +3324,7 @@
    "used": [],
    "dead": [],
    "calls": [],
-   "bytes": 720
+   "bytes": 791
   },
   {
    "notify": "TsAnimNotifyStateSetMovementMode",
@@ -3248,7 +3336,7 @@
    "calls": [
     "SetMovementMode"
    ],
-   "bytes": 863
+   "bytes": 950
   },
   {
    "notify": "TsAnimNotifyStateSetNearClip",
@@ -3263,7 +3351,7 @@
     "Debug",
     "DisableCameraNearClip"
    ],
-   "bytes": 1290
+   "bytes": 1361
   },
   {
    "notify": "TsAnimNotifyStateSetPartCollision",
@@ -3280,7 +3368,7 @@
     "SetPartCollisionSwitch",
     "GetPartConf"
    ],
-   "bytes": 1604
+   "bytes": 1674
   },
   {
    "notify": "TsAnimNotifyStateSetRootMotionScale",
@@ -3301,7 +3389,7 @@
     "SetAnimRootMotionTranslationScale",
     "Clamp"
    ],
-   "bytes": 1530
+   "bytes": 1600
   },
   {
    "notify": "TsAnimNotifyStateSetWalkOff",
@@ -3317,7 +3405,7 @@
     "GetName",
     "SetWalkOffLedgeRecord"
    ],
-   "bytes": 989
+   "bytes": 1059
   },
   {
    "notify": "TsAnimNotifyStateShowUiCalabash",
@@ -3340,7 +3428,7 @@
     "Error",
     "ReduceAns"
    ],
-   "bytes": 1580
+   "bytes": 1651
   },
   {
    "notify": "TsAnimNotifyStateShowUiCalabashEffect",
@@ -3392,7 +3480,7 @@
     "Error",
     "ReduceAns"
    ],
-   "bytes": 1677
+   "bytes": 1748
   },
   {
    "notify": "TsAnimNotifyStateSight",
@@ -3415,7 +3503,7 @@
     "NormalizeDeg180",
     "SetSightCameraData"
    ],
-   "bytes": 1475
+   "bytes": 1546
   },
   {
    "notify": "TsAnimNotifyStateSimpleDisableCollision",
@@ -3426,18 +3514,16 @@
    "dead": [],
    "calls": [
     "GetActorComponent",
-    "CheckError",
-    "Error",
+    "CheckDebug",
+    "Debug",
     "GetPathName",
     "GetName",
     "GetEntityIdNoBlueprint",
     "DisableCollision",
-    "CheckDebug",
-    "Debug",
     "GetHandle",
     "EnableCollision"
    ],
-   "bytes": 1709
+   "bytes": 1796
   },
   {
    "notify": "TsAnimNotifyStateSkeletalMeshAnimPlay",
@@ -3460,7 +3546,7 @@
     "PlayAnimation",
     "Stop"
    ],
-   "bytes": 815
+   "bytes": 902
   },
   {
    "notify": "TsAnimNotifyStateSkillBehavior",
@@ -3481,7 +3567,7 @@
     "CreateAnimNotifyContent",
     "BeginGroup"
    ],
-   "bytes": 1677
+   "bytes": 1747
   },
   {
    "notify": "TsAnimNotifyStateSoftLock",
@@ -3496,7 +3582,7 @@
     "EnableSoftLock",
     "DisableSoftLock"
    ],
-   "bytes": 1540
+   "bytes": 1610
   },
   {
    "notify": "TsAnimNotifyStateStareDetect",
@@ -3529,7 +3615,7 @@
     "NormalizeDeg180",
     "IsAngleInRange"
    ],
-   "bytes": 2187
+   "bytes": 2275
   },
   {
    "notify": "TsAnimNotifyStateStopMontage",
@@ -3542,7 +3628,7 @@
     "GetComponent",
     "Montage_Stop"
    ],
-   "bytes": 595
+   "bytes": 665
   },
   {
    "notify": "TsAnimNotifyStateStopRotateBoneToLocation",
@@ -3556,7 +3642,7 @@
     "SetBoneRotateToLocationInfoStopBegin",
     "SetBoneRotateToLocationInfoStopEnd"
    ],
-   "bytes": 604
+   "bytes": 691
   },
   {
    "notify": "TsAnimNotifyStateSubMeshControl",
@@ -3581,7 +3667,7 @@
     "HasTag",
     "SetSubMeshOrder"
    ],
-   "bytes": 1439
+   "bytes": 1527
   },
   {
    "notify": "TsAnimNotifyStateSubMeshFreeze",
@@ -3625,7 +3711,7 @@
     "ChangeFaceForExpressionFromAnimNotify",
     "ResetFaceForExpressionFromAnimNotify"
    ],
-   "bytes": 1099
+   "bytes": 1170
   },
   {
    "notify": "TsAnimNotifyStateTimeStopRequest",
@@ -3638,7 +3724,7 @@
     "BeginTimeStopRequest",
     "EndTimeStopRequest"
    ],
-   "bytes": 790
+   "bytes": 860
   },
   {
    "notify": "TsAnimNotifyStateTurnAdd",
@@ -3661,7 +3747,7 @@
     "TurningParams",
     "SetForbidSettingLocAndRot"
    ],
-   "bytes": 3798
+   "bytes": 3885
   },
   {
    "notify": "TsAnimNotifyStateTurnModelBlackboard",
@@ -3688,7 +3774,7 @@
     "ToUeRotator",
     "ResetModelQuat"
    ],
-   "bytes": 2419
+   "bytes": 2490
   },
   {
    "notify": "TsAnimNotifyStateVehicleAddTag",
@@ -3708,7 +3794,7 @@
     "RemoveExactTag",
     "RemoveTagForPassenger"
    ],
-   "bytes": 1514
+   "bytes": 1584
   },
   {
    "notify": "TsAnimNotifyStateVehicleTurnByInput",
@@ -3731,7 +3817,7 @@
     "DotProduct",
     "Clamp"
    ],
-   "bytes": 5630
+   "bytes": 5700
   },
   {
    "notify": "TsAnimNotifyStateVisionCounterAttack",
@@ -3753,7 +3839,7 @@
     "SetCounterAttackEndTime",
     "VisionCounterAttackEnd"
    ],
-   "bytes": 977
+   "bytes": 1047
   },
   {
    "notify": "TsAnimNotifyStateVisionMove",
@@ -3780,7 +3866,7 @@
     "ToUeVector",
     "Create"
    ],
-   "bytes": 1252
+   "bytes": 1340
   },
   {
    "notify": "TsAnimNotifyStateVolumeFogColor",
@@ -3805,7 +3891,7 @@
     "IsValid",
     "GetVectorParameterValue"
    ],
-   "bytes": 2536
+   "bytes": 2624
   },
   {
    "notify": "TsAnimNotifyStateWalkOnWater",
@@ -3818,7 +3904,7 @@
     "GetComponent",
     "EnableOrDisableWalkOnWater"
    ],
-   "bytes": 812
+   "bytes": 882
   },
   {
    "notify": "TsAnimNotifyStateWaterfallMove",
@@ -3841,7 +3927,7 @@
     "CheckInfo",
     "Info"
    ],
-   "bytes": 1794
+   "bytes": 1864
   },
   {
    "notify": "TsAnimNotifyStateWeaponHang",
@@ -3861,7 +3947,7 @@
     "ChangeWeaponHangState",
     "NewArray"
    ],
-   "bytes": 1090
+   "bytes": 1177
   },
   {
    "notify": "TsAnimNotifyStateWeaponHangWithTag",
@@ -3882,7 +3968,7 @@
     "ChangeWeaponHangState",
     "NewArray"
    ],
-   "bytes": 1374
+   "bytes": 1461
   },
   {
    "notify": "TsAnimNotifyStateWeaponHide",
@@ -3899,7 +3985,7 @@
     "Debug",
     "GetName"
    ],
-   "bytes": 1081
+   "bytes": 1168
   },
   {
    "notify": "TsAnimNotifySummonBeginSkill",
@@ -4235,7 +4321,7 @@
     "CheckWarn",
     "Warn"
    ],
-   "bytes": 4769
+   "bytes": 4857
   }
  ]
 }

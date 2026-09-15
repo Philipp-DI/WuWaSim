@@ -512,13 +512,18 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 {
     // A resonator the TIMING EXTRACTION has never seen resolves 'estimated' for
     // every one of its keys, which is honest but says nothing about whether the
-    // measured pipeline still reaches the roster it HAS measured. `timing-data`
+    // measured pipeline still reaches the roster it HAS measured. The extraction
     // comes from the FModel client export, and that export lags a game patch by
     // however long it takes to re-run it — so the ratio below is taken over the
     // covered roster and the uncovered set is asserted SEPARATELY by name,
     // turning a silent threshold slip into a visible, countable gap.
+    //
+    // Coverage is read from data/actionable-times.json, the COMMITTED artifact
+    // preprocess stamps from — never from data/timing-data.json, which is
+    // gitignored (11 MB, regenerable) and so absent in CI. The first draft read
+    // the latter and would have thrown there.
     const timingCovered = new Set(Object.keys(
-        JSON.parse(readFileSync(resolve(__dirname, '../data/timing-data.json'), 'utf8')).resonators ?? {}));
+        JSON.parse(readFileSync(resolve(__dirname, '../data/actionable-times.json'), 'utf8')).actionableTimes ?? {}));
     const awaitingExport = d.resonators
         .filter(resonator => !timingCovered.has(String(resonator.id)))
         .map(resonator => resonator.id)
@@ -544,12 +549,14 @@ const target = { level: 90, atkLv: 90, resistances: {} };
     }
     assert('most of the COVERED roster resolves to a MEASURED provenance, not "estimated"',
         extracted > 900 && extracted > estimated * 10);
-    // 3.6 added Jingran and Qingxiao; the client export that feeds
-    // data/timing-data.json is still 3.5, so every one of their steps falls back
-    // to a per-type estimate. Named rather than tolerated: this list must shrink
-    // to nothing the next time the export is refreshed.
-    assert(`resonators awaiting a timing export are exactly the 3.6 additions (got ${awaitingExport.join(',')})`,
-        awaitingExport.join(',') === '1212,1413');
+    // ~~3.6 added Jingran and Qingxiao and the client export was still 3.5, so
+    // this list read `1212,1413`.~~ The 3.6 export landed 2026-09-15 and it
+    // shrank to nothing, which is the state it must stay in: a resonator here
+    // means the roster grew and the timing export did not follow. Named rather
+    // than tolerated, so the next patch's gap is a test failure, not a quiet
+    // slide in the ratio above.
+    assert(`no resonator is awaiting a timing export (got ${awaitingExport.join(',') || 'none'})`,
+        awaitingExport.length === 0);
     assert('curated pins resolve as "curated"', curated > 0);
     assert('the unreachable remainder still resolves as "estimated" (honest, not zero)', estimated > 0);
     assert('provisional steps are flagged for the UI', provisional > 0);

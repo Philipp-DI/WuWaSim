@@ -38,6 +38,11 @@ export function emptyContribution() {
         atkRatio: 0, hpRatio: 0, defRatio: 0, critRate: 0, critDmg: 0, energyRegen: 0,
         dmgByElement: {}, dmgBySkillType: {},
         amplifyByElement: {}, amplifyByType: {}, amplifyAll: 0,
+        // Crit the game scopes to a damage TYPE (Thousandfold Deliverance: 12%
+        // Crit Rate on Heavy Attack DMG). Kept out of the whole-build critRate /
+        // critDmg above because it does not apply to every hit; formula.js reads
+        // these per hit beside dmgBonusBySkillType.
+        critRateBySkillType: {}, critDmgBySkillType: {},
         // A bonus the game scopes to nothing (Proto_DamageChange) — every hit
         // reads it, so it belongs in its own bucket rather than being smeared
         // across the six element ones.
@@ -197,8 +202,11 @@ function hasPlaceableValue(folded) {
     for (const key of ['atkRatio', 'defRatio', 'critRate', 'critDmg', 'energyRegen', 'dmgAll', 'amplifyAll']) {
         if (folded[key]) return true;
     }
-    return Object.keys(folded.dmgByElement).length > 0 || Object.keys(folded.dmgBySkillType).length > 0
-        || Object.keys(folded.amplifyByElement).length > 0 || Object.keys(folded.amplifyByType).length > 0;
+    for (const map of ['dmgByElement', 'dmgBySkillType', 'amplifyByElement', 'amplifyByType',
+        'critRateBySkillType', 'critDmgBySkillType']) {
+        if (Object.keys(folded[map] ?? {}).length > 0) return true;
+    }
+    return false;
 }
 
 function assignBuckets(into, folded) {
@@ -211,10 +219,13 @@ function assignBuckets(into, folded) {
     into.dmgAll = folded.dmgAll;
     into.dmgByElement = { ...folded.dmgByElement };
     into.dmgBySkillType = { ...folded.dmgBySkillType };
-    // A scoped amplify keeps its scope all the way to the per-hit decision in
-    // skill.js; the fold no longer has to choose between widening and dropping.
+    // A scoped amplify or crit keeps its scope all the way to the per-hit
+    // decision (skill.js / formula.js); the fold no longer has to choose
+    // between widening and dropping.
     into.amplifyByElement = { ...folded.amplifyByElement };
     into.amplifyByType = { ...folded.amplifyByType };
+    into.critRateBySkillType = { ...(folded.critRateBySkillType ?? {}) };
+    into.critDmgBySkillType = { ...(folded.critDmgBySkillType ?? {}) };
 }
 
 export function weaponConditionalContribution(weaponDef, rank, resonator, dataset, enemyStatuses = null) {

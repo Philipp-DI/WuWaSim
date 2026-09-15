@@ -183,6 +183,26 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
         assert(`${id}: nothing left unplaced`, folded.unplaced.length === 0);
     }
 
+    // A SCOPED CRIT on a weapon — the first one, shipped in 3.6. Thousandfold
+    // Deliverance states "the Crit. Rate of Heavy Attack DMG is increased by
+    // 12%" as attribute 8 scoped damageTypes:[1], gated in the data on Nature's
+    // Order at 6 stacks. It lands in the per-type crit bucket formula.js reads
+    // per hit, never in the whole-build critRate (which would pay every Basic,
+    // Intro and Liberation too), and the weapon is no longer unplaced.
+    const deliverance = foldExternalGrants(weapons['21010076']?.ranks?.['1'] ?? []);
+    assert('Thousandfold Deliverance: 12% Crit Rate scoped to Heavy',
+        Math.abs((deliverance.critRateBySkillType.heavy ?? 0) - 0.12) < 1e-9);
+    assert('...and NOT widened into the whole-build critRate', deliverance.critRate === 0);
+    assert('...its Heavy DEF ignore still routes per hit (15% x 2 stacks)',
+        deliverance.targetMods.some(mod => Math.abs(mod.defIgnore - 0.30) < 1e-9 && mod.scope?.skillTypes?.includes('heavy')));
+    assert('...and nothing is left unplaced', deliverance.unplaced.length === 0);
+    // The game's own row for its Crit DMG is 600 (6%) per stack under
+    // CalculationPolicy [0], x6 stacks — 36% at cap — where the tooltip says
+    // "4%, up to 24%". Data outranks tooltip until the maintainer verifies it
+    // in game; this pins what the DATA says so a silent change is caught.
+    assert('...Crit DMG credited from the DATA row (6% x 6), not the tooltip (4% x 6)',
+        Math.abs(deliverance.critDmg - 0.36) < 1e-9);
+
     // Lux & Umbra's three branches must ALL be refused — a partial placement
     // would make hasPlaceableValue true and silently suppress the text fallback
     // that currently carries the weapon.

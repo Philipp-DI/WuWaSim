@@ -594,9 +594,10 @@ export function resolveTotalStats(build, dataset, enemyStatuses = null, teamBuff
     // `critRate`/`critDmg` above because it does not apply to every hit:
     // Flamewing's Shadow gives 20% Crit Rate to Heavy Attacks and 20% to Echo
     // Skills, and folding either into the build total credits it to both — plus
-    // to every Basic, Intro and Liberation the wielder throws.
-    const critRateBySkillType = mergeNumericMaps(sonataConditional.critRateBySkillType ?? {});
-    const critDmgBySkillType = mergeNumericMaps(sonataConditional.critDmgBySkillType ?? {});
+    // to every Basic, Intro and Liberation the wielder throws. The weapon lane
+    // joined in 3.6 (Thousandfold Deliverance, 12% Crit Rate on Heavy).
+    const critRateBySkillType = mergeNumericMaps(sonataConditional.critRateBySkillType ?? {}, weaponConditional.critRateBySkillType ?? {});
+    const critDmgBySkillType = mergeNumericMaps(sonataConditional.critDmgBySkillType ?? {}, weaponConditional.critDmgBySkillType ?? {});
 
     // The team-recipient half of the weapon/sonata conditional clauses (e.g.
     // Kumokiri's "at max stacks, when Resonators in the team inflict Negative

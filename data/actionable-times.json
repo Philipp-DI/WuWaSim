@@ -2,12 +2,12 @@
   "_meta": {
     "source": "tools/extract/scan_bullet_timings.py + extract_timings.py — offline raw-asset parse (no FModel JSON export step)",
     "assetRoot": "docs-local/Role (user-provided, gitignored — not redistributed)",
-    "generatedAt": "2026-08-06T13:02:25.065Z",
+    "generatedAt": "2026-09-15T09:36:12.502Z",
     "join": "Two routes, in precedence order, both keyed on the hitMap[rid][skillKey] BinData damage id. route=\"bulletChain\": damage id -> the bullet(s) applying it (bullet table 伤害ID/多伤害ID, transitively through child bullets) -> the animation whose notify fires that bullet. Exact id identity at every hop, and it resolves to the ONE animation producing this exact damage instance. route=\"skillRow\": the older DT_SkillInfo join -- raw resonator id from the hit id's own leading 4 digits (not assumed equal to rid, see Rover), longest exact-prefix match against that resonator's row ids, then the row's merged montages. Coarser (distinct abilities often share one row, so they share one number), so it is only the fallback. sourceResonatorId is present on a skillRow entry only when it differs from the dataset's own rid.",
     "routeCounts": {
-      "bulletChain": 883,
-      "skillRow": 140,
-      "breakWeakness": 56
+      "bulletChain": 899,
+      "skillRow": 165,
+      "breakWeakness": 58
     },
     "stepDurationRule": "stepDuration is the montage-derived length of the step, and stepDurationRule NAMES the marker it came from: \"nextAtt\" (TsAnimNotifyStateNextAtt opening -- the only rung that is a measurement of when the player may act), then \"skillEnd\" (TsAnimNotifyEndSkill), \"idleReturn\" (TsAnimNotifyFightStand), and finally \"sequenceLength\", the montage's authored length INCLUDING the idle-return tail, which is not a duration at all and is only defensible for a phase montage that has no tail. The rule ships beside the number because the previous single name (actionableAt) made the weakest rung indistinguishable from the strongest. Negative raw offsets clamp to 0. Damage is NOT part of this: see damageAt / resolvesAt.",
     "freezeTimeNote": "The TsAnimNotifyStateTimeStopRequest window ONLY. The shipped client JavaScript names that notify \"instance timer and all combat units buffs + skill cooldowns freeze\" -- exactly the freeze the sim models. The other freeze notify, TsAnimNotifyStateAbsoluteTimeStop, is named \"animation and bullet freeze\": it holds the animation without stopping any clock, so it is EXCLUDED and reported separately as freezeAnimationTime. Supersedes the HARDCODED_FREEZE_FRACTIONS estimate in sim.js for entries present here.",
@@ -16,9 +16,9 @@
     "sequenceLengthNote": "sequenceLength is the montage's full authored length, generally NOT the skill's effective duration -- WuWa follows every action with an idle-return tail (the TsAnimNotifyFightStand notify marks where it starts) when nothing cancels it, so the gap between skillEndAt/stepDuration and sequenceLength is that return-to-idle animation, not a measurement error. Kept for provenance; reachable as a duration only via stepDurationRule=\"sequenceLength\", which says so.",
     "abilityFieldsNote": "staminaCost (positive STA; the source is negative and x100) and interruptLevel are DT_SkillInfo ROW properties, and one animation is regularly reached from several rows. Both are null unless every such row agrees -- Camellya ships every Form B basic as a ground row (0 STA) and an air row (5 STA) pointing at the SAME montage, confirmed in-game as free on the ground. chainStage is the game's own 普攻N tag. switchBehavior holds WINDOWS, not flags: 切人结束技能 (\"switching ends the skill\") and 不能切人 (\"cannot switch out\") are timed AddTag states. isLoop is convention-based (asset _Loop / row 循环) because the montage carries no loop signal at all -- it flags that the measured times are per-ITERATION and must not be read as the whole action.",
     "coverage": {
-      "totalSkillMapKeys": 1061,
-      "resolved": 1023,
-      "resolvedPct": 96.4
+      "totalSkillMapKeys": 1101,
+      "resolved": 1064,
+      "resolvedPct": 96.6
     },
     "resonatorsInDatasetNotInExtraction": []
   },
@@ -5118,7 +5118,7 @@
             "montage": "FemaleM/Suisui/CommonAnim/Photots/AM_Attack01_2_Child.uasset",
             "stepDuration": 0.7333,
             "nextAttAt": 0.7333,
-            "nextAttDuration": 5.0076,
+            "nextAttDuration": 4.127,
             "skillEndAt": 1.2333,
             "freezeTime": null,
             "hitTimes": [
@@ -5185,7 +5185,7 @@
         "disambiguatedBySkillRow": true,
         "sourceBulletId": "1110004108",
         "sourceMontage": "FemaleM/Suisui/CommonAnim/AM_Attack01_4_Lower.uasset",
-        "montageCandidates": 4,
+        "montageCandidates": 5,
         "stepDurationSpread": 0,
         "variants": [
           {
@@ -5213,6 +5213,17 @@
           },
           {
             "montage": "FemaleM/Suisui/CommonAnim/AM_Attack01_4_Lower_Child.uasset",
+            "stepDuration": 1,
+            "nextAttAt": null,
+            "nextAttDuration": null,
+            "skillEndAt": 1,
+            "freezeTime": null,
+            "hitTimes": null,
+            "bulletId": "1110004108",
+            "bulletName": "蓄力-无目标"
+          },
+          {
+            "montage": "FemaleM/Suisui/CommonAnim/Photots/AM_Attack01_4_F_Child.uasset",
             "stepDuration": 1,
             "nextAttAt": null,
             "nextAttDuration": null,
@@ -5265,26 +5276,28 @@
         "provenance": "extracted"
       },
       "basic_dodge_counter_zephyr_stance": {
-        "stepDuration": 0.6832,
+        "stepDuration": 0.6824,
         "stepDurationRule": "nextAtt",
         "freezeTime": null,
         "freezeAnimationTime": null,
-        "nextAttAt": 0.6832,
+        "nextAttAt": 0.6824,
         "nextAttDuration": 1.3418,
         "skillEndAt": 0.8664,
         "idleReturnAt": 2.26,
         "sequenceLength": 2.933333,
         "hitTimes": [
+          0.2216,
           0.29,
-          0.4583
+          0.5043
         ],
-        "hitCount": 2,
+        "hitCount": 3,
         "damageAt": [
+          0.2216,
           0.29,
-          0.4583
+          0.5043
         ],
-        "resolvesAt": 0.4583,
-        "firstDamageAt": 0.29,
+        "resolvesAt": 0.5043,
+        "firstDamageAt": 0.2216,
         "staminaCost": 0,
         "interruptLevel": 5,
         "sourceBulletId": "1110200002",
@@ -5314,7 +5327,7 @@
         "resolvesAt": 0.419,
         "firstDamageAt": 0.419,
         "staminaCost": 0,
-        "interruptLevel": 4,
+        "interruptLevel": 5,
         "sourceBulletId": "1110105001",
         "sourceMontage": "FemaleM/Suisui/CommonAnim/AM_Skill01_Lower.uasset",
         "montageCandidates": 2,
@@ -5401,7 +5414,7 @@
         "resolvesAt": 0.4261,
         "firstDamageAt": 0.4261,
         "staminaCost": 0,
-        "interruptLevel": 4,
+        "interruptLevel": 5,
         "disambiguatedBySkillRow": true,
         "sourceBulletId": "1110105002",
         "sourceMontage": "FemaleM/Suisui/CommonAnim/AM_Skill01.uasset",
@@ -5605,7 +5618,37 @@
         "interruptLevel": 5,
         "sourceBulletId": "1110015001",
         "sourceMontage": "FemaleM/Suisui/CommonAnim/AM_Airattack_2_End.uasset",
-        "montageCandidates": 1,
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleM/Suisui/CommonAnim/AM_Airattack_2_End.uasset",
+            "stepDuration": 0.5417,
+            "nextAttAt": 0.5417,
+            "nextAttDuration": 0.9249,
+            "skillEndAt": 1.4667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0248
+            ],
+            "bulletId": "1110015001",
+            "bulletName": "强化下落",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleM/Suisui/CommonAnim/Photots/AM_Airattack_2_End_Child.uasset",
+            "stepDuration": 0.5417,
+            "nextAttAt": 0.5417,
+            "nextAttDuration": 0.9249,
+            "skillEndAt": 1.4667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0248
+            ],
+            "bulletId": "1110015001",
+            "bulletName": "强化下落"
+          }
+        ],
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -13254,6 +13297,833 @@
         "weaponMatched": true
       }
     },
+    "1212": {
+      "basic_drink_soul_1": {
+        "stepDuration": 0.3,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.3,
+        "nextAttDuration": 1.8,
+        "skillEndAt": 0.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 21.666668,
+        "hitTimes": [
+          0.2
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.2
+        ],
+        "resolvesAt": 0.2,
+        "firstDamageAt": 0.2,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212000101",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_N_01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_drink_soul_2": {
+        "stepDuration": 0.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.5,
+        "nextAttDuration": 1.8667,
+        "skillEndAt": 0.8,
+        "idleReturnAt": null,
+        "sequenceLength": 27.333332,
+        "hitTimes": [
+          0.1667,
+          0.3333
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.1667,
+          0.3333
+        ],
+        "resolvesAt": 0.3333,
+        "firstDamageAt": 0.1667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212000201",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_N_02.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_N_02.uasset",
+            "stepDuration": 0.5,
+            "nextAttAt": 0.5,
+            "nextAttDuration": 1.8667,
+            "skillEndAt": 0.8,
+            "freezeTime": null,
+            "hitTimes": [
+              0.1667,
+              0.3333
+            ],
+            "bulletId": "1212000201",
+            "bulletName": "阴普攻2_1",
+            "chosen": true
+          },
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_N_02_Child.uasset",
+            "stepDuration": 0.5,
+            "nextAttAt": 0.5,
+            "nextAttDuration": 1.8667,
+            "skillEndAt": 0.8,
+            "freezeTime": null,
+            "hitTimes": [
+              0.1667,
+              0.3333
+            ],
+            "bulletId": "1212000201",
+            "bulletName": "阴普攻2_1"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_drink_soul_3": {
+        "stepDuration": 0.7667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7667,
+        "nextAttDuration": 1.4333,
+        "skillEndAt": 2.0667,
+        "idleReturnAt": null,
+        "sequenceLength": 12,
+        "hitTimes": [
+          0.2,
+          0.3333,
+          0.4667,
+          0.6
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2,
+          0.3333,
+          0.4667,
+          0.6
+        ],
+        "resolvesAt": 0.6,
+        "firstDamageAt": 0.2,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212000301",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_N_03.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_N_03.uasset",
+            "stepDuration": 0.7667,
+            "nextAttAt": 0.7667,
+            "nextAttDuration": 1.4333,
+            "skillEndAt": 2.0667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2,
+              0.3333,
+              0.4667,
+              0.6
+            ],
+            "bulletId": "1212000301",
+            "bulletName": "阴普攻3_1",
+            "chosen": true
+          },
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_N_03_Child.uasset",
+            "stepDuration": 0.7667,
+            "nextAttAt": 0.7667,
+            "nextAttDuration": 1.4333,
+            "skillEndAt": 2.0667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2,
+              0.2,
+              0.3333,
+              0.3333,
+              0.4667,
+              0.4667,
+              0.6,
+              0.6
+            ],
+            "bulletId": "1212000301",
+            "bulletName": "阴普攻3_1"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_drink_soul_4": {
+        "stepDuration": 1.2667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.2667,
+        "nextAttDuration": 1.0333,
+        "skillEndAt": 1.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 32.066666,
+        "hitTimes": [
+          0.2333,
+          0.2667,
+          0.3667,
+          0.7667,
+          0.8333
+        ],
+        "hitCount": 5,
+        "damageAt": [
+          0.2333,
+          0.3667,
+          0.7667,
+          0.8333
+        ],
+        "resolvesAt": 0.8333,
+        "firstDamageAt": 0.2333,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212000401",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_N_04.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_devil_s_bane_1": {
+        "stepDuration": 0.3,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.3,
+        "nextAttDuration": 1.1,
+        "skillEndAt": 0.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 19.766666,
+        "hitTimes": [
+          0.2333
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.2333
+        ],
+        "resolvesAt": 0.2333,
+        "firstDamageAt": 0.2333,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212010101",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_G_01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_devil_s_bane_2": {
+        "stepDuration": 0.6667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6667,
+        "nextAttDuration": 2.9,
+        "skillEndAt": 1.0667,
+        "idleReturnAt": null,
+        "sequenceLength": 22.099998,
+        "hitTimes": [
+          0.2667,
+          0.4667
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.2667,
+          0.4667
+        ],
+        "resolvesAt": 0.4667,
+        "firstDamageAt": 0.2667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1212010201",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_G_02.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_G_02.uasset",
+            "stepDuration": 0.6667,
+            "nextAttAt": 0.6667,
+            "nextAttDuration": 2.9,
+            "skillEndAt": 1.0667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2667,
+              0.4667
+            ],
+            "bulletId": "1212010201",
+            "bulletName": "阳普攻2_1",
+            "chosen": true
+          },
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_G_02_Child.uasset",
+            "stepDuration": 0.6667,
+            "nextAttAt": 0.6667,
+            "nextAttDuration": 2.9,
+            "skillEndAt": 1.0667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2667,
+              0.4667
+            ],
+            "bulletId": "1212010201",
+            "bulletName": "阳普攻2_1"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_devil_s_bane_3": {
+        "stepDuration": 1.0667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.0667,
+        "nextAttDuration": 4.1175,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 23.5,
+        "hitTimes": [
+          0.1001,
+          0.2669,
+          0.6333,
+          0.6667,
+          0.6667
+        ],
+        "hitCount": 5,
+        "damageAt": [
+          0.1001,
+          0.2669,
+          0.6667
+        ],
+        "resolvesAt": 0.6667,
+        "firstDamageAt": 0.1001,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1212010301",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_G_03.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_G_03.uasset",
+            "stepDuration": 1.0667,
+            "nextAttAt": 1.0667,
+            "nextAttDuration": 4.1175,
+            "skillEndAt": 1.5667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.1001,
+              0.2669,
+              0.6333,
+              0.6667,
+              0.6667
+            ],
+            "bulletId": "1212010301",
+            "bulletName": "阳普攻3_1",
+            "chosen": true
+          },
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Attack_G_03_Child.uasset",
+            "stepDuration": 1.0667,
+            "nextAttAt": 1.0667,
+            "nextAttDuration": 4.1175,
+            "skillEndAt": 1.5667,
+            "freezeTime": null,
+            "hitTimes": [
+              0.1,
+              0.1001,
+              0.2667,
+              0.2669,
+              0.6333,
+              0.6667,
+              0.6667,
+              0.6667
+            ],
+            "bulletId": "1212010301",
+            "bulletName": "阳普攻3_1"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_devil_s_bane_4": {
+        "stepDuration": 0.8667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.8667,
+        "nextAttDuration": 0.4373,
+        "skillEndAt": 0.9,
+        "idleReturnAt": null,
+        "sequenceLength": 25.266666,
+        "hitTimes": [
+          0.0333,
+          0.1,
+          0.2333,
+          0.3667,
+          0.5
+        ],
+        "hitCount": 5,
+        "damageAt": [
+          0.1,
+          0.2333,
+          0.3667,
+          0.5
+        ],
+        "resolvesAt": 0.5,
+        "firstDamageAt": 0.1,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212010401",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_G_04.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "midair_mid_air_attack": {
+        "stepDuration": 0.2039,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.2039,
+        "nextAttDuration": 1.6333,
+        "skillEndAt": 0.4056,
+        "idleReturnAt": null,
+        "sequenceLength": 10.933333,
+        "hitTimes": [
+          0.0667
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0667
+        ],
+        "resolvesAt": 0.0667,
+        "firstDamageAt": 0.0667,
+        "staminaCost": 30,
+        "interruptLevel": 6,
+        "sourceBulletId": "1212050101",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_AirAttack_End.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_AirAttack_End.uasset",
+            "stepDuration": 0.2039,
+            "nextAttAt": 0.2039,
+            "nextAttDuration": 1.6333,
+            "skillEndAt": 0.4056,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0667
+            ],
+            "bulletId": "1212050101",
+            "bulletName": "下落攻击_阳",
+            "chosen": true
+          },
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_AirAttack_End_N.uasset",
+            "stepDuration": 0.2039,
+            "nextAttAt": 0.2039,
+            "nextAttDuration": 1.6333,
+            "skillEndAt": 0.4056,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0667
+            ],
+            "bulletId": "1212050102",
+            "bulletName": "下落攻击_阴"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_nether_dive": {
+        "stepDuration": 0.7667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7667,
+        "nextAttDuration": 1.4333,
+        "skillEndAt": 2.0667,
+        "idleReturnAt": null,
+        "sequenceLength": 12,
+        "hitTimes": [
+          0.2,
+          0.2,
+          0.3333,
+          0.3333,
+          0.4667,
+          0.4667,
+          0.6,
+          0.6
+        ],
+        "hitCount": 8,
+        "damageAt": [
+          0.2,
+          0.3333,
+          0.4667,
+          0.6
+        ],
+        "resolvesAt": 0.6,
+        "firstDamageAt": 0.2,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212000303",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_N_03_Child.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_light_watch": {
+        "stepDuration": 1.0667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.0667,
+        "nextAttDuration": 4.1175,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 23.5,
+        "hitTimes": [
+          0.1,
+          0.1001,
+          0.2667,
+          0.2669,
+          0.6333,
+          0.6667,
+          0.6667,
+          0.6667
+        ],
+        "hitCount": 8,
+        "damageAt": [
+          0.1,
+          0.2667,
+          0.6667
+        ],
+        "resolvesAt": 0.6667,
+        "firstDamageAt": 0.1,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1212010306",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Attack_G_03_Child.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "skill_encroaching_yin": {
+        "stepDuration": 0.7,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.7,
+        "nextAttDuration": 0.6667,
+        "skillEndAt": 1.3667,
+        "idleReturnAt": null,
+        "sequenceLength": 1.7,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "hitTimes": [
+          0.2333,
+          0.3703,
+          0.5667,
+          0.7
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "12120301",
+        "sourceSkillName": "阳_技能",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "skill_netherworld_traverse": {
+        "stepDuration": 1,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 1,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "hitTimes": [
+          0.1333,
+          0.1333,
+          0.4,
+          0.5333
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "12120402",
+        "sourceSkillName": "阴_技能派生",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "skill_scorching_yang": {
+        "stepDuration": 0.7,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.7,
+        "nextAttDuration": 0.6667,
+        "skillEndAt": 1.3667,
+        "idleReturnAt": null,
+        "sequenceLength": 1.7,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "hitTimes": [
+          0.2333,
+          0.3703,
+          0.5667,
+          0.7
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "12120301",
+        "sourceSkillName": "阳_技能",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "skill_afterlife_s_guide": {
+        "stepDuration": 1.1,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 1.1,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "hitTimes": [
+          0.2,
+          0.4667
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "12120401",
+        "sourceSkillName": "阳_技能派生",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "liberation_burial_of_thousand_souls": {
+        "stepDuration": 4.6667,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 4.6667,
+        "freezeAnimationTime": 4.6667,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 4.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 14.533334,
+        "hitTimes": [
+          3.0667,
+          3.2667,
+          3.4667,
+          4.3667
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          3.0667,
+          3.2667,
+          3.4667,
+          4.3667
+        ],
+        "resolvesAt": 4.3667,
+        "firstDamageAt": 3.0667,
+        "staminaCost": 0,
+        "interruptLevel": 10,
+        "sourceBulletId": "1212080101",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Burst01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "major",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "liberation_chimei_wangliang": {
+        "stepDuration": 4.6667,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 4.6667,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 4.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 14.533334,
+        "staminaCost": 0,
+        "interruptLevel": 10,
+        "hitTimes": [
+          3.0667,
+          3.2667,
+          3.4667,
+          4.3667
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "12120801",
+        "sourceSkillName": "大招",
+        "freezeClass": "major",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "intro": {
+        "stepDuration": 1,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 1,
+        "nextAttAt": 1,
+        "nextAttDuration": 1.5667,
+        "skillEndAt": 1.1,
+        "idleReturnAt": null,
+        "sequenceLength": 11.666667,
+        "hitTimes": [
+          0.7667
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.7667
+        ],
+        "resolvesAt": 0.7667,
+        "firstDamageAt": 0.7667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1
+            }
+          ]
+        },
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1212100101",
+        "sourceMontage": "MaleM/Jingran/CommonAnim/AM_Skill_Qte_G.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Skill_Qte_G.uasset",
+            "stepDuration": 1,
+            "nextAttAt": 1,
+            "nextAttDuration": 1.5667,
+            "skillEndAt": 1.1,
+            "freezeTime": null,
+            "hitTimes": [
+              0.7667
+            ],
+            "bulletId": "1212100101",
+            "bulletName": "出场技_阳",
+            "chosen": true
+          },
+          {
+            "montage": "MaleM/Jingran/CommonAnim/AM_Skill_Qte_N.uasset",
+            "stepDuration": 1,
+            "nextAttAt": 1,
+            "nextAttDuration": 1.5667,
+            "skillEndAt": 1.1,
+            "freezeTime": null,
+            "hitTimes": [
+              0.7667
+            ],
+            "bulletId": "1212100102",
+            "bulletName": "出场技_阴"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "forte_heavy_soul_raid": {
+        "stepDuration": 1.2667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.2667,
+        "nextAttDuration": 0.5,
+        "skillEndAt": 1.7667,
+        "idleReturnAt": null,
+        "sequenceLength": 24.666668,
+        "staminaCost": 0,
+        "interruptLevel": 7,
+        "hitTimes": [
+          0.2
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "12120701",
+        "sourceSkillName": "阴_强化重击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_heavy_stardome_meander": {
+        "stepDuration": 1.3,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.3,
+        "nextAttDuration": 1.5333,
+        "skillEndAt": 2.8333,
+        "idleReturnAt": null,
+        "sequenceLength": 23.666668,
+        "staminaCost": 0,
+        "interruptLevel": 7,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "12120601",
+        "sourceSkillName": "阳_强化重击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5667,
+        "nextAttAt": 1.5667,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5667,
+        "idleReturnAt": null,
+        "sequenceLength": 3.5,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5667
+            }
+          ]
+        },
+        "hitTimes": [
+          0.0667,
+          0.4333,
+          1.3333
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "12121101",
+        "sourceSkillName": "大剑破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
+      }
+    },
     "1301": {
       "basic_1": {
         "stepDuration": 0.46,
@@ -19066,15 +19936,15 @@
         "provenance": "extracted"
       },
       "basic_riposte_strike_crumble": {
-        "stepDuration": 0.3352,
+        "stepDuration": 0.335,
         "stepDurationRule": "nextAtt",
         "freezeTime": null,
         "freezeAnimationTime": null,
-        "nextAttAt": 0.3352,
-        "nextAttDuration": 0.6033,
+        "nextAttAt": 0.335,
+        "nextAttDuration": 0.5972,
         "skillEndAt": 0.5,
         "idleReturnAt": null,
-        "sequenceLength": 3.05,
+        "sequenceLength": 11.05,
         "hitTimes": [
           0.3015
         ],
@@ -19088,7 +19958,7 @@
         "interruptLevel": 5,
         "disambiguatedBySkillRow": true,
         "sourceBulletId": "1309106010",
-        "sourceMontage": "FemaleM/ThunderNvzhu/CommonAnim/AM_FangYu_PaiSheng.uasset",
+        "sourceMontage": "FemaleM/ThunderNvzhu/CommonAnim/AM_FangYu_PaiSheng_G.uasset",
         "montageCandidates": 2,
         "stepDurationSpread": 0.0002,
         "variants": [
@@ -19103,7 +19973,8 @@
               0.3015
             ],
             "bulletId": "1309106010",
-            "bulletName": "【伤害】雷主-防御派生-暗"
+            "bulletName": "【伤害】雷主-防御派生-暗",
+            "chosen": true
           },
           {
             "montage": "FemaleM/ThunderNvzhu/CommonAnim/AM_FangYu_PaiSheng.uasset",
@@ -19116,8 +19987,7 @@
               0.3015
             ],
             "bulletId": "1309106010",
-            "bulletName": "【伤害】雷主-防御派生-暗",
-            "chosen": true
+            "bulletName": "【伤害】雷主-防御派生-暗"
           }
         ],
         "freezeClass": "minor",
@@ -19144,8 +20014,8 @@
         ],
         "resolvesAt": 0.204,
         "firstDamageAt": 0.204,
-        "staminaCost": null,
-        "interruptLevel": null,
+        "staminaCost": 0,
+        "interruptLevel": 2,
         "sourceBulletId": "1309107001",
         "sourceMontage": "FemaleM/ThunderNvzhu/CommonAnim/AM_Skill02_Dark_Air1_Child.uasset",
         "montageCandidates": 1,
@@ -19173,8 +20043,8 @@
         ],
         "resolvesAt": 0.1957,
         "firstDamageAt": 0.1957,
-        "staminaCost": null,
-        "interruptLevel": null,
+        "staminaCost": 0,
+        "interruptLevel": 2,
         "sourceBulletId": "1309108001",
         "sourceMontage": "FemaleM/ThunderNvzhu/CommonAnim/AM_Skill02_Dark_Air2_Child.uasset",
         "montageCandidates": 1,
@@ -19208,8 +20078,8 @@
         ],
         "resolvesAt": 0.4732,
         "firstDamageAt": 0.1523,
-        "staminaCost": null,
-        "interruptLevel": null,
+        "staminaCost": 0,
+        "interruptLevel": 2,
         "sourceBulletId": "1309109001",
         "sourceMontage": "FemaleM/ThunderNvzhu/CommonAnim/AM_Skill02_Dark_Air3_Child.uasset",
         "montageCandidates": 1,
@@ -19227,10 +20097,8 @@
         "skillEndAt": 0.1667,
         "idleReturnAt": null,
         "sequenceLength": 4.566667,
-        "hitTimes": [
-          0.0667
-        ],
-        "hitCount": 1,
+        "hitTimes": null,
+        "hitCount": 0,
         "damageAt": [
           0.0667
         ],
@@ -19276,25 +20144,29 @@
         "provenance": "extracted"
       },
       "midair_mid_air_dodge_counter": {
-        "stepDuration": 0.4796,
+        "stepDuration": 0.1333,
         "stepDurationRule": "nextAtt",
         "freezeTime": null,
-        "nextAttAt": 0.4796,
-        "nextAttDuration": 0.8537,
-        "skillEndAt": 0.664,
-        "idleReturnAt": 5.1667,
-        "sequenceLength": 5.366667,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.1333,
+        "nextAttDuration": 0.6,
+        "skillEndAt": 0.1667,
+        "idleReturnAt": null,
+        "sequenceLength": 4.566667,
+        "hitTimes": null,
+        "hitCount": 0,
+        "damageAt": [
+          0.0667
+        ],
+        "resolvesAt": 0.0667,
+        "firstDamageAt": 0.0667,
         "staminaCost": 0,
         "interruptLevel": 8,
-        "hitTimes": [
-          0.2,
-          0.4
-        ],
-        "hitCount": 2,
-        "sourceSkillId": "1309030",
-        "sourceSkillName": "雷男主-闪避反击",
+        "sourceBulletId": "1309030030",
+        "sourceMontage": "FemaleM/ThunderNvzhu/CommonAnim/AM_AirAttack_End.uasset",
+        "montageCandidates": 1,
         "freezeClass": "minor",
-        "route": "skillRow",
+        "route": "bulletChain",
         "provenance": "extracted"
       },
       "skill": {
@@ -19421,7 +20293,7 @@
         "idleReturnAt": null,
         "sequenceLength": 6.566667,
         "staminaCost": 0,
-        "interruptLevel": 6,
+        "interruptLevel": 11,
         "switchBehavior": {
           "cannotSwitch": [
             {
@@ -19437,7 +20309,7 @@
         ],
         "hitCount": 3,
         "sourceSkillId": "1309111",
-        "sourceSkillName": "雷男主-强化E",
+        "sourceSkillName": "雷男主-短按强化E",
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
@@ -19448,7 +20320,7 @@
         "freezeTime": null,
         "nextAttAt": 0.3333,
         "nextAttDuration": 0.5625,
-        "skillEndAt": 0.3667,
+        "skillEndAt": 0.4824,
         "idleReturnAt": null,
         "sequenceLength": 3.433333,
         "staminaCost": 0,
@@ -19469,7 +20341,7 @@
         "freezeTime": null,
         "nextAttAt": 0.5975,
         "nextAttDuration": 0.6477,
-        "skillEndAt": 1.2,
+        "skillEndAt": 1.1745,
         "idleReturnAt": null,
         "sequenceLength": 10.666667,
         "staminaCost": 0,
@@ -19624,7 +20496,7 @@
         "nextAttDuration": 0.5275,
         "skillEndAt": 0.6313,
         "idleReturnAt": null,
-        "sequenceLength": 1.5,
+        "sequenceLength": 11.333333,
         "staminaCost": 0,
         "interruptLevel": 2,
         "hitTimes": [
@@ -19643,13 +20515,13 @@
         "freezeTime": null,
         "nextAttAt": 0.2766,
         "nextAttDuration": 0.3645,
-        "skillEndAt": null,
-        "idleReturnAt": 0.4858,
-        "sequenceLength": 1,
+        "skillEndAt": 0.8,
+        "idleReturnAt": null,
+        "sequenceLength": 11.666667,
         "staminaCost": 0,
         "interruptLevel": 2,
         "hitTimes": [
-          0.2103
+          0.1957
         ],
         "hitCount": 1,
         "sourceSkillId": "1309123",
@@ -19752,7 +20624,7 @@
         "idleReturnAt": null,
         "sequenceLength": 6.566667,
         "staminaCost": 0,
-        "interruptLevel": 6,
+        "interruptLevel": 11,
         "switchBehavior": {
           "cannotSwitch": [
             {
@@ -19768,7 +20640,7 @@
         ],
         "hitCount": 3,
         "sourceSkillId": "1309111",
-        "sourceSkillName": "雷男主-强化E",
+        "sourceSkillName": "雷男主-短按强化E",
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"
@@ -26320,6 +27192,569 @@
         "hitCount": 1,
         "sourceSkillId": "1412991",
         "sourceSkillName": "臂铠破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
+      }
+    },
+    "1413": {
+      "basic_stringblade_1": {
+        "stepDuration": 3,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 3,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 3,
+        "idleReturnAt": null,
+        "sequenceLength": 8.333333,
+        "staminaCost": 0,
+        "interruptLevel": 6,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 3
+            }
+          ]
+        },
+        "hitTimes": [
+          0.53,
+          0.73,
+          0.79,
+          0.97,
+          1,
+          1.2,
+          1.39,
+          1.5,
+          1.7,
+          1.9765
+        ],
+        "hitCount": 10,
+        "sourceSkillId": "14130100",
+        "sourceSkillName": "重击2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_stringblade_2": {
+        "stepDuration": 0.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.5333,
+        "nextAttDuration": 0.8725,
+        "skillEndAt": 0.8207,
+        "idleReturnAt": 4.9911,
+        "sequenceLength": 7.333333,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": [
+          0.192,
+          0.4354
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1413020",
+        "sourceSkillName": "普攻2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_stringblade_3": {
+        "stepDuration": 0.7,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.7,
+        "nextAttDuration": 1.6714,
+        "skillEndAt": 1.2938,
+        "idleReturnAt": 7.3058,
+        "sequenceLength": 8.966666,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "1413030",
+        "sourceSkillName": "普攻3",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_stringblade_4": {
+        "stepDuration": 0.7794,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 0.7794,
+        "idleReturnAt": null,
+        "sequenceLength": 10.166667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": [
+          0.2909,
+          0.4442,
+          0.5072,
+          0.5579,
+          0.6193
+        ],
+        "hitCount": 5,
+        "sourceSkillId": "1413040",
+        "sourceSkillName": "普攻4",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "heavy_stringblade": {
+        "stepDuration": 2.1,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 2.1,
+        "nextAttDuration": 0.6102,
+        "skillEndAt": 2.4345,
+        "idleReturnAt": null,
+        "sequenceLength": 5.066667,
+        "staminaCost": 30,
+        "interruptLevel": 6,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 2.1
+            }
+          ]
+        },
+        "hitTimes": [
+          0.4396,
+          0.6656,
+          0.7954,
+          1.6366
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "1413070",
+        "sourceSkillName": "重击1",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "midair_stringblade_1": {
+        "stepDuration": 0.512821,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 0.512821,
+        "staminaCost": 30,
+        "interruptLevel": 2,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "14130110",
+        "sourceSkillName": "空中下落攻击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "midair_stringblade_2": {
+        "stepDuration": 0.512821,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 0.512821,
+        "staminaCost": 30,
+        "interruptLevel": 2,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "14130110",
+        "sourceSkillName": "空中下落攻击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "midair_stringblade_3": {
+        "stepDuration": 0.512821,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 0.512821,
+        "staminaCost": 30,
+        "interruptLevel": 2,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "14130110",
+        "sourceSkillName": "空中下落攻击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_plunging_attack": {
+        "stepDuration": 0.5097,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.5097,
+        "nextAttDuration": 0.8993,
+        "skillEndAt": 1.0446,
+        "idleReturnAt": 3.6146,
+        "sequenceLength": 5.3333,
+        "hitTimes": [
+          0.001,
+          0.139
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.139
+        ],
+        "resolvesAt": 0.139,
+        "firstDamageAt": 0.139,
+        "staminaCost": 30,
+        "interruptLevel": 2,
+        "sourceBulletId": "1413011001",
+        "sourceMontage": "FemaleXL/Qingxiao/CommonAnim/AM_AirAttack_End.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_stringblade": {
+        "stepDuration": 5.1278,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 5.1278,
+        "idleReturnAt": null,
+        "sequenceLength": 8.233334,
+        "staminaCost": 0,
+        "interruptLevel": 6,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "14130120",
+        "sourceSkillName": "御剑跳跃冲刺",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "skill_judgement": {
+        "stepDuration": 1.3,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.3,
+        "nextAttDuration": 1.0738,
+        "skillEndAt": 1.3,
+        "idleReturnAt": null,
+        "sequenceLength": 10.933334,
+        "staminaCost": 0,
+        "interruptLevel": 5,
+        "hitTimes": [
+          0.07,
+          0.07
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1413060",
+        "sourceSkillName": "派生2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "skill_ascendant": {
+        "stepDuration": 0.95,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 0.95,
+        "idleReturnAt": null,
+        "sequenceLength": 6.666667,
+        "staminaCost": 0,
+        "interruptLevel": 5,
+        "hitTimes": [
+          0.2634,
+          0.2642
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1413050",
+        "sourceSkillName": "派生1",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "liberation": {
+        "stepDuration": 5,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 5,
+        "freezeAnimationTime": 5,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 5,
+        "idleReturnAt": null,
+        "sequenceLength": 13.833333,
+        "hitTimes": [
+          2.3393,
+          2.7759,
+          3.967
+        ],
+        "hitCount": 3,
+        "damageAt": [
+          2.3393,
+          2.7759,
+          3.967
+        ],
+        "resolvesAt": 3.967,
+        "firstDamageAt": 2.3393,
+        "staminaCost": 0,
+        "interruptLevel": 10,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1413014001",
+        "sourceMontage": "FemaleXL/Qingxiao/CommonAnim/AM_Burst01.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/Qingxiao/CommonAnim/AM_Burst01.uasset",
+            "stepDuration": 5,
+            "nextAttAt": null,
+            "nextAttDuration": null,
+            "skillEndAt": 5,
+            "freezeTime": 5,
+            "hitTimes": [
+              2.3393,
+              2.7759,
+              3.967
+            ],
+            "bulletId": "1413014001",
+            "bulletName": null,
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Qingxiao/CommonAnim/AM_ChuJue_ZhuXian.uasset",
+            "stepDuration": 5,
+            "nextAttAt": null,
+            "nextAttDuration": null,
+            "skillEndAt": 5,
+            "freezeTime": 5,
+            "hitTimes": [
+              2.3393,
+              2.7759,
+              3.967
+            ],
+            "bulletId": "1413014001",
+            "bulletName": null
+          }
+        ],
+        "freezeClass": "major",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro": {
+        "stepDuration": 0.9531,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.9531,
+        "nextAttDuration": 1.0401,
+        "skillEndAt": 1.7668,
+        "idleReturnAt": null,
+        "sequenceLength": 6.966667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 0.9531
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5807,
+          0.5961
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "14130150",
+        "sourceSkillName": "QTE",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_basic_ephemeral_transcendence_1": {
+        "stepDuration": 0.6446,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.6446,
+        "nextAttDuration": 0.602,
+        "skillEndAt": 0.95,
+        "idleReturnAt": null,
+        "sequenceLength": 5.166667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "1413080",
+        "sourceSkillName": "强化普攻1",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_basic_ephemeral_transcendence_2": {
+        "stepDuration": 0.83,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.83,
+        "nextAttDuration": 0.8308,
+        "skillEndAt": 1.4,
+        "idleReturnAt": null,
+        "sequenceLength": 4.666667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": [
+          0.2388,
+          0.2513,
+          0.2775,
+          0.3516,
+          0.3694
+        ],
+        "hitCount": 5,
+        "sourceSkillId": "1413081",
+        "sourceSkillName": "强化普攻2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_basic_ephemeral_transcendence_3": {
+        "stepDuration": 0.9,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.9,
+        "nextAttDuration": 0.6319,
+        "skillEndAt": 1.1667,
+        "idleReturnAt": null,
+        "sequenceLength": 5.533333,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": [
+          0.1667,
+          0.3179,
+          0.4748,
+          0.6332,
+          0.7915
+        ],
+        "hitCount": 5,
+        "sourceSkillId": "1413082",
+        "sourceSkillName": "强化普攻3",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_basic_ephemeral_transcendence_4": {
+        "stepDuration": 1.3,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.3,
+        "nextAttDuration": 0.9107,
+        "skillEndAt": 2.0004,
+        "idleReturnAt": null,
+        "sequenceLength": 5.666667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": [
+          0.9653,
+          1.1652
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1413083",
+        "sourceSkillName": "强化普攻4",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_heavy_dodge_counter_ephemeral_transcendence": {
+        "stepDuration": 5.1278,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 5.1278,
+        "idleReturnAt": null,
+        "sequenceLength": 8.233334,
+        "staminaCost": 0,
+        "interruptLevel": 6,
+        "hitTimes": null,
+        "hitCount": 0,
+        "sourceSkillId": "14130120",
+        "sourceSkillName": "御剑跳跃冲刺",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_heavy_heaven_s_reckoning_ephemeral_transcendence": {
+        "stepDuration": 3,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 3,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 3,
+        "idleReturnAt": null,
+        "sequenceLength": 8.333333,
+        "staminaCost": 0,
+        "interruptLevel": 6,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 3
+            }
+          ]
+        },
+        "hitTimes": [
+          0.53,
+          0.73,
+          0.79,
+          0.97,
+          1,
+          1.2,
+          1.39,
+          1.5,
+          1.7,
+          1.9765
+        ],
+        "hitCount": 10,
+        "sourceSkillId": "14130100",
+        "sourceSkillName": "重击2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 2,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 2.0006,
+        "nextAttAt": 2,
+        "nextAttDuration": 0.9082,
+        "skillEndAt": 2,
+        "idleReturnAt": null,
+        "sequenceLength": 5.533333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 2
+            }
+          ]
+        },
+        "hitTimes": [
+          1.0696,
+          1.6899
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "14130180",
+        "sourceSkillName": "迅刃破弱",
         "freezeClass": "major",
         "route": "breakWeakness",
         "provenance": "extracted",
@@ -40494,6 +41929,27 @@
         "hitCount": 0,
         "sourceSkillId": "1610102",
         "sourceSkillName": "【普攻】软剑-A2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_feather_sword_stance_3": {
+        "stepDuration": 0.4667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.4667,
+        "nextAttDuration": 1.3333,
+        "skillEndAt": 0.8667,
+        "idleReturnAt": null,
+        "sequenceLength": 10.366667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "hitTimes": [
+          0.2667
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "1610103",
+        "sourceSkillName": "【普攻】软剑-A3",
         "freezeClass": "minor",
         "route": "skillRow",
         "provenance": "extracted"

@@ -13026,3 +13026,112 @@ specific.
 **[Updated Docs]** `CLAUDE.md` — the per-directory profile rule, the
 exact-symptom note ("looked like expired keys"), and the `--profile` flow.
 `docs/HISTORY.md` — this entry.
+
+## 2026-09-15 — The 3.6 extractors, run and measured
+
+The slim-root export was confirmed 3.6 (`BuildInfo.txt`: `branch_3.6_final`,
+`PatchVersion=3.6.0`; both new weapons in `weaponconf`; 58 `GroupId`s in
+`resonate_chain`, each new resonator with 6 `BuffIds`-carrying nodes). Every
+extractor in the manifest's `runOrder` was then run against it, plus the two
+asset scanners over `Character/Role` (the maintainer had exported the whole
+tree, 48,657 files, so the timing lane could close too). Each output was diffed
+against a snapshot taken first.
+
+**[What moved, and why each is right]** Additive where the roster grew:
+`external-buffs` +2 weapons (+1 echo main-slot passive, sonata 11 changed);
+`gauge-income` 59 → 61; `buff-facts` 54 → 56; `status-appliers` +1;
+`timing-data` 60 → 62; `actionable-times` 56 → 58; `skill-join` 56 → 58;
+`extra-effects` gained requirement type 22. The existing-content changes
+concentrate on exactly the resonators whose nanoka text changed last week —
+`actionable-times` moved for Suisui, Rover: Electro and Xuanling and nobody
+else — and the animation assets confirm Rover: Electro's Basic rework from a
+third independent source: `sequence_length_s` 1.0s → 11.7s on her basics and
+`AM_Attack04_Loop` removed. The two largest `timing-data` deltas (ids 1502 and
+1310) are base Rover and male Rover: Electro, neither of which the dataset
+ships.
+
+**[A false alarm, and a real leak]** `bullet-timings` first showed 3,040 of
+3,041 entries changed. 6,568 of those leaf changes were one field, `asset`,
+which echoes whatever root STRING the scanner was handed: the previous run was
+invoked relatively and wrote `Role\X\AM_Y`, this one absolutely and wrote the
+whole machine path. Nothing reads it (`map-timings` keys on `montage`), so it
+is now derived from the relative path and invocation-independent. With that
+excluded, 33 bullets carry real changes, the largest all Rover: Electro's.
+`timing-data`'s bulk churn was `__objref`/`__raw` serialisation internals; 11
+resonators changed substantively.
+
+**[Downstream]** Only the two new resonator objects changed in `wuwa-data.json`.
+43 skill steps were re-timed: 39 are Jingran's and Qingxiao's moving from
+estimated to MEASURED (`provisional = 0` on both), the other 4 are dodge
+counters and a stance basic on the three changed resonators — none in a
+reference rotation. LOCK B: **0 of 416 teams moved**, 0 of 52 best teams
+changed. Genuinely zero, not a stale run: the meta regenerated and the changed
+steps are cast by nobody ranked.
+
+**[The test that failed for the right reason]** `KNOWN_UNPLACED` refused a
+newcomer: Thousandfold Deliverance (Jingran's signature) ships attribute 8,
+Crit Rate 12%, scoped `damageTypes:[1]` — the first SCOPED CRIT on a weapon,
+the exact case the fold's docblock said "needs it adding" when it arrived. The
+tooltip states it verbatim ("When Nature's Order reaches 6, the Crit. Rate of
+Heavy Attack DMG is increased by 12%") and the data gates it the same way
+(`ExtraEffectRequirements [12, 14]`, `['1', '110053105#0#6#6']` — DamageType
+Heavy AND the stack buff at 6). Routed with the sonata lane's own
+`critScopeTypes` and wielder-only rule, threaded fold → contribution →
+`stats.js` beside the sonata half (the amplify fix's pattern), and
+`formula.js` already reads it per hit. `KNOWN_UNPLACED` stays at Lux & Umbra
+alone.
+
+**[A contradiction, surfaced not resolved]** The same weapon's Crit DMG row is
+`GameAttributeID 9`, `ModifierMagnitude [600]`, `CalculationPolicy [0]`,
+`StackLimitCount 6` — flat 6% per stack, 36% at cap. The tooltip says "4%, up
+to 24%", at every rank exactly 1.5× lower, while the DEF-ignore and Crit-Rate
+rows match the tooltip at every rank, so it is not a rank misread. Per the
+precedence rule the data is credited (36%, already the case on the flat lane)
+and the test pins that value; the maintainer should verify in game which one
+the client actually applies.
+
+**[A CI bug of my own]** Last week's `timing-model` change read
+`data/timing-data.json` with a bare `readFileSync`. That file is GITIGNORED
+(11 MB, regenerable), so the assertion would have thrown in CI on the first
+push. It now reads coverage from the committed `actionable-times.json` — the
+artifact preprocess actually stamps from — and was proven by running the test
+with both gitignored files moved out of the tree. The "awaiting export"
+assertion flipped from `1212,1413` to EMPTY, the state it must now stay in.
+
+**[Files Changed]** `data/{extra-effects,external-buffs,gauge-income,
+status-damage,status-appliers,abnormal-damage,affliction-damage,buff-facts,
+notify-semantics,actionable-times,skill-join}.json` (regenerated);
+`src/core/buffs/external-buffs.js`, `src/core/buffs/conditional-buffs.js`,
+`src/core/stats.js` (scoped crit through the weapon lane);
+`tools/extract/scan_bullet_timings.py` (relative `asset`);
+`tests/external-buffs.test.mjs`, `tests/timing-model.test.mjs`; regenerated
+`data/wuwa-data.json` + `data/wuwa-meta.json`; `CLAUDE.md`.
+
+**[Logic Altered]** A weapon's damage-type-scoped crit is credited per hit
+instead of left unplaced. Jingran's and Qingxiao's steps carry measured
+timings. Nothing else in the engine.
+
+**[Verification Method]** Every extractor output diffed against a pre-run
+snapshot per top-level table; mass changes broken down by FIELD and then by
+MAGNITUDE before being accepted; the unexplained ids (1502, 1310) identified.
+The scoped crit traced by execution through `foldExternalGrants` and
+`weaponConditionalContribution` on Jingran at R1. LOCK B analysed by team,
+and the zero result explained by checking each re-timed step against the
+reference rotations. The crit-routing commit proven ranking-neutral by a
+2-line meta diff (timestamp + hash). The CI fix proven by hiding the
+gitignored inputs. `npm test` 77/77; `npm run sweep` 70 imported, 0 failed;
+`npm run lint` 0 errors, 1574 warnings.
+
+**[Residual Risks]** The Thousandfold Deliverance Crit DMG magnitude is
+unverified against the live client. The 7 `DT_SkillInfo` tables
+`extract_gauge_income` reports as failed to parse are unexamined (the count is
+unchanged from before, so nothing new broke). Jingran and Qingxiao still have
+no reference rotation, so they anchor no team and their measured timings are
+exercised by the roster tests only. The `bullet-timings` `asset` field is
+gitignored output, so the invocation-independence fix is a scanner-behaviour
+change with no committed diff to show for it.
+
+**[Updated Docs]** `CLAUDE.md` — pipeline counts 62/58; the scoped-crit
+invariant now names the weapon source; the "seven artifacts lag 3.6" note
+closed with the measurements and the gitignore rule; the Crit DMG
+contradiction recorded. `docs/HISTORY.md` — this entry.

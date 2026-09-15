@@ -1,6 +1,6 @@
 {
  "_doc": "External buff grants read from the game ConfigDB — see tools/extract/extract_external_buffs.py. Values are fractions (0.32 = 32%). `durationSeconds` null = lasts as long as its source. A grant reachable from several trigger paths appears ONCE, keyed by its buff id.",
- "generatedAt": "2026-08-14T17:34:40+00:00",
+ "generatedAt": "2026-09-15T09:33:51+00:00",
  "attributeNames": {
   "0": "Proto_EAttributeType_None",
   "1": "Proto_Lv",
@@ -10099,6 +10099,276 @@
      }
     ]
    }
+  },
+  "21010076": {
+   "resonId": 21010076,
+   "ranks": {
+    "1": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 2,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 99,
+      "value": 0.15,
+      "teamWide": false,
+      "buffId": 110053103,
+      "attributeName": "Proto_IgnoreDefRate"
+     },
+     {
+      "durationSeconds": 7.0,
+      "stackLimit": 6,
+      "scope": null,
+      "attribute": 9,
+      "value": 0.06,
+      "teamWide": false,
+      "buffId": 110053105,
+      "attributeName": "Proto_CritDamage"
+     },
+     {
+      "durationSeconds": null,
+      "stackLimit": 1,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 8,
+      "value": 0.12,
+      "teamWide": false,
+      "buffId": 110053108,
+      "attributeName": "Proto_Crit"
+     }
+    ],
+    "2": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 2,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 99,
+      "value": 0.175,
+      "teamWide": false,
+      "buffId": 110053203,
+      "attributeName": "Proto_IgnoreDefRate"
+     },
+     {
+      "durationSeconds": 7.0,
+      "stackLimit": 6,
+      "scope": null,
+      "attribute": 9,
+      "value": 0.075,
+      "teamWide": false,
+      "buffId": 110053205,
+      "attributeName": "Proto_CritDamage"
+     },
+     {
+      "durationSeconds": null,
+      "stackLimit": 1,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 8,
+      "value": 0.15,
+      "teamWide": false,
+      "buffId": 110053208,
+      "attributeName": "Proto_Crit"
+     }
+    ],
+    "3": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 2,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 99,
+      "value": 0.2,
+      "teamWide": false,
+      "buffId": 110053303,
+      "attributeName": "Proto_IgnoreDefRate"
+     },
+     {
+      "durationSeconds": 7.0,
+      "stackLimit": 6,
+      "scope": null,
+      "attribute": 9,
+      "value": 0.09,
+      "teamWide": false,
+      "buffId": 110053305,
+      "attributeName": "Proto_CritDamage"
+     },
+     {
+      "durationSeconds": null,
+      "stackLimit": 1,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 8,
+      "value": 0.18,
+      "teamWide": false,
+      "buffId": 110053308,
+      "attributeName": "Proto_Crit"
+     }
+    ],
+    "4": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 2,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 99,
+      "value": 0.225,
+      "teamWide": false,
+      "buffId": 110053403,
+      "attributeName": "Proto_IgnoreDefRate"
+     },
+     {
+      "durationSeconds": 7.0,
+      "stackLimit": 6,
+      "scope": null,
+      "attribute": 9,
+      "value": 0.105,
+      "teamWide": false,
+      "buffId": 110053405,
+      "attributeName": "Proto_CritDamage"
+     },
+     {
+      "durationSeconds": null,
+      "stackLimit": 1,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 8,
+      "value": 0.21,
+      "teamWide": false,
+      "buffId": 110053408,
+      "attributeName": "Proto_Crit"
+     }
+    ],
+    "5": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 2,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 99,
+      "value": 0.25,
+      "teamWide": false,
+      "buffId": 110053503,
+      "attributeName": "Proto_IgnoreDefRate"
+     },
+     {
+      "durationSeconds": 7.0,
+      "stackLimit": 6,
+      "scope": null,
+      "attribute": 9,
+      "value": 0.12,
+      "teamWide": false,
+      "buffId": 110053505,
+      "attributeName": "Proto_CritDamage"
+     },
+     {
+      "durationSeconds": null,
+      "stackLimit": 1,
+      "scope": {
+       "damageTypes": [
+        1
+       ]
+      },
+      "attribute": 8,
+      "value": 0.24,
+      "teamWide": false,
+      "buffId": 110053508,
+      "attributeName": "Proto_Crit"
+     }
+    ]
+   }
+  },
+  "21020106": {
+   "resonId": 21020106,
+   "ranks": {
+    "1": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 5,
+      "scope": null,
+      "attribute": 25,
+      "value": 0.112,
+      "teamWide": false,
+      "buffId": 110056102,
+      "attributeName": "Proto_DamageChangeElement4"
+     }
+    ],
+    "2": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 5,
+      "scope": null,
+      "attribute": 25,
+      "value": 0.14,
+      "teamWide": false,
+      "buffId": 110056202,
+      "attributeName": "Proto_DamageChangeElement4"
+     }
+    ],
+    "3": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 5,
+      "scope": null,
+      "attribute": 25,
+      "value": 0.168,
+      "teamWide": false,
+      "buffId": 110056302,
+      "attributeName": "Proto_DamageChangeElement4"
+     }
+    ],
+    "4": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 5,
+      "scope": null,
+      "attribute": 25,
+      "value": 0.196,
+      "teamWide": false,
+      "buffId": 110056402,
+      "attributeName": "Proto_DamageChangeElement4"
+     }
+    ],
+    "5": [
+     {
+      "durationSeconds": 2.0,
+      "stackLimit": 5,
+      "scope": null,
+      "attribute": 25,
+      "value": 0.224,
+      "teamWide": false,
+      "buffId": 110056502,
+      "attributeName": "Proto_DamageChangeElement4"
+     }
+    ]
+   }
   }
  },
  "sonatas": {
@@ -10393,7 +10663,7 @@
        "teamWide": false,
        "buffId": 31000011002,
        "attributeName": "Proto_Crit",
-       "triggerType": "BuffAddFailureTrigger"
+       "triggerType": "BuffInstigatorTrigger"
       },
       {
        "durationSeconds": 15.0,
@@ -12330,6 +12600,18 @@
      "attribute": 18,
      "attributeName": "Proto_DamageChangeCast",
      "value": 0.12,
+     "stackLimit": 1
+    }
+   ]
+  },
+  "28004401": {
+   "phantomSkillId": 280044,
+   "grants": [
+    {
+     "buffId": 280044001,
+     "attribute": 25,
+     "attributeName": "Proto_DamageChangeElement4",
+     "value": 0.1,
      "stackLimit": 1
     }
    ]

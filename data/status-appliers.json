@@ -43,6 +43,12 @@
    "icdSeconds": null,
    "requirement": null
   },
+  "286131002": {
+   "status": "glacio_chafe",
+   "stacks": 286130001,
+   "icdSeconds": null,
+   "requirement": null
+  },
   "287110721": {
    "status": "spectro_frazzle",
    "stacks": 1,

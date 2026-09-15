@@ -212,6 +212,11 @@ function emptyBuckets() {
         // skill.js), so it is kept keyed here rather than widened into
         // `amplifyAll` or dropped. See `placeableScopedAmplify`.
         amplifyByElement: {}, amplifyByType: {},
+        // A SCOPED crit has one too (formula.js reads these beside
+        // `dmgBonusBySkillType`, per hit). Only the sonata lane used them until
+        // 3.6 shipped the first weapon stating one — Thousandfold Deliverance's
+        // "Crit. Rate of Heavy Attack DMG is increased by 12%".
+        critRateBySkillType: {}, critDmgBySkillType: {},
     };
 }
 
@@ -326,12 +331,17 @@ function placeableScopedAmplify(grants) {
  * two dimensions, an all-unmapped damage tag, and any other bucket's scoped
  * grant. Those are counted, never silently dropped.
  *
- * CRIT is the one exception with a home — `critRateBySkillType` /
- * `critDmgBySkillType` — but only `sonataConditionalGrants` routes it there.
- * Nothing this function feeds (weapon conditionals, echo main-slot passives, the
- * incoming-resonator transfer) ships a scoped crit grant, verified across every
- * rank and every echo, so the routing is deliberately not duplicated here. A
- * scoped crit grant arriving on a weapon or an echo needs it adding.
+ * ~~CRIT is the one exception with a home … Nothing this function feeds ships a
+ * scoped crit grant, so the routing is deliberately not duplicated here. A
+ * scoped crit grant arriving on a weapon or an echo needs it adding.~~ 3.6
+ * shipped one: Thousandfold Deliverance (Jingran's signature) states "the Crit.
+ * Rate of Heavy Attack DMG is increased by 12%" as attribute 8 scoped
+ * `damageTypes:[1]`, gated in the data on Nature's Order at 6 stacks
+ * (`ExtraEffectRequirements [12, 14]`). It is routed with the sonata lane's own
+ * `critScopeTypes` — the same refusals (an element scope, an unmapped tag) and
+ * the same WIELDER-ONLY rule, because the team-wide merge in stats.js carries
+ * whole-build crit only, so a team-wide scoped crit would have to widen to be
+ * credited at all and stays unplaced instead.
  *
  * `sources` supplies the raw attribute values a DERIVED grant scales off (see
  * derivedGrantValue). A derived grant whose source the caller cannot supply
@@ -374,6 +384,12 @@ export function foldExternalGrants(grants, into = emptyExternal(), sources = {})
                         for (const elementId of scope.elementIds) bundle.amplifyByElement[elementId] = (bundle.amplifyByElement[elementId] ?? 0) + value;
                     }
                 }
+                continue;
+            }
+            const perTypeCrit = PER_TYPE_CRIT_BUCKET[route.bucket];
+            const critTypes = perTypeCrit && !grant.teamWide ? critScopeTypes(grant.scope) : null;
+            if (critTypes) {
+                for (const type of critTypes) into[perTypeCrit][type] = (into[perTypeCrit][type] ?? 0) + value;
                 continue;
             }
             into.unplaced.push({ ...grant, bucket: route.bucket });

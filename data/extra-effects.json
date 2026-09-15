@@ -93,7 +93,7 @@
   "102": "AddEnergyExecution",
   "104": "RemoveBuffByFilter",
   "106": "BuffMapper",
-  "123": "AdjacentBuffStackToAttribute",
+  "123": "AdjacentBuffStackToEffect",
   "1001": "AbnormalWind",
   "1002": "AbnormalThunder",
   "1005": "AbnormalLight",
@@ -128,6 +128,7 @@
   "10": "RequirePartTags",
   "11": "RequireBulletTags",
   "12": "DamageTypes",
-  "17": "IncludeType"
+  "17": "IncludeType",
+  "22": "DamageIds"
  }
 }

@@ -297,7 +297,13 @@ def scan(root, verbose=True):
             for bullet_id, fire_time in fires:
                 montages[bullet_id].append({
                     'montage': rel,
-                    'asset': timeline['asset'],
+                    # Provenance only -- nothing downstream reads it (map-timings
+                    # keys on `montage`). It used to echo the root string as
+                    # handed to the scanner, so a relative invocation wrote
+                    # "Role\X\AM_Y" and an absolute one wrote the whole machine
+                    # path into a committed file. Derived from `rel` instead, so
+                    # the artifact does not depend on how the tool was invoked.
+                    'asset': rel[:-len('.uasset')],
                     'fire_time_s': fire_time,
                     'actionable_at_s': derived['actionable_at_s'],
                     'cancel_window_opens_s': derived['cancel_window_opens_s'],
