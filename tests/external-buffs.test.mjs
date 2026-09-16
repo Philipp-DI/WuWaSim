@@ -206,6 +206,24 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
     assert('...Crit DMG is 4% x 6 stacks = 24%, the 3.6.15 row and the tooltip agreeing',
         Math.abs(deliverance.critDmg - 0.24) < 1e-9);
 
+    // THE TOOLTIP CAN BE WRONG IN THE OTHER DIRECTION TOO. Novaburst's row is
+    // attribute 7, ModifierMagnitude [300], CalculationPolicy [1] (scale BASE),
+    // 3 stacks — 3% of base ATK per stack — where the tooltip says "4%". At
+    // 3.6.15, the row is live and the maintainer measured it in game
+    // (2026-09-16): Aalto lv1 base 54 gained +1/+3/+4 over the weapon's own
+    // secondary stat at 1/2/3 stacks, Chixia lv15 base 85 gained +2/+5/+7. Both
+    // sets of floors admit only a per-stack value in (1.85%, 3.09%) resp.
+    // (2.35%, 3.14%) of base — 3% fits, 4% is impossible for either. The
+    // tooltip's "4%" is `WeaponConf.DescParams[].ArrayString[rank-1]`, a
+    // hand-authored STRING the client substitutes into the sentence; it never
+    // reads the buff row, so the two can disagree either way. The stat sheet is
+    // the only arbiter, and this pins what it showed.
+    const novaburst = foldExternalGrants(weapons['21030064']?.ranks?.['1'] ?? []);
+    assert('Novaburst: 3% ATK x 3 stacks = 9% of BASE, the in-game measurement, not the tooltip\'s 12%',
+        Math.abs(novaburst.atkRatio - 0.09) < 1e-9);
+    assert('...and the 3 stacks are already folded (an at-cap value, like every stacking grant)',
+        weapons['21030064'].ranks['1'].some(grant => grant.attribute === 7 && grant.stackLimit === 3 && Math.abs(grant.value - 0.03) < 1e-9));
+
     // Lux & Umbra's three branches must ALL be refused — a partial placement
     // would make hasPlaceableValue true and silently suppress the text fallback
     // that currently carries the weapon.

@@ -13224,3 +13224,67 @@ prints rather than hides.
 **[Updated Docs]** `CLAUDE.md` — the stale-log claim struck through and
 replaced with the hot-patch rule; the contradiction struck through and closed;
 pak counts corrected to 8 of 101. `docs/HISTORY.md` — this entry.
+
+## 2026-09-16 — Novaburst: the row is right and the tooltip is wrong
+
+The previous entry left Novaburst open: `ModifierMagnitude [300]`,
+`CalculationPolicy [1]`, 3 stacks — 3% of base ATK per stack — against a
+tooltip saying 4%, at the LIVE 3.6.15 table, so the stale-export explanation
+did not apply. The maintainer measured it in game with two characters wearing
+nothing but the weapon and no skill-node investment.
+
+**[The measurement]** Stat-sheet ATK bonus at 0/1/2/3 stacks: Aalto lv1, base
+54: +3/+4/+6/+7. Chixia lv15, base 85: +5/+7/+10/+12. The 0-stack figure is
+the weapon's own secondary stat (ATK%), which is what the stacks add to.
+
+**[The arithmetic]** The sheet floors, so each reading is an interval and the
+per-stack value has to satisfy all three simultaneously. Aalto: per-stack ATK
+in (1.000, 1.667), i.e. (1.85%, 3.09%) of base. Chixia: (2.000, 2.667), i.e.
+(2.35%, 3.14%). **3% fits both; 4% is impossible for either.** The data is
+right. And the sim already reproduces both to the integer: at cap 54 × 9% =
+4.86 → +4 (observed 7−3), 85 × 9% = 7.65 → +7 (observed 12−5).
+
+**[Why the tooltip can lie]** The maintainer asked how a live description can
+be wrong if it is fed by the data. It is not. `WeaponModel.js
+GetWeaponConfigDescParams` reads `WeaponConf.DescParams[i].ArrayString[rank-1]`
+— a hand-authored STRING per placeholder per rank — and substitutes it into the
+sentence. Nothing on that path reads `db_buff`. Two fields, two authors, no
+join; a QA gap leaves them inconsistent, and Thousandfold Deliverance (tooltip
+right, row stale until hotfixed) and Novaburst (row right, tooltip stale) show
+it happens in BOTH directions. So neither the row nor the tooltip is an oracle;
+the stat sheet is, and a disagreement is a measurement to take.
+
+**[Two facts confirmed in the client]** `CalculationPolicy [1]` scales BASE
+ATK — the maintainer's observation, and what `stats.js` has always done
+(`atk = atkBase × (1 + Σ atkRatio) + atkFlat`; every ATK% source multiplies
+base). And the sheet FLOORS while the formula does not: `AttributeModel.js`
+formats a flat attribute with `Math.floor` and a percentage with a
+floor-to-one-decimal helper, but `CharacterDamageCalculations.js` computes the
+whole expression in floats and applies `Math.ceil` to the FINAL damage only.
+A displayed "+7" is therefore not the number the formula used. The sim's
+`formula.js` does no rounding at all, so it differs from the game by less than
+one point per hit — noted, not changed, since the DPS figure is a rate over
+many hits and a per-hit ceil would be false precision without the game's exact
+intermediate float.
+
+**[Files Changed]** `tests/external-buffs.test.mjs` (Novaburst pinned at 9% of
+base, with the measurement and the interval arithmetic in the comment);
+`CLAUDE.md`.
+
+**[Logic Altered]** None. The sim was already correct; this records why.
+
+**[Verification Method]** The feasible per-stack interval solved from both
+characters' floors independently; the tooltip path read from the client
+(`WeaponModel.js`), the display rounding from `AttributeModel.js`, the formula
+rounding from `CharacterDamageCalculations.js` (four rounding sites, two of
+them fall damage, two `Math.ceil` on the final result). `npm test` 77/77.
+
+**[Residual Risks]** The sim does not ceil final damage per hit; sub-point
+error per hit, sign-consistent (the game rounds up), and unmeasured in
+aggregate. The secondary-stat baseline implied by the floors (~5.6–6.3% at
+weapon level 1) was not cross-checked against the weapon's curve, since the
+stack increments do not depend on it.
+
+**[Updated Docs]** `CLAUDE.md` — the "which row are you holding" rule extended
+with the two-directional tooltip lesson, the `DescParams` path, scale-base
+confirmed, and the floor/ceil split. `docs/HISTORY.md` — this entry.

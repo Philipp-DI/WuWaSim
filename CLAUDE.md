@@ -158,7 +158,25 @@ Qingxiao's 40% amplify scope (20 keys → 4 named skills). Re-read the client's
 own code before believing a mismatch: `ActiveBuff.p__` applies
 `GetLevelValue(ModifierMagnitude, level) × StackCount` with no other input, so
 when that arithmetic disagrees with the stat sheet, the ROW is wrong — and the
-first question is which version of the row you are holding. Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
+first question is which version of the row you are holding. **The tooltip is a
+separately-authored string and can be wrong in EITHER direction.** The client
+builds it from `WeaponConf.DescParams[].ArrayString[rank-1]`
+(`WeaponModel.GetWeaponConfigDescParams`), literal text substituted into the
+sentence; nothing reads `db_buff` to produce it. Thousandfold Deliverance was
+the tooltip right and the row stale; **Novaburst is the row right and the
+tooltip stale** — `[300]`, policy `[1]`, 3 stacks says 3% of base per stack, the
+tooltip says 4%, and the maintainer's stat-sheet measurement (2026-09-16, Aalto
+lv1 base 54 and Chixia lv15 base 85, floors at 0–3 stacks) admits ONLY 3%: 4% is
+arithmetically impossible on both. So neither the row nor the tooltip is an
+oracle; the STAT SHEET is, and a disagreement is a measurement to take, not a
+number to pick. Two facts from that measurement, both read back out of the
+client: `CalculationPolicy [1]` really does scale BASE ATK (the sim's
+`atk = atkBase × (1 + Σ atkRatio) + atkFlat` already does — it reproduced both
+characters to the integer), and the stat sheet FLOORS (`AttributeModel.js`,
+`Math.floor` for flats, floor-to-one-decimal for percentages) while
+`CharacterDamageCalculations.js` keeps every attribute as a FLOAT and applies
+`Math.ceil` to the final damage only — so a displayed "+7" is not the number the
+formula used. Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
 whose index files must be refreshed from `ww/<version>/<type>.json` — note NO
 `/en/` in that path, and that the fetchers read `manifest.ww.latest`, which can
 run AHEAD of `live`) and the derived tables keyed by id. Those extractors DO live
