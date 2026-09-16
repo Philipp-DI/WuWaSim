@@ -2,7 +2,7 @@
   "_meta": {
     "source": "tools/extract/scan_bullet_timings.py + extract_timings.py — offline raw-asset parse (no FModel JSON export step)",
     "assetRoot": "docs-local/Role (user-provided, gitignored — not redistributed)",
-    "generatedAt": "2026-09-15T13:13:07.417Z",
+    "generatedAt": "2026-09-16T15:26:19.465Z",
     "join": "Two routes, in precedence order, both keyed on the hitMap[rid][skillKey] BinData damage id. route=\"bulletChain\": damage id -> the bullet(s) applying it (bullet table 伤害ID/多伤害ID, transitively through child bullets) -> the animation whose notify fires that bullet. Exact id identity at every hop, and it resolves to the ONE animation producing this exact damage instance. route=\"skillRow\": the older DT_SkillInfo join -- raw resonator id from the hit id's own leading 4 digits (not assumed equal to rid, see Rover), longest exact-prefix match against that resonator's row ids, then the row's merged montages. Coarser (distinct abilities often share one row, so they share one number), so it is only the fallback. sourceResonatorId is present on a skillRow entry only when it differs from the dataset's own rid.",
     "routeCounts": {
       "bulletChain": 899,
@@ -23294,9 +23294,9 @@
         "freezeAnimationTime": null,
         "nextAttAt": 0.4584,
         "nextAttDuration": 0.5475,
-        "skillEndAt": 1.0495,
+        "skillEndAt": 1.0151,
         "idleReturnAt": null,
-        "sequenceLength": 5.1,
+        "sequenceLength": 5.166667,
         "hitTimes": [
           0.0288
         ],
@@ -23309,24 +23309,10 @@
         "staminaCost": 25,
         "interruptLevel": 2,
         "sourceBulletId": "1406204002",
-        "sourceMontage": "MaleM/WindNanzhu/CommonAnim/AM_Attack10.uasset",
-        "montageCandidates": 4,
+        "sourceMontage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack10.uasset",
+        "montageCandidates": 2,
         "stepDurationSpread": 0,
         "variants": [
-          {
-            "montage": "MaleM/WindNanzhu/CommonAnim/AM_Attack10.uasset",
-            "stepDuration": 0.4584,
-            "nextAttAt": 0.4584,
-            "nextAttDuration": 0.5475,
-            "skillEndAt": 1.0495,
-            "freezeTime": null,
-            "hitTimes": [
-              0.0288
-            ],
-            "bulletId": "1406204002",
-            "bulletName": "冲刺-重击用",
-            "chosen": true
-          },
           {
             "montage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack10.uasset",
             "stepDuration": 0.4584,
@@ -23338,20 +23324,8 @@
               0.0288
             ],
             "bulletId": "1406204002",
-            "bulletName": "冲刺-重击用"
-          },
-          {
-            "montage": "MaleM/WindNanzhu/CommonAnim/AM_Attack10_Child.uasset",
-            "stepDuration": 0.4584,
-            "nextAttAt": 0.4584,
-            "nextAttDuration": 0.5475,
-            "skillEndAt": 1.0495,
-            "freezeTime": null,
-            "hitTimes": [
-              0.0288
-            ],
-            "bulletId": "1406204002",
-            "bulletName": "冲刺-重击用"
+            "bulletName": "冲刺-重击用",
+            "chosen": true
           },
           {
             "montage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack10_Child.uasset",
@@ -23632,42 +23606,9 @@
         "firstDamageAt": 0.1511,
         "staminaCost": 0,
         "interruptLevel": 4,
-        "disambiguatedBySkillRow": true,
         "sourceBulletId": "1406204004",
-        "sourceMontage": "MaleM/WindNanzhu/CommonAnim/AM_Attack11.uasset",
-        "montageCandidates": 2,
-        "stepDurationSpread": 0,
-        "variants": [
-          {
-            "montage": "MaleM/WindNanzhu/CommonAnim/AM_Attack11.uasset",
-            "stepDuration": 0.8281,
-            "nextAttAt": 0.8281,
-            "nextAttDuration": 0.3638,
-            "skillEndAt": 1.1944,
-            "freezeTime": null,
-            "hitTimes": [
-              0.1511,
-              0.629
-            ],
-            "bulletId": "1406204004",
-            "bulletName": "空中E第一段",
-            "chosen": true
-          },
-          {
-            "montage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack11.uasset",
-            "stepDuration": 0.8281,
-            "nextAttAt": 0.8281,
-            "nextAttDuration": 0.3638,
-            "skillEndAt": 1.1944,
-            "freezeTime": null,
-            "hitTimes": [
-              0.1511,
-              0.629
-            ],
-            "bulletId": "1406204004",
-            "bulletName": "空中E第一段"
-          }
-        ],
+        "sourceMontage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack11.uasset",
+        "montageCandidates": 1,
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -23790,40 +23731,9 @@
         "firstDamageAt": 0.176,
         "staminaCost": 0,
         "interruptLevel": 4,
-        "disambiguatedBySkillRow": true,
         "sourceBulletId": "1406005001",
-        "sourceMontage": "MaleM/WindNanzhu/CommonAnim/AM_W_Attack05_1.uasset",
-        "montageCandidates": 2,
-        "stepDurationSpread": 0,
-        "variants": [
-          {
-            "montage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack05.uasset",
-            "stepDuration": 0.3657,
-            "nextAttAt": 0.3657,
-            "nextAttDuration": 0.8949,
-            "skillEndAt": 1.2613,
-            "freezeTime": null,
-            "hitTimes": [
-              0.176
-            ],
-            "bulletId": "1406005001",
-            "bulletName": "普攻5"
-          },
-          {
-            "montage": "MaleM/WindNanzhu/CommonAnim/AM_W_Attack05_1.uasset",
-            "stepDuration": 0.3657,
-            "nextAttAt": 0.3657,
-            "nextAttDuration": 0.8949,
-            "skillEndAt": 1.2613,
-            "freezeTime": null,
-            "hitTimes": [
-              0.176
-            ],
-            "bulletId": "1406005001",
-            "bulletName": "普攻5",
-            "chosen": true
-          }
-        ],
+        "sourceMontage": "FemaleM/WindNvzhu/CommonAnim/AM_W_Attack05.uasset",
+        "montageCandidates": 1,
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -28110,22 +28020,9 @@
         "disambiguatedBySkillRow": true,
         "sourceBulletId": "1502007003",
         "sourceMontage": "FemaleM/Nvzhu/CommonAnim/AM_LimitAttack_01.uasset",
-        "montageCandidates": 6,
+        "montageCandidates": 3,
         "stepDurationSpread": 0,
         "variants": [
-          {
-            "montage": "MaleM/Nanzhu/CommonAnim/AM_LimitAtatck_01.uasset",
-            "stepDuration": 0.45,
-            "nextAttAt": 0.45,
-            "nextAttDuration": 0.3857,
-            "skillEndAt": 0.85,
-            "freezeTime": null,
-            "hitTimes": [
-              0.28
-            ],
-            "bulletId": "1502007003",
-            "bulletName": "极限闪避反击普攻6"
-          },
           {
             "montage": "FemaleM/Nvzhu/CommonAnim/AM_LimitAttack_01.uasset",
             "stepDuration": 0.45,
@@ -28141,36 +28038,10 @@
             "chosen": true
           },
           {
-            "montage": "MaleM/Nanzhu/CommonAnim/AM_LimitAtatck_01_Child_Counter.uasset",
-            "stepDuration": 0.45,
-            "nextAttAt": 0.45,
-            "nextAttDuration": 0.3857,
-            "skillEndAt": 0.85,
-            "freezeTime": null,
-            "hitTimes": [
-              0.28
-            ],
-            "bulletId": "1502007003",
-            "bulletName": "极限闪避反击普攻6"
-          },
-          {
             "montage": "FemaleM/Nvzhu/CommonAnim/AM_LimitAttack_01_Child_Counter.uasset",
             "stepDuration": 0.45,
             "nextAttAt": 0.45,
             "nextAttDuration": 0.403,
-            "skillEndAt": 0.85,
-            "freezeTime": null,
-            "hitTimes": [
-              0.28
-            ],
-            "bulletId": "1502007003",
-            "bulletName": "极限闪避反击普攻6"
-          },
-          {
-            "montage": "MaleM/Nanzhu/CommonAnim/AM_LimitAtatck_01_Child_Counter1.uasset",
-            "stepDuration": 0.45,
-            "nextAttAt": 0.45,
-            "nextAttDuration": 0.3857,
             "skillEndAt": 0.85,
             "freezeTime": null,
             "hitTimes": [
@@ -38797,7 +38668,7 @@
         "disambiguatedBySkillRow": true,
         "sourceBulletId": "1604003001",
         "sourceMontage": "FemaleM/DarkNvzhu/CommonAnim/AM_Attack03.uasset",
-        "montageCandidates": 3,
+        "montageCandidates": 2,
         "stepDurationSpread": 0,
         "variants": [
           {
@@ -38813,19 +38684,6 @@
             "bulletId": "1604003001",
             "bulletName": "基础普攻3",
             "chosen": true
-          },
-          {
-            "montage": "MaleM/DarkNanzhu/CommonAnim/3_1/AM_Attack03_QTE.uasset",
-            "stepDuration": 0.4391,
-            "nextAttAt": 0.4391,
-            "nextAttDuration": 0.4204,
-            "skillEndAt": 0.8985,
-            "freezeTime": null,
-            "hitTimes": [
-              0.2144
-            ],
-            "bulletId": "1604003101",
-            "bulletName": "基础普攻3"
           },
           {
             "montage": "FemaleM/DarkNvzhu/CommonAnim/3_1zhuxian/AM_Attack03_QTE.uasset",

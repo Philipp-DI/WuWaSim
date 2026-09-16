@@ -1162,7 +1162,7 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       A stale `effectStacks` entry addresses a non-stackable effect and is
       ignored; nothing is corrupted.
 
-34. **`npm run data` is not a pure function of the repo** (found 2026-08-18).
+34. ~~**`npm run data` is not a pure function of the repo**~~ **CLOSED 2026-09-08** (`b446382`, `073b6a2`). `PINNED_REF` in `tools/preprocess.mjs` makes a bare `npm run data` deterministic (a byte-exact no-op against the committed dataset, content hash `f7b1918f8638` reproduced), `--ref` still overrides for probing, and 3.6 was then adopted as its own deliberate commit with both halves measured — see the CLAUDE.md pipeline section. Original text kept below. (found 2026-08-18).
     `tools/preprocess.mjs` opens with `await downloadAll(args.lang)`, so LOCK A
     re-fetches the LIVE upstream every run. Regenerating on a clean tree that day
     pulled in two resonators the dataset had never seen (Jingran 1212, Qingxiao
@@ -1286,7 +1286,25 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     | `no key owns this row's ids or animation` | 404 (38 with a gauge consumer) | the row's damage lives in an id block the join does not reach — Augusta's eight `[领域]` domain-mode Liberation rows are the clearest cluster, the same shape HISTORY records for Aemeath's Mech form |
     | `row has no animation and no damage ids` | 215 (7 with a gauge consumer) | **not a defect** — these are state-machine rows (`蓄力状态` "charge state", `清扫模式落地退出逻辑` "sweep-mode landing exit"). They grant gauge without being a cast at all, which the per-cast model has no slot for; see below |
     | `montage names several keys` | 35 (3 with a gauge consumer) | one animation, several display rows; route 1 could not separate them |
-    | `no DT_SkillInfo row for this resonator` | 11 | the **Rover id-space remap**, already known (HISTORY: "1501 Rover: Spectro joins against raw id 1502"). Affects 1310, 1408, 1502. A remap table closes this one outright |
+    | `no DT_SkillInfo row for this resonator` | 11 | ~~the **Rover id-space remap** … A remap table closes this one outright~~ **MEASURED 2026-09-16 and the prescription was WRONG.** The refused ids (1310, 1408, 1502, 1605) are the OTHER GENDER's mirror of ids already resolved, not missing data: stripping the 4-digit prefix, every male and female cast row is identical in `buffId`, `attribute`, `channel`, `policy`, `magnitude` and `effect` — differing only in `skillId`, `table` and `skillName` (雷男主 vs 雷女主). A remap that MERGED them would double-count; one that replaced them would change nothing. The only real asymmetry is **1502's six SpecialEnergy4 trigger rows that 1501 lacks**, and the trigger lane is not wired, so they are unreachable either way. This row is therefore closed as a NON-defect — the refusal is correct — and what it was standing in for is the timing finding below |
+
+    **A REAL Rover finding, from the same audit (2026-09-16, FIXED):** the
+    female-only rule was honoured by a PATH rewrite (`MaleM/`->`FemaleM/`,
+    `Nanzhu`->`Nvzhu`) that covers the directory but not the FILE name, and the
+    female build renames moves — Aero's `AM_Attack10`/`AM_Attack11` are
+    `AM_W_Attack10`/`AM_W_Attack11`, `AM_W_Attack05_1` drops its suffix, and
+    Spectro's male `AM_LimitAtatck_01` is the female `AM_LimitAttack_01` with
+    the typo fixed. Five keys therefore kept MALE animations, three of them in
+    reference rotations of Rovers that appear in ranked teams. Fixed by matching
+    on the game's own identity — the male and female montages of one move apply
+    the SAME damage ids — with a name normalisation to break ties between a
+    move and its `_Child`/`_Rogue` variants, which share that signature. The row
+    lookup had to follow (`ROVER_MIRROR_RID`): keyed by the male rid it MISSED
+    the substituted asset and cost Aero's Heavy Attack its stamina (25 -> 0) and
+    interrupt level (2 -> 4) until the female row was consulted. Net: 5 keys now
+    cite female assets, ZERO numeric fields moved, LOCK B one line. Spectro's
+    Intro stays male — five `AM_SkillQte*` montages share its signature and none
+    normalises to its name, so it is refused rather than guessed.
 
     THE FINDING WORTH ACTING ON: `gauge-income.json` files a grant as `cast`
     when it hangs off a `DT_SkillInfo` row, and 7 of those rows are **stance
@@ -1378,8 +1396,7 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     deliberately NOT enforced, because gating on an under-filled gauge would
     flag a legal rotation as illegal.
 
-40. **`npm run data` silently un-pins the game version, so LOCK A as documented
-    is not reproducible** (2026-08-27). `tools/preprocess.mjs` resolves
+40. ~~**`npm run data` silently un-pins the game version, so LOCK A as documented is not reproducible**~~ **CLOSED 2026-09-08** (`b446382`). Both decisions this item named were taken separately: LOCK A pins (`PINNED_REF`, proven a byte-exact no-op), and 3.6 was adopted in `073b6a2` after measuring both source halves. The follow-on lesson — that even a pinned, current export can be LAUNCH-DAY data because hotfixes live under `Saved/Resources` — is recorded in CLAUDE.md and closed in `12ca99e`. Original text kept below. (2026-08-27). `tools/preprocess.mjs` resolves
     `const ref = args.ref ?? await resolveRef()`, and `resolveRef()` asks the
     network for the source repo's live default branch. The committed dataset was
     built with an explicit `--ref` (`sourceRefPinned: true`), so a bare

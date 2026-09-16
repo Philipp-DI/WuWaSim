@@ -13288,3 +13288,103 @@ stack increments do not depend on it.
 **[Updated Docs]** `CLAUDE.md` — the "which row are you holding" rule extended
 with the two-directional tooltip lesson, the `DescParams` path, scale-base
 confirmed, and the floor/ceil split. `docs/HISTORY.md` — this entry.
+
+## 2026-09-16 — Rover is female by identity, not by path
+
+Resuming the backlog with the data now fresh. Items 34 and 40 (LOCK A not a pure
+function of the repo; `npm run data` un-pinning the version) were both closed by
+this week's work and are marked so. The substantive one was item 38's Rover
+claim, which turned out to be wrong in its prescription and to be standing in
+front of a real defect.
+
+**[The claim that was wrong]** Item 38 filed 11 skill-join refusals under "the
+Rover id-space remap … a remap table closes this one outright". Measured: the
+refused ids (1310, 1408, 1502, 1605) are the OTHER GENDER's mirror of ids
+already resolved. Strip the 4-digit prefix and every male/female cast row is
+identical in `buffId`, `attribute`, `attributeId`, `channel`, `isCap`, `policy`,
+`magnitude` and `effect` — they differ only in `skillId`, `table` and
+`skillName` (雷男主 "Thunder male protagonist" vs 雷女主 "female"). A remap that
+merged them would DOUBLE-COUNT; one that replaced them would change nothing. The
+refusal is correct. The only real asymmetry is 1502's six SpecialEnergy4 trigger
+rows that 1501 lacks, and the trigger lane is not wired, so they are unreachable
+either way.
+
+**[What is not a gender defect either]** The damage table. Each element ships ONE
+table under whichever id the game filed it — Electro (119 rows) and Aero (45)
+under the MALE id, Spectro (226) and Havoc (40) under the FEMALE — and
+`hit-map.json` already resolves the dataset's 1501 onto 1502's rows. So the
+canonical id is a KEY, and which gender's id it happens to be cannot move a
+number. (Spectro's 16 dataset rows across 16 keys are a launch-era kit, not a
+gap; Electro's 119 across 32 are the 3.x rework.)
+
+**[The real defect]** The female-only rule was enforced by rewriting the PATH
+(`MaleM/`->`FemaleM/`, `Nanzhu`->`Nvzhu`). That covers the directory and not the
+FILE NAME, and the female build renames moves:
+
+```
+male AM_Attack10      -> female AM_W_Attack10        (both fire 1406204002+1406214002)
+male AM_Attack11      -> female AM_W_Attack11        (both fire 1406204003+1406204004)
+male AM_W_Attack05_1  -> female AM_W_Attack05        (both fire 1406005001)
+male AM_LimitAtatck_01 -> female AM_LimitAttack_01   (the game's own typo, fixed)
+```
+
+Five keys kept MALE animations, three of them in reference rotations of Rovers
+that appear in ranked teams — exactly what the rule exists to prevent.
+
+**[The fix, and the trap inside it]** Matching by the game's own identity: the
+two genders' montages of one move apply the SAME damage ids. Identity alone is
+not enough — a move and its `_Child`/`_Rogue` variants share that signature
+(five `AM_SkillQte*` montages all fire 1502009003) — so a name normalisation
+breaks ties, covering only the three differences the shipped file lists actually
+show: the `_W` infix, the `Atatck` typo, a trailing `_1`. Anything else is a
+different move and must not normalise away.
+
+The trap: the ROW lookup has to follow the substitution. `rowsByAsset` is keyed
+by the raw rid, and the female asset is filed under the FEMALE rid (Aero: 1406
+male / 1408 female), so a mirrored montage looked up under the male rid MISSES.
+Measured the moment the mirror started resolving: Aero's Heavy Attack lost its
+stamina (25 -> 0) and interrupt level (2 -> 4). The female row says exactly what
+the male one does (`1408101 重击`: stamina -2500, interrupt 2), so consulting it
+RECOVERS the property rather than changing it. Without that half the fix would
+have traded a provenance gain for a metadata regression, at no numeric benefit —
+worth saying plainly, because that is what the first draft did.
+
+**[Result]** Five keys now cite female assets and **zero numeric fields moved** —
+`stepDuration`, `freezeTime`, `damageAt`, `staminaCost`, `interruptLevel` all
+identical. LOCK B: one line (`generatedAt`). Spectro's Intro stays male and is
+REFUSED rather than guessed: five `AM_SkillQte*` montages share its signature
+and none normalises to its name.
+
+**[Files Changed]** `tools/extract/map-timings.mjs` (identity+name mirror,
+`ROVER_MIRROR_RID` row lookup); `data/actionable-times.json`,
+`data/wuwa-data.json`, `data/wuwa-meta.json` (regenerated); `CLAUDE.md` (new
+invariant); `docs/OPEN-ITEMS.md` (34 and 40 closed, 38's Rover row corrected).
+
+**[Logic Altered]** A male Rover montage with no same-named female mirror now
+resolves to the female montage applying the same damage ids, when exactly one
+such montage also matches by normalised name; its DT_SkillInfo row properties
+are read from the female rid.
+
+**[Verification Method]** Every claim measured before acting: gauge rows diffed
+field by field across all four gender pairs; damage-table rows counted per id;
+`hit-map` prefixes read; the four candidate mirrors confirmed by identical
+damage ids; the ambiguity that blocked a naive id match enumerated; reference-
+rotation and ranked-team membership checked before investing in the fix; the
+staminaCost regression caught by diffing ALL fields rather than `stepDuration`
+alone, and its cause proven by reading rows 1406101 and 1408101 side by side.
+`npm test` 77/77; `npm run sweep` 70 imported, 0 failed; `npm run lint` 0 errors,
+1574 warnings.
+
+**[Residual Risks]** The name normalisation is derived from four observed pairs;
+a fifth rename shape would silently fall back to the male asset rather than
+error — the failure direction is the status quo, not a wrong mapping. Spectro's
+Intro remains on a male animation. The workflow launched to audit this returned
+nothing (all three agents hit the session limit), so the three lanes were
+audited inline by one reader rather than independently; the numbers are
+measured, but not independently re-derived.
+
+**[Updated Docs]** `CLAUDE.md` — new invariant "Rover is FEMALE by IDENTITY, not
+by path", including what is NOT a gender defect (the damage table, the
+gauge-income split). `docs/OPEN-ITEMS.md` — 34 and 40 struck through and closed
+with commit references; 38's Rover row struck through and replaced with the
+measurement. `docs/HISTORY.md` — this entry.

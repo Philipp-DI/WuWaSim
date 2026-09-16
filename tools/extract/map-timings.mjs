@@ -68,9 +68,73 @@ const overrides = JSON.parse(readFileSync(resolve(DATA_DIR, 'timing-overrides.js
 // male 0.800 vs female 0.770), so this is a substitution onto the female asset
 // at the mirrored path, not merely a preference — that also covers the 5 Spectro
 // keys whose damage ids reach ONLY male bullets, which a filter would have lost.
+// ~~The mirrored PATH is the whole mapping.~~ It is only the directory half:
+// the female build regularly files the same move under a different FILE name —
+// Aero's `AM_Attack10`/`AM_Attack11` are `AM_W_Attack10`/`AM_W_Attack11` there,
+// `AM_W_Attack05_1` drops its suffix to `AM_W_Attack05`, and Spectro's male
+// `AM_LimitAtatck_01` has the typo the female `AM_LimitAttack_01` fixes. A
+// directory-only rewrite misses those and silently keeps the MALE timing, which
+// is what the rule exists to prevent (measured: 4 keys, 3 on Aero and 1 on
+// Spectro's Intro).
+//
+// So the fallback matches by IDENTITY rather than by name: the male and female
+// montages of one move apply the SAME damage ids, which is the game's own join
+// and the same warrant `scan_bullet_timings` is built on. Verified on all four:
+// AM_Attack10/AM_W_Attack10 both fire 1406204002+1406214002, the Intro pair both
+// fire 1502009003. The path attempt stays FIRST — it is exact when it resolves —
+// and the id match is consulted only when it does not, so nothing that already
+// mirrored can be re-pointed. A move whose female build genuinely has no mirror
+// (the 5 Spectro keys whose damage ids reach only male bullets) still keeps the
+// male asset rather than losing its timing.
 const MALE_ROVER = /(^|\/)MaleM\/[A-Za-z]*Nanzhu\//;
+const FEMALE_ROVER = /(^|\/)FemaleM\/[A-Za-z]*Nvzhu\//;
 function femaleRoverPath(path) {
     return path.replace('MaleM/', 'FemaleM/').replace('Nanzhu', 'Nvzhu');
+}
+
+// The damage ids narrow the field; the NAME picks within it. Identity alone is
+// not enough because a move's variants share its ids — `AM_W_Attack10` and
+// `AM_W_Attack10_Child` both fire 1406204002+1406214002, and five `AM_SkillQte*`
+// montages all fire 1502009003 — so a signature match on its own reproduces the
+// arbitrary pick this whole mapping exists to remove.
+//
+// Normalisation covers the three differences the female build actually shows,
+// each read off the shipped file lists rather than guessed: the `_W` infix
+// (`AM_Attack11` / `AM_W_Attack11`), the male typo `Atatck` that the female
+// spells `Attack`, and a trailing `_1` the female drops (`AM_W_Attack05_1` /
+// `AM_W_Attack05`). Anything else — `_Child`, `_Rogue`, `_Counter` — is a
+// DIFFERENT move and must not normalise away, which is what keeps Spectro's
+// Intro refused rather than pointed at `AM_SkillQte_Child_Counter`.
+const montageName = (path) => path.slice(path.lastIndexOf('/') + 1).replace(/\.uasset$/, '');
+const normalizeMontageName = (name) => name.toLowerCase()
+    .replace(/^am_w_/, 'am_')
+    .replace('atatck', 'attack')
+    .replace(/_1$/, '');
+
+const damageIdsByMontage = (() => {
+    const byMontage = new Map();
+    for (const [bulletId, sources] of Object.entries(bulletTimings.bulletTimings)) {
+        for (const source of sources) {
+            if (!byMontage.has(source.montage)) byMontage.set(source.montage, new Set());
+            for (const id of bulletTimings.bulletDamageIds[bulletId] ?? []) byMontage.get(source.montage).add(id);
+        }
+    }
+    return byMontage;
+})();
+
+function femaleRoverByDamageIds(maleMontage) {
+    const ids = damageIdsByMontage.get(maleMontage);
+    if (!ids?.size) return null;
+    const signature = [...ids].sort().join(',');
+    const wanted = normalizeMontageName(montageName(maleMontage));
+    const candidates = [];
+    for (const [montage, theirIds] of damageIdsByMontage) {
+        if (!FEMALE_ROVER.test(montage)) continue;
+        if ([...theirIds].sort().join(',') !== signature) continue;
+        if (normalizeMontageName(montageName(montage)) !== wanted) continue;
+        candidates.push(montage);
+    }
+    return candidates.length === 1 ? candidates[0] : null;
 }
 
 // montage path -> one timing record, for resolving a mirrored path back to data.
@@ -173,8 +237,11 @@ function montagesForDamageId(damageId) {
 
 function toFemaleRover(source) {
     if (!MALE_ROVER.test(source.montage)) return source;
-    const mirrored = timingByMontage.get(femaleRoverPath(source.montage));
-    return mirrored ? { ...mirrored, genderMirroredFrom: source.montage } : source;
+    const byPath = timingByMontage.get(femaleRoverPath(source.montage));
+    if (byPath) return { ...byPath, genderMirroredFrom: source.montage };
+    const renamed = femaleRoverByDamageIds(source.montage);
+    const byDamage = renamed ? timingByMontage.get(renamed) : null;
+    return byDamage ? { ...byDamage, genderMirroredFrom: source.montage, genderMirrorRoute: 'damageIds' } : source;
 }
 
 
@@ -223,10 +290,25 @@ function rawRidOf(hitIds, rid) {
     return hitIds[0]?.slice(0, 4) ?? rid;
 }
 
+// A gender-mirrored montage takes its ROW properties from the mirrored build
+// too. The index is keyed by the raw rid, and the female animation is filed
+// under the female rid (Aero: 1406 male / 1408 female), so looking a substituted
+// montage up under the male rid MISSES — measured, it cost Aero's Heavy Attack
+// its stamina (25 -> 0) and interrupt level (2 -> 4) the moment the mirror
+// started resolving. The female row says exactly what the male one does
+// (`1408101 重击`: stamina -2500, interrupt 2), so this recovers the property
+// rather than changing it; the fallback below still catches anything neither
+// rid can answer.
+const ROVER_MIRROR_RID = Object.freeze({ 1309: 1310, 1406: 1408, 1501: 1502, 1605: 1604 });
+
 function rowsForKey(rawRid, hitIds, chosenMontage) {
     if (chosenMontage) {
-        const byAsset = rowsByAsset.get(`${rawRid}|${assetNameOf(chosenMontage)}`);
-        if (byAsset?.length) return { rows: byAsset, via: 'montage' };
+        const asset = assetNameOf(chosenMontage);
+        const rids = [rawRid, ROVER_MIRROR_RID[Number(rawRid)]].filter(Boolean);
+        for (const rid of rids) {
+            const byAsset = rowsByAsset.get(`${rid}|${asset}`);
+            if (byAsset?.length) return { rows: byAsset, via: 'montage' };
+        }
     }
     for (const hitId of hitIds) {
         const idRid = hitId.slice(0, 4);
