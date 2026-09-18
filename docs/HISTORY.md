@@ -13388,3 +13388,130 @@ by path", including what is NOT a gender defect (the damage table, the
 gauge-income split). `docs/OPEN-ITEMS.md` — 34 and 40 struck through and closed
 with commit references; 38's Rover row struck through and replaced with the
 measurement. `docs/HISTORY.md` — this entry.
+
+## 2026-09-18 — The re-audit refuted me, and it was right
+
+Yesterday's Rover entry closed OPEN-ITEMS 38's row as a non-defect on the
+strength of ONE reader's measurements, and said so in its own residual risks:
+"the numbers are measured, but not independently re-derived." The re-audit did
+that, and disproved half of it.
+
+**[What survived, more strongly than claimed]** The gauge-income male/female
+split really is a pure mirror: cast-row counts equal in all four pairs, every
+row pairing on the stripped suffix with zero unmatched either way, and
+field-by-field the only differences are `skillId`, `table` and — for Electro
+alone — `skillName`. Stronger than yesterday's claim: `buffId` is LITERALLY
+identical, so the male rows already cite the female-prefixed buff ids
+(1309 and 1310 both cite `1101003007`). The trigger lane is unwired in the
+strongest sense — **nothing in `src/` reads `gauge-income.json` at all**; its
+only consumers are `build-skill-join.mjs` and a test. `RESOURCE_DEFS` models
+three resonators and no Rover. And 1502's six SpecialEnergy4 rows could not
+matter if wired: `SpecialEnergy4Max` is 6000 on all 58 resonators and their
+descs are event-mode listeners (肉鸽 roguelike, 【祝福3】blessing).
+
+**[What it refuted]** "A remap would double-count rather than recover data" is
+true of the gauge rows and FALSE of the ID SPACE — which is what item 38 named.
+Verified by re-execution here, not taken on trust:
+
+```
+dataset id   hit ids   prefix   resolve vs OWN rows   vs MIRROR
+1309            54      1309           53                 0
+1406            22      1406           22                 0
+1501            17      1502            0                14      <-- dead
+1604            35      1604           29                 0
+```
+
+`hit-map.json`'s entry for the dataset's 1501 is entirely 1502-prefixed, because
+the damage table the game files for Spectro lives under the FEMALE id.
+`build-skill-join.mjs` built `knownRowIds` from the dataset rid, so route 1 — the
+strongest, the one reasoning from exact id identity — was **entirely dead** for
+her: 3 joined rows against 29/15/21 for the other three Rovers, with
+`基础普攻1..4`, `蓄力1` and her Liberation rows all refused as "no key owns this
+row's ids". I had SEEN the 1501 -> 1502 prefix yesterday, noted it as "Spectro is
+already mixed", and then concluded the lane was fine. That is the whole value of
+an adversarial pass.
+
+**[Fixed]** `rowSourceRidOf` takes the row set from the id space the hit ids
+themselves name — the rule `map-timings.mjs` already uses via `rawRidOf` — and
+requires the prefix to be UNANIMOUS, so a mixed set keeps the dataset rid rather
+than joining half a resonator against a stranger's rows. Measured: Spectro
+**3 -> 14** joined rows (9 by exact damage id, 5 by montage), roster resolved
+1033 -> 1042, and **zero non-Rover resonators changed**. The gauge coverage
+lookup follows the same map, so 1502's rows resolve under 1501 — the remap item
+38 asked for, recovering rather than doubling precisely because the join is now
+keyed in the 1502 space and 1501's own rows are no longer walked. Gauge coverage
+held at 179/158/63 after that follow-through; without it the same change cost 2
+resolutions.
+
+**[A latent defect yesterday's commit left]** Rebuilding the join surfaced that
+Aero Rover's `heavy_heavy_attack` lost both its joined rows (`1406009`,
+`1406101`). Cause: route 2 matches the ROW's montage, read from `timing-data.json`
+as the MALE path, against `actionable-times.json`, which yesterday's gender fix
+substituted onto the FEMALE asset. The two sides of that join read different
+artifacts, and I never rebuilt the join after the substitution — so the committed
+`skill-join.json` was stale relative to `actionable-times.json` for a day.
+Indexing `genderMirroredFrom` alongside `sourceMontage` was the intended fix and
+does not reach these two: the male candidates now COLLAPSE onto the natively
+female ones, so the chosen candidate is not a mirror and carries no provenance
+field. Left as-is deliberately — `skill-join.json` has no runtime consumer (the
+only `src/` mention is a comment), neither row carries gauge income, and closing
+it means adding a field to `actionable-times.json` and churning LOCK A/B for two
+provenance rows. Documented rather than chased.
+
+**[Also corrected]** The refusal reason `no DT_SkillInfo row for this resonator`
+was FALSE for all 11 rows it labelled — every one exists in `timing-data.json`.
+The join is built over the roster while the coverage loop walks every
+gauge-income rid, so a non-roster rid fell to a hardcoded else-branch stating a
+cause nobody had checked. And the DT_SkillInfo tables are NOT mirrors even where
+the gauge extract is: 1309/1310 and 1406/1408 match 43/43 and 23/23, but
+1501/1502 is 30/42 and 1604/1605 has 5 non-matching rows each way.
+
+**[The guard that was missing]** No test anywhere asserted the female-only rule —
+zero matches for `Nanzhu`/`Nvzhu`/`MaleM`/`FemaleM` across `tests/` — for a rule
+broken twice. `tests/rover-gender.test.mjs` asserts it four ways: no Rover key
+takes a male animation (against a `REFUSED` contract holding only `1501.intro`,
+which may only shrink and whose entries must STILL be male so a fix forces the
+list down); `genderMirroredFrom` really moved a key onto a female asset; the
+Rover ids are DERIVED from the roster, not hardcoded; and the opposite error is
+guarded — Jingran and Xiangli Yao ARE male and must keep male assets, so an
+over-broad "force everyone female" rewrite fails. Verified by re-injecting the
+July-style regression (`1406.heavy_heavy_attack` back on `AM_Attack10`): it fails
+naming that key, and passes on restore with the data file byte-identical.
+
+**[Files Changed]** `tools/extract/build-skill-join.mjs` (`rowSourceRidOf`,
+`genderMirroredFrom` indexing, the corrected refusal reason, the gauge remap);
+new `tests/rover-gender.test.mjs`; regenerated `data/skill-join.json` +
+`docs/skill-join-report.md`; `CLAUDE.md` and `docs/OPEN-ITEMS.md` (the wrong half
+struck through and corrected).
+
+**[Logic Altered]** Route 1 resolves a key's hit ids against the DT_SkillInfo
+rows of the id space those ids name, when that prefix is unanimous. A gauge row
+filed under a non-dataset rid is looked up under the dataset rid that maps to it.
+No engine change; `skill-join.json` has no runtime consumer.
+
+**[Verification Method]** The refutation's central claim re-executed here with
+the real `resolveSkillId` before any code changed (0 of 17 vs 14 of 17). Each
+sub-fix measured separately: the id-space fix alone (Spectro 3 -> 14 but gauge
+179 -> 177), then the gauge remap (restored to 179/158/63), with non-Rover
+collateral checked at zero each time. The 1406 loss diffed row by row and its
+cause read out of both artifacts. `preprocess.mjs` and `src/` confirmed to
+reference `skill-join` only in comments, so no dataset regeneration was needed.
+`npm test` 78/78; `npm run lint` 0 errors, 1574 warnings;
+`tests/skill-join.test.mjs` 23/23.
+
+**[Residual Risks]** THREE OF FOUR AUDIT AGENTS DIED on the session limit — only
+the gauge/join skeptic ran. The claims about the damage table being inert, and
+about the shipped `map-timings` name normalisation being collision-free, remain
+verified by one reader only; the normalisation in particular (`_W` infix, the
+`Atatck` typo, a trailing `_1`) was never attacked for roster-wide collisions,
+and `ROVER_MIRROR_RID`'s `1605 -> 1604` entry was never checked for being
+backwards. The completeness sweep never ran, so nothing has audited icon paths,
+curated JSON keyed by Rover id, or UI persistence. Aero Rover's two lost join
+rows stay lost by choice. 4 of the 11 refusals mirror an id that is itself
+refused, which is still open.
+
+**[Updated Docs]** `CLAUDE.md` — the Rover invariant's "would have double-counted"
+clause struck through and replaced with the measured id-space finding, the fix,
+and the two corollaries. `docs/OPEN-ITEMS.md` — 38's Rover row corrected from
+"closed as a non-defect" to half-wrong, with what remains open.
+`docs/HISTORY.md` — this entry.

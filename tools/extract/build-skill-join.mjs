@@ -109,9 +109,35 @@ function normalizeMontage(path) {
 
 const rosterIds = Object.values(dataset.resonators).map(resonator => String(resonator.id));
 
+/**
+ * The DT_SkillInfo rid that OWNS a dataset id's damage ids.
+ *
+ * Usually the dataset id itself. Not for Spectro Rover: the dataset ships 1501
+ * (the male-bodied id, which won `preprocess.mjs`'s dedupe) while every one of
+ * her 17 hit ids is 1502-prefixed, because the damage table the game files for
+ * Spectro lives under the FEMALE id. Resolving those against 1501's rows
+ * matched 0 of 17 where 1502's rows match 14, so route 1 — the strongest, the
+ * one that reasons from exact id identity — was entirely dead for her: 3 joined
+ * rows against 29/15/21 for the other three Rovers, and her `基础普攻1..4`,
+ * `蓄力1` and Liberation rows all refused as "no key owns this row's ids".
+ *
+ * ~~A remap here would double-count rather than recover data.~~ That is true of
+ * `gauge-income.json`, whose male and female rows are a pure mirror (identical
+ * `buffId` included), and FALSE of the id space — which is what item 38 named.
+ * The prefix must be UNANIMOUS across the key's ids; a mixed set means the
+ * assumption does not hold and the dataset rid is kept, because a partial remap
+ * would join half a resonator against a stranger's rows.
+ */
+function rowSourceRidOf(rid) {
+    const prefixes = new Set(Object.values(hitMap[rid] ?? {}).flat().map(id => String(id).slice(0, 4)));
+    if (prefixes.size !== 1) return rid;
+    const [prefix] = prefixes;
+    return timingResonators[prefix]?.skills ? prefix : rid;
+}
+
 // Route 1 — every key's raw hit ids, resolved to their owning DT_SkillInfo row.
-function rowKeysByDamageId(rid) {
-    const knownRowIds = new Set(Object.keys(timingResonators[rid]?.skills ?? {}));
+function rowKeysByDamageId(rid, sourceRid = rid) {
+    const knownRowIds = new Set(Object.keys(timingResonators[sourceRid]?.skills ?? {}));
     const index = {};
     for (const [key, hitIds] of Object.entries(hitMap[rid] ?? {})) {
         for (const hitId of hitIds) {
@@ -123,10 +149,22 @@ function rowKeysByDamageId(rid) {
 }
 
 // Route 2 — the animation each key was measured on.
+//
+// `genderMirroredFrom` is indexed alongside `sourceMontage` because the two
+// sides of this join read DIFFERENT artifacts: the row cites its own montage
+// from `timing-data.json` (for Rover, the MALE path, since the dataset's rid is
+// the male-bodied one) while `actionable-times.json` has been substituted onto
+// the female asset. Yesterday's gender fix therefore desynchronised them and
+// silently cost Aero Rover's `heavy_heavy_attack` both of its joined rows
+// (`1406009 长按-极限闪避反击`, `1406101 重击`) — a regression that only appeared
+// when the join was rebuilt, because the committed artifact predated it.
+// The mirrored-from path is exactly the male path the row cites, so indexing it
+// restores the match without loosening anything.
 function keysByMontage(rid) {
     const index = {};
     for (const [key, record] of Object.entries(actionableTimes[rid] ?? {})) {
-        const assets = new Set([record.sourceMontage, ...(record.variants ?? []).map(variant => variant.montage)]);
+        const assets = new Set([record.sourceMontage, record.genderMirroredFrom,
+            ...(record.variants ?? []).map(variant => variant.montage)]);
         for (const asset of assets) {
             const normalized = normalizeMontage(asset);
             if (normalized) (index[normalized] ??= new Set()).add(key);
@@ -174,9 +212,10 @@ const routeCounts = { damageId: 0, montage: 0, genreSingleton: 0 };
 let rowsSeen = 0;
 
 for (const rid of rosterIds) {
-    const skills = timingResonators[rid]?.skills;
+    const sourceRid = rowSourceRidOf(rid);
+    const skills = timingResonators[sourceRid]?.skills;
     if (!skills) continue;
-    const byDamageId = rowKeysByDamageId(rid);
+    const byDamageId = rowKeysByDamageId(rid, sourceRid);
     const byMontage = keysByMontage(rid);
     const skillMap = dataset.autoSkillMap?.[rid] ?? {};
     const claimed = new Set(Object.values(byDamageId).flatMap(keys => [...keys]));
@@ -255,14 +294,37 @@ const gaugeRows = new Set();
 for (const [rid, record] of Object.entries(gaugeIncome))
     for (const row of record.cast ?? []) gaugeRows.add(rid + ':' + row.skillId);
 
+// A gauge row's rid is a DT_SkillInfo rid, which is not always a DATASET rid:
+// `gauge-income.json` carries both genders of every Rover, and the join is keyed
+// by whichever id space owns the damage ids (`rowSourceRidOf`). So 1502's rows
+// are looked up under the dataset's 1501 — the remap item 38 asked for, which
+// RECOVERS here instead of double-counting precisely because the join is keyed
+// in the 1502 space and 1501's own rows are no longer walked.
+const datasetRidOf = new Map();
+for (const rid of rosterIds) {
+    const sourceRid = rowSourceRidOf(rid);
+    if (sourceRid !== rid) datasetRidOf.set(sourceRid, rid);
+}
+
 let gaugeResolved = 0, gaugeUnique = 0;
 const gaugeRefused = [];
 for (const signature of gaugeRows) {
     const [rid, skillId] = signature.split(':');
-    const entry = join[rid]?.[skillId];
+    const lookupRid = join[rid]?.[skillId] ? rid : (datasetRidOf.get(rid) ?? rid);
+    const entry = join[lookupRid]?.[skillId];
     if (!entry) {
-        const refusal = refusals.find(item => item.rid === rid && item.skillId === skillId);
-        gaugeRefused.push(refusal ?? { rid, skillId, reason: 'no DT_SkillInfo row for this resonator' });
+        const refusal = refusals.find(item => item.rid === lookupRid && item.skillId === skillId);
+        // ~~"no DT_SkillInfo row for this resonator"~~ was false for all 11 rows
+        // it labelled: every one EXISTS in timing-data.json. The join is built
+        // over the dataset roster while this loop walks every gauge-income rid,
+        // so a non-roster rid fell to a hardcoded else-branch that stated a
+        // cause nobody had checked. Say what is actually true instead.
+        gaugeRefused.push(refusal ?? {
+            rid, skillId,
+            reason: rosterIds.includes(rid)
+                ? 'row not joined for this resonator'
+                : 'rid is not a dataset resonator (the other gender of a Rover)',
+        });
         continue;
     }
     gaugeResolved++;
