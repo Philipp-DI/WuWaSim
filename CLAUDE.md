@@ -20,12 +20,12 @@ Node 18+, no framework, no bundler, browser + Node compatible).
 engineering for new features. Think carefully; no need to rush.
 
 **Code:** Write the SIMPLEST code possible. Keep the codebase minimal,
-modular, and descriptive.
+modular, and descriptive. Adhere to KISS-principle (Keep It Stupid & Simple).
 
 **Flow:** Keep it interactive where necessary — don't assume; ask for
 confirmation/validation.
 
-**Efficiency:** Be concise in chat output without diminishing product quality.
+**Efficiency:** Be concise in chat output without diminishing product quality. Token-efficiency trumps quick results. When spawning sub-agents, for complex tasks ask user which model to use, but generally use smaller models such as "Sonnet" to conserve token usage.
 
 ---
 
