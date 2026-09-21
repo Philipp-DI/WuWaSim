@@ -13515,3 +13515,83 @@ clause struck through and replaced with the measured id-space finding, the fix,
 and the two corollaries. `docs/OPEN-ITEMS.md` — 38's Rover row corrected from
 "closed as a non-defect" to half-wrong, with what remains open.
 `docs/HISTORY.md` — this entry.
+
+## 2026-09-21 — The three unverified claims, verified; one more bug found
+
+The last commit named three claims checked by only one reader and a
+completeness sweep that never ran. A 5-agent read-only audit re-derived all
+of them independently.
+
+**[What held]** The "nothing in `src/` reads `gauge-income.json` or
+`skill-join.json`" claim — TRUE, re-confirmed by an independent grep sweep of
+`src/`, `tools/preprocess.mjs` and `tools/optimize/` for both spellings of
+each name; every hit is a comment. The `map-timings.mjs` name-normalisation
+tie-break — safe roster-wide: it fires for only 16 of 166 Rover montages (the
+rest resolve by an exact mirrored path first), every one of those 16 narrows
+to exactly one candidate against real data, and the single genuine
+name+signature collision in the whole dataset (`AM_Execute01`, shared across
+all four elements) is unreachable twice over — the exact-path route shortcuts
+past it, and it never appears in `hit-map.json` at all. The completeness
+sweep (icon paths, curated JSON, localStorage) found no RISK items, only a
+FRAGILITY worth recording: `src/data/storage.js`'s saved-rotation/echo preset
+keys, and every curated JSON file's Rover entry, depend entirely on
+`preprocess.mjs` always keeping the LOWER numeric id as canonical — true
+today for all four gender pairs, with no migration path if that direction
+ever flipped.
+
+**[What broke]** `map-timings.mjs` has its OWN table also named
+`ROVER_MIRROR_RID` (a different join than the one in `build-skill-join.mjs`
+— this one recovers `staminaCost`/`interruptLevel` for a substituted
+montage). Its fourth entry read `{1605: 1604}`. Havoc is the one Rover
+element where the dataset kept the FEMALE numeric id (1604) as canonical, so
+the code only ever looks up `ROVER_MIRROR_RID[1604]` — which resolved to
+`undefined`. The entry that could be reached had no mirror; the entry that
+existed could never be reached. Fixed to `{1604: 1605}`.
+
+**[Also found, not fixed]** OPEN-ITEMS 38 named 4 skill-join refusals as
+"mirrors of an already-refused id" without saying what each one actually is.
+Checked individually: `1309400`/`1310400` is a genuine dead end (a
+mechanical gauge reset with zero animation, correctly bucketed elsewhere).
+`1502101`/`1501101` and `1502106`/`1501106` are also genuine dead ends for
+the join — one animation serves two keys with nothing to disambiguate — but
+the damage itself is unaffected (a sibling row already carries it), and only
+a gauge-spend attribution needs a maintainer's in-game read. `1408203`/
+`1406203` is different: a real, still-open gap in the gender-mirror montage
+bridge, and it also explains why `1406009`/`1406101` are STILL refused
+despite a `build-skill-join.mjs` comment claiming they were fixed by indexing
+`genderMirroredFrom`. They weren't — that field is stamped only when
+`toFemaleRover` performs the male-to-female substitution itself, and
+`heavy_heavy_attack` resolves to its female asset directly through the
+bullet-chain route without ever substituting, so it carries no stamp and its
+male-named alias never enters the montage index. The comment was wrong and
+is corrected in place; the actual fix (index every Rover `sourceMontage`'s
+male-name mirror unconditionally) is scoped but not implemented — zero
+runtime effect either way, since the gauge-income lane stays unwired.
+
+**[Files Changed]** `tools/extract/map-timings.mjs` (`ROVER_MIRROR_RID` key
+fixed); `tools/extract/build-skill-join.mjs` (corrected a wrong comment, no
+logic change); regenerated `data/actionable-times.json` and
+`data/skill-join.json` (both byte-identical but for `generatedAt`); `CLAUDE.md`
+and `docs/OPEN-ITEMS.md` updated with the findings.
+
+**[Logic Altered]** One key in a lookup table. No engine change; neither
+touched file has a runtime consumer.
+
+**[Verification Method]** Each of the 5 claims re-derived independently
+rather than trusted (fresh greps, fresh reads of the real data, one claim
+checked by running the actual join logic against `bullet-timings.json` by
+hand). The `ROVER_MIRROR_RID` fix verified as a byte-exact no-op by
+regenerating both derived files and diffing — only `generatedAt` moved in
+each. `npm test` 78/78, `npm run sweep` 70/70, `npm run lint` 0 errors /
+1574 warnings.
+
+**[Residual Risks]** The `1406203`/`1406009`/`1406101` montage-bridge gap is
+real and documented but not fixed — scoped in OPEN-ITEMS 38. The
+`1501101`/`1501106` gauge-spend attribution (Spin vs Whirl) needs a
+maintainer capture before it can be curated.
+
+**[Updated Docs]** `CLAUDE.md` — the Rover invariant gained a paragraph
+covering all 5 findings. `docs/OPEN-ITEMS.md` — item 38 gained the per-pair
+breakdown of the 4 remaining refusals. `docs/HISTORY.md` — this entry.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>

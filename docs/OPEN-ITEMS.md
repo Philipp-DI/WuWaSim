@@ -1288,6 +1288,52 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     | `montage names several keys` | 35 (3 with a gauge consumer) | one animation, several display rows; route 1 could not separate them |
     | `no DT_SkillInfo row for this resonator` | 11 | ~~the **Rover id-space remap** … A remap table closes this one outright~~ **MEASURED 2026-09-16 and the prescription was WRONG.** The refused ids (1310, 1408, 1502, 1605) are the OTHER GENDER's mirror of ids already resolved, not missing data: stripping the 4-digit prefix, every male and female cast row is identical in `buffId`, `attribute`, `channel`, `policy`, `magnitude` and `effect` — differing only in `skillId`, `table` and `skillName` (雷男主 vs 雷女主). A remap that MERGED them would double-count; one that replaced them would change nothing. The only real asymmetry is **1502's six SpecialEnergy4 trigger rows that 1501 lacks**, and the trigger lane is not wired, so they are unreachable either way. ~~This row is therefore closed as a NON-defect — the refusal is correct.~~ **HALF-WRONG, corrected 2026-09-18 by an adversarial re-audit.** The refusal is correct for those ROWS, but a real ID-SPACE defect sat underneath: `hit-map.json['1501']` holds 17 hit ids, all **1502**-prefixed, while the join built `knownRowIds` from the dataset rid — so route 1 matched **0 of 17** and Spectro Rover joined 3 rows against 29/15/21 for the other Rovers. FIXED (`rowSourceRidOf`, unanimous-prefix): 3 -> 14, nine by exact damage id, zero non-Rover rows moved, and the gauge lookup follows the same map so 1502's rows resolve under 1501. Also corrected: this table's `no DT_SkillInfo row for this resonator` reason was FALSE for all 11 rows — they all exist in `timing-data.json`; the message came from a hardcoded else-branch reached whenever the coverage loop walks a non-roster rid. STILL OPEN from the same audit: 4 of the 11 refusals mirror an id that is ITSELF refused (1310400/1309400, 1408203/1406203, 1502101/1501101, 1502106/1501106), so "mirror of an already-resolved id" was true of only 7 |
 
+    **The 4 remaining pairs, resolved by a follow-up audit (2026-09-21).** All 11
+    still refuse today, unchanged in identity; the blanket message is gone
+    (replaced by the two accurate reasons above), but the id-space fix did not
+    resolve any of them as a side effect — it only ever swaps rid 1501, and
+    these 4 pairs sit on 1309/1406/1604/1605, none of which the fix touches.
+    They are three different things, not one:
+    → **1309400/1310400 — genuine dead end.** Both rows have zero montages; the
+      grant is a mechanical `SpecialEnergy2` reset on the Outro trigger, not an
+      animated cast. Correctly filed in the "row has no animation" bucket above.
+      Nothing to fix.
+    → **1408203/1406203 — NOT the id-space bug, a separate live gap**, and it
+      also affects the previously-"fixed" `1406009`/`1406101`
+      (`长按-极限闪避反击`, `重击`) — a `build-skill-join.mjs` code comment claimed
+      indexing `genderMirroredFrom` recovered those two; it did not, and the
+      comment has been corrected in place. `genderMirroredFrom` is stamped only
+      when `toFemaleRover` performs the male->female substitution itself, but
+      `heavy_heavy_attack` resolves to its female asset directly through route
+      1's bullet chain — no substitution ever runs, so no stamp exists — and
+      `timing-data.json` cites `1406203`'s animation by its MALE name, which is
+      nowhere in the resulting montage index. Fixing it means indexing every
+      Rover `sourceMontage`'s male-name mirror unconditionally, not only where a
+      stamp happens to exist — unambiguous once scoped (each affected row has
+      exactly one candidate key), not yet done. Zero runtime effect either way:
+      the damage these rows' keys deal is already covered by a sibling row, and
+      the gauge-income lane is unwired.
+    → **1502101/1501101 and 1502106/1501106 — genuine dead end for the join.**
+      1502101 IS visited and refuses for a different reason ("montage names
+      several keys" — its animation `AM_Skill02` is shared by
+      `forte_heavy_resonating_spin` and `forte_heavy_resonating_whirl` with
+      nothing to disambiguate); the damage itself is unaffected, since both
+      keys' real damage ids belong to an already-resolved sibling row. What's
+      stranded is only these rows' `-50% of SpecialEnergy1Max` gauge spend,
+      and whether it applies on Spin, Whirl, or either is a game-mechanics
+      question no join data answers — needs a maintainer's in-game read before
+      it could ever be curated into `RESOURCE_DEFS` (item 36).
+    Also re-verified in the same pass and holding: the "nothing in `src/` reads
+    `gauge-income.json`/`skill-join.json`" claim (independently re-derived
+    true), and the roster-wide safety of `map-timings.mjs`'s name-normalisation
+    tie-break (reachable for only 16 of 166 Rover montages, unambiguous in all
+    16, and the one real name+signature collision in the whole dataset,
+    `AM_Execute01`, is unreachable by construction and absent from
+    `hit-map.json` besides). A completeness sweep of every other Rover
+    id/gender hardcode in the repo found nothing at risk. See CLAUDE.md's Rover
+    invariant for the `ROVER_MIRROR_RID` direction bug the same audit found and
+    fixed (`map-timings.mjs`, unrelated table, same name).
+
     **A REAL Rover finding, from the same audit (2026-09-16, FIXED):** the
     female-only rule was honoured by a PATH rewrite (`MaleM/`->`FemaleM/`,
     `Nanzhu`->`Nvzhu`) that covers the directory but not the FILE name, and the

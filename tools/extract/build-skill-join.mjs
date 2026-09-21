@@ -158,8 +158,18 @@ function rowKeysByDamageId(rid, sourceRid = rid) {
 // silently cost Aero Rover's `heavy_heavy_attack` both of its joined rows
 // (`1406009 长按-极限闪避反击`, `1406101 重击`) — a regression that only appeared
 // when the join was rebuilt, because the committed artifact predated it.
-// The mirrored-from path is exactly the male path the row cites, so indexing it
-// restores the match without loosening anything.
+//
+// ~~The mirrored-from path is exactly the male path the row cites, so indexing
+// it restores the match without loosening anything.~~ WRONG, caught by a
+// follow-up audit (2026-09-21): `genderMirroredFrom` is stamped only when
+// `toFemaleRover` performs the male->female SUBSTITUTION itself.
+// `heavy_heavy_attack` resolves to its female asset directly through route 1's
+// bullet chain (no substitution ever runs — the raw bullet source was already
+// female), so it carries no stamp and its male-named alias is nowhere in this
+// index. `1406009`/`1406101` (and `1406203`, same cause) therefore STILL
+// refuse today. See CLAUDE.md's Rover invariant and OPEN-ITEMS 38 for the
+// current, corrected state; fixing this needs indexing the male-name mirror
+// unconditionally, not just where a stamp happens to exist.
 function keysByMontage(rid) {
     const index = {};
     for (const [key, record] of Object.entries(actionableTimes[rid] ?? {})) {

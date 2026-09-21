@@ -299,7 +299,7 @@ function rawRidOf(hitIds, rid) {
 // (`1408101 重击`: stamina -2500, interrupt 2), so this recovers the property
 // rather than changing it; the fallback below still catches anything neither
 // rid can answer.
-const ROVER_MIRROR_RID = Object.freeze({ 1309: 1310, 1406: 1408, 1501: 1502, 1605: 1604 });
+const ROVER_MIRROR_RID = Object.freeze({ 1309: 1310, 1406: 1408, 1501: 1502, 1604: 1605 });
 
 function rowsForKey(rawRid, hitIds, chosenMontage) {
     if (chosenMontage) {
