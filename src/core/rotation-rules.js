@@ -975,7 +975,7 @@ export function swapInEntryForResonator(resonatorId) {
 // zero the pool, `cap` clamps. This is validation/gating-grade tracking, not
 // full Phase-B gauge simulation (hit-count/off-field income is out of scope).
 //
-//   { name, channel?, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
+//   { name, channel?, unit?, cap, gains: { skillKey: amount }, spendAll: [skillKey] }
 //
 // `channel` names the game's own SpecialEnergy channel for this gauge (1–5).
 // When it is set, `resourceDefsForResonator(id, dataset)` replaces `cap` with
@@ -984,6 +984,19 @@ export function swapInEntryForResonator(resonatorId) {
 // `cap` below stays as the offline fallback (a caller with no dataset) and is
 // asserted equal to the extracted value by tests/rotation-resources.test.mjs,
 // so it cannot silently drift.
+//
+// `unit` (default 1) is the divisor that reads a channel in the KIT'S OWN
+// units. `SpecialEnergy{channel}Max` and a cast's raw magnitude are not
+// necessarily already in the number the kit states — Denia's SpecialEnergy2Max
+// reads 3, matching "up to 3 Dark Cores" directly, but Aemeath's SpecialEnergy1
+// reads 20000 where her kit says "capped at 4 points": the game scales this
+// channel internally by 5000 per point. The GCD of a channel's amounts does
+// NOT derive the divisor (Aemeath's ch2 grants are 4000/3000/-10000/-20000,
+// whose GCD is 1000, but the kit's own stated points — 40/30/100/200 — need
+// /100). It takes a second witness: the kit's OWN stated point value on a
+// grant whose raw magnitude is already known, cross-checked against at least
+// two independent clauses before it is trusted (Aemeath's below has three:
+// two grants and the cap itself, all divide evenly by the same number).
 //
 // What still has to be curated, and why: the channel↔name link, and the gains
 // a cast does NOT state.
@@ -1150,6 +1163,74 @@ export const RESOURCE_DEFS = Object.freeze({
         },
         spendAll: ['liberation_final_act_breakdown_form'],
     }],
+    // Aemeath — her "split Forte bar" is two channels, not one gauge split in
+    // two, confirmed by the kit's own text (data/extracted-nanoka/characters/
+    // 1210.json): "Resonance Rate is capped at {4} points. Casting Resonance
+    // Skill Seraphic Duet recovers {1} point... Casting Resonance Liberation
+    // Heavenfall Edict: Overdrive recovers {1} point." / "Synchronization Rate
+    // is capped at {200} points. […] Casting Intro Skill [Songs Across the
+    // Universe] and [Debut of Meteoric Radiance] recovers {40} points […]
+    // Casting Resonance Liberation [Heavenfall Edict: Overdrive] recovers {30}
+    // points." Both gauges use `unit: 5000`/`unit: 100` respectively — the raw
+    // SpecialEnergy1/2Max both read 20000, and the divisor is confirmed by
+    // THREE independent points per channel (a cap and two grants) all dividing
+    // evenly to the kit's own stated numbers, not by a bare GCD.
+    //
+    // "Heavenfall Edict: Finale" — gated on BOTH gauges reaching their limit —
+    // is `liberation_heavenfall_edict_finale` (raw row 12101202), which drains
+    // BOTH channels in full (-20000/-20000, the game's own full-cap values).
+    //
+    // NEITHER gauge scales a damage multiplier today (`grep` over her
+    // skillNodeEffects: zero `resource` triggers) — both gate CAST AVAILABILITY
+    // only ("Enhanced Sync Attack is available", "Resonance Liberation Finisher
+    // becomes available"), which the engine does not model as a legality gate
+    // yet. This entry is therefore correctness/provenance work: it does not
+    // move any damage number today, only what a future legality check or
+    // `stackTrigger.resource` clause could read.
+    //
+    // NOT MODELLED: HIT income ("Dealing damage with Basic Attack - Aemeath,
+    // Mid-air Attack, Dodge Counter, […] Sync Strike: Armament Merge and Sync
+    // Strike: Call of Dawn recovers Synchronization Rate") is out of the
+    // per-cast model by construction (CLAUDE.md, "Gauge income is readable ON
+    // A CAST, and only there"). A conditional Charged-II grant gated on being
+    // in BOTH Instant Response and Heavenfall Edict: Unbound simultaneously is
+    // also excluded — it needs a state gate this module does not evaluate.
+    //
+    // STILL UNJOINED, and NOT guessed here: raw skill row 12101103
+    // ("【技能】合击·降临", montage AM_Skill04_GD — a real, resolved, 7-hit,
+    // 4.3s cast) also grants Resonance Rate +1 and spends Synchronization Rate
+    // -100 — matching "Casting Resonance Skill Seraphic Duet recovers 1
+    // point" too, so it is almost certainly the SAME clause's OTHER trigger.
+    // But it has NO skillMap key (none of her autoSkillMap entries cite this
+    // montage) and NO damage-table row under its own id prefix — unlike its
+    // near-identical sibling 12102103 ("合击·登台"), which DOES join, via a
+    // DIFFERENT montage (AM_Skill03), to `forte_heavy_seraphic_duet_bonus_dmg
+    // _per_instance`. The two are not the same cast (different montages), so
+    // crediting 12101103's grant to that key would be a guess, not a join.
+    // This looks like a genuinely missing rotation step (OPEN-ITEMS 39/38),
+    // not merely an unattributed gauge grant, and is left out of `gains` for
+    // that reason — see OPEN-ITEMS 39 for the full writeup.
+    1210: [{
+        name: 'Resonance Rate',
+        channel: 1,
+        unit: 5000,
+        cap: 4,
+        gains: {
+            liberation_heavenfall_edict_overdrive: 1,
+        },
+        spendAll: ['liberation_heavenfall_edict_finale'],
+    }, {
+        name: 'Synchronization Rate',
+        channel: 2,
+        unit: 100,
+        cap: 200,
+        gains: {
+            intro_songs_across_the_universe: 40,
+            intro_debut_of_meteoric_radiance: 40,
+            liberation_heavenfall_edict_overdrive: 30,
+        },
+        spendAll: ['liberation_heavenfall_edict_finale'],
+    }],
     1412: [{
         name: 'Full Stop',
         cap: 100,
@@ -1244,7 +1325,8 @@ export function resourceDefsForResonator(resonatorId, dataset = null, chainLevel
     const caps = dataset?.resonators?.find(entry => entry.id === Number(resonatorId))?.specialEnergyCaps ?? null;
     return defs.map(def => {
         const chained = chainOverrideFor(def.chainOverrides, chainLevel);
-        const gameCap = def.channel != null ? caps?.[def.channel] ?? null : null;
+        const rawGameCap = def.channel != null ? caps?.[def.channel] ?? null : null;
+        const gameCap = rawGameCap != null ? rawGameCap / (def.unit ?? 1) : null;
         // A chain node outranks the game's BASE table, which is what it edits.
         const cap = chained?.cap ?? gameCap ?? def.cap;
         const start = chained?.start ?? def.start;

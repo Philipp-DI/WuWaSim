@@ -16,7 +16,7 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { computeResourceConsumption, computeResourceTickPhases, computeResourceTimeline, resourceConsumedAt, resourceLevelAt } from '../src/core/rotation-resources.js';
+import { computeResourceConsumption, computeResourceEndLevels, computeResourceTickPhases, computeResourceTimeline, resourceConsumedAt, resourceLevelAt } from '../src/core/rotation-resources.js';
 import { RESOURCE_DEFS, resourceDefsForResonator } from '../src/core/rotation-rules.js';
 import { effectsActiveAtStepDetailed, unlockedEffects } from '../src/core/buffs.js';
 import { createBuild } from '../src/core/build.js';
@@ -122,9 +122,11 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         for (const def of defs) {
             if (def.channel == null) continue;
             channelDefs++;
-            const gameCap = capsFor(idString)?.[def.channel];
-            assert(`${idString} '${def.name}': channel ${def.channel} has a cap in the game data`, gameCap != null);
-            assert(`${idString} '${def.name}': curated cap ${def.cap} matches the game's SpecialEnergy${def.channel}Max (${gameCap})`,
+            const rawGameCap = capsFor(idString)?.[def.channel];
+            assert(`${idString} '${def.name}': channel ${def.channel} has a cap in the game data`, rawGameCap != null);
+            const gameCap = rawGameCap != null ? rawGameCap / (def.unit ?? 1) : null;
+            assert(`${idString} '${def.name}': curated cap ${def.cap} matches the game's SpecialEnergy${def.channel}Max`
+                + ` (${rawGameCap}${def.unit ? ` / unit ${def.unit}` : ''} = ${gameCap})`,
                 gameCap === def.cap);
         }
     }
@@ -333,6 +335,49 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     const threeCore = rowOf(VARIANTS[2]);
     assert('the sim\'s three-core multiplier reproduces the game\'s own row at L1',
         Math.abs(base.mults[0] * (1 + multiplierUpAt(banishTwo)) - threeCore.mults[0]) < 1e-4);
+}
+
+// ── Aemeath's two gauges: a channel read in the kit's OWN units ─────────────
+// SpecialEnergy1Max/SpecialEnergy2Max both read 20000 in the game's raw table;
+// her kit states "capped at 4 points" / "capped at 200 points". `unit` is what
+// converts one into the other — this is the shape the offline literal AND the
+// game-backed resolution must agree on, exactly as the plain-cap gauges above.
+{
+    const AEMEATH = 1210;
+    const rotation = rotationsById[String(AEMEATH)]?.rotation ?? [];
+    const defs = resourceDefsForResonator(AEMEATH, dataset);
+    const byName = (list, name) => list.find(def => def.name === name);
+
+    const resonanceRate = byName(defs, 'Resonance Rate');
+    const syncRate = byName(defs, 'Synchronization Rate');
+    assert('Resonance Rate resolves to 4 via unit 5000 (raw SpecialEnergy1Max 20000)',
+        resonanceRate?.cap === 4);
+    assert('Synchronization Rate resolves to 200 via unit 100 (raw SpecialEnergy2Max 20000)',
+        syncRate?.cap === 200);
+    assert('the offline literal agrees with the game-backed resolution',
+        resourceDefsForResonator(AEMEATH)[0].cap === resonanceRate.cap
+        && resourceDefsForResonator(AEMEATH)[1].cap === syncRate.cap);
+
+    assert('her reference rotation opens with an Intro and casts Overdrive then Finale',
+        rotation[0] === 'intro_debut_of_meteoric_radiance'
+        && rotation.includes('liberation_heavenfall_edict_overdrive')
+        && rotation.at(-1) === 'liberation_heavenfall_edict_finale');
+
+    const syncLevels = computeResourceTimeline(rotation, defs).get('synchronization rate');
+    const resoLevels = computeResourceTimeline(rotation, defs).get('resonance rate');
+    const overdriveAt = rotation.indexOf('liberation_heavenfall_edict_overdrive');
+    const finaleAt = rotation.indexOf('liberation_heavenfall_edict_finale');
+    assert('the Intro grant lands: Synchronization Rate reads 40 entering the next step',
+        syncLevels[1] === 40);
+    assert('Overdrive adds its own 30 on top: Synchronization Rate reads 70 after it',
+        syncLevels[overdriveAt + 1] === 70);
+    assert('Overdrive also grants Resonance Rate its one point',
+        resoLevels[overdriveAt + 1] === 1);
+    assert('Finale is the last step and enters holding both gauges',
+        finaleAt === rotation.length - 1 && syncLevels[finaleAt] > 0 && resoLevels[finaleAt] > 0);
+    const endLevels = computeResourceEndLevels(rotation, defs);
+    assert('Finale drains both gauges to 0',
+        endLevels.get('synchronization rate') === 0 && endLevels.get('resonance rate') === 0);
 }
 
 // ── An effect naming a gauge the resonator has no definition for ────────────

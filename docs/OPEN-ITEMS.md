@@ -1232,13 +1232,18 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
 36. **Per-resonator SPECIAL RESOURCES are the real remaining gauge gap**
     (maintainer, 2026-08-18 — *"where's probably more room for improvement is
     each resonator's special resource management, some even have multiple
-    ones"*). Counted: `RESOURCE_DEFS` curates **3 of 56** resonators (Changli,
-    Denia, Sigrika), while the game ships `specialEnergyCaps` for **all 56**,
-    every one of them with several channels. That is the lane behind the
-    concrete misses already logged elsewhere in this file — Chisa's Ring of
-    Chainsaw driving Sawring - Eradication's +1.30%-per-point multiplier (2g),
-    and Denia's Dark Core ladder, which only works because she IS one of the
-    three.
+    ones"*). Counted: `RESOURCE_DEFS` curates **4 of 56** resonators (Changli,
+    Denia, Sigrika, **Aemeath — added 2026-09-21, item 39**), while the game
+    ships `specialEnergyCaps` for **all 56**, every one of them with several
+    channels. That is the lane behind the concrete misses already logged
+    elsewhere in this file — Chisa's Ring of Chainsaw driving Sawring -
+    Eradication's +1.30%-per-point multiplier (2g), and Denia's Dark Core
+    ladder, which only works because she IS one of the four. Aemeath's own
+    addition moves no damage number (her two gauges gate cast availability, not
+    a multiplier), which is a reminder that "curated" and "DPS-relevant" are
+    not the same claim — Luuk Herssen's now-unblocked Tune Break gauge (item 2)
+    is a more likely next candidate for a coverage expansion that actually
+    moves a number.
 
     NOT the same thing as Resonance energy, which is fine: the per-hit
     `damage[*].energy` vector is read on every node type (3,557 points
@@ -1410,26 +1415,57 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       together. SHIPPED for Denia S3 (cap 3 -> 5, start 2 -> 5), which closes
       the KNOWN BOUND `rotation-rules.js` used to carry.
     - **`unit`** — the divisor that reads a channel in the kit's own units.
-      Aemeath needs /5000 on ch1 (4 stacks) and /100 on ch2 (200 points).
-      NOT SHIPPED, and **the GCD of a channel's amounts does not derive it**:
-      measured, Aemeath ch2 gives 1000 where the truth is 100. It needs the
-      kit's own stated point value as the second witness.
+      Aemeath needs /5000 on ch1 (4 points) and /100 on ch2 (200 points).
+      **SHIPPED 2026-09-21** (`resourceDefsForResonator`, backward-compatible —
+      defaults to 1, so every existing entry is unaffected). **The GCD of a
+      channel's amounts does not derive it**: Aemeath's ch2 grants are
+      4000/3000/-10000/-20000, GCD 1000, but the kit's own numbers need /100.
+      What it took instead: the kit's own stated point value as a second
+      witness, cross-checked on THREE independent clauses per channel (a cap
+      and two grants), read straight from `data/extracted-nanoka/characters/
+      1210.json` rather than trusted from an earlier pass of this item.
 
     A proportional spend needs NO new field: `addFraction -0.5 of *Max*`
     (`policy [2, 61, ...]`, the four Rover rows) is exactly `spend: cap * 0.5`.
 
     MULTI-GAUGE IS ALREADY EXPRESSIBLE, which the maintainer's own description
-    of Aemeath confirmed against the data. She owns five channels; her "split
-    Forte bar" is not two of them but ONE whose cap is exactly twice its spend
-    (ch2 = Synchronization Rate at x100 — the kit's "recovers 40 points" IS the
-    row's +4000, "30 points" is +3000, cap 20000 = 200 points, spend -10000 per
-    enhanced cast), and her stack counter is ch1 (+5000 per grant, cap 20000 =
-    4 stacks, spent in full by `liberation_heavenfall_edict_finale`). Both fit
-    the existing shape — which is why `spend` exists beside `spendAll`.
+    of Aemeath confirmed against the data, and **both her channels are now
+    curated in `RESOURCE_DEFS`** (2026-09-21): Resonance Rate (ch1, cap 4,
+    +1 on `liberation_heavenfall_edict_overdrive`, `spendAll` on
+    `liberation_heavenfall_edict_finale`) and Synchronization Rate (ch2, cap
+    200, +40 on either Intro key, +30 on Overdrive, same `spendAll` on Finale).
+    **One correction to this item's own earlier framing:** the "spend -10000
+    per enhanced cast" line above was premature — that number belongs to the
+    UNJOINED row below, not to anything currently wired. Neither gauge scales a
+    damage multiplier today (`grep` over her `skillNodeEffects`: zero
+    `resource` triggers) — both gate CAST AVAILABILITY only ("Enhanced Sync
+    Attack is available", "Resonance Liberation Finisher becomes available"),
+    which the engine has no legality-gate consumer for yet. So this closes the
+    schema gap and adds real, verified data, but moves no damage number today
+    (LOCK B: `engineHash` only, zero teams).
 
-    STILL OPEN: Aemeath's `12101103`, the Enhanced Resonance Skill row that both
-    grants ch1 and spends ch2, is unjoined. The join gap lands on the single
-    most important row she has.
+    **STILL OPEN, and now precisely diagnosed rather than merely unjoined:**
+    raw skill row `12101103` ("【技能】合击·降临", montage `AM_Skill04_GD` — a
+    real, resolved, 7-hit, 4.3s cast) grants Resonance Rate +1 and spends
+    Synchronization Rate -100, matching the kit's "Casting Resonance Skill
+    Seraphic Duet recovers 1 point" almost exactly (independent confirmation:
+    kit text names "Seraphic Duet" as the grantor, and this row's own numbers
+    fit no other clause). But it has **no skillMap key** (nothing in her
+    `autoSkillMap` cites `AM_Skill04_GD`) and **no damage-table row under its
+    own id prefix** (`12101103` appears zero times in `damageTable['1210']`) —
+    unlike its near-identical sibling `12102103` ("合击·登台", same +1/-100
+    shape), which DOES join, via a DIFFERENT montage (`AM_Skill03`), to
+    `forte_heavy_seraphic_duet_bonus_dmg_per_instance`. Since the two montages
+    differ, crediting `12101103`'s grant to that same key would be a guess, not
+    a join — likely two sequential phases of one transformation ("登台"/Stage
+    Entry then "降临"/Descend), the first of which has no representation in the
+    dataset at all. This reads as a genuinely MISSING ROTATION STEP (damage AND
+    gauge both), not a join defect — the same shape as item 38's "no key owns
+    this row's ids or animation" bucket. Not fixed here: inventing a key would
+    risk exactly the data-vs-behaviour mismatch this project treats as the
+    worst case. Needs either a deeper bullet-chain trace of what damage ids
+    `AM_Skill04_GD` actually fires, or a maintainer's read of the raw kit text
+    this project cannot fully disambiguate alone.
 
     DONE 2026-08-27: Denia's remaining two gauges are curated. Void Particle
     (ch1, cap 100, +25 x3, floored at 20 by the same inherent, 100 at S3) and

@@ -13595,3 +13595,80 @@ covering all 5 findings. `docs/OPEN-ITEMS.md` — item 38 gained the per-pair
 breakdown of the 4 remaining refusals. `docs/HISTORY.md` — this entry.
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+
+## 2026-09-21 — Aemeath's two gauges, and the unit divisor that unblocked them
+
+Tier 2 of the standing plan: OPEN-ITEMS 39's `unit` divisor, and Aemeath's
+unjoined `12101103` row — "the single most important row she has."
+
+**[What shipped]** `resourceDefsForResonator` gained a `unit` field (default
+1, fully backward-compatible): when a curated gauge names a `channel`, the
+game's own `SpecialEnergy{channel}Max` is divided by `unit` before it
+replaces the literal `cap`. Aemeath needed this because her raw channels
+both read 20000 where her kit says "4 points" and "200 points" — the game
+scales this pair internally by 5000 and 100 respectively, and (as the item
+already warned) the GCD of her ch2 grants (4000/3000/-10000/-20000 → GCD
+1000) does NOT recover the real divisor of 100. The actual witness: her kit's
+own stated point values (read from `data/extracted-nanoka/characters/
+1210.json`, not assumed from a prior pass of this item), cross-checked on
+three independent clauses per channel before being trusted.
+
+Two gauges are now curated in `RESOURCE_DEFS[1210]`: Resonance Rate (ch1,
+cap 4, +1 on `liberation_heavenfall_edict_overdrive`) and Synchronization
+Rate (ch2, cap 200, +40 on either Intro key, +30 on Overdrive), both drained
+by `liberation_heavenfall_edict_finale`'s `spendAll`. Verified end to end on
+her real reference rotation: Synchronization Rate reads 40 after the opening
+Intro, 70 after Overdrive, and both gauges hit 0 at Finale.
+
+**[What did NOT ship, and why]** Neither gauge scales a damage multiplier
+today — a sweep of her `skillNodeEffects` finds zero `resource` triggers;
+both gate cast AVAILABILITY only ("Enhanced Sync Attack is available"),
+which the engine has no legality-gate consumer for yet. So this is
+correctness/provenance work: real, verified data, zero DPS movement (LOCK B:
+`engineHash` only, confirmed by regenerating and diffing).
+
+**[The 12101103 investigation, and why it stays open]** The row genuinely
+has a real animation (`AM_Skill04_GD`, 7 hits, 4.3s, resolved) and its
+grant matches the kit's "Casting Resonance Skill Seraphic Duet recovers 1
+point" almost exactly — but it has no skillMap key and no damage-table row
+under its own id, while its near-identical sibling `12102103` (same +1/-100
+shape) DOES join, via a DIFFERENT montage, to
+`forte_heavy_seraphic_duet_bonus_dmg_per_instance`. Since the montages
+differ, crediting one row's grant to the other's key would be a guess, not a
+join. This is very likely a genuinely missing rotation step — both a damage
+gap and a gauge gap — not merely an unjoined gauge. Left undone rather than
+guessed, per the standing rule that a data/behaviour mismatch is the worst
+outcome, not an acceptable shortcut.
+
+**[Files Changed]** `src/core/rotation-rules.js` (`unit` field,
+`resourceDefsForResonator`, Aemeath's `RESOURCE_DEFS[1210]`);
+`tests/rotation-resources.test.mjs` (the game-cap-agreement assertion now
+accounts for `unit`; a new end-to-end block on Aemeath's real rotation);
+`data/wuwa-meta.json` (regenerated, LOCK B — `engineHash`/`generatedAt`
+only); `docs/OPEN-ITEMS.md` (items 36 and 39 updated).
+
+**[Logic Altered]** `resourceDefsForResonator` divides a channel-resolved cap
+by `def.unit` (default 1) before it overrides the literal. No other engine
+path changed; no effect currently reads either new gauge.
+
+**[Verification Method]** The `unit` divisor was cross-checked against the
+kit's own text on three independent clauses per channel before being coded,
+not assumed from OPEN-ITEMS' own prior (unverified) claim. The end-to-end
+test reproduces her real reference rotation's gauge levels at three points
+(post-Intro, post-Overdrive, post-Finale). `npm test` 78/78, `npm run sweep`
+70/70, `npm run lint` 0 errors / 1574 warnings. `npm run meta` diffed:
+`engineHash`/`generatedAt` only, zero team or build movement.
+
+**[Residual Risks]** `12101103`'s identity is unresolved and documented, not
+guessed — see OPEN-ITEMS 39. Neither of Aemeath's new gauges has a runtime
+consumer yet (no legality gate, no scaling effect), so this increment is
+inert until one is built. Roster-wide `RESOURCE_DEFS` coverage remains 4 of
+56; item 36 now points at Luuk Herssen's Tune Break gauge (unblocked per
+item 2) as a likelier next target for coverage that actually moves damage.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — item 39's `unit` row marked
+SHIPPED with the verification method, the `12101103` finding rewritten with
+the sibling-row evidence, item 36's resonator count and framing corrected.
+`docs/HISTORY.md` — this entry.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
