@@ -1101,29 +1101,128 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
 
 21. **Echo-set optimizer + substat roll-grading** (P10-4/P10-5) — fully
     *deleted*, not deferred. Rebuilding = from scratch.
-22. **Character state modelling** (promoted out of #1, 2026-07-30). 13 keys
-    across 6 resonators hold a timing correct for only one branch, because the
-    sim tracks no such state: Zhezhi ground-vs-air Conjuration, Brant's airborne
-    rotation, Rebecca's Huntress/Guts weapon mode, Lucy's [Algorithm
-    Compaction], Camellya's [Blossom Mode], Roccia's [Beyond Imagination]
-    (`needsStateModel` in `data/timing-overrides.json`; flagged
-    `timingProvisional: 'state'` and visible in the rotation UI). **The timing
-    data is already complete** — every multi-candidate key keeps its `variants`
-    array, so a state model selects an alternative without re-deriving anything.
-    What's needed is the state itself: an airborne check, a weapon-mode flag,
-    and — for the three gauge-gated kits — the engine from #2. Related but
-    larger: splitting a state-gated variant into its own selectable rotation
-    step.
-23. **Echo animation timing.** `ECHO_CAST_TIME = 1.20` (sim.js) is the last
-    fabricated timing constant in the engine: the lock a **Transform** echo
-    imposes, plus its unmodelled multi-hit transformed sequence. ~~Needs a
-    second export.~~ **Unblocked 2026-07-31** — the live export is a full
-    client, and `Content/Aki/Character/Monster/` is present, so the assets are
-    in hand. What is missing is the *join*: echo → monster skill row → montage
-    has no equivalent of `hit-map.json`, so it needs its own id bridge. The
-    parser itself already handles these assets (detection is by export class,
-    not path). Parallel (Summon / direct-attack) echoes are unaffected: they
-    cost 0, which is exact.
+22. ~~**Character state modelling**~~ **PARTIALLY CLOSED 2026-09-21** (promoted
+    out of #1, 2026-07-30; split and scoped per resonator via 5 parallel
+    investigations). 13 keys across 6 resonators hold a timing correct for
+    only one branch, because the sim tracked no such state: Zhezhi ground-vs-
+    air Conjuration, Brant's airborne rotation, Rebecca's Huntress/Guts weapon
+    mode, Lucy's [Algorithm Compaction], Camellya's [Blossom Mode], Roccia's
+    [Beyond Imagination] (`needsStateModel` in `data/timing-overrides.json`;
+    flagged `timingProvisional: 'state'` and visible in the rotation UI). The
+    original framing ("an airborne check, a weapon-mode flag, and the gauge
+    engine from #2") undersold how differently-shaped the six actually are —
+    each was investigated against its own kit text before anything was coded:
+
+    → **Zhezhi (1105) — CLOSED.** `forte_heavy_ha_conjuration` is elevation,
+      not a kit-granted state: STATE_DEFS is the wrong tool (its consumer,
+      `stateActive`, gates buffs/resources, and `computeStepTimes` — which
+      resolves `stepDuration` — runs BEFORE `computeStateTimeline` even exists
+      to ask). The real answer is cheaper: the PRECEDING rotation step's
+      mechanical `skillType`, the same `rotation[i-1]` lookback
+      `rotation-graph.js`'s `STAGE_GRANTS` `after` mechanism already uses.
+      Shipped as a new, narrow mechanism (`TIMING_VARIANT_RULES`,
+      `rotation-rules.js`): `preprocess.mjs` now propagates a needsStateModel
+      key's measured-but-unchosen candidates onto `step.variants` (previously
+      extracted and then dropped — genuinely unreachable from the sim before
+      this), and `sim.js` substitutes the matching one when the previous
+      step's `skillType` matches the rule, in BOTH places that resolve step
+      duration (the main walk AND its `computeStepTimes` pre-pass — missing
+      the second left the fix silently inert on first attempt, caught by
+      testing the mechanism directly rather than trusting the code read).
+      Verified: air-preceded 0.567s, ground-preceded/no-previous-step 1.180s
+      (the unchanged default), her own reference rotation (ground-preceded)
+      untouched. **Known gap, not fixed**: two of Conjuration's five stated
+      entry points (Stroke of Genius, Creation's Zenith) are themselves
+      airborne-capable but tagged `skillType: 'forte_heavy'`, not `'midair'`,
+      so reaching Conjuration through one of THEM while airborne still falls
+      to the ground default — no physics model exists to do better, and this
+      is the same conservative-approximation shape the project already
+      accepts elsewhere.
+    → **Brant (1206) — RE-SCOPED, not fixed, because there is nothing to
+      fix.** Investigated and found to have NO live decision today: 3 of his
+      4 keys have exactly ONE montage candidate in the export (nothing to
+      select between), and the 4th's 3 candidates are variants of the SAME
+      airborne bullet, not a ground/air split (two share the pinned 0.34s
+      duration; the third measures 0.7205s, unselected — a separate,
+      smaller multi-candidate question, not this item). The original note
+      overstated what was blocked; `data/timing-overrides.json` corrected in
+      place rather than left to mislead the next reader.
+    → **Rebecca (1308), Lucy (1511), Camellya (1603 — a NEW second state,
+      "Blossom Mode") — STATE_DEFS entries SHIPPED**, each independently
+      verified against the raw kit text
+      (`data/extracted-nanoka/characters/*.json`) before coding, not taken
+      from the investigating agent's word:
+      - Rebecca: two-state mutually-exclusive pair (Huntress ⇄ Guts,
+        `initiallyActive` on Huntress per "By default, Rebecca starts in the
+        Huntress mode"). Side-finding: this ALSO unblocks two effects that
+        read as zero today — Huntress's flat +30% Crit. DMG and Guts's 15%
+        target DEF ignore — because nothing in the parser scans Forte-circuit
+        skill-tree node text for them; binding those clauses to the new state
+        is a separate follow-up, not done here.
+      - Lucy: single clean enter (`skill_deadlock`) / exit
+        (`types: ['liberation']`), validated with no contradiction against
+        her own reference rotation.
+      - Camellya: "Blossom Mode" and the pre-existing "Budding Mode" STATE_DEFS
+        entry are NOT aliases — confirmed from the kit text, which uses both
+        names in disjoint passages with no cross-reference. Blossom Mode
+        (entered by `skill_crimson_blossom`, exited by casting
+        `skill_floral_ravage` or `skill_vining_ronde`) is additive to the
+        existing entry.
+      **None of these three is wired into TIMING-VARIANT selection yet** —
+      STATE_DEFS entries are the prerequisite (they feed the SAME
+      `computeStateTimeline` the buff-gating lane already runs), but the
+      selection mechanism `computeStepTimes` runs BEFORE that timeline exists,
+      an ordering problem Zhezhi's rotation-order lookback does not have to
+      solve. Wiring these three is the next concrete step in this item.
+    → **Roccia (1606) — RESOURCE_DEFS shipped, not STATE_DEFS.** "Beyond
+      Imagination" is named as a state in the kit text but the
+      `forte_heavy_1/2/3` timing question is answered by the *Imagination
+      gauge level*, not the state flag: "consume 100 Imagination to cast
+      Basic Attack [Real Fantasy]" (channel 1, cap 300, matching
+      `specialEnergyCaps` exactly — no `unit` divisor needed, unlike Aemeath's
+      channels). Follows the pattern item 39 established: gains from a real
+      cast row (`gauge-income.json` 1606009, Resonance Skill +100) plus one
+      kit-text-only curated grant (Intro "Pero, Help" +100, no row exists for
+      it); spend curated on the entry key alone (`forte_heavy_1`), because the
+      kit names the cost against the whole "Real Fantasy" combo, not each of
+      its three stages. **Deliberately NOT wired to select the timing
+      variant**: the relaunch clause depends on Imagination regenerated by
+      NORMAL ATTACK HITS mid-combo, which is hit income and out of this
+      per-cast model by construction (CLAUDE.md) — so the sim's own tracked
+      level after the spend reads low, understating rather than guessing at a
+      relaunch it cannot see. This is item 36's 5th resonator (Changli, Denia,
+      Sigrika, Aemeath, now Roccia).
+
+    Every addition here is inert by measurement, not by claim: `npm run meta`
+    diffed to `engineHash`/`generatedAt` only for all of it, confirming zero
+    team or build movement — the STATE_DEFS/RESOURCE_DEFS entries have no
+    consumer yet, and Zhezhi's own reference rotation never precedes
+    Conjuration with a mid-air step.
+23. **Echo animation timing — INVESTIGATED 2026-09-21, genuinely BLOCKED, not
+    implemented.** `ECHO_CAST_TIME = 1.20` (sim.js) is the last fabricated
+    timing constant in the engine: the lock a **Transform** echo imposes
+    (**66 exist roster-wide**), plus its unmodelled multi-hit transformed
+    sequence. ~~Needs a second export.~~ ~~Unblocked 2026-07-31 — the live
+    export is a full client, and `Content/Aki/Character/Monster/` is present,
+    so the assets are in hand.~~ **That was wrong, and checking it rather than
+    repeating it is the finding**: the CURRENT local slim export (built for
+    the targeted resonator-timing extraction, per the "Targeted FModel
+    export" section above) contains only Paks — no Monster assets have ever
+    actually been extracted to disk. "The live export is a full client" was
+    true of what FModel COULD read, not of what this project's slim root
+    HAS read; the two were conflated. The extractor's own parsing code is
+    format-agnostic and would handle Monster assets fine (detection is by
+    export class, not by path), so the blocker is entirely a missing
+    extraction step, not a missing capability — closing it needs `tools/
+    plan-export.mjs`'s pak selection widened to cover
+    `Content/Aki/Character/Monster/`, or a dedicated second export, before
+    ANY join work is possible. What is genuinely unknown until that export
+    exists: whether a `DT_MonsterSkillInfo`-equivalent table exists at all,
+    its row-key format, and how a Transform echo's `monsterId` links to it —
+    guessing at that shape and writing an extractor against the guess is
+    exactly the kind of assumption this project's extraction work does not
+    make. Parallel (Summon / direct-attack) echoes are unaffected: they cost
+    0, which is exact.
 24. **AUTO-OPTIMIZER Phase E** — the capstone "kit → optimal build" search. Not
     started ("lands after P13 by definition").
 33. **`multiplierUp` scope — the residue** (2026-08-08). The lane itself is
@@ -1284,15 +1383,17 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
 36. **Per-resonator SPECIAL RESOURCES are the real remaining gauge gap**
     (maintainer, 2026-08-18 — *"where's probably more room for improvement is
     each resonator's special resource management, some even have multiple
-    ones"*). Counted: `RESOURCE_DEFS` curates **4 of 56** resonators (Changli,
-    Denia, Sigrika, **Aemeath — added 2026-09-21, item 39**), while the game
-    ships `specialEnergyCaps` for **all 56**, every one of them with several
-    channels. That is the lane behind the concrete misses already logged
-    elsewhere in this file — Chisa's Ring of Chainsaw driving Sawring -
-    Eradication's +1.30%-per-point multiplier (2g), and Denia's Dark Core
-    ladder, which only works because she IS one of the four. Aemeath's own
-    addition moves no damage number (her two gauges gate cast availability, not
-    a multiplier), which is a reminder that "curated" and "DPS-relevant" are
+    ones"*). Counted: `RESOURCE_DEFS` curates **5 of 56** resonators (Changli,
+    Denia, Sigrika, **Aemeath — added 2026-09-21, item 39**, **Roccia — added
+    2026-09-21, item 22**), while the game ships `specialEnergyCaps` for
+    **all 56**, every one of them with several channels. That is the lane
+    behind the concrete misses already logged elsewhere in this file —
+    Chisa's Ring of Chainsaw driving Sawring - Eradication's +1.30%-per-point
+    multiplier (2g), and Denia's Dark Core ladder, which only works because
+    she IS one of the five. Neither Aemeath's nor Roccia's addition moves a
+    damage number (Aemeath's two gauges gate cast availability; Roccia's
+    would need hit-income tracking this model does not do to reach its one
+    live consumer), which is a reminder that "curated" and "DPS-relevant" are
     not the same claim — Luuk Herssen's now-unblocked Tune Break gauge (item 2)
     is a more likely next candidate for a coverage expansion that actually
     moves a number.

@@ -40,10 +40,10 @@
       "forte_heavy_ha_conjuration": "ground-vs-air — Conjuration has distinct ground and airborne authorings; pinned to ground until an in-air check exists"
     },
     "1206": {
-      "midair_mid_air_attack_1": "airborne — Brant has a full mid-air rotation; whole family needs an in-air check",
-      "midair_mid_air_attack_2": "airborne — see midair_mid_air_attack_1",
-      "midair_mid_air_attack_3": "airborne — see midair_mid_air_attack_1",
-      "midair_mid_air_attack_4": "airborne — see midair_mid_air_attack_1"
+      "midair_mid_air_attack_1": "single montage candidate in the export (montageCandidates: 1) — no grounded counterpart to select between was found. Re-scoped 2026-09-21 (OPEN-ITEMS 22): the original note treated this whole family as a genuine ground-vs-air pick, the same shape as Zhezhi's Conjuration, but investigation found no live decision here — kept flagged only because the export having one candidate does not prove the game has none, not because a second candidate is known to be missing",
+      "midair_mid_air_attack_2": "single montage candidate in the export — see midair_mid_air_attack_1",
+      "midair_mid_air_attack_3": "3 candidates in the export, but all are variants of the SAME airborne bullet (布兰特-空中-III-环形 = 'Brant - Midair - Stage III - Ring'), not a ground/air split — an ordinary multi-candidate pick (like the pinnedMontage entries below), not a state dependency. Two of the three share the currently-pinned 0.34s duration; the third measures 0.7205s and was not selected — re-scoped 2026-09-21, unchanged pending a closer look at that discrepancy",
+      "midair_mid_air_attack_4": "single montage candidate in the export — see midair_mid_air_attack_1"
     },
     "1308": {
       "intro_yo_it_s_big_boomin_time": "Huntress/Guts weapon mode — Rebecca switches freely between pistol (Huntress, her starting state) and shotgun (Guts); which intro fires is decided by the mode she swaps in with",

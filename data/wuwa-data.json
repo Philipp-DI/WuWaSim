@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-09-21T09:27:06.268Z",
+  "generatedAt": "2026-09-21T13:40:58.023Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -205721,7 +205721,21 @@
         "interruptLevel": 3,
         "staminaCost": 15,
         "timingSource": "curated",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleM/Zhezhi/CommonAnim/AM_Attack05_Air.uasset",
+            "stepDuration": 0.5667,
+            "resolvesAt": 0.5,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleM/Zhezhi/CommonAnim/AM_Attack05.uasset",
+            "stepDuration": 1.1799,
+            "resolvesAt": 0.4667,
+            "freezeTime": null
+          }
+        ]
       },
       "forte_heavy_stroke_of_genius": {
         "label": "Forte Circuit: Stroke of Genius",
@@ -213489,7 +213503,27 @@
         "interruptLevel": 3,
         "staminaCost": 5,
         "timingSource": "extracted",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "MaleXL/Bulante/CommonAnim/AM_SwAttack03_Pre_Sec01.uasset",
+            "stepDuration": 0.34,
+            "resolvesAt": 0.2085,
+            "freezeTime": null
+          },
+          {
+            "montage": "MaleXL/Bulante/CommonAnim/AM_SwAttack03_Pre_Sec01_Mid.uasset",
+            "stepDuration": 0.34,
+            "resolvesAt": 0.2085,
+            "freezeTime": null
+          },
+          {
+            "montage": "MaleXL/Bulante/CommonAnim/AM_SwAttack03_Pre.uasset",
+            "stepDuration": 0.720476,
+            "resolvesAt": null,
+            "freezeTime": null
+          }
+        ]
       },
       "midair_mid_air_attack_3_flip": {
         "label": "Basic Attack: Mid-air Attack Stage 3 — Flip",
@@ -227105,7 +227139,27 @@
           ]
         },
         "timingSource": "curated",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_M_Start01.uasset",
+            "stepDuration": 1.1579,
+            "resolvesAt": 0.4853,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_M_Start02.uasset",
+            "stepDuration": 1.1579,
+            "resolvesAt": 0.4853,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_S.uasset",
+            "stepDuration": 1.5333,
+            "resolvesAt": 0.7333,
+            "freezeTime": null
+          }
+        ]
       },
       "intro_hey_leadhead_come_n_get_me": {
         "label": "Intro Skill: Hey, Leadhead, Come 'n' Get Me!",
@@ -227166,7 +227220,27 @@
           ]
         },
         "timingSource": "curated",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_M_Start01.uasset",
+            "stepDuration": 1.1579,
+            "resolvesAt": 0.4853,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_M_Start02.uasset",
+            "stepDuration": 1.1579,
+            "resolvesAt": 0.4853,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleMS/Rebecca/CommonAnim/AM_QTE_S.uasset",
+            "stepDuration": 1.5333,
+            "resolvesAt": 0.7333,
+            "freezeTime": null
+          }
+        ]
       },
       "forte_heavy_hack_response_meltdown": {
         "label": "Forte Circuit: Hack Response — Meltdown",
@@ -246132,7 +246206,21 @@
           ]
         },
         "timingSource": "extracted",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleM/Lucy/CommonAnim/AM_SkillQte.uasset",
+            "stepDuration": 0.7333,
+            "resolvesAt": 0.5667,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleM/Lucy/CommonAnim/AM_Sp_SkillQte.uasset",
+            "stepDuration": 1.0667,
+            "resolvesAt": 0.7,
+            "freezeTime": null
+          }
+        ]
       },
       "forte_heavy_hack_response_data_crash": {
         "label": "Forte Circuit: Hack Response — Data Crash",
@@ -248061,6 +248149,20 @@
         "interruptLevel": 2,
         "timingSource": "extracted",
         "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleM/Chun/CommonAnim/AM_Attack03_Ex.uasset",
+            "stepDuration": 1.15,
+            "resolvesAt": 0.46,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleM/Chun/CommonAnim/AM_Attack03_Ex_Loop.uasset",
+            "stepDuration": 1.8634,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          }
+        ],
         "forteGen": -960
       },
       "skill_vining_waltz_4": {
@@ -248174,6 +248276,20 @@
         },
         "timingSource": "extracted",
         "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleM/Chun/CommonAnim/AM_Attack03_Ex.uasset",
+            "stepDuration": 1.15,
+            "resolvesAt": 0.46,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleM/Chun/CommonAnim/AM_Attack03_Ex_Loop.uasset",
+            "stepDuration": 1.8634,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          }
+        ],
         "timingIsLoop": true,
         "forteGen": -3040
       },
@@ -250003,7 +250119,21 @@
         "damageCount": 1,
         "damageBeforeNextAtt": 1,
         "timingSource": "extracted",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleS/Luokeke/CommonAnim/AM_AirAttack01Pro_End_02_lv1.uasset",
+            "stepDuration": 0.5,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleS/Luokeke/CommonAnim/AM_AirAttack01Pro_End_LV1.uasset",
+            "stepDuration": 0.8333,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          }
+        ]
       },
       "forte_heavy_2": {
         "label": "Forte Circuit: Stage 2",
@@ -250054,7 +250184,21 @@
         "damageCount": 1,
         "damageBeforeNextAtt": 1,
         "timingSource": "extracted",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleS/Luokeke/CommonAnim/AM_AirAttack01Pro_End_02_LV2.uasset",
+            "stepDuration": 0.5,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleS/Luokeke/CommonAnim/AM_AirAttack01Pro_End_LV2.uasset",
+            "stepDuration": 0.8333,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          }
+        ]
       },
       "forte_heavy_3": {
         "label": "Forte Circuit: Stage 3",
@@ -250105,7 +250249,21 @@
         "damageCount": 1,
         "damageBeforeNextAtt": 1,
         "timingSource": "extracted",
-        "timingProvisional": "state"
+        "timingProvisional": "state",
+        "variants": [
+          {
+            "montage": "FemaleS/Luokeke/CommonAnim/AM_AirAttack01Pro_End_02_LV3.uasset",
+            "stepDuration": 0.5,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          },
+          {
+            "montage": "FemaleS/Luokeke/CommonAnim/AM_AirAttack01Pro_End_LV3.uasset",
+            "stepDuration": 0.8333,
+            "resolvesAt": 0.0001,
+            "freezeTime": null
+          }
+        ]
       }
     },
     "1607": {

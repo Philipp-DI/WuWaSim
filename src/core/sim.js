@@ -43,7 +43,7 @@ function weaponAmplifyScopes(weaponConditional) {
     return out;
 }
 import { computeStateTimeline } from './rotation-state.js';
-import { resolveChainLockedRotation, resourceDefsForResonator, stateDefsForResonator } from './rotation-rules.js';
+import { resolveChainLockedRotation, resourceDefsForResonator, stateDefsForResonator, timingVariantFor } from './rotation-rules.js';
 import { soloStatusDamage, resolveTuneBreakStep, statusesInflictedBy } from './enemy-status.js';
 import { resolveTuneStrain } from './tune-break.js';
 
@@ -451,10 +451,16 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
     let time = 0, freezeSum = 0;
     for (let i = 0; i < rotation.length; i++) {
         const key = rotation[i];
+        // A key flagged needsStateModel (data/timing-overrides.json) carries
+        // several measured candidates; TIMING_VARIANT_RULES picks the one that
+        // matches what the PRECEDING step was, when a rule exists — every other
+        // key (no rule, or i === 0) is unaffected, timingVariantFor returns null.
+        const variant = skillMap[key] ? timingVariantFor(resonator?.id, key, skillMap[key], rotation, i, skillMap) : null;
         // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
         // transformation echo that locks the resonator (resolveEchoStepTime).
         const stepDuration = key === ECHO_STEP_KEY ? echoStepDuration
             : key === TUNE_BREAK_STEP_KEY ? tuneBreakDuration
+            : variant ? Math.max(variant.stepDuration ?? 0, variant.resolvesAt ?? 0)
             : skillMap[key] ? resolveStepDuration(skillMap[key], dataset) : 0;
         start.push(time);
         gameStart.push(time - freezeSum);
@@ -833,7 +839,15 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             continue;
         }
 
-        const stepDuration = resolveStepDuration(skillDef, dataset);
+        // TIMING_VARIANT_RULES: substitute the matching candidate's timing when
+        // this key carries one and the preceding step's skillType matches its
+        // rule (rotation-rules.js) — must agree with the SAME substitution in
+        // computeStepTimes' pre-pass, or this step's own numbers would disagree
+        // with the gameTime/state timeline already built from it.
+        const timingVariant = timingVariantFor(resonator?.id, skillKey, skillDef, rotation, i, skillMap);
+        const stepDuration = timingVariant
+            ? Math.max(timingVariant.stepDuration ?? 0, timingVariant.resolvesAt ?? 0)
+            : resolveStepDuration(skillDef, dataset);
         // Once-per-animation freeze, precomputed for the whole rotation so this
         // step and the computeStepTimes pre-pass agree (resolveFreezeSchedule).
         const freezeTime = stepTimes.freeze[i];

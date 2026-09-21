@@ -322,10 +322,69 @@ export const STATE_DEFS = Object.freeze({
     ],
 
     // Camellya — "[Camellya] enters [Budding Mode] after casting [Ephemeral]."
+    // A SECOND, unrelated state (OPEN-ITEMS 22, 2026-09-21): "Blossom Mode" and
+    // "Budding Mode" read as synonyms and are not — the kit uses both names in
+    // completely separate passages with no cross-reference. "Attack the
+    // target... then enter [Blossom Mode]" (Resonance Skill [Crimson Blossom])
+    // replaces Basic/Heavy with the Vining Waltz chain, Dodge Counter with
+    // [Atonement], Resonance Skill with [Floral Ravage], and Jump with
+    // [Vining Ronde] — a disjoint key set from Budding Mode's Sweet Dream
+    // grant. "Blossom Mode ends after casting Resonance Skill [Floral
+    // Ravage]" and "ends after using the [Levitator]" (no skill key exists for
+    // the Levitator, so only the first exit is expressible) and "Jump ...
+    // ends the Blossom Mode" (Vining Ronde). This is what
+    // data/timing-overrides.json's needsStateModel entries for
+    // skill_vining_waltz_3/skill_blazing_waltz actually need; the timing-
+    // variant WIRING itself is not done here — see OPEN-ITEMS 22.
     1603: [
         { name: 'Budding Mode',
           enter: { keys: ['forte_heavy_ephemeral'] },
           exit:  { mode: 'persist' } },
+        { name: 'Blossom Mode',
+          enter: { keys: ['skill_crimson_blossom'] },
+          exit:  { mode: 'consumedBy', keys: ['skill_floral_ravage', 'skill_vining_ronde'] } },
+    ],
+
+    // Rebecca — "Upon casting Resonance Skill or Intro Skill, Rebecca can
+    // freely switch between the Huntress and Guts modes... By default,
+    // Rebecca starts in the Huntress mode." (2026-09-21, OPEN-ITEMS 22). Each
+    // mode has its own Skill AND Intro key that switches TO the other —
+    // "It's Big Boomin' Time!" is cast IN Huntress and switches to Guts,
+    // "Come 'n' Get Me!" is cast IN Guts and switches to Huntress — so each
+    // pair is both the OTHER mode's enter and this mode's exit. Unblocks two
+    // effects that read as zero today because nothing in the parser scans
+    // Forte-circuit skill-tree node text: Huntress's flat +30% Crit. DMG and
+    // Guts's 15% target DEF ignore (verified unparsed: zero "Huntress mode" /
+    // "Guts mode" effect entries in wuwa-data.json). Binding those two
+    // clauses to this state is a separate follow-up, not done here.
+    1308: [
+        { name: 'Huntress Mode',
+          initiallyActive: true,
+          enter: { keys: ['skill_come_n_get_me', 'intro_hey_leadhead_come_n_get_me'] },
+          exit:  { mode: 'consumedBy', keys: ['skill_it_s_big_boomin_time', 'intro_yo_it_s_big_boomin_time'] } },
+        { name: 'Guts Mode',
+          enter: { keys: ['skill_it_s_big_boomin_time', 'intro_yo_it_s_big_boomin_time'] },
+          exit:  { mode: 'consumedBy', keys: ['skill_come_n_get_me', 'intro_hey_leadhead_come_n_get_me'] } },
+    ],
+
+    // Lucy — "After casting Resonance Skill - Deadlock, Lucy enters
+    // Algorithm Compaction... Lucy exits the Algorithm Compaction state after
+    // casting Resonance Liberation - Netrunner or Resonance Liberation - Old
+    // Net Deep Dive" (2026-09-21, OPEN-ITEMS 22). A clean enter/exit, unlike
+    // Rebecca's pair — verified against her own reference rotation with no
+    // contradiction (skill_deadlock -> the Compaction-only Thread-Shredding
+    // basics and Threading heavies -> a Liberation cast, in that order).
+    // NOT modelled: the kit's SECOND stated exit ("[Heavy Attack -
+    // Multi-threading] is not followed up by one of [Basic/Skill/Intro/Tune
+    // Break]" within an unstated window) has no shape in this module — the
+    // same category of gap as Cantarella's unmodelled Trance-depletion exit.
+    // This is the prerequisite for her intro_intro_skill_outdated_hallucination
+    // key's needsStateModel entry (AM_SkillQte vs AM_Sp_SkillQte); the timing-
+    // variant WIRING itself is not done here — see OPEN-ITEMS 22.
+    1511: [
+        { name: 'Algorithm Compaction',
+          enter: { keys: ['skill_deadlock'] },
+          exit:  { mode: 'consumedBy', types: ['liberation'] } },
     ],
 
     // Denia — two stances + the mutually-exclusive timed Entropy Shift pair,
@@ -442,6 +501,74 @@ export const STATE_DEFS = Object.freeze({
  */
 export function stateDefsForResonator(resonatorId) {
     return STATE_DEFS[Number(resonatorId)] ?? [];
+}
+
+// =============================================================================
+// Timing-variant selection rules, keyed by resonator id (2026-09-21, OPEN-ITEMS 22).
+// =============================================================================
+//
+// A handful of skillMap keys have TWO real, measured timings and no kit-stated
+// name to pick between them by — the game authors the animation differently
+// depending on what the resonator was doing the instant before the cast. Both
+// candidates are preserved as `step.variants` (preprocess.mjs, only for keys
+// data/timing-overrides.json flags `needsStateModel`); this table says which
+// one applies.
+//
+//   { whenPrevSkillType: string, variantMontage: string }
+//
+// `whenPrevSkillType` matches the PRECEDING rotation step's mechanical
+// skillType — cheap and precedented (rotation-graph.js's STAGE_GRANTS `after`
+// mechanism already reads `rotation[i-1]` the same way) — deliberately NOT a
+// STATE_DEFS lookup: elevation ("was the previous action airborne?") is not a
+// kit-granted, named, entered/exited mode, and the two mechanisms answer
+// different questions. `variantMontage` is matched against each variant's
+// `montage` (a suffix test — the extracted path carries the character's own
+// asset directory, the rule only needs the filename).
+//
+// Zhezhi's Heavy Attack Conjuration is the one roster case with two verified
+// candidates sharing one damage id (measured in data/actionable-times.json,
+// 2026-09-21): AM_Attack05_Air.uasset (0.567s, entered from mid-air) and
+// AM_Attack05.uasset (1.180s, the ground default `pinnedMontage` already
+// selects). Two of Conjuration's five stated entry points — Stroke of Genius
+// and Creation's Zenith — are themselves airborne-capable but carry
+// `skillType: 'forte_heavy'`, not `'midair'`, so a chain reaching Conjuration
+// through one of THEM while airborne still falls through to the ground
+// default; a known, conservative approximation (no physics model exists to
+// do better), not a defect this table can close.
+//
+// Brant's four needsStateModel keys (midair_mid_air_attack_1..4) were
+// investigated the same day and found to have NO live decision here: three
+// have exactly one montage candidate in the export (nothing to select
+// between) and the fourth's three candidates are variants of the SAME
+// airborne bullet, not a ground/air split. No entry — see OPEN-ITEMS 22.
+export const TIMING_VARIANT_RULES = Object.freeze({
+    1105: {
+        forte_heavy_ha_conjuration: { whenPrevSkillType: 'midair', variantMontage: 'AM_Attack05_Air.uasset' },
+    },
+});
+
+/**
+ * The variant (if any) this key's timing should use, given the rotation step
+ * immediately before it. Returns null when no rule applies, the key carries
+ * no rule, or there is no previous step (i === 0) — every caller then keeps
+ * the key's own already-chosen fields, which is the correct, unchanged
+ * behaviour for the other ~1,100 skillMap keys with no rule at all.
+ *
+ * @param {number|string} resonatorId
+ * @param {string} key
+ * @param {object} skillDef      — skillMap[key], carries `.variants`
+ * @param {string[]} rotation
+ * @param {number} i             — index of `key` within `rotation`
+ * @param {object} skillMap
+ * @returns {object|null} a variant object ({ stepDuration, resolvesAt, freezeTime, montage })
+ */
+export function timingVariantFor(resonatorId, key, skillDef, rotation, i, skillMap) {
+    if (!skillDef?.variants?.length || i <= 0) return null;
+    const rule = TIMING_VARIANT_RULES[Number(resonatorId)]?.[key];
+    if (!rule) return null;
+    const prevType = skillMap[rotation[i - 1]]?.skillType;
+    if (prevType !== rule.whenPrevSkillType) return null;
+    return skillDef.variants.find(variant => variant.montage?.endsWith(rule.variantMontage)) ?? null;
 }
 
 // =============================================================================
@@ -1241,6 +1368,44 @@ export const RESOURCE_DEFS = Object.freeze({
             forte_heavy_runic_soliskin: 50,
         },
         spendAll: ['forte_heavy_forte_circuit_learn_my_true_name'],
+    }],
+
+    // Roccia — "Roccia can hold up to 300 Imagination." (2026-09-21,
+    // OPEN-ITEMS 22/36/39, following the Aemeath `unit`-divisor pattern):
+    // channel/cap verified against the game's own specialEnergyCaps (300,
+    // no divisor needed here — unlike Aemeath's channels, this one is
+    // already in kit-native points). Gains: "Casting Resonance Skill
+    // [Acrobatic Trick] restores 100 Imagination" is a real cast row
+    // (gauge-income.json 1606009, SpecialEnergy1 +100); "Casting Intro Skill
+    // [Pero, Help] restores 100 Imagination" has NO row in gauge-income.json
+    // (same shape as Denia's hand-curated spenders) so it is curated
+    // straight from the kit text. Spend: "consume 100 Imagination to cast
+    // Basic Attack [Real Fantasy]" names the WHOLE combo, not each of its
+    // three stages, so only the entry key (forte_heavy_1) spends — reading it
+    // as a per-stage cost would need 300 banked to complete a chain the kit
+    // gates at 100.
+    //
+    // NOT modelled: the relaunch clause ("When Roccia lands after Stage 1 and
+    // Stage 2 attacks with over 100 Imagination, she will... activate [Beyond
+    // Imagination]" — which is what forte_heavy_1/2/3's needsStateModel entry
+    // in data/timing-overrides.json is asking about) depends on Imagination
+    // regenerated by NORMAL ATTACK HITS during the combo, which is HIT income
+    // and out of this per-cast model by construction (CLAUDE.md, "Gauge
+    // income is readable ON A CAST, and only there"). So the sim's own
+    // tracked level after forte_heavy_1's spend reads LOW (understated, the
+    // safe direction) rather than crediting a relaunch the model cannot see —
+    // the timing-variant WIRING itself is not done here.
+    1606: [{
+        name: 'Imagination',
+        channel: 1,       // SpecialEnergy1Max = 300 in the game's own baseproperty table
+        cap: 300,
+        gains: {
+            skill: 100,
+            intro: 100,
+        },
+        spend: {
+            forte_heavy_1: 100,
+        },
     }],
 });
 

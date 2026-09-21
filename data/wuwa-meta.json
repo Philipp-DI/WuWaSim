@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.6",
-  "generatedAt": "2026-09-21T09:27:24.953Z",
-  "engineHash": "6239d9be80e73477bdadeaa243f9f3ac34af95f0fd32362f547814432b8932f5",
+  "generatedAt": "2026-09-21T13:50:15.233Z",
+  "engineHash": "da524bba1150bf1a6226f223b7f70add775d3c06d27ee7aff6edd52ff0a2259c",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {

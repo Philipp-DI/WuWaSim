@@ -13782,3 +13782,99 @@ gained the re-verification note and the parenthetical correction.
 `docs/HISTORY.md` — this entry.
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+
+## 2026-09-21 — Tier 4: character state modelling split six ways, echo timing found blocked
+
+OPEN-ITEMS 22 and 23, the two remaining "deliberate go/no-go" engine items.
+Scoped via 5 parallel investigations (one per resonator pair plus a dedicated
+architecture pass), each finding independently re-verified against the raw
+kit text before anything was coded.
+
+**[What shipped]** A new, narrow mechanism — `TIMING_VARIANT_RULES`
+(rotation-rules.js) — for the one case that turned out to be cheap: Zhezhi's
+Heavy Attack Conjuration has two measured timings (0.567s airborne, 1.180s
+grounded) sharing one damage id, and which applies depends on the PRECEDING
+rotation step's mechanical skillType — not a kit-granted state, so
+STATE_DEFS was the wrong tool (its consumer gates buffs/resources, and the
+step-timing resolver runs before the state timeline exists to ask). The
+fix: `preprocess.mjs` now propagates a `needsStateModel` key's
+measured-but-unchosen candidates onto `step.variants` (previously extracted
+into `actionable-times.json` and then silently dropped — never reaching
+`wuwa-data.json` at all, confirmed by two independent investigations before
+either wrote code), and `sim.js` substitutes the matching candidate in BOTH
+places that resolve step duration. The first pass caught only one of the
+two and shipped a mechanism that looked correct but did nothing — caught by
+testing it directly (constructing a rotation and checking the output
+step's actual duration) rather than trusting the code read.
+
+Three new STATE_DEFS entries (Rebecca's Huntress/Guts pair, Lucy's Algorithm
+Compaction, and a SECOND state for Camellya — "Blossom Mode" is not an alias
+of the existing "Budding Mode" entry, confirmed from disjoint kit-text
+passages) and one new RESOURCE_DEFS entry (Roccia's Imagination gauge,
+following the Aemeath/item-39 pattern exactly — channel+cap read straight
+from `specialEnergyCaps`, no `unit` divisor needed here). None of the four
+is wired into the actual timing-variant selection their originating
+`needsStateModel` keys need — that wiring has an ordering problem
+(`computeStepTimes` runs before `computeStateTimeline`) Zhezhi's simple
+rotation-order lookback didn't have to solve, and Roccia's needs hit-income
+tracking this project's gauge model does not do by construction. Both are
+named as the next concrete step, not silently left.
+
+**[What was corrected, not fixed]** Brant's four `needsStateModel` keys were
+investigated and found to have NO live decision today — three have exactly
+one montage candidate in the export, the fourth's three candidates are
+variants of one airborne bullet, not a ground/air split. The original note
+("Brant has a full mid-air rotation; whole family needs an in-air check")
+overstated what was blocked; `data/timing-overrides.json` corrected in
+place.
+
+**[What was found blocked, and left alone]** Item 23 (echo animation
+timing) was investigated and its own "unblocked 2026-07-31" claim was
+wrong: the current local export contains only Paks — no Monster assets
+have ever been extracted. "The live export is a full client" was true of
+what FModel COULD read, never checked against what this project's slim
+root HAD read. 66 Transform echoes exist roster-wide. Not implemented,
+deliberately: the extractor's parsing code is format-agnostic and would
+handle Monster assets fine, but a monster skill table's row-key format and
+how an echo's `monsterId` links to it are both unknown, and writing an
+extractor against a guessed shape is exactly the kind of assumption this
+project's extraction work does not make.
+
+**[Verification]** Every addition measured as inert, not assumed: `npm run
+meta` diffed to `engineHash`/`generatedAt` only across the whole session's
+worth of STATE_DEFS/RESOURCE_DEFS/TIMING_VARIANT_RULES changes — zero team
+or build movement, because none of the new state/gauge definitions has a
+consumer yet and Zhezhi's own reference rotation never precedes Conjuration
+with a mid-air step. The Zhezhi mechanism verified directly: a hand-built
+rotation with a mid-air step immediately before Conjuration resolves
+0.567s; the same rotation with a grounded predecessor, or Conjuration as
+the very first step, resolves 1.180s (the unchanged default) in both
+directions. `npm test` 78/78, `npm run sweep` 70/70, `npm run lint`
+0 errors / 1575 warnings.
+
+**[Files Changed]** `src/core/rotation-rules.js` (3 STATE_DEFS entries, 1
+RESOURCE_DEFS entry, new `TIMING_VARIANT_RULES` + `timingVariantFor`);
+`src/core/sim.js` (variant substitution in `computeStepTimes` and the main
+walk loop); `tools/preprocess.mjs` (variants propagation);
+`data/timing-overrides.json` (Brant's note corrected); `data/wuwa-data.json`,
+`data/wuwa-meta.json`, `data/data-version.json` (regenerated);
+`docs/OPEN-ITEMS.md` (items 22, 23, 36).
+
+**[Logic Altered]** `computeStepTimes` and the main rotation walk both check
+`timingVariantFor` before falling back to `resolveStepDuration` — inert for
+every key without a `TIMING_VARIANT_RULES` entry (currently only Zhezhi's).
+No other engine path changed.
+
+**[Residual Risks]** Rebecca/Lucy/Camellya's STATE_DEFS entries and Roccia's
+RESOURCE_DEFS entry are foundations without a timing-variant consumer yet —
+named explicitly in OPEN-ITEMS 22 as the next step, not left implicit.
+Rebecca's newly-discovered unparsed Huntress/Guts effects (+30% Crit. DMG /
+15% DEF ignore) are a separate follow-up. Item 23 needs a new targeted
+export before any further work is possible.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` — item 22 rewritten per-resonator
+with what shipped and what didn't; item 23 rewritten from "unblocked" to
+"blocked, and here is why the earlier claim was wrong"; item 36's resonator
+count and framing updated. `docs/HISTORY.md` — this entry.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>

@@ -726,7 +726,23 @@ async function main() {
                 if (entry.resolvesAt != null) step.resolvesAt = entry.resolvesAt;
                 stampAbilityFacts(step, entry, key);
                 step.timingSource = entry.provenance === 'curated' ? 'curated' : 'extracted';
-                if (entry.needsStateModel) step.timingProvisional = 'state';
+                if (entry.needsStateModel) {
+                    step.timingProvisional = 'state';
+                    // The alternative candidate(s) map-timings.mjs preserved but did
+                    // NOT choose — needed so a TIMING_VARIANT_RULES entry (sim.js) can
+                    // select among them at rotation-analysis time. Only carried for
+                    // needsStateModel keys: every other multi-candidate key's variants
+                    // stay extraction-only data, unreachable from the sim, which is
+                    // deliberate (see rotation-rules.js's TIMING_VARIANT_RULES doc).
+                    if (Array.isArray(entry.variants) && entry.variants.length) {
+                        step.variants = entry.variants.map(variant => ({
+                            montage: variant.montage,
+                            stepDuration: variant.stepDuration,
+                            resolvesAt: variant.hitTimes?.[0] ?? null,
+                            freezeTime: variant.freezeTime ?? null,
+                        }));
+                    }
+                }
                 else if (entry.isPhaseOnly) step.timingProvisional = 'phaseOnly';
                 // A loop animation's markers describe ONE ITERATION, not the
                 // whole held action, so its duration understates by however
