@@ -501,7 +501,9 @@ export function dmgTakenEffect(clause, resonatorName) {
  * guardrail in tests/effect-coverage.test.mjs — has to cut the text the same
  * way. Splitting on a bare `.` outside here reported 20 phantom gaps: it severed
  * "Crit. DMG is increased by 30%" into "Crit." plus a subjectless fragment and
- * then found no effect for the fragment.
+ * then found no effect for the fragment. The split point also allows an
+ * optional closing quote between the punctuation and the whitespace — see the
+ * comment inline below.
  */
 export function splitClauses(desc) {
     // Protect abbreviation periods ("Crit.", "ResO.", etc.) from being treated
@@ -510,7 +512,18 @@ export function splitClauses(desc) {
         .replace(/Crit\./gi, 'Crit\u0001')
         .replace(/Max\./gi, 'Max\u0001')
         .replace(/Res\./gi, 'Res\u0001');
-    return masked.split(/(?<=[.;])\s+|\n+/)
+    // A sentence-ending period is regularly followed by a closing quote mark
+    // before the whitespace ("…fixed DMG Multiplier." At 2 stacks…") — the
+    // split point must allow one, or the quoted sentence fuses onto the next.
+    // That silently merged Hiyuki S6.2's "Crit. DMG is increased by 40%" onto
+    // the unrelated Glacio Bite scope-change sentence before it, and the
+    // merged clause then matched a SECOND, spurious pattern ("…DMG Multiplier"
+    // + "increased", read from the fused text) alongside the correct
+    // `critDmg` reading — a real +40% DMG multiplier on top of the intended
+    // Crit. DMG bonus. Roster-wide this pattern is rare (checked every chain,
+    // inherent and skill-node description: 3 of 632 total), so the fix is
+    // narrow by measurement, not by assumption.
+    return masked.split(/(?<=[.;]"?)\s+|\n+/)
         .map(clause => clause.replace(/\u0001/g, '.').trim())
         .filter(Boolean);
 }

@@ -1143,6 +1143,15 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       as a key either (`forte_heavy_timed_counters_*`,
       `forte_heavy_ephemeral`), so no amount of parser work reaches them. They
       are the two survivors pinned by `tests/node-type-match.test.mjs`.
+      **RE-VERIFIED 2026-09-21**, and the item's claim needs a footnote: those
+      TWO key names genuinely exist in both resonators' `autoSkillMap`
+      (`forte_heavy_timed_counters_1/2/3` for Taoqi, `forte_heavy_ephemeral`
+      for Camellya) — but they belong to DIFFERENT moves than the ones these
+      clauses name ("Power Shift" and "Sweet Dream" respectively, neither of
+      which has ANY key). The parenthetical was listing the nearest existing
+      Forte Circuit keys, not claiming the named moves resolve to them. The
+      dead-buff conclusion is unchanged; confirmed independently rather than
+      taken on trust.
     → **Partial name resolution narrows a scope.** Rebecca S3.0 ("Party 'til
       Dawn!"), Galbrena S6.0 ("Dodge Counter - Purgatory Scourge") and Luuk S3.1
       ("Mid-**Attack** - Gavel of Earthshaker", the game's own typo) each name a
@@ -1151,13 +1160,56 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     → **Rebecca S1.0's bulleted list** is read 6 of 7 — the game reuses " - " as
       both an in-name and a between-name separator — so the all-or-nothing gate
       correctly refuses the whole list and leaves her on `skillType`.
-    → **Two clauses want a different lane, not a scope:** Aemeath S2.2 applies
+    → ~~**Two clauses want a different lane, not a scope:** Aemeath S2.2 applies
       Tune Rupture STATUS damage to her Resonance Skill rows, and Hiyuki S6.2
-      parses a **Crit. DMG** 40% as `multiplierUp`.
-    → **Phrolova S2.0 + S2.1 both pay `basic_scarlet_coda` unconditionally**
+      parses a **Crit. DMG** 40% as `multiplierUp`.~~ **Hiyuki's half FIXED
+      2026-09-21 — and it was worse than mis-lane, it was a genuine DUPLICATE.**
+      Root cause: `splitClauses`' sentence-boundary regex never allowed a
+      closing quote mark between a period and the following whitespace, so
+      "…deals an instance of Glacio Bite DMG with a fixed DMG Multiplier."
+      (the end of a QUOTED sentence describing an unrelated Snow Rust scope
+      change) fused onto the NEXT sentence, "At 2 stacks of Snow Rust,
+      Hiyuki's Crit. DMG is increased by 40%." The merged clause then matched
+      BOTH the intended `critDmg` pattern AND the generic "DMG Multiplier …
+      increased" `multiplierUp` pattern (borrowing "DMG Multiplier" from the
+      fused-in quote and "40%" from the real sentence), so the node shipped a
+      genuine +40% multiplierUp double-pay alongside the correct +40%
+      critDmg. Fixed by allowing an optional quote in the split point;
+      measured roster-wide before shipping (every chain/inherent/skill-node
+      description checked: 3 of 632 affected, only Hiyuki's changes what
+      parses). LOCK A: one node, the duplicate effect removed. LOCK B:
+      `engineHash` only — chain-gated at S6, invisible to `team-rank.js`'s
+      chain-0 baseline. The stale `S6.2` deferred-override slot (which was
+      deferring exactly this duplicate) is removed from
+      `effect-overrides.json`; nothing else in that slot needed the display-
+      only chain-effect deferral Hiyuki's other Snow Rust slots still do.
+      Aemeath's half (Tune Rupture status damage parsed as multiplierUp)
+      remains open — different fix, a lane move not a duplicate.
+    → ~~**Phrolova S2.0 + S2.1 both pay `basic_scarlet_coda` unconditionally**
       (+150%): the kit gates the second on Aftersound and the clause classifier
       does not read it. Pre-existing; visible only now that both are scoped to
-      one key.
+      one key.~~ **FIXED 2026-09-21**, surgically rather than by a new parser
+      heuristic. S2.0 ("The DMG Multiplier of Scarlet Coda is increased by
+      75%") is correctly unconditional. S2.1 ("Aftersound now additionally
+      increases the DMG Multiplier of Scarlet Coda by 75%") names Aftersound —
+      her stacking gauge (`inherentSkills` "Octet": 10 stacks entering combat,
+      +2.5% Crit. DMG/stack) — as its SOURCE, using it as the sentence's
+      grammatical SUBJECT rather than a "while"/"when" phrase, which is why
+      `classifyCondition` read it as unconditional. Not fixed by teaching the
+      parser a new "named resource as subject implies a gate" rule — that is
+      exactly the kind of roster-wide heuristic change this project measures
+      before shipping, and Aftersound has no `RESOURCE_DEFS` entry to derive
+      the real threshold (any stack vs. a stated minimum) from. Fixed instead
+      via `effect-overrides.json` (`1608.S2.1`): turned OFF by default
+      (`situational`/`unknown`/`persist`, the shape already used elsewhere for
+      an un-modelled state gate) rather than left doubled — understating a
+      real conditional bonus is the safe direction, crediting one the kit
+      never grants unconditionally is not. `sequence-eval.js`'s own numbers
+      for her S2-S6 move accordingly: `ownGain` at S2 56.57% -> 41.6%. Visible
+      to LOCK B (unlike Hiyuki's fix) because `sequence-eval` specifically
+      evaluates each chain level, not just the chain-0 baseline `team-rank.js`
+      uses — 48 lines, entirely Phrolova's own sequence block, no other
+      resonator or team moved.
     → **No saved-build migration** for Luuk Herssen's slot shift (S6.0 → S6.1).
       A stale `effectStacks` entry addresses a non-stackable effect and is
       ignored; nothing is corrupted.

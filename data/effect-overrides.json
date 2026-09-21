@@ -327,6 +327,18 @@
       }
     },
     "1608": {
+      "S2.1": {
+        "conditionKind": "situational",
+        "defaultAssume": false,
+        "defaultActive": false,
+        "trigger": {
+          "type": "unknown"
+        },
+        "window": {
+          "type": "persist"
+        },
+        "_resolvedVia": "2026-09-21 (OPEN-ITEMS 33): full text 'The DMG Multiplier of Scarlet Coda is increased by 75%. Aftersound now additionally increases the DMG Multiplier of Scarlet Coda by 75%.' S2.0 (the first sentence) is the flat, always-on +75% and is correctly unconditional. S2.1 (this slot) names Aftersound — her stacking gauge (inherentSkills 'Octet': 10 stacks entering combat, +2.5% Crit. DMG/stack) — as the SOURCE of the second +75%, which the classifier could not read as a gate: the clause uses the resource as its grammatical SUBJECT ('Aftersound now additionally increases…') rather than a 'while'/'when' phrase, so classifyCondition fell through to 'unconditional' and both +75% grants applied every hit, unconditionally, doubling to +150% — the same wielder-always shape the unscoped-multiplierUp invariant warns about. Not modelled as a real gate here: Aftersound has no RESOURCE_DEFS entry, so the exact threshold (any stack vs. a stated minimum) is not derivable from this text alone. Turned OFF by default (situational/unknown/persist, the same shape used elsewhere for an un-modelled state gate) rather than left doubled — this is the safe direction: understating a real conditional bonus, not crediting an unconditional one the kit never grants. A user can still toggle it on in the build editor; a future Aftersound RESOURCE_DEFS entry could resolve the trigger properly."
+      },
       "S3.1": {
         "suppress": true,
         "_resolvedVia": "2026-07-05: misparse, not a self-buff at all. Full text: 'Targets hit by Enhanced Attack - Hecate: Cadenza will have their ATK reduced by 20% for 15s.' — an ENEMY ATK debuff, parsed as a self atkRatio buff. This engine doesn't model incoming-damage-taken (enemy ATK is not a resonator stat), so the effect is out of scope, not a fixable trigger/window — suppressed rather than misapplied as a +20% self ATK buff."
@@ -373,8 +385,7 @@
     "1108": {
       "IH0.0": "Snow Rust 3-stack tier, newly parsed by the 2026-08-07 buff-coverage pass (\"Glacio Bite DMG is Amplified by 30%\"). Already SUPPRESSED via overrides.1108.IH0.0 — distinctApplicatorTierContribution (conditional-buffs.js) owns the whole tier ladder — so the effect exists in the dataset for display but must never be applied twice. Deferred here so the audit gate sees the decision rather than an undecided flag.",
       "S3.1": "Snow Rust tiered unlock (chain modification of IH0's tiered unlock) — chain effects stay display-only per CLAUDE.md (bespoke per character, not mechanically applied), unlike IH0 itself which is now resolved via distinctApplicatorTierContribution (conditional-buffs.js), see overrides.1108.IH0.*. Deferred 2026-06-27; resolution scope narrowed 2026-06-28.",
-      "S6.1": "Same Snow Rust mechanic (chain modification of IH0's tiered unlock). Deferred 2026-06-27, same reason as S3.1. Renumbered from S6.0 on 2026-08-07: S6 gained a leading effect once the +500% Crit. DMG clause became readable (the game scopes it by BulletIds, see data/buff-facts.json), which shifted every slot below it by one.",
-      "S6.2": "Same Snow Rust mechanic (3-stack tier). Deferred 2026-06-27, same reason as S3.1. Renumbered from S6.1 on 2026-08-07, see S6.1."
+      "S6.1": "Same Snow Rust mechanic (chain modification of IH0's tiered unlock). Deferred 2026-06-27, same reason as S3.1. Renumbered from S6.0 on 2026-08-07: S6 gained a leading effect once the +500% Crit. DMG clause became readable (the game scopes it by BulletIds, see data/buff-facts.json), which shifted every slot below it by one."
     },
     "1205": {
       "IH0.0": "Fusion DMG Bonus (5%/stack of Enflamement, correctly extracted, but maxStacks not captured — should be 4, matching Enflamement's own cap) only applies to the SAME True Sight Conquest/Charge cast that's currently active, scaled by Enflamement at that moment — not a time-windowed buff. Per maintainer 2026-06-27: 'elementBonus is always global, never skill-specific — for that, skill-type-specific buffs exist', but the current schema has no 'instantaneous, scoped to the exact step that fired it, stack-scaled' bonus kind either (skillTypeBonus is duration/window-based once active, same as everything else). Needs a new resolution kind: apply only to the damage instance of the triggering cast itself. Maintainer flagged the source text as 'a bit murky' on exactly how it composes with simultaneous DMG instances. Deferred 2026-06-27.",

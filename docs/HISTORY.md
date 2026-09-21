@@ -13672,3 +13672,113 @@ the sibling-row evidence, item 36's resonator count and framing corrected.
 `docs/HISTORY.md` — this entry.
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+
+## 2026-09-21 — Tier 3: item 33's residue, two real fixes and one re-verified
+
+Item 33 catalogued six leftovers from the `multiplierUp` scope work. Two of
+them turned out to be genuine defects with clean fixes; the "dead buff"
+claim was re-verified rather than trusted; the rest remain accurately
+described as key-side gaps this pass could not close.
+
+**[Hiyuki S6.2 — a duplicate, not a mis-lane]** The item's framing ("parses
+a Crit. DMG 40% as multiplierUp") undersold it: the node shipped BOTH a
+correct `critDmg: 0.4` AND a spurious `multiplierUp: 0.4` for the same
+clause — a real, always-on (once unlocked) +40% damage multiplier the kit
+never grants, stacked on top of the intended Crit. DMG bonus. Root cause:
+`splitClauses` (tools/preprocess/effects.mjs) never allowed a closing quote
+mark between a sentence-ending period and the following whitespace, so a
+quoted sentence describing an unrelated Snow Rust scope change fused onto
+the very next sentence ("At 2 stacks of Snow Rust, Hiyuki's Crit. DMG is
+increased by 40%."). The merged clause then matched two independent
+patterns — the intended Crit. DMG one, and a generic "DMG Multiplier …
+increased" one that borrowed "DMG Multiplier" from the fused-in quote and
+"40%" from the real sentence.
+
+Measured before fixing: every chain, inherent, and skill-node description in
+the dataset (632 total) was checked for this exact shape, and Hiyuki's was
+the only affected chain/inherent description (two more, unrelated, exist in
+skill-node text and were confirmed to still parse to zero effects either
+way). Fixed by allowing an optional quote in the split boundary. LOCK A: one
+node, the duplicate effect removed, nothing else moved. LOCK B: engineHash
+only — the effect is chain-gated at S6, invisible to `team-rank.js`'s
+chain-0 baseline. The stale `S6.2` deferred-override slot (which existed
+specifically to defer this duplicate) is removed from
+`effect-overrides.json`; `tests/audit-effects.test.mjs` updated from 4
+deferred slots to 3.
+
+**[Phrolova S2.0+S2.1 — a real double-pay, fixed surgically]** Confirmed
+exactly as the item described: two `multiplierUp: 0.75` effects on
+`basic_scarlet_coda`, both `conditionKind: 'unconditional'`, both
+`defaultActive: true` — an unconditional +150% where the kit's own text
+("Aftersound now additionally increases the DMG Multiplier of Scarlet Coda
+by 75%") ties the second +75% to Aftersound, her stacking gauge
+(`inherentSkills` "Octet": 10 stacks entering combat, scaling Crit. DMG).
+The classifier missed it because the clause uses the resource as its
+grammatical SUBJECT rather than a "while"/"when" phrase — a shape
+`classifyCondition` has no pattern for.
+
+Deliberately NOT fixed by teaching the parser a new "named resource as
+subject implies a gate" heuristic — that is a roster-wide behavior change
+this project measures before shipping (per the standing pattern: every
+parser generalization in CLAUDE.md's invariants was verified against the
+whole roster first), and Aftersound has no `RESOURCE_DEFS` entry, so the
+real threshold (any stack vs. a stated minimum) isn't derivable from this
+text alone. Fixed instead via the established surgical mechanism
+(`effect-overrides.json`, `1608.S2.1`): turned OFF by default
+(`situational`/`unknown`/`persist`, the same shape already used elsewhere
+for an un-modelled state gate) rather than left doubled — understating a
+real conditional bonus is the safe direction; crediting an unconditional one
+the kit never grants is not.
+
+Visible to LOCK B, unlike Hiyuki's fix: `tools/optimize/sequence-eval.js`
+specifically evaluates each chain level (not just the chain-0 baseline
+`team-rank.js` uses), so Phrolova's own S2-S6 `ownGain`/`teamGain` figures
+dropped to their corrected values (`ownGain` at S2: 56.57% -> 41.6%).
+Measured: 48 changed lines, entirely inside Phrolova's own sequence-eval
+block, zero other resonators or teams moved.
+
+**[Taoqi S5.0 / Camellya S6.0 — re-verified, not re-opened]** Independently
+re-checked before trusting the item's "dead buff" claim. Both named moves
+("Power Shift", "Sweet Dream") genuinely have no skillMap key at all — a
+worthwhile correction to the item's own parenthetical, though: the key names
+it listed (`forte_heavy_timed_counters_*`, `forte_heavy_ephemeral`) DO exist
+in the dataset, they just belong to DIFFERENT Forte Circuit moves than the
+ones these two clauses name. The dead-buff conclusion holds; the reasoning
+now does too.
+
+**[Not touched]** Suisui's over-bind, the three named-but-unreachable
+skills (Rebecca S3.0, Galbrena S6.0, Luuk S3.1), Rebecca's correctly-refused
+bulleted list, Aemeath S2.2's status-damage lane mismatch, and Luuk's stale
+save-migration slot all remain as item 33 described them — genuine key-side
+gaps or already-correct behavior, none of them fixable from this session's
+information.
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (`splitClauses`);
+`data/effect-overrides.json` (Phrolova `1608.S2.1` added; Hiyuki
+`1108.S6.2` removed as stale); `tests/audit-effects.test.mjs` (4 -> 3
+deferred slots); `data/wuwa-data.json`, `data/wuwa-meta.json`,
+`data/data-version.json` (regenerated); `docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** `splitClauses` allows an optional closing quote between
+a sentence-ending period/semicolon and the following whitespace. No other
+parser logic changed — Phrolova's fix is data-only (an override), not a
+rule change.
+
+**[Verification Method]** Both root causes reproduced directly (a standalone
+script calling `splitClauses`/`parseEffectsFromDesc` on the exact node
+text) before touching any code. The `splitClauses` fix's blast radius was
+measured, not assumed: every chain, inherent, and skill-node description in
+the dataset checked for the same shape (3 of 632). Both LOCK A and LOCK B
+diffs read in full and attributed to exactly the expected resonator with no
+collateral movement. `npm test` 78/78, `npm run sweep` 70/70, `npm run lint`
+0 errors / 1574 warnings.
+
+**[Residual Risks]** None for the two fixes shipped. The remaining item-33
+entries stay open, accurately described, and unchanged in scope.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` item 33 — Hiyuki and Phrolova's
+bullets rewritten with the fix and its verification; Taoqi/Camellya's bullet
+gained the re-verification note and the parenthetical correction.
+`docs/HISTORY.md` — this entry.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>

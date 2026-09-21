@@ -123,10 +123,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // IH0.0 rejoined the deferred list 2026-08-07: the buff-coverage pass made
     // the 3-stack tier PARSE for the first time, so the slot now holds a real
     // effect that the suppression removes — the gate has to see that decision.
-    assert('Hiyuki Snow Rust deferral is registered (4 slots)', Object.keys(hiyukiDeferred).length === 4);
+    // S6.2 dropped 2026-09-21: it was deferring a SPURIOUS duplicate (a
+    // splitClauses bug fused the S6.1 clause onto the sentence before it,
+    // which then also matched a second, wrong pattern) — fixing the split
+    // removed the duplicate effect outright, so there is no slot left to defer.
+    assert('Hiyuki Snow Rust deferral is registered (3 slots)', Object.keys(hiyukiDeferred).length === 3);
     const report = buildAuditReport(d, { deepAuditIds: [1108], deferred: overridesDoc.deferred ?? {} });
     assert('Hiyuki contributes zero undecided ⚠ to the gate once deferred', report.deepAuditWarnings === 0);
-    assert('Hiyuki contributes 4 deferred entries to the gate tally', report.deepAuditDeferred === 4);
+    assert('Hiyuki contributes 3 deferred entries to the gate tally', report.deepAuditDeferred === 3);
 }
 
 // ── PRE-P12-DATA-QUALITY.md §6 exit criterion: the gate is CLEAR ──────────────
