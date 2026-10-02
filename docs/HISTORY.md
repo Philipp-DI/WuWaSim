@@ -14196,3 +14196,93 @@ held, with what it got wrong. `CLAUDE.md`: the gauge-cap invariant now states
 that a channel is claimed and never guessed, and the name-binding invariant now
 states that "safe" is not "right" where the surviving category contradicts the
 unresolved name, with the 30-resonator bare-`liberation` blindness named.
+
+## 2026-10-02 — A dead scope is a test, and "Forte" is not a kind of damage
+
+**[Files Changed]** NEW `tests/dead-scope.test.mjs` (29 assertions),
+`CLAUDE.md` (name-binding invariant extended with the audited result),
+`docs/OPEN-ITEMS.md` (item 2's audit sub-entry replaced with the investigated
+findings). No `src/`, no `tools/`, no regenerated data — this commit adds a guard
+and a diagnosis, and changes no behaviour.
+
+**[Logic Altered]** None by design. The test asks each effect against the lens
+its own stat actually reads: `multiplierUp` against the mechanical node
+`skillType` (`ctxNode`), and `skillTypeBonus`/`amplify` — the ONLY two stats
+`resolveChainInherentContext` gates on it — against the hit's ATTRIBUTION
+(`ctxFormula`). Name-bound effects are exempt, because a name outranks the
+category beside it. Resonance MODES are resolved as a UNION: a `dmgTypes` pair is
+a branch, so an effect is dead only when no build at all can satisfy it. That
+union is what removed the one false positive my first probe produced.
+
+**"Forte" is never a scope, on EITHER lens** — the finding the maintainer
+predicted. It is not an attribution tag (the game ships exactly basic, heavy,
+liberation, intro, skill, echo), and `nodeTypeMatches` strips `forte_` off the
+NODE type, so `'forte'` is compared against `'heavy'` and fails there too. It is a
+provenance prefix on a KEY and the word for a resonator's SPECIALTY. In all four
+cases it was LIFTED FROM A SKILL'S OWN NAME — "Forte Circuit - Learn My True
+Name", "Forte Circuit Power Shift", "Forte Circuit's Sweet Dream" — the same
+cause as Luuk's "Resonance Liberation Rewritten in Winter's Margins".
+
+**The Sigrika derivation, data against description.** Both agree: all five Runic
+rows carry `dmgTypes: ["echo"]`, and her own text says it in words — "[Heavy
+Attack - Schemata of Runes] deals Echo Skill DMG", "Runic Outburst: Deal Aero DMG
+(considered Echo Skill DMG)", likewise Chain Whip and Soliskin. The game's row
+labels even spell out the project's own split: "Forte Circuit: Runic Outburst ·
+Echo" — provenance trailing, bucket stated. So the bucket is `echo`. **But
+rewriting `'forte'` to `'echo'` would be wrong:** 10 of her keys read that bucket
+where her clauses name 4, so a category rewrite widens the grant 2.5x, which is
+inflation. The scope is the NAMES. Scoping them still pays nothing today: their
+stack source is [Innate Gift?] (cap 2), gained only when Soliskin Vitality is
+high enough, and that is earned "when any nearby Resonators in the team cast Echo
+Skill" — the team-composition lane OPEN-ITEMS 2 already defers. A data-vs-text
+contradiction sits on top and is SURFACED, not resolved: ConfigDB scopes this
+clause's own ceiling (`0.6`) and the sibling DEF-ignore bullet (`0.075`) to the
+SAME 2 keys where the text names 4 — material, because her reference rotation
+casts 3 of the 4 but not Soliskin, so 2-vs-4 is 1 affected cast versus 3.
+
+**[Verification Method]** 29/29 assertions. **Verified to catch the bug it was
+built for:** reverting Luuk's name binding makes it fail naming `1510.S6.1`
+("bucket-lens skillTypeBonus scoped 'liberation' is DEAD — kit reaches
+{basic,heavy,intro,outro,skill}"). The allow-list's other half is verified too —
+an off-by-one in my first slot keys made four entries fail as "still dead — delete
+it once fixed", which is exactly the shrink-only contract working. 80/80 test
+files, sweep 70/70, lint 0 errors.
+
+**Independent confirmation of the previous commit:** ConfigDB states Luuk's scope
+as `["liberation"]`, filed under value `1.2` (= his "up to 120%" ceiling) with
+`bucket: "additive"` confirming the stat — reproducing, from the game's own data,
+the binding curated by hand from his kit text.
+
+**[Also found, and REFUSED with the measurement]** `applyBuffFacts` joins facts
+by the PER-STACK value, so a scope the game files under the CEILING is never
+applied — which is exactly how Luuk's was missed. **40 ConfigDB scopes have no
+effect joining their value, against 35 that do**, so a ceiling join looked
+attractive. Measured: exactly 2 stackable effects have a ceiling matching a
+scoped fact, BOTH already scoped (so it would change nothing today), and for
+Changli it would propose `["liberation"]` for an effect her kit scopes to her
+True Sight casts — 0.05 x 4 = 0.2 colliding with an unrelated fact. A
+value-collision heuristic that buys nothing today: not implemented.
+
+**[Residual Risks]**
+- **8 effects stay dead**, across SIX distinct causes, all allow-listed with their
+  investigated cause. The largest is **Camellya S6.0's +150% multiplier**, now
+  fully diagnosed: `[Sweet Dream]` is a named buff inside `[Budding Mode]` that
+  raises the DMG Multiplier of SEVEN named skills by 50%, so her S6 takes it to
+  200% — an ENHANCEMENT carrying Sweet Dream's own scope and state gate, not a
+  category. Both ingredients exist already (`STATE_DEFS[1603]` has Budding Mode;
+  all seven keys resolve). Taoqi S5.0 is next-cleanest (bindable to her three
+  Timed Counters keys). Neither was fixed here: six causes in one commit is how
+  the mis-framing in the previous one happened.
+- The test only sees effects the parser EMITTED. A clause dropped entirely
+  (`needsScope`) or never read is invisible to it — `effect-coverage.test.mjs`
+  owns that question.
+- It cannot see an effect scoped to a bucket the kit reads but the wrong one — a
+  scope that is wrong-but-satisfiable passes. Dead-by-arithmetic is a floor, not a
+  correctness proof.
+
+**[Updated Docs]** `CLAUDE.md`'s name-binding invariant now states that `'forte'`
+is never a scope on either lens, why rewriting it to the real bucket would widen
+rather than fix, and that auditing this requires resolving modes.
+`docs/OPEN-ITEMS.md` item 2 carries all eight findings with their causes, the
+Sigrika derivation, the unresolved ConfigDB-vs-text contradiction, and the
+refused ceiling join with its measurement.

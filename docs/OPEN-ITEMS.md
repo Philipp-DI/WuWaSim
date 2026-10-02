@@ -199,34 +199,98 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    widening, or a third slot namespace; each is its own change with its own
    blast radius, which is why neither was bolted onto this one.
 
-   → **A roster-wide audit this cause suggests, run 2026-10-02.** A bucket scope
-   no hit of the owner's kit can read is DEAD BY ARITHMETIC whatever its value,
-   which is cheap to test directly: of **40** unnamed bucket-scoped effects
-   (`skillTypeBonus`/`amplify` carrying a `skillType` and no bound `skillKeys`),
-   **7 are dead**. They are NOT all one bug and only one is confirmed.
-   → **Sigrika S + SN, `amplify` scoped `'forte'` — real and unambiguous.** The
-     game ships exactly six attribution tags (basic, heavy, liberation, intro,
-     skill, echo) and **`forte` is not one of them** — it is a provenance prefix
-     on a KEY, never a bucket, so these two can never match any hit on any
-     resonator. Both state a per-stack amplify on her NAMED Runic skills, so a
-     name binding is the likely fix, but what `forte` should resolve to depends
-     on how those Runic rows are actually tagged. Not guessed here.
-   → **Lucilla SN, `'echo'` — a FALSE POSITIVE of the audit, not a defect.** She
-     has `resonanceModes`, and her [Letting It Go] is the documented mode-branch
-     row, so her kit DOES read the echo bucket under Resonance Mode - Echo; the
-     audit passed no `resonanceMode` and fell back to `formulaType`. Any future
-     run of this check must resolve modes per build or it will keep reporting her.
-   → **Unverified, each needing its own look:** Lucilla S `'liberation'` (likely
-     Luuk's exact class — "While casting Resonance Liberation - Clear As Day" is
-     a name AND a leading trigger, which CLAUDE.md separately says is never the
-     scope); Galbrena S `'basic'` and IH `'skill'` (her Basic Attack rows really
-     are tagged `heavy`/`echo`, so "Galbrena's Basic Attack DMG" paying nothing
-     may be correct game behaviour rather than a bug — and the IH one states a
-     comma-separated list of FOUR categories that was read as one); Iuno SN
-     `'heavy'` (its text says "The **incoming** Resonator gains …" while
-     `recipient` is `undefined` and `teamWide` false, so it is scoped against
-     Iuno's own kit — but the incoming lane must be checked before calling it
-     broken).
+   → **That cause is now a TEST: `tests/dead-scope.test.mjs` (2026-10-02).** A
+   scope no hit can satisfy is dead by arithmetic whatever its value, which is
+   cheap to check directly, and nothing could see Luuk's zero before it. The test
+   asks each effect against the lens its own stat actually reads — `multiplierUp`
+   against the mechanical node `skillType`, and `skillTypeBonus`/`amplify` (the
+   only two stats gated on it) against the hit's ATTRIBUTION — exempts name-bound
+   effects, and resolves resonance MODES as a union, since a mode is a build-level
+   toggle and an effect is dead only if NO build can satisfy it. Verified to catch
+   the original: reverting Luuk's name binding makes it fail naming `1510.S6.1`.
+   Its allow-list is a contract that may only SHRINK — an entry that stops being
+   dead FAILS, so a fix must delete its entry rather than leave a stale excuse.
+   **8 dead today, across SIX distinct causes** — they are emphatically not one
+   bug, and one earlier candidate was a false positive of my own first probe:
+   → **`'forte'` is never a scope on EITHER lens, and accounts for 4 of the 8.**
+     It is not an attribution tag — the game ships exactly basic, heavy,
+     liberation, intro, skill, echo — and `nodeTypeMatches` strips `forte_` off
+     the NODE type, so `'forte'` is compared against `'heavy'` and fails there
+     too. It is a provenance prefix on a KEY and the word for a resonator's
+     SPECIALTY; it is never a kind of damage. In all four cases it was LIFTED
+     FROM A SKILL'S OWN NAME, which is the same cause as Luuk's: the game writes
+     "Forte Circuit - Learn My True Name", "Forte Circuit Power Shift", "Forte
+     Circuit's Sweet Dream", and the parser reads a category the sentence never
+     stated.
+   → **Sigrika ×2 — and the derivation, since "Forte" is not a damage type.**
+     Her named skills ARE derivable, and agree twice over: all five Runic rows
+     carry `dmgTypes: ["echo"]`, and her own text says so in words — "[Heavy
+     Attack - Schemata of Runes] deals Echo Skill DMG", "Runic Outburst: Deal
+     Aero DMG (considered Echo Skill DMG)", likewise Chain Whip and Soliskin. The
+     game's own row labels even spell out the split the project uses: "Forte
+     Circuit: Runic Outburst · Echo" — provenance trailing, bucket stated. So the
+     bucket is `echo`. **But rewriting `'forte'` to `'echo'` would be WRONG:** 10
+     of her keys read that bucket while her clauses name 4, so it widens the
+     grant 2.5x — inflation. The scope is the NAMES. Scoping them still pays
+     nothing today, because their stack source is [Innate Gift?] (cap 2), gained
+     only when Soliskin Vitality is high enough — and Soliskin Vitality is earned
+     "when any nearby Resonators in the team cast Echo Skill", i.e. the
+     team-composition lane this very item defers. **An unresolved data-vs-text
+     contradiction sits on top:** ConfigDB scopes this clause's own ceiling
+     (`0.6`) to 2 keys — `runic_outburst` + `runic_soliskin` — and scopes the
+     sibling DEF-ignore bullet (`0.075`) to the same 2, while the text names 4
+     for both. Her sibling S6.2 ALREADY ships that 2-key ConfigDB scope. Material,
+     not cosmetic: her reference rotation casts 3 of the 4 named but NOT
+     Soliskin, so 2-vs-4 is 1 affected cast versus 3. Needs in-game verification,
+     or a re-run of `extract_buff_facts.py` with id-level provenance to say
+     whether the 2-key list is the implementation or a bullet-join gap
+     (`bullet-timings.json` is gitignored, so it cannot be checked locally).
+   → **Camellya S6.0 — the largest dead value found, and fully diagnosed.**
+     "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased
+     by 150%." `[Sweet Dream]` is NOT a skill: it is a named buff inside
+     `[Budding Mode]` — "- [Sweet Dream]: Increase the DMG Multiplier of [Normal
+     Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Waltz], Basic
+     Attack [Vining Ronde], Dodge Counter [Atonement], Resonance Skill [Crimson
+     Blossom], and Resonance Skill [Floral Ravage] by 50%." So her S6 raises that
+     50% to 200%, over SEVEN named skills, gated on Budding Mode — an ENHANCEMENT
+     carrying Sweet Dream's own scope and state gate, not a category. Both
+     ingredients already exist (`STATE_DEFS[1603]` has Budding Mode; all seven
+     keys resolve). Chain-gated, so LOCK B cannot see it and `sequenceEval` is
+     the surface.
+   → **Taoqi S5.0.** "The damage of Forte Circuit Power Shift is increased by
+     50%." "Power Shift" is the FORTE CIRCUIT's own name and has no damage row;
+     the circuit's damage ships as "Timed Counters Stage 1/2/3". Confirmed by the
+     sibling clause "Forte Circuit Power Shift's Shield is increased by 40%" —
+     the only shields in her data being "Timed Counters Stage N Shield". Bindable
+     to those three keys.
+   → **Lucilla S2.0.** "While casting Resonance Liberation - Clear As Day,
+     Lucilla grants the following enhancements…" — the category belongs to the
+     leading TRIGGER, not to the grant, which states none. CLAUDE.md already has
+     that invariant; this is a case of it that reaches a dead bucket.
+   → **Galbrena ×2, genuinely ambiguous, NOT guessed.** Her Basic Attack rows are
+     tagged `heavy`/`echo`, so her kit reads no basic bucket at all and
+     "Galbrena's Basic Attack DMG" paying nothing may be correct game behaviour
+     rather than a bug — a question for in-game verification. Her IH0.0 states a
+     comma-separated list of FOUR categories ("Normal Attack, Resonance Skill,
+     Forte Circuit, Resonance Liberation") of which one survived, which is
+     effectively her whole kit read as one category.
+   → **Iuno SN1.0 — the wrong question, not a dead scope.** "The INCOMING
+     Resonator gains 50% Heavy Attack DMG Amplification for 14s", with
+     `recipient` undefined and `teamWide` false, so it is being scoped against
+     Iuno's own kit. The recipient flag is the actual defect.
+   → **Refused, with the measurement: a CEILING join in `applyBuffFacts`.** The
+     game files a scope on a value, and `applyBuffFacts` joins facts by the
+     PER-STACK value — so a scope filed under the ceiling is never applied. That
+     is exactly how Luuk's was missed: ConfigDB states his scope as `["liberation"]`
+     under value `1.2` (= "up to 120%") with `bucket: "additive"` confirming the
+     stat, independently reproducing the binding curated by hand from the kit
+     text. **40 ConfigDB scopes have no effect joining their value against 35 that
+     do**, so a ceiling join looked attractive — but measured, exactly 2
+     stackable effects have a ceiling matching a scoped fact, BOTH are already
+     scoped, so it would change nothing today, and for Changli it would propose
+     `["liberation"]` for an effect her kit scopes to her True Sight casts
+     (0.05 x 4 = 0.2 colliding with an unrelated fact). A value-collision
+     heuristic that buys nothing: refused.
 
    → **Also surfaced, unexplained:** his `sequenceEval` chain-4 row is identical
    to chain-3 both before and after this change, so S4 is worth exactly zero in
