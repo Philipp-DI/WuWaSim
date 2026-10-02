@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.6",
-  "generatedAt": "2026-10-02T07:59:03.043Z",
+  "generatedAt": "2026-10-02T08:36:10.520Z",
   "engineHash": "bd3f83cb6250d0a9e1646eef82024ac18e3e7aedb710548d728305939ebcc327",
   "erModel": "mode-based-v1",
   "characters": {
@@ -18586,7 +18586,7 @@
             1410,
             1208
           ],
-          "score": 0.859,
+          "score": 0.863,
           "roles": [
             [
               "buffer",
@@ -18618,34 +18618,34 @@
               "recommended": 1.183
             }
           },
-          "teamDamage": 1276472,
+          "teamDamage": 1281662,
           "teamTime": 29.53,
-          "teamDps": 43229,
+          "teamDps": 43404,
           "passes": [
             {
               "pass": 1,
-              "damage": 1159345,
+              "damage": 1163890,
               "time": 28.51,
-              "dps": 40670
+              "dps": 40829
             },
             {
               "pass": 2,
-              "damage": 1335036,
+              "damage": 1340547,
               "time": 30.04,
-              "dps": 44443
+              "dps": 44626
             },
             {
               "pass": 3,
-              "damage": 1335036,
+              "damage": 1340547,
               "time": 30.04,
-              "dps": 44443
+              "dps": 44626
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 142221,
-              "dps": 4816
+              "damage": 147979,
+              "dps": 5011
             },
             {
               "id": 1410,
@@ -25043,7 +25043,7 @@
             1410,
             1306
           ],
-          "score": 0.95,
+          "score": 0.953,
           "roles": [
             [
               "buffer",
@@ -25076,34 +25076,34 @@
               "recommended": 1.159
             }
           },
-          "teamDamage": 1840385,
+          "teamDamage": 1846361,
           "teamTime": 29.19,
-          "teamDps": 63059,
+          "teamDps": 63263,
           "passes": [
             {
               "pass": 1,
-              "damage": 1817767,
+              "damage": 1822523,
               "time": 28.16,
-              "dps": 64544
+              "dps": 64713
             },
             {
               "pass": 2,
-              "damage": 1851694,
+              "damage": 1858280,
               "time": 29.7,
-              "dps": 62354
+              "dps": 62576
             },
             {
               "pass": 3,
-              "damage": 1851694,
+              "damage": 1858280,
               "time": 29.7,
-              "dps": 62354
+              "dps": 62576
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 163072,
-              "dps": 5587
+              "damage": 169701,
+              "dps": 5815
             },
             {
               "id": 1410,
@@ -25137,7 +25137,7 @@
             1209,
             1306
           ],
-          "score": 0.947,
+          "score": 0.952,
           "roles": [
             [
               "buffer",
@@ -25173,34 +25173,34 @@
               "recommended": 1.181
             }
           },
-          "teamDamage": 1589593,
+          "teamDamage": 1597517,
           "teamTime": 25.29,
-          "teamDps": 62860,
+          "teamDps": 63173,
           "passes": [
             {
               "pass": 1,
-              "damage": 1537571,
+              "damage": 1542856,
               "time": 24.27,
-              "dps": 63364
+              "dps": 63582
             },
             {
               "pass": 2,
-              "damage": 1615604,
+              "damage": 1624847,
               "time": 25.8,
-              "dps": 62623
+              "dps": 62981
             },
             {
               "pass": 3,
-              "damage": 1615604,
+              "damage": 1624847,
               "time": 25.8,
-              "dps": 62623
+              "dps": 62981
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 208300,
-              "dps": 8237
+              "damage": 217051,
+              "dps": 8583
             },
             {
               "id": 1209,
@@ -25641,34 +25641,34 @@
               "recommended": 1.377
             }
           },
-          "teamDamage": 2145577,
+          "teamDamage": 2153088,
           "teamTime": 28.77,
-          "teamDps": 74570,
+          "teamDps": 74831,
           "passes": [
             {
               "pass": 1,
-              "damage": 2079078,
+              "damage": 2083833,
               "time": 27.75,
-              "dps": 74920
+              "dps": 75092
             },
             {
               "pass": 2,
-              "damage": 2178826,
+              "damage": 2187716,
               "time": 29.28,
-              "dps": 74404
+              "dps": 74707
             },
             {
               "pass": 3,
-              "damage": 2178826,
+              "damage": 2187716,
               "time": 29.28,
-              "dps": 74404
+              "dps": 74707
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 208565,
-              "dps": 7249
+              "damage": 216861,
+              "dps": 7537
             },
             {
               "id": 1209,
@@ -25702,7 +25702,7 @@
             1410,
             1511
           ],
-          "score": 0.878,
+          "score": 0.877,
           "roles": [
             [
               "buffer",
@@ -25735,34 +25735,34 @@
               "recommended": 1.309
             }
           },
-          "teamDamage": 2138983,
+          "teamDamage": 2145053,
           "teamTime": 32.67,
-          "teamDps": 65472,
+          "teamDps": 65658,
           "passes": [
             {
               "pass": 1,
-              "damage": 2096652,
+              "damage": 2100877,
               "time": 31.65,
-              "dps": 66249
+              "dps": 66383
             },
             {
               "pass": 2,
-              "damage": 2160149,
+              "damage": 2167141,
               "time": 33.18,
-              "dps": 65101
+              "dps": 65312
             },
             {
               "pass": 3,
-              "damage": 2160149,
+              "damage": 2167141,
               "time": 33.18,
-              "dps": 65101
+              "dps": 65312
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 168923,
-              "dps": 5171
+              "damage": 175675,
+              "dps": 5377
             },
             {
               "id": 1410,
@@ -25796,7 +25796,7 @@
             1410,
             1610
           ],
-          "score": 0.867,
+          "score": 0.866,
           "roles": [
             [
               "buffer",
@@ -25828,34 +25828,34 @@
               "recommended": 1.098
             }
           },
-          "teamDamage": 2040736,
+          "teamDamage": 2045617,
           "teamTime": 31.58,
-          "teamDps": 64621,
+          "teamDps": 64776,
           "passes": [
             {
               "pass": 1,
-              "damage": 1999007,
+              "damage": 2003233,
               "time": 30.56,
-              "dps": 65417
+              "dps": 65556
             },
             {
               "pass": 2,
-              "damage": 2061600,
+              "damage": 2066809,
               "time": 32.09,
-              "dps": 64242
+              "dps": 64404
             },
             {
               "pass": 3,
-              "damage": 2061600,
+              "damage": 2066809,
               "time": 32.09,
-              "dps": 64242
+              "dps": 64404
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 134636,
-              "dps": 4263
+              "damage": 140085,
+              "dps": 4436
             },
             {
               "id": 1410,
@@ -25924,34 +25924,34 @@
               "recommended": 1.145
             }
           },
-          "teamDamage": 1758088,
+          "teamDamage": 1764085,
           "teamTime": 27.68,
-          "teamDps": 63509,
+          "teamDps": 63726,
           "passes": [
             {
               "pass": 1,
-              "damage": 1689053,
+              "damage": 1693809,
               "time": 26.66,
-              "dps": 63355
+              "dps": 63533
             },
             {
               "pass": 2,
-              "damage": 1792605,
+              "damage": 1799224,
               "time": 28.19,
-              "dps": 63582
+              "dps": 63817
             },
             {
               "pass": 3,
-              "damage": 1792605,
+              "damage": 1799224,
               "time": 28.19,
-              "dps": 63582
+              "dps": 63817
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 164893,
-              "dps": 5957
+              "damage": 171544,
+              "dps": 6197
             },
             {
               "id": 1209,
@@ -25985,7 +25985,7 @@
             1410,
             1306
           ],
-          "score": 0.846,
+          "score": 0.845,
           "roles": [
             [
               "buffer",
@@ -26018,34 +26018,34 @@
               "recommended": 1.159
             }
           },
-          "teamDamage": 1840385,
+          "teamDamage": 1846361,
           "teamTime": 29.19,
-          "teamDps": 63059,
+          "teamDps": 63263,
           "passes": [
             {
               "pass": 1,
-              "damage": 1817767,
+              "damage": 1822523,
               "time": 28.16,
-              "dps": 64544
+              "dps": 64713
             },
             {
               "pass": 2,
-              "damage": 1851694,
+              "damage": 1858280,
               "time": 29.7,
-              "dps": 62354
+              "dps": 62576
             },
             {
               "pass": 3,
-              "damage": 1851694,
+              "damage": 1858280,
               "time": 29.7,
-              "dps": 62354
+              "dps": 62576
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 163072,
-              "dps": 5587
+              "damage": 169701,
+              "dps": 5815
             },
             {
               "id": 1410,
@@ -26079,7 +26079,7 @@
             1209,
             1306
           ],
-          "score": 0.843,
+          "score": 0.844,
           "roles": [
             [
               "buffer",
@@ -26115,34 +26115,34 @@
               "recommended": 1.181
             }
           },
-          "teamDamage": 1589593,
+          "teamDamage": 1597517,
           "teamTime": 25.29,
-          "teamDps": 62860,
+          "teamDps": 63173,
           "passes": [
             {
               "pass": 1,
-              "damage": 1537571,
+              "damage": 1542856,
               "time": 24.27,
-              "dps": 63364
+              "dps": 63582
             },
             {
               "pass": 2,
-              "damage": 1615604,
+              "damage": 1624847,
               "time": 25.8,
-              "dps": 62623
+              "dps": 62981
             },
             {
               "pass": 3,
-              "damage": 1615604,
+              "damage": 1624847,
               "time": 25.8,
-              "dps": 62623
+              "dps": 62981
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 208300,
-              "dps": 8237
+              "damage": 217051,
+              "dps": 8583
             },
             {
               "id": 1209,
@@ -26209,34 +26209,34 @@
               "recommended": 1.172
             }
           },
-          "teamDamage": 1554721,
+          "teamDamage": 1560044,
           "teamTime": 26.45,
-          "teamDps": 58786,
+          "teamDps": 58988,
           "passes": [
             {
               "pass": 1,
-              "damage": 1532036,
+              "damage": 1536792,
               "time": 25.42,
-              "dps": 60258
+              "dps": 60445
             },
             {
               "pass": 2,
-              "damage": 1566063,
+              "damage": 1571671,
               "time": 26.96,
-              "dps": 58093
+              "dps": 58301
             },
             {
               "pass": 3,
-              "damage": 1566063,
+              "damage": 1571671,
               "time": 26.96,
-              "dps": 58093
+              "dps": 58301
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 146412,
-              "dps": 5536
+              "damage": 152304,
+              "dps": 5759
             },
             {
               "id": 1410,
@@ -26270,7 +26270,7 @@
             1607,
             1610
           ],
-          "score": 0.774,
+          "score": 0.773,
           "roles": [
             [
               "buffer",
@@ -26302,34 +26302,34 @@
               "recommended": 1.102
             }
           },
-          "teamDamage": 1839627,
+          "teamDamage": 1844508,
           "teamTime": 31.88,
-          "teamDps": 57705,
+          "teamDps": 57858,
           "passes": [
             {
               "pass": 1,
-              "damage": 1782793,
+              "damage": 1787019,
               "time": 30.86,
-              "dps": 57775
+              "dps": 57912
             },
             {
               "pass": 2,
-              "damage": 1868044,
+              "damage": 1873253,
               "time": 32.39,
-              "dps": 57672
+              "dps": 57833
             },
             {
               "pass": 3,
-              "damage": 1868044,
+              "damage": 1873253,
               "time": 32.39,
-              "dps": 57672
+              "dps": 57833
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 134636,
-              "dps": 4223
+              "damage": 140085,
+              "dps": 4394
             },
             {
               "id": 1607,
@@ -28055,7 +28055,7 @@
             1410,
             1404
           ],
-          "score": 0.915,
+          "score": 0.918,
           "roles": [
             [
               "buffer",
@@ -28088,34 +28088,34 @@
               "recommended": 1.172
             }
           },
-          "teamDamage": 1554721,
+          "teamDamage": 1560044,
           "teamTime": 26.45,
-          "teamDps": 58786,
+          "teamDps": 58988,
           "passes": [
             {
               "pass": 1,
-              "damage": 1532036,
+              "damage": 1536792,
               "time": 25.42,
-              "dps": 60258
+              "dps": 60445
             },
             {
               "pass": 2,
-              "damage": 1566063,
+              "damage": 1571671,
               "time": 26.96,
-              "dps": 58093
+              "dps": 58301
             },
             {
               "pass": 3,
-              "damage": 1566063,
+              "damage": 1571671,
               "time": 26.96,
-              "dps": 58093
+              "dps": 58301
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 146412,
-              "dps": 5536
+              "damage": 152304,
+              "dps": 5759
             },
             {
               "id": 1410,
@@ -28238,6 +28238,104 @@
         },
         {
           "members": [
+            1308,
+            1209,
+            1404
+          ],
+          "score": 0.854,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer",
+              "tb_rupture",
+              "tb_shifter",
+              "tb_strain"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Tune Break Boost feeds Mornye's Tune Strain Response",
+          "modes": {},
+          "erOverride": {
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1308": {
+              "minViable": 1.194,
+              "recommended": 1.194
+            },
+            "1404": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 1237122,
+          "teamTime": 22.55,
+          "teamDps": 54863,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 1194247,
+              "time": 21.53,
+              "dps": 55476
+            },
+            {
+              "pass": 2,
+              "damage": 1258560,
+              "time": 23.06,
+              "dps": 54576
+            },
+            {
+              "pass": 3,
+              "damage": 1258560,
+              "time": 23.06,
+              "dps": 54576
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 186064,
+              "dps": 8251
+            },
+            {
+              "id": 1209,
+              "damage": 132419,
+              "dps": 5872
+            },
+            {
+              "id": 1404,
+              "damage": 957227,
+              "dps": 42450
+            }
+          ],
+          "opener": {
+            "1209": {
+              "shortfalls": 2,
+              "requiredEr": 1.801
+            },
+            "1308": {
+              "shortfalls": 2,
+              "requiredEr": 1.195
+            },
+            "1404": {
+              "shortfalls": 8,
+              "requiredEr": 11.161
+            }
+          }
+        },
+        {
+          "members": [
             1109,
             1410,
             1404
@@ -28323,104 +28421,6 @@
             "1410": {
               "shortfalls": 2,
               "requiredEr": 1.17
-            }
-          }
-        },
-        {
-          "members": [
-            1308,
-            1209,
-            1404
-          ],
-          "score": 0.849,
-          "roles": [
-            [
-              "buffer",
-              "tb_boost"
-            ],
-            [
-              "healer",
-              "buffer",
-              "tb_rupture",
-              "tb_shifter",
-              "tb_strain"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Rebecca's Tune Break Boost feeds Mornye's Tune Strain Response",
-          "modes": {},
-          "erOverride": {
-            "1209": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1308": {
-              "minViable": 1.194,
-              "recommended": 1.194
-            },
-            "1404": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            }
-          },
-          "teamDamage": 1230555,
-          "teamTime": 22.55,
-          "teamDps": 54572,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 1188962,
-              "time": 21.53,
-              "dps": 55231
-            },
-            {
-              "pass": 2,
-              "damage": 1251351,
-              "time": 23.06,
-              "dps": 54264
-            },
-            {
-              "pass": 3,
-              "damage": 1251351,
-              "time": 23.06,
-              "dps": 54264
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1308,
-              "damage": 178842,
-              "dps": 7931
-            },
-            {
-              "id": 1209,
-              "damage": 132419,
-              "dps": 5872
-            },
-            {
-              "id": 1404,
-              "damage": 957227,
-              "dps": 42450
-            }
-          ],
-          "opener": {
-            "1209": {
-              "shortfalls": 2,
-              "requiredEr": 1.801
-            },
-            "1308": {
-              "shortfalls": 2,
-              "requiredEr": 1.195
-            },
-            "1404": {
-              "shortfalls": 8,
-              "requiredEr": 11.161
             }
           }
         },
@@ -31624,7 +31624,7 @@
             1410,
             1511
           ],
-          "score": 0.982,
+          "score": 0.985,
           "roles": [
             [
               "buffer",
@@ -31657,34 +31657,34 @@
               "recommended": 1.309
             }
           },
-          "teamDamage": 2138983,
+          "teamDamage": 2145053,
           "teamTime": 32.67,
-          "teamDps": 65472,
+          "teamDps": 65658,
           "passes": [
             {
               "pass": 1,
-              "damage": 2096652,
+              "damage": 2100877,
               "time": 31.65,
-              "dps": 66249
+              "dps": 66383
             },
             {
               "pass": 2,
-              "damage": 2160149,
+              "damage": 2167141,
               "time": 33.18,
-              "dps": 65101
+              "dps": 65312
             },
             {
               "pass": 3,
-              "damage": 2160149,
+              "damage": 2167141,
               "time": 33.18,
-              "dps": 65101
+              "dps": 65312
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 168923,
-              "dps": 5171
+              "damage": 175675,
+              "dps": 5377
             },
             {
               "id": 1410,
@@ -31718,7 +31718,7 @@
             1410,
             1610
           ],
-          "score": 0.969,
+          "score": 0.972,
           "roles": [
             [
               "buffer",
@@ -31750,34 +31750,34 @@
               "recommended": 1.098
             }
           },
-          "teamDamage": 2040736,
+          "teamDamage": 2045617,
           "teamTime": 31.58,
-          "teamDps": 64621,
+          "teamDps": 64776,
           "passes": [
             {
               "pass": 1,
-              "damage": 1999007,
+              "damage": 2003233,
               "time": 30.56,
-              "dps": 65417
+              "dps": 65556
             },
             {
               "pass": 2,
-              "damage": 2061600,
+              "damage": 2066809,
               "time": 32.09,
-              "dps": 64242
+              "dps": 64404
             },
             {
               "pass": 3,
-              "damage": 2061600,
+              "damage": 2066809,
               "time": 32.09,
-              "dps": 64242
+              "dps": 64404
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 134636,
-              "dps": 4263
+              "damage": 140085,
+              "dps": 4436
             },
             {
               "id": 1410,
@@ -31904,7 +31904,7 @@
             1410,
             1306
           ],
-          "score": 0.946,
+          "score": 0.949,
           "roles": [
             [
               "buffer",
@@ -31937,34 +31937,34 @@
               "recommended": 1.159
             }
           },
-          "teamDamage": 1840385,
+          "teamDamage": 1846361,
           "teamTime": 29.19,
-          "teamDps": 63059,
+          "teamDps": 63263,
           "passes": [
             {
               "pass": 1,
-              "damage": 1817767,
+              "damage": 1822523,
               "time": 28.16,
-              "dps": 64544
+              "dps": 64713
             },
             {
               "pass": 2,
-              "damage": 1851694,
+              "damage": 1858280,
               "time": 29.7,
-              "dps": 62354
+              "dps": 62576
             },
             {
               "pass": 3,
-              "damage": 1851694,
+              "damage": 1858280,
               "time": 29.7,
-              "dps": 62354
+              "dps": 62576
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 163072,
-              "dps": 5587
+              "damage": 169701,
+              "dps": 5815
             },
             {
               "id": 1410,
@@ -32185,7 +32185,7 @@
             1410,
             1404
           ],
-          "score": 0.882,
+          "score": 0.885,
           "roles": [
             [
               "buffer",
@@ -32218,34 +32218,34 @@
               "recommended": 1.172
             }
           },
-          "teamDamage": 1554721,
+          "teamDamage": 1560044,
           "teamTime": 26.45,
-          "teamDps": 58786,
+          "teamDps": 58988,
           "passes": [
             {
               "pass": 1,
-              "damage": 1532036,
+              "damage": 1536792,
               "time": 25.42,
-              "dps": 60258
+              "dps": 60445
             },
             {
               "pass": 2,
-              "damage": 1566063,
+              "damage": 1571671,
               "time": 26.96,
-              "dps": 58093
+              "dps": 58301
             },
             {
               "pass": 3,
-              "damage": 1566063,
+              "damage": 1571671,
               "time": 26.96,
-              "dps": 58093
+              "dps": 58301
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 146412,
-              "dps": 5536
+              "damage": 152304,
+              "dps": 5759
             },
             {
               "id": 1410,
@@ -36194,7 +36194,7 @@
             1209,
             1507
           ],
-          "score": 0.794,
+          "score": 0.797,
           "roles": [
             [
               "buffer",
@@ -36231,34 +36231,34 @@
               "recommended": 1.75
             }
           },
-          "teamDamage": 1293888,
+          "teamDamage": 1299773,
           "teamTime": 28.54,
-          "teamDps": 45337,
+          "teamDps": 45543,
           "passes": [
             {
               "pass": 1,
-              "damage": 1255289,
+              "damage": 1260044,
               "time": 27.52,
-              "dps": 45619
+              "dps": 45791
             },
             {
               "pass": 2,
-              "damage": 1312131,
+              "damage": 1318580,
               "time": 29.05,
-              "dps": 45168
+              "dps": 45390
             },
             {
               "pass": 3,
-              "damage": 1314245,
+              "damage": 1320694,
               "time": 29.05,
-              "dps": 45240
+              "dps": 45462
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 155592,
-              "dps": 5452
+              "damage": 162130,
+              "dps": 5681
             },
             {
               "id": 1209,
@@ -36292,7 +36292,7 @@
             1410,
             1507
           ],
-          "score": 0.782,
+          "score": 0.785,
           "roles": [
             [
               "buffer",
@@ -36325,34 +36325,34 @@
               "recommended": 1.641
             }
           },
-          "teamDamage": 1450096,
+          "teamDamage": 1454890,
           "teamTime": 32.44,
-          "teamDps": 44705,
+          "teamDps": 44853,
           "passes": [
             {
               "pass": 1,
-              "damage": 1421890,
+              "damage": 1426116,
               "time": 31.41,
-              "dps": 45262
+              "dps": 45397
             },
             {
               "pass": 2,
-              "damage": 1463748,
+              "damage": 1468826,
               "time": 32.95,
-              "dps": 44426
+              "dps": 44580
             },
             {
               "pass": 3,
-              "damage": 1464649,
+              "damage": 1469727,
               "time": 32.95,
-              "dps": 44454
+              "dps": 44608
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 132199,
-              "dps": 4076
+              "damage": 137561,
+              "dps": 4241
             },
             {
               "id": 1410,
@@ -39119,34 +39119,34 @@
               "recommended": 1.377
             }
           },
-          "teamDamage": 2145577,
+          "teamDamage": 2153088,
           "teamTime": 28.77,
-          "teamDps": 74570,
+          "teamDps": 74831,
           "passes": [
             {
               "pass": 1,
-              "damage": 2079078,
+              "damage": 2083833,
               "time": 27.75,
-              "dps": 74920
+              "dps": 75092
             },
             {
               "pass": 2,
-              "damage": 2178826,
+              "damage": 2187716,
               "time": 29.28,
-              "dps": 74404
+              "dps": 74707
             },
             {
               "pass": 3,
-              "damage": 2178826,
+              "damage": 2187716,
               "time": 29.28,
-              "dps": 74404
+              "dps": 74707
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 208565,
-              "dps": 7249
+              "damage": 216861,
+              "dps": 7537
             },
             {
               "id": 1209,
@@ -39180,7 +39180,7 @@
             1410,
             1511
           ],
-          "score": 0.878,
+          "score": 0.877,
           "roles": [
             [
               "buffer",
@@ -39213,34 +39213,34 @@
               "recommended": 1.309
             }
           },
-          "teamDamage": 2138983,
+          "teamDamage": 2145053,
           "teamTime": 32.67,
-          "teamDps": 65472,
+          "teamDps": 65658,
           "passes": [
             {
               "pass": 1,
-              "damage": 2096652,
+              "damage": 2100877,
               "time": 31.65,
-              "dps": 66249
+              "dps": 66383
             },
             {
               "pass": 2,
-              "damage": 2160149,
+              "damage": 2167141,
               "time": 33.18,
-              "dps": 65101
+              "dps": 65312
             },
             {
               "pass": 3,
-              "damage": 2160149,
+              "damage": 2167141,
               "time": 33.18,
-              "dps": 65101
+              "dps": 65312
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 168923,
-              "dps": 5171
+              "damage": 175675,
+              "dps": 5377
             },
             {
               "id": 1410,
@@ -39274,7 +39274,7 @@
             1410,
             1511
           ],
-          "score": 0.873,
+          "score": 0.87,
           "roles": [
             [
               "healer",
@@ -39368,7 +39368,7 @@
             1410,
             1511
           ],
-          "score": 0.857,
+          "score": 0.854,
           "roles": [
             [
               "buffer"
@@ -39461,7 +39461,7 @@
             1410,
             1511
           ],
-          "score": 0.786,
+          "score": 0.783,
           "roles": [
             [
               "buffer"
@@ -39554,7 +39554,7 @@
             1410,
             1511
           ],
-          "score": 0.777,
+          "score": 0.774,
           "roles": [
             [
               "buffer"
@@ -39647,7 +39647,7 @@
             1507,
             1511
           ],
-          "score": 0.766,
+          "score": 0.764,
           "roles": [
             [
               "healer",
@@ -39741,7 +39741,7 @@
             1204,
             1511
           ],
-          "score": 0.764,
+          "score": 0.761,
           "roles": [
             [
               "healer",
@@ -45152,7 +45152,7 @@
             1410,
             1610
           ],
-          "score": 0.969,
+          "score": 0.972,
           "roles": [
             [
               "buffer",
@@ -45184,34 +45184,34 @@
               "recommended": 1.098
             }
           },
-          "teamDamage": 2040736,
+          "teamDamage": 2045617,
           "teamTime": 31.58,
-          "teamDps": 64621,
+          "teamDps": 64776,
           "passes": [
             {
               "pass": 1,
-              "damage": 1999007,
+              "damage": 2003233,
               "time": 30.56,
-              "dps": 65417
+              "dps": 65556
             },
             {
               "pass": 2,
-              "damage": 2061600,
+              "damage": 2066809,
               "time": 32.09,
-              "dps": 64242
+              "dps": 64404
             },
             {
               "pass": 3,
-              "damage": 2061600,
+              "damage": 2066809,
               "time": 32.09,
-              "dps": 64242
+              "dps": 64404
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 134636,
-              "dps": 4263
+              "damage": 140085,
+              "dps": 4436
             },
             {
               "id": 1410,
@@ -45245,7 +45245,7 @@
             1209,
             1610
           ],
-          "score": 0.953,
+          "score": 0.956,
           "roles": [
             [
               "buffer",
@@ -45280,34 +45280,34 @@
               "recommended": 1.145
             }
           },
-          "teamDamage": 1758088,
+          "teamDamage": 1764085,
           "teamTime": 27.68,
-          "teamDps": 63509,
+          "teamDps": 63726,
           "passes": [
             {
               "pass": 1,
-              "damage": 1689053,
+              "damage": 1693809,
               "time": 26.66,
-              "dps": 63355
+              "dps": 63533
             },
             {
               "pass": 2,
-              "damage": 1792605,
+              "damage": 1799224,
               "time": 28.19,
-              "dps": 63582
+              "dps": 63817
             },
             {
               "pass": 3,
-              "damage": 1792605,
+              "damage": 1799224,
               "time": 28.19,
-              "dps": 63582
+              "dps": 63817
             }
           ],
           "perMember": [
             {
               "id": 1308,
-              "damage": 164893,
-              "dps": 5957
+              "damage": 171544,
+              "dps": 6197
             },
             {
               "id": 1209,
@@ -45768,7 +45768,7 @@
             1410,
             1511
           ],
-          "score": 0.777
+          "score": 0.774
         },
         {
           "anchor": 1604,
@@ -46123,7 +46123,7 @@
             1410,
             1511
           ],
-          "score": 0.786
+          "score": 0.783
         },
         {
           "anchor": 1601,
@@ -46746,7 +46746,7 @@
             1410,
             1511
           ],
-          "score": 0.873
+          "score": 0.87
         },
         {
           "anchor": 1511,
@@ -46755,7 +46755,7 @@
             1204,
             1511
           ],
-          "score": 0.764
+          "score": 0.761
         },
         {
           "anchor": 1602,
@@ -47982,7 +47982,7 @@
             1410,
             1511
           ],
-          "score": 0.857
+          "score": 0.854
         },
         {
           "anchor": 1511,
@@ -47991,7 +47991,7 @@
             1204,
             1511
           ],
-          "score": 0.764
+          "score": 0.761
         },
         {
           "anchor": 1604,
@@ -48910,7 +48910,7 @@
             1209,
             1306
           ],
-          "score": 0.947
+          "score": 0.952
         },
         {
           "anchor": 1308,
@@ -48937,7 +48937,7 @@
             1209,
             1306
           ],
-          "score": 0.843
+          "score": 0.844
         },
         {
           "anchor": 1402,
@@ -48982,7 +48982,7 @@
             1209,
             1404
           ],
-          "score": 0.849
+          "score": 0.854
         },
         {
           "anchor": 1407,
@@ -49027,7 +49027,7 @@
             1209,
             1507
           ],
-          "score": 0.794
+          "score": 0.797
         },
         {
           "anchor": 1507,
@@ -49162,7 +49162,7 @@
             1209,
             1610
           ],
-          "score": 0.953
+          "score": 0.956
         }
       ],
       "1210": [
@@ -49939,7 +49939,7 @@
             1410,
             1306
           ],
-          "score": 0.846
+          "score": 0.845
         },
         {
           "anchor": 1308,
@@ -49948,7 +49948,7 @@
             1209,
             1306
           ],
-          "score": 0.843
+          "score": 0.844
         },
         {
           "anchor": 1410,
@@ -49957,7 +49957,7 @@
             1410,
             1306
           ],
-          "score": 0.946
+          "score": 0.949
         },
         {
           "anchor": 1410,
@@ -50177,7 +50177,7 @@
             1410,
             1208
           ],
-          "score": 0.859
+          "score": 0.863
         },
         {
           "anchor": 1306,
@@ -50186,7 +50186,7 @@
             1410,
             1306
           ],
-          "score": 0.95
+          "score": 0.953
         },
         {
           "anchor": 1306,
@@ -50195,7 +50195,7 @@
             1209,
             1306
           ],
-          "score": 0.947
+          "score": 0.952
         },
         {
           "anchor": 1404,
@@ -50204,7 +50204,7 @@
             1410,
             1404
           ],
-          "score": 0.915
+          "score": 0.918
         },
         {
           "anchor": 1404,
@@ -50213,7 +50213,7 @@
             1209,
             1404
           ],
-          "score": 0.849
+          "score": 0.854
         },
         {
           "anchor": 1410,
@@ -50222,7 +50222,7 @@
             1410,
             1511
           ],
-          "score": 0.982
+          "score": 0.985
         },
         {
           "anchor": 1410,
@@ -50231,7 +50231,7 @@
             1410,
             1610
           ],
-          "score": 0.969
+          "score": 0.972
         },
         {
           "anchor": 1410,
@@ -50240,7 +50240,7 @@
             1410,
             1306
           ],
-          "score": 0.946
+          "score": 0.949
         },
         {
           "anchor": 1410,
@@ -50249,7 +50249,7 @@
             1410,
             1404
           ],
-          "score": 0.882
+          "score": 0.885
         },
         {
           "anchor": 1507,
@@ -50258,7 +50258,7 @@
             1209,
             1507
           ],
-          "score": 0.794
+          "score": 0.797
         },
         {
           "anchor": 1507,
@@ -50267,7 +50267,7 @@
             1410,
             1507
           ],
-          "score": 0.782
+          "score": 0.785
         },
         {
           "anchor": 1511,
@@ -50285,7 +50285,7 @@
             1410,
             1511
           ],
-          "score": 0.878
+          "score": 0.877
         },
         {
           "anchor": 1610,
@@ -50294,7 +50294,7 @@
             1410,
             1610
           ],
-          "score": 0.969
+          "score": 0.972
         },
         {
           "anchor": 1610,
@@ -50303,7 +50303,7 @@
             1209,
             1610
           ],
-          "score": 0.953
+          "score": 0.956
         }
       ],
       "1403": [
@@ -50505,7 +50505,7 @@
             1410,
             1404
           ],
-          "score": 0.882
+          "score": 0.885
         }
       ],
       "1405": [
@@ -50810,7 +50810,7 @@
             1410,
             1208
           ],
-          "score": 0.859
+          "score": 0.863
         },
         {
           "anchor": 1301,
@@ -50846,7 +50846,7 @@
             1410,
             1306
           ],
-          "score": 0.95
+          "score": 0.953
         },
         {
           "anchor": 1306,
@@ -50882,7 +50882,7 @@
             1410,
             1511
           ],
-          "score": 0.878
+          "score": 0.877
         },
         {
           "anchor": 1308,
@@ -50891,7 +50891,7 @@
             1410,
             1610
           ],
-          "score": 0.867
+          "score": 0.866
         },
         {
           "anchor": 1308,
@@ -50900,7 +50900,7 @@
             1410,
             1306
           ],
-          "score": 0.846
+          "score": 0.845
         },
         {
           "anchor": 1308,
@@ -50945,7 +50945,7 @@
             1410,
             1404
           ],
-          "score": 0.915
+          "score": 0.918
         },
         {
           "anchor": 1404,
@@ -51053,7 +51053,7 @@
             1410,
             1507
           ],
-          "score": 0.782
+          "score": 0.785
         },
         {
           "anchor": 1507,
@@ -51071,7 +51071,7 @@
             1410,
             1511
           ],
-          "score": 0.878
+          "score": 0.877
         },
         {
           "anchor": 1511,
@@ -51080,7 +51080,7 @@
             1410,
             1511
           ],
-          "score": 0.873
+          "score": 0.87
         },
         {
           "anchor": 1511,
@@ -51089,7 +51089,7 @@
             1410,
             1511
           ],
-          "score": 0.857
+          "score": 0.854
         },
         {
           "anchor": 1511,
@@ -51098,7 +51098,7 @@
             1410,
             1511
           ],
-          "score": 0.786
+          "score": 0.783
         },
         {
           "anchor": 1511,
@@ -51107,7 +51107,7 @@
             1410,
             1511
           ],
-          "score": 0.777
+          "score": 0.774
         },
         {
           "anchor": 1511,
@@ -51116,7 +51116,7 @@
             1507,
             1511
           ],
-          "score": 0.766
+          "score": 0.764
         },
         {
           "anchor": 1602,
@@ -51197,7 +51197,7 @@
             1410,
             1610
           ],
-          "score": 0.969
+          "score": 0.972
         }
       ],
       "1411": [
@@ -51542,7 +51542,7 @@
             1507,
             1511
           ],
-          "score": 0.766
+          "score": 0.764
         }
       ],
       "1508": [
@@ -52144,7 +52144,7 @@
             1410,
             1511
           ],
-          "score": 0.878
+          "score": 0.877
         },
         {
           "anchor": 1410,
@@ -52153,7 +52153,7 @@
             1410,
             1511
           ],
-          "score": 0.982
+          "score": 0.985
         },
         {
           "anchor": 1410,
@@ -52714,7 +52714,7 @@
             1607,
             1610
           ],
-          "score": 0.774
+          "score": 0.773
         },
         {
           "anchor": 1412,
@@ -53069,7 +53069,7 @@
             1410,
             1610
           ],
-          "score": 0.867
+          "score": 0.866
         },
         {
           "anchor": 1308,
@@ -53087,7 +53087,7 @@
             1607,
             1610
           ],
-          "score": 0.774
+          "score": 0.773
         },
         {
           "anchor": 1410,
@@ -53105,7 +53105,7 @@
             1410,
             1610
           ],
-          "score": 0.969
+          "score": 0.972
         },
         {
           "anchor": 1601,
@@ -83187,57 +83187,57 @@
         1511
       ],
       "baseline": {
-        "teamDamage": 2145577,
-        "ownDamage": 208565
+        "teamDamage": 2153088,
+        "ownDamage": 216861
       },
       "nodes": [
         {
           "chain": 1,
-          "teamDamage": 2167377,
-          "ownDamage": 230366,
-          "teamGain": 0.0102,
-          "ownGain": 0.1045
+          "teamDamage": 2176396,
+          "ownDamage": 240169,
+          "teamGain": 0.0108,
+          "ownGain": 0.1075
         },
         {
           "chain": 2,
-          "teamDamage": 2345918,
-          "ownDamage": 238009,
-          "teamGain": 0.0934,
-          "ownGain": 0.1412
+          "teamDamage": 2354937,
+          "ownDamage": 247812,
+          "teamGain": 0.0937,
+          "ownGain": 0.1427
         },
         {
           "chain": 3,
-          "teamDamage": 2403928,
-          "ownDamage": 296019,
-          "teamGain": 0.1204,
-          "ownGain": 0.4193
+          "teamDamage": 2412947,
+          "ownDamage": 305822,
+          "teamGain": 0.1207,
+          "ownGain": 0.4102
         },
         {
           "chain": 4,
-          "teamDamage": 2403928,
-          "ownDamage": 296019,
-          "teamGain": 0.1204,
-          "ownGain": 0.4193
+          "teamDamage": 2412947,
+          "ownDamage": 305822,
+          "teamGain": 0.1207,
+          "ownGain": 0.4102
         },
         {
           "chain": 5,
-          "teamDamage": 2423855,
-          "ownDamage": 315946,
-          "teamGain": 0.1297,
-          "ownGain": 0.5149
+          "teamDamage": 2433389,
+          "ownDamage": 326264,
+          "teamGain": 0.1302,
+          "ownGain": 0.5045
         },
         {
           "chain": 6,
-          "teamDamage": 2423855,
-          "ownDamage": 315946,
-          "teamGain": 0.1297,
-          "ownGain": 0.5149
+          "teamDamage": 2433389,
+          "ownDamage": 326264,
+          "teamGain": 0.1302,
+          "ownGain": 0.5045
         }
       ],
-      "fullChain": 0.5149,
+      "fullChain": 0.5045,
       "bestNode": {
         "chain": 3,
-        "step": 0.2781
+        "step": 0.2675
       }
     },
     "1402": {
@@ -84267,50 +84267,50 @@
         1511
       ],
       "baseline": {
-        "teamDamage": 2145577,
+        "teamDamage": 2153088,
         "ownDamage": 1849110
       },
       "nodes": [
         {
           "chain": 1,
-          "teamDamage": 2324626,
+          "teamDamage": 2332137,
           "ownDamage": 2028159,
-          "teamGain": 0.0835,
+          "teamGain": 0.0832,
           "ownGain": 0.0968
         },
         {
           "chain": 2,
-          "teamDamage": 2324626,
+          "teamDamage": 2332137,
           "ownDamage": 2028159,
-          "teamGain": 0.0835,
+          "teamGain": 0.0832,
           "ownGain": 0.0968
         },
         {
           "chain": 3,
-          "teamDamage": 2650671,
+          "teamDamage": 2658183,
           "ownDamage": 2354204,
-          "teamGain": 0.2354,
+          "teamGain": 0.2346,
           "ownGain": 0.2732
         },
         {
           "chain": 4,
-          "teamDamage": 2678693,
+          "teamDamage": 2686823,
           "ownDamage": 2354204,
-          "teamGain": 0.2485,
+          "teamGain": 0.2479,
           "ownGain": 0.2732
         },
         {
           "chain": 5,
-          "teamDamage": 2678693,
+          "teamDamage": 2686823,
           "ownDamage": 2354204,
-          "teamGain": 0.2485,
+          "teamGain": 0.2479,
           "ownGain": 0.2732
         },
         {
           "chain": 6,
-          "teamDamage": 2678693,
+          "teamDamage": 2686823,
           "ownDamage": 2354204,
-          "teamGain": 0.2485,
+          "teamGain": 0.2479,
           "ownGain": 0.2732
         }
       ],

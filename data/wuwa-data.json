@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-10-02T07:58:50.237Z",
+  "generatedAt": "2026-10-02T08:34:32.111Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -12443,20 +12443,42 @@
               "teamWide": false,
               "condition": "- The [Huntress] mode increases Rebecca's Crit. DMG by 30%.",
               "conditionKind": "unconditional",
-              "structuralTrigger": null,
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "huntress mode"
+              },
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "castMatch",
-                "skillKeys": [
-                  "forte_heavy_hack_response_meltdown",
-                  "forte_heavy_rat_tat_tat_huntress",
-                  "forte_heavy_bang_bang_bang_guts"
-                ]
+                "type": "stateEnter",
+                "state": "huntress mode"
               },
               "window": {
-                "type": "seconds",
-                "seconds": 12
+                "type": "stateBound",
+                "state": "huntress mode"
+              }
+            },
+            {
+              "stat": "defIgnore",
+              "value": 0.15,
+              "element": null,
+              "skillType": null,
+              "teamWide": false,
+              "condition": "- The [Guts] mode allows Rebecca to ignore 15% of the target's DEF.",
+              "conditionKind": "unconditional",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "guts mode"
+              },
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "guts mode"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "guts mode"
               }
             }
           ]

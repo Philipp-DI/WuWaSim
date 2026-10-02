@@ -423,8 +423,14 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
 // across 9 resonators and every one was missing damage — at level 90 vs 90 a
 // 15% DEF ignore is x1.081 and Ciaccona S4's 45% is x1.290.
 {
+    // `skillNodeEffects` joined this walk 2026-10-02: the guard below existed to
+    // catch an unsafe DEF ignore and could not see one of the three lanes that
+    // produces them — found when Rebecca's Guts stance bonus became the first
+    // one to land there. It is safe (state-gated), but the guard has to be able
+    // to say so rather than simply not look.
     const ignoreEffects = d.resonators.flatMap(resonator =>
-        [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? [])]
+        [...(resonator.resonanceChain ?? []), ...(resonator.inherentSkills ?? []),
+            ...(resonator.skillNodeEffects ?? [])]
             .flatMap(node => (node.effects ?? [])
                 .filter(effect => effect.stat === 'defIgnore' || effect.stat === 'resReduce')
                 .map(effect => ({ resonator, effect }))));
@@ -444,9 +450,32 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
     assert(`no always-on defIgnore is unscoped (got ${unscopedAlwaysOn.length})`,
         unscopedAlwaysOn.length === 0);
 
-    // Every survivor earned its place: a bound skill scope, or a team-wide grant.
-    assert('every surviving grant is scoped or team-wide',
-        ignoreEffects.every(({ effect }) => effect.skillKeys?.length || effect.teamWide));
+    // Every survivor earned its place: a bound skill scope, a team-wide grant,
+    // or a STATE that gates it. The third was added 2026-10-02 alongside the
+    // same widening in skill-scope.mjs — a state gate answers the ALWAYS-ON half
+    // of the danger exactly (the effect fires only inside a modelled,
+    // entered-and-exited window), which is what the guard above tests for.
+    const stateGated = (effect) => effect.window?.type === 'stateBound' && !!effect.window?.state;
+    assert('every surviving grant is scoped, team-wide, or state-gated',
+        ignoreEffects.every(({ effect }) => effect.skillKeys?.length || effect.teamWide || stateGated(effect)));
+
+    // Rebecca's pair is the worked case for the state-gated route, and the two
+    // halves must stay MUTUALLY EXCLUSIVE — her kit gives Huntress the Crit. DMG
+    // and Guts the DEF ignore, so a build can never hold both from the stances
+    // themselves (her "A Girl Gets What She Wants!" window, which grants both at
+    // once for 12s, is a separate mechanic and deliberately unmodelled).
+    const rebecca = d.resonators.find(resonator => resonator.id === 1308);
+    const stanceEffects = (rebecca?.skillNodeEffects ?? []).flatMap(node => node.effects ?? [])
+        .filter(effect => effect.window?.type === 'stateBound');
+    const byState = new Map(stanceEffects.map(effect => [effect.window.state, effect]));
+    assert('Rebecca\'s Huntress stance grants Crit. DMG, gated on that state',
+        byState.get('huntress mode')?.stat === 'critDmg'
+        && Math.abs(byState.get('huntress mode')?.value - 0.30) < 1e-9);
+    assert('Rebecca\'s Guts stance grants a DEF ignore, gated on that state',
+        byState.get('guts mode')?.stat === 'defIgnore'
+        && Math.abs(byState.get('guts mode')?.value - 0.15) < 1e-9);
+    assert('her two stance bonuses are gated on DIFFERENT states',
+        byState.size === 2);
     assert('`needsScope` is consumed by the scoping pass, never shipped',
         ignoreEffects.every(({ effect }) => effect.needsScope === undefined));
 

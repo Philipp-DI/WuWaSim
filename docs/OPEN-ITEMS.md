@@ -1154,11 +1154,15 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       from the investigating agent's word:
       - Rebecca: two-state mutually-exclusive pair (Huntress ⇄ Guts,
         `initiallyActive` on Huntress per "By default, Rebecca starts in the
-        Huntress mode"). Side-finding: this ALSO unblocks two effects that
-        read as zero today — Huntress's flat +30% Crit. DMG and Guts's 15%
-        target DEF ignore — because nothing in the parser scans Forte-circuit
-        skill-tree node text for them; binding those clauses to the new state
-        is a separate follow-up, not done here.
+        Huntress mode"). Side-finding: this ALSO unblocks two effects —
+        Huntress's flat +30% Crit. DMG and Guts's 15% target DEF ignore.
+        ~~Both read as zero today because nothing in the parser scans
+        Forte-circuit skill-tree node text for them.~~ **That was wrong on both
+        counts, corrected 2026-10-02 — and BOTH are now bound; see the entry
+        below.** The parser DOES scan that text (`skillNodeEffects`, a third
+        effect lane `buffs.js` reads), the earlier grep missed them only
+        because the game brackets the mode name ("The [Huntress] mode…"), and
+        the two halves failed for two DIFFERENT reasons.
       - Lucy: single clean enter (`skill_deadlock`) / exit
         (`types: ['liberation']`), validated with no contradiction against
         her own reference rotation.
@@ -1207,6 +1211,62 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       still-unbound Huntress (+30% Crit. DMG) / Guts (15% DEF ignore) effects
       ARE bound to these states, the wrong mode would have credited her the Guts
       bonus on her biggest steps. Pinned by `tests/timing-variant.test.mjs`.
+
+      **REBECCA'S TWO STANCE BONUSES ARE NOW BOUND (2026-10-02)** — the
+      follow-up the paragraph above named, and the root cause was not where
+      either half of my own note had put it. `bindSkillScopes`
+      (skill-scope.mjs) ALREADY had the exact mechanism needed,
+      `window: {type:'stateBound', state}`, and two things kept her clauses from
+      reaching it:
+      → **`stateInClause` read two clause forms and hers is a third.** It
+        handles a leading "In <X>," qualifier and a leading bracketed label
+        ("- [Absolution] Enhancement: …"), the latter on an EXACT match against
+        a declared state. Hers reads "- The [Huntress] mode increases …": the
+        bracket is not leading, and "Huntress" ≠ the state "Huntress Mode".
+        Added a third form (`MODE_LABEL`) joining the bracketed name to the word
+        the clause itself supplies — "[Huntress]" + "mode" → "huntress mode" —
+        so the exact-match safety rule still holds. Measured before adding: this
+        shape occurs exactly TWICE roster-wide, both hers.
+      → **The `needsScope` drop ran BEFORE the state gate and `continue`d past
+        it**, so a clause whose only scope was a state was deleted before it
+        could be gated — while the comment directly above that gate said "the
+        state gate is independent of the scope". Reordered, and a state gate now
+        SATISFIES `needsScope`: it answers the ALWAYS-ON half of that danger
+        exactly (the effect fires only inside a modelled, entered-and-exited
+        window). It does not answer a second hidden prose condition, so it only
+        rescues a clause whose state IS its whole condition — true of both hers.
+
+      What was actually wrong, measured: the Huntress +30% Crit. DMG was NOT
+      unparsed — it was MIS-GATED, carrying a `castMatch` over three Forte keys
+      plus a 12s window scraped from an unrelated paragraph of the same node
+      desc ("A Girl Gets What She Wants!"), so it could fire in GUTS and persist
+      there. Only the Guts DEF ignore was genuinely absent. Both now carry
+      `stateEnter`/`stateBound` on their own mode, verified by simulation to
+      apply on exactly the right steps and never together.
+
+      Measured in isolation against a no-effect baseline: the 15% DEF ignore is
+      **+8.11%** on a Guts step — independently reproducing the `x1.081` this
+      file states for 15% at level 90 vs 90, which confirms that lane end to
+      end — and the +30% Crit. DMG is +3.66% on an ungeared probe (crit-rate
+      dependent, far larger geared). LOCK B: **23 of 416 team compositions
+      moved, every one containing Rebecca, zero without her, ALL UP**
+      (+0.24%..+0.53% team-wide; **her own damage +3.98%..+4.20%, median
+      +4.05%**), and no anchor's best team reordered. Keyed by member SET, not by
+      rank — a first pass keyed by slot index reported a spurious -8.60% that
+      was only a different composition occupying that rank.
+
+      Also closed while here: `tests/conditional-effects.test.mjs`'s
+      unsafe-DEF-ignore guard walked only `resonanceChain` and `inherentSkills`,
+      so it could not see `skillNodeEffects` — the very lane this change puts a
+      DEF ignore into. Extended to all three (surfacing no other offender),
+      taught that a state gate counts as scoped, and given a worked assertion on
+      her mutually-exclusive pair.
+
+      STILL UNMODELLED, deliberately: her "A Girl Gets What She Wants!" window
+      grants BOTH stance bonuses at once for 12s regardless of mode. That is a
+      separate mechanic with its own trigger (four named casts at 120 Hot Hand)
+      and nothing models Hot Hand — so the pair stays mutually exclusive, which
+      understates her.
 
     → **Roccia (1606) — RESOURCE_DEFS shipped, not STATE_DEFS.** "Beyond
       Imagination" is named as a state in the kit text but the

@@ -139,6 +139,15 @@ const LEADING_IN = /^in\s+([^,]+),/i;
 // bullet per state, of which exactly one is live (Phoebe's two are mutually
 // exclusive), so each branch has to carry its own gate.
 const LEADING_BRACKET = /^[-•\s]*\[([^\]]+)\]/;
+// A third form, where the state is the clause's SUBJECT and the game spells the
+// word "mode" outside the brackets: "- The [Huntress] mode increases Rebecca's
+// Crit. DMG by 30%." Neither form above reads it — the bracket is not leading
+// (the clause opens "The ") and the bracketed text is "Huntress" while the
+// state is "Huntress Mode", so the exact-match rule below rejects it. Measured
+// before adding: this shape occurs exactly TWICE on the whole roster, and both
+// are Rebecca's two stance bonuses, so it binds what it was written for and
+// nothing else.
+const MODE_LABEL = /\[([^\]]+)\]\s+mode\b/i;
 
 // In prose the game writes the category WITHOUT a separator ("Resonance Skill
 // Seraphic Duet: Overture"), where a bracketed kit name uses one ("[Basic
@@ -363,9 +372,21 @@ export function stateInClause(clause, stateNames) {
     // EXACT match against a state this resonator actually declares — a bracketed
     // skill name can never light a state that does not exist.
     const bracket = LEADING_BRACKET.exec(text);
-    if (!bracket) return null;
-    const named = bracket[1].trim().toLowerCase();
-    return stateNames.find(name => named === name) ?? null;
+    if (bracket) {
+        const named = bracket[1].trim().toLowerCase();
+        const hit = stateNames.find(name => named === name);
+        if (hit) return hit;
+    }
+    // "The [X] mode <verb>" — the state is the subject and "mode" sits outside
+    // the brackets, so the exact-match rule above cannot see it. Joining the
+    // bracketed name to the word the clause itself supplies is what makes it
+    // exact again: "[Huntress]" + "mode" -> "huntress mode". Still bound only to
+    // a state the resonator DECLARES, which is what keeps a bracketed skill name
+    // from lighting a state that does not exist.
+    const modeLabel = MODE_LABEL.exec(text);
+    if (!modeLabel) return null;
+    const named = modeLabel[1].trim().toLowerCase();
+    return stateNames.find(name => name === `${named} mode` || name === named) ?? null;
 }
 
 /**
@@ -465,28 +486,40 @@ export function bindSkillScopes(resonator, skillMap) {
                 bound++;
             }
 
-            // A "deals N% more DMG" clause is kept ONLY if it landed a scope:
-            // the skills it names, or the whole team. Unscoped it is unsafe —
-            // the phrasing carries its condition in prose the clause classifier
-            // does not read ("to targets whose HP is below 50%"), so an
-            // always-on +400% would be the result. Marked at parse time
-            // (effects.mjs) because only this pass can tell whether it resolved.
-            if (effect.needsScope) {
-                delete effect.needsScope;
-                if (!effect.skillKeys?.length && !effect.teamWide) {
-                    node.effects.splice(node.effects.indexOf(effect), 1);
-                    dropped++;
-                    continue;
-                }
-            }
-
             // The state gate is independent of the scope: a clause can name a
-            // state without naming a skill, and vice versa.
+            // state without naming a skill, and vice versa. It is resolved
+            // BEFORE the needsScope drop below, because it is one of the things
+            // that can SATISFY it — the comment here said "independent" while a
+            // `continue` in the drop made the drop win, so a clause whose only
+            // scope was a state never reached its own gate (measured: Rebecca's
+            // Guts DEF ignore, dropped despite naming the mode that gates it).
             const state = stateInClause(clause, stateNames);
             if (state && effect.trigger?.type !== 'stateEnter') {
                 effect.trigger = { type: 'stateEnter', state };
                 effect.window = { type: 'stateBound', state };
                 effect.structuralTrigger = { type: 'inState', state };
+            }
+
+            // A "deals N% more DMG" clause is kept ONLY if it landed a scope:
+            // the skills it names, the whole team, or a STATE that gates it.
+            // Unscoped it is unsafe — the phrasing carries its condition in
+            // prose the clause classifier does not read ("to targets whose HP is
+            // below 50%"), so an always-on +400% would be the result. Marked at
+            // parse time (effects.mjs) because only this pass can tell whether
+            // it resolved. A state gate answers the ALWAYS-ON half of that
+            // danger exactly: the effect now fires only inside a modelled,
+            // entered-and-exited window, which is why it counts as resolved
+            // here. It does NOT answer a second hidden condition in the same
+            // prose, so this only rescues a clause whose state IS its whole
+            // condition — true of both Rebecca's stance bonuses, the only two
+            // clauses this reaches (see MODE_LABEL).
+            if (effect.needsScope) {
+                delete effect.needsScope;
+                if (!effect.skillKeys?.length && !effect.teamWide && !state) {
+                    node.effects.splice(node.effects.indexOf(effect), 1);
+                    dropped++;
+                    continue;
+                }
             }
         }
     }

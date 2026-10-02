@@ -13975,3 +13975,100 @@ with the per-resonator verification and the Rebecca find.
 `docs/HISTORY.md` — this entry.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+## 2026-10-02 — Rebecca's stance bonuses: the mechanism already existed, twice over
+
+The follow-up the last entry named. Both of my own claims about why her
+Huntress/Guts bonuses were missing turned out to be wrong, and the fix was a
+reorder plus one clause form rather than the new machinery I had planned.
+
+**[What my own note got wrong]** It said both effects "read as zero because
+nothing in the parser scans Forte-circuit skill-tree node text". Neither half
+held. `skillNodeEffects` IS such a lane and `buffs.js:451` reads it; the
+earlier grep missed the clauses only because the game brackets the mode name
+("The [Huntress] mode…"). And the two halves failed for DIFFERENT reasons:
+→ The Huntress +30% Crit. DMG was parsed, but MIS-GATED — it carried a
+`castMatch` over three Forte keys plus a 12s window scraped from an unrelated
+paragraph of the same node desc ("A Girl Gets What She Wants!", which grants
+both stances for 12s and is its own mechanic). So it could fire in GUTS and
+persist there.
+→ Only the Guts 15% DEF ignore was genuinely absent, dropped by `needsScope`.
+
+**[The actual root cause — the mechanism was already there]** `bindSkillScopes`
+already emits exactly the right shape, `window: {type:'stateBound', state}`.
+Two things kept her clauses from reaching it:
+→ `stateInClause` reads two clause forms and hers is a third. It handles a
+leading "In <X>," qualifier and a leading bracketed label on an EXACT match
+against a declared state. Hers reads "- The [Huntress] mode increases …": the
+bracket is not leading, and "Huntress" ≠ the state "Huntress Mode". Added a
+third form that joins the bracketed name to the word the clause itself
+supplies — "[Huntress]" + "mode" → "huntress mode" — so the exact-match safety
+rule still holds. Measured before adding: this shape occurs exactly TWICE
+roster-wide, both hers.
+→ The `needsScope` drop ran BEFORE the state gate and `continue`d past it, so a
+clause whose only scope was a state was deleted before it could be gated —
+while the comment directly above that gate said "the state gate is independent
+of the scope". Reordered, and a state gate now SATISFIES `needsScope`: it
+answers the ALWAYS-ON half of that danger exactly. It does not answer a second
+hidden prose condition, so it only rescues a clause whose state IS its whole
+condition — true of both of hers, and of nothing else on the roster.
+
+**[Measured]** In isolation against a no-effect baseline, the 15% DEF ignore is
+**+8.11%** on a Guts step — which independently reproduces the `x1.081`
+CLAUDE.md states for 15% at level 90 vs 90, confirming that lane works end to
+end — and the +30% Crit. DMG is +3.66% on an ungeared probe (crit-rate
+dependent, much larger geared). Simulation confirms the pair applies on exactly
+the right steps and never together. LOCK A: the two effects and nothing else.
+LOCK B: **23 of 416 team compositions moved, every one containing Rebecca, zero
+without her, ALL UP** — +0.24%..+0.53% team-wide, her own damage +3.98%..+4.20%
+(median +4.05%) — and no anchor's best team reordered.
+
+A methodology note worth keeping: the first LOCK B comparison was keyed by
+anchor + SLOT INDEX and reported a −8.60% mover. That was an artifact — slot 4
+held a different composition before and after. Re-keyed by sorted member SET,
+the real answer is 23 up and zero down. A rank shuffle can masquerade as a
+damage regression, so team diffs key on composition.
+
+**[A guard that could not see its own lane]** `tests/conditional-effects.test.mjs`
+exists to catch an unsafe DEF ignore, and walked only `resonanceChain` and
+`inherentSkills` — not `skillNodeEffects`, the very lane this change puts one
+into. Extended to all three (which surfaced no other offender), taught that a
+state gate counts as scoped, and given a worked assertion that Rebecca's pair
+stays mutually exclusive.
+
+**[Files Changed]** `tools/preprocess/skill-scope.mjs` (`MODE_LABEL` form, the
+drop/gate reorder, state-gate-satisfies-needsScope);
+`tests/conditional-effects.test.mjs` (guard widened to the third lane, state
+gate accepted, Rebecca's pair pinned); `data/wuwa-data.json`,
+`data/wuwa-meta.json`, `data/data-version.json` (regenerated);
+`docs/OPEN-ITEMS.md` (item 22 — the wrong claim struck and the finding added).
+
+**[Logic Altered]** `stateInClause` recognises a third clause form. In
+`bindSkillScopes` the state gate is resolved before the `needsScope` drop, and
+a state-gated effect survives that drop. Nothing else changed; no engine file
+touched.
+
+**[Verification Method]** Every claim re-derived rather than inherited: the
+"unparsed" claim checked against the compiled dataset (it was parsed, and
+mis-gated), each clause run through `parseEffectsFromDesc` in isolation (both
+parse fine, so the loss was downstream), the roster-wide blast radius of the
+new clause form measured before shipping (2 clauses, both hers), and each
+effect's value isolated against a stripped-dataset baseline rather than against
+each other — the first attempt compared a Guts step to a Huntress step and got
++4.29%, which is the DIFFERENCE between the two bonuses, not either one.
+`npm test` 79/79, `npm run sweep` 70/70, `npm run lint` 0 errors / 1576
+warnings.
+
+**[Residual Risks]** Her "A Girl Gets What She Wants!" window grants BOTH
+stance bonuses at once for 12s regardless of mode; it has its own trigger (four
+named casts at 120 Hot Hand) and nothing models Hot Hand, so the pair stays
+mutually exclusive — an understatement, the safe direction. The widened
+`needsScope` rescue is narrow by measurement (2 clauses) rather than by
+construction: a future clause that names a state AND hides a second condition
+in prose would now survive where it used to drop.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` item 22 — the "read as zero" claim
+struck through and corrected, with the real two causes, the measurements and
+the guard gap. `docs/HISTORY.md` — this entry.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
