@@ -127,11 +127,64 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    exclusive (`stackBand`, 2026-08-01) and whose 4-6 band is reachable via her
    own cap raise (#25), but whose live count still comes from the stepper rather
    than the enemy timeline; team-composition counters — Sigrika, Hiyuki, deferred by maintainer decision
-   to a later roster-derived pass; Tune Break — Luuk Herssen, no longer blocked
-   (#7 shipped 2026-08-03), and now a matter of counting the slotted responses; a
-   battle-entry grant (Phrolova); hit-count inside a state (Encore S6); an
-   ICD-gated enemy debuff (Galbrena); a real-time tick (Lynae's Premixed Hue,
-   1/s while Lumiflow ≥ 120 — out of the per-cast income model by design).
+   to a later roster-derived pass; ~~Tune Break — Luuk Herssen, no longer blocked
+   (#7 shipped 2026-08-03), and now a matter of counting the slotted
+   responses~~ **CLOSED 2026-10-02, and the framing was wrong twice over:**
+   Luuk's unresolved stack source was never Tune Break and never needed #7. His
+   Forte Circuit states the whole gauge in its own section — *"Casting any form
+   of [Aureole of Execution] grants 1 of [Endnotes on the Endgame]"*, *"stacking
+   up to 3 times"*, *"Casting [Rewritten in Winter's Margins] or switching to
+   another Resonator removes all stacks"* — so it is an ordinary per-cast gauge
+   (`RESOURCE_DEFS[1510]`). Measured before the fix: S6.1 was entirely OFF
+   (trigger `unknown`), so **an S6 build's Liberation dealt exactly the same
+   damage as an S2 one** and `sequenceEval` scored his S6 node at exactly zero
+   over S5. Wiring the gauge alone was NOT enough — the second half is that the
+   clause's own category CONTRADICTS the name it states: the game tags that
+   Liberation row's instances type 0, so `dmgTypes` reads `["basic"]` and the hit
+   reads the Basic Attack bucket while the clause parses `skillType:
+   'liberation'`, and both gates together match nothing. Scoped BY NAME per
+   CLAUDE.md's "clause that NAMES its skills" invariant — the same failure it
+   already records for Aemeath, in mirror image. Curated rather than bound by
+   the parser because `resolveNameToKeys` **cannot** reach this key and that is
+   roster-wide, not his: **30 resonators** key their main Liberation as bare
+   `liberation` while its row label carries the skill's own name, so the name has
+   no token to match. Measured after: +40% per stack exactly linear (0/1/2/3
+   stacks), capped at 3, and exactly zero after the spend — his S6 node goes from
+   worth NOTHING to **+8.04% team / +13.39% own** over S5, `ownGain` 60.88% →
+   82.42%, on his own baseline meta team. Invisible to LOCK B by construction
+   (chain-0 members), which is why `sequenceEval` is the surface: **1 of 312
+   rows moved, his, and no team's composition or ranking changed at all**.
+   What REMAINS on this item's list, unchanged: a battle-entry grant
+   (Phrolova); hit-count inside a state (Encore S6); an ICD-gated enemy debuff
+   (Galbrena); a real-time tick (Lynae's Premixed Hue, 1/s while Lumiflow >= 120
+   -- out of the per-cast income model by design).
+
+   → **Found while doing it, NOT fixed, and bigger than the above:** the same
+   Forte node's OWN clause — *"Increase the DMG Multiplier of Resonance
+   Liberation [Rewritten in Winter's Margins] by 25%, stacking up to 3 times"* —
+   is read as a FLAT 25% rather than 25% per stack, measured identical at S0 and
+   at S6. Two causes, both roster-shaped. (a) `COND_STACK_RE` requires "each
+   stack" / "per stack" / "every N stacks", and this clause states its per-stack
+   value and its cap in one breath with none of those words, so no stackable
+   metadata is emitted at all. **8 clauses roster-wide are this shape** (Sanhua,
+   Encore, Xiangli Yao, Jiyan, Cartethyia, Iuno, Luuk, Cantarella), 7 of them
+   currently flat; all 8 UNDERSTATE. Widening the regex alone would change none
+   of their values, because their stack sources are underivable and `scaleEffect`
+   credits ONE stack — which also means it cannot fix Luuk's. (b) The gauge's
+   name is in the node's section HEADING ("## Endnotes on the Endgame"), not in
+   the clause, so nothing links the clause to the gauge even once it is
+   stackable. And the effect lives in `skillNodeEffects`, which
+   `effect-overrides.json` **cannot address** — the slot namespaces are only
+   `S<level>.<index>` and `IH<node>.<index>` — so it cannot be curated around
+   either. Closing it needs a heading-aware resource binding plus that regex
+   widening, or a third slot namespace; each is its own change with its own
+   blast radius, which is why neither was bolted onto this one.
+
+   → **Also surfaced, unexplained:** his `sequenceEval` chain-4 row is identical
+   to chain-3 both before and after this change, so S4 is worth exactly zero in
+   his own meta team as well (its two clauses are an Intro/Outro DMG Bonus and a
+   Golden Reflux multiplier — his rotation casts the Intro, so a zero is
+   suspicious rather than obviously correct). Not investigated here.
 
 25. ~~**Negative-status stack-limit RAISES are unmodelled.**~~ **CLOSED
     2026-08-01.** `STATUS_CAP_RAISES` models a kit lifting a status's base
@@ -1477,9 +1530,10 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
 36. **Per-resonator SPECIAL RESOURCES are the real remaining gauge gap**
     (maintainer, 2026-08-18 — *"where's probably more room for improvement is
     each resonator's special resource management, some even have multiple
-    ones"*). Counted: `RESOURCE_DEFS` curates **5 of 56** resonators (Changli,
+    ones"*). Counted: `RESOURCE_DEFS` curates **6 of 56** resonators (Changli,
     Denia, Sigrika, **Aemeath — added 2026-09-21, item 39**, **Roccia — added
-    2026-09-21, item 22**), while the game ships `specialEnergyCaps` for
+    2026-09-21, item 22**, **Luuk Herssen — added 2026-10-02, item 2, the first
+    one that moves a damage number**), while the game ships `specialEnergyCaps` for
     **all 56**, every one of them with several channels. That is the lane
     behind the concrete misses already logged elsewhere in this file —
     Chisa's Ring of Chainsaw driving Sawring - Eradication's +1.30%-per-point
@@ -1488,9 +1542,16 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     damage number (Aemeath's two gauges gate cast availability; Roccia's
     would need hit-income tracking this model does not do to reach its one
     live consumer), which is a reminder that "curated" and "DPS-relevant" are
-    not the same claim — Luuk Herssen's now-unblocked Tune Break gauge (item 2)
+    not the same claim — ~~Luuk Herssen's now-unblocked Tune Break gauge (item 2)
     is a more likely next candidate for a coverage expansion that actually
-    moves a number.
+    moves a number.~~ **It was, and it did (2026-10-02): his Endnotes on the
+    Endgame is the sixth entry and the first whose wiring moves damage — his S6
+    node went from worth exactly NOTHING to +13.39% own / +8.04% team over S5.
+    The prediction held; what it got wrong is the gauge's name and source, which
+    are not Tune Break at all. See item 2. It also needed a SECOND fix the
+    coverage framing does not cover: the gauge supplies the stack COUNT, but the
+    effect still had to be scoped by NAME because its clause's own stated
+    category contradicts the bucket the game tags its hits with.**
 
     NOT the same thing as Resonance energy, which is fine: the per-hit
     `damage[*].energy` vector is read on every node type (3,557 points

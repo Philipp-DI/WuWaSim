@@ -1458,6 +1458,52 @@ export const RESOURCE_DEFS = Object.freeze({
     // tracked level after forte_heavy_1's spend reads LOW (understated, the
     // safe direction) rather than crediting a relaunch the model cannot see —
     // the timing-variant WIRING itself is not done here.
+    // Luuk Herssen — "Endnotes on the Endgame" (2026-10-02, OPEN-ITEMS 2). The
+    // Forte Circuit states the whole gauge in its own section, which is why the
+    // blocker recorded on the S6.1 override — "Stack source is Tune Break DMG
+    // dealt by teammates - unresolvable until OPEN-ITEMS #7 wires
+    // computeTuneBreakDamage" — was WRONG on both halves: the source is not Tune
+    // Break and the wiring it waited on is not needed. Verbatim:
+    //   "Casting any form of [Aureole of Execution] grants 1 of [Endnotes on
+    //    the Endgame] and switches [Aureole of Execution] to the next form in
+    //    sequence."
+    //   "Increase the DMG Multiplier of Resonance Liberation [Rewritten in
+    //    Winter's Margins] by 25%, stacking up to 3 times. Casting [Rewritten in
+    //    Winter's Margins] or switching to another Resonator removes all
+    //    stacks."
+    // Three FORMS grant, and only those three: Golden Reflux is the base
+    // Resonance Skill that Aureole REPLACES, while Golden Impale and Ichor
+    // Deposit are follow-ups a form spawns, not forms of it.
+    //
+    // NO `channel`, deliberately. His specialEnergyCaps are
+    // {1: 30000, 2: 300, 3: 150, 4: 6000, 5: 10000} and none reads 3 — two of
+    // them reach it under a divisor (ch2 at unit 100, ch3 at unit 50), and
+    // gauge-income.json holds not one SpecialEnergy row for him (his only cast
+    // row is the Liberation's Resonance-energy spendAll), so there is no raw
+    // magnitude to cross-check a divisor against. That is exactly the second
+    // witness the docblock above requires before a `unit` is trusted, so the
+    // channel stays unclaimed and `cap` is the kit's own number — which the kit
+    // states TWICE independently ("stacking up to 3 times" in the Forte, and
+    // S6's "40% DMG Bonus, up to 120%" = 3). Same shape as Sigrika's Full Stop.
+    //
+    // "switching to another Resonator removes all stacks" is NOT modelled as a
+    // cross-segment clear, and cannot bite today: a gauge is carried between
+    // segments by design (CLAUDE.md, "A gauge belongs to the CHARACTER"), but
+    // his rotation ENDS on the Liberation that spends all of it, so every
+    // carry-out is already 0. A rotation that ended holding stacks would carry
+    // them over a swap the game clears — worth stating, not worth a mechanism
+    // no shipped rotation exercises.
+    1510: [{
+        name: 'Endnotes on the Endgame',
+        cap: 3,
+        gains: {
+            skill_aureole_of_execution_ring: 1,
+            skill_aureole_of_execution_breach: 1,
+            skill_aureole_of_execution_glare: 1,
+        },
+        spendAll: ['liberation'],
+    }],
+
     1606: [{
         name: 'Imagination',
         channel: 1,       // SpecialEnergy1Max = 300 in the game's own baseproperty table

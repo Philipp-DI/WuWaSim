@@ -14072,3 +14072,90 @@ struck through and corrected, with the real two causes, the measurements and
 the guard gap. `docs/HISTORY.md` — this entry.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+
+## 2026-10-02 — Luuk Herssen's S6 was worth exactly nothing, for two independent reasons
+
+**[Files Changed]** `src/core/rotation-rules.js` (`RESOURCE_DEFS[1510]`),
+`data/effect-overrides.json` (`1510.S6.1`: trigger, window, `stackTrigger`,
+`skillKeys`, two provenance notes), `tests/rotation-resources.test.mjs` (new
+Luuk block, 24 assertions), regenerated `data/wuwa-data.json` +
+`data/wuwa-meta.json`, `CLAUDE.md` (two invariants refined),
+`docs/OPEN-ITEMS.md` (item 2 closed, item 36 recounted).
+
+**[Logic Altered]** OPEN-ITEMS 2's last Tune Break entry read *"Luuk Herssen,
+no longer blocked (#7 shipped), and now a matter of counting the slotted
+responses"*, and the `S6.1` override recorded *"Stack source is Tune Break DMG
+dealt by teammates — unresolvable until OPEN-ITEMS #7 wires
+computeTuneBreakDamage"*. **Both halves of that were wrong.** The stack source
+is not Tune Break and never needed #7: his Forte Circuit states the entire gauge
+in its own section — *"Casting any form of [Aureole of Execution] grants 1 of
+[Endnotes on the Endgame]"*, *"stacking up to 3 times"*, *"Casting [Rewritten in
+Winter's Margins] or switching to another Resonator removes all stacks"*. It is
+an ordinary per-cast gauge, now `RESOURCE_DEFS[1510]`.
+
+Wiring the gauge was only half. **The clause's own stated category contradicts
+the name it states.** The game tags that Liberation row's damage instances type
+0, so `dmgTypes` reads `["basic"]` and the hit reads the Basic Attack bucket,
+while the clause parses `skillType: 'liberation'` — both gates together match
+nothing, and the effect still paid zero after the gauge read a correct 3. Scoped
+`skillKeys: ['liberation']` per the "clause that NAMES its skills" invariant,
+which already records this exact failure for Aemeath in mirror image. Not a
+tagging defect: his Intro row beside it reads `["intro"]`, so the tagging
+discriminates, and his kit files Aureole, Golden Impale and Gavel as Basic DMG
+too. Curated rather than parser-bound because `resolveNameToKeys` **cannot**
+reach that key, and that is roster-wide rather than his — **30 resonators** key
+their main Liberation as bare `liberation` while its row label carries the
+skill's own name, so such a name has no token to match.
+
+No `channel` is declared. His caps are `{1: 30000, 2: 300, 3: 150, 4: 6000,
+5: 10000}`; none reads 3, TWO reach it under a divisor (ch2 at unit 100, ch3 at
+unit 50), and `gauge-income.json` carries no SpecialEnergy row of his to settle
+which. The `RESOURCE_DEFS` docblock demands a second witness before trusting a
+`unit`; with none, the channel stays unclaimed and the cap comes from the kit,
+which states it twice independently.
+
+**[Verification Method]** Measured before anything changed: S6's Liberation dealt
+**exactly** S2's (4566 both), and `sequenceEval` scored his S6 node identical to
+S5 — worth nothing. LOCK A = exactly the one effect, no collateral. The stack
+ladder measured on isolated rotations: 0/1/2/3 stacks → increments of exactly
+1826 each (perfectly linear at 40%/stack), a fourth grant equals the third (cap
+holds at 3), and a second Liberation after the spend returns to **exactly** the
+pre-fix number (4566) — which is what proves the `persist` window self-scopes to
+zero. Ungeared, 3 stacks took the Liberation 4566 → 10044, ratio 2.1998 = the
++120% landing exactly. Geared, in his own baseline meta team: S6 `ownGain`
+60.88% → **82.42%**, `teamGain` 29.42% → **39.83%**, i.e. **+13.39% own /
++8.04% team over S5** where it had been worth zero. Invisible to LOCK B by
+construction (`team-rank.js` builds members at chain 0) — the same blind spot the
+Luuk S2 amplify bug had — so `sequenceEval` is the surface: **1 of 312 rows
+moved, his, and no team's composition or ranking changed**; dead node levels
+161 → 160. 79/79 tests, sweep 70/70, lint 0 errors / 1576 warnings.
+
+**[Residual Risks]**
+- **The same Forte node's own clause is still read FLAT, and it is the bigger
+  number.** *"Increase the DMG Multiplier of Resonance Liberation [Rewritten in
+  Winter's Margins] by 25%, stacking up to 3 times"* pays 25% once, not 75%,
+  measured identical at S0 and S6. Two causes: `COND_STACK_RE` demands "each
+  stack"/"per stack"/"every N stacks" and this clause states value and cap in one
+  breath with none of them (**8 clauses roster-wide are this shape**, 7 flat, all
+  understating — and widening the regex alone changes none of their values,
+  because their stack sources are underivable); and the gauge's name lives in the
+  node's section HEADING, not in the clause, so nothing links the two. The effect
+  sits in `skillNodeEffects`, which `effect-overrides.json` cannot address at
+  all, so it cannot be curated around either.
+- **His S4 node is also worth exactly zero** in his own meta team, before and
+  after this change, and its two clauses include an Intro DMG Bonus his rotation
+  does cast. Suspicious rather than obviously correct; not investigated.
+- "Switching to another Resonator removes all stacks" is NOT modelled as a
+  cross-segment clear. It cannot bite today — his rotation ends on the Liberation
+  that spends the gauge, so every carry-out is already 0 — but a rotation ending
+  while holding stacks would carry them over a swap the game clears.
+- Hit income is not modelled (per-cast by construction), so the gauge reads LOW
+  rather than high wherever a kit refills it on hit. Endnotes has no hit income.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` item 2's Tune Break entry struck through
+and closed with both corrections stated; its two new findings recorded as their
+own sub-entries; item 36 recounted 5 → 6 and its own prediction marked as having
+held, with what it got wrong. `CLAUDE.md`: the gauge-cap invariant now states
+that a channel is claimed and never guessed, and the name-binding invariant now
+states that "safe" is not "right" where the surviving category contradicts the
+unresolved name, with the 30-resonator bare-`liberation` blindness named.

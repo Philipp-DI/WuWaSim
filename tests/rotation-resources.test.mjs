@@ -599,5 +599,122 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
         byTickName(s3TickDefs, 'Dark Core').tick.period === 12);
 }
 
+// ── Luuk Herssen's Endnotes on the Endgame: a gauge with NO channel ─────────
+// OPEN-ITEMS 2, 2026-10-02. Three things this block pins that nothing else does.
+//
+// 1. A gauge may legitimately declare NO `channel`. His specialEnergyCaps are
+//    {1: 30000, 2: 300, 3: 150, 4: 6000, 5: 10000} and none reads 3 — TWO of
+//    them reach it under a divisor (ch2 at unit 100, ch3 at unit 50), and
+//    gauge-income.json holds no SpecialEnergy row for him at all, so there is
+//    no raw magnitude to settle which. The docblock over RESOURCE_DEFS requires
+//    a second witness before a `unit` is trusted; with none, the channel stays
+//    unclaimed rather than guessed. The kit states the cap twice instead
+//    ("stacking up to 3 times", and S6's "40% DMG Bonus, up to 120%" = 3).
+// 2. The effect is scoped BY NAME against a category that CONTRADICTS it. The
+//    game tags this Liberation's damage instances type 0, so the hit reads the
+//    Basic Attack bucket while the clause parses skillType 'liberation' — both
+//    gates together match nothing, which is why it paid zero even once
+//    triggered and stacked.
+// 3. A 'persist' window is safe HERE because the count is the gauge: the
+//    Liberation's own spendAll zeroes it, so the effect self-scopes to nothing
+//    on every later step. The last assertion is what proves that, and it is the
+//    one that would break if the window or the spend ever moved.
+{
+    const LUUK = 1510;
+    const FORMS = ['skill_aureole_of_execution_ring', 'skill_aureole_of_execution_breach',
+        'skill_aureole_of_execution_glare'];
+    const defs = resourceDefsForResonator(LUUK, dataset);
+    const endnotes = defs.find(def => def.name === 'Endnotes on the Endgame');
+
+    assert('Endnotes on the Endgame is curated', !!endnotes);
+    assert('it declares NO channel — two of his channels reach 3 under a divisor',
+        endnotes?.channel === undefined);
+    assert('its cap is the kit-stated 3', endnotes?.cap === 3);
+    assert('the offline fallback agrees with the dataset-backed resolution',
+        resourceDefsForResonator(LUUK)[0].cap === endnotes.cap);
+    // Only the three FORMS grant. Golden Reflux is the base Resonance Skill
+    // that Aureole REPLACES; Golden Impale and Ichor Deposit are follow-ups a
+    // form spawns, not forms of it — and all three sit under `skill_` keys.
+    assert('exactly the three Aureole forms grant, 1 each',
+        JSON.stringify(Object.keys(endnotes.gains).sort()) === JSON.stringify([...FORMS].sort())
+        && Object.values(endnotes.gains).every(amount => amount === 1));
+    assert('the Liberation spends all of it',
+        JSON.stringify(endnotes.spendAll) === JSON.stringify(['liberation']));
+
+    // His reference rotation casts all three forms, in order, before the
+    // Liberation — so it reaches the cap exactly, with nothing to spare.
+    const rotation = rotationsById[String(LUUK)]?.rotation ?? [];
+    const levels = computeResourceTimeline(rotation, defs).get('endnotes on the endgame');
+    const libAt = rotation.indexOf('liberation');
+    assert('his reference rotation ends on the Liberation',
+        libAt === rotation.length - 1);
+    assert('it casts each of the three forms exactly once',
+        FORMS.every(form => rotation.filter(key => key === form).length === 1));
+    assert('the gauge reads exactly 3 entering the Liberation', levels[libAt] === 3);
+    assert('and 0 entering the rotation', levels[0] === 0);
+    assert('the Liberation drains it',
+        computeResourceEndLevels(rotation, defs).get('endnotes on the endgame') === 0);
+    // A fourth grant must not push it past the cap.
+    const overCapped = computeResourceTimeline([...FORMS, FORMS[2], 'liberation'], defs)
+        .get('endnotes on the endgame');
+    assert('a fourth grant is capped at 3', overCapped[4] === 3);
+
+    // The effect: S6.1, +40% per stack to a 3-stack ceiling, name-bound.
+    const resonator = dataset.resonators.find(entry => entry.id === LUUK);
+    const effect = resonator.resonanceChain[5].effects[1];
+    assert('S6.1 reads the gauge by name',
+        effect.stackTrigger?.type === 'resource'
+        && effect.stackTrigger.resource === 'Endnotes on the Endgame');
+    assert('it is 40% per stack to 3', effect.perStack === 0.4 && effect.maxStacks === 3);
+    assert('it is bound to the Liberation BY NAME, not by category',
+        JSON.stringify(effect.skillKeys) === JSON.stringify(['liberation']));
+    // The contradiction that made the category gate unusable, asserted so a
+    // future re-tagging of the row surfaces here rather than silently.
+    const libRow = (dataset.damageTable[String(LUUK)] ?? [])
+        .find(row => (resonator.id, dataset.autoSkillMap[String(LUUK)].liberation.damageIds.includes(row.id)));
+    assert("the game tags that Liberation's hits 'basic', which is why the name must win",
+        JSON.stringify(libRow?.dmgTypes) === JSON.stringify(['basic']));
+    assert('his Intro row is tagged intro, so the tagging discriminates',
+        JSON.stringify((dataset.damageTable[String(LUUK)] ?? [])
+            .find(row => /Intro Skill/i.test(row.name ?? ''))?.dmgTypes) === JSON.stringify(['intro']));
+    // The gauge is the stack count, so it scales linearly and self-zeroes.
+    const skillMap = dataset.autoSkillMap[String(LUUK)];
+    const s6Build = createBuild(resonator);
+    s6Build.chain = 6;
+    const unlocked = unlockedEffects(s6Build, resonator);
+    const endnotesAt = (steps, index) => {
+        const levelMap = computeResourceTimeline(steps, defs);
+        return effectsActiveAtStepDetailed(unlocked, {
+            startTime: 0, activeStates: new Set(),
+            firedTypes: new Set(), lastFireEndByType: new Map(), fireCountByType: new Map(),
+            firedKeys: new Set(steps.slice(0, index)), lastFireEndByKey: new Map(),
+            fireCountByKey: new Map(), manualStacks: new Map(),
+            resourceLevels: levelMap, stepIndex: index, stepKey: steps[index],
+            stepTypes: phraseTypesForStep(skillMap?.[steps[index]]?.skillType),
+        }).find(entry => entry.key === 'S6.1')?.effect ?? null;
+    };
+    const oneStack = endnotesAt([FORMS[0], 'liberation'], 1);
+    const threeStacks = endnotesAt([...FORMS, 'liberation'], 3);
+    const afterSpend = endnotesAt([...FORMS, 'liberation', 'liberation'], 4);
+    assert('one form held reads 1 stack / +40%',
+        oneStack?.stacks === 1 && Math.abs(oneStack.value - 0.4) < 1e-9);
+    assert('three forms held read 3 stacks / +120%',
+        threeStacks?.stacks === 3 && Math.abs(threeStacks.value - 1.2) < 1e-9);
+    assert('the gauge is the count, so it is never flagged underivable',
+        threeStacks?.stacksSource === 'resource' && !threeStacks.stacksUnknown);
+    assert('after the Liberation spends it, a persist window pays ZERO',
+        afterSpend === null || afterSpend.value === 0);
+    assert('an S0 build does not have the effect at all',
+        effectsActiveAtStepDetailed(unlockedEffects(createBuild(resonator), resonator), {
+            startTime: 0, activeStates: new Set(), firedTypes: new Set(),
+            lastFireEndByType: new Map(), fireCountByType: new Map(),
+            firedKeys: new Set(FORMS), lastFireEndByKey: new Map(), fireCountByKey: new Map(),
+            manualStacks: new Map(), resourceLevels: computeResourceTimeline([...FORMS, 'liberation'], defs),
+            stepIndex: 3, stepKey: 'liberation',
+            stepTypes: phraseTypesForStep(skillMap?.liberation?.skillType),
+        }).every(entry => entry.key !== 'S6.1'));
+
+}
+
 console.log(`rotation-resources: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

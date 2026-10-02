@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-10-02T08:34:32.111Z",
+  "generatedAt": "2026-10-02T09:22:39.363Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -21744,7 +21744,13 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillKeys": [
+                  "skill_aureole_of_execution_ring",
+                  "skill_aureole_of_execution_breach",
+                  "skill_aureole_of_execution_glare"
+                ],
+                "phrase": "Any form of Aureole of Execution cast (each grants 1 Endnotes on the Endgame)"
               },
               "window": {
                 "type": "persist"
@@ -21753,8 +21759,15 @@
               "perStack": 0.4,
               "maxStacks": 3,
               "stackTrigger": {
-                "type": "unknown"
+                "type": "resource",
+                "resource": "Endnotes on the Endgame",
+                "perStackCost": 1
               },
+              "skillKeys": [
+                "liberation"
+              ],
+              "_scopedVia": "2026-10-02: the clause NAMES its skill (\"grants Resonance Liberation Rewritten in Winter’s Margins 40% DMG Bonus\"), and a name outranks the category it is read beside — which here they CONTRADICT, exactly as CLAUDE.md's \"clause that NAMES its skills\" invariant describes for Aemeath in mirror image. The game tags this row's damage instances type 0, so `dmgTypes` reads [\"basic\"] and the hit reads the Basic Attack bucket, while the clause parses skillType 'liberation' — both gates together match nothing, and MEASURED, the effect paid zero even once triggered and stacked. Not a tagging defect: his Intro row right beside it reads [\"intro\"], so the tagging discriminates, and his kit files Aureole, Golden Impale and Gavel as Basic DMG too. Curated rather than bound by the parser because `resolveNameToKeys` CANNOT reach this key and that is roster-wide, not his: the main Liberation is keyed bare `liberation` on 30 resonators whose row label carries the skill's own name, so the name has no token to match. Unambiguous all the same — he has exactly one liberation key and its own row label is \"Resonance Liberation: Rewritten in Winter's Margins\" verbatim.",
+              "_wiredVia": "2026-10-02 (OPEN-ITEMS 2): the blocker recorded in _resolvedVia below was wrong on BOTH halves — the stack source is neither Tune Break nor unresolvable, and the #7 wiring it waited on is not needed. His Forte Circuit states the whole gauge in its own section: 'Casting any form of [Aureole of Execution] grants 1 of [Endnotes on the Endgame]', 'stacking up to 3 times', 'Casting [Rewritten in Winter’s Margins] or switching to another Resonator removes all stacks' — now RESOURCE_DEFS[1510]. MEASURED BEFORE THE FIX: this effect was entirely OFF (trigger 'unknown' resolves to no application), so an S6 build's Liberation dealt EXACTLY the same damage as an S2 one — perStack/maxStacks were corrected in 2026-07-31's increment 1 and nothing could ever read them. The trigger names the three Aureole FORMS and only those: Golden Reflux is the base Resonance Skill that Aureole REPLACES, while Golden Impale and Ichor Deposit are follow-ups a form spawns, not forms of it. Window 'persist' is safe BECAUSE the count is the gauge — the Liberation's own spendAll zeroes it, so the effect self-scopes to zero on every step after, exactly as Denia's per-Dark-Core multiplier does.",
               "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Each stack of Endnotes on the Endgame additionally grants Resonance Liberation Rewritten in Winter's Margins 40% DMG Bonus, up to 120%.' pctNear() reads the first % AFTER the 'DMG Bonus' keyword and so captured the 120% CEILING as the per-stack value (1.20). The kit states 40% per stack to a 120% ceiling = 3 stacks. Stack source is Tune Break DMG dealt by teammates — unresolvable until OPEN-ITEMS #7 wires computeTuneBreakDamage.",
               "_reslotted": "2026-08-08 was S6.0. The node's FIRST clause ('all forms of Resonance Skill Aureole of Execution, Ichor Deposit, and Mid-air Attack - Gavel of Earthshaker deal 30% more DMG') is a needsScope amplify that used to be DROPPED as unscopable and is now bound to those five keys, so it occupies S6.0 and Endnotes moved down one. The slot is positional by design (CLAUDE.md) — an effect COUNT change re-slots everything after it."
             }
