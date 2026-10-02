@@ -46,15 +46,15 @@
       "midair_mid_air_attack_4": "single montage candidate in the export — see midair_mid_air_attack_1"
     },
     "1308": {
-      "intro_yo_it_s_big_boomin_time": "Huntress/Guts weapon mode — Rebecca switches freely between pistol (Huntress, her starting state) and shotgun (Guts); which intro fires is decided by the mode she swaps in with",
+      "intro_yo_it_s_big_boomin_time": "Huntress/Guts weapon mode — Rebecca switches freely between pistol (Huntress, her starting state) and shotgun (Guts); which intro fires is decided by the mode she swaps in with. RE-SCOPED 2026-10-02: this is NOT a per-key variant question and never was — the mode decides which of her TWO Intro KEYS is cast (an introKeyFor question), while each key's own montage is already settled by its own pinnedMontage below (AM_QTE_S for this one, AM_QTE_M_Start01 for the Guts one). Kept flagged because the key CHOICE is still unmodelled for an auto-injected team Intro, not because the timing is ambiguous",
       "intro_hey_leadhead_come_n_get_me": "Huntress/Guts weapon mode — see above"
     },
     "1511": {
-      "intro_intro_skill_outdated_hallucination": "Algorithm Compaction — AM_SkillQte (0.733s) is the base cast, AM_Sp_SkillQte (1.067s) the enhanced one; every other AM_Sp_* montage of hers is an Algorithm Compaction move"
+      "intro_intro_skill_outdated_hallucination": "Algorithm Compaction — AM_SkillQte (0.733s) is the base cast, AM_Sp_SkillQte (1.067s) the enhanced one; every other AM_Sp_* montage of hers is an Algorithm Compaction move. WIRED 2026-10-02 via TIMING_VARIANT_RULES[1511] (rotation-rules.js), the one genuine state→variant selection of the six: verified that the AM_Sp_ prefix marks exactly the nine Compaction-replaced keys and nothing else, and her kit states the Intro's own in/out-of-Compaction split in its text"
     },
     "1603": {
-      "skill_vining_waltz_3": "Blossom Mode — the Waltz chain only exists inside it; AM_Attack03_Ex is the tap (stage 3)",
-      "skill_blazing_waltz": "Blossom Mode — evidence favours AM_Attack03_Ex_Loop (1.8634s): its bullet is '椿空中普攻第3段-循环' (stage 3 LOOP) and the kit casts Blazing Waltz by HOLDING Normal Attack during stage 3"
+      "skill_vining_waltz_3": "Blossom Mode — the Waltz chain only exists inside it; AM_Attack03_Ex is the tap (stage 3). RE-SCOPED 2026-10-02: not a variant selection. Both keys share the same two candidates and each ALREADY holds the right one (Ex for this tap stage, Ex_Loop for the hold below), so Blossom Mode is a CASTABILITY precondition for the whole chain rather than a selector between the two authorings. Kept flagged because castability is still unmodelled",
+      "skill_blazing_waltz": "Blossom Mode — evidence favours AM_Attack03_Ex_Loop (1.8634s): its bullet is '椿空中普攻第3段-循环' (stage 3 LOOP) and the kit casts Blazing Waltz by HOLDING Normal Attack during stage 3. RE-SCOPED 2026-10-02 — see skill_vining_waltz_3"
     },
     "1606": {
       "forte_heavy_1": "Beyond Imagination / Imagination gauge — _End_02_LV1 (0.500s, 1.9s cancel window) is the chaining/relaunch authoring, _End_LV1 (0.833s, 0.224s window) the grounded termination",

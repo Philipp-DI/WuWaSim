@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.6",
-  "generatedAt": "2026-09-21T13:50:15.233Z",
-  "engineHash": "da524bba1150bf1a6226f223b7f70add775d3c06d27ee7aff6edd52ff0a2259c",
+  "generatedAt": "2026-10-02T07:59:03.043Z",
+  "engineHash": "bd3f83cb6250d0a9e1646eef82024ac18e3e7aedb710548d728305939ebcc327",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -18614,8 +18614,8 @@
               "recommended": 1.153
             },
             "1410": {
-              "minViable": 1.182,
-              "recommended": 1.182
+              "minViable": 1.183,
+              "recommended": 1.183
             }
           },
           "teamDamage": 1276472,
@@ -25068,8 +25068,8 @@
               "recommended": 1.106
             },
             "1308": {
-              "minViable": 1.13,
-              "recommended": 1.13
+              "minViable": 1.131,
+              "recommended": 1.131
             },
             "1410": {
               "minViable": 1.159,
@@ -25633,8 +25633,8 @@
               "provisional": true
             },
             "1308": {
-              "minViable": 1.287,
-              "recommended": 1.287
+              "minViable": 1.288,
+              "recommended": 1.288
             },
             "1511": {
               "minViable": 1.377,
@@ -25871,7 +25871,7 @@
           "opener": {
             "1308": {
               "shortfalls": 2,
-              "requiredEr": 1.126
+              "requiredEr": 1.127
             },
             "1410": {
               "shortfalls": 2,
@@ -25912,8 +25912,8 @@
           "modes": {},
           "erOverride": {
             "1209": {
-              "minViable": 1.771,
-              "recommended": 1.771
+              "minViable": 1.772,
+              "recommended": 1.772
             },
             "1308": {
               "minViable": 1.176,
@@ -26010,8 +26010,8 @@
               "recommended": 1.106
             },
             "1308": {
-              "minViable": 1.13,
-              "recommended": 1.13
+              "minViable": 1.131,
+              "recommended": 1.131
             },
             "1410": {
               "minViable": 1.159,
@@ -26196,8 +26196,8 @@
           "modes": {},
           "erOverride": {
             "1308": {
-              "minViable": 1.142,
-              "recommended": 1.142
+              "minViable": 1.143,
+              "recommended": 1.143
             },
             "1404": {
               "minViable": 1.25,
@@ -26345,11 +26345,11 @@
           "opener": {
             "1308": {
               "shortfalls": 2,
-              "requiredEr": 1.131
+              "requiredEr": 1.132
             },
             "1607": {
               "shortfalls": 2,
-              "requiredEr": 1.165
+              "requiredEr": 1.166
             },
             "1610": {
               "shortfalls": 2,
@@ -28075,8 +28075,8 @@
           "modes": {},
           "erOverride": {
             "1308": {
-              "minViable": 1.142,
-              "recommended": 1.142
+              "minViable": 1.143,
+              "recommended": 1.143
             },
             "1404": {
               "minViable": 1.25,
@@ -31793,7 +31793,7 @@
           "opener": {
             "1308": {
               "shortfalls": 2,
-              "requiredEr": 1.126
+              "requiredEr": 1.127
             },
             "1410": {
               "shortfalls": 2,
@@ -31929,8 +31929,8 @@
               "recommended": 1.106
             },
             "1308": {
-              "minViable": 1.13,
-              "recommended": 1.13
+              "minViable": 1.131,
+              "recommended": 1.131
             },
             "1410": {
               "minViable": 1.159,
@@ -32205,8 +32205,8 @@
           "modes": {},
           "erOverride": {
             "1308": {
-              "minViable": 1.142,
-              "recommended": 1.142
+              "minViable": 1.143,
+              "recommended": 1.143
             },
             "1404": {
               "minViable": 1.25,
@@ -36376,7 +36376,7 @@
             },
             "1507": {
               "shortfalls": 2,
-              "requiredEr": 1.641
+              "requiredEr": 1.642
             }
           }
         },
@@ -39111,8 +39111,8 @@
               "provisional": true
             },
             "1308": {
-              "minViable": 1.287,
-              "recommended": 1.287
+              "minViable": 1.288,
+              "recommended": 1.288
             },
             "1511": {
               "minViable": 1.377,
@@ -45227,7 +45227,7 @@
           "opener": {
             "1308": {
               "shortfalls": 2,
-              "requiredEr": 1.126
+              "requiredEr": 1.127
             },
             "1410": {
               "shortfalls": 2,
@@ -45268,8 +45268,8 @@
           "modes": {},
           "erOverride": {
             "1209": {
-              "minViable": 1.771,
-              "recommended": 1.771
+              "minViable": 1.772,
+              "recommended": 1.772
             },
             "1308": {
               "minViable": 1.176,
@@ -67209,7 +67209,7 @@
           "basic_guts_1",
           "basic_guts_2",
           "basic_guts_3",
-          "skill_it_s_big_boomin_time",
+          "skill_come_n_get_me",
           "forte_heavy_rat_tat_tat_huntress",
           "liberation_mk_31_hmg",
           "liberation_boom_fireworks"
@@ -67473,7 +67473,7 @@
             "basic_guts_1",
             "basic_guts_2",
             "basic_guts_3",
-            "skill_it_s_big_boomin_time",
+            "skill_come_n_get_me",
             "forte_heavy_rat_tat_tat_huntress",
             "liberation_mk_31_hmg",
             "liberation_boom_fireworks"

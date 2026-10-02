@@ -13878,3 +13878,100 @@ with what shipped and what didn't; item 23 rewritten from "unblocked" to
 count and framing updated. `docs/HISTORY.md` — this entry.
 
 Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+
+## 2026-10-02 — Two of my own Tier 4 claims were mis-filed; the third hid a real defect
+
+Tier 4 left "wire the three new STATE_DEFS entries into timing-variant
+selection" as the named next step. Checking that framing against the actual
+`variants` arrays before building anything found only ONE of the three was a
+timing-variant problem at all — and investigating one of the other two
+surfaced a genuine defect in a curated reference rotation.
+
+**[What the verification found]** Of the three:
+→ **Lucy** is real and is now wired. `intro_intro_skill_outdated_hallucination`
+has two candidates and no pin (`AM_SkillQte` 0.733s vs `AM_Sp_SkillQte`
+1.067s), and two independent witnesses agree the split is Algorithm
+Compaction: her kit states the Intro's own in/out-of-Compaction behaviour in
+its text, and of her 23 measured keys the `AM_Sp_` prefix marks exactly the
+nine that Compaction replaces and nothing else.
+→ **Camellya** is not: both keys share the same two candidates and each
+already holds the correct one (`AM_Attack03_Ex` for the tap stage 3,
+`AM_Attack03_Ex_Loop` for the hold that casts Blazing Waltz). Blossom Mode
+is a CASTABILITY precondition for the whole Waltz chain, not a selector.
+→ **Rebecca** is not either: each of her two Intro keys is already settled by
+its own `pinnedMontage`; her mode decides which of the two KEYS is cast,
+which is an `introKeyFor` question, not a per-key variant one.
+
+**[The real defect, found by investigating a non-problem]** Rebecca's
+reference rotation was MODE-INCOHERENT. It cast
+`skill_it_s_big_boomin_time` — which the kit casts IN Huntress and which
+switches TO Guts — so the state timeline (newly able to answer this at all,
+thanks to Tier 4's STATE_DEFS entry) reported **Guts mode for the entire back
+half**, including `forte_heavy_rat_tat_tat_huntress`, a Huntress-mode heavy
+that could not be cast there. Three independent signals agreed the listed key
+was wrong: the kit text, the following step's own mode requirement, and the
+entry's OWN `source` annotation, which describes "Skill to Huntress" — i.e.
+`skill_come_n_get_me`. Demonstrated with the engine's own timeline before and
+after, not argued from the code.
+
+Fixed. The two skills are numerically identical (same 1.19/2.366 multiplier,
+same 1.3333s, same 7.0 Concerto, energy differing by 0.01), so this is not a
+damage correction — it is a correction to which MODE the back half of her
+rotation runs in, which is what the still-unbound Huntress (+30% Crit. DMG) /
+Guts (15% DEF ignore) effects will read once they are wired. Fixing it before
+that binding is what stops a wrong number later.
+
+**[The new mechanism, and the guard that makes it safe]**
+`TIMING_VARIANT_RULES` gained a second rule shape, `whenState`. It carries a
+real ordering hazard worth stating: `computeStepTimes` resolves durations
+BEFORE the full state timeline exists (the timeline takes step times as input,
+to expire a 'seconds' state), so the pre-pass runs `computeStateTimeline`
+without times while the main walk reads the full one. Those two agree only for
+a state whose exit needs no clock — so a `whenState` rule may only name a
+state whose exit mode is in `TIME_INDEPENDENT_EXIT_MODES`, and
+`tests/timing-variant.test.mjs` enforces that. Without the guard a 'seconds'
+state would read persist-like in the pre-pass and expired in the walk: one
+cast, two durations, from one rotation. The test also compares the two calls'
+output directly for Lucy's state rather than trusting the argument.
+
+**[Files Changed]** `src/core/rotation-rules.js` (`whenState` support,
+Lucy's rule, `TIME_INDEPENDENT_EXIT_MODES`, a `stateActive` import);
+`src/core/sim.js` (state pre-pass in `computeStepTimes`, full timeline in the
+main walk); `data/reference-rotations.json` (Rebecca's Skill step, with the
+correction documented in her own `source`); `data/timing-overrides.json`
+(Camellya's and Rebecca's notes re-scoped, Lucy's marked wired); new
+`tests/timing-variant.test.mjs`; `data/wuwa-data.json`, `data/wuwa-meta.json`,
+`data/data-version.json` (regenerated); `CLAUDE.md` (sub-agent model
+guidance, maintainer edit); `docs/OPEN-ITEMS.md` (item 22).
+
+**[Logic Altered]** `timingVariantFor` accepts an active-state set and
+resolves a `whenState` rule from it; a `whenPrevSkillType` rule still cannot
+fire at i === 0, while a `whenState` one can (a state may be
+`initiallyActive`). Both duration-resolution sites pass states. Nothing else
+changed.
+
+**[Verification Method]** Rebecca's defect and its fix both demonstrated by
+running the engine's own `computeStateTimeline` over her rotation and reading
+the per-step mode, before and after. Lucy's rule verified in all three
+directions (outside Compaction, inside it, and after a Liberation exits it)
+through `simulateRotation`, not through the rule function alone. The pre-pass
+vs full-timeline agreement asserted directly. LOCK A: timestamp only. LOCK B:
+28 ER figures, EVERY one under `"1308"`, each +0.001 from the 0.01 energy
+difference — zero damage, DPS, score or team-ordering movement, verified by
+tallying every changed key in the diff. `npm test` 79/79, `npm run sweep`
+70/70, `npm run lint` 0 errors / 1576 warnings.
+
+**[Residual Risks]** Rebecca's reference rotation is maintainer-curated data
+and I changed one step of it. The evidence is threefold and the numeric impact
+is ~zero, but it is a maintainer assertion and reverting is a one-line edit if
+they disagree. Camellya's and Rebecca's `needsStateModel` flags are kept (not
+dropped) because castability and intro-key choice remain unmodelled even
+though the timings are settled — so both still show as provisional in the
+rotation UI, which is honest but slightly over-cautious.
+
+**[Updated Docs]** `docs/OPEN-ITEMS.md` item 22 — the three-way claim replaced
+with the per-resonator verification and the Rebecca find.
+`data/timing-overrides.json` — three notes re-scoped in place.
+`docs/HISTORY.md` — this entry.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>

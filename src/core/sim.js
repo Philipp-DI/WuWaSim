@@ -448,14 +448,26 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
     const start = [], end = [], gameStart = [], gameEnd = [];
     const freeze = resolveFreezeSchedule(rotation, skillMap, dataset, liberationCost, resonator);
     const tuneBreakDuration = tuneBreakStepTimeOf(resonator);
+    // A TIME-INDEPENDENT state pre-pass, for `whenState` timing-variant rules
+    // only. The full timeline cannot be built here — it takes these very step
+    // times as input, to expire a 'seconds' state — so this runs the SAME
+    // function without them, which its docstring explicitly allows. That is
+    // exact for the only exit modes a `whenState` rule may name
+    // (TIME_INDEPENDENT_EXIT_MODES, asserted by tests/timing-variant.test.mjs),
+    // so the answer here and the one the main walk reads off the full timeline
+    // are the same answer, not two.
+    const statesForTiming = computeStateTimeline(
+        rotation, skillMap, stateDefsForResonator(resonator?.id)).activeAt;
     let time = 0, freezeSum = 0;
     for (let i = 0; i < rotation.length; i++) {
         const key = rotation[i];
         // A key flagged needsStateModel (data/timing-overrides.json) carries
-        // several measured candidates; TIMING_VARIANT_RULES picks the one that
-        // matches what the PRECEDING step was, when a rule exists — every other
-        // key (no rule, or i === 0) is unaffected, timingVariantFor returns null.
-        const variant = skillMap[key] ? timingVariantFor(resonator?.id, key, skillMap[key], rotation, i, skillMap) : null;
+        // several measured candidates; TIMING_VARIANT_RULES picks the one its
+        // rule matches — the PRECEDING step's skillType, or a live state. Every
+        // other key is unaffected: timingVariantFor returns null without a rule.
+        const variant = skillMap[key]
+            ? timingVariantFor(resonator?.id, key, skillMap[key], rotation, i, skillMap, statesForTiming[i])
+            : null;
         // Echo step time: 0 for parallel echoes, ECHO_CAST_TIME for a
         // transformation echo that locks the resonator (resolveEchoStepTime).
         const stepDuration = key === ECHO_STEP_KEY ? echoStepDuration
@@ -844,7 +856,8 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // rule (rotation-rules.js) — must agree with the SAME substitution in
         // computeStepTimes' pre-pass, or this step's own numbers would disagree
         // with the gameTime/state timeline already built from it.
-        const timingVariant = timingVariantFor(resonator?.id, skillKey, skillDef, rotation, i, skillMap);
+        const timingVariant = timingVariantFor(resonator?.id, skillKey, skillDef, rotation, i, skillMap,
+            stateTimeline.activeAt[i]);
         const stepDuration = timingVariant
             ? Math.max(timingVariant.stepDuration ?? 0, timingVariant.resolvesAt ?? 0)
             : resolveStepDuration(skillDef, dataset);

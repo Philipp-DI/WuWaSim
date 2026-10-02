@@ -41,6 +41,12 @@
  * a warning for that step.
  */
 
+// `stateActive` only — the same fuzzy name match every state gate in the engine
+// uses, so a `whenState` timing rule and an `inState` effect gate can never
+// disagree about whether a state is on. rotation-state.js imports nothing, so
+// this direction cannot cycle.
+import { stateActive } from './rotation-state.js';
+
 // =============================================================================
 // Per-resonator rule table, keyed by resonator id.
 // =============================================================================
@@ -514,7 +520,8 @@ export function stateDefsForResonator(resonatorId) {
 // data/timing-overrides.json flags `needsStateModel`); this table says which
 // one applies.
 //
-//   { whenPrevSkillType: string, variantMontage: string }
+//   { whenPrevSkillType: string, variantMontage: string }   — rotation order
+//   { whenState: string,         variantMontage: string }   — a STATE_DEFS state
 //
 // `whenPrevSkillType` matches the PRECEDING rotation step's mechanical
 // skillType — cheap and precedented (rotation-graph.js's STAGE_GRANTS `after`
@@ -524,6 +531,21 @@ export function stateDefsForResonator(resonatorId) {
 // different questions. `variantMontage` is matched against each variant's
 // `montage` (a suffix test — the extracted path carries the character's own
 // asset directory, the rule only needs the filename).
+//
+// `whenState` names a STATE_DEFS state instead, for the case where the game
+// really does author one key two ways depending on a kit-granted mode. It is
+// resolved from the state timeline, which creates an ORDERING problem worth
+// stating: `computeStepTimes` resolves durations BEFORE
+// `computeStateTimeline` exists (the timeline takes step times as INPUT, to
+// expire a 'seconds' state), so the two consumers read the state from
+// different calls of the same function — the pre-pass runs it WITHOUT times
+// (which its own docstring blesses: "callers that don't have timing info may
+// omit it"), the main walk reads the full timeline. Those two agree only for a
+// state whose exit needs no clock, so a `whenState` rule may ONLY name a state
+// whose exit mode is time-independent ('persist', 'consumedBy', 'duration').
+// `tests/timing-variant.test.mjs` enforces that, because a 'seconds' state
+// would read persist-like in the pre-pass and expire in the walk — one cast
+// getting two different durations from one rotation.
 //
 // Zhezhi's Heavy Attack Conjuration is the one roster case with two verified
 // candidates sharing one damage id (measured in data/actionable-times.json,
@@ -536,23 +558,60 @@ export function stateDefsForResonator(resonatorId) {
 // default; a known, conservative approximation (no physics model exists to
 // do better), not a defect this table can close.
 //
-// Brant's four needsStateModel keys (midair_mid_air_attack_1..4) were
-// investigated the same day and found to have NO live decision here: three
-// have exactly one montage candidate in the export (nothing to select
-// between) and the fourth's three candidates are variants of the SAME
-// airborne bullet, not a ground/air split. No entry — see OPEN-ITEMS 22.
+// Lucy's Intro is the one verified `whenState` case (2026-10-02). Her kit
+// states the Intro behaves differently inside the state in its own text ("If
+// Lucy is NOT in Algorithm Compaction after casting this skill … cast Basic
+// Attack Stage N. If Lucy IS in Algorithm Compaction after casting this skill
+// … cast Basic Attack - Thread Shredding Stage N"), and the asset names are
+// their own second witness: of her 23 measured keys, the `AM_Sp_` prefix
+// appears on exactly the NINE that Algorithm Compaction replaces (Thread
+// Shredding 1-4, Single/Dual/Multi-threading, and the Compaction mid-air and
+// dodge-counter) and on nothing else — so `AM_Sp_SkillQte` (1.067s) is the
+// Compaction authoring of `AM_SkillQte` (0.733s), which is the default.
+//
+// THREE of the six needsStateModel resonators have no entry here, each for a
+// measured reason rather than for want of effort (OPEN-ITEMS 22):
+// → Brant's four keys (midair_mid_air_attack_1..4): three have exactly one
+//   montage candidate in the export (nothing to select between) and the
+//   fourth's three candidates are variants of the SAME airborne bullet, not a
+//   ground/air split.
+// → Camellya's two (skill_vining_waltz_3, skill_blazing_waltz): both keys
+//   share the same two candidates and ALREADY hold the right one each —
+//   `AM_Attack03_Ex` (1.150s) for the tap stage 3, `AM_Attack03_Ex_Loop`
+//   (1.863s) for the hold that casts Blazing Waltz. Blossom Mode is a
+//   CASTABILITY precondition for the whole Waltz chain, not a selector
+//   between those two authorings.
+// → Rebecca's two Intro keys: likewise already resolved, and by a
+//   `pinnedMontage` each (`AM_QTE_S` 1.533s for the Huntress intro,
+//   `AM_QTE_M_Start01` 1.158s for the Guts one). Her Huntress/Guts mode
+//   decides WHICH OF THE TWO KEYS is cast, which is an `introKeyFor`
+//   question, not a per-key variant one.
 export const TIMING_VARIANT_RULES = Object.freeze({
     1105: {
         forte_heavy_ha_conjuration: { whenPrevSkillType: 'midair', variantMontage: 'AM_Attack05_Air.uasset' },
     },
+    1511: {
+        intro_intro_skill_outdated_hallucination: { whenState: 'Algorithm Compaction', variantMontage: 'AM_Sp_SkillQte.uasset' },
+    },
 });
 
+// Exit modes a `whenState` rule may depend on: those the state timeline
+// resolves identically with and without step times. See the ordering note
+// above — this is the invariant that keeps the pre-pass and the main walk
+// from disagreeing about one cast's duration.
+export const TIME_INDEPENDENT_EXIT_MODES = Object.freeze(['persist', 'consumedBy', 'duration']);
+
 /**
- * The variant (if any) this key's timing should use, given the rotation step
- * immediately before it. Returns null when no rule applies, the key carries
- * no rule, or there is no previous step (i === 0) — every caller then keeps
- * the key's own already-chosen fields, which is the correct, unchanged
- * behaviour for the other ~1,100 skillMap keys with no rule at all.
+ * The variant (if any) this key's timing should use at this point in the
+ * rotation. Returns null when no rule applies, the key carries no rule, or the
+ * rule's condition does not hold — every caller then keeps the key's own
+ * already-chosen fields, which is the correct, unchanged behaviour for the
+ * other ~1,100 skillMap keys with no rule at all.
+ *
+ * A `whenPrevSkillType` rule needs a previous step, so it never fires at
+ * i === 0. A `whenState` rule has no such restriction: a state can be
+ * `initiallyActive` (Rebecca's Huntress, Hiyuki's Present Self), so step 0 is
+ * a legitimate match.
  *
  * @param {number|string} resonatorId
  * @param {string} key
@@ -560,14 +619,18 @@ export const TIMING_VARIANT_RULES = Object.freeze({
  * @param {string[]} rotation
  * @param {number} i             — index of `key` within `rotation`
  * @param {object} skillMap
+ * @param {Set<string>} [activeStates] — states active entering step i
  * @returns {object|null} a variant object ({ stepDuration, resolvesAt, freezeTime, montage })
  */
-export function timingVariantFor(resonatorId, key, skillDef, rotation, i, skillMap) {
-    if (!skillDef?.variants?.length || i <= 0) return null;
+export function timingVariantFor(resonatorId, key, skillDef, rotation, i, skillMap, activeStates = null) {
+    if (!skillDef?.variants?.length) return null;
     const rule = TIMING_VARIANT_RULES[Number(resonatorId)]?.[key];
     if (!rule) return null;
-    const prevType = skillMap[rotation[i - 1]]?.skillType;
-    if (prevType !== rule.whenPrevSkillType) return null;
+    if (rule.whenPrevSkillType != null) {
+        if (i <= 0) return null;
+        if (skillMap[rotation[i - 1]]?.skillType !== rule.whenPrevSkillType) return null;
+    }
+    if (rule.whenState != null && !stateActive(activeStates, rule.whenState.toLowerCase())) return null;
     return skillDef.variants.find(variant => variant.montage?.endsWith(rule.variantMontage)) ?? null;
 }
 

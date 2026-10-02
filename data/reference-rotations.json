@@ -470,13 +470,13 @@
  },
  "1308": {
   "name": "Rebecca",
-  "source": "Prydwen loop rotation (Huntress intro → Guts basics → Skill to Huntress → Forte Heavy → Ult → Boom Fireworks swap). Carries over 10 Concerto from opener.",
+  "source": "Prydwen loop rotation (Huntress intro → Guts basics → Skill to Huntress → Forte Heavy → Ult → Boom Fireworks swap). Carries over 10 Concerto from opener. MODE CORRECTION 2026-10-02: the Skill step listed `skill_it_s_big_boomin_time`, which the kit casts IN Huntress and which switches TO Guts — the opposite of this entry's own 'Skill to Huntress' description, and it left the following Huntress-mode Forte Heavy unreachable. `skill_come_n_get_me` is the Guts→Huntress one. The two are numerically identical (same 1.19/2.366 multiplier, same 1.3333s, same 7.0 Concerto, energy differs by 0.01), so this moves no damage today; it fixes which MODE the state timeline reports for the back half of the rotation, which is what the still-unbound Huntress (+30% Crit. DMG) / Guts (15% DEF ignore) effects will read once they are wired.",
   "rotation": [
    "intro_yo_it_s_big_boomin_time",
    "basic_guts_1",
    "basic_guts_2",
    "basic_guts_3",
-   "skill_it_s_big_boomin_time",
+   "skill_come_n_get_me",
    "forte_heavy_rat_tat_tat_huntress",
    "liberation_mk_31_hmg",
    "liberation_boom_fireworks"

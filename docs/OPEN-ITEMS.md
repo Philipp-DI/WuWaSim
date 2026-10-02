@@ -1168,12 +1168,46 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
         (entered by `skill_crimson_blossom`, exited by casting
         `skill_floral_ravage` or `skill_vining_ronde`) is additive to the
         existing entry.
-      **None of these three is wired into TIMING-VARIANT selection yet** —
-      STATE_DEFS entries are the prerequisite (they feed the SAME
-      `computeStateTimeline` the buff-gating lane already runs), but the
-      selection mechanism `computeStepTimes` runs BEFORE that timeline exists,
-      an ordering problem Zhezhi's rotation-order lookback does not have to
-      solve. Wiring these three is the next concrete step in this item.
+      **RE-VERIFIED 2026-10-02, and two of those three were MIS-FILED** — the
+      framing above assumed all three were timing-variant problems awaiting
+      wiring. Checked against the actual `variants` arrays, only ONE is:
+      - **Lucy — WIRED.** `intro_intro_skill_outdated_hallucination` has two
+        real candidates and no pin: `AM_SkillQte` (0.733s) default,
+        `AM_Sp_SkillQte` (1.067s) inside Compaction. Two independent witnesses
+        agree: her kit states the Intro's own in/out-of-Compaction split in its
+        text, and of her 23 measured keys the `AM_Sp_` prefix marks exactly the
+        NINE that Compaction replaces and nothing else. Shipped as
+        `TIMING_VARIANT_RULES[1511]` with a new `whenState` rule shape.
+      - **Camellya — NOT a variant question.** Both keys share the same two
+        candidates and each already holds the correct one (`AM_Attack03_Ex`
+        1.150s for the tap stage 3, `AM_Attack03_Ex_Loop` 1.863s for the hold
+        that casts Blazing Waltz). Blossom Mode is a CASTABILITY precondition
+        for the whole Waltz chain, not a selector between those authorings.
+      - **Rebecca — NOT a variant question either.** Each of her two Intro
+        keys is already settled by its own `pinnedMontage`. Her mode decides
+        which of the two KEYS is cast, which is an `introKeyFor` question.
+      Both notes re-scoped in `data/timing-overrides.json` rather than left to
+      mislead the next reader, exactly as Brant's was.
+
+      **THE REAL FIND, from investigating Rebecca's non-problem:** her
+      reference rotation was MODE-INCOHERENT. It cast
+      `skill_it_s_big_boomin_time`, which the kit casts IN Huntress and which
+      switches TO Guts — so the state timeline (newly able to answer this, via
+      the STATE_DEFS entry above) reported **Guts mode for the whole back half**,
+      including `forte_heavy_rat_tat_tat_huntress`, a Huntress-mode heavy that
+      could not have been cast there at all. Three independent signals agree the
+      listed key was wrong: the kit text, the following step's own mode
+      requirement, and the entry's OWN `source` annotation, which describes
+      "Skill to Huntress" — i.e. `skill_come_n_get_me`, the Guts→Huntress one.
+      Fixed. The two skills are numerically identical (same 1.19/2.366
+      multiplier, same 1.3333s, same 7.0 Concerto), so **LOCK B moved only ER**:
+      28 `minViable`/`recommended`/`requiredEr` figures, every one under
+      `"1308"`, each +0.001 from the 0.01 energy difference — zero damage, DPS,
+      score or team-ordering change. The payoff is not today's number: once the
+      still-unbound Huntress (+30% Crit. DMG) / Guts (15% DEF ignore) effects
+      ARE bound to these states, the wrong mode would have credited her the Guts
+      bonus on her biggest steps. Pinned by `tests/timing-variant.test.mjs`.
+
     → **Roccia (1606) — RESOURCE_DEFS shipped, not STATE_DEFS.** "Beyond
       Imagination" is named as a state in the kit text but the
       `forte_heavy_1/2/3` timing question is answered by the *Imagination
