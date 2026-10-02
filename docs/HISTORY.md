@@ -14355,3 +14355,71 @@ which `effect-overrides.json` cannot address.
   own deliberate change.
 - **7 dead scopes remain**, across five causes, all allow-listed with their
   investigated cause. Taoqi's `S5.0` is the next cleanest.
+
+## 2026-10-02 — Taoqi's Power Shift is a NODE name, and the game says so structurally
+
+**[Files Changed]** `data/effect-overrides.json` (`1601.S5.0`, a new block),
+`tests/dead-scope.test.mjs` (entry deleted, `'forte'` count 3 → 2),
+regenerated `data/wuwa-data.json` + `data/wuwa-meta.json`,
+`docs/OPEN-ITEMS.md`, `docs/HISTORY.md`.
+
+**[Logic Altered]** Second fix driven by `tests/dead-scope.test.mjs`, and the
+second allow-list entry deleted. "The damage of Forte Circuit Power Shift is
+increased by 50%." shipped scoped to `skillType: 'forte'` and so paid NOTHING on
+either lens — `'forte'` is not an attribution tag, and `nodeTypeMatches` strips
+`forte_` off the NODE type, so `'forte'` is compared against `'heavy'` and never
+matches. The category was lifted from the NAME "Forte Circuit Power Shift", the
+third instance of that cause after Luuk S6.1 and Camellya S6.0.
+
+**Power Shift is the Forte Circuit NODE'S own name, not a skill** — and this was
+not inferred from prose. The game states it structurally: `skill_trees[7].skill`
+is NAMED "Power Shift", its `desc` describes Timed Counters, and its own level
+params are exactly "Timed Counters Stage 1/2/3 DMG" plus "Timed Counters Stage
+1/2/3 Shield". A direct parent/child relation. Two further witnesses agree: those
+three are her ONLY Forte Circuit damage rows, so there is nothing else the clause
+could mean; and the sibling chain clause "Forte Circuit Power Shift's Shield is
+increased by 40%" matches the Shield params of that same node. Unconditional, so
+trigger/window are left as parsed (`none`/`always`) and the NAME scope is what
+satisfies the unscoped-`multiplierUp` danger.
+
+**[Verification Method]** LOCK A: exactly the one effect. On her reference
+rotation, which casts all three stages: **exactly 1.5x each** — 803/1033/1354 →
+1204/1549/2031, the kit's +50% to the digit — and her S5 total **10,468 → 12,062
+(+15.23%)**, where S5 had previously scored identically to S4 because its only
+effect was dead. `dead-scope` 25/25 with the entry removed.
+
+Geared, in her own baseline meta team (Taoqi / Changli / Aemeath): own damage
+**183,027 -> 201,098 (+9.87%)**, `ownGain` 5.34% -> **15.74%**, `teamGain`
+0.51% -> **1.52%**, team damage +1.00% — small in absolute terms because she is a
+defensive unit contributing ~10% of her team's output, which is exactly why a dead
+node of hers could sit unnoticed. LOCK B moved **2 of 312 `sequenceEval` rows**
+(her chain 5 AND chain 6, which move together) and **zero teams**; chain 6 still
+equals chain 5 after the fix, which is the independent confirmation that her S6.0
+is worth exactly nothing.
+
+**[Also found, NOT fixed — and a limit of the new test worth stating]** Her
+**S6.0 is dead too, for a different reason the dead-scope test cannot see.** "The
+damage of Taoqi's Basic Attack and Heavy Attack is increased by 40% while the
+Shield granted by Resonance Skill Rocksteady Shield holds" carries
+`trigger: unknown`, so it resolves OFF entirely whatever its scope — which is why
+her S6 still scores identically to S5. It is ALSO mis-scoped
+(`skillType: 'basic'` for a clause naming Basic AND Heavy, so the Heavy half would
+be missed even once triggered) — the same two-category-list shape as Galbrena's
+IH0.0. Closing it needs a shield state in `STATE_DEFS` plus the enumeration shape.
+
+Counted while there: **128 of 440 kit effects carry `trigger: 'unknown'`** and so
+resolve OFF. That is NOT a hidden gap — `detectWarnings` already flags each as
+`UNKNOWN_TRIGGER` (`tests/audit-effects.test.mjs`) — and it is mostly the
+documented "conditional effects default OFF" policy working rather than 128
+defects. The lesson is narrower and worth keeping: **Luuk's S6.1 was BOTH**, the
+unknown-trigger warning existed for it, and it still shipped — because a warning
+is not a failure.
+
+**[Residual Risks]**
+- **6 dead scopes remain**, across four causes, all allow-listed with their
+  investigated cause. Only Sigrika's two are still `'forte'`, and they are blocked
+  behind her Innate Gift? gauge (team-composition income), not behind the scope.
+- Taoqi's S6.0 as above: two defects stacked on one effect, neither fixed.
+- The dead-scope test sees only effects the parser EMITTED, and only scopes that
+  are unsatisfiable. A scope that is wrong but satisfiable still passes, and an
+  effect that never triggers is `audit-effects.test.mjs`'s question.

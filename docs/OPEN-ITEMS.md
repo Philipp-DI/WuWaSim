@@ -210,12 +210,20 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    the original: reverting Luuk's name binding makes it fail naming `1510.S6.1`.
    Its allow-list is a contract that may only SHRINK — an entry that stops being
    dead FAILS, so a fix must delete its entry rather than leave a stale excuse.
+   **What it deliberately does NOT see:** an effect dead because its TRIGGER never
+   resolves. `trigger: 'unknown'` resolves OFF whatever its scope, and **128 of 440
+   kit effects are in that state** — but that class is already surfaced, by
+   `detectWarnings`'s `UNKNOWN_TRIGGER` (`tests/audit-effects.test.mjs`), and is
+   mostly the documented "conditional effects default OFF" policy working rather
+   than 128 defects. Luuk's S6.1 was BOTH, which is worth remembering: the
+   unknown-trigger warning existed for it and it still shipped, because a warning
+   is not a failure.
    **8 dead when it was written, across SIX distinct causes** — they are
    emphatically not one bug, and one earlier candidate was a false positive of my
-   own first probe. **7 remain: Camellya's was fixed the same day and her entry
-   DELETED**, which is the shrink-only contract doing its job:
+   own first probe. **6 remain: Camellya's and Taoqi's were fixed the same day and
+   their entries DELETED**, which is the shrink-only contract doing its job:
    → **`'forte'` is never a scope on EITHER lens, and accounted for 4 of the 8
-     (3 now).**
+     (2 now — both Sigrika's, blocked behind her Innate Gift? gauge).**
      It is not an attribution tag — the game ships exactly basic, heavy,
      liberation, intro, skill, echo — and `nodeTypeMatches` strips `forte_` off
      the NODE type, so `'forte'` is compared against `'heavy'` and fails there
@@ -279,12 +287,30 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
        first expected does NOT happen. The override uses the real state gate, so
        on a tail longer than 15s the enhancement would outlive the base. The base
        is the wrong half there, and no shipped rotation reaches it.
-   → **Taoqi S5.0.** "The damage of Forte Circuit Power Shift is increased by
-     50%." "Power Shift" is the FORTE CIRCUIT's own name and has no damage row;
-     the circuit's damage ships as "Timed Counters Stage 1/2/3". Confirmed by the
-     sibling clause "Forte Circuit Power Shift's Shield is increased by 40%" —
-     the only shields in her data being "Timed Counters Stage N Shield". Bindable
-     to those three keys.
+   → ~~**Taoqi S5.0.**~~ **FIXED 2026-10-02**, entry DELETED. "The damage of Forte
+     Circuit Power Shift is increased by 50%." **Power Shift is the Forte Circuit
+     NODE'S OWN NAME, not a skill**, and the game states that structurally rather
+     than by inference: `skill_trees[7].skill` is NAMED "Power Shift", its `desc`
+     describes Timed Counters, and its own level params are exactly "Timed
+     Counters Stage 1/2/3 DMG" plus "Timed Counters Stage 1/2/3 Shield" — a direct
+     parent/child relation. Two further witnesses agree: those three are her ONLY
+     Forte Circuit damage rows, so there is nothing else it could mean; and the
+     sibling chain clause "Forte Circuit Power Shift's Shield is increased by 40%"
+     matches the Shield params of that same node. Bound to the three Timed
+     Counters keys; unconditional, so trigger/window stay as parsed and the NAME
+     scope is what satisfies the unscoped-`multiplierUp` danger. MEASURED on her
+     reference rotation (which casts all three stages): **exactly 1.5x each**
+     — 803/1033/1354 -> 1204/1549/2031, the kit's +50% to the digit — and her S5
+     total **10,468 -> 12,062 (+15.23%)**, where S5 had scored identically to S4.
+     → **Her S6.0 is dead too, for a DIFFERENT reason this test cannot see.**
+       "The damage of Taoqi's Basic Attack and Heavy Attack is increased by 40%
+       while the Shield granted by Resonance Skill Rocksteady Shield holds" carries
+       `trigger: unknown`, so it resolves OFF entirely regardless of scope — which
+       is why her S6 still scores identically to S5. It is ALSO mis-scoped
+       (`skillType: 'basic'` for a clause naming Basic AND Heavy, so the Heavy half
+       would be missed even once triggered), the same two-category-list shape as
+       Galbrena's IH0.0. Closing it needs a shield state in `STATE_DEFS` plus the
+       enumeration shape.
    → **Lucilla S2.0.** "While casting Resonance Liberation - Clear As Day,
      Lucilla grants the following enhancements…" — the category belongs to the
      leading TRIGGER, not to the grant, which states none. CLAUDE.md already has

@@ -359,6 +359,16 @@
         "_asymmetryNote": "The BASE effect it enhances sits in skillNodeEffects, which this file cannot address (slot namespaces are only S<level>.<index> and IH<node>.<index>), and its window is \"seconds: 15\" -- a number scraped from an unrelated clause of the same node desc (\"Each bud lasts for 15s\", the Crimson Bud lifetime; Budding Mode itself has NO timer). It is right by coincidence here: its trigger is exactly forte_heavy_ephemeral, the cast that ENTERS Budding Mode, so \"15s after Ephemeral\" tracks the state across her six-step tail -- MEASURED active on exactly steps 11-16, the Budding Mode steps, and on no others. This override uses the real state gate instead, so on a tail longer than 15s the enhancement would stay live after the base expired. The base is the wrong half there (Budding Mode does not expire), and no shipped rotation reaches it."
       }
     },
+    "1601": {
+      "S5.0": {
+        "skillKeys": [
+          "forte_heavy_timed_counters_1",
+          "forte_heavy_timed_counters_2",
+          "forte_heavy_timed_counters_3"
+        ],
+        "_resolvedVia": "2026-10-02, found by tests/dead-scope.test.mjs: \"The damage of Forte Circuit Power Shift is increased by 50%.\" shipped scoped to skillType 'forte' and therefore DEAD on BOTH lenses -- 'forte' is not an attribution tag, and nodeTypeMatches strips forte_ off the NODE type, so 'forte' is compared against 'heavy' and never matches. The category was lifted from the NAME \"Forte Circuit Power Shift\", the same false positive as Luuk Herssen S6.1 and Camellya S6.0. POWER SHIFT IS THE FORTE CIRCUIT NODE'S OWN NAME, not a skill, and the game says so structurally rather than by inference: skill_trees[7].skill is NAMED \"Power Shift\", its desc describes Timed Counters, and its own level params are exactly \"Timed Counters Stage 1/2/3 DMG\" plus \"Timed Counters Stage 1/2/3 Shield\" -- a direct parent/child relation. Two further witnesses agree: those three are her ONLY Forte Circuit damage rows (nothing else it could mean), and the sibling chain clause \"Forte Circuit Power Shift's Shield is increased by 40%\" matches the Shield params of that same node. Unconditional, so trigger/window are left as parsed (none/always); the NAME scope is what satisfies the unscoped-multiplierUp danger."
+      }
+    },
     "1607": {
       "S4.0": {
         "trigger": {

@@ -1,7 +1,7 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.6",
-  "generatedAt": "2026-10-02T13:34:30.506Z",
+  "generatedAt": "2026-10-02T14:11:30.981Z",
   "engineHash": "e9b57b1898f7b95cc7c7dd54fcd99a7bbdb8b581c92972324a17c8ef5dc68422",
   "erModel": "mode-based-v1",
   "characters": {
@@ -84361,23 +84361,23 @@
         },
         {
           "chain": 5,
-          "teamDamage": 1810783,
-          "ownDamage": 183027,
-          "teamGain": 0.0051,
-          "ownGain": 0.0534
+          "teamDamage": 1828854,
+          "ownDamage": 201098,
+          "teamGain": 0.0152,
+          "ownGain": 0.1574
         },
         {
           "chain": 6,
-          "teamDamage": 1810783,
-          "ownDamage": 183027,
-          "teamGain": 0.0051,
-          "ownGain": 0.0534
+          "teamDamage": 1828854,
+          "ownDamage": 201098,
+          "teamGain": 0.0152,
+          "ownGain": 0.1574
         }
       ],
-      "fullChain": 0.0534,
+      "fullChain": 0.1574,
       "bestNode": {
-        "chain": 2,
-        "step": 0.0534
+        "chain": 5,
+        "step": 0.104
       }
     },
     "1602": {
