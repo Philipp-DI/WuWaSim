@@ -138,13 +138,32 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    (`RESOURCE_DEFS[1510]`). Measured before the fix: S6.1 was entirely OFF
    (trigger `unknown`), so **an S6 build's Liberation dealt exactly the same
    damage as an S2 one** and `sequenceEval` scored his S6 node at exactly zero
-   over S5. Wiring the gauge alone was NOT enough — the second half is that the
-   clause's own category CONTRADICTS the name it states: the game tags that
-   Liberation row's instances type 0, so `dmgTypes` reads `["basic"]` and the hit
-   reads the Basic Attack bucket while the clause parses `skillType:
-   'liberation'`, and both gates together match nothing. Scoped BY NAME per
-   CLAUDE.md's "clause that NAMES its skills" invariant — the same failure it
-   already records for Aemeath, in mirror image. Curated rather than bound by
+   over S5. Wiring the gauge alone was NOT enough, and the second
+   half was MIS-STATED in this entry's first draft (corrected 2026-10-02 after
+   review). The clause states no damage category at all: its only occurrence of
+   "Resonance Liberation" is the first two words of the skill's own proper name,
+   *"Resonance Liberation Rewritten in Winter's Margins"*, which
+   `detectSkillType` lifts into `skillType: 'liberation'` as a FALSE POSITIVE off
+   the NAME. The kit grants 40% DMG Bonus **to a named skill**, which is not a
+   bucket grant — a named grant pays whatever bucket that skill's hits read. The
+   invented category then happened to be the one bucket his Liberation does NOT
+   read (its instances are type 0, so the hit reads Basic Attack), so both gates
+   together matched nothing and the effect paid zero even with a correct stack
+   count in hand. **A Liberation CAST dealing Basic-bucket damage is ordinary and
+   correct** — the engine keeps the two lenses apart deliberately (`skill.js`
+   resolves `ctxFormula` from the ATTRIBUTION and `ctxNode` from the mechanical
+   node type), verified per-hit: a "Resonance Liberation DMG Bonus" grant
+   correctly pays 0 on that hit, a "Basic Attack DMG Bonus" grant correctly pays,
+   and a "DMG Multiplier of the Liberation" grant correctly pays on the node
+   lens. That is NOT the defect, and the first draft wrongly presented it as one.
+   Had the skill been named "Basic Attack …", the same mis-lift would have
+   accidentally WORKED, which is the tell that the category was never
+   load-bearing. Scoped BY NAME per CLAUDE.md's "clause that NAMES its skills"
+   invariant. **NOT the Aemeath case**, which the first draft also claimed: hers
+   is a genuine contradiction between two real statements (her kit does say her
+   Heavy Attacks are "considered Resonance Liberation DMG"), this is one
+   statement plus a parser artifact — same remedy, different cause. Curated
+   rather than bound by
    the parser because `resolveNameToKeys` **cannot** reach this key and that is
    roster-wide, not his: **30 resonators** key their main Liberation as bare
    `liberation` while its row label carries the skill's own name, so the name has
@@ -179,6 +198,35 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    either. Closing it needs a heading-aware resource binding plus that regex
    widening, or a third slot namespace; each is its own change with its own
    blast radius, which is why neither was bolted onto this one.
+
+   → **A roster-wide audit this cause suggests, run 2026-10-02.** A bucket scope
+   no hit of the owner's kit can read is DEAD BY ARITHMETIC whatever its value,
+   which is cheap to test directly: of **40** unnamed bucket-scoped effects
+   (`skillTypeBonus`/`amplify` carrying a `skillType` and no bound `skillKeys`),
+   **7 are dead**. They are NOT all one bug and only one is confirmed.
+   → **Sigrika S + SN, `amplify` scoped `'forte'` — real and unambiguous.** The
+     game ships exactly six attribution tags (basic, heavy, liberation, intro,
+     skill, echo) and **`forte` is not one of them** — it is a provenance prefix
+     on a KEY, never a bucket, so these two can never match any hit on any
+     resonator. Both state a per-stack amplify on her NAMED Runic skills, so a
+     name binding is the likely fix, but what `forte` should resolve to depends
+     on how those Runic rows are actually tagged. Not guessed here.
+   → **Lucilla SN, `'echo'` — a FALSE POSITIVE of the audit, not a defect.** She
+     has `resonanceModes`, and her [Letting It Go] is the documented mode-branch
+     row, so her kit DOES read the echo bucket under Resonance Mode - Echo; the
+     audit passed no `resonanceMode` and fell back to `formulaType`. Any future
+     run of this check must resolve modes per build or it will keep reporting her.
+   → **Unverified, each needing its own look:** Lucilla S `'liberation'` (likely
+     Luuk's exact class — "While casting Resonance Liberation - Clear As Day" is
+     a name AND a leading trigger, which CLAUDE.md separately says is never the
+     scope); Galbrena S `'basic'` and IH `'skill'` (her Basic Attack rows really
+     are tagged `heavy`/`echo`, so "Galbrena's Basic Attack DMG" paying nothing
+     may be correct game behaviour rather than a bug — and the IH one states a
+     comma-separated list of FOUR categories that was read as one); Iuno SN
+     `'heavy'` (its text says "The **incoming** Resonator gains …" while
+     `recipient` is `undefined` and `teamWide` false, so it is scoped against
+     Iuno's own kit — but the incoming lane must be checked before calling it
+     broken).
 
    → **Also surfaced, unexplained:** his `sequenceEval` chain-4 row is identical
    to chain-3 both before and after this change, so S4 is worth exactly zero in

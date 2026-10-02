@@ -610,11 +610,15 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
 //    a second witness before a `unit` is trusted; with none, the channel stays
 //    unclaimed rather than guessed. The kit states the cap twice instead
 //    ("stacking up to 3 times", and S6's "40% DMG Bonus, up to 120%" = 3).
-// 2. The effect is scoped BY NAME against a category that CONTRADICTS it. The
-//    game tags this Liberation's damage instances type 0, so the hit reads the
-//    Basic Attack bucket while the clause parses skillType 'liberation' — both
-//    gates together match nothing, which is why it paid zero even once
-//    triggered and stacked.
+// 2. The effect is scoped BY NAME, because the clause states no category at all.
+//    Its only "Resonance Liberation" is the lead of the skill's own proper name,
+//    which the parser lifts into skillType 'liberation' — a false positive off
+//    the NAME. A grant to a named skill pays whatever bucket that skill's hits
+//    read, and the invented category happened to name the one bucket this
+//    Liberation does NOT read (its instances are type 0, so the hit reads Basic
+//    Attack — an ordinary Liberation CAST dealing Basic-bucket damage, which is
+//    correct and not a defect), so both gates together matched nothing and the
+//    effect paid zero even once triggered and stacked.
 // 3. A 'persist' window is safe HERE because the count is the gauge: the
 //    Liberation's own spendAll zeroes it, so the effect self-scopes to nothing
 //    on every later step. The last assertion is what proves that, and it is the
@@ -672,7 +676,7 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // future re-tagging of the row surfaces here rather than silently.
     const libRow = (dataset.damageTable[String(LUUK)] ?? [])
         .find(row => (resonator.id, dataset.autoSkillMap[String(LUUK)].liberation.damageIds.includes(row.id)));
-    assert("the game tags that Liberation's hits 'basic', which is why the name must win",
+    assert("the game tags that Liberation's hits 'basic' — a Liberation CAST in the Basic bucket, so only the NAME can scope this grant",
         JSON.stringify(libRow?.dmgTypes) === JSON.stringify(['basic']));
     assert('his Intro row is tagged intro, so the tagging discriminates',
         JSON.stringify((dataset.damageTable[String(LUUK)] ?? [])
