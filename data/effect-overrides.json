@@ -334,6 +334,29 @@
           "state": "budding mode"
         },
         "_resolvedVia": "2026-08-01 state-tracker pass: \"When in Budding Mode, Camellya's ATK is increased by 58%.\" Parsed as persist+unknown, which resolves OFF, so the buff never applied. The state is curated in rotation-rules.js STATE_DEFS; the kit states no timer, so it persists."
+      },
+      "S6.0": {
+        "skillKeys": [
+          "skill_vining_waltz_1",
+          "skill_vining_waltz_2",
+          "skill_vining_waltz_3",
+          "skill_vining_waltz_4",
+          "skill_blazing_waltz",
+          "skill_vining_ronde",
+          "skill_atonement",
+          "skill_crimson_blossom",
+          "skill_floral_ravage"
+        ],
+        "trigger": {
+          "type": "stateEnter",
+          "state": "budding mode"
+        },
+        "window": {
+          "type": "stateBound",
+          "state": "budding mode"
+        },
+        "_resolvedVia": "2026-10-02, found by tests/dead-scope.test.mjs: \"The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by 150%.\" shipped scoped to skillType 'forte' and therefore DEAD -- 'forte' is not an attribution tag AND nodeTypeMatches strips forte_ off the node type, so it matches nothing on either lens. The category was lifted from the NAME \"Forte Circuit's Sweet Dream\", the same false positive as Luuk Herssen S6.1. [Sweet Dream] is NOT a skill: it is a named buff inside [Budding Mode] -- \"- [Sweet Dream]: Increase the DMG Multiplier of [Normal Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Waltz], Basic Attack [Vining Ronde], Dodge Counter [Atonement], Resonance Skill [Crimson Blossom], and Resonance Skill [Floral Ravage] by 50%.\" So this node is an ENHANCEMENT of that buff and carries ITS scope, which is why the nine keys here are copied verbatim from the base effect's own resolved skillKeys (skillNodeEffects[0].effects[0]) rather than re-derived -- Vining Waltz is a four-stage chain, which is why nine keys answer seven names. The state gate is the kit's own (\"Camellya enters [Budding Mode] after casting [Ephemeral]\", \"[Budding Mode] ends when Camellya is switched off the field\") and matches the S3.1 override above.",
+        "_asymmetryNote": "The BASE effect it enhances sits in skillNodeEffects, which this file cannot address (slot namespaces are only S<level>.<index> and IH<node>.<index>), and its window is \"seconds: 15\" -- a number scraped from an unrelated clause of the same node desc (\"Each bud lasts for 15s\", the Crimson Bud lifetime; Budding Mode itself has NO timer). It is right by coincidence here: its trigger is exactly forte_heavy_ephemeral, the cast that ENTERS Budding Mode, so \"15s after Ephemeral\" tracks the state across her six-step tail -- MEASURED active on exactly steps 11-16, the Budding Mode steps, and on no others. This override uses the real state gate instead, so on a tail longer than 15s the enhancement would stay live after the base expired. The base is the wrong half there (Budding Mode does not expire), and no shipped rotation reaches it."
       }
     },
     "1607": {

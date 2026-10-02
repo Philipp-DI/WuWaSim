@@ -108,11 +108,6 @@ const ALLOW = new Map(Object.entries({
         + "no damage row of its own — the circuit's damage ships as \"Timed Counters Stage 1/2/3\". "
         + 'Confirmed by the sibling clause "Forte Circuit Power Shift\'s Shield", the only shields in '
         + 'her data being "Timed Counters Stage N Shield". Bindable to those 3 keys; not yet bound.',
-    '1603.S6.0': "Camellya: 'forte' lifted from \"Forte Circuit's Sweet Dream\". [Sweet Dream] is NOT "
-        + 'a skill — it is a named buff inside [Budding Mode] that raises the DMG Multiplier of 7 '
-        + 'NAMED skills by 50%, and this S6 node adds 150% to it. So the fix is an ENHANCEMENT carrying Sweet '
-        + "Dream's own 7-key scope plus the Budding Mode state gate, not a category. The largest "
-        + 'dead value this test found.',
 }));
 
 // ── The six attribution tags come from the GAME, and 'forte' is not one ──────
@@ -214,7 +209,10 @@ for (const resonator of dataset.resonators) {
     // The 'forte' subset shares one cause; keep its size visible so a partial fix
     // has to restate it rather than slip past.
     const forteDead = [...dead.values()].filter(info => info.scope === 'forte').length;
-    assert(`'forte' accounts for 4 dead scopes, all lifted from a skill NAME`, forteDead === 4);
+    // Was 4. Camellya's S6.0 was fixed 2026-10-02 (effect-overrides.json binds it to
+    // Sweet Dream's own nine keys + the Budding Mode gate), so its entry is GONE
+    // from the allow list rather than left behind as a stale excuse.
+    assert(`'forte' accounts for 3 dead scopes, all lifted from a skill NAME`, forteDead === 3);
 }
 
 console.log(`\ndead-scope: ${passed} passed, ${failed} failed`);

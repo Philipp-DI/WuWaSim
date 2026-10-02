@@ -14286,3 +14286,72 @@ rather than fix, and that auditing this requires resolving modes.
 `docs/OPEN-ITEMS.md` item 2 carries all eight findings with their causes, the
 Sigrika derivation, the unresolved ConfigDB-vs-text contradiction, and the
 refused ceiling join with its measurement.
+
+## 2026-10-02 — Camellya's Sweet Dream: the first allow-list entry to be deleted
+
+**[Files Changed]** `data/effect-overrides.json` (`1603.S6.0`),
+`tests/dead-scope.test.mjs` (entry removed, `'forte'` count 4 → 3),
+regenerated `data/wuwa-data.json` + `data/wuwa-meta.json`,
+`docs/OPEN-ITEMS.md`, `docs/HISTORY.md`.
+
+**[Logic Altered]** The first fix driven by `tests/dead-scope.test.mjs`, and the
+first proof its contract works: the allow-list entry had to be DELETED, not left
+behind as a stale excuse, and the test fails if a fixed entry stays.
+
+"The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased by
+150%." shipped scoped to `skillType: 'forte'` and so paid NOTHING — `'forte'` is
+not an attribution tag and `nodeTypeMatches` strips `forte_` off the NODE type, so
+it matches on neither lens. The category was lifted from the NAME "Forte Circuit's
+Sweet Dream", the same false positive as Luuk Herssen's S6.1.
+
+**`[Sweet Dream]` is not a skill.** It is a named buff inside `[Budding Mode]`:
+"- [Sweet Dream]: Increase the DMG Multiplier of [Normal Attack], Basic Attack
+[Vining Waltz], Basic Attack [Blazing Waltz], Basic Attack [Vining Ronde], Dodge
+Counter [Atonement], Resonance Skill [Crimson Blossom], and Resonance Skill
+[Floral Ravage] by 50%." So this node ENHANCES that buff and carries ITS scope.
+The nine keys in the override are copied verbatim from the base effect's own
+already-resolved `skillKeys` rather than re-derived, which is what makes it exact
+rather than a guess — Vining Waltz is a four-stage chain, which is why nine keys
+answer seven names. The gate is the kit's own ("Camellya enters [Budding Mode]
+after casting [Ephemeral]", "[Budding Mode] ends when Camellya is switched off the
+field") and matches the `S3.1` override that already existed on her.
+
+**[Verification Method]** LOCK A: exactly the one effect, no collateral.
+Per-step on her reference rotation, all six Budding Mode steps rose by **exactly
+2.0x** — base multiplier x (1 + 0.5) becomes x (1 + 0.5 + 1.5), the kit's
+50% → 200% reproduced to the digit — with steps 0-9 byte-identical and Ephemeral
+itself unchanged, because the name binding excludes it. S6 total ungeared
+**33,325 → 42,120 (+26.39%)**.
+
+Geared, in her own baseline meta team (Iuno / Lucy / Camellya): own damage
+**1,165,992 → 1,473,033 (+26.33%)**, `ownGain` 94.13% → **145.25%**, `teamGain`
+25.01% → **39.59%**, team damage +11.66%. The ungeared and geared marginals agree
+to within 0.06pp, which is what a `multiplierUp` should do — it scales the skill's
+own rate, ahead of every gear-dependent factor. LOCK B moved **1 of 312
+`sequenceEval` rows** (hers) and **zero teams**, which is expected rather than
+reassuring: `team-rank.js` builds every member at chain 0, so no S6-gated change
+can reach a team ranking. `engineHash` did not move — no ENGINE_FILES member was
+touched.
+
+**An expectation of mine that measurement refuted:** I predicted the base Sweet
+Dream effect was ALSO over-applying, since its window is `seconds: 15` — a number
+scraped from an unrelated clause of the same node desc ("Each bud lasts for 15s",
+the Crimson Bud lifetime; Budding Mode itself has NO timer). It is not. Its
+trigger is exactly `forte_heavy_ephemeral`, the cast that ENTERS Budding Mode, so
+"15s after Ephemeral" tracks the state: measured active on exactly steps 11-16 and
+no others. Right by coincidence, and left alone — it lives in `skillNodeEffects`,
+which `effect-overrides.json` cannot address.
+
+**[Residual Risks]**
+- The base effect's window remains a coincidence. This override uses the real
+  state gate, so on a tail longer than 15s the enhancement would outlive the base
+  it enhances. The BASE is the wrong half there (Budding Mode does not expire),
+  and no shipped rotation reaches it — but the two are now gated differently and
+  that asymmetry is recorded in the override's own `_asymmetryNote`.
+- `skillNodeEffects` still has no override namespace. That is now the blocker on
+  three separate findings (this base window, Sigrika's `SN0.2`, Luuk's `SN0.0`
+  flat-stack clause) and is the strongest argument yet for a third slot
+  namespace — which touches the FROZEN effect-slot key format and so needs its
+  own deliberate change.
+- **7 dead scopes remain**, across five causes, all allow-listed with their
+  investigated cause. Taoqi's `S5.0` is the next cleanest.

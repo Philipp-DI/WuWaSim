@@ -210,9 +210,12 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    the original: reverting Luuk's name binding makes it fail naming `1510.S6.1`.
    Its allow-list is a contract that may only SHRINK — an entry that stops being
    dead FAILS, so a fix must delete its entry rather than leave a stale excuse.
-   **8 dead today, across SIX distinct causes** — they are emphatically not one
-   bug, and one earlier candidate was a false positive of my own first probe:
-   → **`'forte'` is never a scope on EITHER lens, and accounts for 4 of the 8.**
+   **8 dead when it was written, across SIX distinct causes** — they are
+   emphatically not one bug, and one earlier candidate was a false positive of my
+   own first probe. **7 remain: Camellya's was fixed the same day and her entry
+   DELETED**, which is the shrink-only contract doing its job:
+   → **`'forte'` is never a scope on EITHER lens, and accounted for 4 of the 8
+     (3 now).**
      It is not an attribution tag — the game ships exactly basic, heavy,
      liberation, intro, skill, echo — and `nodeTypeMatches` strips `forte_` off
      the NODE type, so `'forte'` is compared against `'heavy'` and fails there
@@ -245,18 +248,37 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
      or a re-run of `extract_buff_facts.py` with id-level provenance to say
      whether the 2-key list is the implementation or a bullet-join gap
      (`bullet-timings.json` is gitignored, so it cannot be checked locally).
-   → **Camellya S6.0 — the largest dead value found, and fully diagnosed.**
-     "The DMG Multiplier of Forte Circuit's Sweet Dream is additionally increased
-     by 150%." `[Sweet Dream]` is NOT a skill: it is a named buff inside
-     `[Budding Mode]` — "- [Sweet Dream]: Increase the DMG Multiplier of [Normal
-     Attack], Basic Attack [Vining Waltz], Basic Attack [Blazing Waltz], Basic
-     Attack [Vining Ronde], Dodge Counter [Atonement], Resonance Skill [Crimson
-     Blossom], and Resonance Skill [Floral Ravage] by 50%." So her S6 raises that
-     50% to 200%, over SEVEN named skills, gated on Budding Mode — an ENHANCEMENT
-     carrying Sweet Dream's own scope and state gate, not a category. Both
-     ingredients already exist (`STATE_DEFS[1603]` has Budding Mode; all seven
-     keys resolve). Chain-gated, so LOCK B cannot see it and `sequenceEval` is
-     the surface.
+   → ~~**Camellya S6.0 — the largest dead value found, and fully diagnosed.**~~
+     **FIXED 2026-10-02**, and its allow-list entry DELETED, which is the
+     shrink-only contract working. "The DMG Multiplier of Forte Circuit's Sweet
+     Dream is additionally increased by 150%." `[Sweet Dream]` is NOT a skill: it
+     is a named buff inside `[Budding Mode]` — "- [Sweet Dream]: Increase the DMG
+     Multiplier of [Normal Attack], Basic Attack [Vining Waltz], Basic Attack
+     [Blazing Waltz], Basic Attack [Vining Ronde], Dodge Counter [Atonement],
+     Resonance Skill [Crimson Blossom], and Resonance Skill [Floral Ravage] by
+     50%." So this node ENHANCES that buff and carries ITS scope: the nine keys
+     in the override are copied verbatim from the base effect's own already
+     resolved `skillKeys` rather than re-derived, which is what makes it exact
+     rather than a guess — Vining Waltz is a four-stage chain, which is why nine
+     keys answer seven names. The gate is the kit's own ("Camellya enters
+     [Budding Mode] after casting [Ephemeral]", "[Budding Mode] ends when
+     Camellya is switched off the field"), matching the `S3.1` override that
+     already existed on her. MEASURED on her reference rotation: all six Budding
+     Mode steps go up by **exactly 2.0x** — base multiplier x (1 + 0.5) becomes
+     x (1 + 0.5 + 1.5), i.e. the kit's 50% -> 200% to the digit — her S6 total
+     **33,325 -> 42,120 (+26.39%)** ungeared, with steps 0-9 byte-identical and
+     Ephemeral itself unchanged because the name binding excludes it.
+     → **One asymmetry, stated rather than hidden:** the BASE effect sits in
+       `skillNodeEffects`, which `effect-overrides.json` cannot address, and its
+       window is `seconds: 15` — a number scraped from an unrelated clause of the
+       same node desc ("Each bud lasts for 15s", the Crimson Bud lifetime;
+       Budding Mode itself has NO timer). It is right by COINCIDENCE: its trigger
+       is exactly `forte_heavy_ephemeral`, the cast that enters Budding Mode, so
+       "15s after Ephemeral" tracks the state across her six-step tail — measured
+       active on exactly steps 11-16 and no others, so the over-application I
+       first expected does NOT happen. The override uses the real state gate, so
+       on a tail longer than 15s the enhancement would outlive the base. The base
+       is the wrong half there, and no shipped rotation reaches it.
    → **Taoqi S5.0.** "The damage of Forte Circuit Power Shift is increased by
      50%." "Power Shift" is the FORTE CIRCUIT's own name and has no damage row;
      the circuit's damage ships as "Timed Counters Stage 1/2/3". Confirmed by the
