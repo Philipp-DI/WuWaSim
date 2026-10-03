@@ -117,6 +117,14 @@ export const STACK_GAIN_RE       = /\b(?:gains?|obtains?|grants?|acquires?)\s+(?
 // The wielder is not the actor: the stack comes from TEAMMATES acting
 // (Sigrika's Blessing of Runes, Hiyuki's Snow Rust). Those are team-composition
 // counters, not the wielder's own casts — never resolve them as a self trigger.
+// The recipient is the resonator SWITCHING IN, not the wielder. Such a clause is
+// the OUTRO lane's ("An Outro Skill has NO level curve" — `outroBuffs` carries
+// the grant, routed to the incoming member at the hand-off), and parsing it a
+// second time as a self-buff is the "two paths, one cast" error. Measured: all
+// four roster clauses of this shape are already carried by their own
+// resonator's `outroBuffs` at the same value and the same 14s.
+export const INCOMING_RECIPIENT_RE = /\b(?:next\s+)?incoming\s+resonator\b/i;
+
 export const TEAM_ACTOR_RE       = /\b(?:resonators?|characters?|members?)\s+in\s+the\s+team\b|\bteam\s+members?\b|\bnearby\s+resonators?\b/i;
 
 // Cast/action-gerund triggers ("Casting X …", "Performing X …") that CONDITION_RE
@@ -594,6 +602,12 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         const push = (effect) => effects.push({
             ...effect,
             teamWide:        isTeamWideBuff(clause),
+            // Marked, never dropped: removing the effect would change this
+            // node's effect COUNT and re-slot every `S{level}.{index}` after it,
+            // which is how a curated override once silently moved onto a
+            // different effect (CLAUDE.md, "Effect-slot keys are FROZEN").
+            // `resolveChainInherentContext` skips it instead.
+            ...(INCOMING_RECIPIENT_RE.test(clause) ? { recipient: 'incoming' } : {}),
             condition:       clause.trim().slice(0, 120),
             conditionKind:   condKind,
             structuralTrigger,

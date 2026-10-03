@@ -14529,3 +14529,79 @@ better-grounded source and were already in the data.
   "when they hit", and a multi-hit cast still applies at most one stack per ICD
   window, which is what the clause says. But a cast that MISSES cannot be
   modelled at all (the project has no miss model by design).
+
+## 2026-10-03 — "The incoming Resonator gains …" was being paid to the wrong person
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (`INCOMING_RECIPIENT_RE`, the
+`recipient` stamp), `src/core/buffs.js` (the skip in
+`resolveChainInherentContext`), NEW `tests/incoming-recipient.test.mjs` (21
+assertions), `tests/dead-scope.test.mjs` (exempt the flag, entry deleted),
+regenerated `wuwa-data.json` + `wuwa-meta.json`, `CLAUDE.md`,
+`docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** An Outro Skill's grant goes to the member switching IN, and
+`outroBuffs` already carries it. The same sentence also reaches the ordinary
+effect parser, which knew only "the wielder" or "the team", so it emitted a SECOND
+copy as a SELF buff — the "two paths, one cast" error the outro invariant names.
+
+**Measured, which is what makes this assertable:** exactly **4 clauses** on the
+roster say this — Iuno `SN1.0`, Qiuyuan `SN2.0`, Lynae `S2.1` and `SN0.0` — and
+**every one is already in its own resonator's `outroBuffs` at the same value and
+the same 14s**. Not one is a distinct grant, which is why skipping it loses
+nothing. The cross-check matches on value AND duration, not on scope: Lynae's
+`S2.1` parses `skillType: 'outro'` off its leading trigger ("Outro Skill gains the
+following effect: …") where the real grant is her Liberation, so the scopes
+legitimately disagree while the grant is the same one.
+
+**MARKED, NEVER DROPPED.** Deleting an effect changes its node's effect COUNT and
+re-slots every `S{level}.{index}` after it — and **Lynae carries a curated
+override at `S3.1`, directly after one of these at `S2.1`**, which is the exact
+shape of the bug where a curated patch silently moved onto a different effect. So
+the parser stamps `recipient: 'incoming'` and the resolver skips it.
+
+**[Verification Method]** LOCK A: **4 added `recipient` fields and nothing else** —
+no effect count moved, so no slot moved. LOCK B: only `generatedAt` and
+`engineHash`; **zero of 416 teams moved**, zero sequenceEval rows, and every
+non-team section byte-identical. 21/21 new assertions, 82/82 test files, sweep
+71/71, lint 0 errors.
+
+**None was paying, and three were LATENT rather than harmless.** Measured before
+the fix by stripping all four: no change at S0/S1/S6 for any of the three
+resonators. Each was held off by something unrelated to the recipient — Iuno's
+trigger fires on four Heavy casts and its window opens, with ONLY the dead scope
+stopping it (so repairing that scope would have switched on a 50% self-amplify);
+Qiuyuan's rotation has no mechanically `echo`-typed cast though her kit does read
+the echo bucket; Lynae's `SN0.0` fires but no later hit of hers reads the
+liberation bucket. **A hypothesis of mine that measurement refuted:** I expected
+Lynae's `S2.1` to be live in TEAM sims, since a team casts outros where a solo
+rotation does not. LOCK B moved zero teams, and the reason is structural —
+`S2.1` is chain level 2 and `team-rank.js` builds every member at chain 0, so it
+cannot be reached there at all. So this commit is prevention, not a correction.
+
+**[Also investigated, NOT fixed — and it is not what the backlog said]** Lucilla
+`S2.0`. The leading-trigger diagnosis was half of it: the stored clause is the
+node's PREAMBLE, from which `skillType: 'liberation'` was lifted off the SKILL
+NAME (the Luuk/Camellya/Taoqi cause again). But the grant is the first bullet,
+*"Glacio Chafe DMG … is Amplified by 80%"*, and **Glacio Chafe is a NEGATIVE
+STATUS** — so the 80% belongs to the status-damage formula, not to the wielder's
+amplify bucket. It is not a scoping bug; it is a grant with no lane. The lane
+half-exists: `computeNegativeStatusDamage({ amplify })` takes exactly this and
+documents that generic amplify must not flow in, but **no caller passes it** —
+all four sites omit the argument, so it is always 0. A consumer with no producer,
+the mirror image of the documented "DEF-ignore and RES-shred had no consumer".
+Her mode gate and state window are already correctly parsed, so the gating is
+ready; what is not settled is whether such a clause amplifies the status inflicted
+by ANY member (the enemy lane is shared) or only the granter's own, which decides
+whether the value lives on the member or on the shared timeline.
+
+**[Residual Risks]**
+- The `recipient: 'incoming'` effects are still PRESENT in the dataset and will
+  render on the wielder's own buff strip as active, where they pay nothing. That
+  is a UI question, not a damage one, and the alternative (dropping them) is what
+  the slot-stability rule forbids.
+- The flag is set from the clause text, so a kit that grants an outro buff without
+  the phrase "incoming Resonator" would still double-parse. The 4 found are the
+  4 that exist today; the test pins the count so a fifth has to be looked at.
+- **4 dead scopes remain** and each needs something outside the parser: Lucilla
+  S2.0 (the status-amplify producer above), Galbrena S6.1 and Sigrika ×2 (all
+  three need an in-game measurement — see OPEN-ITEMS 2).

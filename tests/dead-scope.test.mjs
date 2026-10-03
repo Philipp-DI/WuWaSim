@@ -88,9 +88,6 @@ const ALLOW = new Map(Object.entries({
     '1208.S6.1': 'Galbrena: "Galbrena\'s Basic Attack DMG" — but her Basic Attack rows are tagged '
         + 'heavy/echo, so her kit reads NO basic bucket at all. Whether a Basic-Attack-DMG grant '
         + 'should reach re-tagged basics is a game question, not a parser one. UNVERIFIED in game.',
-    '1410.SN1.0': 'Iuno: the recipient is someone else — "The INCOMING Resonator gains 50% Heavy '
-        + 'Attack DMG Amplification" — so testing it against Iuno\'s own kit asks the wrong '
-        + 'question. `recipient` is undefined and `teamWide` false, which is the actual defect.',
     '1412.S6.1': "Sigrika: 'forte' lifted from the NAME \"Forte Circuit - Learn My True Name\". "
         + 'Scoping it alone would still pay nothing: its stack source is [Innate Gift?], gained only '
         + 'when Soliskin Vitality (earned when TEAMMATES cast Echo Skill) is high enough — the '
@@ -169,6 +166,12 @@ for (const resonator of dataset.resonators) {
             if (effect.skillType == null) return;          // no category to be dead
             if (effect.skillKeys?.length) return;          // a NAME outranks the category
             if (effect.teamWide) return;                   // pays someone else's hits
+            // Same reason: an "the incoming Resonator gains …" clause is paid to the
+            // member switching IN, so the WIELDER'S kit is the wrong kit to ask.
+            // `resolveChainInherentContext` skips these outright — the outro lane
+            // (`outroBuffs`) owns the grant, and all four roster clauses of this
+            // shape are already carried there at the same value and duration.
+            if (effect.recipient === 'incoming') return;
             const bucketLens = BUCKET_LENS_STATS.has(effect.stat);
             if (!bucketLens && !NODE_LENS_STATS.has(effect.stat)) return;  // not gated on skillType
             const live = bucketLens

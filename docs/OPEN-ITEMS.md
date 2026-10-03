@@ -316,10 +316,34 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
        would be missed even once triggered), the same two-category-list shape as
        Galbrena's IH0.0. Closing it needs a shield state in `STATE_DEFS` plus the
        enumeration shape.
-   → **Lucilla S2.0.** "While casting Resonance Liberation - Clear As Day,
-     Lucilla grants the following enhancements…" — the category belongs to the
-     leading TRIGGER, not to the grant, which states none. CLAUDE.md already has
-     that invariant; this is a case of it that reaches a dead bucket.
+   → **Lucilla S2.0 — investigated 2026-10-03, and it is NOT what this entry
+     first said.** The leading-trigger diagnosis was only half of it. The clause
+     stored on the effect is the node's PREAMBLE ("While casting Resonance
+     Liberation - Clear As Day, Lucilla grants the following enhancements based on
+     her Resonance Mode"), from which `skillType: 'liberation'` was lifted off the
+     SKILL NAME — the same cause as Luuk/Camellya/Taoqi. But the grant itself is
+     the first bullet: *"When in Resonance Mode - Glacio Chafe, **Glacio Chafe
+     DMG** against targets within a certain range around the active Resonator is
+     Amplified by 80%."* **Glacio Chafe is a NEGATIVE STATUS**, so that 80%
+     belongs to the status-damage formula and not to the wielder's amplify bucket
+     at all — which CLAUDE.md already records for her OUTRO ("An element word
+     before DMG may name a STATUS"). It is not a scoping bug; it is a grant with
+     no lane.
+     → **The lane half-exists.** `computeNegativeStatusDamage({ … amplify })`
+       takes a status-specific amplify and documents it ("generic DMG bonus/
+       amplify must NOT flow in here") — but **no caller ever passes it**: all four
+       call sites in `enemy-status.js` and `team-sim.js` omit the argument, so it
+       is always 0. A consumer with no producer, the mirror image of the
+       documented "DEF-ignore and RES-shred had no consumer".
+     → Building the producer is its own change, and one design question has to be
+       settled first rather than guessed: the clause reads as the STATUS's damage
+       on the target, so does the 80% amplify Glacio Chafe inflicted by ANY member
+       (the enemy's status lane is shared — "teams SHARE one" enemy) or only hers?
+       That decides whether it lives on the member or on the shared timeline, and
+       it changes who it pays. Her mode gate (`glacio_chafe`) and her state window
+       (`clear as day buff`) are already correctly parsed, so the gating is ready.
+       Stays allow-listed meanwhile.
+
    → ~~**Galbrena ×2, genuinely ambiguous, NOT guessed.**~~ **IH0.0 RESOLVED
      2026-10-03** (entry deleted); S6.1 still open. This was item 2's own
      "ICD-gated enemy debuff (Galbrena)", and it was dead THREE times over:
@@ -377,10 +401,41 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
        rows are tagged heavy/echo. Whether a Basic-Attack-DMG grant should reach
        re-tagged basics is a game question. UNVERIFIED in game.
 
-   → **Iuno SN1.0 — the wrong question, not a dead scope.** "The INCOMING
-     Resonator gains 50% Heavy Attack DMG Amplification for 14s", with
-     `recipient` undefined and `teamWide` false, so it is being scoped against
-     Iuno's own kit. The recipient flag is the actual defect.
+   → ~~**Iuno SN1.0 — the wrong question, not a dead scope.**~~ **RESOLVED
+     2026-10-03, and it was a FOUR-clause family rather than one.** "The incoming
+     Resonator gains 50% Heavy Attack DMG Amplification for 14s" is an OUTRO
+     grant: it goes to the member switching IN, and `outroBuffs` already carries
+     it. The same sentence also reaches the ordinary effect parser, which had no
+     recipient other than "the wielder" or "the team", so it emitted a SECOND copy
+     as a self-buff — the "two paths, one cast" error the outro invariant names.
+     **Measured: exactly 4 clauses on the roster say this, across Iuno, Qiuyuan
+     and Lynae, and every one is already in its own resonator's `outroBuffs` at
+     the SAME value and the SAME 14s.** Not one is a distinct grant.
+     → **None was paying, but three were LATENT rather than harmless**, each held
+       off by something unrelated to the recipient: Iuno's trigger fires on four
+       Heavy casts and its window opens, with ONLY the dead scope stopping it (so
+       "fixing" that scope would have switched on a 50% self-amplify); Qiuyuan's
+       rotation has no mechanically `echo`-typed cast though her kit does read the
+       echo bucket; Lynae's `S2.1` has no `outro` cast SOLO but a team sim casts
+       one; Lynae's `SN0.0` fires but no later hit of hers reads the liberation
+       bucket. Measured before the fix: suppressing all four changed nothing at
+       S0/S1/S6 for any of the three, so it was a latent double-count, not a live
+       one — which is why this is recorded as prevention rather than a correction.
+     → **MARKED, never dropped.** Removing an effect changes its node's effect
+       COUNT and re-slots every `S{level}.{index}` after it, and **Lynae carries a
+       curated override at `S3.1`, directly after one of these at `S2.1`** — the
+       exact shape of the bug where a curated patch silently moved onto a
+       different effect. So `effects.mjs` stamps `recipient: 'incoming'` and
+       `resolveChainInherentContext` skips it; LOCK A is 4 added fields and
+       nothing else. `tests/incoming-recipient.test.mjs` pins the population at 4,
+       cross-checks each against its own `outroBuffs` on value AND duration (not
+       scope — Lynae's `S2.1` parses `skillType: 'outro'` off its leading trigger
+       where the real grant is her Liberation), and asserts the resolver pays the
+       wielder nothing while an identical self-recipient control still applies.
+     → `tests/dead-scope.test.mjs` now exempts `recipient: 'incoming'` for the
+       same reason it exempts `teamWide`: the WIELDER'S kit is the wrong kit to ask
+       of a buff paid to someone else. Its allow-list is down to **4**.
+
    → **Refused, with the measurement: a CEILING join in `applyBuffFacts`.** The
      game files a scope on a value, and `applyBuffFacts` joins facts by the
      PER-STACK value — so a scope filed under the ceiling is never applied. That

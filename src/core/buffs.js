@@ -302,6 +302,15 @@ export function resolveChainInherentContext(effects, hit) {
     if (!effects?.length) return out;
 
     for (const effect of effects) {
+        // The recipient is someone else. An "the incoming Resonator gains …"
+        // clause belongs to the OUTRO lane — `outroBuffs` carries the grant and
+        // routes it to the member switching IN — so applying it here would pay
+        // the wielder a buff they never receive. Measured: all four roster
+        // clauses of this shape are already in their own `outroBuffs` at the
+        // same value and duration, so this is the second of two paths for one
+        // cast. They are MARKED rather than dropped, to keep every effect-slot
+        // key stable (see effects.mjs), which is why the skip lives here.
+        if (effect.recipient === 'incoming') continue;
         // A clause that NAMES its skills binds to those keys and nothing else
         // (preprocess/skill-scope.mjs), whatever stat it grants. The category is
         // the fallback for clauses naming no skill — on its own it both stacks
