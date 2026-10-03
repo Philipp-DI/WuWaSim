@@ -171,10 +171,10 @@ export function statusGrantIn(clause) {
     const text = String(clause ?? '');
     for (const [name, key] of Object.entries(NEGATIVE_STATUS_NAMES)) {
         const needle = `${name} DMG`;
-        let at = text.indexOf(needle);
-        while (at !== -1) {
-            if (!DEALS_STATUS.test(text.slice(Math.max(0, at - 30), at))) return key;
-            at = text.indexOf(needle, at + 1);
+        let found = text.indexOf(needle);
+        while (found !== -1) {
+            if (!DEALS_STATUS.test(text.slice(Math.max(0, found - 30), found))) return key;
+            found = text.indexOf(needle, found + 1);
         }
     }
     return null;
