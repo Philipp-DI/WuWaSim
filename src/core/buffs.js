@@ -311,6 +311,15 @@ export function resolveChainInherentContext(effects, hit) {
         // cast. They are MARKED rather than dropped, to keep every effect-slot
         // key stable (see effects.mjs), which is why the skip lives here.
         if (effect.recipient === 'incoming') continue;
+        // The grant is to a negative STATUS's own damage, not to the wielder's.
+        // Its formula is `enemy-status.js`'s — no crit, no gear stat — and
+        // `computeNegativeStatusDamage` takes a status-specific `amplify` that no
+        // caller passes yet. Applying it here instead was INFLATION: measured,
+        // Denia's S6 Fusion Burst clause inflated her whole kit +73.72% at S6 as
+        // an unscoped multiplierUp, and Aemeath's Tune Rupture clause +1.06% at
+        // S2. Skipped until the producer exists; the value is preserved on the
+        // effect as `statusGrant` so wiring it needs no re-derivation.
+        if (effect.statusGrant) continue;
         // A clause that NAMES its skills binds to those keys and nothing else
         // (preprocess/skill-scope.mjs), whatever stat it grants. The category is
         // the fallback for clauses naming no skill — on its own it both stacks

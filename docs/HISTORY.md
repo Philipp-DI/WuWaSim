@@ -14690,3 +14690,80 @@ is recorded in OPEN-ITEMS 2 with the exact steps instead.
   the status-grant fix, and widening it might be the better root cause.
 - The Afterflame gauge is identifiable but unmodellable in the per-cast model;
   Sigrika's Innate Gift? has the identical blocker.
+
+## 2026-10-03 — Denia's +200% Fusion Burst multiplier was multiplying her whole kit
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (`NEGATIVE_STATUS_NAMES`,
+`DEALS_STATUS`, `statusGrantIn`, the `statusGrant` stamp), `src/core/buffs.js`
+(the skip), NEW `tests/status-grant.test.mjs` (28 assertions), regenerated
+`wuwa-data.json` + `wuwa-meta.json`, `CLAUDE.md`, `docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** A negative status's own damage is not the wielder's. "Glacio
+Chafe DMG", "Fusion Burst DMG", "Aero Erosion DMG" open with an element or a
+mechanic but name the STATUS, whose damage has its own formula — no crit, no gear
+stat. **Denia's S6 shipped "The Fusion Burst DMG triggered gains a 200% DMG
+Multiplier increase against the main target" as an UNSCOPED `multiplierUp` of 2.0
+with `window: always`, multiplying her ENTIRE kit**, because she has no
+`AFFLICTION_TRIGGERS` entry for it to live in. `effects.mjs` now stamps
+`statusGrant` and `resolveChainInherentContext` skips it, exactly as it skips
+`recipient: 'incoming'`. Count-preserving, so no effect slot moves.
+
+**The first draft was TOO BROAD, and LOCK A is what caught it.** It marked 11
+clauses where only 8 are grants: three were Aemeath's OWN Crit DMG and amplify,
+granted "when Resonators in the team … deal Tune Rupture DMG" — skipping those
+would have DELETED live wielder kit, the dangerous direction. The discriminator is
+an invariant the project already had: **a status named behind a DEALING verb is the
+TRIGGER, not the grant's subject.** `DEALS_STATUS` tests the 30 characters before
+each occurrence, every occurrence is tried, and both of those real clauses are
+negative cases in the test so the regression cannot return. Final: 8 marked, 0
+plain wielder stats, of which four are Aemeath's `afflictionCrit*` where the skip
+is a no-op (already routed away by stat name).
+
+**[Verification Method]** LOCK A: 8 `statusGrant` fields, nothing else. Measured on
+reference rotations: **Denia S6 Fusion Burst 85,304 -> 49,104 (-42.44%)**, a x1.737
+inflation removed; Aemeath -1.05% at S2 and -0.72% at S6; Cartethyia and Lucilla
+unchanged (latent). LOCK B: **zero of 416 teams** — every affected effect is
+chain-gated above 0 and Cartethyia's was never live — and **one `sequenceEval`
+row**, Denia's chain 6, `ownGain` **+498.4% -> +193.9%**. Every non-team section
+byte-identical. 28/28 new assertions, 83/83 test files, sweep 71/71, lint 0 errors.
+
+**VALIDATED AGAINST AN EXTERNAL REFERENCE, which says she is now UNDERSTATED.** The
+maintainer supplied arabwuwa's sequence comparison (geared, in team, first
+rotation), and Denia's own `sequenceEval` team is Chisa / Denia / Aemeath —
+essentially arabwuwa's Fusion Burst reference comp — so the two are comparable:
+
+| node | sim before | sim after | arabwuwa |
+| --- | --- | --- | --- |
+| S1 | — | 109% | 107% |
+| S2 | — | 133% | 125% |
+| S3 | — | 173% | 200% |
+| S4 | — | 173% | 206% |
+| S5 | — | 186% | 208% |
+| S6 | **598%** | **294%** | **339%** |
+
+So the fix moves her from **~76% above** the reference to **~13% below** it. S1 and
+S2 now nearly match. The residual gap is concentrated from S3 and has a NAMED
+cause: arabwuwa counts Erosion Field as 7 hits before S4 and 9 from S4 on, and the
+sim models her Erosion Field -> Fusion Burst chain not at all — which is also why
+**her S4 scores a gain of exactly ZERO** where the reference has +6%. The 2.0 was
+over-compensating for that missing damage, in the wrong place and by the wrong
+amount. Removing it is still right; it was never a scoped multiplier.
+
+**[Residual Risks]**
+- **Denia remains understated at S3+**, now measurably so. Her correct model, per
+  the maintainer: the 2.0 applies to Fusion Burst DMG and only to **the instance
+  triggered by Erosion Field DMG**, with **its own internal cooldown**. That needs
+  an `AFFLICTION_TRIGGERS` entry for her (the table holds only Aemeath) plus an
+  Erosion Field hit model — a resonator-audit-sized piece, not a scoping fix.
+- Skipping UNDERSTATES by design: `computeNegativeStatusDamage({ amplify })` is the
+  eventual home for Lucilla's and Cartethyia's halves and still has no producer.
+  Lucilla's is unblocked on design (maintainer: her 80% amplifies Glacio Chafe DMG
+  AS A WHOLE, so it belongs on the SHARED enemy timeline, not on the member).
+- `tests/multiplier-scope.test.mjs` guard 1 is documented to keep unscoped
+  always-on `multiplierUp` at zero and did not catch Denia's, which sits behind a
+  `modeMatch` trigger. Widening that guard may be the better root cause and is a
+  separate question — the `statusGrant` mark is what currently holds this one,
+  which the test asserts explicitly.
+- The detector is text-based. A kit granting to a status's damage without naming it
+  "<Status> DMG" would still leak; the test pins the population at 8 so a ninth has
+  to be looked at.

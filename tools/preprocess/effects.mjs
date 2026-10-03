@@ -123,6 +123,63 @@ export const STACK_GAIN_RE       = /\b(?:gains?|obtains?|grants?|acquires?)\s+(?
 // second time as a self-buff is the "two paths, one cast" error. Measured: all
 // four roster clauses of this shape are already carried by their own
 // resonator's `outroBuffs` at the same value and the same 14s.
+// A NEGATIVE STATUS'S OWN DAMAGE is not the wielder's damage. "Glacio Chafe
+// DMG", "Fusion Burst DMG", "Aero Erosion DMG" and the rest open with an element
+// or a mechanic but name the STATUS, whose damage has its own formula (no crit,
+// no gear stat — `enemy-status.js`). A clause amplifying one is therefore not a
+// wielder buff at all, and reading it as one is INFLATION: measured, Denia's S6
+// "The Fusion Burst DMG triggered gains a 200% DMG Multiplier increase" shipped
+// as an UNSCOPED multiplierUp of 2.0 with an `always` window and inflated her
+// whole kit by +73.72% at S6.
+//
+// The name must be followed IMMEDIATELY by "DMG", which is what keeps "60%
+// Fusion DMG Bonus" (a real element bucket, two lines above Denia's clause in
+// the same node) out of this. Same rule the outro scope map already uses.
+//
+// Mirrors NEGATIVE_STATUS_DEFS in src/core/enemy-status.js; a tools/ module does
+// not import from src/core, so `tests/status-grant.test.mjs` asserts the two
+// lists stay identical rather than trusting them to.
+export const NEGATIVE_STATUS_NAMES = Object.freeze({
+    'Glacio Chafe': 'glacio_chafe',
+    'Fusion Burst': 'fusion_burst',
+    'Aero Erosion': 'aero_erosion',
+    'Electro Flare': 'electro_flare',
+    'Spectro Frazzle': 'spectro_frazzle',
+    'Havoc Bane': 'havoc_bane',
+    'Tune Rupture': 'tune_rupture',
+    'Tune Strain': 'tune_strain',
+});
+
+// A status named behind a DEALING verb is the TRIGGER, not the grant's subject —
+// the same distinction CLAUDE.md draws twice already ("A sentence's leading
+// TRIGGER is not the effect's SCOPE", "A list of casts that FIRE an effect is not
+// its scope"). Aemeath's S3 and IH1 grant HER Crit DMG and amplify "when
+// Resonators in the team ... deal Tune Rupture DMG", and skipping those would
+// DELETE real kit; her S6 "Aemeath's Tune Rupture DMG can critically hit" and
+// Denia's "The Fusion Burst DMG triggered gains ..." are grants to the status
+// itself. Measured on the first draft without this test: 11 clauses marked where
+// only 8 are grants, and 3 of the 11 would have lost a live wielder buff.
+const DEALS_STATUS = /\b(?:deal|deals|dealt|dealing|inflict|inflicts|inflicted|inflicting)\s+(?:\S+\s+){0,2}$/i;
+
+/**
+ * The negative status whose OWN damage this clause grants to, or null.
+ *
+ * A clause may mention one status as a trigger and grant to another, so every
+ * occurrence is tested and the first that is NOT behind a dealing verb wins.
+ */
+export function statusGrantIn(clause) {
+    const text = String(clause ?? '');
+    for (const [name, key] of Object.entries(NEGATIVE_STATUS_NAMES)) {
+        const needle = `${name} DMG`;
+        let at = text.indexOf(needle);
+        while (at !== -1) {
+            if (!DEALS_STATUS.test(text.slice(Math.max(0, at - 30), at))) return key;
+            at = text.indexOf(needle, at + 1);
+        }
+    }
+    return null;
+}
+
 export const INCOMING_RECIPIENT_RE = /\b(?:next\s+)?incoming\s+resonator\b/i;
 
 export const TEAM_ACTOR_RE       = /\b(?:resonators?|characters?|members?)\s+in\s+the\s+team\b|\bteam\s+members?\b|\bnearby\s+resonators?\b/i;
@@ -608,6 +665,12 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
             // different effect (CLAUDE.md, "Effect-slot keys are FROZEN").
             // `resolveChainInherentContext` skips it instead.
             ...(INCOMING_RECIPIENT_RE.test(clause) ? { recipient: 'incoming' } : {}),
+            // The grant is to a negative STATUS's own damage, which has its own
+            // formula. Recorded so a future producer can read it (the lane's
+            // consumer already exists — `computeNegativeStatusDamage({ amplify })`
+            // — and has no producer); skipped by `resolveChainInherentContext`
+            // meanwhile, because paying it to the wielder is inflation.
+            ...(statusGrantIn(clause) ? { statusGrant: statusGrantIn(clause) } : {}),
             condition:       clause.trim().slice(0, 120),
             conditionKind:   condKind,
             structuralTrigger,

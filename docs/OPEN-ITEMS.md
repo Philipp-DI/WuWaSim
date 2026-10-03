@@ -229,24 +229,57 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    → **5 clauses, 4 resonators**, found by scanning node DESCRIPTIONS rather than
      `effect.condition` — Lucilla's condition is the node's PREAMBLE, so the status
      name is not in it, which is why scanning conditions first returned zero.
-   → **The fix is written and deliberately NOT COMMITTED, because it cannot be
-     verified in this session.** `tools/preprocess/effects.mjs` gains
-     `NEGATIVE_STATUS_NAMES` + `statusGrantIn()` (requiring the status name to be
-     followed IMMEDIATELY by "DMG", which keeps Denia's own "60% Fusion DMG Bonus"
-     two lines above out of it — the same rule the outro scope map uses) and stamps
-     `statusGrant`; `resolveChainInherentContext` then skips such an effect exactly
-     as it now skips `recipient: 'incoming'`. Count-preserving, so no slot moves.
-     Detector unit-verified 6/6 including both negative cases. **What is missing is
-     `npm run data`: preprocess fetches upstream from raw.githubusercontent.com and
-     the network is unreachable in this session (`ENOTFOUND`), so the marks cannot
-     reach the dataset.** An in-memory approximation measured the removal at Denia
-     -42.44% / Aemeath -2.31%, but that is an APPROXIMATION and must not be quoted
-     as the result: the parser stamps from the FULL clause while the stand-in saw
-     only the 120-char `condition` plus the node desc, so the marked set may differ.
-     **To land it: `npm run data`, confirm LOCK A marks exactly the intended
-     effects, `npm run meta`, then `npm test`.** Both live effects are chain-gated
-     (S6, S2), so LOCK B should move ZERO teams — the usual chain-0 blind spot — and
-     `sequenceEval` is the surface that will show it.
+   → **SHIPPED 2026-10-03** (the network outage that blocked it was transient).
+     `tools/preprocess/effects.mjs` gains `NEGATIVE_STATUS_NAMES` +
+     `statusGrantIn()` and stamps `statusGrant`; `resolveChainInherentContext`
+     skips such an effect, exactly as it skips `recipient: 'incoming'`.
+     Count-preserving, so no effect slot moves.
+     → **The first draft was TOO BROAD and LOCK A caught it.** It marked 11
+       clauses where only 8 are grants: three were Aemeath's OWN Crit DMG and
+       amplify, granted "when Resonators in the team … deal Tune Rupture DMG", and
+       skipping those would have DELETED live wielder kit. The discriminator is an
+       invariant the project already had — a status named behind a DEALING verb is
+       the TRIGGER, not the grant's subject. `DEALS_STATUS` tests the 30 characters
+       before each occurrence, every occurrence is tried, and
+       `tests/status-grant.test.mjs` carries both of those real clauses as negative
+       cases so the regression cannot return. Final count: **8 marked, 0 plain
+       wielder stats.** Four of the eight are Aemeath's `afflictionCrit*`, for
+       which the skip is a no-op — those are already routed away from
+       `resolveChainInherentContext` by their stat name.
+     → **MEASURED.** Denia S6 Fusion Burst, her own reference rotation:
+       **85,304 -> 49,104 (-42.44%)**, i.e. a x1.737 inflation removed. Aemeath
+       -1.05% at S2 and -0.72% at S6. Cartethyia's and Lucilla's were latent and
+       moved nothing. LOCK B: **zero of 416 teams** (every affected effect is
+       chain-gated above 0 and Cartethyia's was never live) and **one
+       `sequenceEval` row** — Denia's chain 6, `ownGain` **+498.4% -> +193.9%**.
+     → **AND THE FIX IS VALIDATED AGAINST AN EXTERNAL REFERENCE, which also shows
+       she is now UNDERSTATED.** The maintainer supplied arabwuwa's sequence
+       comparison (geared, in team, first rotation): Denia's S6 should be **339%**
+       of S0 in Fusion Burst mode and **314%** in Strain. Her `sequenceEval` team
+       is Chisa / Denia / Aemeath — essentially arabwuwa's own Fusion Burst
+       reference comp — so the two are comparable:
+       | node | sim before | sim after | arabwuwa |
+       | S1 | — | 109% | 107% |
+       | S2 | — | 133% | 125% |
+       | S3 | — | 173% | 200% |
+       | S4 | — | 173% | 206% |
+       | S5 | — | 186% | 208% |
+       | S6 | **598%** | **294%** | **339%** |
+       So the fix moves her from **~76% ABOVE** the reference to **~13% below** it.
+       S1 and S2 now nearly match; the residual gap is concentrated at S3 onward and
+       has a NAMED cause — arabwuwa counts Erosion Field as 7 hits before S4 and 9
+       from S4 on, and the sim models her Erosion Field -> Fusion Burst chain not at
+       all, which is also why **S4 scores a gain of exactly ZERO** where the
+       reference has +6%. The 2.0 multiplier was over-compensating for that missing
+       damage, in the wrong place and by the wrong amount.
+     → **What the correct home looks like, per the maintainer (2026-10-03):** the
+       2.0 applies only to Fusion Burst DMG, and only to **the instance triggered by
+       Erosion Field DMG**, and the description states **its own internal cooldown**.
+       So it belongs in an `AFFLICTION_TRIGGERS` entry for Denia — which does not
+       exist (the table holds only Aemeath) — alongside the Erosion Field hit model.
+       That is the work that would close the remaining gap, and it is a resonator-
+       audit-sized piece rather than a scoping fix.
+
    → **Where the value should eventually go:** `computeNegativeStatusDamage({
      amplify })` exists for exactly this and has no producer. Lucilla's half is now
      unblocked on design — **maintainer-confirmed 2026-10-03 that her 80%
