@@ -173,10 +173,14 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    82.42%, on his own baseline meta team. Invisible to LOCK B by construction
    (chain-0 members), which is why `sequenceEval` is the surface: **1 of 312
    rows moved, his, and no team's composition or ranking changed at all**.
-   What REMAINS on this item's list, unchanged: a battle-entry grant
-   (Phrolova); hit-count inside a state (Encore S6); an ICD-gated enemy debuff
-   (Galbrena); a real-time tick (Lynae's Premixed Hue, 1/s while Lumiflow >= 120
-   -- out of the per-cast income model by design).
+   What REMAINS on this item's list: a battle-entry grant (Phrolova); hit-count
+   inside a state (Encore S6); a real-time tick (Lynae's Premixed Hue, 1/s while
+   Lumiflow >= 120 -- out of the per-cast income model by design).
+   ~~an ICD-gated enemy debuff (Galbrena)~~ **CLOSED 2026-10-03** --
+   `src/core/target-stacks.js` + `TARGET_STACK_DEFS` + a `targetStack`
+   stackTrigger, measured +13.85% on her reference rotation. See the dead-scope
+   sub-entry below for the full derivation; the mechanism is reusable for any kit
+   stack whose applications are rate-limited per source skill.
 
    → **Found while doing it, NOT fixed, and bigger than the above:** the same
    Forte node's OWN clause — *"Increase the DMG Multiplier of Resonance
@@ -220,8 +224,9 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    is not a failure.
    **8 dead when it was written, across SIX distinct causes** — they are
    emphatically not one bug, and one earlier candidate was a false positive of my
-   own first probe. **6 remain: Camellya's and Taoqi's were fixed the same day and
-   their entries DELETED**, which is the shrink-only contract doing its job:
+   own first probe. **5 remain: Camellya's, Taoqi's and Galbrena's IH0.0 were
+   fixed within two days and their entries DELETED**, which is the shrink-only
+   contract doing its job:
    → **`'forte'` is never a scope on EITHER lens, and accounted for 4 of the 8
      (2 now — both Sigrika's, blocked behind her Innate Gift? gauge).**
      It is not an attribution tag — the game ships exactly basic, heavy,
@@ -315,13 +320,63 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
      Lucilla grants the following enhancements…" — the category belongs to the
      leading TRIGGER, not to the grant, which states none. CLAUDE.md already has
      that invariant; this is a case of it that reaches a dead bucket.
-   → **Galbrena ×2, genuinely ambiguous, NOT guessed.** Her Basic Attack rows are
-     tagged `heavy`/`echo`, so her kit reads no basic bucket at all and
-     "Galbrena's Basic Attack DMG" paying nothing may be correct game behaviour
-     rather than a bug — a question for in-game verification. Her IH0.0 states a
-     comma-separated list of FOUR categories ("Normal Attack, Resonance Skill,
-     Forte Circuit, Resonance Liberation") of which one survived, which is
-     effectively her whole kit read as one category.
+   → ~~**Galbrena ×2, genuinely ambiguous, NOT guessed.**~~ **IH0.0 RESOLVED
+     2026-10-03** (entry deleted); S6.1 still open. This was item 2's own
+     "ICD-gated enemy debuff (Galbrena)", and it was dead THREE times over:
+     `trigger` unknown, `stackTrigger` unknown, and a scope of `skillType:
+     'skill'` that no hit of hers can read. The VALUES were already right from
+     the parser — `perStack` 0.05, `maxStacks` 4, `stackSeconds` 5.5 — so only
+     the stack SOURCE and the scope were missing.
+     → **The affected list is MECHANICAL, and the game's own ROW LABELS resolve
+       it.** "Each stack Amplifies the DMG directly dealt by Galbrena's Normal
+       Attack, Resonance Skill, Forte Circuit, Resonance Liberation, Intro Skill,
+       and Outro Skill" cannot be a list of damage BUCKETS: her kit reads only
+       heavy/echo/intro/outro, so four of the six named categories have no hit at
+       all and the clause would be nearly inert. A label's LEADING category is
+       the move's kind and a trailing `· Forte Circuit` is provenance — read that
+       way the clause omits exactly ONE category, **Heavy Attack**, excluding all
+       six Heavy keys (plain Volley of Death AND Forte Flamewing Verdict) and
+       admitting the other 21. That is why the list is written instead of "all her
+       damage", and why "Forte Circuit" is in it rather than redundant: it is the
+       catch-all for Hellstride and Hellsent Barrage, whose labels lead with Forte
+       Circuit rather than another category. Both Heavy Attacks TRIGGER the stack
+       and do not benefit from it — a deliberate asymmetry, not a contradiction.
+       (An earlier draft of this entry read the list off the node `skillType`
+       instead and got a different, wrong split — excluding the mid-airs and
+       keeping Flamewing Verdict. The labels are the better-grounded source.)
+     → **The ICD is per LISTED SKILL, not per category** (maintainer-confirmed:
+       "each same skill may only apply 1 stack every 5 secs; using different
+       skills in succession builds the stacks much quicker"). The kit's own
+       closing sentence is the proof rather than an assumption: Encroach and
+       Ravage are BOTH mechanically Resonance Skills and both read the Heavy
+       bucket — visible in the labels, "Resonance Skill: Encroach" and "Resonance
+       Skill: Ravage · Forte Circuit" — so "considered the same type of skill"
+       says NOTHING under a per-category reading and real work under a per-skill
+       one. Twelve listed entries, ELEVEN ICD groups after that merge.
+     → **A new mechanism was needed, and why:** no existing stack source carries a
+       per-source rate limit, a per-stack lifetime and a cap together. A
+       `RESOURCE_DEFS` gauge has no rate limit and never decays; `stackTimeline`
+       decays but grants on every qualifying cast and matches on the mechanical
+       category; a `castMatch` stackTrigger only counts fires. So
+       `src/core/target-stacks.js` + `TARGET_STACK_DEFS` + a `targetStack`
+       stackTrigger in `scaleEffect`.
+     → **The defect reading the output caught:** "later" has to be ordered by STEP
+       INDEX, not by time. A step's start time IS the previous step's end time, so
+       an application and the next cast share one number and must count — but a
+       Liberation FREEZES gameTime, so its own `gameEnd` equals its `gameStart`,
+       and a time-only test let it credit the stack it inflicted itself. Measured:
+       her Liberation read **4 stacks where 3 were standing** (3,845 damage
+       against 3,685). No epsilon separates the two cases — the same
+       impossibility `enemy-status.js`'s EVENT_ORDER docblock states — so
+       applications carry a step index.
+     → Measured on her reference rotation: **9,606 -> 10,936 (+13.85%)** ungeared,
+       and the ICD visibly bites — she casts Seraphic Execution SEVEN times and
+       the group applies far fewer than seven stacks, with the count ramping 0 ->
+       1 -> 2 -> 3 -> 4 and decaying back to 3 rather than sitting at the cap.
+     → Still open on her: **S6.1**, `amplify` scoped `'basic'` where her Basic
+       rows are tagged heavy/echo. Whether a Basic-Attack-DMG grant should reach
+       re-tagged basics is a game question. UNVERIFIED in game.
+
    → **Iuno SN1.0 — the wrong question, not a dead scope.** "The INCOMING
      Resonator gains 50% Heavy Attack DMG Amplification for 14s", with
      `recipient` undefined and `teamWide` false, so it is being scoped against

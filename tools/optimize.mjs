@@ -61,7 +61,8 @@ const ENGINE_FILES = ['core/formula.js', 'core/stats.js', 'core/skill.js', 'core
     // effects resolve ON, and a state now also gates a status APPLIER
     // (enemy-status.js STATUS_APPLY_RULES). Adding a state changes damage, so
     // the hash has to move with it.
-    'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js', 'core/tune-break.js',
+    'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js',
+    'core/target-stacks.js', 'core/tune-break.js',
     // The enemy every number is measured against. Changing its level or RES
     // rescales the whole meta, so the hash has to move with it.
     'core/target.js',

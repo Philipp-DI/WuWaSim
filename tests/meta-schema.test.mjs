@@ -140,7 +140,8 @@ for (const [id, c] of Object.entries(meta.characters)) {
     'core/buffs/buff-timeline.js', 'core/buffs/sonata-buffs.js', 'core/buffs/weapon-buffs.js', 'core/buffs/conditional-buffs.js', 'core/buffs/external-buffs.js', 'core/stat-priority.js',
         'core/team-sim.js', 'core/team-energy.js', 'core/enemy-status.js', 'core/triggerability.js', 'core/off-field.js',
         'core/cooldowns.js', 'core/opener.js',
-        'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js', 'core/tune-break.js',
+        'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js',
+        'core/target-stacks.js', 'core/tune-break.js',
         'core/target.js',
         'core/dmg-attribution.js',
         'data/loader.js'];   // keep in sync with tools/optimize.mjs ENGINE_FILES

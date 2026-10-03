@@ -88,9 +88,6 @@ const ALLOW = new Map(Object.entries({
     '1208.S6.1': 'Galbrena: "Galbrena\'s Basic Attack DMG" — but her Basic Attack rows are tagged '
         + 'heavy/echo, so her kit reads NO basic bucket at all. Whether a Basic-Attack-DMG grant '
         + 'should reach re-tagged basics is a game question, not a parser one. UNVERIFIED in game.',
-    '1208.IH0.0': 'Galbrena: the clause enumerates FOUR categories ("Normal Attack, Resonance Skill, '
-        + 'Forte Circuit, Resonance Liberation") and exactly one survived — effectively her whole '
-        + 'kit, read as a single category. Needs the enumeration shape, not a one-category scope.',
     '1410.SN1.0': 'Iuno: the recipient is someone else — "The INCOMING Resonator gains 50% Heavy '
         + 'Attack DMG Amplification" — so testing it against Iuno\'s own kit asks the wrong '
         + 'question. `recipient` is undefined and `teamWide` false, which is the actual defect.',
@@ -205,7 +202,7 @@ for (const resonator of dataset.resonators) {
     // The 'forte' subset shares one cause; keep its size visible so a partial fix
     // has to restate it rather than slip past.
     const forteDead = [...dead.values()].filter(info => info.scope === 'forte').length;
-    // Was 4, then 3. Two were fixed on 2026-10-02 and their entries are GONE from
+    // Was 4, then 3, now 2. Fixed entries are GONE from the list rather than left
     // the allow list rather than left behind as stale excuses: Camellya's S6.0
     // (bound to Sweet Dream's own nine keys + the Budding Mode gate) and Taoqi's
     // S5.0 (bound to the three Timed Counters stages that ARE Power Shift).

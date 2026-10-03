@@ -14423,3 +14423,109 @@ is not a failure.
 - The dead-scope test sees only effects the parser EMITTED, and only scopes that
   are unsatisfiable. A scope that is wrong but satisfiable still passes, and an
   effect that never triggers is `audit-effects.test.mjs`'s question.
+
+## 2026-10-03 — Galbrena's Fated End: a stack whose applications are rate-limited per SOURCE
+
+**[Files Changed]** NEW `src/core/target-stacks.js`, NEW
+`tests/target-stacks.test.mjs` (40 assertions), `src/core/rotation-rules.js`
+(`TARGET_STACK_DEFS` + `targetStackDefsForResonator`), `src/core/sim.js` (compute
+the timeline, pass it in the effect ctx), `src/core/buffs.js` (`targetStack`
+stack source in `scaleEffect`), `data/effect-overrides.json` (`1208.IH0.0`),
+`tools/optimize.mjs` + `tests/meta-schema.test.mjs` (ENGINE_FILES),
+`tests/dead-scope.test.mjs` (entry deleted), regenerated `wuwa-data.json` +
+`wuwa-meta.json`, `CLAUDE.md`, `docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** Closes OPEN-ITEMS 2's own "ICD-gated enemy debuff
+(Galbrena)". Oathbound Hunt was dead THREE times over: `trigger` unknown,
+`stackTrigger` unknown, and a scope of `skillType: 'skill'` that no hit of hers
+can read. The parser already had every VALUE right (`perStack` 0.05, `maxStacks`
+4, `stackSeconds` 5.5) — only the stack SOURCE and the scope were missing.
+
+**A new mechanism was needed, and the reason is precise:** no existing stack
+source carries a per-source rate limit, a per-stack lifetime and a cap together.
+A `RESOURCE_DEFS` gauge has no limit and never decays; `stackTimeline` decays but
+grants on EVERY qualifying cast and matches the mechanical category; a
+`castMatch` stackTrigger only counts fires. Hence `target-stacks.js`.
+
+**THE ICD IS PER LISTED SKILL, not per category**, and the kit's own closing
+sentence is the proof rather than an assumption: "Resonance Skill - Encroach and
+Resonance Skill - Ravage are considered the same type of skill" says NOTHING
+under a per-category reading, because both ARE mechanically Resonance Skills and
+both read the Heavy bucket — maintainer-confirmed ("each same skill may only
+apply 1 stack every 5 secs; using different skills in succession builds the
+stacks much quicker"), and visible in the game's own labels: "Resonance Skill:
+Encroach" and "Resonance Skill: Ravage · Forte Circuit". Twelve listed entries,
+ELEVEN groups after that merge.
+
+**The affected list is MECHANICAL, and the ROW LABELS resolve it.** "Each stack
+Amplifies the DMG directly dealt by Galbrena's Normal Attack, Resonance Skill,
+Forte Circuit, Resonance Liberation, Intro Skill, and Outro Skill" cannot be a
+list of damage BUCKETS — her kit reads only heavy/echo/intro/outro, so four of
+the six named categories have no hit at all and the clause would be nearly inert.
+A label's LEADING category is the move's kind and a trailing `· Forte Circuit` is
+provenance; read that way the clause omits exactly ONE category, **Heavy
+Attack**, excluding all six Heavy keys (plain Volley of Death AND Forte Flamewing
+Verdict) and admitting the other 21. That is why such a list is written instead of
+"all her damage", and why "Forte Circuit" is not redundant in it: it is the
+catch-all for Hellstride and Hellsent Barrage, whose labels lead with Forte
+Circuit rather than another category. Both Heavy Attacks TRIGGER the stack and do
+not benefit — a deliberate asymmetry.
+
+**[Verification Method]** LOCK A: exactly the one effect. Measured on her
+reference rotation: **9,606 → 10,936 (+13.85%)** ungeared, with the count ramping
+0 → 1 → 2 → 3 → 4 and decaying back to 3 rather than sitting at the cap. The ICD
+visibly bites — she casts Seraphic Execution SEVEN times and that group applies
+far fewer than seven stacks; a control run with `icdSeconds: 0` credits strictly
+more, which the test asserts. Geared, in her own baseline meta team
+(Youhu/Changli/Galbrena): own damage **383,636 → 407,925 (+6.33%)**, team +1.77%
+— a smaller marginal than ungeared because `amplify` is multiplicative and a
+geared build already carries other amplify. LOCK B: **10 of 416 teams moved, ALL
+containing Galbrena, ZERO without her, ALL UP (+1.77%..+3.39%)**, 7 sequenceEval
+rows all in teams holding her, and every non-team section (`characters` — the
+suggested builds and weights) byte-identical. `engineHash` moved, as a new
+ENGINE_FILES member and two edited engine files require. 40/40 new assertions,
+81/81 test files, sweep 71/71, lint 0 errors.
+
+**The defect reading the output caught, rather than trusting it:** "later" has to
+be ordered by STEP INDEX, not by time. A step's start time IS the previous step's
+end time, so an application and the next cast share one number and must COUNT —
+that is how a stack reaches the cast it was inflicted for. But a Liberation
+FREEZES gameTime, so its own `gameEnd` equals its `gameStart`, and a time-only
+test let that cast credit the stack it inflicted ITSELF: her Liberation read **4
+stacks where 3 were standing** (3,845 damage against 3,685). No epsilon separates
+the two cases — the same impossibility `enemy-status.js`'s EVENT_ORDER docblock
+states — so an application carries the index of the step that landed it.
+
+**A second catch, from reading the suite's output rather than its exit code:**
+`npm test` reported 80/81 with `provenance.test.mjs` failing — the new module's
+`EPS` was an unclassified numeric parameter. The project's provenance ledger
+requires every numeric constant in `src/core/` to carry a status, and a new engine
+file adds one. Classified `technical` ("Float comparison epsilon"), mirroring the
+three `EPS` entries already there; the ledger now holds 40 parameters. Worth
+noting that the shell exit code was 0 while the suite itself reported a failure,
+so the run was only caught by reading the lines.
+
+**A correction to my own earlier account:** the first draft of this investigation
+read the affected list off the node `skillType` and got a different, wrong split
+(excluding the mid-airs, keeping Flamewing Verdict). The labels are the
+better-grounded source and were already in the data.
+
+**[Residual Risks]**
+- Her **S6.1** stays dead and allow-listed: `amplify` scoped `'basic'` where her
+  Basic rows are tagged heavy/echo. Whether a Basic-Attack-DMG grant should reach
+  re-tagged basics is a game question, not a parser one. UNVERIFIED in game.
+- "Mid-air Attack" in the trigger list is read as the Ashfall Barrage pair only,
+  NOT the Forte Hellsent Barrage, because the kit names the Forte mid-air
+  explicitly wherever it means it (her S1 and S6 both say "Mid-air Attack -
+  Hellsent Barrage"). If that reading is wrong she gains a twelfth source and
+  builds stacks slightly faster.
+- Dodge Counter is in the def because the kit lists it, and is inert: a Dodge
+  Counter cannot be cast on demand, so no authored rotation contains one
+  (maintainer). The def states the kit rather than the rotations.
+- The timeline is INERT without `stepTimes` (rotation-graph legality checks),
+  which understates rather than guessing a schedule — the same rule
+  `RESOURCE_DEFS.tick` follows.
+- Hit-count semantics are not modelled: the kit says the listed skills inflict
+  "when they hit", and a multi-hit cast still applies at most one stack per ICD
+  window, which is what the clause says. But a cast that MISSES cannot be
+  modelled at all (the project has no miss model by design).

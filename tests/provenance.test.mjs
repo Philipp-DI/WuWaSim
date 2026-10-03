@@ -131,6 +131,7 @@ const REGISTRY = [
     { file: 'src/core/buffs/buff-timeline.js', name: 'EPS', values: [0.000001], status: 'technical', why: 'Float comparison epsilon.' },
     { file: 'src/core/cooldowns.js', name: 'EPS', values: [0.000001], status: 'technical', why: 'Float comparison epsilon.' },
     { file: 'src/core/opener.js', name: 'EPS', values: [0.000001], status: 'technical', why: 'Float comparison epsilon.' },
+    { file: 'src/core/target-stacks.js', name: 'EPS', values: [0.000001], status: 'technical', why: 'Float comparison epsilon.' },
     { file: 'src/core/stat-priority.js', name: 'NEAR_ZERO', values: [0.000001], status: 'technical', why: 'Weights below this are treated as zero.' },
 ];
 

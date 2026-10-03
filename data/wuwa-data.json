@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-10-02T14:10:44.861Z",
+  "generatedAt": "2026-10-03T11:35:52.029Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -6524,7 +6524,34 @@
               "defaultAssume": false,
               "defaultActive": false,
               "trigger": {
-                "type": "unknown"
+                "type": "castMatch",
+                "skillKeys": [
+                  "intro_intro_skill_hellflare_overload",
+                  "basic_basic_attack_1",
+                  "basic_basic_attack_2",
+                  "basic_basic_attack_3",
+                  "basic_basic_attack_4",
+                  "forte_basic_seraphic_execution_1",
+                  "forte_basic_seraphic_execution_2",
+                  "forte_basic_seraphic_execution_3",
+                  "forte_basic_seraphic_execution_4",
+                  "forte_basic_seraphic_execution_5",
+                  "basic_dodge_counter_blood_for_blood",
+                  "heavy_volley_of_death_1",
+                  "heavy_volley_of_death_2",
+                  "heavy_volley_of_death_3",
+                  "forte_heavy_flamewing_verdict_1",
+                  "forte_heavy_flamewing_verdict_2",
+                  "forte_heavy_flamewing_verdict_3",
+                  "midair_ashfall_barrage_plunging_attack",
+                  "midair_ashfall_barrage_sustained_fire",
+                  "forte_heavy_hellstride",
+                  "skill_encroach",
+                  "forte_heavy_ravage",
+                  "skill_ascent_of_malice",
+                  "liberation_hellfire_absolution"
+                ],
+                "phrase": "Any of the twelve skills the kit lists as inflicting Fated End"
               },
               "window": {
                 "type": "seconds",
@@ -6535,9 +6562,34 @@
               "perStack": 0.05,
               "maxStacks": 4,
               "stackTrigger": {
-                "type": "unknown"
+                "type": "targetStack",
+                "stack": "Fated End"
               },
-              "stackSeconds": 5.5
+              "stackSeconds": 5.5,
+              "skillKeys": [
+                "basic_basic_attack_1",
+                "basic_basic_attack_2",
+                "basic_basic_attack_3",
+                "basic_basic_attack_4",
+                "basic_dodge_counter_blood_for_blood",
+                "midair_ashfall_barrage_plunging_attack",
+                "midair_ashfall_barrage_sustained_fire",
+                "skill_encroach",
+                "skill_ascent_of_malice",
+                "liberation_hellfire_absolution",
+                "intro_intro_skill_hellflare_overload",
+                "forte_heavy_hellstride",
+                "forte_basic_seraphic_execution_1",
+                "forte_basic_seraphic_execution_2",
+                "forte_basic_seraphic_execution_3",
+                "forte_basic_seraphic_execution_4",
+                "forte_basic_seraphic_execution_5",
+                "forte_heavy_hellsent_barrage_plunging_attack",
+                "forte_heavy_hellsent_barrage_sustained_fire",
+                "forte_heavy_ravage",
+                "outro_outro_skill"
+              ],
+              "_resolvedVia": "2026-10-03 (OPEN-ITEMS 2, the \"ICD-gated enemy debuff\"): Oathbound Hunt had trigger AND stackTrigger both 'unknown' and a scope of skillType 'skill' that NO hit of hers can read, so it was dead three times over. The VALUES were already right from the parser (perStack 0.05, maxStacks 4, stackSeconds 5.5) — only the stack SOURCE and the scope were missing. SCOPE: \"Each stack Amplifies the DMG directly dealt by Galbrena's Normal Attack, Resonance Skill, Forte Circuit, Resonance Liberation, Intro Skill, and Outro Skill\" is a MECHANICAL list of inputs, not a list of damage buckets, and the game's own ROW LABELS are what resolve it: the leading category of a label is the move's KIND and a trailing · Forte Circuit is provenance. Read as buckets the clause would be nearly inert — her kit reads only heavy/echo/intro/outro, so four of the six named categories have no hit at all. Read by label it omits exactly ONE category, Heavy Attack, excluding all six Heavy keys (plain Volley of Death AND Forte Flamewing Verdict) and admitting the other 21. That is why the list is written instead of \"all her damage\", and why \"Forte Circuit\" is in it rather than redundant: it is the catch-all for Hellstride and Hellsent Barrage, whose labels lead with Forte Circuit rather than another category. Both Heavy Attacks TRIGGER the stack and do not benefit from it, which is coherent. STACKS: TARGET_STACK_DEFS[1208] 'Fated End' — the ICD is per LISTED SKILL, not per category (maintainer-confirmed: \"each same skill may only apply 1 stack every 5 secs; using different skills in succession builds the stacks much quicker\"). The kit's closing sentence proves it: Encroach and Ravage are both mechanically Resonance Skills reading the Heavy bucket, so \"considered the same type of skill\" says NOTHING under a per-category reading and real work under a per-skill one. WINDOW kept as parsed ('seconds' 5.5, the stack lifetime) and armed by the applying casts: a stack applied by the last listed cast expires exactly when the window does, and a cast whose group is still on ICD opens the window while the count is 0, which pays 0. The count is what gates this effect, exactly as Denia's per-Dark-Core multiplier is gated by arithmetic."
             }
           ]
         },

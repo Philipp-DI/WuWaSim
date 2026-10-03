@@ -1518,6 +1518,93 @@ export const RESOURCE_DEFS = Object.freeze({
     }],
 });
 
+// =============================================================================
+// Curated TARGET stacks whose applications carry an internal cooldown.
+// =============================================================================
+//
+// See src/core/target-stacks.js for why this is its own mechanism rather than a
+// RESOURCE_DEFS entry or a `stackTimeline`: it needs a per-SOURCE rate limit, a
+// per-stack lifetime and a cap at the same time, and none of the three existing
+// stack sources carries all three.
+//
+//   { name, cap, stackSeconds, icdSeconds, groups: [{ name, keys: [...] }] }
+//
+// A `group` is ONE ENTRY of the kit's own list, because the ICD is per listed
+// SKILL and not per category (maintainer-confirmed 2026-10-03). The kit's
+// closing sentence is the proof: Encroach and Ravage are both mechanically
+// Resonance Skills reading the Heavy bucket, so "considered the same type of
+// skill" says nothing under a per-category reading and real work under a
+// per-skill one.
+export const TARGET_STACK_DEFS = Object.freeze({
+    // Galbrena — Oathbound Hunt (inherent IH0): "1 stack of Fated End is
+    // inflicted on the target when the following skills hit: Intro Skill, Basic
+    // Attack, Basic Attack - Seraphic Execution, Dodge Counter, Heavy Attack -
+    // Volley of Death, Heavy Attack - Flamewing Verdict, Mid-air Attack,
+    // Hellstride, Resonance Skill - Encroach, Resonance Skill - Ascent of
+    // Malice, Resonance Skill - Ravage and Resonance Liberation, up to 4 stacks.
+    // […] The same type of skill can trigger this effect on the same target once
+    // every 5s. Resonance Skill - Encroach and Resonance Skill - Ravage are
+    // considered the same type of skill."
+    //
+    // Twelve entries, eleven groups after the merge the kit states. Every name
+    // is mapped by the GAME'S OWN ROW LABEL, not by the key spelling — "Mid-air
+    // Attack" is `Basic Attack: Mid-air Attack - Ashfall Barrage ...` and
+    // "Hellstride" is `Forte Circuit: Hellstride`.
+    //
+    // `cap`, `stackSeconds` and the 5% per stack are NOT curated here — the
+    // parser already read all three off the clause (`maxStacks: 4`,
+    // `stackSeconds: 5.5`, `perStack: 0.05`). Only the stack SOURCE was missing.
+    //
+    // NOT in the trigger list, deliberately: Mid-air Attack - Hellsent Barrage.
+    // The kit names the Forte mid-air explicitly wherever it means it (her S1 and
+    // S6 both say "Mid-air Attack - Hellsent Barrage"), so the bare "Mid-air
+    // Attack" here is the Ashfall Barrage pair. Including it would invent a
+    // twelfth source.
+    //
+    // Dodge Counter is listed because the kit lists it, and is inert in practice:
+    // a Dodge Counter cannot be cast on demand (it needs a well-timed dodge of an
+    // enemy attack), so no authored rotation contains one (maintainer,
+    // 2026-10-03). Kept so the def states the kit rather than the rotations.
+    1208: [{
+        name: 'Fated End',
+        cap: 4,
+        stackSeconds: 5.5,
+        icdSeconds: 5,
+        groups: [
+            { name: 'Intro Skill', keys: ['intro_intro_skill_hellflare_overload'] },
+            { name: 'Basic Attack',
+              keys: ['basic_basic_attack_1', 'basic_basic_attack_2', 'basic_basic_attack_3', 'basic_basic_attack_4'] },
+            { name: 'Basic Attack - Seraphic Execution',
+              keys: ['forte_basic_seraphic_execution_1', 'forte_basic_seraphic_execution_2',
+                  'forte_basic_seraphic_execution_3', 'forte_basic_seraphic_execution_4',
+                  'forte_basic_seraphic_execution_5'] },
+            { name: 'Dodge Counter', keys: ['basic_dodge_counter_blood_for_blood'] },
+            { name: 'Heavy Attack - Volley of Death',
+              keys: ['heavy_volley_of_death_1', 'heavy_volley_of_death_2', 'heavy_volley_of_death_3'] },
+            { name: 'Heavy Attack - Flamewing Verdict',
+              keys: ['forte_heavy_flamewing_verdict_1', 'forte_heavy_flamewing_verdict_2',
+                  'forte_heavy_flamewing_verdict_3'] },
+            { name: 'Mid-air Attack',
+              keys: ['midair_ashfall_barrage_plunging_attack', 'midair_ashfall_barrage_sustained_fire'] },
+            { name: 'Hellstride', keys: ['forte_heavy_hellstride'] },
+            // The one merge the kit states, and the only reason it had to.
+            { name: 'Resonance Skill - Encroach / Ravage',
+              keys: ['skill_encroach', 'forte_heavy_ravage'] },
+            { name: 'Resonance Skill - Ascent of Malice', keys: ['skill_ascent_of_malice'] },
+            { name: 'Resonance Liberation', keys: ['liberation_hellfire_absolution'] },
+        ],
+    }],
+});
+
+/**
+ * Target-stack definitions for a resonator, or an empty array.
+ * @param {number|string} resonatorId
+ * @returns {Array<object>}
+ */
+export function targetStackDefsForResonator(resonatorId) {
+    return TARGET_STACK_DEFS[Number(resonatorId)] ?? [];
+}
+
 /**
  * Resource definitions for a resonator, or an empty array.
  *

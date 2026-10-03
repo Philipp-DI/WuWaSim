@@ -24,6 +24,7 @@ import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
+import { computeTargetStackTimeline } from './target-stacks.js';
 import { computeResourceConsumption, computeResourceEndLevels, computeResourceTickPhases, computeResourceTimeline } from './rotation-resources.js';
 
 import {
@@ -43,7 +44,7 @@ function weaponAmplifyScopes(weaponConditional) {
     return out;
 }
 import { computeStateTimeline } from './rotation-state.js';
-import { resolveChainLockedRotation, resourceDefsForResonator, stateDefsForResonator, timingVariantFor } from './rotation-rules.js';
+import { resolveChainLockedRotation, resourceDefsForResonator, stateDefsForResonator, targetStackDefsForResonator, timingVariantFor } from './rotation-rules.js';
 import { soloStatusDamage, resolveTuneBreakStep, statusesInflictedBy } from './enemy-status.js';
 import { resolveTuneStrain } from './tune-break.js';
 
@@ -641,6 +642,14 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // same step — see computeResourceConsumption.
     const resourceConsumed = computeResourceConsumption(rotation, resourceDefs, carryInResources, resourceContext);
 
+    // Stacks a kit inflicts on the TARGET whose applications are rate-limited
+    // per source skill (Galbrena's Fated End: one per listed skill every 5s,
+    // cap 4, 5.5s each). Not a gauge — it decays, and the limit is per SOURCE,
+    // so neither RESOURCE_DEFS nor a castMatch count can express it. Keyed on
+    // gameTime like everything else, so a Liberation freeze pauses both clocks.
+    const targetStacks = computeTargetStackTimeline(
+        rotation, targetStackDefsForResonator(build?.resonatorId), stepTimes);
+
     // Trigger-fire tracking, keyed by phrase-type. Updated after each step.
     //
     // `carryInFires` seeds these with fires that happened BEFORE this rotation
@@ -682,7 +691,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
             resonanceMode: build?.resonanceMode ?? null,
             firedTypes, lastFireEndByType, fireCountByType,
             firedKeys, lastFireEndByKey, fireCountByKey,
-            manualStacks, resourceLevels, resourceConsumed, stepIndex: i,
+            manualStacks, resourceLevels, resourceConsumed, targetStacks, stepIndex: i,
             // This step's own identity, for a 'thisCast' window (a buff that
             // applies to the triggering cast itself rather than to later steps).
             stepKey: skillKey,

@@ -91,6 +91,7 @@
 
 import { stateActive } from './rotation-state.js';
 import { resourceConsumedAt, resourceLevelAt } from './rotation-resources.js';
+import { targetStackAt } from './target-stacks.js';
 
 // =============================================================================
 // Type constants (plain strings — no enum overhead in JS)
@@ -683,9 +684,12 @@ export function underivableStacks(build, resonator, resourceNames = null) {
  *      costs. `consumed: true` reads what THIS STEP SPENDS
  *      (ctx.resourceConsumed); otherwise the level entering this step
  *      (ctx.resourceLevels);
- *   3. a resolvable castMatch stackTrigger → number of fires so far
+ *   3. a `targetStack` stackTrigger → a kit stack held on the TARGET whose
+ *      applications are ICD-limited per source skill (ctx.targetStacks). Like
+ *      (2) it is the exact count and is not re-capped;
+ *   4. a resolvable castMatch stackTrigger → number of fires so far
  *      (ctx.fireCountByType), capped at maxStacks;
- *   4. none of those → ONE stack, flagged `stacksUnknown`.
+ *   5. none of those → ONE stack, flagged `stacksUnknown`.
  *
  * On (2): the gauge is the exact count, so it is NOT capped at maxStacks — the
  * gauge's own `cap` already bounds it, and the two agree by construction
@@ -749,6 +753,15 @@ function scaleEffect(effect, ctx, key = null) {
         }
         const level = resourceLevelAt(ctx.resourceLevels, stackTrigger.resource, ctx.stepIndex);
         if (level != null) return banded(Math.floor(level / (stackTrigger.perStackCost ?? 1)), 'resource');
+    }
+    // A stack held on the TARGET whose applications are ICD-limited per source
+    // skill (target-stacks.js). Like a gauge, the timeline IS the exact count,
+    // so it is not re-capped here — the def's own `cap` already bounds it, and
+    // a stack that has decayed is simply not in the count. null means "not
+    // modelled" and falls through to the underivable path; 0 is a real empty.
+    if (stackTrigger && stackTrigger.type === 'targetStack') {
+        const held = targetStackAt(ctx.targetStacks, stackTrigger.stack, ctx.stepIndex);
+        if (held != null) return banded(held, 'targetStack');
     }
     if (stackTrigger && stackTrigger.type === 'castMatch' && stackTrigger.skillType != null) {
         return banded(ctx.fireCountByType.get(stackTrigger.skillType) ?? 0, 'derived');
