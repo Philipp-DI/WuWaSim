@@ -203,6 +203,59 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    widening, or a third slot namespace; each is its own change with its own
    blast radius, which is why neither was bolted onto this one.
 
+   → **A NEGATIVE STATUS'S OWN DAMAGE READ AS THE WIELDER'S — found 2026-10-03
+   while investigating Lucilla, and it is the largest single inflation found in
+   this sweep.** "Glacio Chafe DMG", "Fusion Burst DMG", "Aero Erosion DMG" and the
+   rest open with an element or a mechanic but name the STATUS, whose damage has
+   its own formula (no crit, no gear stat). A clause amplifying one is not a wielder
+   buff at all, and reading it as one INFLATES. **MEASURED, by stripping the single
+   effect:**
+   → **Denia S6.2 inflates her by +73.72% at S6** (49,104 -> 85,304 on her own
+     reference rotation). "The Fusion Burst DMG triggered gains a 200% DMG
+     Multiplier increase against the main target" ships as an **UNSCOPED
+     `multiplierUp` of 2.0 with `window: always`** — the exact shape CLAUDE.md says
+     `tests/multiplier-scope.test.mjs` guard 1 keeps at zero, which it evidently
+     does not catch behind a `modeMatch` trigger. It applies to her ENTIRE kit, in
+     both resonance modes. Denia has **no `AFFLICTION_TRIGGERS` entry at all** (the
+     table holds only Aemeath), so the +200% is carried nowhere legitimate and
+     leaks here instead.
+   → **Aemeath S2.2 inflates +1.06% at S2 and +0.72% at S6** — "the additional
+     instances Tune Rupture DMG triggered by Resonance Skill Seraphic Duet" read as
+     +20% on her mechanical skill-type hits.
+   → **Latent, same class, not currently paying:** Cartethyia SN0.0 ("Aero Erosion
+     DMG is Amplified by 50%", parsed as +50% on her own AERO hits — she is an Aero
+     carry, so this is the one to watch); Aemeath SN0.0 (+200%, held off only by an
+     unknown trigger); Lucilla S2.0 (held off only by its dead scope).
+   → **5 clauses, 4 resonators**, found by scanning node DESCRIPTIONS rather than
+     `effect.condition` — Lucilla's condition is the node's PREAMBLE, so the status
+     name is not in it, which is why scanning conditions first returned zero.
+   → **The fix is written and deliberately NOT COMMITTED, because it cannot be
+     verified in this session.** `tools/preprocess/effects.mjs` gains
+     `NEGATIVE_STATUS_NAMES` + `statusGrantIn()` (requiring the status name to be
+     followed IMMEDIATELY by "DMG", which keeps Denia's own "60% Fusion DMG Bonus"
+     two lines above out of it — the same rule the outro scope map uses) and stamps
+     `statusGrant`; `resolveChainInherentContext` then skips such an effect exactly
+     as it now skips `recipient: 'incoming'`. Count-preserving, so no slot moves.
+     Detector unit-verified 6/6 including both negative cases. **What is missing is
+     `npm run data`: preprocess fetches upstream from raw.githubusercontent.com and
+     the network is unreachable in this session (`ENOTFOUND`), so the marks cannot
+     reach the dataset.** An in-memory approximation measured the removal at Denia
+     -42.44% / Aemeath -2.31%, but that is an APPROXIMATION and must not be quoted
+     as the result: the parser stamps from the FULL clause while the stand-in saw
+     only the 120-char `condition` plus the node desc, so the marked set may differ.
+     **To land it: `npm run data`, confirm LOCK A marks exactly the intended
+     effects, `npm run meta`, then `npm test`.** Both live effects are chain-gated
+     (S6, S2), so LOCK B should move ZERO teams — the usual chain-0 blind spot — and
+     `sequenceEval` is the surface that will show it.
+   → **Where the value should eventually go:** `computeNegativeStatusDamage({
+     amplify })` exists for exactly this and has no producer. Lucilla's half is now
+     unblocked on design — **maintainer-confirmed 2026-10-03 that her 80%
+     amplifies Glacio Chafe DMG AS A WHOLE, not only the instances she inflicted**,
+     so the value belongs on the SHARED enemy timeline, not on the member. Denia's
+     and Aemeath's are DMG-MULTIPLIER increases on an affliction instead, which is
+     `AFFLICTION_TRIGGERS` / `computeAfflictionDamage({ multiplier })` territory, so
+     the family needs both halves.
+
    → **That cause is now a TEST: `tests/dead-scope.test.mjs` (2026-10-02).** A
    scope no hit can satisfy is dead by arithmetic whatever its value, which is
    cheap to check directly, and nothing could see Luuk's zero before it. The test

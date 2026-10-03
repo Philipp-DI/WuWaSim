@@ -1555,11 +1555,14 @@ export const TARGET_STACK_DEFS = Object.freeze({
     // parser already read all three off the clause (`maxStacks: 4`,
     // `stackSeconds: 5.5`, `perStack: 0.05`). Only the stack SOURCE was missing.
     //
-    // NOT in the trigger list, deliberately: Mid-air Attack - Hellsent Barrage.
-    // The kit names the Forte mid-air explicitly wherever it means it (her S1 and
-    // S6 both say "Mid-air Attack - Hellsent Barrage"), so the bare "Mid-air
-    // Attack" here is the Ashfall Barrage pair. Including it would invent a
-    // twelfth source.
+    // ~~NOT in the trigger list: Mid-air Attack - Hellsent Barrage, since the kit
+    // names the Forte mid-air explicitly wherever it means it.~~ CORRECTED
+    // 2026-10-03 (maintainer): a bare category name covers the WHOLE category —
+    // "when a certain exact ability isn't listed, it refers to the whole
+    // category" — so the Forte mid-air shares the Mid-air Attack group. The same
+    // rule is why "Basic Attack" covers all four of her basic stages while Dodge
+    // Counter, though mechanically a Basic Attack, has its OWN group: the kit
+    // lists it separately, which carves it out of the category.
     //
     // Dodge Counter is listed because the kit lists it, and is inert in practice:
     // a Dodge Counter cannot be cast on demand (it needs a well-timed dodge of an
@@ -1584,8 +1587,17 @@ export const TARGET_STACK_DEFS = Object.freeze({
             { name: 'Heavy Attack - Flamewing Verdict',
               keys: ['forte_heavy_flamewing_verdict_1', 'forte_heavy_flamewing_verdict_2',
                   'forte_heavy_flamewing_verdict_3'] },
+            // A bare category name covers the WHOLE category (maintainer,
+            // 2026-10-03): "when a certain exact ability isn't listed, it refers
+            // to the whole category". So this holds the Forte mid-air too —
+            // Hellsent Barrage is a Mid-air Attack reached through the Forte
+            // Circuit, which its own label says ("Forte Circuit: Mid-air Attack
+            // - Hellsent Barrage"), and the kit never lists it separately HERE.
+            // That it IS named explicitly in her S1/S6 clauses is what made the
+            // narrower reading look plausible; the category rule outranks it.
             { name: 'Mid-air Attack',
-              keys: ['midair_ashfall_barrage_plunging_attack', 'midair_ashfall_barrage_sustained_fire'] },
+              keys: ['midair_ashfall_barrage_plunging_attack', 'midair_ashfall_barrage_sustained_fire',
+                  'forte_heavy_hellsent_barrage_plunging_attack', 'forte_heavy_hellsent_barrage_sustained_fire'] },
             { name: 'Hellstride', keys: ['forte_heavy_hellstride'] },
             // The one merge the kit states, and the only reason it had to.
             { name: 'Resonance Skill - Encroach / Ravage',

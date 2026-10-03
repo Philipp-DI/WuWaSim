@@ -123,11 +123,27 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     // demand). Stating it keeps the def about the kit rather than the rotations.
     assert('Dodge Counter is listed, as the kit lists it',
         def.groups.some(group => group.keys.includes('basic_dodge_counter_blood_for_blood')));
-    // Mid-air Attack - Hellsent Barrage is NOT a source: the kit names the Forte
-    // mid-air explicitly wherever it means it, and here it says bare "Mid-air
-    // Attack". Including it would invent a twelfth source.
-    assert('the Forte mid-air (Hellsent Barrage) is NOT a source',
-        !all.some(key => key.includes('hellsent_barrage')));
+    // A BARE CATEGORY NAME COVERS THE WHOLE CATEGORY (maintainer, 2026-10-03):
+    // "when a certain exact ability isn't listed, it refers to the whole
+    // category". So the bare "Mid-air Attack" entry holds the Forte mid-air too —
+    // Hellsent Barrage is a Mid-air Attack reached through the Forte Circuit,
+    // which its own label says. An earlier draft of this test asserted the
+    // opposite, on the grounds that her S1/S6 clauses name the Forte mid-air
+    // explicitly; the category rule outranks that.
+    const midair = def.groups.find(group => group.name === 'Mid-air Attack');
+    assert('the bare "Mid-air Attack" entry covers the whole category, Forte included',
+        midair.keys.length === 4
+        && midair.keys.filter(key => key.includes('hellsent_barrage')).length === 2
+        && midair.keys.filter(key => key.includes('ashfall_barrage')).length === 2);
+    // The same rule, the other way: Basic Attack covers all four basic stages,
+    // while Dodge Counter — mechanically a Basic Attack — has its OWN group,
+    // because the kit lists it separately and that carves it out of the category.
+    // Measured in game: a Dodge Counter applies a stack right after a Basic.
+    const basics = def.groups.find(group => group.name === 'Basic Attack');
+    assert('Basic Attack covers all four stages, sharing one cooldown',
+        basics.keys.length === 4 && basics.keys.every(key => /^basic_basic_attack_[1-4]$/.test(key)));
+    assert('Dodge Counter is its OWN group, not folded into Basic Attack',
+        !basics.keys.includes('basic_dodge_counter_blood_for_blood'));
     assert('exactly one resonator needs this mechanism today',
         Object.keys(TARGET_STACK_DEFS).length === 1);
 }

@@ -14605,3 +14605,88 @@ whether the value lives on the member or on the shared timeline.
 - **4 dead scopes remain** and each needs something outside the parser: Lucilla
   S2.0 (the status-amplify producer above), Galbrena S6.1 and Sigrika ×2 (all
   three need an in-game measurement — see OPEN-ITEMS 2).
+
+## 2026-10-03 — Galbrena's two corrections, and a +73.72% inflation found next door
+
+**[Files Changed]** `src/core/rotation-rules.js` (the Mid-air Attack group),
+`data/effect-overrides.json` (`1208.S6.1`), `tests/target-stacks.test.mjs` (an
+assertion inverted), `tests/dead-scope.test.mjs` (entry deleted), regenerated
+`wuwa-data.json` + `wuwa-meta.json`, `docs/OPEN-ITEMS.md`, `docs/HISTORY.md`.
+
+**[Logic Altered]** Two maintainer answers, both correcting a reading of mine.
+
+**A bare category name covers the WHOLE category.** "When a certain exact ability
+isn't listed, it refers to the whole category" — so Fated End's bare "Mid-air
+Attack" entry holds the Forte mid-air too, and Hellsent Barrage joins that ICD
+group (4 keys, not 2). I had excluded it on the grounds that her S1/S6 clauses
+name the Forte mid-air explicitly; the category rule outranks that. The same rule
+confirms the other two groupings already shipped: "Basic Attack" covers all four
+basic stages sharing ONE cooldown, while Dodge Counter — mechanically a Basic
+Attack — keeps its own group, because the kit lists it separately and that carves
+it out of the category. Measured in game: a Dodge Counter applies a stack
+immediately after a Basic. `tests/target-stacks.test.mjs` now asserts all three.
+
+**A category-named buff scopes the ABILITY, not the damage bucket.** "A buff can
+apply to a certain ability/mechanic directly, which in turn buffs that ability's
+DMG without the buff having to be explicitly of the proper DMG type." So
+Galbrena's S6.1 is right to be scoped by NAME: its five-name SUBJECT list
+("Galbrena's Basic Attack - Seraphic Execution, Heavy Attack - Flamewing Verdict,
+Mid-air Attack - Hellsent Barrage, Resonance Skill - Ravage, and Dodge Counter -
+Purgatory Scourge gain 0.875% Fusion DMG Amplification") bound NOTHING, because
+the subject binder deliberately never reads across a comma. Its sibling S6.0 names
+four of the same skills in a TARGET form, which the binder DOES read, so the
+eleven keys here are S6.0's own resolved list plus Ravage rather than a fresh
+derivation. Dodge Counter - Purgatory Scourge resolves to no key at all (her only
+dodge-counter row is "Blood for Blood"), so it is absent and understates by one
+move.
+
+**[Verification Method]** LOCK A: exactly S6.1's `skillKeys` block. LOCK B: only
+`generatedAt` and `engineHash` — zero of 416 teams, zero sequenceEval rows, every
+non-team section byte-identical, which is expected: S6.1 still resolves OFF via its
+unknown trigger, and her rotation casts no mid-air. 42/42 target-stacks, 19/19
+dead-scope (allow-list down to 3), 82/82 test files, sweep 71/71, lint 0 errors.
+
+**S6.1 is correctly SCOPED and still OFF**, deliberately. Its stack source is "for
+every 1 point of Afterflame consumed", and Afterflame is identifiable —
+SpecialEnergy2, cap 40, matching "Galbrena can hold up to 40 points of
+[Afterflame]" with no other channel reading 40 — but its income is "+8 when
+Resonators in the nearby team cast Echo Skill" (trigger row 1208003100, amount 8),
+the HIT/EVENT lane `rotation-resources.js` cannot read, and team-composition
+dependent. The same blocker as Sigrika's Innate Gift?. Its dead-scope entry was
+deleted because the scope is genuinely fixed; the still-OFF state is tracked by
+`detectWarnings`'s UNKNOWN_TRIGGER instead, which is the right lane.
+
+**[Found while investigating Lucilla, MEASURED, and NOT committed]** A negative
+status's own damage was being read as the wielder's — **the largest single
+inflation of this sweep**. "Glacio Chafe DMG", "Fusion Burst DMG", "Aero Erosion
+DMG" name the STATUS, whose damage has its own formula, so a clause amplifying one
+is not a wielder buff. **Denia S6.2 inflates her +73.72% at S6** (49,104 ->
+85,304): "The Fusion Burst DMG triggered gains a 200% DMG Multiplier increase"
+ships as an UNSCOPED `multiplierUp` of 2.0 with `window: always`, applying to her
+whole kit in both modes, and she has NO `AFFLICTION_TRIGGERS` entry for it to live
+in. Aemeath S2.2 inflates +1.06% at S2 / +0.72% at S6. Three more are latent
+(Cartethyia SN0.0's +50% on her own Aero hits, Aemeath SN0.0, Lucilla S2.0). Five
+clauses, four resonators — found by scanning node DESCRIPTIONS, since Lucilla's
+`condition` is the node preamble and a scan of conditions returns zero.
+
+**Why it is not committed:** the fix needs `npm run data` to stamp the dataset, and
+**preprocess fetches upstream from raw.githubusercontent.com, which is unreachable
+in this session (`ENOTFOUND`)**. The source edits are written and the detector is
+unit-verified 6/6 (including rejecting "60% Fusion DMG Bonus" two lines above
+Denia's clause), but with no regeneration there is no LOCK A, so the blast radius
+cannot be stated — an in-memory stand-in measured Denia -42.44% / Aemeath -2.31%
+and that is an APPROXIMATION only, because the parser stamps from the FULL clause
+while the stand-in saw the truncated `condition` plus the node desc. Committing a
+source rule whose dataset does not reflect it would ship a half-landed fix, so it
+is recorded in OPEN-ITEMS 2 with the exact steps instead.
+
+**[Residual Risks]**
+- **Denia's +73.72% is still live in the shipped dataset.** It is chain-6 gated, so
+  no meta team shows it (chain-0 members), but the build page and `sequenceEval`
+  do. This is the highest-priority item outstanding.
+- `tests/multiplier-scope.test.mjs` guard 1 is documented to keep unscoped
+  always-on `multiplierUp` at zero and did not catch Denia's, which sits behind a
+  `modeMatch` trigger. Whether the guard should widen is a separate question from
+  the status-grant fix, and widening it might be the better root cause.
+- The Afterflame gauge is identifiable but unmodellable in the per-cast model;
+  Sigrika's Innate Gift? has the identical blocker.

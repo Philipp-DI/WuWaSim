@@ -85,9 +85,6 @@ const ALLOW = new Map(Object.entries({
         + 'Resonance Liberation - Clear As Day, Lucilla grants the following enhancements…". '
         + "CLAUDE.md's own \"leading TRIGGER is not the SCOPE\" invariant; the grant itself states "
         + 'no category, and her kit reads no liberation bucket under either mode.',
-    '1208.S6.1': 'Galbrena: "Galbrena\'s Basic Attack DMG" — but her Basic Attack rows are tagged '
-        + 'heavy/echo, so her kit reads NO basic bucket at all. Whether a Basic-Attack-DMG grant '
-        + 'should reach re-tagged basics is a game question, not a parser one. UNVERIFIED in game.',
     '1412.S6.1': "Sigrika: 'forte' lifted from the NAME \"Forte Circuit - Learn My True Name\". "
         + 'Scoping it alone would still pay nothing: its stack source is [Innate Gift?], gained only '
         + 'when Soliskin Vitality (earned when TEAMMATES cast Echo Skill) is high enough — the '

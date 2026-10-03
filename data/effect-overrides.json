@@ -153,6 +153,22 @@
       }
     },
     "1208": {
+      "S6.1": {
+        "skillKeys": [
+          "forte_basic_seraphic_execution_1",
+          "forte_basic_seraphic_execution_2",
+          "forte_basic_seraphic_execution_3",
+          "forte_basic_seraphic_execution_4",
+          "forte_basic_seraphic_execution_5",
+          "forte_heavy_flamewing_verdict_1",
+          "forte_heavy_flamewing_verdict_2",
+          "forte_heavy_flamewing_verdict_3",
+          "forte_heavy_hellsent_barrage_plunging_attack",
+          "forte_heavy_hellsent_barrage_sustained_fire",
+          "forte_heavy_ravage"
+        ],
+        "_resolvedVia": "2026-10-03: the clause names FIVE skills in a SUBJECT list -- \"Galbrena's Basic Attack - Seraphic Execution, Heavy Attack - Flamewing Verdict, Mid-air Attack - Hellsent Barrage, Resonance Skill - Ravage, and Dodge Counter - Purgatory Scourge gain 0.875% Fusion DMG Amplification, up to 35%\" -- and the subject binder deliberately never reads across a comma (that is how it avoids binding a team buff to the trigger list in front of it), so it bound NOTHING and the surviving skillType 'basic' is dead: her kit reads no basic bucket. Her sibling S6.0 names FOUR of the same skills in a TARGET form (\"the DMG Multipliers of X, Y, Z ... are increased\"), which the binder DOES read, and resolved them to the ten keys copied here -- so these eleven are S6.0's own resolved list plus Ravage, not a fresh derivation. A CATEGORY-NAMED buff scopes the ABILITY, not the damage bucket (maintainer, 2026-10-03): \"a buff can apply to a certain ability/mechanic directly, which in turn buffs that ability's DMG without the buff having to be explicitly of the proper DMG type\" -- which is why a NAME scope is right here and matching the attribution would be wrong. Dodge Counter - Purgatory Scourge resolves to NO key (her only dodge-counter row is \"Blood for Blood\"), so it is a named-but-unreachable skill and is simply absent, understating by one move. STILL OFF, deliberately: the stack source is \"for every 1 point of Afterflame consumed\" and Afterflame is not modelled. It IS identifiable -- SpecialEnergy2, cap 40, matching \"Galbrena can hold up to 40 points of [Afterflame]\" with no other channel reading 40 -- but its income is \"+8 when Resonators in the nearby team cast Echo Skill\" (trigger row 1208003100, amount 8), which is the HIT/EVENT lane rotation-resources.js cannot read and is team-composition dependent: the same blocker as Sigrika's Innate Gift?. So this override fixes the SCOPE only; the effect still resolves OFF via its unknown trigger, which audit-effects.test.mjs tracks as UNKNOWN_TRIGGER."
+      },
       "IH0.0": {
         "skillKeys": [
           "basic_basic_attack_1",
