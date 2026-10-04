@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.6",
-  "generatedAt": "2026-10-03T14:34:08.877Z",
-  "engineHash": "8f3e8f71374e8de004d31005ae8be950047c35f53d24f41ec6febcf63bb3aa94",
+  "generatedAt": "2026-10-04T08:22:29.221Z",
+  "engineHash": "ceb46b47b6dd9eec9bc5c39fcf4d710e81d09a12aa60918f9286155507977747",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -82593,48 +82593,48 @@
       "nodes": [
         {
           "chain": 1,
-          "teamDamage": 1398646,
-          "ownDamage": 407925,
-          "teamGain": 0,
-          "ownGain": 0
+          "teamDamage": 1407094,
+          "ownDamage": 416373,
+          "teamGain": 0.006,
+          "ownGain": 0.0207
         },
         {
           "chain": 2,
-          "teamDamage": 1398646,
-          "ownDamage": 407925,
-          "teamGain": 0,
-          "ownGain": 0
+          "teamDamage": 1407094,
+          "ownDamage": 416373,
+          "teamGain": 0.006,
+          "ownGain": 0.0207
         },
         {
           "chain": 3,
-          "teamDamage": 1516151,
-          "ownDamage": 525431,
-          "teamGain": 0.084,
-          "ownGain": 0.2881
+          "teamDamage": 1524599,
+          "ownDamage": 533879,
+          "teamGain": 0.0901,
+          "ownGain": 0.3088
         },
         {
           "chain": 4,
-          "teamDamage": 1612304,
-          "ownDamage": 525431,
-          "teamGain": 0.1528,
-          "ownGain": 0.2881
+          "teamDamage": 1620752,
+          "ownDamage": 533879,
+          "teamGain": 0.1588,
+          "ownGain": 0.3088
         },
         {
           "chain": 5,
-          "teamDamage": 1625829,
-          "ownDamage": 538956,
-          "teamGain": 0.1624,
-          "ownGain": 0.3212
+          "teamDamage": 1634277,
+          "ownDamage": 547404,
+          "teamGain": 0.1685,
+          "ownGain": 0.3419
         },
         {
           "chain": 6,
-          "teamDamage": 1702302,
-          "ownDamage": 615429,
-          "teamGain": 0.2171,
-          "ownGain": 0.5087
+          "teamDamage": 1709060,
+          "ownDamage": 622187,
+          "teamGain": 0.2219,
+          "ownGain": 0.5252
         }
       ],
-      "fullChain": 0.5087,
+      "fullChain": 0.5252,
       "bestNode": {
         "chain": 3,
         "step": 0.2881

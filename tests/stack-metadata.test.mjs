@@ -119,7 +119,13 @@ for (const resonator of dataset.resonators) {
     // All three count a RESOURCE the sim does not track, so all three carry
     // stackTrigger 'unknown' and resolve to ONE stack — the underivable-stack
     // rule, which understates rather than asserting a cap.
-    assert('the dataset still holds exactly 21 stackable effects', stackables.size === 21);
+    // ~~21 since the 3.6 bump~~ 23 since 2026-10-04: Galbrena's two Afterflame
+    // clauses. Both were per-point grants the parser could not see as stackable —
+    // "each point of Afterflame" / "for every 1 point of Afterflame consumed" are
+    // not shapes COND_STACK_RE reads — so S1.0 shipped as a FLAT, unscoped 2% Crit
+    // DMG and S6.1 as a flat amplify. Both now read the curated Afterflame gauge,
+    // one HELD and one CONSUMED, which is why both carry a real cap of 40.
+    assert('the dataset still holds exactly 23 stackable effects', stackables.size === 23);
 
     // Each entry below was hand-checked against the kit text in wuwa-data.json.
     const expected = {
@@ -128,12 +134,18 @@ for (const resonator of dataset.resonators) {
         '1203 S6.0':  { max: 5,    perStack: 0.05,  trigger: null    },   // Encore — Lost Lamb (hit-count in a state)
         '1205 IH0.0': { max: 4,    perStack: 0.05,  trigger: null    },   // Changli — Enflamement (resource gauge; cap + gauge curated)
         '1208 IH0.0': { max: 4,    perStack: 0.05,  trigger: null    },   // Galbrena — Fated End (enemy debuff, 11 skills)
+        '1208 S1.0':  { max: 40,   perStack: 0.02,  trigger: null    },   // Galbrena — 2% Crit DMG per Afterflame HELD; 80% ceiling / 2% = the gauge's cap
+        '1208 S6.1':  { max: 40,   perStack: 0.00875, trigger: null  },   // Galbrena — 0.875% amplify per Afterflame CONSUMED; 35% / 0.875% = the same cap
         '1304 S3.0':  { max: 2,    perStack: 0.25,  trigger: 'intro' },   // Jinhsi — Immortal's Descendancy
         '1306 S1.0':  { max: 2,    perStack: 0.15,  trigger: null    },   // Augusta — Crown of Wills
         '1306 S2.0':  { max: 2,    perStack: 0.2,   trigger: null    },   // Augusta — cap from sibling node S1 (override)
         '1404 S6.0':  { max: 2,    perStack: 1.2,   trigger: null    },   // Jiyan — Momentum, consumed by the Finale
         '1412 IH1.0': { max: 6,    perStack: 0.03,  trigger: null    },   // Sigrika — Blessing of Runes (team composition)
-        '1412 S6.1':  { max: null, perStack: 0.15,  trigger: null    },   // Sigrika — Innate Gift ("up to 60%" is a value ceiling, not a count)
+        '1412 S6.1':  { max: 4,    perStack: 0.15,  trigger: null    },   // Sigrika — Innate Gift. ~~max null: "up to 60%" is a value ceiling, not a count~~
+                                                                             // 4 since 2026-10-04: the maintainer supplied the missing witness — S3 raises
+                                                                             // [Innate Gift?]'s max stacks from 2 to 4, and S6 requires S3 — so the division
+                                                                             // 60%/15% is confirmed rather than inferred. Her sibling DEF-ignore bullet states
+                                                                             // 30%/7.5% and divides to the same 4, which is the second witness.
         '1509 S3.1':  { max: 25,   perStack: 0.55,  trigger: null    },   // Lynae — Premixed Hue (time tick, gauge-gated)
         '1510 S6.1':  { max: 3,    perStack: 0.4,   trigger: null    },   // Luuk Herssen — Endnotes (override: pctNear read the ceiling; was S6.0 until 2026-08-08)
         '1608 IH1.0': { max: null, perStack: 0.025, trigger: null    },   // Phrolova — Aftersound (10 on battle entry)

@@ -14767,3 +14767,98 @@ amount. Removing it is still right; it was never a scoped multiplier.
 - The detector is text-based. A kit granting to a status's damage without naming it
   "<Status> DMG" would still leak; the test pins the population at 8 so a ninth has
   to be looked at.
+
+## 2026-10-04 — Galbrena's Afterflame modelled, Sigrika scoped from her description
+
+**[Files Changed]** `src/core/rotation-rules.js` (`RESOURCE_DEFS[1208]`, and
+`resourceDefsForResonator` learning `spendAll`/`spend` from `chainOverrides`),
+`data/effect-overrides.json` (`1208.S1.0`, `1208.S6.1`, `1412.S6.1`, `1412.S6.2`),
+`tests/rotation-resources.test.mjs` (Afterflame block; the gain-key guard widened
+for synthetic steps), `tests/dead-scope.test.mjs` (entry deleted),
+regenerated `wuwa-data.json` + `wuwa-meta.json`, `CLAUDE.md`,
+`docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** Both of these were OPEN-ITEMS 2's "team-composition income"
+blocker, and both are now as far as the per-cast model can take them.
+
+**Afterflame** is `RESOURCE_DEFS[1208]`: channel 2, cap 40, +8 per Echo Skill
+CAST. The channel is CLAIMED rather than guessed — `SpecialEnergy2Max` reads 40 and
+no other channel of hers does — and the +8 is the game's own trigger row
+1208003100. Both ceilings the kit states divide to the same cap (S1's "up to 80%"
+at 2%/point, S6's "up to 35%" at 0.875%/point), which is a second and third
+independent confirmation of 40.
+
+**The income is a MECHANICAL cast, so solo she gains 8 and not 16.** Her Basic
+Attack Stage 4 deals Echo Skill DMG — `dmgTypes: ["echo"]` — and that is the
+BUCKET, not a cast: every echo mention in her kit reads "considered [Echo Skill
+DMG]" while the income clause says "cast Echo Skill". Exactly 2 kits on the roster
+DO convert a cast (Lucilla's "Each cast of [Oblivion] is considered as casting a
+different Echo Skill", Roccia's "considered Echo Skill") and neither is hers.
+
+**`chainOverrides` had to learn `spendAll`, or the curation would have been
+INERT** — `resourceDefsForResonator` merged only cap/start/tick, so a chain-gated
+spender was silently ignored. The spend is chain-gated because only S6 asserts one;
+her base kit's own uses read the level HELD and an unconditional spend would have
+zeroed them.
+
+**S1.0 was broken in three ways**, all now fixed: a FLAT, unscoped 2% Crit DMG
+(measured worth 0.00%, so dark rather than inflating) because "each point of
+Afterflame" is not a shape `COND_STACK_RE` reads; a five-name SUBJECT list that
+bound nothing because the subject binder never reads across a comma; and no stack
+source. **Sigrika's `S6.1`/`S6.2`** are bound to the FOUR skills her description
+names, `maxStacks: 4`, with `S6.2`'s `scopeSource` moved from `configdb` to
+`description` — the one place in the project where a data-derived scope is
+deliberately replaced by the text, and only on the maintainer's explicit
+instruction, with the disagreement FLAGGED rather than resolved.
+
+**[Verification Method]** LOCK A: exactly the four overridden effects. LOCK B:
+**zero of 416 teams** (every affected effect is chain-gated above 0) and **6
+`sequenceEval` rows, all Galbrena's** — geared, her **S1 goes from `ownGain` 0 to
++2.07%**, a node that previously scored exactly nothing, and chain 6 from +50.87%
+to +52.52%. Solo and ungeared: +0.32% at S1, +0.29% at S6. **Sigrika measured
+0.00%**, and that is expected, not a failure.
+
+**Four guards earned their keep, and the suite caught two real contract breaks
+I had not anticipated.** `tests/stack-metadata.test.mjs` pins the roster's
+stackable-effect COUNT (21 -> 23, Galbrena's two) and pins Sigrika's
+`1412 S6.1` cap at `null` with its own reason recorded — *"'up to 60%' is a value
+ceiling, not a count"*. Setting it to 4 contradicted a documented decision, so the
+expectation was updated WITH why it changed rather than quietly bumped: the
+maintainer supplied the missing witness (S3 raises [Innate Gift?] from 2 to 4
+stacks, and S6 requires S3), so the division 60%/15% is now confirmed rather than
+inferred, and her sibling DEF-ignore bullet divides 30%/7.5% to the same 4 as a
+second witness. The gain-key integrity check caught `__echo__` as not being an
+`autoSkillMap` key — it is a SYNTHETIC rotation step, like the Tune
+Break response — so the guard was widened to name both explicitly rather than
+relaxed — in BOTH files that carry it, since `stage-grants.test.mjs` has its own
+copy and failed separately. And an earlier draft of the Sigrika override landed in the `deferred`
+section instead of `overrides`, because the `"1509"` I anchored on exists only
+there; the override silently did nothing until the dump showed the keys unchanged.
+
+**[Residual Risks]**
+- **Both remain income-starved, and it is ONE feature that unlocks them.** The
+  income is "any Resonator in the team casts X" while `rotation-resources.js` is
+  per-member by construction. Galbrena reads 8 of 40; Sigrika's Soliskin Vitality
+  never reaches its 30 threshold from a single solo echo cast, so [Innate Gift?]
+  stays at zero stacks and her two bullets pay nothing despite being correctly
+  scoped. Team-wide gauge income has exactly these two concrete consumers.
+- **Her rotation defeats the consumed half.** It casts Ascent of Malice at index 6
+  and her Echo Skill at index 7, so S6.1 consumes zero. Reordering a curated
+  rotation is the maintainer's call, not a modelling fix.
+- One ambiguity stated rather than hidden: "when casting X, each point … grants"
+  could mean a cast-time SNAPSHOT, which on her rotation would read 0. The
+  lasting-buff reading was taken because the kit says the effect "is removed upon
+  exiting Demon Hypostasis", which only makes sense for a buff that persists.
+- Her [Threshold State] income gate and the "All [Afterflame] is removed upon
+  exiting [Demon Hypostasis]" clear are both unmodelled — she has no `STATE_DEFS`
+  entry at all, and her Sinflame -> Demon Hypostasis -> Purging Flame machine is
+  not modelled. The clear would only ever LOWER the gauge, so omitting it
+  overstates in principle, bounded by the 8 points one echo cast supplies.
+- **Her LARGEST Afterflame payoff is still unread**: the Forte clause "every point
+  of [Afterflame] increases the DMG of [five skills] by 1.5%, up to 60%" produces
+  no effect at all, and is one of 3 unread "increases the DMG of X by N%" clauses —
+  the largest being **Xiangli Yao's S2 +63% on four named skills**, for which
+  ConfigDB already supplies the scope. See OPEN-ITEMS 2.
+- Sigrika's `SN0.2` states the same grant as her S6.1 and stays dead for a
+  STRUCTURAL reason: `skillNodeEffects` is not addressable by
+  `effect-overrides.json`. Fourth finding blocked on that missing namespace.

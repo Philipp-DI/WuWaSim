@@ -20,7 +20,7 @@ import { computeResourceConsumption, computeResourceEndLevels, computeResourceTi
 import { RESOURCE_DEFS, resourceDefsForResonator } from '../src/core/rotation-rules.js';
 import { effectsActiveAtStepDetailed, unlockedEffects } from '../src/core/buffs.js';
 import { createBuild } from '../src/core/build.js';
-import { phraseTypesForStep } from '../src/core/sim.js';
+import { ECHO_STEP_KEY, phraseTypesForStep, TUNE_BREAK_STEP_KEY } from '../src/core/sim.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dataset = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -95,7 +95,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             assert(`RESOURCE_DEFS ${idString} '${def.name}': has at least one gain`,
                 Object.keys(def.gains ?? {}).length > 0);
             for (const [key, amount] of Object.entries(def.gains ?? {})) {
-                assert(`RESOURCE_DEFS ${idString} '${def.name}': gain key ${key} exists`, !!skillMap[key]);
+                // Two rotation steps are SYNTHETIC — the Echo cast and the Tune
+                // Break response are real steps with no `autoSkillMap` entry
+                // (the same reason `phraseTypesForStep` special-cases them). A
+                // gauge may legitimately be fed by one: Galbrena's Afterflame
+                // gains on an Echo Skill CAST. They are listed explicitly rather
+                // than the check being relaxed, so a typo is still caught.
+                assert(`RESOURCE_DEFS ${idString} '${def.name}': gain key ${key} exists`,
+                    !!skillMap[key] || key === ECHO_STEP_KEY || key === TUNE_BREAK_STEP_KEY);
                 assert(`RESOURCE_DEFS ${idString} '${def.name}': gain ${key} is positive`, amount > 0);
             }
             for (const key of def.spendAll ?? []) {
@@ -718,6 +725,84 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
             stepTypes: phraseTypesForStep(skillMap?.liberation?.skillType),
         }).every(entry => entry.key !== 'S6.1'));
 
+}
+
+// ── Galbrena's Afterflame: a CHAIN-GATED spender, and a cast-not-bucket income ─
+// 2026-10-04, maintainer-directed. Three things here that no other def pins.
+//
+// 1. The income is a MECHANICAL Echo Skill CAST, not echo-attributed damage. Her
+//    Basic Attack Stage 4 deals Echo Skill DMG (`dmgTypes: ["echo"]`) and grants
+//    NOTHING, because the bucket is not a cast — the same split `castMatch`
+//    triggers obey. Solo she gains 8, not 16.
+// 2. The SPEND is chain-gated: only S6 says Ascent of Malice consumes Afterflame,
+//    and her base kit's own uses read the level HELD, so an unconditional spend
+//    would silently zero them. `chainOverrides` had to learn `spendAll` for this
+//    — it previously merged only cap/start/tick, so the entry would have been
+//    INERT and the curation silently ignored.
+// 3. Both ceilings the kit states divide by the gauge's cap exactly — S1's "up to
+//    80%" at 2%/point and S6's "up to 35%" at 0.875%/point both give 40 — which
+//    is an independent confirmation of `SpecialEnergy2Max`.
+{
+    const GALBRENA = 1208;
+    const rotation = rotationsById[String(GALBRENA)]?.rotation ?? [];
+    const base = resourceDefsForResonator(GALBRENA, dataset, 0)[0];
+    const atSix = resourceDefsForResonator(GALBRENA, dataset, 6)[0];
+
+    assert('Afterflame is curated', base?.name === 'Afterflame');
+    assert('its cap is the game-stated SpecialEnergy2Max of 40',
+        base.cap === 40 && base.channel === 2);
+    // Claimed, not guessed: no other channel of hers reads 40.
+    const caps = dataset.resonators.find(entry => entry.id === GALBRENA)?.specialEnergyCaps ?? {};
+    assert('exactly one of her channels reads 40, which is what lets it be claimed',
+        Object.values(caps).filter(value => value === 40).length === 1);
+    assert('the income is the ECHO STEP, +8', base.gains?.__echo__ === 8);
+    assert('and nothing else grants it', Object.keys(base.gains).length === 1);
+    // Her echo-ATTRIBUTED basic must not be an income source.
+    assert('Basic Attack Stage 4 grants nothing, though its DMG is echo-attributed',
+        base.gains.basic_basic_attack_4 === undefined);
+    const stage4 = (dataset.damageTable[String(GALBRENA)] ?? [])
+        .find(row => (dataset.autoSkillMap[String(GALBRENA)].basic_basic_attack_4.damageIds ?? []).includes(row.id));
+    assert('…and that row really is echo-attributed, so the distinction is live',
+        JSON.stringify(stage4?.dmgTypes) === JSON.stringify(['echo']));
+
+    // The chain-gated spender — the part chainOverrides had to learn.
+    assert('no spender below S6', base.spendAll === undefined && base.spend === undefined);
+    assert('S6 adds Ascent of Malice as the spender',
+        JSON.stringify(atSix.spendAll) === JSON.stringify(['skill_ascent_of_malice']));
+    assert('and S6 keeps the cap and the income unchanged',
+        atSix.cap === 40 && atSix.gains.__echo__ === 8);
+
+    // Her rotation casts the echo AFTER Ascent of Malice, which is why the
+    // consumed half reads zero and the held half pays only the later steps.
+    const echoAt = rotation.indexOf('__echo__');
+    const ascentAt = rotation.indexOf('skill_ascent_of_malice');
+    assert('her rotation casts Ascent of Malice BEFORE her Echo Skill',
+        ascentAt >= 0 && echoAt > ascentAt);
+    const levels = computeResourceTimeline(rotation, resourceDefsForResonator(GALBRENA, dataset, 1))
+        .get('afterflame');
+    assert('she holds nothing through Ascent of Malice', levels[ascentAt] === 0);
+    assert('the echo grants 8, visible from the next step', levels[echoAt + 1] === 8);
+    assert('and it never exceeds the cap', levels.every(level => level <= 40));
+    const spent = computeResourceConsumption(rotation, resourceDefsForResonator(GALBRENA, dataset, 6))
+        .get('afterflame');
+    assert('so at S6 Ascent of Malice consumes ZERO — nothing is banked yet',
+        resourceConsumedAt(new Map([['afterflame', spent]]), 'Afterflame', ascentAt) === 0);
+
+    // The two effects that read it, and the ceiling arithmetic.
+    const resonator = dataset.resonators.find(entry => entry.id === GALBRENA);
+    const held = resonator.resonanceChain[0].effects[0];
+    const consumed = resonator.resonanceChain[5].effects[1];
+    assert('S1.0 reads Afterflame HELD',
+        held.stackTrigger?.type === 'resource' && held.stackTrigger.resource === 'Afterflame'
+        && !held.stackTrigger.consumed);
+    assert('S6.1 reads what the cast CONSUMES',
+        consumed.stackTrigger?.type === 'resource' && consumed.stackTrigger.consumed === true);
+    assert('S1 ceiling 80% / 2% per point equals the cap',
+        Math.round(0.80 / held.perStack) === base.cap);
+    assert('S6 ceiling 35% / 0.875% per point equals the cap',
+        Math.round(0.35 / consumed.perStack) === base.cap);
+    assert('both are scoped by NAME to the five skills the clauses list',
+        held.skillKeys?.length === 11 && consumed.skillKeys?.length === 11);
 }
 
 console.log(`rotation-resources: ${passed} passed, ${failed} failed`);

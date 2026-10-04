@@ -85,12 +85,6 @@ const ALLOW = new Map(Object.entries({
         + 'Resonance Liberation - Clear As Day, Lucilla grants the following enhancements…". '
         + "CLAUDE.md's own \"leading TRIGGER is not the SCOPE\" invariant; the grant itself states "
         + 'no category, and her kit reads no liberation bucket under either mode.',
-    '1412.S6.1': "Sigrika: 'forte' lifted from the NAME \"Forte Circuit - Learn My True Name\". "
-        + 'Scoping it alone would still pay nothing: its stack source is [Innate Gift?], gained only '
-        + 'when Soliskin Vitality (earned when TEAMMATES cast Echo Skill) is high enough — the '
-        + 'team-composition lane OPEN-ITEMS 2 defers. Also an unresolved data-vs-text contradiction: '
-        + "ConfigDB scopes this clause's own ceiling (0.6) to 2 keys, its text names 4, and her "
-        + 'reference rotation casts 3 of the 4 but NOT one of the 2, so the gap is material.',
     '1412.SN0.2': 'Sigrika: the same grant restated in her Forte text ("[Innate Gift?] … 30% DMG '
         + "Amplification\"), same 'forte'-from-a-name cause and same Innate Gift? blocker — and it "
         + 'lives in skillNodeEffects, which effect-overrides.json CANNOT address (the slot '
@@ -202,12 +196,16 @@ for (const resonator of dataset.resonators) {
     // The 'forte' subset shares one cause; keep its size visible so a partial fix
     // has to restate it rather than slip past.
     const forteDead = [...dead.values()].filter(info => info.scope === 'forte').length;
-    // Was 4, then 3, now 2. Fixed entries are GONE from the list rather than left
+    // Was 4, then 3, then 2, now 1. Fixed entries are GONE from the list rather than left
     // the allow list rather than left behind as stale excuses: Camellya's S6.0
     // (bound to Sweet Dream's own nine keys + the Budding Mode gate) and Taoqi's
     // S5.0 (bound to the three Timed Counters stages that ARE Power Shift).
     // The two that remain are Sigrika's, blocked behind the Innate Gift? gauge.
-    assert(`'forte' accounts for 2 dead scopes, both lifted from a skill NAME`, forteDead === 2);
+    // The last one is Sigrika's SN0.2, and it is stuck for a STRUCTURAL reason
+    // rather than an unresolved one: her S6.1 states the same grant and was
+    // scoped from the description on 2026-10-04, but SN0.2 lives in
+    // skillNodeEffects, which effect-overrides.json cannot address at all.
+    assert(`'forte' accounts for 1 dead scope, lifted from a skill NAME`, forteDead === 1);
 }
 
 console.log(`\ndead-scope: ${passed} passed, ${failed} failed`);

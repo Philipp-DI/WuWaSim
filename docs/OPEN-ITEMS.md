@@ -203,6 +203,92 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
    widening, or a third slot namespace; each is its own change with its own
    blast radius, which is why neither was bolted onto this one.
 
+   → **Galbrena's Afterflame MODELLED 2026-10-04** (maintainer-directed), and
+   **Sigrika's two S6 bullets scoped from the description** the same day. Both
+   were the "team-composition income" blocker this item defers, and both are now
+   as far as the per-cast model can take them.
+   → **Afterflame: `RESOURCE_DEFS[1208]`, channel 2, cap 40, +8 per Echo Skill
+     CAST.** The channel is claimed, not guessed — `SpecialEnergy2Max` reads 40
+     and no other channel of hers does — and the +8 is the game's own trigger row
+     1208003100. Both ceilings the kit states divide to the same cap, S1's "up to
+     80%" at 2%/point and S6's "up to 35%" at 0.875%/point, which is a second and
+     third independent confirmation of 40.
+   → **The income is a MECHANICAL cast, so solo she gains 8 and not 16.** Her
+     Basic Attack Stage 4 deals Echo Skill DMG — `dmgTypes: ["echo"]` — and that
+     is the BUCKET, not a cast: every echo mention in her kit reads "considered
+     [Echo Skill DMG]" while the income clause says "cast Echo Skill". Exactly 2
+     kits on the roster DO convert a cast ("Each cast of [Oblivion] is considered
+     as casting a different Echo Skill" — Lucilla; Roccia's "considered Echo
+     Skill"), and neither is hers.
+   → **`chainOverrides` had to learn `spendAll`, or the curation would have been
+     INERT.** `resourceDefsForResonator` merged only cap/start/tick, so the
+     chain-gated spender was being silently ignored. The spend is chain-gated
+     because only S6 asserts one ("for every 1 point of Afterflame consumed");
+     her base kit's own uses read the level HELD and an unconditional spend would
+     have zeroed them.
+   → **Measured: +0.32% at S1 and +0.29% at S6** on her reference rotation. Small,
+     and the reason is the rotation itself: it casts Ascent of Malice at index 6
+     and her Echo Skill at index 7, so **the consumed half (S6.1) reads zero** —
+     nothing is banked yet — and only the held half (S1.0, 2% Crit DMG per point)
+     pays, on the seven Seraphic Execution steps after the echo. A real team fills
+     Afterflame from EVERY member's Echo Skill casts, which the per-member
+     resource walk cannot see.
+   → **S1.0 was ALSO broken in two other ways**, both now fixed: it shipped as a
+     FLAT, unscoped 2% Crit DMG (measured worth 0.00%, so dark rather than
+     inflating) because "each point of Afterflame" is not a shape `COND_STACK_RE`
+     reads, and its five-name SUBJECT list bound nothing because the subject
+     binder never reads across a comma. One ambiguity is stated rather than
+     hidden: "when casting X, each point … grants" could mean a cast-time
+     SNAPSHOT, which on her rotation would read 0. The lasting-buff reading was
+     taken because the kit says the effect "is removed upon exiting Demon
+     Hypostasis", which only makes sense for a buff that persists.
+   → **Sigrika: the DESCRIPTION wins, and the disagreement is FLAGGED not
+     resolved.** Maintainer-directed: the text names FOUR skills where ConfigDB
+     scopes the same node's values to TWO, and a 2-vs-4 error is too large to have
+     gone unnoticed. So `S6.1` and `S6.2` are bound to the four, `maxStacks: 4`,
+     and `S6.2`'s `scopeSource` moves from `configdb` to `description` — the one
+     place in the project where a data-derived scope is deliberately replaced by
+     the text, and only on explicit instruction. Two framing corrections from the
+     same review: this is a FORTE CIRCUIT question rather than an S6 one ([Innate
+     Gift?] is declared in her Forte and S6 only modifies it), and **S3 raises its
+     max stacks from 2 to 4**, which S6 requires — independently confirming
+     `maxStacks: 4`, since both stated ceilings divide to it (60%/15% and
+     30%/7.5%).
+   → **Measured 0.00% for Sigrika**, because the stack SOURCE is still
+     unresolvable: [Innate Gift?] needs [Soliskin Vitality] at 30+, and Soliskin
+     Vitality arrives 10 at a time "when any nearby Resonators in the team cast
+     Echo Skill" — so one solo echo cast cannot reach the threshold, and the
+     income is team-composition dependent. Identical blocker to Afterflame's.
+     Her `SN0.2` states the same grant and stays dead for a STRUCTURAL reason:
+     `skillNodeEffects` is not addressable by `effect-overrides.json`. That is now
+     the FOURTH finding blocked on the missing third slot namespace.
+   → **TEAM-WIDE GAUGE INCOME is the unlock for both**, and it is one feature:
+     a gauge fed by "any Resonator in the team casts X" needs the team's combined
+     cast timeline, where `rotation-resources.js` is per-member by construction.
+     Galbrena's Afterflame (8 per echo, cap 40) and Sigrika's Soliskin Vitality
+     (10 per echo, threshold 30) are the two concrete consumers, and both would go
+     from near-zero to substantial.
+
+   → **FOUND 2026-10-04, NOT FIXED: "increases the DMG of X by N%" is unread on 3
+   clauses, one of them large.** The shape has no parser branch, and the game's own
+   ConfigDB even supplies the scope for the biggest: **Xiangli Yao S2, "Casting
+   Resonance Liberation Cogitation Model increases the DMG of the following
+   Resonance Skill moves by 63% for 24s: Decipher, Deduction …"** — `buff-facts`
+   files a scope for `0.63` naming `forte_heavy_decipher`,
+   `forte_heavy_law_of_reigns`, `liberation_divergence` and `skill`, and no effect
+   joins it (it is one of the 40 orphaned ConfigDB scopes already recorded above).
+   The other two are Galbrena's Forte clause ("every point of [Afterflame]
+   increases the DMG of [five skills] by 1.5%, up to 60%" — her LARGEST Afterflame
+   payoff, and the main reason she stays understated) and Mortefi's IH1. The bucket
+   is not a guess either: `buff-facts` says Galbrena's `0.6` ceiling is
+   `additive`. Reaching her clause needs a per-point-HELD branch, whose
+   discriminator is the BRACKET the game puts round a named gauge — measured
+   blast radius **exactly 1 clause**, because "every 1000 points of Max HP"
+   (Jingran) and "every 10 points of Tune Break Boost" (Luuk ×2) are STATS and
+   unbracketed. One clause is thin justification for a parser branch on its own,
+   which is why this is recorded for the "increases the DMG of" work rather than
+   bolted onto the gauge.
+
    → **A NEGATIVE STATUS'S OWN DAMAGE READ AS THE WIELDER'S — found 2026-10-03
    while investigating Lucilla, and it is the largest single inflation found in
    this sweep.** "Glacio Chafe DMG", "Fusion Burst DMG", "Aero Erosion DMG" and the

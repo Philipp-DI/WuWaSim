@@ -10,6 +10,7 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { analyzeRotation, validateRotation } from '../src/core/rotation-graph.js';
+import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY } from '../src/core/sim.js';
 import {
     STAGE_GRANTS, SWAP_IN_ENTRY, RESOURCE_DEFS, STATE_DEFS,
     rulesForResonator, stageGrantsForResonator, swapInEntryForResonator,
@@ -65,7 +66,12 @@ const analyze = (rid, rotation) => analyzeRotation(rotation, {
         const sm = d.autoSkillMap[idStr];
         for (const def of defs) {
             for (const k of Object.keys(def.gains ?? {})) {
-                assert(`RESOURCE_DEFS ${idStr} '${def.name}': gain key ${k} exists`, !!sm?.[k]);
+                // The Echo cast and the Tune Break response are real rotation steps
+                // with no `autoSkillMap` entry, and a gauge may legitimately be fed
+                // by one — Galbrena's Afterflame gains on an Echo Skill CAST. Named
+                // explicitly so a typo in a real key is still caught.
+                assert(`RESOURCE_DEFS ${idStr} '${def.name}': gain key ${k} exists`,
+                    !!sm?.[k] || k === ECHO_STEP_KEY || k === TUNE_BREAK_STEP_KEY);
             }
             for (const k of def.spendAll ?? []) {
                 assert(`RESOURCE_DEFS ${idStr} '${def.name}': spendAll key ${k} exists`, !!sm?.[k]);

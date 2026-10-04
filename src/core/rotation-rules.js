@@ -1504,6 +1504,57 @@ export const RESOURCE_DEFS = Object.freeze({
         spendAll: ['liberation'],
     }],
 
+    // Galbrena — [Afterflame] (2026-10-04, maintainer-directed). "Galbrena can
+    // hold up to 40 points of [Afterflame]." / "While in [Threshold State],
+    // Galbrena recovers 8 points of [Afterflame] when Resonators in the nearby
+    // team cast Echo Skill."
+    //
+    // `channel` is CLAIMED here rather than guessed: SpecialEnergy2Max reads 40
+    // and no other channel of hers does ({1: 100, 2: 40, 3: 100, 4: 6000,
+    // 5: 10000}), so the kit's stated 40 and the game's table agree on exactly
+    // one channel. The +8 is the game's own too — trigger row 1208003100,
+    // SpecialEnergy2, amount 8.
+    //
+    // THE INCOME IS A MECHANICAL ECHO SKILL CAST, not echo-attributed damage
+    // (maintainer, 2026-10-04). Her Basic Attack Stage 4 deals Echo Skill DMG —
+    // `dmgTypes: ["echo"]` — and that is the BUCKET, not a cast: every echo
+    // mention in her kit reads "considered [Echo Skill DMG]" and the income
+    // clause says "cast Echo Skill". So solo she gains 8, not 16, which is the
+    // same mechanical-vs-attribution split `castMatch` triggers already obey.
+    // Two kits DO convert a cast ("Each cast of [Oblivion] is considered as
+    // casting a different Echo Skill" — Lucilla; Roccia's "considered Echo
+    // Skill"), and neither is hers.
+    //
+    // UNDERSTATES BY CONSTRUCTION, and this is the important caveat: the income
+    // is ANY team member's Echo Skill cast, while `rotation-resources.js` walks
+    // one member's own rotation. So only HER echo grants, which is 8 of 40 —
+    // a real team fills this far faster and the sim cannot see it. Team-wide
+    // gauge income is its own feature.
+    //
+    // NOT MODELLED, each for a stated reason: the [Threshold State] gate on the
+    // income and the "All [Afterflame] is removed upon exiting [Demon
+    // Hypostasis]" clear both need her Sinflame -> Demon Hypostasis -> Purging
+    // Flame state machine, and she has no STATE_DEFS entry at all. Her reference
+    // rotation never leaves Threshold State before the echo lands, so the gate
+    // would not change a number today; the clear would only ever LOWER the
+    // gauge, so omitting it overstates in principle — bounded by the 8 points
+    // one echo cast can supply.
+    //
+    // The SPEND is chain-gated because only S6 asserts one: "When casting
+    // Resonance Skill - Ascent of Malice, for every 1 point of Afterflame
+    // consumed ...". The base kit's own uses read the level HELD (S1's 2% Crit
+    // DMG per point, and the Forte's 1.5% DMG per point) and never say Ascent
+    // consumes anything, so inventing a base spend would silently zero both.
+    1208: [{
+        name: 'Afterflame',
+        channel: 2,       // SpecialEnergy2Max = 40, the only channel of hers that reads 40
+        cap: 40,
+        gains: {
+            __echo__: 8,
+        },
+        chainOverrides: { 6: { spendAll: ['skill_ascent_of_malice'] } },
+    }],
+
     1606: [{
         name: 'Imagination',
         channel: 1,       // SpecialEnergy1Max = 300 in the game's own baseproperty table
@@ -1708,10 +1759,22 @@ export function resourceDefsForResonator(resonatorId, dataset = null, chainLevel
         // partial override partial, so a node that changes the ceiling cannot
         // silently drop the state gate or the period with it.
         const tick = chained?.tick ? { ...def.tick, ...chained.tick } : def.tick;
-        if (cap === def.cap && start === def.start && tick === def.tick) return def;
+        // A chain node can also add a SPENDER the base kit does not have.
+        // Galbrena's Afterflame is only consumed at S6 ("When casting Resonance
+        // Skill - Ascent of Malice, for every 1 point of Afterflame consumed
+        // …"); below that her own uses read the level HELD and nothing says the
+        // cast drains it, so an unconditional spend would silently zero them.
+        // Replaced rather than merged: a spender list is a complete statement of
+        // who drains the gauge, not an edit to one.
+        const spendAll = chained?.spendAll ?? def.spendAll;
+        const spend = chained?.spend ?? def.spend;
+        if (cap === def.cap && start === def.start && tick === def.tick
+            && spendAll === def.spendAll && spend === def.spend) return def;
         const resolved = { ...def, cap };
         if (start != null) resolved.start = start;
         if (tick) resolved.tick = tick;
+        if (spendAll) resolved.spendAll = spendAll;
+        if (spend) resolved.spend = spend;
         return resolved;
     });
 }
