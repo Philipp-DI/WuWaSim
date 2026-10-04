@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-10-04T09:25:41.563Z",
+  "generatedAt": "2026-10-04T10:47:14.337Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -7036,7 +7036,19 @@
                 "type": "stateBound",
                 "state": "[demon hypostasis]"
               },
-              "durationSeconds": 14
+              "durationSeconds": 14,
+              "skillKeys": [
+                "forte_basic_seraphic_execution_1",
+                "forte_basic_seraphic_execution_2",
+                "forte_basic_seraphic_execution_3",
+                "forte_basic_seraphic_execution_4",
+                "forte_basic_seraphic_execution_5",
+                "forte_heavy_flamewing_verdict_1",
+                "forte_heavy_flamewing_verdict_2",
+                "forte_heavy_flamewing_verdict_3",
+                "forte_heavy_hellsent_barrage_plunging_attack",
+                "forte_heavy_hellsent_barrage_sustained_fire"
+              ]
             }
           ]
         },

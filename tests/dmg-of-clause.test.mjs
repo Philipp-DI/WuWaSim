@@ -137,8 +137,27 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('…and buff-facts really is where that scope comes from',
         JSON.stringify(buffFacts['1305']?.['0.63']?.scopeByFamily?.damage?.slice().sort())
             === JSON.stringify(yao.skillKeys.slice().sort()));
+    // NOT stackable, and the game's own buff rows say so twice over (read from
+    // db_buff in the slim-root export, which is not committed — hence a comment
+    // rather than an assertion). His S3 node is a three-link chain:
+    //   1305073001  root, requirement type 2 (SkillGenre) para "3" = Liberation
+    //   1305073003  carrier, 24s, DefaultStackCount 5 = StackLimitCount 5,
+    //               ExtraEffectRemoveStackNum 1, requirement SkillGenre "2" = skill
+    //   1305073002  payload, 1.5s, StackLimitCount 1, ExtraEffectParametersGrow1
+    //               [6300] on attribute 15 (Proto_DamageChange) = the 63%
+    // The buff that CARRIES the 63% holds at most ONE stack, and the 5 lives on
+    // the carrier as a charge pool that drains one per firing. So "up to 5 times"
+    // is five Resonance Skill casts per Liberation window, never 5 x 63%.
     assert('it is NOT stackable — "triggered up to 5 times" is a usage cap, not stacks',
         !yao?.stackable);
+    // The four keys ARE the SkillGenre-2 members of his kit (skill-join records
+    // genre as provenance): 1305031 Divergence, 1305051 Deduction, 1305052
+    // Decipher, 1305053 Law of Reigns. That is what "the following Resonance
+    // Skill moves" means, and it is why the game states the scope as bullet ids
+    // of exactly those four rows.
+    assert('…and its four keys are exactly the four the clause names',
+        JSON.stringify(yao.skillKeys.slice().sort())
+            === '["forte_heavy_decipher","forte_heavy_law_of_reigns","liberation_divergence","skill"]');
 
     // Galbrena: the per-point HELD shape, scoped by name, capped by the ceiling.
     const galbrena = effectAt(1208, 'skillNodeEffects', 1, 0);
@@ -150,16 +169,25 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('…capped at 40, which is the gauge\'s own cap stated a second way',
         galbrena?.maxStacks === 40);
     assert('…scoped to her eleven Demon Hypostasis keys', galbrena?.skillKeys?.length === 11);
-    // Gated on the state its own clause names — and she has NO STATE_DEFS entry,
-    // so it resolves OFF. That hold is deliberate: the clause and its scope are
-    // landed and verified (8 Afterflame is +6.74% on one pass, 24 is +12.22%), but
-    // enabling the state made her geared meta team rise 30.61%, implying a gauge
-    // near its cap of 40 for reasons measurement has not yet accounted for. See
-    // the struck-through STATE_DEFS note in rotation-rules.js.
+    // Gated on the state its own clause names, and that state IS modelled now.
+    // ~~Held OFF because enabling it made her geared meta team rise 30.61%,
+    // implying a gauge near its cap of 40.~~ The implication was unfounded and
+    // instrumenting the resource timeline refuted it: across every segment of
+    // that team's scoring run the gauge peaks at 8, never higher. The rise is two
+    // state-gated clauses, and THIS one is the small half — her Liberation node's
+    // flat +85% DMG Multiplier on four named Forte moves is +26.62% of it, this
+    // Afterflame clause +2.18%. So the hold was withholding kit, not inflation.
     assert('…and gated on the state its clause names',
         /demon hypostasis/i.test(JSON.stringify(galbrena?.window ?? '')));
-    assert('that state is NOT modelled, so the effect is held OFF for now',
-        stateDefsForResonator(1208).length === 0);
+    assert('that state IS modelled, so the effect resolves',
+        stateDefsForResonator(1208).some(def => /demon hypostasis/i.test(def.name)));
+    // The entry is DERIVED (her kit text never states it) from her S1 node, whose
+    // grant fires "when casting Resonance Skill - Ascent of Malice" and is
+    // "removed upon exiting Demon Hypostasis" — a cast whose grant dies with the
+    // state starts it. Pinned so a future edit cannot quietly widen the entry to
+    // the Liberation, whose own node presupposes the state instead of entering it.
+    assert('…entered by Ascent of Malice alone',
+        JSON.stringify(stateDefsForResonator(1208)[0]?.enter?.keys) === '["skill_ascent_of_malice"]');
 
     // Mortefi: correctly scoped and deliberately OFF — his stack source is a HIT
     // count, which nothing models, so one stack understates rather than asserting

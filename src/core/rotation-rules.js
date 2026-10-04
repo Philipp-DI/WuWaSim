@@ -432,31 +432,57 @@ export const STATE_DEFS = Object.freeze({
           exit:  { mode: 'persist' } },
     ],
 
-    // ~~Galbrena — [Demon Hypostasis], entered BY ITS OWN MOVES.~~ WRITTEN AND
-    // THEN HELD BACK, 2026-10-04, and the reason is a number I could not explain.
+    // Galbrena — [Demon Hypostasis], entered by Resonance Skill - Ascent of
+    // Malice. ~~WRITTEN AND THEN HELD BACK, 2026-10-04, and the reason is a
+    // number I could not explain~~ — the number is now accounted for and the
+    // entry is live. Both halves of that hold were wrong, in opposite ways.
     //
-    // Her Forte's largest Afterflame payoff — "every point of [Afterflame]
-    // increases the DMG of [five skills] by 1.5%, up to 60%" — parses correctly
-    // now and is scoped to her eleven Demon Hypostasis keys, but it carries the
-    // state gate its own clause states and she has no entry here, so it resolves
-    // OFF. Adding one (entered by those same moves, which exist only inside the
-    // state — the reading already used for Lingyang and Camellya) makes it pay,
-    // and the solo arithmetic checks out exactly: 8 Afterflame from one echo cast
-    // is +6.74% on one pass, and 24 across three concatenated passes is +12.22%.
+    // THE HELD READING: enabling the state made her own damage rise 30.66% in her
+    // geared meta team, which I read as "the gauge must be sitting at its cap of
+    // 40" and refused to ship. INSTRUMENTED (the resource timeline, every segment
+    // of that team's scoring run): the gauge peaks at **8 in 1,673 of 1,682
+    // segments and at 0 in the other 9** — it never exceeds one echo cast's
+    // worth, exactly as `clearedOnSwap` and the one-member income imply. The
+    // inference was unfounded; nothing about the number was the gauge.
     //
-    // What does NOT check out is her geared meta team, where her own damage rose
-    // **30.61%**, implying the gauge sits at or near its cap of 40 — roughly five
-    // echo casts, where her rotation contains one and a three-pass run should see
-    // three. Two candidate mechanisms were ruled out by measurement: the derived
-    // opener adds filler TIME, not steps, so it casts no extra echoes; and
-    // cross-segment carry is already blocked by `clearedOnSwap` (which did reduce
-    // it, 34.67% -> 30.61%, so the carry was real but is not the main driver).
-    // The residue is unexplained, and shipping an unexplained 2.5x on a resonator
-    // is the inflation shape this project keeps finding, so the state stays out
-    // until the team-sim gauge is instrumented and the number accounted for.
+    // WHAT IT ACTUALLY IS, measured by stripping each effect in turn: the state
+    // gate holds back TWO clauses, not one, and the Afterflame clause is the
+    // small half.
+    //   SN0.0  +85% DMG Multiplier on four named Forte moves   **+26.62%**
+    //   SN1.0  Afterflame, 1.5%/point, 8 points held           **+2.18%**
+    //   both                                                    +30.66%
+    // So 87% of the rise is a flat multiplier her Liberation node states outright
+    // and which was dark for one reason only: she had no entry here. That is
+    // MISSING KIT, not inflation, and holding it was costing her the larger half
+    // of her own Forte.
     //
-    // Everything else about the clause is landed and verified, so re-enabling it
-    // is adding this entry back — nothing is lost by holding it.
+    // ENTRY IS DERIVED, because the extracted text never states it. Her S1 node
+    // grants, "when casting Resonance Skill - Ascent of Malice", a buff that is
+    // "removed upon exiting Demon Hypostasis" — a cast whose grant expires with
+    // the state is a cast at or before the state's start, and her reference
+    // rotation puts Ascent of Malice immediately before the Demon-Hypostasis-only
+    // moves. The Liberation is NOT an entry even though it carries the 85%: its
+    // own node says "While in [Demon Hypostasis], cast [Seraphic Execution Stage
+    // 2] instead", which presupposes the state rather than entering it.
+    //
+    // EXIT takes the kit's own 50s rather than `persist`. The real limiter is
+    // "when [Purging Flame] depletes", and Purging Flame is not modelled, so 50s
+    // is the LONGER of the two bounds and this overstates where a real fight ends
+    // the state early. It cannot bite in anything shipped today: her rotation is
+    // 12.16s and re-casts Ascent of Malice every pass.
+    //
+    // The 85%'s own window is "for 14s while in [Demon Hypostasis]" — BOTH a
+    // duration and a state gate — and the parser kept only the state half.
+    // MEASURED as a non-difference: `stateBound`, a 14s window triggered by the
+    // Liberation cast, and that window with no state gate at all all score her
+    // at 527,185 to the digit, because every post-Liberation step lands within
+    // 7.25s of it and she re-casts it each pass. So the parser is left alone —
+    // a state gate can only ever withhold, which is the safe direction.
+    1208: [
+        { name: 'Demon Hypostasis',
+          enter: { keys: ['skill_ascent_of_malice'] },
+          exit:  { mode: 'seconds', seconds: 50 } },
+    ],
 
     // Ciaccona — Liberation "Singer's Triple Cadenza" enters Recital.
     // Recital persists until she switches back on-field (modelled as persist).

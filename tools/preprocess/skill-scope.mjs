@@ -96,6 +96,17 @@ const HAS_ITS_FORM = new RegExp(String.raw`([^.;,]+?)\s+ha(?:s|ve)\s+(?:its|thei
 // unscopable. Stopping at the stated value instead of at the end of the clause
 // also means no `trimNameTail` is needed: the capture never includes the tail.
 const OF_BY_FORM = new RegExp(String.raw`${TARGET_STAT}\s+of\s+(.+?)\s+by\s+[\d.]+\s*%`, 'i');
+// FOR_FORM's mirror: the verb sits BEFORE the stat, so no `increas` follows the
+// names — "Gain 85% DMG Multiplier increase for [A], [B], [C], and [D] for 14s".
+// FOR_FORM requires the verb after the name and OF_FORM requires an "of", so the
+// one roster clause of this shape bound NOTHING and kept the category
+// `detectSkillType` lifted off its first name — the invented-category artifact,
+// which here reached her five plain Basic keys (not in the list) while missing
+// Flamewing Verdict and Hellsent Barrage (both in it). Runs to the end of the
+// sentence like OF_TAIL_FORM, because the duration that follows the list is a
+// tail `trimNameTail` already cuts (`for \d+s`).
+const INCREASE_FOR_FORM =
+    new RegExp(String.raw`${TARGET_STAT}\s+increase[sd]?\s+for\s+([^.;]+?)\s*[.;]?$`, 'i');
 // "The following skills have their DMG Multiplier increased by 25%: - Heavy
 // Attack - Thunderoar: Backstep, Dodge Counter - Thunderoar: Backstep, …" — the
 // names sit after the colon, so every form above reads only "The following
@@ -275,6 +286,7 @@ export function targetNamesInClause(clause, stat = null) {
         // After OF_TAIL_FORM, which is the same "of <name>" with no verb behind
         // it; this one is bounded by the value rather than by the clause end.
         ?? OF_BY_FORM.exec(clause)?.[1]
+        ?? INCREASE_FOR_FORM.exec(clause)?.[1]
         // Read off "DMG Multiplier" itself, so it can only ever scope the
         // multiplier — never a sibling effect from the same sentence. Lucy's
         // inherent states both at once: "Grants 10% All DMG Amplification and

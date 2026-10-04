@@ -1,8 +1,8 @@
 {
   "metaVersion": 1,
   "gameVersion": "3.6",
-  "generatedAt": "2026-10-04T09:25:56.080Z",
-  "engineHash": "afa65cda9bdf7cfdc0a1642d6f61106211e56942996bb18afd9bcd488a13ecbc",
+  "generatedAt": "2026-10-04T10:51:12.012Z",
+  "engineHash": "687544b2f384a506be051569e9761bb63e844bbbd04abad065d1f88c12f56a2e",
   "erModel": "mode-based-v1",
   "characters": {
     "1107": {
@@ -17465,6 +17465,98 @@
         {
           "members": [
             1207,
+            1410,
+            1208
+          ],
+          "score": 0.813,
+          "roles": [
+            [
+              "buffer"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Lupa's Fusion DMG Amplification boosts Galbrena",
+          "modes": {},
+          "erOverride": {
+            "1207": {
+              "minViable": 1.239,
+              "recommended": 1.239
+            },
+            "1208": {
+              "minViable": 1.191,
+              "recommended": 1.191
+            },
+            "1410": {
+              "minViable": 1.226,
+              "recommended": 1.226
+            }
+          },
+          "teamDamage": 1467981,
+          "teamTime": 27.94,
+          "teamDps": 52537,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 1315780,
+              "time": 27.16,
+              "dps": 48447
+            },
+            {
+              "pass": 2,
+              "damage": 1544081,
+              "time": 28.33,
+              "dps": 54497
+            },
+            {
+              "pass": 3,
+              "damage": 1544081,
+              "time": 28.33,
+              "dps": 54497
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1207,
+              "damage": 270121,
+              "dps": 9667
+            },
+            {
+              "id": 1410,
+              "damage": 482713,
+              "dps": 17275
+            },
+            {
+              "id": 1208,
+              "damage": 735747,
+              "dps": 26331
+            }
+          ],
+          "opener": {
+            "1207": {
+              "shortfalls": 2,
+              "requiredEr": 1.239
+            },
+            "1208": {
+              "shortfalls": 2,
+              "requiredEr": 1.191
+            },
+            "1410": {
+              "shortfalls": 2,
+              "requiredEr": 1.227
+            }
+          }
+        },
+        {
+          "members": [
+            1207,
             1607,
             1205
           ],
@@ -17552,6 +17644,99 @@
             "1607": {
               "shortfalls": 2,
               "requiredEr": 1.238
+            }
+          }
+        },
+        {
+          "members": [
+            1206,
+            1207,
+            1208
+          ],
+          "score": 0.775,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Brant's Fusion DMG Amplification boosts Galbrena",
+          "modes": {},
+          "erOverride": {
+            "1206": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1207": {
+              "minViable": 1.288,
+              "recommended": 1.288
+            },
+            "1208": {
+              "minViable": 1.236,
+              "recommended": 1.236
+            }
+          },
+          "teamDamage": 1272015,
+          "teamTime": 25.4,
+          "teamDps": 50076,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 1103640,
+              "time": 25,
+              "dps": 44142
+            },
+            {
+              "pass": 2,
+              "damage": 1356202,
+              "time": 25.6,
+              "dps": 52974
+            },
+            {
+              "pass": 3,
+              "damage": 1356202,
+              "time": 25.6,
+              "dps": 52974
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1206,
+              "damage": 227329,
+              "dps": 8949
+            },
+            {
+              "id": 1207,
+              "damage": 344288,
+              "dps": 13554
+            },
+            {
+              "id": 1208,
+              "damage": 729634,
+              "dps": 28724
+            }
+          ],
+          "opener": {
+            "1206": {
+              "shortfalls": 2,
+              "requiredEr": 1.857
+            },
+            "1207": {
+              "shortfalls": 2,
+              "requiredEr": 1.288
+            },
+            "1208": {
+              "shortfalls": 2,
+              "requiredEr": 1.236
             }
           }
         },
@@ -17745,98 +17930,6 @@
         {
           "members": [
             1207,
-            1410,
-            1208
-          ],
-          "score": 0.71,
-          "roles": [
-            [
-              "buffer"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Lupa's Fusion DMG Amplification boosts Galbrena",
-          "modes": {},
-          "erOverride": {
-            "1207": {
-              "minViable": 1.239,
-              "recommended": 1.239
-            },
-            "1208": {
-              "minViable": 1.191,
-              "recommended": 1.191
-            },
-            "1410": {
-              "minViable": 1.226,
-              "recommended": 1.226
-            }
-          },
-          "teamDamage": 1282163,
-          "teamTime": 27.94,
-          "teamDps": 45886,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 1129962,
-              "time": 27.16,
-              "dps": 41605
-            },
-            {
-              "pass": 2,
-              "damage": 1358263,
-              "time": 28.33,
-              "dps": 47938
-            },
-            {
-              "pass": 3,
-              "damage": 1358263,
-              "time": 28.33,
-              "dps": 47938
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1207,
-              "damage": 270121,
-              "dps": 9667
-            },
-            {
-              "id": 1410,
-              "damage": 482713,
-              "dps": 17275
-            },
-            {
-              "id": 1208,
-              "damage": 549929,
-              "dps": 19681
-            }
-          ],
-          "opener": {
-            "1207": {
-              "shortfalls": 2,
-              "requiredEr": 1.239
-            },
-            "1208": {
-              "shortfalls": 2,
-              "requiredEr": 1.191
-            },
-            "1410": {
-              "shortfalls": 2,
-              "requiredEr": 1.227
-            }
-          }
-        },
-        {
-          "members": [
-            1207,
             1405,
             1210
           ],
@@ -17928,99 +18021,6 @@
               "requiredEr": 1.96
             }
           }
-        },
-        {
-          "members": [
-            1206,
-            1207,
-            1208
-          ],
-          "score": 0.665,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Brant's Fusion DMG Amplification boosts Galbrena",
-          "modes": {},
-          "erOverride": {
-            "1206": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1207": {
-              "minViable": 1.288,
-              "recommended": 1.288
-            },
-            "1208": {
-              "minViable": 1.236,
-              "recommended": 1.236
-            }
-          },
-          "teamDamage": 1092030,
-          "teamTime": 25.4,
-          "teamDps": 42990,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 923656,
-              "time": 25,
-              "dps": 36943
-            },
-            {
-              "pass": 2,
-              "damage": 1176218,
-              "time": 25.6,
-              "dps": 45943
-            },
-            {
-              "pass": 3,
-              "damage": 1176218,
-              "time": 25.6,
-              "dps": 45943
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1206,
-              "damage": 227329,
-              "dps": 8949
-            },
-            {
-              "id": 1207,
-              "damage": 344288,
-              "dps": 13554
-            },
-            {
-              "id": 1208,
-              "damage": 549650,
-              "dps": 21638
-            }
-          ],
-          "opener": {
-            "1206": {
-              "shortfalls": 2,
-              "requiredEr": 1.857
-            },
-            "1207": {
-              "shortfalls": 2,
-              "requiredEr": 1.288
-            },
-            "1208": {
-              "shortfalls": 2,
-              "requiredEr": 1.236
-            }
-          }
         }
       ],
       "1208": [
@@ -18062,27 +18062,27 @@
               "recommended": 1.198
             }
           },
-          "teamDamage": 1398646,
+          "teamDamage": 1523520,
           "teamTime": 27.31,
-          "teamDps": 51211,
+          "teamDps": 55783,
           "passes": [
             {
               "pass": 1,
-              "damage": 1229051,
+              "damage": 1353925,
               "time": 26.29,
-              "dps": 46751
+              "dps": 51501
             },
             {
               "pass": 2,
-              "damage": 1483443,
+              "damage": 1608318,
               "time": 27.82,
-              "dps": 53317
+              "dps": 57806
             },
             {
               "pass": 3,
-              "damage": 1483443,
+              "damage": 1608318,
               "time": 27.82,
-              "dps": 53317
+              "dps": 57806
             }
           ],
           "perMember": [
@@ -18098,8 +18098,8 @@
             },
             {
               "id": 1208,
-              "damage": 407925,
-              "dps": 14936
+              "damage": 532800,
+              "dps": 19508
             }
           ],
           "opener": {
@@ -18119,104 +18119,11 @@
         },
         {
           "members": [
-            1410,
-            1205,
-            1208
-          ],
-          "score": 0.898,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Iuno's Heavy Attack DMG Amplification boosts Galbrena's Heavy Attack DMG",
-          "modes": {},
-          "erOverride": {
-            "1205": {
-              "minViable": 1.146,
-              "recommended": 1.146
-            },
-            "1208": {
-              "minViable": 1.146,
-              "recommended": 1.146
-            },
-            "1410": {
-              "minViable": 1.179,
-              "recommended": 1.179
-            }
-          },
-          "teamDamage": 1358259,
-          "teamTime": 29.54,
-          "teamDps": 45988,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 1217055,
-              "time": 28.67,
-              "dps": 42453
-            },
-            {
-              "pass": 2,
-              "damage": 1428861,
-              "time": 29.97,
-              "dps": 47679
-            },
-            {
-              "pass": 3,
-              "damage": 1428861,
-              "time": 29.97,
-              "dps": 47679
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1410,
-              "damage": 421403,
-              "dps": 14268
-            },
-            {
-              "id": 1205,
-              "damage": 505157,
-              "dps": 17104
-            },
-            {
-              "id": 1208,
-              "damage": 448464,
-              "dps": 15184
-            }
-          ],
-          "opener": {
-            "1205": {
-              "shortfalls": 2,
-              "requiredEr": 1.146
-            },
-            "1208": {
-              "shortfalls": 2,
-              "requiredEr": 1.146
-            },
-            "1410": {
-              "shortfalls": 2,
-              "requiredEr": 1.179
-            }
-          }
-        },
-        {
-          "members": [
             1207,
             1410,
             1208
           ],
-          "score": 0.896,
+          "score": 0.942,
           "roles": [
             [
               "buffer"
@@ -18247,27 +18154,27 @@
               "recommended": 1.226
             }
           },
-          "teamDamage": 1282163,
+          "teamDamage": 1467981,
           "teamTime": 27.94,
-          "teamDps": 45886,
+          "teamDps": 52537,
           "passes": [
             {
               "pass": 1,
-              "damage": 1129962,
+              "damage": 1315780,
               "time": 27.16,
-              "dps": 41605
+              "dps": 48447
             },
             {
               "pass": 2,
-              "damage": 1358263,
+              "damage": 1544081,
               "time": 28.33,
-              "dps": 47938
+              "dps": 54497
             },
             {
               "pass": 3,
-              "damage": 1358263,
+              "damage": 1544081,
               "time": 28.33,
-              "dps": 47938
+              "dps": 54497
             }
           ],
           "perMember": [
@@ -18283,8 +18190,8 @@
             },
             {
               "id": 1208,
-              "damage": 549929,
-              "dps": 19681
+              "damage": 735747,
+              "dps": 26331
             }
           ],
           "opener": {
@@ -18308,7 +18215,7 @@
             1410,
             1208
           ],
-          "score": 0.888,
+          "score": 0.928,
           "roles": [
             [
               "buffer"
@@ -18339,27 +18246,27 @@
               "recommended": 1.219
             }
           },
-          "teamDamage": 1269294,
+          "teamDamage": 1444629,
           "teamTime": 27.91,
-          "teamDps": 45482,
+          "teamDps": 51764,
           "passes": [
             {
               "pass": 1,
-              "damage": 1137169,
+              "damage": 1312504,
               "time": 26.91,
-              "dps": 42264
+              "dps": 48781
             },
             {
               "pass": 2,
-              "damage": 1335356,
+              "damage": 1510691,
               "time": 28.41,
-              "dps": 47005
+              "dps": 53177
             },
             {
               "pass": 3,
-              "damage": 1335356,
+              "damage": 1510691,
               "time": 28.41,
-              "dps": 47005
+              "dps": 53177
             }
           ],
           "perMember": [
@@ -18375,8 +18282,8 @@
             },
             {
               "id": 1208,
-              "damage": 518229,
-              "dps": 18569
+              "damage": 693565,
+              "dps": 24852
             }
           ],
           "opener": {
@@ -18396,104 +18303,11 @@
         },
         {
           "members": [
-            1206,
-            1205,
-            1208
-          ],
-          "score": 0.879,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "main_dps",
-              "buffer"
-            ],
-            [
-              "main_dps"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Brant's Fusion DMG Amplification boosts Changli",
-          "modes": {},
-          "erOverride": {
-            "1205": {
-              "minViable": 1.187,
-              "recommended": 1.187
-            },
-            "1206": {
-              "minViable": 1.779,
-              "recommended": 1.779
-            },
-            "1208": {
-              "minViable": 1.188,
-              "recommended": 1.188
-            }
-          },
-          "teamDamage": 1216438,
-          "teamTime": 27.04,
-          "teamDps": 44992,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 1054256,
-              "time": 26.64,
-              "dps": 39578
-            },
-            {
-              "pass": 2,
-              "damage": 1297529,
-              "time": 27.24,
-              "dps": 47639
-            },
-            {
-              "pass": 3,
-              "damage": 1297529,
-              "time": 27.24,
-              "dps": 47639
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1206,
-              "damage": 182971,
-              "dps": 6768
-            },
-            {
-              "id": 1205,
-              "damage": 604958,
-              "dps": 22375
-            },
-            {
-              "id": 1208,
-              "damage": 448464,
-              "dps": 16587
-            }
-          ],
-          "opener": {
-            "1205": {
-              "shortfalls": 2,
-              "requiredEr": 1.188
-            },
-            "1206": {
-              "shortfalls": 2,
-              "requiredEr": 1.78
-            },
-            "1208": {
-              "shortfalls": 2,
-              "requiredEr": 1.188
-            }
-          }
-        },
-        {
-          "members": [
             1308,
             1410,
             1208
           ],
-          "score": 0.872,
+          "score": 0.922,
           "roles": [
             [
               "buffer",
@@ -18525,27 +18339,27 @@
               "recommended": 1.183
             }
           },
-          "teamDamage": 1319336,
+          "teamDamage": 1518855,
           "teamTime": 29.53,
-          "teamDps": 44680,
+          "teamDps": 51437,
           "passes": [
             {
               "pass": 1,
-              "damage": 1201564,
+              "damage": 1401084,
               "time": 28.51,
-              "dps": 42151
+              "dps": 49150
             },
             {
               "pass": 2,
-              "damage": 1378222,
+              "damage": 1577741,
               "time": 30.04,
-              "dps": 45880
+              "dps": 52522
             },
             {
               "pass": 3,
-              "damage": 1378222,
+              "damage": 1577741,
               "time": 30.04,
-              "dps": 45880
+              "dps": 52522
             }
           ],
           "perMember": [
@@ -18561,8 +18375,8 @@
             },
             {
               "id": 1208,
-              "damage": 576633,
-              "dps": 19528
+              "damage": 776153,
+              "dps": 26285
             }
           ],
           "opener": {
@@ -18582,11 +18396,11 @@
         },
         {
           "members": [
-            1607,
+            1410,
             1205,
             1208
           ],
-          "score": 0.871,
+          "score": 0.91,
           "roles": [
             [
               "healer",
@@ -18602,84 +18416,84 @@
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Cantarella's Resonance Skill DMG Amplification boosts Changli's Resonance Skill DMG",
+          "reason": "Iuno's Heavy Attack DMG Amplification boosts Galbrena's Heavy Attack DMG",
           "modes": {},
           "erOverride": {
             "1205": {
-              "minViable": 1.151,
-              "recommended": 1.151
+              "minViable": 1.146,
+              "recommended": 1.146
             },
             "1208": {
-              "minViable": 1.151,
-              "recommended": 1.151
+              "minViable": 1.146,
+              "recommended": 1.146
             },
-            "1607": {
-              "minViable": 1.19,
-              "recommended": 1.19
+            "1410": {
+              "minViable": 1.179,
+              "recommended": 1.179
             }
           },
-          "teamDamage": 1331623,
-          "teamTime": 29.85,
-          "teamDps": 44615,
+          "teamDamage": 1499421,
+          "teamTime": 29.54,
+          "teamDps": 50767,
           "passes": [
             {
               "pass": 1,
-              "damage": 1190518,
-              "time": 29,
-              "dps": 41046
+              "damage": 1358217,
+              "time": 28.67,
+              "dps": 47377
             },
             {
               "pass": 2,
-              "damage": 1402176,
-              "time": 30.27,
-              "dps": 46325
+              "damage": 1570023,
+              "time": 29.97,
+              "dps": 52389
             },
             {
               "pass": 3,
-              "damage": 1402176,
-              "time": 30.27,
-              "dps": 46325
+              "damage": 1570023,
+              "time": 29.97,
+              "dps": 52389
             }
           ],
           "perMember": [
             {
-              "id": 1607,
-              "damage": 477465,
-              "dps": 15997
+              "id": 1410,
+              "damage": 421403,
+              "dps": 14268
             },
             {
               "id": 1205,
-              "damage": 461566,
-              "dps": 15464
+              "damage": 505157,
+              "dps": 17104
             },
             {
               "id": 1208,
-              "damage": 407925,
-              "dps": 13667
+              "damage": 589626,
+              "dps": 19964
             }
           ],
           "opener": {
             "1205": {
               "shortfalls": 2,
-              "requiredEr": 1.151
+              "requiredEr": 1.146
             },
             "1208": {
               "shortfalls": 2,
-              "requiredEr": 1.152
+              "requiredEr": 1.146
             },
-            "1607": {
+            "1410": {
               "shortfalls": 2,
-              "requiredEr": 1.19
+              "requiredEr": 1.179
             }
           }
         },
         {
           "members": [
-            1601,
+            1206,
             1205,
             1208
           ],
-          "score": 0.852,
+          "score": 0.9,
           "roles": [
             [
               "healer",
@@ -18695,74 +18509,264 @@
           ],
           "curated": false,
           "archetype": null,
-          "reason": "Taoqi's Resonance Skill DMG Amplification boosts Changli's Resonance Skill DMG",
+          "reason": "Brant's Fusion DMG Amplification boosts Changli",
           "modes": {},
           "erOverride": {
             "1205": {
-              "minViable": 1.201,
-              "recommended": 1.201
+              "minViable": 1.187,
+              "recommended": 1.187
+            },
+            "1206": {
+              "minViable": 1.779,
+              "recommended": 1.779
             },
             "1208": {
-              "minViable": 1.201,
-              "recommended": 1.201
-            },
-            "1601": {
-              "minViable": 1.302,
-              "recommended": 1.302
+              "minViable": 1.188,
+              "recommended": 1.188
             }
           },
-          "teamDamage": 1283611,
-          "teamTime": 29.41,
-          "teamDps": 43644,
+          "teamDamage": 1357600,
+          "teamTime": 27.04,
+          "teamDps": 50213,
           "passes": [
             {
               "pass": 1,
-              "damage": 1129406,
-              "time": 28.43,
-              "dps": 39728
+              "damage": 1195418,
+              "time": 26.64,
+              "dps": 44878
             },
             {
               "pass": 2,
-              "damage": 1360713,
-              "time": 29.9,
-              "dps": 45505
+              "damage": 1438692,
+              "time": 27.24,
+              "dps": 52822
             },
             {
               "pass": 3,
-              "damage": 1360713,
-              "time": 29.9,
-              "dps": 45505
+              "damage": 1438692,
+              "time": 27.24,
+              "dps": 52822
             }
           ],
           "perMember": [
             {
-              "id": 1601,
-              "damage": 180186,
-              "dps": 6126
+              "id": 1206,
+              "damage": 182971,
+              "dps": 6768
             },
             {
               "id": 1205,
-              "damage": 669886,
-              "dps": 22777
+              "damage": 604958,
+              "dps": 22375
             },
             {
               "id": 1208,
-              "damage": 449401,
-              "dps": 15280
+              "damage": 589626,
+              "dps": 21808
             }
           ],
           "opener": {
             "1205": {
               "shortfalls": 2,
-              "requiredEr": 1.201
+              "requiredEr": 1.188
             },
+            "1206": {
+              "shortfalls": 2,
+              "requiredEr": 1.78
+            },
+            "1208": {
+              "shortfalls": 2,
+              "requiredEr": 1.188
+            }
+          }
+        },
+        {
+          "members": [
+            1206,
+            1207,
+            1208
+          ],
+          "score": 0.898,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Brant's Fusion DMG Amplification boosts Galbrena",
+          "modes": {},
+          "erOverride": {
+            "1206": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1207": {
+              "minViable": 1.288,
+              "recommended": 1.288
+            },
+            "1208": {
+              "minViable": 1.236,
+              "recommended": 1.236
+            }
+          },
+          "teamDamage": 1272015,
+          "teamTime": 25.4,
+          "teamDps": 50076,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 1103640,
+              "time": 25,
+              "dps": 44142
+            },
+            {
+              "pass": 2,
+              "damage": 1356202,
+              "time": 25.6,
+              "dps": 52974
+            },
+            {
+              "pass": 3,
+              "damage": 1356202,
+              "time": 25.6,
+              "dps": 52974
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1206,
+              "damage": 227329,
+              "dps": 8949
+            },
+            {
+              "id": 1207,
+              "damage": 344288,
+              "dps": 13554
+            },
+            {
+              "id": 1208,
+              "damage": 729634,
+              "dps": 28724
+            }
+          ],
+          "opener": {
+            "1206": {
+              "shortfalls": 2,
+              "requiredEr": 1.857
+            },
+            "1207": {
+              "shortfalls": 2,
+              "requiredEr": 1.288
+            },
+            "1208": {
+              "shortfalls": 2,
+              "requiredEr": 1.236
+            }
+          }
+        },
+        {
+          "members": [
+            1308,
+            1209,
+            1208
+          ],
+          "score": 0.878,
+          "roles": [
+            [
+              "buffer",
+              "tb_boost"
+            ],
+            [
+              "healer",
+              "buffer",
+              "tb_rupture",
+              "tb_shifter",
+              "tb_strain"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Rebecca's Tune Break Boost feeds Mornye's Tune Strain Response",
+          "modes": {},
+          "erOverride": {
+            "1208": {
+              "minViable": 1.202,
+              "recommended": 1.202
+            },
+            "1209": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            },
+            "1308": {
+              "minViable": 1.205,
+              "recommended": 1.205
+            }
+          },
+          "teamDamage": 1255424,
+          "teamTime": 25.63,
+          "teamDps": 48981,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 1106430,
+              "time": 24.61,
+              "dps": 44961
+            },
+            {
+              "pass": 2,
+              "damage": 1329921,
+              "time": 26.14,
+              "dps": 50873
+            },
+            {
+              "pass": 3,
+              "damage": 1329921,
+              "time": 26.14,
+              "dps": 50873
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1308,
+              "damage": 189567,
+              "dps": 7396
+            },
+            {
+              "id": 1209,
+              "damage": 130853,
+              "dps": 5105
+            },
+            {
+              "id": 1208,
+              "damage": 961543,
+              "dps": 37515
+            }
+          ],
+          "opener": {
             "1208": {
               "shortfalls": 2,
               "requiredEr": 1.202
             },
-            "1601": {
+            "1209": {
               "shortfalls": 2,
-              "requiredEr": 1.303
+              "requiredEr": 1.819
+            },
+            "1308": {
+              "shortfalls": 2,
+              "requiredEr": 1.206
             }
           }
         }
@@ -34313,6 +34317,100 @@
           "members": [
             1106,
             1503,
+            1208
+          ],
+          "score": 0.586,
+          "roles": [
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "healer",
+              "buffer"
+            ],
+            [
+              "main_dps"
+            ]
+          ],
+          "curated": false,
+          "archetype": null,
+          "reason": "Youhu's Coordinated Attack DMG Amplification boosts Verina's Coordinated Attacks",
+          "modes": {},
+          "erOverride": {
+            "1106": {
+              "minViable": 1.168,
+              "recommended": 1.168
+            },
+            "1208": {
+              "minViable": 1.337,
+              "recommended": 1.337
+            },
+            "1503": {
+              "minViable": 1.25,
+              "recommended": 1.25,
+              "provisional": true
+            }
+          },
+          "teamDamage": 864309,
+          "teamTime": 23.93,
+          "teamDps": 36116,
+          "passes": [
+            {
+              "pass": 1,
+              "damage": 740026,
+              "time": 22.91,
+              "dps": 32303
+            },
+            {
+              "pass": 2,
+              "damage": 926450,
+              "time": 24.44,
+              "dps": 37903
+            },
+            {
+              "pass": 3,
+              "damage": 926450,
+              "time": 24.44,
+              "dps": 37903
+            }
+          ],
+          "perMember": [
+            {
+              "id": 1106,
+              "damage": 106908,
+              "dps": 4467
+            },
+            {
+              "id": 1503,
+              "damage": 157395,
+              "dps": 6577
+            },
+            {
+              "id": 1208,
+              "damage": 616637,
+              "dps": 25767
+            }
+          ],
+          "opener": {
+            "1106": {
+              "shortfalls": 2,
+              "requiredEr": 1.168
+            },
+            "1208": {
+              "shortfalls": 2,
+              "requiredEr": 1.338
+            },
+            "1503": {
+              "shortfalls": 2,
+              "requiredEr": 2.118
+            }
+          }
+        },
+        {
+          "members": [
+            1106,
+            1503,
             1205
           ],
           "score": 0.579,
@@ -34401,101 +34499,6 @@
             "1503": {
               "shortfalls": 2,
               "requiredEr": 2.117
-            }
-          }
-        },
-        {
-          "members": [
-            1106,
-            1503,
-            1607
-          ],
-          "score": 0.563,
-          "roles": [
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "healer",
-              "buffer"
-            ],
-            [
-              "healer",
-              "buffer"
-            ]
-          ],
-          "curated": false,
-          "archetype": null,
-          "reason": "Youhu's Coordinated Attack DMG Amplification boosts Verina's Coordinated Attacks",
-          "modes": {},
-          "erOverride": {
-            "1106": {
-              "minViable": 1.218,
-              "recommended": 1.218
-            },
-            "1503": {
-              "minViable": 1.25,
-              "recommended": 1.25,
-              "provisional": true
-            },
-            "1607": {
-              "minViable": 1.447,
-              "recommended": 1.447
-            }
-          },
-          "teamDamage": 782176,
-          "teamTime": 22.52,
-          "teamDps": 34735,
-          "passes": [
-            {
-              "pass": 1,
-              "damage": 746106,
-              "time": 21.5,
-              "dps": 34709
-            },
-            {
-              "pass": 2,
-              "damage": 800212,
-              "time": 23.03,
-              "dps": 34747
-            },
-            {
-              "pass": 3,
-              "damage": 800212,
-              "time": 23.03,
-              "dps": 34747
-            }
-          ],
-          "perMember": [
-            {
-              "id": 1106,
-              "damage": 99798,
-              "dps": 4432
-            },
-            {
-              "id": 1503,
-              "damage": 147734,
-              "dps": 6561
-            },
-            {
-              "id": 1607,
-              "damage": 553487,
-              "dps": 24579
-            }
-          ],
-          "opener": {
-            "1106": {
-              "shortfalls": 2,
-              "requiredEr": 1.218
-            },
-            "1503": {
-              "shortfalls": 2,
-              "requiredEr": 2.212
-            },
-            "1607": {
-              "shortfalls": 2,
-              "requiredEr": 1.447
             }
           }
         }
@@ -46690,18 +46693,18 @@
           "members": [
             1106,
             1503,
-            1205
+            1208
           ],
-          "score": 0.579
+          "score": 0.586
         },
         {
           "anchor": 1503,
           "members": [
             1106,
             1503,
-            1607
+            1205
           ],
-          "score": 0.563
+          "score": 0.579
         },
         {
           "anchor": 1506,
@@ -47865,7 +47868,7 @@
             1410,
             1208
           ],
-          "score": 0.888
+          "score": 0.928
         },
         {
           "anchor": 1306,
@@ -48164,7 +48167,7 @@
             1205,
             1208
           ],
-          "score": 0.898
+          "score": 0.91
         },
         {
           "anchor": 1208,
@@ -48173,25 +48176,7 @@
             1205,
             1208
           ],
-          "score": 0.879
-        },
-        {
-          "anchor": 1208,
-          "members": [
-            1607,
-            1205,
-            1208
-          ],
-          "score": 0.871
-        },
-        {
-          "anchor": 1208,
-          "members": [
-            1601,
-            1205,
-            1208
-          ],
-          "score": 0.852
+          "score": 0.9
         },
         {
           "anchor": 1301,
@@ -48452,18 +48437,18 @@
           "members": [
             1206,
             1207,
-            1205
+            1208
           ],
-          "score": 0.763
+          "score": 0.775
         },
         {
           "anchor": 1207,
           "members": [
             1206,
             1207,
-            1208
+            1205
           ],
-          "score": 0.665
+          "score": 0.763
         },
         {
           "anchor": 1208,
@@ -48472,7 +48457,16 @@
             1205,
             1208
           ],
-          "score": 0.879
+          "score": 0.9
+        },
+        {
+          "anchor": 1208,
+          "members": [
+            1206,
+            1207,
+            1208
+          ],
+          "score": 0.898
         },
         {
           "anchor": 1210,
@@ -48690,7 +48684,16 @@
             1410,
             1208
           ],
-          "score": 0.896
+          "score": 0.942
+        },
+        {
+          "anchor": 1208,
+          "members": [
+            1206,
+            1207,
+            1208
+          ],
+          "score": 0.898
         },
         {
           "anchor": 1406,
@@ -48728,7 +48731,7 @@
             1410,
             1208
           ],
-          "score": 0.71
+          "score": 0.813
         },
         {
           "anchor": 1207,
@@ -48737,7 +48740,16 @@
             1207,
             1208
           ],
-          "score": 0.665
+          "score": 0.775
+        },
+        {
+          "anchor": 1503,
+          "members": [
+            1106,
+            1503,
+            1208
+          ],
+          "score": 0.586
         }
       ],
       "1209": [
@@ -48812,6 +48824,15 @@
             1203
           ],
           "score": 0.852
+        },
+        {
+          "anchor": 1208,
+          "members": [
+            1308,
+            1209,
+            1208
+          ],
+          "score": 0.878
         },
         {
           "anchor": 1210,
@@ -50177,7 +50198,16 @@
             1410,
             1208
           ],
-          "score": 0.872
+          "score": 0.922
+        },
+        {
+          "anchor": 1208,
+          "members": [
+            1308,
+            1209,
+            1208
+          ],
+          "score": 0.878
         },
         {
           "anchor": 1306,
@@ -50774,16 +50804,7 @@
             1410,
             1208
           ],
-          "score": 0.71
-        },
-        {
-          "anchor": 1208,
-          "members": [
-            1410,
-            1205,
-            1208
-          ],
-          "score": 0.898
+          "score": 0.813
         },
         {
           "anchor": 1208,
@@ -50792,7 +50813,7 @@
             1410,
             1208
           ],
-          "score": 0.896
+          "score": 0.942
         },
         {
           "anchor": 1208,
@@ -50801,7 +50822,7 @@
             1410,
             1208
           ],
-          "score": 0.888
+          "score": 0.928
         },
         {
           "anchor": 1208,
@@ -50810,7 +50831,16 @@
             1410,
             1208
           ],
-          "score": 0.872
+          "score": 0.922
+        },
+        {
+          "anchor": 1208,
+          "members": [
+            1410,
+            1205,
+            1208
+          ],
+          "score": 0.91
         },
         {
           "anchor": 1301,
@@ -52275,15 +52305,6 @@
           "score": 0.731
         },
         {
-          "anchor": 1208,
-          "members": [
-            1601,
-            1205,
-            1208
-          ],
-          "score": 0.852
-        },
-        {
           "anchor": 1301,
           "members": [
             1601,
@@ -52636,15 +52657,6 @@
           "score": 0.789
         },
         {
-          "anchor": 1208,
-          "members": [
-            1607,
-            1205,
-            1208
-          ],
-          "score": 0.871
-        },
-        {
           "anchor": 1301,
           "members": [
             1607,
@@ -52724,15 +52736,6 @@
             1412
           ],
           "score": 0.827
-        },
-        {
-          "anchor": 1503,
-          "members": [
-            1106,
-            1503,
-            1607
-          ],
-          "score": 0.563
         },
         {
           "anchor": 1504,
@@ -82587,57 +82590,57 @@
         1208
       ],
       "baseline": {
-        "teamDamage": 1398646,
-        "ownDamage": 407925
+        "teamDamage": 1523520,
+        "ownDamage": 532800
       },
       "nodes": [
         {
           "chain": 1,
-          "teamDamage": 1402870,
-          "ownDamage": 412149,
-          "teamGain": 0.003,
-          "ownGain": 0.0104
+          "teamDamage": 1531883,
+          "ownDamage": 541162,
+          "teamGain": 0.0055,
+          "ownGain": 0.0157
         },
         {
           "chain": 2,
-          "teamDamage": 1402870,
-          "ownDamage": 412149,
-          "teamGain": 0.003,
-          "ownGain": 0.0104
+          "teamDamage": 1531883,
+          "ownDamage": 541162,
+          "teamGain": 0.0055,
+          "ownGain": 0.0157
         },
         {
           "chain": 3,
-          "teamDamage": 1520375,
-          "ownDamage": 529655,
-          "teamGain": 0.087,
-          "ownGain": 0.2984
+          "teamDamage": 1649388,
+          "ownDamage": 658668,
+          "teamGain": 0.0826,
+          "ownGain": 0.2362
         },
         {
           "chain": 4,
-          "teamDamage": 1616528,
-          "ownDamage": 529655,
-          "teamGain": 0.1558,
-          "ownGain": 0.2984
+          "teamDamage": 1745541,
+          "ownDamage": 658668,
+          "teamGain": 0.1457,
+          "ownGain": 0.2362
         },
         {
           "chain": 5,
-          "teamDamage": 1630053,
-          "ownDamage": 543180,
-          "teamGain": 0.1655,
-          "ownGain": 0.3316
+          "teamDamage": 1759066,
+          "ownDamage": 672193,
+          "teamGain": 0.1546,
+          "ownGain": 0.2616
         },
         {
           "chain": 6,
-          "teamDamage": 1709060,
-          "ownDamage": 622187,
-          "teamGain": 0.2219,
-          "ownGain": 0.5252
+          "teamDamage": 1843614,
+          "ownDamage": 756741,
+          "teamGain": 0.2101,
+          "ownGain": 0.4203
         }
       ],
-      "fullChain": 0.5252,
+      "fullChain": 0.4203,
       "bestNode": {
         "chain": 3,
-        "step": 0.288
+        "step": 0.2205
       }
     },
     "1209": {

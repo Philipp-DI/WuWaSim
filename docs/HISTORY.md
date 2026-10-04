@@ -14941,3 +14941,119 @@ sweep 71/71, lint 0 errors.
   "stacking" otherwise. If it does stack, he is understated fivefold.
 - `OF_BY_FORM` is bounded by the stated value, so a clause that names skills and
   states no percentage still falls to the older forms. None exists today.
+
+---
+
+## Session — 2026-10-04 (continued): Galbrena's state released, and the "5 times" settled
+
+Two investigations the maintainer set, both ending in a measurement that refuted
+my own prior reasoning.
+
+### [Files Changed]
+
+- `src/core/rotation-rules.js` — `STATE_DEFS[1208]` written for real (was a
+  struck-through held note), entered by `skill_ascent_of_malice`, exit 50s.
+- `tools/preprocess/skill-scope.mjs` — new `INCREASE_FOR_FORM`, tried after
+  `OF_BY_FORM` in `targetNamesInClause`.
+- `tests/dmg-of-clause.test.mjs` — the hold assertion inverted (38 asserts), plus
+  the `db_buff` evidence for Xiangli Yao recorded as a comment.
+- `tests/multiplier-scope.test.mjs` — coverage for the new form (24 asserts).
+- `data/wuwa-data.json` (LOCK A), `data/wuwa-meta.json` (LOCK B), `CLAUDE.md`.
+
+### [Logic Altered]
+
+**1. Galbrena's [Demon Hypostasis] is live.** It had been written and held
+because enabling it raised her own damage 30.66% in her geared meta team, which I
+read as "the Afterflame gauge must be at its cap of 40". That inference was
+unfounded. A trace on `computeResourceTimeline` across every segment of that
+team's scoring run shows the gauge peaking at **8 in 1,673 of 1,682 segments and
+0 in the other 9** — never higher, which is all `clearedOnSwap` plus one member's
+own echo cast can produce.
+
+Decomposed by stripping each effect in turn — the measurement that should have
+come before the hold:
+
+| | own damage | vs baseline |
+| --- | --- | --- |
+| neither state-gated clause | 403,485 | — |
+| SN0.0 only, +85% DMG Multiplier | 510,876 | **+26.62%** |
+| SN1.0 only, Afterflame 1.5%/point | 412,300 | +2.18% |
+| both | 527,185 | +30.66% |
+
+So 87% of the number was a flat multiplier her Liberation node states outright,
+dark for one reason only: no state entry. The hold was withholding kit.
+
+**2. A fourth DMG-increase phrasing was unread.** SN0.0's clause is "Gain 85% DMG
+Multiplier increase **for** [A], [B], [C], and [D] for 14s" — the verb before the
+stat, which `FOR_FORM` (verb after the name) and `OF_FORM` (needs "of") both
+miss. It bound nothing and kept the category `detectSkillType` lifted off "Basic
+Attack - Seraphic Execution", wrong in both directions: `'basic'` reached her five
+plain Basic keys, which the list does not name, and missed Flamewing Verdict and
+Hellsent Barrage, which it does. `INCREASE_FOR_FORM` binds all four names to her
+ten Demon Hypostasis keys (Purgatory Scourge has no damage row).
+
+**3. Xiangli Yao's "up to 5 times" is a charge pool, not a stack multiplier** —
+settled against `db_buff` in the slim-root export rather than reasoned from
+wording. His S3 is a three-link chain:
+
+| buff | what it is |
+| --- | --- |
+| `1305073001` | root; requirement type **2 = SkillGenre**, para "3" = Liberation |
+| `1305073003` | carrier; 24s, `DefaultStackCount 5` = `StackLimitCount 5`, `ExtraEffectRemoveStackNum 1`, gated on SkillGenre "2" = Resonance Skill |
+| `1305073002` | payload; 1.5s, **`StackLimitCount 1`**, `ExtraEffectParametersGrow1 [6300]` on attribute 15 = the 63% |
+
+The buff carrying the value can never hold two stacks, so he is **not**
+understated fivefold. The 5 is five Resonance Skill casts per Liberation window,
+and nothing has to reset it: the carrier is re-applied at 5 on every Liberation
+cast (`StackingType 2`), 24s against a 25s cooldown, so the windows never
+overlap — the maintainer's "dropping combat" guess is not needed.
+
+Requirement type 2 is `SkillGenres` (`ExtraEffectLibrary.ResolveRequireAndLimits`,
+`case 2`), which is new information about the third enum: the game DOES scope
+buffs by genre, so "the following **Resonance Skill** moves" is a genre statement
+and its four names are that genre's membership (1305031 Divergence, 1305051
+Deduction, 1305052 Decipher, 1305053 Law of Reigns).
+
+The flat model shipped yesterday is right for his rotation for a reason rather
+than by luck: the payload is scoped to exactly the four skills that also TRIGGER
+it, so every scoped hit re-applies its own 1.5s and "63% on those four keys while
+armed" reproduces the game. Two boundaries, both stated rather than fixed: the
+sim arms on a Resonance Skill cast where the game arms on the Liberation (his
+rotation casts `skill` one step earlier, with no qualifying cast in between), and
+the 5-cap is unmodelled while his rotation lands **exactly 5** qualifying casts.
+
+### [Verification Method]
+
+- LOCK A: one effect changed — SN0.0 gains its ten `skillKeys`. Binder 108 bound
+  (was 107), 12 dropped (unchanged).
+- LOCK B: **7 of 315 teams moved, all 7 containing Galbrena, all up, zero
+  without her, zero down**. Her S0 baseline rising is why her node gains shrink
+  over S0 (S3 29.84% → 23.62%, S6 52.52% → 42.03%) while S1/S2 rise
+  (1.04% → 1.57%).
+- The 14s-vs-state window question measured as a non-difference: `stateBound`, a
+  14s window on the Liberation cast, and that window with no state gate all score
+  her at **527,185 to the digit** — every post-Liberation step lands within 7.25s
+  and she re-casts it each pass.
+- 84/84 test files, sweep 71/71, lint 0 errors.
+
+### [Residual Risks]
+
+- The 50s exit overstates where Purging Flame (unmodelled) would end the state
+  earlier. Cannot bite today: her rotation is 12.16s and re-enters each pass.
+- The 85%'s own 14s duration is not honoured — the state window stands in for it.
+  Measured identical today; a rotation whose scoped steps run past 14s from the
+  Liberation would overpay.
+- Xiangli Yao's 5-trigger cap is unmodelled and his rotation lands exactly 5. A
+  rotation with six qualifying casts in one 24s window would overpay, and his
+  arming trigger is a Resonance Skill cast rather than the Liberation.
+- SN0.0 lives in `skillNodeEffects`, which still has no override namespace — the
+  binder form was the only available route, and the next clause of this class that
+  the binder cannot reach will have none.
+
+### [Updated Docs]
+
+- `CLAUDE.md`: the DMG-increase invariant gains the fourth form and the Xiangli
+  Yao verification; the `SkillGenre` invariant gains "the game DOES scope buffs by
+  genre (requirement type 2)"; new invariant **"A missing STATE is not one missing
+  clause, and an aggregate is not a cause"**.
+- The held `STATE_DEFS` note is preserved by strikethrough, not deleted.

@@ -82,6 +82,31 @@ function effectsOf(resonator) {
         targetNamesInClause('The bonus DMG Multiplier for Sawring - Eradication granted by Sawring- Blitz'
             + ' and Chainsaw Mode - Dodge Counter when Ring of Chainsaw is consumed is increased by 120%.')[0]
             === 'Sawring - Eradication');
+    // FOR_FORM's mirror: the verb sits BEFORE the stat, so nothing follows the
+    // list but its own duration. One roster clause (Galbrena's Liberation node)
+    // and it bound NOTHING before this form existed — leaving the category
+    // `detectSkillType` lifted off "Basic Attack - Seraphic Execution" as the
+    // whole scope, which reaches her plain Basics (not in the list) and misses
+    // Flamewing Verdict and Hellsent Barrage (both in it).
+    {
+        const galbrena = 'Gain 85% DMG Multiplier increase for [Basic Attack - Seraphic Execution],'
+            + ' [Heavy Attack - Flamewing Verdict], [Mid-air Attack - Hellsent Barrage], and'
+            + ' [Dodge Counter - Purgatory Scourge] for 14s while in [Demon Hypostasis].';
+        const names = targetNamesInClause(galbrena, 'multiplierUp');
+        assert('"<stat> increase for A, B, C and D" names all four', names.length === 4);
+        assert('…and the trailing duration is not part of the last name',
+            !/14s|while/i.test(names[names.length - 1]));
+        // The four resolve to ten of her keys — every Demon Hypostasis move the
+        // game ships a row for. Purgatory Scourge has no key, which is why four
+        // names give ten keys and not more.
+        const hers = Object.keys(dataset.autoSkillMap['1208']);
+        const keys = names.flatMap(name => resolveNameToKeys(name, hers));
+        assert('…resolving to her ten Demon Hypostasis damage keys',
+            new Set(keys).size === 10 && keys.every(key => /^forte_(basic|heavy)_/.test(key)));
+        assert('…and NOT to any plain Basic Attack of hers',
+            !keys.some(key => key.startsWith('basic_')));
+    }
+
     assert('"X has its DMG Multiplier increased" names X',
         targetNamesInClause('Resonance Skill Golden Reflux has its DMG Multiplier increased by 50%'
             + ' and Cooldown reduced by 2s, and gains 1 more charge.')
