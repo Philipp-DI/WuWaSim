@@ -87,6 +87,15 @@ const OF_TAIL_FORM = new RegExp(String.raw`${TARGET_STAT}\s+of\s+([^.;]+?)\s*[.;
 //   "Resonance Skill Golden Reflux HAS ITS DMG Multiplier …"      (Luuk S5.1)
 const FOR_FORM = new RegExp(String.raw`DMG\s*Multipliers?\s+for\s+(.+?)\s+${INCREASED}`, 'i');
 const HAS_ITS_FORM = new RegExp(String.raw`([^.;,]+?)\s+ha(?:s|ve)\s+(?:its|their)\s+${TARGET_STAT}\s+${INCREASED}`, 'i');
+// The TARGET sentence with the verb BEFORE the stat and the value after the
+// names: "increases the DMG of [A], [B] and [C] by 1.5%". None of the forms above
+// reaches it — the verb forms need `increas` AFTER the name, and OF_TAIL_FORM
+// runs to the end of the clause through `[^.;]`, which CANNOT CROSS THE DECIMAL
+// POINT in the clause's own "1.5%". That one character is why Galbrena's Forte
+// clause and Mortefi's inherent both parsed a value and were then dropped as
+// unscopable. Stopping at the stated value instead of at the end of the clause
+// also means no `trimNameTail` is needed: the capture never includes the tail.
+const OF_BY_FORM = new RegExp(String.raw`${TARGET_STAT}\s+of\s+(.+?)\s+by\s+[\d.]+\s*%`, 'i');
 // "The following skills have their DMG Multiplier increased by 25%: - Heavy
 // Attack - Thunderoar: Backstep, Dodge Counter - Thunderoar: Backstep, …" — the
 // names sit after the colon, so every form above reads only "The following
@@ -263,6 +272,9 @@ export function targetNamesInClause(clause, stat = null) {
         ?? POSSESSIVE_FORM.exec(clause)?.[1]
         ?? HAS_ITS_FORM.exec(clause)?.[1]
         ?? OF_TAIL_FORM.exec(clause)?.[1]
+        // After OF_TAIL_FORM, which is the same "of <name>" with no verb behind
+        // it; this one is bounded by the value rather than by the clause end.
+        ?? OF_BY_FORM.exec(clause)?.[1]
         // Read off "DMG Multiplier" itself, so it can only ever scope the
         // multiplier — never a sibling effect from the same sentence. Lucy's
         // inherent states both at once: "Grants 10% All DMG Amplification and

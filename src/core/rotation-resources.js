@@ -24,6 +24,8 @@
  *   { name, channel?, cap, start?, chainOverrides?, gains: { skillKey: amount },
  *     spend?: { skillKey: amount }, spendAll?: [skillKey],
  *     tick?: { period, refillTo?, amount?, byState? } }
+ *   clearedOnSwap?: true — the kit empties it on a swap, so it does NOT carry
+ *     between segments (the stated exception to the carry rule).
  *
  * A gauge does NOT necessarily begin a fight empty. Denia's inherent restores
  * Dark Cores to 2 on entering combat, so `start` is the level the fight opens
@@ -196,7 +198,16 @@ function walkResource(rotation, def, startLevels = null, context = null) {
     const steps = Array.isArray(rotation) ? rotation : [];
     const cap = def.cap ?? Infinity;
     const name = def.name.toLowerCase();
-    let level = Math.min(cap, Math.max(0, startLevels?.get(name) ?? def.start ?? 0));
+    // A gauge the KIT clears on a swap does not carry between segments. The
+    // general rule is the opposite — "A gauge belongs to the CHARACTER, not to a
+    // segment" — and this is the stated exception to it, not a weakening: a
+    // segment boundary IS a swap, and Galbrena's Forte says "All [Afterflame] is
+    // removed upon exiting [Demon Hypostasis]", which she is in by the end of her
+    // rotation. Measured without this: she banks 8 per pass and never spends, so a
+    // 3-pass team sim held 24 and her own damage rose 34.67% where one pass is
+    // 6.74% — a 5x overstatement of the effect being modelled.
+    const carried = def.clearedOnSwap ? 0 : startLevels?.get(name) ?? def.start ?? 0;
+    let level = Math.min(cap, Math.max(0, carried));
     const levels = [];
     const consumed = [];
 

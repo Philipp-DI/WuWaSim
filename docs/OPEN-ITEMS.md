@@ -269,25 +269,62 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
      (10 per echo, threshold 30) are the two concrete consumers, and both would go
      from near-zero to substantial.
 
-   → **FOUND 2026-10-04, NOT FIXED: "increases the DMG of X by N%" is unread on 3
-   clauses, one of them large.** The shape has no parser branch, and the game's own
-   ConfigDB even supplies the scope for the biggest: **Xiangli Yao S2, "Casting
-   Resonance Liberation Cogitation Model increases the DMG of the following
-   Resonance Skill moves by 63% for 24s: Decipher, Deduction …"** — `buff-facts`
-   files a scope for `0.63` naming `forte_heavy_decipher`,
-   `forte_heavy_law_of_reigns`, `liberation_divergence` and `skill`, and no effect
-   joins it (it is one of the 40 orphaned ConfigDB scopes already recorded above).
-   The other two are Galbrena's Forte clause ("every point of [Afterflame]
-   increases the DMG of [five skills] by 1.5%, up to 60%" — her LARGEST Afterflame
-   payoff, and the main reason she stays understated) and Mortefi's IH1. The bucket
-   is not a guess either: `buff-facts` says Galbrena's `0.6` ceiling is
-   `additive`. Reaching her clause needs a per-point-HELD branch, whose
-   discriminator is the BRACKET the game puts round a named gauge — measured
-   blast radius **exactly 1 clause**, because "every 1000 points of Max HP"
-   (Jingran) and "every 10 points of Tune Break Boost" (Luuk ×2) are STATS and
-   unbracketed. One clause is thin justification for a parser branch on its own,
-   which is why this is recorded for the "increases the DMG of" work rather than
-   bolted onto the gauge.
+   → ~~**FOUND 2026-10-04, NOT FIXED: "increases the DMG of X by N%" is unread on 3
+   clauses**~~ **FIXED the same day, and the data did the hard part.** The shape had
+   no parser branch — not "amplif", not "DMG Bonus", not the "deals N% more DMG"
+   mirror — so all three clauses were silently unread. Two blockers had to go, and
+   the second was ONE CHARACTER:
+   → `effects.mjs` gains a branch emitting `dmgBonus` with `needsScope`. The stat
+     is a DEFAULT, not a reading of the sentence — which bucket a value lands in is
+     not recoverable from wording — so `applyBuffFacts`, which runs BEFORE
+     `bindSkillScopes`, corrects it from the game's own tables and supplies the
+     scope at the same time.
+   → `skill-scope.mjs` gains `OF_BY_FORM`, because `bindSkillScopes` could not
+     scope what the branch emitted: `OF_TAIL_FORM` reads the names with `[^.;]`
+     and so **cannot cross the decimal point in the clause's own "1.5%"**. The new
+     form stops at the stated value instead of at the clause end, which also means
+     it needs no `trimNameTail`. Measured roster-wide: 107 effects bound (was 106),
+     12 dropped (was 13) — exactly the one extra binding, nothing re-scoped.
+   → **Xiangli Yao S3: +34.34% at S3, +33.09% at S6.** His node held ZERO effects
+     while `buff-facts.json` had already filed both the bucket (`additive`) AND the
+     exact four-key scope under the value 0.63 — one of the 40 orphaned ConfigDB
+     scopes recorded above. Emitting the effect was all it took for the data to
+     land on it, and `sequenceEval` now has his S3 buying **+45.22% own where it
+     read +27.08%**.
+   → **Mortefi IH1: correctly bound to his Marcato, worth 0.00%** — his stack
+     source is a HIT count (50 of them) which nothing models, and his reference
+     rotation never casts Marcato at all. One stack understates rather than
+     asserting the 50 the clause allows.
+   → **Galbrena's Forte clause: parsed, scoped, and deliberately HELD OFF.** "every
+     point of [Afterflame] increases the DMG of [five skills] by 1.5%, up to 60%"
+     now carries `perStack: 0.015`, `maxStacks: 40` (derived from its own ceiling,
+     60%/1.5%, which is the gauge's cap stated a second way), a `resource`
+     stackTrigger on Afterflame HELD, and her eleven keys. It resolves OFF because
+     it is gated on [Demon Hypostasis] and she has no `STATE_DEFS` entry. Adding
+     one — entered by those same moves, which exist only inside the state, the
+     reading already used for Lingyang and Camellya — makes it pay, and the solo
+     arithmetic is exact: 8 Afterflame is **+6.74%** on one pass, 24 across three
+     concatenated passes is **+12.22%**. But her geared meta team rose **30.61%**,
+     implying a gauge at or near its cap of 40 — about five echo casts where her
+     rotation has one and three passes should see three. Two candidate causes were
+     ruled out BY MEASUREMENT: the derived opener adds filler TIME, not steps, so
+     it casts no extra echoes; and cross-segment carry is already blocked by the
+     new `clearedOnSwap` (which did reduce it, 34.67% -> 30.61%, so the carry was
+     real but is not the driver). **The residue is unexplained, so the state stays
+     out** — shipping an unexplained 2.5x is the inflation shape this file keeps
+     recording. Re-enabling is adding the entry back; nothing is lost.
+   → **`clearedOnSwap` is a new, narrow exception to the gauge-carry rule.** "A
+     gauge belongs to the CHARACTER, not to a segment" holds wherever the kit does
+     not empty it; Galbrena's Forte says "All [Afterflame] is removed upon exiting
+     [Demon Hypostasis]", and a segment boundary IS a swap. Without it she banked 8
+     per pass and never spent.
+   → **The ceiling->count derivation is deliberately narrow, and measurement is
+     why.** "up to 60%" at 1.5%/point is 40, exactly Afterflame's cap. But EXACT
+     DIVISION IS NOT ENOUGH: Jingran's "For every 1000 points of Max HP … 0.05% …,
+     up to 2.5% FOR EACH STACK" also divides tidily, to 50, and 50 is not a stack
+     count — it is how many 1000-HP units fit under a per-stack ceiling. The
+     unrestricted version set his cap to 50, so the derivation now runs only for a
+     RESOURCE shape, where the counted thing is the gauge the clause itself names.
 
    → **A NEGATIVE STATUS'S OWN DAMAGE READ AS THE WIELDER'S — found 2026-10-03
    while investigating Lucilla, and it is the largest single inflation found in

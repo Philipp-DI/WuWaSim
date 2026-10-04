@@ -788,6 +788,24 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('so at S6 Ascent of Malice consumes ZERO — nothing is banked yet',
         resourceConsumedAt(new Map([['afterflame', spent]]), 'Afterflame', ascentAt) === 0);
 
+    // clearedOnSwap: the gauge does NOT carry between segments, which is the
+    // stated exception to "a gauge belongs to the CHARACTER". Measured without it:
+    // she banked 8 per pass and never spent, so a 3-pass team sim held 24 and her
+    // own damage rose 34.67% where one pass is 6.74% — five times the effect.
+    assert('Afterflame is cleared on a swap', base.clearedOnSwap === true);
+    const carried = new Map([['afterflame', 24]]);
+    const withCarry = computeResourceTimeline(rotation, resourceDefsForResonator(GALBRENA, dataset, 1),
+        carried).get('afterflame');
+    assert('a carried-in level is IGNORED for it, so a later pass opens empty',
+        withCarry[0] === 0);
+    assert('…while the echo still grants its 8 within the pass',
+        withCarry[echoAt + 1] === 8);
+    // The rule it is an exception TO must still hold for a gauge that carries.
+    const denia = computeResourceTimeline(['intro_knock_knock'],
+        resourceDefsForResonator(1211, dataset, 0), new Map([['dark core', 3]])).get('dark core');
+    assert('a gauge without the flag still carries in (Denia opens on her carried 3)',
+        denia[0] === 3);
+
     // The two effects that read it, and the ceiling arithmetic.
     const resonator = dataset.resonators.find(entry => entry.id === GALBRENA);
     const held = resonator.resonanceChain[0].effects[0];

@@ -101,6 +101,41 @@ export const COND_STACK_RE       = /\beach\s+stack[s]?\b|per\s+stack[s]?\b|for\s
 // would need a real scope and is deliberately not matched here.
 export const PER_RESOURCE_CONSUMED_RE = /for\s+each\s+\[([^\]]+)\]\s+consumed/i;
 
+// The HELD twin of the clause above: a value scaled by how much of a gauge is
+// currently held, rather than by what a cast spends. "While in [Demon
+// Hypostasis], every point of [Afterflame] increases the DMG of [Basic Attack -
+// Seraphic Execution], … by 1.5%, up to 60%" (Galbrena).
+//
+// THE BRACKET IS THE DISCRIMINATOR, and it is load-bearing. The game brackets its
+// named gauges, which is what separates one from a plain STAT read the same way:
+// "For every 1000 points of Max HP" (Jingran) and "every 10 points of Tune Break
+// Boost" (Luuk x2) are attributes, not gauges, and neither is bracketed. Measured
+// roster-wide: requiring the bracket matches exactly ONE clause, Galbrena's, and
+// refuses all three stat clauses.
+//
+// Unlike the consumed shape this one is NOT self-scoping — a held level is
+// non-zero on every step, so the effect needs a real scope and carries
+// `needsScope` to get one (the same rule the DEF-ignore branch follows).
+export const PER_RESOURCE_HELD_RE = /(?:every|each)\s+point\s+of\s+\[([^\]]{2,30})\]/i;
+
+/**
+ * The stack count a stated percentage CEILING implies, or null.
+ *
+ * "up to 60%" at 1.5% per point is 40 points — which is exactly Afterflame's cap,
+ * so the kit states the same limit twice and the division is a cross-check rather
+ * than a guess. Returned only when it divides EXACTLY: a ceiling that is not a
+ * whole multiple of the per-unit value means one of the two was misread, and
+ * guessing a count there would assert a cap the kit never stated.
+ */
+export function ceilingStacks(clause, perUnit) {
+    if (!(perUnit > 0)) return null;
+    const ceiling = /up\s+to\s+([\d.]+)\s*%/i.exec(String(clause ?? ''));
+    if (!ceiling) return null;
+    const count = (parseFloat(ceiling[1]) / 100) / perUnit;
+    const rounded = Math.round(count);
+    return Math.abs(count - rounded) < 1e-9 && rounded > 1 ? rounded : null;
+}
+
 // Captures N in "stacking up to N time(s)" or "up to N stacks".
 export const MAX_STACKS_RE       = /(?:stacking\s+)?up\s+to\s+(\d+)\s+(?:time[s]?|stack[s]?)/i;
 
@@ -624,7 +659,10 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         // Detect per-stack patterns (P10-3): emit stackable metadata so the UI
         // can show a stepper instead of a checkbox and the resolver can scale.
         const perResource = clause.match(PER_RESOURCE_CONSUMED_RE);
-        const isPerStack = COND_STACK_RE.test(clause) || perResource != null;
+        // Only when the clause is not already the CONSUMED shape: "for each [X]
+        // consumed" wins, because what a cast spends is the tighter statement.
+        const perResourceHeld = perResource ? null : clause.match(PER_RESOURCE_HELD_RE);
+        const isPerStack = COND_STACK_RE.test(clause) || perResource != null || perResourceHeld != null;
         const maxStacksMatch = isPerStack ? clause.match(MAX_STACKS_RE) : null;
 
         // Unified trigger × window (P11 §A) — additive alongside the legacy fields.
@@ -642,7 +680,9 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
         const stackTrigger = !isPerStack ? undefined
             : perResource
                 ? { type: 'resource', resource: perResource[1].trim(), consumed: true }
-                : ownStackTrigger ?? (descGain
+                : perResourceHeld
+                    ? { type: 'resource', resource: perResourceHeld[1].trim() }
+                    : ownStackTrigger ?? (descGain
                     ? { type: 'castMatch', skillType: descGain.skillType, phrase: null }
                     : { type: 'unknown' });
         // How long ONE stack lives, so the sim can decay a stack count instead
@@ -687,7 +727,23 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
             ...(isPerStack ? {
                 stackable: true,
                 perStack:  effect.value,
-                maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10) : descCap,
+                // A percentage CEILING implies a count when it divides exactly —
+                // "up to 60%" at 1.5% per point is 40, which is Afterflame's own
+                // cap, so the kit states the same limit twice. Last, after the
+                // explicit "up to N times" and the description's own cap.
+                //
+                // ONLY FOR A RESOURCE SHAPE, and exact division is NOT enough on
+                // its own: the ceiling has to bound the SAME accumulation the
+                // per-unit value multiplies. Jingran's "For every 1000 points of
+                // Max HP … 0.05% …, up to 2.5% FOR EACH STACK of [Fortune in
+                // Disguise]" divides to a tidy 50, and 50 is not a stack count at
+                // all — it is how many 1000-HP units fit under a PER-STACK
+                // ceiling. Measured: the unrestricted version set his cap to 50.
+                // When the counted thing is the gauge the clause itself names,
+                // the two quantities are the same one and the division holds.
+                maxStacks: maxStacksMatch ? parseInt(maxStacksMatch[1], 10)
+                    : descCap ?? ((perResource || perResourceHeld)
+                        ? ceilingStacks(clause, effect.value) : null),
                 stackTrigger,
                 ...(stackSeconds != null ? { stackSeconds } : {}),
             } : {}),
@@ -839,6 +895,31 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
             // Chixia's +40% and Mornye's +400% would land on every hit, always.
             if (value > 0 && value < 5) {
                 push({ stat: 'amplify', value, element: elem, skillType, needsScope: true });
+            }
+        }
+        // — "increases the DMG of X by N%" (the TARGET form of the same bucket) —
+        // The third phrasing of a DMG increase, and it parsed to NOTHING: no
+        // "amplif", no "DMG Bonus", and not the "deals N% more DMG" shape above.
+        // Three clauses roster-wide state it and all three were unread, the
+        // largest being Xiangli Yao S3's +63% on four named Resonance Skill moves
+        // — whose node held zero effects while the game's own ConfigDB already
+        // filed both its bucket (`additive`) and its exact four-key scope under
+        // the value 0.63, one of the orphaned scopes nothing joined.
+        //
+        // `dmgBonus` is the DEFAULT, not a reading of the sentence: which bucket a
+        // value lands in is not recoverable from wording, so buff-facts.mjs — which
+        // runs BEFORE bindSkillScopes — corrects it from the game's own tables and
+        // supplies the scope at the same time. `needsScope` then makes the binder
+        // the last gate: an unscoped, always-on DMG bonus is inflation, and these
+        // clauses carry their conditions in prose the classifier does not read.
+        //
+        // "the DMG Multiplier of X" cannot reach here — `the DMG of` requires DMG
+        // and `of` to be adjacent — which keeps the multiplierUp lane separate.
+        const increasesDmgOf = /increases?\s+the\s+DMG\s+of\s+[^.]{3,200}?\s+by\s+([\d.]+)\s*%/i.exec(clause);
+        if (increasesDmgOf) {
+            const value = parseFloat(increasesDmgOf[1]) / 100;
+            if (value > 0 && value < 5) {
+                push({ stat: 'dmgBonus', value, element: null, skillType, needsScope: true });
             }
         }
         // — DEF ignore / RES shred (TARGET-side, per hit) —

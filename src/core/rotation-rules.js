@@ -432,6 +432,32 @@ export const STATE_DEFS = Object.freeze({
           exit:  { mode: 'persist' } },
     ],
 
+    // ~~Galbrena — [Demon Hypostasis], entered BY ITS OWN MOVES.~~ WRITTEN AND
+    // THEN HELD BACK, 2026-10-04, and the reason is a number I could not explain.
+    //
+    // Her Forte's largest Afterflame payoff — "every point of [Afterflame]
+    // increases the DMG of [five skills] by 1.5%, up to 60%" — parses correctly
+    // now and is scoped to her eleven Demon Hypostasis keys, but it carries the
+    // state gate its own clause states and she has no entry here, so it resolves
+    // OFF. Adding one (entered by those same moves, which exist only inside the
+    // state — the reading already used for Lingyang and Camellya) makes it pay,
+    // and the solo arithmetic checks out exactly: 8 Afterflame from one echo cast
+    // is +6.74% on one pass, and 24 across three concatenated passes is +12.22%.
+    //
+    // What does NOT check out is her geared meta team, where her own damage rose
+    // **30.61%**, implying the gauge sits at or near its cap of 40 — roughly five
+    // echo casts, where her rotation contains one and a three-pass run should see
+    // three. Two candidate mechanisms were ruled out by measurement: the derived
+    // opener adds filler TIME, not steps, so it casts no extra echoes; and
+    // cross-segment carry is already blocked by `clearedOnSwap` (which did reduce
+    // it, 34.67% -> 30.61%, so the carry was real but is not the main driver).
+    // The residue is unexplained, and shipping an unexplained 2.5x on a resonator
+    // is the inflation shape this project keeps finding, so the state stays out
+    // until the team-sim gauge is instrumented and the number accounted for.
+    //
+    // Everything else about the clause is landed and verified, so re-enabling it
+    // is adding this entry back — nothing is lost by holding it.
+
     // Ciaccona — Liberation "Singer's Triple Cadenza" enters Recital.
     // Recital persists until she switches back on-field (modelled as persist).
     1407: [
@@ -1549,6 +1575,12 @@ export const RESOURCE_DEFS = Object.freeze({
         name: 'Afterflame',
         channel: 2,       // SpecialEnergy2Max = 40, the only channel of hers that reads 40
         cap: 40,
+        // "All [Afterflame] is removed upon exiting [Demon Hypostasis]", and she
+        // is in that state by the end of her rotation, so a swap empties it.
+        // MEASURED: without this she banks 8 per pass and never spends, so a
+        // 3-pass team sim held 24 and her own damage rose 34.67% where one pass
+        // is 6.74% — five times the effect actually being modelled.
+        clearedOnSwap: true,
         gains: {
             __echo__: 8,
         },

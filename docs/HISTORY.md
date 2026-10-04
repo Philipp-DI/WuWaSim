@@ -14862,3 +14862,82 @@ there; the override silently did nothing until the dump showed the keys unchange
 - Sigrika's `SN0.2` states the same grant as her S6.1 and stays dead for a
   STRUCTURAL reason: `skillNodeEffects` is not addressable by
   `effect-overrides.json`. Fourth finding blocked on that missing namespace.
+
+## 2026-10-04 — "increases the DMG of X by N%": a missing branch, and one character in a regex
+
+**[Files Changed]** `tools/preprocess/effects.mjs` (the branch,
+`PER_RESOURCE_HELD_RE`, `ceilingStacks`), `tools/preprocess/skill-scope.mjs`
+(`OF_BY_FORM`), `src/core/rotation-resources.js` (`clearedOnSwap`),
+`src/core/rotation-rules.js` (the flag on Afterflame; a STATE_DEFS entry written
+and then held), NEW `tests/dmg-of-clause.test.mjs` (36 assertions),
+`tests/rotation-resources.test.mjs`, regenerated `wuwa-data.json` +
+`wuwa-meta.json`, `CLAUDE.md`, `docs/OPEN-ITEMS.md`.
+
+**[Logic Altered]** The game states a DMG increase three ways. "X deals N% more
+DMG" and "N% DMG Bonus" had branches; **"increases the DMG of X by N%" had none**,
+and all three roster clauses of it were silently unread. Two blockers had to go,
+and the second was ONE CHARACTER: the parser needed a branch, and
+`bindSkillScopes` could not scope what it emitted because `OF_TAIL_FORM` reads the
+names with `[^.;]` and **cannot cross the decimal point in the clause's own
+"1.5%"**. `OF_BY_FORM` stops at the stated value instead of the clause end, so it
+needs no `trimNameTail` either.
+
+`dmgBonus` is a DEFAULT, not a reading of the sentence — which bucket a value lands
+in is not recoverable from wording — so `applyBuffFacts`, which runs BEFORE
+`bindSkillScopes`, corrects it from the game's own tables and supplies the scope at
+the same time. `needsScope` is the last gate: an unscoped, always-on DMG bonus is
+inflation.
+
+**THE PAYOFF WAS ALREADY SITTING IN THE DATA.** Xiangli Yao S3's node held **zero
+effects** while `buff-facts.json` had filed both its bucket (`additive`) AND its
+exact four-key scope under the value 0.63 — one of the 40 orphaned ConfigDB scopes
+recorded in OPEN-ITEMS. Emitting the effect was all it took for the data to land on
+it. Measured **+34.34% at S3 / +33.09% at S6** on his own reference rotation, and
+`sequenceEval` has his S3 buying **+45.22% own where it read +27.08%**.
+
+**[Verification Method]** LOCK A: 3 effects added, 1 changed, 0 removed, verified
+field-by-field against HEAD — Mortefi's new effect, Galbrena's clause (which
+displaced her existing `atkRatio` by one index inside `skillNodeEffects`, a lane
+with no slot namespace, so nothing addressable moved), and Xiangli Yao's. Binder
+counts: **107 bound (was 106), 12 dropped (was 13)** — one extra binding, nothing
+re-scoped. LOCK B: **zero of 416 teams** (both live effects are chain-gated above
+0) and 9 `sequenceEval` rows. 36/36 new assertions, 276/276 rotation-resources,
+sweep 71/71, lint 0 errors.
+
+**Three guards caught my own over-reach, and all three corrections are measured.**
+1. **The ceiling→count derivation was too broad.** "up to 60%" at 1.5%/point is 40,
+   exactly Afterflame's cap, so the kit states one limit twice. But EXACT DIVISION
+   IS NOT ENOUGH: Jingran's "For every 1000 points of Max HP … 0.05% …, up to 2.5%
+   FOR EACH STACK" divides just as tidily to 50, and 50 is not a stack count at all
+   — it is how many 1000-HP units fit under a per-stack ceiling. The unrestricted
+   version set his cap to 50. It now runs only for a RESOURCE shape, where the
+   counted thing is the gauge the clause itself names.
+2. **Afterflame was carrying across passes.** With the state enabled, Galbrena's own
+   damage rose 34.67% in her meta team where one pass is 6.74%, because she banked 8
+   per pass and never spent. Her Forte says "All [Afterflame] is removed upon exiting
+   [Demon Hypostasis]", and a segment boundary IS a swap, so `clearedOnSwap` is the
+   narrow stated exception to "a gauge belongs to the CHARACTER". It also corrected
+   YESTERDAY's S1 Crit DMG effect, which had the same over-accumulation: her S1 node
+   drops from +2.07% to +1.04% own.
+3. **An unexplained residue stopped the shipment.** `clearedOnSwap` took her from
+   34.67% to 30.61%, so the carry was real but not the driver. 30.61% implies a gauge
+   at or near its cap of 40 — about five echo casts, where her rotation has one and
+   three passes should see three. The derived opener was ruled out by measurement (it
+   adds filler TIME, not steps, so no extra echoes). **The residue is unexplained, so
+   the Demon Hypostasis STATE_DEFS entry is written, struck through, and HELD**, which
+   leaves her clause correctly parsed and scoped but gated OFF by the state it names.
+   Shipping an unexplained 2.5x on a resonator is the inflation shape this project
+   keeps finding. Re-enabling is adding the entry back; nothing is lost.
+
+**[Residual Risks]**
+- **Galbrena's Forte clause is held OFF and the reason is an open question**, not a
+  blocker in the kit: why her team-sim gauge reaches ~40 needs the team-sim resource
+  timeline instrumented. Solo arithmetic is exact (8 → +6.74%, 24 → +12.22%).
+- Mortefi's clause is bound and worth 0.00%: his stack source is a HIT count (50 of
+  them) that nothing models, and his reference rotation never casts Marcato. One
+  stack understates rather than asserting the 50.
+- Xiangli Yao's "This effect can be triggered up to 5 times" is read as a usage cap,
+  not a stack multiplier — the clause says "by 63%", singular, and would have said
+  "stacking" otherwise. If it does stack, he is understated fivefold.
+- `OF_BY_FORM` is bounded by the stated value, so a clause that names skills and
+  states no percentage still falls to the older forms. None exists today.

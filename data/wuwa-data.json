@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-10-04T08:21:50.601Z",
+  "generatedAt": "2026-10-04T09:25:41.563Z",
   "source": "Arikatsu/WutheringWaves_Data@3.6 + nanoka.cc",
   "gameVersion": "3.6",
   "sourceRefPinned": true,
@@ -4775,7 +4775,30 @@
             "0.35",
             "50"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.015,
+              "element": null,
+              "skillType": "liberation",
+              "teamWide": false,
+              "condition": "During Resonance Liberation Burning Rhapsody, each hit of Resonance Liberation Marcato will increase the DMG of the next",
+              "conditionKind": "other",
+              "structuralTrigger": null,
+              "defaultAssume": false,
+              "defaultActive": false,
+              "trigger": {
+                "type": "unknown"
+              },
+              "window": {
+                "type": "persist"
+              },
+              "skillKeys": [
+                "liberation_marcato_damage"
+              ],
+              "scopeSource": "configdb"
+            }
+          ]
         }
       ],
       "tuneBreak": {
@@ -7034,6 +7057,49 @@
             "forte_heavy_ravage"
           ],
           "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.015,
+              "element": null,
+              "skillType": "basic",
+              "teamWide": false,
+              "condition": "While in [Demon Hypostasis], every point of [Afterflame] increases the DMG of [Basic Attack - Seraphic Execution], [Heav",
+              "conditionKind": "structural",
+              "structuralTrigger": {
+                "type": "inState",
+                "state": "[demon hypostasis]"
+              },
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "stateEnter",
+                "state": "[demon hypostasis]"
+              },
+              "window": {
+                "type": "stateBound",
+                "state": "[demon hypostasis]"
+              },
+              "stackable": true,
+              "perStack": 0.015,
+              "maxStacks": 40,
+              "stackTrigger": {
+                "type": "resource",
+                "resource": "Afterflame"
+              },
+              "skillKeys": [
+                "forte_basic_seraphic_execution_1",
+                "forte_basic_seraphic_execution_2",
+                "forte_basic_seraphic_execution_3",
+                "forte_basic_seraphic_execution_4",
+                "forte_basic_seraphic_execution_5",
+                "forte_heavy_flamewing_verdict_1",
+                "forte_heavy_flamewing_verdict_2",
+                "forte_heavy_flamewing_verdict_3",
+                "forte_heavy_hellsent_barrage_plunging_attack",
+                "forte_heavy_hellsent_barrage_sustained_fire",
+                "forte_heavy_ravage"
+              ]
+            },
             {
               "stat": "atkRatio",
               "value": 0.2,
@@ -11040,7 +11106,36 @@
             "63%",
             "24"
           ],
-          "effects": []
+          "effects": [
+            {
+              "stat": "dmgBonus",
+              "value": 0.63,
+              "element": null,
+              "skillType": "skill",
+              "teamWide": false,
+              "condition": "Casting Resonance Liberation Cogitation Model increases the DMG of the following Resonance Skill moves by 63% for 24s: D",
+              "conditionKind": "duration",
+              "structuralTrigger": null,
+              "defaultAssume": true,
+              "defaultActive": true,
+              "trigger": {
+                "type": "castMatch",
+                "skillType": "skill"
+              },
+              "window": {
+                "type": "seconds",
+                "seconds": 24
+              },
+              "durationSeconds": 24,
+              "skillKeys": [
+                "forte_heavy_decipher",
+                "forte_heavy_law_of_reigns",
+                "liberation_divergence",
+                "skill"
+              ],
+              "scopeSource": "configdb"
+            }
+          ]
         },
         {
           "level": 4,
