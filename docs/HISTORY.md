@@ -1,5 +1,9 @@
 # HISTORY — WuWaSim development chronicle
 
+> **Frozen archive since 2026-10-05.** New session summaries go to
+> `docs/history/YYYY-MM-DD-<topic>.md` (see `CLAUDE.md`, SUMMARY STANDARDS).
+> This file is ~900 KB: grep it for specific terms, never read it whole.
+
 Append-only log of what happened, phase by phase. Moved verbatim out of
 CLAUDE.md on 2026-07-17 (Simplification Plan S1.2 — see
 `docs/SIMPLIFICATION-PLAN.md`): CLAUDE.md states what IS; this file records
