@@ -1,0 +1,166 @@
+/**
+ * Instruction files — CLAUDE.md and .claude/rules/ stay loadable and lean.
+ *
+ *   node tests/instruction-files.test.mjs
+ *
+ * Claude Code loads CLAUDE.md in every session, but a .claude/rules/ file only
+ * when it reads, edits or writes a file matching that rule's `paths:` globs.
+ * This guards the ways that layout rots silently:
+ *   1. a glob stops matching (a file was renamed), so its rule never loads again;
+ *   2. a frontmatter Claude Code cannot parse makes it load the rule in EVERY
+ *      session, quietly undoing the split;
+ *   3. CLAUDE.md regrows (it was split once on 2026-07-17 and was 107 KB again
+ *      by 2026-10-05);
+ *   4. invariant titles collide, or a title quoted in a code comment
+ *      (`CLAUDE.md, "<title>"`) stops resolving to exactly one invariant.
+ */
+
+import { readFileSync, readdirSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join, relative, resolve } from 'path';
+
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const SELF = 'tests/instruction-files.test.mjs';
+const RULES_DIR = '.claude/rules';
+const ROOT_MAX_LINES = 200;
+const ROOT_MAX_BYTES = 15000;
+// Local-only paths (see .gitignore): a glob must match a COMMITTED file, so a
+// match that only exists on one machine must not count.
+const SKIP_DIRS = new Set(['.git', 'node_modules', '.venv', '.p3', '.assets_raw',
+    'templates', 'docs-local', '__pycache__']);
+const SKIP_PATHS = new Set(['docs/uml', '.claude/worktrees']);
+
+let passed = 0, failed = 0;
+function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }
+
+const toPosix = (path) => path.split('\\').join('/');
+const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
+const lineCount = (text) => text.split(/\r?\n/).length - (text.endsWith('\n') ? 1 : 0);
+
+function walk(dir, out = []) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const rel = toPosix(relative(ROOT, join(dir, entry.name)));
+        if (SKIP_DIRS.has(entry.name) || SKIP_PATHS.has(rel)) continue;
+        if (entry.isDirectory()) walk(join(dir, entry.name), out);
+        else out.push(rel);
+    }
+    return out;
+}
+
+// `a/{b,c}/*.{js,mjs}` → four patterns. Each alternative is checked on its
+// own, so a typo inside a brace group cannot hide behind a sibling that matches.
+function expandBraces(pattern) {
+    const group = pattern.match(/\{([^{}]*)\}/);
+    if (!group) return [pattern];
+    return group[1].split(',').flatMap(alt => expandBraces(pattern.replace(group[0], alt)));
+}
+
+function globToRegExp(glob) {
+    let out = '';
+    for (let i = 0; i < glob.length; i++) {
+        const char = glob[i];
+        if (char === '*' && glob[i + 1] === '*') {
+            const slashAfter = glob[i + 2] === '/';
+            out += slashAfter ? '(?:.*/)?' : '.*';
+            i += slashAfter ? 2 : 1;
+        } else if (char === '*') out += '[^/]*';
+        else if (char === '?') out += '[^/]';
+        else out += char.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+    }
+    return new RegExp(`^${out}$`);
+}
+
+// The house format: a quoted YAML list under `paths:`. Anything else is
+// rejected, because a frontmatter Claude Code fails to parse loads ALWAYS.
+function parseRule(text) {
+    const lines = text.split(/\r?\n/);
+    if (lines[0] !== '---' || lines[1] !== 'paths:') return null;
+    const paths = [];
+    let idx = 2;
+    for (; idx < lines.length && lines[idx] !== '---'; idx++) {
+        const item = lines[idx].match(/^ {2}- "([^"]+)"$/);
+        if (!item) return null;
+        paths.push(item[1]);
+    }
+    return lines[idx] === '---' && paths.length > 0 ? paths : null;
+}
+
+function invariantTitles(text) {
+    const titles = [];
+    let inTable = false;
+    for (const row of text.split(/\r?\n/)) {
+        if (row === '| Invariant | Detail |') { inTable = true; continue; }
+        if (!inTable || row === '| --- | --- |') continue;
+        if (!row.startsWith('| ')) { inTable = false; continue; }
+        titles.push(row.slice(2).split(' | ')[0].trim());
+    }
+    return titles;
+}
+
+const files = walk(ROOT);
+let ruleFiles = [];
+try {
+    ruleFiles = readdirSync(join(ROOT, RULES_DIR)).filter(name => name.endsWith('.md'));
+} catch { /* missing directory is reported below */ }
+
+// ── 1 + 2. Every rule has a parseable `paths:` list, every glob matches ──────
+{
+    assert(`${RULES_DIR}/ exists and holds rules`, ruleFiles.length > 0);
+    for (const name of ruleFiles) {
+        const paths = parseRule(read(`${RULES_DIR}/${name}`));
+        assert(`${name}: frontmatter is a quoted \`paths:\` list (unscoped rules belong in CLAUDE.md, which is budgeted)`, paths !== null);
+        for (const glob of paths ?? []) {
+            for (const pattern of expandBraces(glob)) {
+                const regex = globToRegExp(pattern);
+                assert(`${name}: "${pattern}" matches at least one committed file`, files.some(file => regex.test(file)));
+            }
+        }
+    }
+}
+
+// ── 3. Root CLAUDE.md stays within budget ────────────────────────────────────
+{
+    const text = read('CLAUDE.md');
+    const lines = lineCount(text), bytes = Buffer.byteLength(text);
+    assert(`CLAUDE.md is ${lines} lines (budget ${ROOT_MAX_LINES}): move area-specific rules into ${RULES_DIR}/`, lines <= ROOT_MAX_LINES);
+    assert(`CLAUDE.md is ${bytes} bytes (budget ${ROOT_MAX_BYTES}): move area-specific rules into ${RULES_DIR}/`, bytes <= ROOT_MAX_BYTES);
+}
+
+// ── 4. Invariant titles are unique, and quoted citations resolve ─────────────
+const allTitles = ['CLAUDE.md', ...ruleFiles.map(name => `${RULES_DIR}/${name}`)]
+    .flatMap(rel => invariantTitles(read(rel)));
+{
+    const seen = new Set();
+    for (const title of allTitles) {
+        assert(`invariant title is unique: "${title}"`, !seen.has(title));
+        seen.add(title);
+    }
+}
+
+const words = (text) => text.toLowerCase().replace(/[`"“”\\]/g, '').match(/[a-z0-9][a-z0-9'_-]*/g) ?? [];
+function inOrder(needle, haystack) {
+    let pos = 0;
+    for (const word of haystack) if (word === needle[pos]) pos++;
+    return pos === needle.length;
+}
+// `CLAUDE.md, "Gauge income is readable ON A CAST"`, possibly wrapped across
+// comment lines or escaped inside a string literal. Cited words must appear,
+// in order, in exactly one title (citations abbreviate and drop backticks).
+const CITATION = /CLAUDE\.md[^"“\n]{0,40}?\\?["“]((?:[^"”\\]|\\(?!["”]))+?)\\?["”]/g;
+{
+    const titleWords = allTitles.map(words);
+    const sources = files.filter(file => /^(src|tools|tests)\/.*\.(js|mjs|py)$/.test(file) && file !== SELF);
+    let citations = 0;
+    for (const file of sources) {
+        for (const match of read(file).matchAll(CITATION)) {
+            const phrase = match[1].replace(/\n\s*(?:\/\/|\*|#)?\s*/g, ' ').trim();
+            const hits = titleWords.filter(title => inOrder(words(phrase), title)).length;
+            citations++;
+            assert(`${file}: cited invariant "${phrase}" resolves to exactly one title (found ${hits})`, hits === 1);
+        }
+    }
+    assert('at least one quoted invariant citation was found (the scanner still works)', citations > 0);
+}
+
+console.log(`\ninstruction-files: ${passed} passed, ${failed} failed`);
+process.exit(failed === 0 ? 0 : 1);

@@ -5,7 +5,10 @@ Mainstats.md
 .venv
 repomix-state.*
 templates/
-.claude
+# Claude Code: shared config is committed one part at a time (rules/ so far);
+# everything else under .claude/ (settings, skills, worktrees) stays local.
+.claude/*
+!.claude/rules/
 palette_*
 
 # Local-only material (personal notes, art, pasted references) — never tracked
