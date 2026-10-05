@@ -14,6 +14,10 @@ Moved verbatim from `CLAUDE.md` on 2026-10-05 (see its INSTRUCTION FILES section
 Breaking any one silently corrupts sim output. Code comments cite these as
 `CLAUDE.md, "<title>"`; the titles are unchanged.
 
+Before touching any buff source, read THE BUFF-PATH MANIFEST in `src/core/buffs.js`
+(three disjoint team-wide lanes and their entry functions); a new source picks
+exactly ONE lane.
+
 | Invariant | Detail |
 | --- | --- |
 | Team-buff paths are disjoint | Three team-wide application paths exist by construction (see `docs/ARCHITECTURE.md`, "Life of a buff"); a buff flows through exactly ONE — adding a source means picking a path, never duplicating |

@@ -46,6 +46,18 @@ and `tests/meta-schema.test.mjs` in sync.
 
 ---
 
+## PRINCIPLES
+
+Standing goal (maintainer, 2026-07-31): mirror in-game behaviour (self-consistent is not done), data-driven wherever possible, minimal regex in parsers, app code a junior dev can follow. The reasoning and incidents behind each rule: `docs/PRINCIPLES.md`.
+
+- **Data first.** Read the field the game ships (BinData, nanoka per-instance fields) before parsing kit text. A surviving regex is the narrow fallback and refuses to guess: a null the UI can show beats a plausible wrong number. A gap in an old source is a data gap, never a curated exception. Prefer a build-time `tools/` extractor with committed output over runtime parsing in `src/`.
+- **Contradictions are findings.** When the data contradicts an instruction, the maintainer's included, report the measurement and ask; never execute it quietly, refuse it, or split the difference. Data plus maintainer confirmation is settled: record it (invariant, test or `source` note) so it is not re-derived. With neither, say the number is unknown.
+- **Inferred is not verified.** An undocumented field's meaning is a hypothesis until checked (several examples, structural evidence, in-game test); label it "hypothesis, unverified" in code and docs until then. Asked how something works, trace the running code through a concrete example; don't restate the docstring.
+- **No silent zeros.** Show a legitimate zero or "can't compute yet" with its measured reason: core returns a reason code, the UI words it. Never swallow an exception into an empty state; when a value can't be computed, fall back to a measure that always exists and label it.
+- **Verified means independently derived.** Before an investigative finding is marked done, at least two independent subagents DERIVE it, one from a different source (code, data or prose). Each gets the claim and the method and answers CONFIRMED / PARTIALLY CONFIRMED / REFUTED with `file:line` evidence. Record disagreements; verifiers list every working-tree change they made and confirm the restore.
+
+---
+
 ## ARCHITECTURE PRINCIPLES
 
 - **DRY:** Extract shared logic into neutral `src/core/` modules; never import
@@ -57,7 +69,7 @@ and `tests/meta-schema.test.mjs` in sync.
 - **KISS:** Adhere to the KISS-principle to keep the codebase simple and easy to understand.
 - **No type ignores:** Fix the underlying issue.
 - **Complete migrations:** Update all imports and remove old shims in the same
-  change.
+  change. On any file move, re-check `__dirname`/`import.meta.url` relative paths.
 - **Maximum test coverage:** Every new public function in `src/core/` gets a
   test; prefer live tests exercising real `wuwa-data.json` over fixtures.
 - **Rotation format:** `build.rotation` (linear `string[]`) is the persisted
@@ -77,6 +89,8 @@ and `tests/meta-schema.test.mjs` in sync.
    `reso`/`char`/`member` for the same thing in different files.
 5. Comments state constraints the code can't show — not what the next line
    does, not why a change is correct.
+6. **No warning sweeps.** The remaining id-length warnings (`tests/`, `src/ui/`,
+   `docs/*.mjs`) get renamed when a file is next decomposed, never in a standalone pass.
 
 ---
 
@@ -93,16 +107,13 @@ area-specific ones live in `.claude/rules/` (see INSTRUCTION FILES below).
 | Stat nodes authoritative source | Per-node `skillTreeBonuses` (col/tier) is authoritative; `dataset.skillTree` aggregated table is fallback only |
 | Element DMG node mapping | `propId 22–27` → `elementId 1–6` (do not offset or reorder) |
 | Conditional effects default OFF | Any effect whose condition text contains `when / after / while / upon / duration` needs to be modelled if possible, if not defaults to OFF |
-| Enemy abilities always hit | For anything enemy-related there is no miss, range or accuracy model. "on hit" / "within a certain range" / "nearby" are FIRING conditions that are always satisfied — model the effect, drop the qualifier, and do not hedge it as "the optimistic reading" |
+| Abilities always hit | Every resonator ability lands on the enemy: there is no miss, range or accuracy model. "on hit" / "within a certain range" / "nearby" are FIRING conditions that are always satisfied — model the effect, drop the qualifier, and do not hedge it as "the optimistic reading". Enemy attacks are not modelled at all: an effect that needs the wielder to be hit or to take damage cannot fire on its own, so it is a user toggle, OFF by default. |
 | `build.rotation` is linear | Graph is built at sim time via `fromLinear()` — never persisted |
 | Effect-slot keys are FROZEN before anything reads them | `S{level}.{index}` addresses effects from `effect-overrides.json` AND from a saved build's `effectStacks`, so any preprocess pass that changes an effect COUNT must run BEFORE the overrides. `bindSkillScopes` drops what it cannot scope; ordered after the overrides it silently moved Luuk Herssen's curated S6.0 patch onto a different effect |
 
 ## INSTRUCTION FILES
 
-Area rules live in `.claude/rules/` (moved verbatim from this file, 2026-10-05)
-and load automatically when you Read, Edit or Write a matching file. Planning
-changes in an area without opening its files? Read its rules file first. Code
-comments cite invariants as `CLAUDE.md, "<title>"`: grep the title there.
+Area rules live in `.claude/rules/` and load when you Read, Edit or Write a matching file; when planning an area without opening its files, read its rules file first. Code comments cite invariants as `CLAUDE.md, "<title>"`: grep the title there. New area-specific rules go there too; `tests/instruction-files.test.mjs` keeps this file at or under 200 lines and 15 KB.
 
 | Rules file | Covers |
 | --- | --- |
@@ -110,16 +121,14 @@ comments cite invariants as `CLAUDE.md, "<title>"`: grep the title there.
 | `generated-data-locks.md` | LOCK A / LOCK B, `engineHash`, line endings |
 | `invariants-effects.md` | effect-text parsing and scoping |
 | `invariants-damage.md` | buckets, crit, DEF/RES, attribution, damage rows |
-| `invariants-resources.md` | gauges, states, modes, chain nodes, rotation |
+| `invariants-resources.md` | fight start state, gauges, states, modes, chain nodes, rotation |
 | `invariants-status.md` | negative statuses, Tune Break, target stacks |
 | `invariants-team-gear.md` | team, external, echo, sonata and weapon buffs |
 | `invariants-extraction.md` | ConfigDB/BinData enums, policies, id spaces |
 | `invariant-rover.md` | Rover gender identity in the timing and skill joins |
-| `invariants-optimizer.md` | team ranking and suggestions |
+| `invariants-optimizer.md` | team ranking, suggestions, live weights |
 | `engine-data-shapes.md` | OffFieldAction, BuffEffect, RotationGraph |
-
-`tests/instruction-files.test.mjs` enforces this layout and keeps this file at or
-under 200 lines / 15 KB. New area-specific rules go into `.claude/rules/`.
+| `tests.md` | the plain-Node test-file pattern |
 
 ---
 
@@ -140,8 +149,8 @@ npm run lint    # ESLint — correctness rules are ERRORS (CI-gating); style rul
 runtime remains dependency-free). CI (`.github/workflows/ci.yml`) runs all
 three on every push/PR.
 
-New test files follow the existing pattern: plain Node, no framework,
-`assert(name, cond)` helper, `process.exit(failed === 0 ? 0 : 1)`.
+After UI-touching changes, also smoke-test the build and team pages in a browser;
+without a browser tool, list that under **[Residual Risks]**.
 
 Generated-data locks (LOCK A `npm run data`, LOCK B `npm run meta`) for
 behavior-preserving refactors: see `.claude/rules/generated-data-locks.md`.
@@ -153,7 +162,7 @@ behavior-preserving refactors: see `.claude/rules/generated-data-locks.md`.
 1. **ANALYZE:** Read relevant files. Do not guess.
 2. **PLAN:** Map the logic; identify root cause; order changes by dependency.
 3. **EXECUTE:** Fix the cause, not the symptom. Failing tests first.
-4. **VERIFY:** All tests + module sweep. Confirm via output, not assumption.
+4. **VERIFY:** All tests + module sweep. Confirm via output, not assumption. `npm test` runs LAST: verifiers, stashes and `npm run data`/`meta` rewrite engine bytes.
 5. **SPECIFICITY:** Do exactly as much as asked.
 6. **PROPAGATION:** Propagate changes across all affected files.
 

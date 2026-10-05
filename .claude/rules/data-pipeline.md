@@ -156,3 +156,14 @@ in this repo (`tools/extract/`); what they need is a client export, per the
 targeted-export note above. Never edit the
 generated files directly. When an engine file changes, keep the `ENGINE_FILES`
 lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
+
+**Source-swap checklist** (lessons of the 2026-07-23 Dimbreath → Arikatsu
+migration; added 2026-10-05):
+- After any upstream source or table-shape swap, verify stat-neutrality: ATK, HP,
+  DEF, Crit Rate, Crit DMG and ER identical before and after. The migration
+  silently zeroed every base DEF (Taoqi, a DEF scaler, went from 1802 to 0
+  damage) until `base-stats.mjs` read `property.Def ?? property.Def_ ?? 0`.
+- Audit every underscore-renamed field when a table swaps; `Def_` was the only
+  one a projection read at the time.
+- Arikatsu ships TextMap as a list of `{Id, Content, RedirectDbIndex}`, not a flat
+  map; `download.mjs` adapts it with `flattenTextMap()`.
