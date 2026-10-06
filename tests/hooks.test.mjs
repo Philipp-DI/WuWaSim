@@ -35,6 +35,10 @@ const same = (actual, expected) => JSON.stringify(actual) === JSON.stringify(exp
     assert('CLAUDE.md: guard only', same(checksForEdit('CLAUDE.md'), ['guard']));
     assert('rules file: guard only', same(checksForEdit('.claude/rules/invariants-status.md'), ['guard']));
     assert('nested markdown under rules is not a rules file', same(checksForEdit('.claude/rules/sub/notes.md'), []));
+    assert('agent definition: guard only', same(checksForEdit('.claude/agents/verifier.md'), ['guard']));
+    assert('skill definition: guard only', same(checksForEdit('.claude/skills/resonator-audit/SKILL.md'), ['guard']));
+    assert('skill reference file: no fast check', same(checksForEdit('.claude/skills/resonator-audit/references/wuwa.md'), []));
+    assert('skill script: lint only', same(checksForEdit('.claude/skills/resonator-audit/scripts/audit-harness.mjs'), ['lint']));
     assert('data JSON: no fast check', same(checksForEdit('data/effect-overrides.json'), []));
 }
 

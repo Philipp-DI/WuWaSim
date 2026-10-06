@@ -2,8 +2,8 @@
 /**
  * PostToolUse hook for Edit|Write (see .claude/settings.json): fast checks on
  * the file Claude just changed. Scripts get ESLint (errors only), anything
- * under src/ gets the module sweep, and CLAUDE.md or a .claude/rules/ file
- * gets the instruction-files guard. A failure exits 2, so Claude sees the
+ * under src/ gets the module sweep, and an instruction file (CLAUDE.md, a
+ * rule, an agent, a skill definition) gets the instruction-files guard. A failure exits 2, so Claude sees the
  * report next to its own edit instead of at the end of the turn, and the user
  * sees a one-line notice.
  */
