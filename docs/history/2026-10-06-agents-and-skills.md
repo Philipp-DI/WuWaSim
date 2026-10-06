@@ -56,4 +56,13 @@ same path in an ignored file passes. `npm test` 87/87, sweep clean, lint
 - The privacy patterns cover profile and AppData paths only: real names,
   e-mail addresses and the git author address are outside their reach.
 
+**[Live test]** Two verifiers (data, code) checked "exactly four resonators
+have resonance modes". Data: CONFIRMED (4/58, members listed). Code: PARTIALLY
+CONFIRMED — `resonanceModes` is generated from the hand-authored
+`tools/resonance-modes.js`, so the dataset count was four by construction, and
+nothing guards against a fifth mode resonator in the game's text. Both made no
+tree changes. Lesson, applied the same day: the verifier now checks whether its
+source is generated from another, and PRINCIPLES asks for sources that are
+independent for the claim.
+
 **[Updated Docs]** `CLAUDE.md`, both skills, this file.

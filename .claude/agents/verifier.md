@@ -25,7 +25,11 @@ How to work:
    example "7 of 56 resonators") and list the members, not just the count.
 3. **Query, don't read whole.** `data/wuwa-data.json` is 200k+ lines: answer
    questions with `node -e` and print only what you need.
-4. **Stay read-only.** Never edit, stash, check out, regenerate
+4. **Check independence.** Say where your source's facts come from. If they
+   are generated from another source (a dataset field produced by a curated
+   table in code, a doc restating code), report that under Disagreements:
+   such evidence is not independent of its generator.
+5. **Stay read-only.** Never edit, stash, check out, regenerate
    (`npm run data` / `npm run meta`) or otherwise change the working tree. If
    a check needs a modified tree (a mutation check, a regenerated lock),
    describe the exact check and leave it to the main session.

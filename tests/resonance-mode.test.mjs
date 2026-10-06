@@ -132,6 +132,14 @@ const MODE_IDS = [1210, 1509, 1211, 1109];
         for (const name of modeNames) if (!txt.includes(name.toLowerCase())) { bad++; console.error(`   ${r.name}: mode "${name}" not in text`); }
     }
     assert('every mode name appears in its resonator text', bad === 0);
+
+    // Reverse direction: the table is hand-authored, so a resonator whose kit
+    // text names a Resonance Mode but is missing from it would be dropped silently.
+    const unlisted = d.resonators
+        .filter(r => !(r.id in RESONANCE_MODES) && allText(r).includes('resonance mode'))
+        .map(r => r.name);
+    if (unlisted.length) console.error(`   kit text mentions "Resonance Mode" but not in RESONANCE_MODES: ${unlisted.join(', ')}`);
+    assert('no resonator outside RESONANCE_MODES mentions a Resonance Mode', unlisted.length === 0);
     assert('modesForResonator returns {key,name} pairs', modesForResonator(1210)[0].key === 'tune_rupture');
 }
 

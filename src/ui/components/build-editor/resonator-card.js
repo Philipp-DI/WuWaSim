@@ -133,7 +133,7 @@ export function renderResonatorCard() {
   // Role-label tags (P13) — placeholder glyph icons (icons.js 'role' kind) in
   // the resonator's own game-supplied colour, hover tooltip via the shared
   // data-tip-title/data-tip-desc pattern (bindTooltipHover is already wired
-  // for this root). Shares the RESONANCE MODE box: for the ~49/53 resonators
+  // for this root). Shares the RESONANCE MODE box: for the resonators
   // with no Resonance Mode, roles fully take over that slot; for the 4 that
   // do (Lucilla, Aemeath, Denia, Lynae), the box auto-fits both — a roles row
   // above a thin divider, mode toggle unchanged below.
