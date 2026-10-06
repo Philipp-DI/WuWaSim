@@ -6,7 +6,6 @@ paths:
 
 # Key data shapes (quick reference)
 
-Moved verbatim from `CLAUDE.md` on 2026-10-05.
 
 ```js
 // OffFieldAction (src/core/off-field.js)

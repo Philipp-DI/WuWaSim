@@ -216,8 +216,9 @@ Use `references/report-template.md`. Non-negotiables:
 - **Separate FIDELITY findings from PERFORMANCE observations.** They have
   different burdens of proof.
 - **A fidelity finding is CONFIRMED only after two `verifier` subagents
-  derived it independently**, from different sources (`CLAUDE.md`,
-  PRINCIPLES). Report their verdicts, including any disagreement.
+  derived it independently**, from sources that are independent for that
+  claim (`CLAUDE.md`, PRINCIPLES: a generated field is not independent of the
+  code that generates it). Report their verdicts, including any disagreement.
 - **Rank findings by damage impact**, and say the impact in numbers you
   measured, not adjectives.
 - **Cite evidence inline** — file:line, buff id, damage id, table row.

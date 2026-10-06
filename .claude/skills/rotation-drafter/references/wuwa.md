@@ -8,7 +8,7 @@ Facts and tooling for drafting rotations in the WuWa Sim repository
 | What | Where |
 |---|---|
 | Compiled dataset | `data/wuwa-data.json` — `resonators[]` (kits, chain, inherents), `autoSkillMap[resonatorId]` (canonical ability keys) |
-| Effects & conditionals | `resonanceChain[].effects[]`, `inherentSkills[].effects[]` — each with the trigger×window fields (`trigger`, `window`, `durationSeconds`, `mode`), or legacy `conditionKind`/`structuralTrigger` if §A isn't merged yet |
+| Effects & conditionals | `resonanceChain[].effects[]`, `inherentSkills[].effects[]` — each with `trigger`, `window`, `durationSeconds`, `mode` and `conditionKind` (plus `structuralTrigger` on some effects) |
 | Prerequisite rules | `src/core/rotation-rules.js` — `rulesForResonator(id)` (gates: state/resource/form), `stateDefsForResonator(id)` |
 | Auto-trigger follow-ups | `src/core/rotation-triggers.js` — `triggersForResonator(id)` (forced inserts) |
 | Resonance Modes | `docs/RESONANCE-MODE-SPEC.md` — mode-having roster & `modeMatch` semantics |

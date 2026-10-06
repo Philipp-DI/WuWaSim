@@ -2,8 +2,9 @@
 /**
  * Stop hook (see .claude/settings.json): a turn can't end as "finished" while
  * the working tree is red. When files outside docs/ changed, it runs the
- * module sweep, ESLint (errors only) on the changed scripts, then the full
- * suite, failing fast in that order. Red → exit 2: Claude keeps working with
+ * module sweep, ESLint on the changed scripts (no errors, and no warnings
+ * beyond their committed versions), then the full suite, failing fast in that
+ * order. Red → exit 2: Claude keeps working with
  * the report, and the user sees a one-line notice.
  *
  * Cheap when nothing changed, so Q&A turns pass instantly. Verdicts are cached
@@ -28,7 +29,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-    EXIT_BLOCK, EXIT_OK, capReport, decideOnRed, failingTestsHeadline, hasEslint, isScript, isStrict,
+    EXIT_BLOCK, EXIT_OK, addedLintWarnings, capReport, decideOnRed, failingTestsHeadline, hasEslint, isScript, isStrict,
     lintErrors, needsGate, nextBlockCount, parsePorcelain, projectDirOf, readHookInput, runNode,
     summarizeTestFailure, userNotice,
 } from './hook-lib.mjs';
@@ -86,14 +87,24 @@ userNotice(`Stop gate blocked Claude from finishing (${count} of ${MAX_BLOCKS}):
 process.stderr.write(blockMessage(count, verdict.report));
 process.exit(EXIT_BLOCK);
 
-/** Sweep → lint → suite, failing fast. */
+/** Sweep → lint errors → new lint warnings → suite, failing fast. */
 function verify(changedEntries) {
     const sweep = runNode(projectDir, ['tools/sweep-modules.mjs'], 120000);
     if (!sweep.ok) return { ok: false, headline: 'the module sweep failed', report: capReport(`Module sweep failed:\n${sweep.output.trim()}`) };
 
-    const scripts = changedEntries.filter(entry => isScript(entry.path) && !entry.status.includes('D')).map(entry => entry.path);
+    const scriptEntries = changedEntries.filter(entry => isScript(entry.path) && !entry.status.includes('D'));
+    const scripts = scriptEntries.map(entry => entry.path);
     const lint = lintErrors(projectDir, scripts);
     if (lint) return { ok: false, headline: 'ESLint errors in changed scripts', report: `ESLint errors:\n${lint}` };
+
+    const newWarnings = addedLintWarnings(projectDir, scriptEntries);
+    if (newWarnings) {
+        return {
+            ok: false,
+            headline: 'new lint warnings in changed scripts',
+            report: `New lint warnings (the count may only go down; fix the new ones, don't sweep old ones):\n${newWarnings}`,
+        };
+    }
 
     const suite = runNode(projectDir, ['tools/run-tests.mjs'], SUITE_TIMEOUT_MS);
     if (suite.timedOut) return { ok: false, timedOut: true };

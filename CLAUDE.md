@@ -55,7 +55,7 @@ Standing goal (maintainer, 2026-07-31): mirror in-game behaviour (self-consisten
 - **Contradictions are findings.** When the data contradicts an instruction, the maintainer's included, report the measurement and ask; never execute it quietly, refuse it, or split the difference. Data plus maintainer confirmation is settled: record it (invariant, test or `source` note) so it is not re-derived. With neither, say the number is unknown.
 - **Inferred is not verified.** An undocumented field's meaning is a hypothesis until checked (several examples, structural evidence, in-game test); label it "hypothesis, unverified" in code and docs until then. Asked how something works, trace the running code through a concrete example; don't restate the docstring.
 - **No silent zeros.** Show a legitimate zero or "can't compute yet" with its measured reason: core returns a reason code, the UI words it. Never swallow an exception into an empty state; when a value can't be computed, fall back to a measure that always exists and label it.
-- **Verified means independently derived.** Before an investigative finding is marked done, at least two independent `verifier` subagents DERIVE it from sources that are independent for that claim (code, data, prose; a generated field is not independent of the code that generates it, while the game's own text and tables usually are). Each gets the claim and the method and answers CONFIRMED / PARTIALLY CONFIRMED / REFUTED / UNDETERMINED with `file:line` evidence. Record disagreements; verifiers list every working-tree change they made and confirm the restore.
+- **Verified means independently derived.** Before an investigative finding is marked done, at least two independent `verifier` subagents DERIVE it from sources that are independent for that claim (code, data, prose; a generated field is not independent of the code that generates it, while the game's own text and tables usually are). Each gets the claim and the method and answers CONFIRMED / PARTIALLY CONFIRMED / REFUTED / UNDETERMINED with `file:line` evidence. Record disagreements. Verifiers are read-only; a check that needs a modified tree is run by the main session, which lists every working-tree change and confirms the restore.
 
 ---
 
@@ -114,7 +114,7 @@ area-specific ones live in `.claude/rules/` (see INSTRUCTION FILES below).
 
 ## INSTRUCTION FILES
 
-Area rules live in `.claude/rules/` and load when you Read, Edit or Write a matching file; when planning an area without opening its files, read its rules file first. Code comments cite invariants as `CLAUDE.md, "<title>"`: grep the title there. New area-specific rules go there too; `tests/instruction-files.test.mjs` keeps this file at or under 200 lines and 15 KB.
+Area rules live in `.claude/rules/` and load when you Read, Edit or Write a matching file; when planning an area without opening its files, read its rules file first. Code comments cite invariants as `CLAUDE.md, "<title>"`: grep the title in this file and in `.claude/rules/`. New area-specific rules go there too; `tests/instruction-files.test.mjs` keeps this file at or under 200 lines and 15 KB.
 
 | Rules file | Covers |
 | --- | --- |
@@ -153,7 +153,7 @@ three on every push/PR.
 After UI-touching changes, also smoke-test the build and team pages in a browser;
 without a browser tool, list that under **[Residual Risks]**.
 
-Hooks (`.claude/settings.json`, scripts in `tools/hooks/`) lint every edit (plus the sweep for `src/` and the guard for instruction files) and gate every stop: once files outside `docs/` changed, sweep, lint and `npm test` must pass before you can finish. Fix what they report; never work around a hook. When the fix needs the user's decision, ask: a final question hands a red tree to them (strict unattended runs excepted).
+Hooks (`.claude/settings.json`, scripts in `tools/hooks/`) lint every edit (plus the sweep for `src/` and the guard for instruction files) and gate every stop: once files outside `docs/` changed, the sweep, lint (no errors, and no new warnings in changed scripts) and `npm test` must pass before you can finish. Fix what they report; never work around a hook. When the fix needs the user's decision, ask: a final question hands a red tree to them (strict unattended runs excepted).
 
 Generated-data locks (LOCK A `npm run data`, LOCK B `npm run meta`) for
 behavior-preserving refactors: see `.claude/rules/generated-data-locks.md`.
@@ -179,7 +179,7 @@ Every session summary includes: **[Files Changed]**, **[Logic Altered]**,
 
 ## TOOLS
 
-Prefer built-in tools (grep, read_file, …) over manual workflows.
+Prefer built-in tools (Grep, Glob, Read, …) over manual workflows.
 `wuwa-data.json` is 200k+ lines — grep with specific patterns, never read whole.
 
 ## COMMIT CONVENTIONS

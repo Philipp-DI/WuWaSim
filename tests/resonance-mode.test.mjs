@@ -136,8 +136,8 @@ const MODE_IDS = [1210, 1509, 1211, 1109];
     // Reverse direction: the table is hand-authored, so a resonator whose kit
     // text names a Resonance Mode but is missing from it would be dropped silently.
     const unlisted = d.resonators
-        .filter(r => !(r.id in RESONANCE_MODES) && allText(r).includes('resonance mode'))
-        .map(r => r.name);
+        .filter(resonator => !(resonator.id in RESONANCE_MODES) && allText(resonator).includes('resonance mode'))
+        .map(resonator => resonator.name);
     if (unlisted.length) console.error(`   kit text mentions "Resonance Mode" but not in RESONANCE_MODES: ${unlisted.join(', ')}`);
     assert('no resonator outside RESONANCE_MODES mentions a Resonance Mode', unlisted.length === 0);
     assert('modesForResonator returns {key,name} pairs', modesForResonator(1210)[0].key === 'tune_rupture');

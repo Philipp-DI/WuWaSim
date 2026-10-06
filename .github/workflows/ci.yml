@@ -3,7 +3,8 @@
 # Three gates on every push/PR: the full plain-Node test suite, the
 # module-load sweep (imports every src module — the no-bundler substitute
 # for a build step), and ESLint (correctness rules are errors; style rules
-# are warnings until the S3/S4 cleanup ratchets them).
+# are warnings, and their count may only go down: --max-warnings is the
+# ceiling, lowered whenever a cleanup removes warnings).
 #
 # The generated-data locks (LOCK A/B) are NOT run here: tools/preprocess.mjs
 # may fetch community data sources over the network, so the locks stay a
@@ -27,4 +28,4 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run sweep
-      - run: npm run lint
+      - run: npm run lint -- --max-warnings 1588

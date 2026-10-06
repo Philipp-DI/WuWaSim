@@ -62,16 +62,35 @@ export function checksForEdit(relPath) {
     return checks;
 }
 
-/** `git status --porcelain=v1 -z -uall` → [{ status, path }]; a rename keeps its new path. */
+/**
+ * `git status --porcelain=v1 -z -uall` → [{ status, path, from? }]. A rename or
+ * copy keeps its new path and records the original as `from` (git prints it next).
+ */
 export function parsePorcelain(output) {
     const tokens = output.split('\0').filter(Boolean);
     const entries = [];
     for (let i = 0; i < tokens.length; i++) {
-        const status = tokens[i].slice(0, 2);
-        entries.push({ status, path: tokens[i].slice(3) });
-        if (status[0] === 'R' || status[0] === 'C') i++; // the next token is the original path
+        const entry = { status: tokens[i].slice(0, 2), path: tokens[i].slice(3) };
+        if (entry.status[0] === 'R' || entry.status[0] === 'C') entry.from = tokens[++i];
+        entries.push(entry);
     }
     return entries;
+}
+
+/**
+ * The warnings in `after` that `before` doesn't account for. Matched by rule and
+ * message, because line numbers shift when code moves; when identical warnings
+ * exist, the later ones are reported.
+ */
+export function addedWarnings(before, after) {
+    const keyOf = (warning) => `${warning.ruleId}\0${warning.message}`;
+    const budget = new Map();
+    for (const warning of before) budget.set(keyOf(warning), (budget.get(keyOf(warning)) ?? 0) + 1);
+    return after.filter(warning => {
+        const remaining = budget.get(keyOf(warning)) ?? 0;
+        budget.set(keyOf(warning), remaining - 1);
+        return remaining <= 0;
+    });
 }
 
 /** Changes that need the stop gate: everything outside docs/. */
@@ -146,9 +165,45 @@ export function runNode(projectDir, args, timeoutMs) {
 const eslintBin = (projectDir) => join(projectDir, 'node_modules', 'eslint', 'bin', 'eslint.js');
 export const hasEslint = (projectDir) => existsSync(eslintBin(projectDir));
 
-/** ESLint errors in `relPaths`, or null. Warnings belong to the S3/S4 ratchet, not to the hooks. */
+/** ESLint errors in `relPaths`, or null. Warnings are ratcheted separately (addedLintWarnings). */
 export function lintErrors(projectDir, relPaths) {
     if (relPaths.length === 0 || !hasEslint(projectDir)) return null;
     const run = runNode(projectDir, [eslintBin(projectDir), '--quiet', '--no-warn-ignored', ...relPaths], 120000);
     return run.ok ? null : capReport(run.output.trim());
+}
+
+/** ESLint's JSON report: one { filePath, warnings } per linted file. Throws if ESLint printed no JSON. */
+function eslintWarnings(projectDir, args, input) {
+    const run = spawnSync(process.execPath, [eslintBin(projectDir), '--format', 'json', '--no-warn-ignored', ...args], {
+        cwd: projectDir, encoding: 'utf8', input, timeout: 120000, maxBuffer: 64 * 1024 * 1024,
+    });
+    return JSON.parse(run.stdout || '[]').map(result => ({
+        filePath: result.filePath,
+        warnings: result.messages.filter(message => message.severity === 1),
+    }));
+}
+
+function committedText(projectDir, relPath) {
+    const run = spawnSync('git', ['show', `HEAD:${relPath}`], { cwd: projectDir, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    return run.status === 0 ? run.stdout : null;
+}
+
+/**
+ * Lint warnings each changed script adds over its committed version (a new
+ * file starts from zero), as report lines, or null. The warning count may only
+ * go down: this is the ratchet the S3/S4 cleanup describes, made mechanical.
+ */
+export function addedLintWarnings(projectDir, entries) {
+    if (entries.length === 0 || !hasEslint(projectDir)) return null;
+    const current = new Map(eslintWarnings(projectDir, entries.map(entry => entry.path))
+        .map(result => [toProjectPath(result.filePath, projectDir), result.warnings]));
+    const lines = [];
+    for (const entry of entries) {
+        const committed = committedText(projectDir, entry.from ?? entry.path);
+        const before = committed === null ? [] : (eslintWarnings(projectDir, ['--stdin', '--stdin-filename', entry.path], committed)[0]?.warnings ?? []);
+        for (const warning of addedWarnings(before, current.get(entry.path) ?? [])) {
+            lines.push(`${entry.path}:${warning.line}:${warning.column}  ${warning.message}  (${warning.ruleId})`);
+        }
+    }
+    return lines.length === 0 ? null : capReport(lines.join('\n'));
 }

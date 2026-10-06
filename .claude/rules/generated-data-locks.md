@@ -12,8 +12,6 @@ paths:
 
 # Generated-data locks (LOCK A / LOCK B)
 
-Moved verbatim from `CLAUDE.md` (TEST COMMANDS) on 2026-10-05.
-
 Generated-data locks for refactors (must show effectively zero diff when the
 change is meant to be behavior-preserving):
 

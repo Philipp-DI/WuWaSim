@@ -9,7 +9,7 @@
  */
 
 import {
-    MAX_REPORT_CHARS, capReport, checksForEdit, decideOnRed, endsWithQuestion, failingTestsHeadline,
+    MAX_REPORT_CHARS, addedWarnings, capReport, checksForEdit, decideOnRed, endsWithQuestion, failingTestsHeadline,
     isStrict, needsGate, nextBlockCount, parsePorcelain, summarizeTestFailure, toProjectPath,
 } from '../tools/hooks/hook-lib.mjs';
 
@@ -46,6 +46,7 @@ const same = (actual, expected) => JSON.stringify(actual) === JSON.stringify(exp
 {
     const entries = parsePorcelain(' M src/core/sim.js\0R  tools/new.mjs\0tools/old.mjs\0?? docs/history/note.md\0 D tests/gone.test.mjs\0');
     assert('four entries, and a rename keeps its new path', entries.length === 4 && entries[1].path === 'tools/new.mjs');
+    assert('a rename records its original path', entries[1].from === 'tools/old.mjs' && entries[0].from === undefined);
     assert('untracked file keeps its status', entries[2].status === '??' && entries[2].path === 'docs/history/note.md');
     const gated = needsGate(entries);
     assert('docs/ changes alone never need the gate', gated.length === 3 && gated.every(entry => !entry.path.startsWith('docs/')));
@@ -96,6 +97,16 @@ const same = (actual, expected) => JSON.stringify(actual) === JSON.stringify(exp
 {
     assert('names the failing files', failingTestsHeadline('FAIL a.test.mjs\n\n84/86 test files passed\nFailed: a.test.mjs, b.test.mjs\n') === 'failing tests: a.test.mjs, b.test.mjs');
     assert('falls back when the runner crashed', failingTestsHeadline('Error: boom') === 'the test suite failed');
+}
+
+// ── addedWarnings: the lint ratchet ──
+{
+    const shortName = (line) => ({ ruleId: 'id-length', message: "Identifier name 'r' is too short (< 3)", line, column: 1 });
+    const before = [shortName(34), shortName(40)];
+    assert('two more of an existing kind are new, and the later ones are named', same(addedWarnings(before, [...before, shortName(139), shortName(140)]).map(warning => warning.line), [139, 140]));
+    assert('moved code adds nothing', addedWarnings(before, before.map(warning => ({ ...warning, line: warning.line + 5 }))).length === 0);
+    assert('a fixed warning adds nothing', addedWarnings(before, before.slice(1)).length === 0);
+    assert('a new file starts from zero', addedWarnings([], [{ ruleId: 'complexity', message: 'too complex', line: 3, column: 1 }]).length === 1);
 }
 
 console.log(`\nhooks: ${passed} passed, ${failed} failed`);

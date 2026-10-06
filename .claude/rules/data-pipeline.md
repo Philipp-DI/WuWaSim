@@ -11,7 +11,6 @@ paths:
 
 # Data pipeline
 
-Moved verbatim from `CLAUDE.md` (PROJECT ORIENTATION) on 2026-10-05.
 
 ```text
 data/extracted-nanoka/characters/*.json   ← source (62 files → 58 resonators, schema v9)
