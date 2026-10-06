@@ -24,12 +24,14 @@ this game. **Never guess a fact this file supplies.**
 curated `offFieldActions`. The audit harness applies it; anything you write
 must too.
 
-### Curated inputs (hand-edit OK)
+### Hand-edited inputs
 
-`reference-rotations.json` · `effect-overrides.json` · `buff-facts.json` ·
-`extra-effects.json` · `gauge-income.json` · `benchmark-reference.json` ·
-`status-damage.json` · `status-appliers.json` · `hit-map.json` ·
-`bullet-timings.json` · `timing-data.json`
+`reference-rotations.json` · `effect-overrides.json` · `patch.json` are the only
+hand-edited files (see `.claude/rules/data-pipeline.md`).
+`benchmark-reference.json` holds captured external measurements, written by
+`tools/benchmark-gap.mjs`. Everything else under `data/` is extractor or
+preprocess output: change its source and regenerate. `timing-data.json` and
+`bullet-timings.json` are gitignored.
 
 ### Engine
 
@@ -244,8 +246,11 @@ Correct solo, silently wrong in a team. Check each explicitly.
 - **Team totals come from `memberTotals`**, not from summing segments.
 - **Per-pass figures are MARGINALS** (N-pass minus (N−1)-pass) so the post-hoc
   status lane is attributed rather than dropped.
-- **Targets:** app team page `{ level: 90, atkLv: 90, resistances: {0:0, 1..6:0.1} }`;
-  offline optimizer `{ level: 90, atkLv: 90, resistances: {} }`. Say which you used.
+- **Targets:** every UI surface and the optimizer sim against `DEFAULT_TARGET`
+  (`src/core/target.js`). `tools/benchmark-gap.mjs` defaults to
+  `TARGET_REFERENCE`, the external reference's own stated conditions;
+  `--app-target` and `--zero-res` switch to the app target or the retired
+  0%-RES dummy. Say which you used.
 - `__echo__` deals 0 in 0 time without `--real-echoes` — by design.
 - Build quality is a real axis: real echoes and co-optimized substats moved the
   captured benchmark by a large fraction of its whole gap. A gap measured on
@@ -280,7 +285,8 @@ Correct solo, silently wrong in a team. Check each explicitly.
   should acknowledge its source.
 - **Underivable = 1 stack, and say so.** Never fall back to `maxStacks`.
 - **A correct zero must be shown with a reason**, never silently filtered.
-- **Enemy abilities always hit** — no miss/range/accuracy model. "on hit" /
+- **Resonator abilities always hit** — no miss/range/accuracy model, and enemy
+  attacks are not modelled (`CLAUDE.md`, "Abilities always hit"). "on hit" /
   "nearby" are firing conditions that are always satisfied.
 - **Rover is FEMALE** (`FemaleM/*Nvzhu`) throughout.
 - Verification: `npm test` · `npm run sweep` · `npm run lint` (0 errors), then

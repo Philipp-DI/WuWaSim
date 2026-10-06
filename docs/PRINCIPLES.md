@@ -6,6 +6,10 @@ the incidents behind them. Moved verbatim from Claude Code's local auto memory o
 text, "I" is Claude and "the maintainer"/"the user" is Phil. `[[name]]` links
 point to retired memory notes; that history lives in `docs/HISTORY.md`.
 
+Where this file and `CLAUDE.md` disagree, `CLAUDE.md` is current. For example,
+verifiers are now read-only agents, and the main session runs any check that
+changes the tree.
+
 ## Project north star
 
 The overarching goal for ALL WuWaSim work, stated by the maintainer 2026-07-31:

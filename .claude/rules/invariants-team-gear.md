@@ -10,9 +10,8 @@ paths:
 
 # Invariants — Team buffs, external buffs, echoes, sonatas, weapons
 
-Moved verbatim from `CLAUDE.md` on 2026-10-05 (see its INSTRUCTION FILES section).
 Breaking any one silently corrupts sim output. Code comments cite these as
-`CLAUDE.md, "<title>"`; the titles are unchanged.
+`CLAUDE.md, "<title>"`, so keep the titles stable.
 
 Before touching any buff source, read THE BUFF-PATH MANIFEST in `src/core/buffs.js`
 (three disjoint team-wide lanes and their entry functions); a new source picks

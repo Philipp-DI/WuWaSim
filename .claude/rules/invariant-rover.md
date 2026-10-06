@@ -7,9 +7,8 @@ paths:
 
 # Invariants — Rover gender identity in the timing and skill joins
 
-Moved verbatim from `CLAUDE.md` on 2026-10-05 (see its INSTRUCTION FILES section).
 Breaking any one silently corrupts sim output. Code comments cite these as
-`CLAUDE.md, "<title>"`; the titles are unchanged.
+`CLAUDE.md, "<title>"`, so keep the titles stable.
 
 | Invariant | Detail |
 | --- | --- |
