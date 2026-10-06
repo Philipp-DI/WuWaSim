@@ -15,7 +15,11 @@
  *      (`CLAUDE.md, "<title>"`) stops resolving to exactly one invariant;
  *   5. an agent or skill file Claude Code would skip without a word (missing
  *      name/description, unknown model or effort), or a skill pointing at one
- *      of its own files that doesn't exist.
+ *      of its own files that doesn't exist;
+ *   6. history creeping back into instruction files (struck-through text,
+ *      rows that grow into incident logs), or a `History:` pointer that leads
+ *      nowhere. Instruction files state current truth; history lives in
+ *      docs/history/rules/.
  */
 
 import { readFileSync, readdirSync } from 'fs';
@@ -208,6 +212,74 @@ const skillFiles = files.filter(file => /^\.claude\/skills\/[^/]+\/SKILL\.md$/.t
             assert(`${file}: its reference ${ref} exists`, files.includes(`${folder}/${ref}`));
         }
     }
+}
+
+// ── 6. Instruction files state current truth; history lives in docs/history/rules/ ──
+// Work queues for the condensation pass (decided 2026-10-06). Remove an entry
+// once its file or row states current truth only. An entry that is already
+// done fails, so the queues can't go stale.
+const PENDING_STRIKETHROUGH = new Set([
+    '.claude/rules/data-pipeline.md',
+    '.claude/rules/invariant-rover.md',
+    '.claude/rules/invariants-damage.md',
+    '.claude/rules/invariants-optimizer.md',
+    '.claude/rules/invariants-resources.md',
+]);
+const MAX_ROW_CHARS = 1500;
+const PENDING_LONG_ROWS = new Set([
+    'Rover is FEMALE by IDENTITY, not by path',
+    'A scoped AMPLIFY has a per-hit home, and a CAP branch is not a grant',
+    'A SCOPED crit value is not a build stat, and a scope it cannot honour is REFUSED',
+    'A kit\'s OWN DEF ignore is an EFFECT, and unscoped it is inflation',
+    'A clause that NAMES its skills is scoped by the NAMES',
+    'The game states a DMG increase THREE ways, and the third was unread',
+    'A NEGATIVE STATUS\'S OWN DAMAGE is not the wielder\'s, and reading it as such INFLATES',
+    '`SkillGenre` is a THIRD enum, and its ordinals are not the damage type\'s',
+    'A gauge does not necessarily START empty, and a chain node moves start and cap TOGETHER',
+    'A gauge tick is a CLOCK, and the gate withholds the EFFECT not the CLOCK',
+    'A missing STATE is not one missing clause, and an aggregate is not a cause',
+    'A stack whose applications are RATE-LIMITED belongs on the TARGET, and the limit is per SOURCE SKILL',
+    'A tier\'s SECOND grant needs its own group key',
+]);
+const HISTORY_POINTER = /History: `(docs\/history\/rules\/[\w.-]+\.md)`/;
+
+function invariantRows(text) {
+    const rows = [];
+    let inTable = false;
+    for (const row of text.split(/\r?\n/)) {
+        if (row === '| Invariant | Detail |') { inTable = true; continue; }
+        if (!inTable || row === '| --- | --- |') continue;
+        if (!row.startsWith('| ')) { inTable = false; continue; }
+        rows.push({ title: row.slice(2).split(' | ')[0].trim(), row });
+    }
+    return rows;
+}
+
+{
+    const instructionFiles = files.filter(file => file === 'CLAUDE.md' || /^\.claude\/(rules|agents|skills)\/.+\.md$/.test(file));
+    for (const file of instructionFiles) {
+        const struck = read(file).includes('~~');
+        if (PENDING_STRIKETHROUGH.has(file)) assert(`${file} has no struck text left: remove it from PENDING_STRIKETHROUGH`, struck);
+        else assert(`${file}: no struck-through text (instruction files state current truth; move it to docs/history/rules/)`, !struck);
+    }
+    for (const file of PENDING_STRIKETHROUGH) assert(`PENDING_STRIKETHROUGH entry ${file} exists`, files.includes(file));
+}
+
+{
+    const seenTitles = new Set();
+    for (const file of ['CLAUDE.md', ...ruleFiles.map(name => `${RULES_DIR}/${name}`)]) {
+        for (const { title, row } of invariantRows(read(file))) {
+            seenTitles.add(title);
+            if (PENDING_LONG_ROWS.has(title)) assert(`"${title}" is condensed: remove it from PENDING_LONG_ROWS`, row.length > MAX_ROW_CHARS);
+            else assert(`${file}: "${title}" is at most ${MAX_ROW_CHARS} characters (it is ${row.length}); move its history to docs/history/rules/`, row.length <= MAX_ROW_CHARS);
+            const pointer = row.match(HISTORY_POINTER);
+            if (!pointer) continue;
+            const exists = files.includes(pointer[1]);
+            assert(`${file}: "${title}" points to ${pointer[1]}, which exists`, exists);
+            assert(`${pointer[1]} has a "## ${title}" section`, exists && read(pointer[1]).split(/\r?\n/).includes(`## ${title}`));
+        }
+    }
+    for (const title of PENDING_LONG_ROWS) assert(`PENDING_LONG_ROWS entry "${title}" exists`, seenTitles.has(title));
 }
 
 console.log(`\ninstruction-files: ${passed} passed, ${failed} failed`);
