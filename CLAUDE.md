@@ -25,7 +25,7 @@ modular, and descriptive. Adhere to KISS-principle (Keep It Stupid & Simple).
 **Flow:** Keep it interactive where necessary — don't assume; ask for
 confirmation/validation.
 
-**Efficiency:** Be concise in chat output without diminishing product quality. Token-efficiency trumps quick results. When spawning sub-agents, for complex tasks ask user which model to use, but generally use smaller models such as "Sonnet on Medium" to conserve token usage.
+**Efficiency:** Be concise in chat output without diminishing product quality. Token-efficiency trumps quick results. Delegate verification and data lookups to the project subagents (`verifier`, `data-scout` in `.claude/agents/`); their models are fixed there.
 
 ---
 
@@ -55,7 +55,7 @@ Standing goal (maintainer, 2026-07-31): mirror in-game behaviour (self-consisten
 - **Contradictions are findings.** When the data contradicts an instruction, the maintainer's included, report the measurement and ask; never execute it quietly, refuse it, or split the difference. Data plus maintainer confirmation is settled: record it (invariant, test or `source` note) so it is not re-derived. With neither, say the number is unknown.
 - **Inferred is not verified.** An undocumented field's meaning is a hypothesis until checked (several examples, structural evidence, in-game test); label it "hypothesis, unverified" in code and docs until then. Asked how something works, trace the running code through a concrete example; don't restate the docstring.
 - **No silent zeros.** Show a legitimate zero or "can't compute yet" with its measured reason: core returns a reason code, the UI words it. Never swallow an exception into an empty state; when a value can't be computed, fall back to a measure that always exists and label it.
-- **Verified means independently derived.** Before an investigative finding is marked done, at least two independent subagents DERIVE it, one from a different source (code, data or prose). Each gets the claim and the method and answers CONFIRMED / PARTIALLY CONFIRMED / REFUTED with `file:line` evidence. Record disagreements; verifiers list every working-tree change they made and confirm the restore.
+- **Verified means independently derived.** Before an investigative finding is marked done, at least two independent `verifier` subagents DERIVE it, one from a different source (code, data or prose). Each gets the claim and the method and answers CONFIRMED / PARTIALLY CONFIRMED / REFUTED with `file:line` evidence. Record disagreements; verifiers list every working-tree change they made and confirm the restore.
 
 ---
 

@@ -12,7 +12,10 @@
  *   3. CLAUDE.md regrows (it was split once on 2026-07-17 and was 107 KB again
  *      by 2026-10-05);
  *   4. invariant titles collide, or a title quoted in a code comment
- *      (`CLAUDE.md, "<title>"`) stops resolving to exactly one invariant.
+ *      (`CLAUDE.md, "<title>"`) stops resolving to exactly one invariant;
+ *   5. an agent or skill file Claude Code would skip without a word (missing
+ *      name/description, unknown model or effort), or a skill pointing at one
+ *      of its own files that doesn't exist.
  */
 
 import { readFileSync, readdirSync } from 'fs';
@@ -160,6 +163,51 @@ const CITATION = /CLAUDE\.md[^"“\n]{0,40}?\\?["“]((?:[^"”\\]|\\(?!["”]))
         }
     }
     assert('at least one quoted invariant citation was found (the scanner still works)', citations > 0);
+}
+
+// ── 5. Agents and skills load, and skills' own references resolve ───────────
+const MODELS = new Set(['sonnet', 'opus', 'haiku', 'fable', 'inherit']);
+const EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
+
+/** Top-level `key: value` pairs of a frontmatter that starts on line 1, or null. */
+function frontmatterOf(text) {
+    const lines = text.split(/\r?\n/);
+    if (lines[0] !== '---') return null;
+    const end = lines.indexOf('---', 1);
+    if (end < 0) return null;
+    const fields = {};
+    for (const line of lines.slice(1, end)) {
+        const field = line.match(/^([A-Za-z][\w-]*):\s*(.*)$/);
+        if (field) fields[field[1]] = field[2].replace(/^["']|["']$/g, '').trim();
+    }
+    return fields;
+}
+
+const agentFiles = files.filter(file => /^\.claude\/agents\/.+\.md$/.test(file));
+{
+    const names = new Set();
+    for (const file of agentFiles) {
+        const fields = frontmatterOf(read(file)) ?? {};
+        assert(`${file}: has name and description (Claude Code skips it silently otherwise)`, Boolean(fields.name && fields.description));
+        assert(`${file}: name has no ':' and doesn't start with '-'`, !/:|^-/.test(fields.name ?? ''));
+        assert(`${file}: model "${fields.model}" is an alias, a claude-* id or absent`, !fields.model || MODELS.has(fields.model) || /^claude-[\w.-]+$/.test(fields.model));
+        assert(`${file}: effort "${fields.effort}" is a known level or absent`, !fields.effort || EFFORTS.has(fields.effort));
+        assert(`${file}: agent name "${fields.name}" is unique`, !names.has(fields.name));
+        names.add(fields.name);
+    }
+}
+
+const skillFiles = files.filter(file => /^\.claude\/skills\/[^/]+\/SKILL\.md$/.test(file));
+{
+    for (const file of skillFiles) {
+        const folder = file.slice(0, -'/SKILL.md'.length);
+        const fields = frontmatterOf(read(file)) ?? {};
+        assert(`${file}: has name and description`, Boolean(fields.name && fields.description));
+        assert(`${file}: name matches its folder`, fields.name === folder.split('/').pop());
+        for (const [, ref] of read(file).matchAll(/(?:^|[\s`(])((?:references|scripts|assets)\/[\w.-]+\.\w+)/g)) {
+            assert(`${file}: its reference ${ref} exists`, files.includes(`${folder}/${ref}`));
+        }
+    }
 }
 
 console.log(`\ninstruction-files: ${passed} passed, ${failed} failed`);

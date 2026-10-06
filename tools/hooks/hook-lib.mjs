@@ -47,7 +47,11 @@ export function toProjectPath(filePath, projectDir) {
 }
 
 export const isScript = (relPath) => /\.m?js$/.test(relPath);
-export const isInstructionFile = (relPath) => relPath === 'CLAUDE.md' || /^\.claude\/rules\/[^/]+\.md$/.test(relPath);
+/** Files Claude Code reads as instructions: CLAUDE.md, rules, agents, skill definitions. */
+export const isInstructionFile = (relPath) => relPath === 'CLAUDE.md'
+    || /^\.claude\/rules\/[^/]+\.md$/.test(relPath)
+    || /^\.claude\/agents\/.+\.md$/.test(relPath)
+    || /^\.claude\/skills\/[^/]+\/SKILL\.md$/.test(relPath);
 
 /** Which fast checks an edit to `relPath` needs. */
 export function checksForEdit(relPath) {

@@ -5,12 +5,16 @@ Mainstats.md
 .venv
 repomix-state.*
 templates/
-# Claude Code: shared config is committed one part at a time (rules/ and
-# settings.json so far); everything else under .claude/ stays local
-# (settings.local.json, skills, worktrees, the stop-gate cache).
+# Claude Code: shared config is committed (rules/, settings.json, agents/,
+# skills/); everything else under .claude/ stays local (settings.local.json,
+# worktrees, the stop-gate cache). A packaged .skill archive is a build copy
+# of a skill folder, not a source.
 .claude/*
 !.claude/rules/
 !.claude/settings.json
+!.claude/agents/
+!.claude/skills/
+.claude/skills/**/*.skill
 palette_*
 
 # Local-only material (personal notes, art, pasted references) — never tracked
