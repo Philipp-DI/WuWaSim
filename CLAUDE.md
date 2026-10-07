@@ -183,6 +183,7 @@ Prefer built-in tools (Grep, Glob, Read, …) over manual workflows.
 When asked to commit (never push automatically; pushing is a separate,
 explicit instruction):
 
+0. Trunk-based: commit on the current branch, `main` included. Branch only when asked, or for a substantial feature, rework or new topic (maintainer, 2026-10-07).
 1. Full verification suite first (exception: full verification already ran last prompt) — never commit a broken state.
 2. `git add -A`
 3. Message structure: `[Phase/scope]: [imperative subject]`, a 2–3 sentence

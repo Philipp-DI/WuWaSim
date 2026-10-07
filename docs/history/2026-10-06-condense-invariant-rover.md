@@ -75,3 +75,11 @@ Contradictions found and settled with the maintainer:
 - `map-timings.mjs:62`'s "separate bullet id blocks" overstates: only Havoc has distinct blocks. It was left untouched, being out of scope.
 
 **[Updated Docs]** As listed above.
+
+## Follow-up 2026-10-07 — trunk-based commits
+
+**[Files Changed]** `CLAUDE.md` (COMMIT CONVENTIONS): new step 0, trunk-based. Commit on the current branch, `main` included. Branch only when asked, or for a substantial feature, rework or new topic (maintainer, 2026-10-07). This overrides the default "branch first when on the default branch". The trigger was that `41b084e` landed on `main`; the maintainer kept it there.
+**[Logic Altered]** None.
+**[Verification Method]** `npm test`.
+**[Residual Risks]** None.
+**[Updated Docs]** As above.
