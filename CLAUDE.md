@@ -114,7 +114,7 @@ area-specific ones live in `.claude/rules/` (see INSTRUCTION FILES below).
 
 ## INSTRUCTION FILES
 
-Area rules live in `.claude/rules/` and load when you Read, Edit or Write a matching file; when planning an area without opening its files, read its rules file first. Code comments cite invariants as `CLAUDE.md, "<title>"`: grep the title in this file and in `.claude/rules/`. New area-specific rules go there too; `tests/instruction-files.test.mjs` keeps this file at or under 200 lines and 15 KB.
+Area rules live in `.claude/rules/` and load when you Read, Edit or Write a matching file; when planning an area without opening its files, read its rules file first. Code comments cite invariants as `CLAUDE.md, "<title>"`: grep the title in this file and in `.claude/rules/`. Rules state current truth; a rule's history lives in `docs/history/rules/`, behind its `History:` pointer. New area-specific rules go there too; `tests/instruction-files.test.mjs` keeps this file at or under 200 lines and 15 KB.
 
 | Rules file | Covers |
 | --- | --- |
@@ -171,11 +171,7 @@ behavior-preserving refactors: see `.claude/rules/generated-data-locks.md`.
 
 ## SUMMARY STANDARDS
 
-Every session summary includes: **[Files Changed]**, **[Logic Altered]**,
-**[Verification Method]**, **[Residual Risks]** ("none" only if truly none),
-**[Updated Docs]** — update docs to match reality, preserving history
-(strikethrough, not deletion). Write the summary to a new file
-`docs/history/YYYY-MM-DD-<topic>.md`; never append to `docs/HISTORY.md`.
+Every session summary includes: **[Files Changed]**, **[Logic Altered]**, **[Verification Method]**, **[Residual Risks]** ("none" only if truly none), **[Updated Docs]** — update docs to match reality, preserving history. Ordinary docs use strikethrough. Instruction files (`CLAUDE.md`, `.claude/`) state current truth only: rewrite the rule, move the superseded text, measurements and narrative verbatim into `docs/history/rules/<file>.md` (one `## <title>` section per rule), and leave a `History:` pointer in the rule. Write the summary to a new file `docs/history/YYYY-MM-DD-<topic>.md`; never append to `docs/HISTORY.md`.
 
 ## TOOLS
 
