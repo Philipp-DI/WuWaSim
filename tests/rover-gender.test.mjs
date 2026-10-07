@@ -1,5 +1,5 @@
 /**
- * Rover is FEMALE, and nothing else is forced to be.
+ * Rover's timings come from the pinned FEMALE build, and nothing else is forced to be.
  *
  *   node tests/rover-gender.test.mjs
  *

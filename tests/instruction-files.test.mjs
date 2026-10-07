@@ -220,14 +220,12 @@ const skillFiles = files.filter(file => /^\.claude\/skills\/[^/]+\/SKILL\.md$/.t
 // done fails, so the queues can't go stale.
 const PENDING_STRIKETHROUGH = new Set([
     '.claude/rules/data-pipeline.md',
-    '.claude/rules/invariant-rover.md',
     '.claude/rules/invariants-damage.md',
     '.claude/rules/invariants-optimizer.md',
     '.claude/rules/invariants-resources.md',
 ]);
 const MAX_ROW_CHARS = 1500;
 const PENDING_LONG_ROWS = new Set([
-    'Rover is FEMALE by IDENTITY, not by path',
     'A scoped AMPLIFY has a per-hit home, and a CAP branch is not a grant',
     'A SCOPED crit value is not a build stat, and a scope it cannot honour is REFUSED',
     'A kit\'s OWN DEF ignore is an EFFECT, and unscoped it is inflation',

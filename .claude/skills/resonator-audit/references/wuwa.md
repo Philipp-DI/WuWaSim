@@ -288,7 +288,7 @@ Correct solo, silently wrong in a team. Check each explicitly.
 - **Resonator abilities always hit** — no miss/range/accuracy model, and enemy
   attacks are not modelled (`CLAUDE.md`, "Abilities always hit"). "on hit" /
   "nearby" are firing conditions that are always satisfied.
-- **Rover is FEMALE** (`FemaleM/*Nvzhu`) throughout.
+- **Rover timings come from the pinned female build** (`FemaleM/*Nvzhu`); see `.claude/rules/invariant-rover.md`.
 - Verification: `npm test` · `npm run sweep` · `npm run lint` (0 errors), then
   LOCK A (`npm run data`) and LOCK B (`npm run meta`) compared field-by-field
   against a pre-run snapshot — only `generatedAt` may differ for a

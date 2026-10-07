@@ -121,12 +121,13 @@ const rosterIds = Object.values(dataset.resonators).map(resonator => String(reso
  * rows against 29/15/21 for the other three Rovers, and her `基础普攻1..4`,
  * `蓄力1` and Liberation rows all refused as "no key owns this row's ids".
  *
- * ~~A remap here would double-count rather than recover data.~~ That is true of
- * `gauge-income.json`, whose male and female rows are a pure mirror (identical
- * `buffId` included), and FALSE of the id space — which is what item 38 named.
+ * `gauge-income.json`'s male and female CAST rows match for all four pairs
+ * (identical `buffId` included); only Spectro's trigger rows differ (0 under
+ * 1501, 6 under 1502). Spectro's id space is no mirror — what item 38 named.
  * The prefix must be UNANIMOUS across the key's ids; a mixed set means the
  * assumption does not hold and the dataset rid is kept, because a partial remap
- * would join half a resonator against a stranger's rows.
+ * would join half a resonator against a stranger's rows. The prefix must also
+ * own timing rows, or the dataset rid is kept.
  */
 function rowSourceRidOf(rid) {
     const prefixes = new Set(Object.values(hitMap[rid] ?? {}).flat().map(id => String(id).slice(0, 4)));
@@ -163,13 +164,13 @@ function rowKeysByDamageId(rid, sourceRid = rid) {
 // it restores the match without loosening anything.~~ WRONG, caught by a
 // follow-up audit (2026-09-21): `genderMirroredFrom` is stamped only when
 // `toFemaleRover` performs the male->female SUBSTITUTION itself.
-// `heavy_heavy_attack` resolves to its female asset directly through route 1's
-// bullet chain (no substitution ever runs — the raw bullet source was already
-// female), so it carries no stamp and its male-named alias is nowhere in this
+// `heavy_heavy_attack`'s bullets list the raw female `AM_W_Attack10` before the
+// male `AM_Attack10`, so `bulletChainEntry` keeps the unstamped female copy and
+// drops the substituted, stamped one; its male-named alias is nowhere in this
 // index. `1406009`/`1406101` (and `1406203`, same cause) therefore STILL
-// refuse today. See CLAUDE.md's Rover invariant and OPEN-ITEMS 38 for the
-// current, corrected state; fixing this needs indexing the male-name mirror
-// unconditionally, not just where a stamp happens to exist.
+// refuse today. See OPEN-ITEMS 38 for the current, corrected state; fixing
+// this needs indexing the male-name mirror unconditionally, not just where a
+// stamp happens to exist.
 function keysByMontage(rid) {
     const index = {};
     for (const [key, record] of Object.entries(actionableTimes[rid] ?? {})) {

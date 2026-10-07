@@ -175,7 +175,7 @@
         "DT_SkillInfo lives at <CharacterDir>/Data/DT_SkillInfo.uasset (+ .uexp). Both halves are required -- the readers strip and re-append the extension.",
         "Animations live at <CharacterDir>/CommonAnim/*.uasset (+ .uexp).",
         "data/timing-data.json records each covered resonator's own source_table path, so the <BodyType>/<CharacterDir> for an EXISTING resonator can be read straight out of the repo. A brand-new resonator is not in there yet -- find their directory by name under Content/Aki/Character/Role/.",
-        "Rover is FEMALE only in this project: FemaleM/*Nvzhu, never MaleM/*Nanzhu. Both ship separate bullet-id blocks applying the SAME damage ids."
+        "Rover's timings come from the pinned FEMALE build in this project: FemaleM/*Nvzhu over MaleM/*Nanzhu (see .claude/rules/invariant-rover.md). As of now, only the Havoc version ships a separate bullet-id block applying the SAME damage ids."
       ]
     }
   },

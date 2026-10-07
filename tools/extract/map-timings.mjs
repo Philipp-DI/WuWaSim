@@ -59,7 +59,7 @@ const NON_COMBAT_MONTAGE = /rogue|rouge|photos|mainline|maintask|towerdefense|pe
 const overrides = JSON.parse(readFileSync(resolve(DATA_DIR, 'timing-overrides.json'), 'utf8'));
 
 // Rover ships a male and a female build of every element (MaleM/*Nanzhu vs
-// FemaleM/*Nvzhu) with separate bullet id blocks that apply the SAME damage ids,
+// FemaleM/*Nvzhu) with separate bullet id blocks for the havoc version (as of 3.6, future versions may show similar behaviour) that apply the SAME damage ids,
 // so both genders' animations become candidates for one dataset key and the pick
 // was effectively arbitrary — 40 keys across all four elements had landed on the
 // male build. The two are meant to mirror each other and the dataset models one

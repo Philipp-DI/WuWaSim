@@ -2097,7 +2097,10 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
       comment has been corrected in place. `genderMirroredFrom` is stamped only
       when `toFemaleRover` performs the male->female substitution itself, but
       `heavy_heavy_attack` resolves to its female asset directly through route
-      1's bullet chain — no substitution ever runs, so no stamp exists — and
+      1's bullet chain — ~~no substitution ever runs, so no stamp exists~~ the
+      substitution runs, but its bullets list the raw female `AM_W_Attack10`
+      first and `bulletChainEntry` keeps that unstamped copy (corrected
+      2026-10-07) — and
       `timing-data.json` cites `1406203`'s animation by its MALE name, which is
       nowhere in the resulting montage index. Fixing it means indexing every
       Rover `sourceMontage`'s male-name mirror unconditionally, not only where a
@@ -2335,6 +2338,18 @@ Items 1, 25, 27, 28, 31, 2c and 2d were checked and needed nothing.
     numbers legitimately disagree whenever `step.buffed` is true, and the
     breakdown is the UNBUFFED one.
 
+
+42. **In-game capture: do male Rover animations differ in timing from female?**
+    Maintainer recalls male slightly faster; unmeasured. Timings are pinned to
+    the female build (maintainer call 2026-07-29; see the Rover invariant in
+    `.claude/rules/invariant-rover.md`), so if male is faster the pin is the
+    conservative choice. A capture settles whether the choice moves any number.
+43. **Backlog (do not implement yet): pin Rover dataset ids explicitly.**
+    `tools/preprocess.mjs` picks each Rover element's dataset id as a side
+    effect of its dedupe (sort by id, keep the first per name, so the lower id
+    wins: 1309/1406/1501 male, 1604 female). Saved presets and curated Rover
+    entries are keyed by that id with no migration path. Replace the dedupe
+    rule with an explicit pinned map of dataset ids per Rover element.
 
 ## Doc hygiene (minor, mostly already fixed)
 
