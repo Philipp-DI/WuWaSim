@@ -222,7 +222,6 @@ const PENDING_STRIKETHROUGH = new Set([
     '.claude/rules/data-pipeline.md',
     '.claude/rules/invariants-damage.md',
     '.claude/rules/invariants-optimizer.md',
-    '.claude/rules/invariants-resources.md',
 ]);
 const MAX_ROW_CHARS = 1500;
 const PENDING_LONG_ROWS = new Set([
@@ -233,9 +232,6 @@ const PENDING_LONG_ROWS = new Set([
     'The game states a DMG increase THREE ways, and the third was unread',
     'A NEGATIVE STATUS\'S OWN DAMAGE is not the wielder\'s, and reading it as such INFLATES',
     '`SkillGenre` is a THIRD enum, and its ordinals are not the damage type\'s',
-    'A gauge does not necessarily START empty, and a chain node moves start and cap TOGETHER',
-    'A gauge tick is a CLOCK, and the gate withholds the EFFECT not the CLOCK',
-    'A missing STATE is not one missing clause, and an aggregate is not a cause',
     'A stack whose applications are RATE-LIMITED belongs on the TARGET, and the limit is per SOURCE SKILL',
     'A tier\'s SECOND grant needs its own group key',
 ]);
