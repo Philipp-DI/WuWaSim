@@ -45,10 +45,24 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('curated team ranks first (curated flag wins the sort)', cands[0]?.curated === true);
 }
 
-// ── cap is respected ─────────────────────────────────────────────────────────
+// ── the cap never splits an affinity tie ─────────────────────────────────────
+// Candidates are cut BEFORE they are simulated, so a cut inside a tie is decided
+// by the text order of member ids. At 3.7 that dropped Ciaccona's best team
+// (Rover: Aero + Ciaccona + Hiyuki, 3.6's 1,587,448) from 30th to 31st when
+// Suoming added a candidate ahead of it: 70 of her 71 tie at affinity 1.
 {
-    const cands = generateCandidates(1108, { cap: 2 });
-    assert('candidate cap respected', cands.length <= 2);
+    const all = generateCandidates(1407, { cap: Infinity });
+    const cut = generateCandidates(1407, { cap: 30 });
+    const floor = all[29].affinity;
+    assert('the cut keeps at least the cap', cut.length >= 30);
+    assert('the cut keeps every candidate tied with the 30th',
+        cut.length === all.filter(candidate => candidate.curated || candidate.affinity >= floor).length);
+    assert('anything cut scores strictly below the kept floor',
+        all.slice(cut.length).every(candidate => !candidate.curated && candidate.affinity < floor));
+    assert('Ciaccona\'s Rover: Aero + Hiyuki team survives the cut',
+        cut.some(candidate => [...candidate.members].sort().join(',') === '1108,1406,1407'));
+    // A cap that lands on a strict drop still cuts exactly there.
+    assert('a cap on a strict drop cuts exactly', generateCandidates(1407, { cap: 1 }).length === 1);
 }
 
 // ── no two UNLINKED MAIN_DPS in a generated team ─────────────────────────────

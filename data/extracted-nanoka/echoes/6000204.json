@@ -76,6 +76,29 @@
           ]
         }
       }
+    },
+    "37": {
+      "id": 37,
+      "name": "Flash of Electric Reflection",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunderError.T_IconElementAttriThunderError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When the Resonator inflicts Electro Flare on enemies, they gain the following effects: Gain {0} Electro DMG Bonus for {1}s. While this effect is active, casting Outro Skill grants the incoming Resonator {2} Electro DMG Bonus for {3}s.",
+          "param": [
+            "10%",
+            "15",
+            "25%",
+            "15"
+          ]
+        }
+      }
     }
   },
   "rarity": [

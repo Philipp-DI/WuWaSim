@@ -2,12 +2,12 @@
   "_meta": {
     "source": "tools/extract/scan_bullet_timings.py + extract_timings.py — offline raw-asset parse (no FModel JSON export step)",
     "assetRoot": "docs-local/Role (user-provided, gitignored — not redistributed)",
-    "generatedAt": "2026-09-21T08:01:34.513Z",
+    "generatedAt": "2026-10-19T16:05:33.911Z",
     "join": "Two routes, in precedence order, both keyed on the hitMap[rid][skillKey] BinData damage id. route=\"bulletChain\": damage id -> the bullet(s) applying it (bullet table 伤害ID/多伤害ID, transitively through child bullets) -> the animation whose notify fires that bullet. Exact id identity at every hop, and it resolves to the ONE animation producing this exact damage instance. route=\"skillRow\": the older DT_SkillInfo join -- raw resonator id from the hit id's own leading 4 digits (not assumed equal to rid, see Rover), longest exact-prefix match against that resonator's row ids, then the row's merged montages. Coarser (distinct abilities often share one row, so they share one number), so it is only the fallback. sourceResonatorId is present on a skillRow entry only when it differs from the dataset's own rid.",
     "routeCounts": {
-      "bulletChain": 899,
-      "skillRow": 165,
-      "breakWeakness": 58
+      "bulletChain": 947,
+      "skillRow": 173,
+      "breakWeakness": 60
     },
     "stepDurationRule": "stepDuration is the montage-derived length of the step, and stepDurationRule NAMES the marker it came from: \"nextAtt\" (TsAnimNotifyStateNextAtt opening -- the only rung that is a measurement of when the player may act), then \"skillEnd\" (TsAnimNotifyEndSkill), \"idleReturn\" (TsAnimNotifyFightStand), and finally \"sequenceLength\", the montage's authored length INCLUDING the idle-return tail, which is not a duration at all and is only defensible for a phase montage that has no tail. The rule ships beside the number because the previous single name (actionableAt) made the weakest rung indistinguishable from the strongest. Negative raw offsets clamp to 0. Damage is NOT part of this: see damageAt / resolvesAt.",
     "freezeTimeNote": "The TsAnimNotifyStateTimeStopRequest window ONLY. The shipped client JavaScript names that notify \"instance timer and all combat units buffs + skill cooldowns freeze\" -- exactly the freeze the sim models. The other freeze notify, TsAnimNotifyStateAbsoluteTimeStop, is named \"animation and bullet freeze\": it holds the animation without stopping any clock, so it is EXCLUDED and reported separately as freezeAnimationTime. Supersedes the HARDCODED_FREEZE_FRACTIONS estimate in sim.js for entries present here.",
@@ -16,9 +16,9 @@
     "sequenceLengthNote": "sequenceLength is the montage's full authored length, generally NOT the skill's effective duration -- WuWa follows every action with an idle-return tail (the TsAnimNotifyFightStand notify marks where it starts) when nothing cancels it, so the gap between skillEndAt/stepDuration and sequenceLength is that return-to-idle animation, not a measurement error. Kept for provenance; reachable as a duration only via stepDurationRule=\"sequenceLength\", which says so.",
     "abilityFieldsNote": "staminaCost (positive STA; the source is negative and x100) and interruptLevel are DT_SkillInfo ROW properties, and one animation is regularly reached from several rows. Both are null unless every such row agrees -- Camellya ships every Form B basic as a ground row (0 STA) and an air row (5 STA) pointing at the SAME montage, confirmed in-game as free on the ground. chainStage is the game's own 普攻N tag. switchBehavior holds WINDOWS, not flags: 切人结束技能 (\"switching ends the skill\") and 不能切人 (\"cannot switch out\") are timed AddTag states. isLoop is convention-based (asset _Loop / row 循环) because the montage carries no loop signal at all -- it flags that the measured times are per-ITERATION and must not be read as the whole action.",
     "coverage": {
-      "totalSkillMapKeys": 1101,
-      "resolved": 1064,
-      "resolvedPct": 96.6
+      "totalSkillMapKeys": 1161,
+      "resolved": 1120,
+      "resolvedPct": 96.5
     },
     "resonatorsInDatasetNotInExtraction": []
   },
@@ -8430,7 +8430,7 @@
         "sourceBulletId": "1206010100",
         "sourceMontage": "MaleXL/Bulante/CommonAnim/AM_SwAttack01_Pre_Sec02.uasset",
         "montageCandidates": 1,
-        "needsStateModel": "airborne — Brant has a full mid-air rotation; whole family needs an in-air check",
+        "needsStateModel": "single montage candidate in the export (montageCandidates: 1) — no grounded counterpart to select between was found. Re-scoped 2026-09-21 (OPEN-ITEMS 22): the original note treated this whole family as a genuine ground-vs-air pick, the same shape as Zhezhi's Conjuration, but investigation found no live decision here — kept flagged only because the export having one candidate does not prove the game has none, not because a second candidate is known to be missing",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -8592,7 +8592,7 @@
         "sourceBulletId": "1206020101",
         "sourceMontage": "MaleXL/Bulante/CommonAnim/AM_SwAttack02_Pre_Sec02.uasset",
         "montageCandidates": 1,
-        "needsStateModel": "airborne — see midair_mid_air_attack_1",
+        "needsStateModel": "single montage candidate in the export — see midair_mid_air_attack_1",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -8766,7 +8766,7 @@
             "bulletName": "布兰特-空中-III-环形"
           }
         ],
-        "needsStateModel": "airborne — see midair_mid_air_attack_1",
+        "needsStateModel": "3 candidates in the export, but all are variants of the SAME airborne bullet (布兰特-空中-III-环形 = 'Brant - Midair - Stage III - Ring'), not a ground/air split — an ordinary multi-candidate pick (like the pinnedMontage entries below), not a state dependency. Two of the three share the currently-pinned 0.34s duration; the third measures 0.7205s and was not selected — re-scoped 2026-09-21, unchanged pending a closer look at that discrepancy",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -8866,7 +8866,7 @@
         "sourceBulletId": "1206006002",
         "sourceMontage": "MaleXL/Bulante/CommonAnim/AM_SwAttack_DS01_Start.uasset",
         "montageCandidates": 1,
-        "needsStateModel": "airborne — see midair_mid_air_attack_1",
+        "needsStateModel": "single montage candidate in the export — see midair_mid_air_attack_1",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -19582,7 +19582,7 @@
             "chosen": true
           }
         ],
-        "needsStateModel": "Huntress/Guts weapon mode — Rebecca switches freely between pistol (Huntress, her starting state) and shotgun (Guts); which intro fires is decided by the mode she swaps in with",
+        "needsStateModel": "Huntress/Guts weapon mode — Rebecca switches freely between pistol (Huntress, her starting state) and shotgun (Guts); which intro fires is decided by the mode she swaps in with. RE-SCOPED 2026-10-02: this is NOT a per-key variant question and never was — the mode decides which of her TWO Intro KEYS is cast (an introKeyFor question), while each key's own montage is already settled by its own pinnedMontage below (AM_QTE_S for this one, AM_QTE_M_Start01 for the Guts one). Kept flagged because the key CHOICE is still unmodelled for an auto-injected team Intro, not because the timing is ambiguous",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "curated"
@@ -20671,6 +20671,2273 @@
         "hitCount": 2,
         "sourceSkillId": "1309500",
         "sourceSkillName": "迅刃破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": true
+      }
+    },
+    "1311": {
+      "basic_answering_form_1": {
+        "stepDuration": 0.5007,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.5007,
+        "nextAttDuration": 0.9981,
+        "skillEndAt": 0.7,
+        "idleReturnAt": null,
+        "sequenceLength": 9.333333,
+        "hitTimes": [
+          0.2034,
+          0.2694
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.2034,
+          0.2694
+        ],
+        "resolvesAt": 0.2694,
+        "firstDamageAt": 0.2034,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311100101",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_answering_form_2": {
+        "stepDuration": 0.962,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.962,
+        "nextAttDuration": 0.6667,
+        "skillEndAt": 1.2169,
+        "idleReturnAt": null,
+        "sequenceLength": 11.566667,
+        "hitTimes": [
+          0.4,
+          0.52
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.4,
+          0.52
+        ],
+        "resolvesAt": 0.52,
+        "firstDamageAt": 0.4,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311100201",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02.uasset",
+        "montageCandidates": 4,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02.uasset",
+            "stepDuration": 0.962,
+            "nextAttAt": 0.962,
+            "nextAttDuration": 0.6667,
+            "skillEndAt": 1.2169,
+            "freezeTime": null,
+            "hitTimes": [
+              0.4,
+              0.52
+            ],
+            "bulletId": "1311100201",
+            "bulletName": "【伤害】普攻2_1扫尾",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_bianshen.uasset",
+            "stepDuration": 0.962,
+            "nextAttAt": 0.962,
+            "nextAttDuration": 0.6667,
+            "skillEndAt": 1.2169,
+            "freezeTime": null,
+            "hitTimes": [
+              0.4,
+              0.52
+            ],
+            "bulletId": "1311100201",
+            "bulletName": "【伤害】普攻2_1扫尾"
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_Child_QTE1.uasset",
+            "stepDuration": 0.962,
+            "nextAttAt": 0.962,
+            "nextAttDuration": 0.6667,
+            "skillEndAt": 1.2169,
+            "freezeTime": null,
+            "hitTimes": [
+              0.4,
+              0.52
+            ],
+            "bulletId": "1311100201",
+            "bulletName": "【伤害】普攻2_1扫尾"
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_Child_LimitDodge.uasset",
+            "stepDuration": 0.962,
+            "nextAttAt": 0.962,
+            "nextAttDuration": 0.6667,
+            "skillEndAt": 1.2169,
+            "freezeTime": null,
+            "hitTimes": [
+              0.4,
+              0.4,
+              0.52,
+              0.52
+            ],
+            "bulletId": "1311100201",
+            "bulletName": "【伤害】普攻2_1扫尾"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_answering_form_3": {
+        "stepDuration": 1.1,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.1,
+        "nextAttDuration": 2.6483,
+        "skillEndAt": 1.8403,
+        "idleReturnAt": null,
+        "sequenceLength": 6.933333,
+        "hitTimes": null,
+        "hitCount": 0,
+        "damageAt": [
+          0.2
+        ],
+        "resolvesAt": 0.2,
+        "firstDamageAt": 0.2,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311100300",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack03.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack03.uasset",
+            "stepDuration": 1.1,
+            "nextAttAt": 1.1,
+            "nextAttDuration": 2.6483,
+            "skillEndAt": 1.8403,
+            "freezeTime": null,
+            "hitTimes": null,
+            "bulletId": "1311100300",
+            "bulletName": "普攻3飞轮特效（无目标）",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack03_Child_QTE.uasset",
+            "stepDuration": 1.1,
+            "nextAttAt": 1.1,
+            "nextAttDuration": 2.6483,
+            "skillEndAt": 1.8403,
+            "freezeTime": null,
+            "hitTimes": null,
+            "bulletId": "1311100300",
+            "bulletName": "普攻3飞轮特效（无目标）"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_answering_form_4": {
+        "stepDuration": 1.3015,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.3015,
+        "nextAttDuration": 2.0384,
+        "skillEndAt": 2.6177,
+        "idleReturnAt": null,
+        "sequenceLength": 6.433333,
+        "hitTimes": [
+          0.43,
+          0.7679,
+          1.1333
+        ],
+        "hitCount": 3,
+        "damageAt": [
+          0.43,
+          0.7679,
+          1.1333
+        ],
+        "resolvesAt": 1.1333,
+        "firstDamageAt": 0.43,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311100401",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack04.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack04.uasset",
+            "stepDuration": 1.3015,
+            "nextAttAt": 1.3015,
+            "nextAttDuration": 2.0384,
+            "skillEndAt": 2.6177,
+            "freezeTime": null,
+            "hitTimes": [
+              0.43,
+              0.7679,
+              1.1333
+            ],
+            "bulletId": "1311100401",
+            "bulletName": "【伤害】普攻4_1冲刺",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack04_Child_Huli2.uasset",
+            "stepDuration": 1.3015,
+            "nextAttAt": 1.3015,
+            "nextAttDuration": 2.0384,
+            "skillEndAt": 2.6177,
+            "freezeTime": null,
+            "hitTimes": [
+              0.43,
+              0.7679,
+              1.1333
+            ],
+            "bulletId": "1311100401",
+            "bulletName": "【伤害】普攻4_1冲刺"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "heavy_answering_form_reign_at_ease": {
+        "stepDuration": 1.9407,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.9407,
+        "nextAttDuration": 3.9587,
+        "skillEndAt": 5.2346,
+        "idleReturnAt": null,
+        "sequenceLength": 6.933333,
+        "hitTimes": [
+          0.1
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.1
+        ],
+        "resolvesAt": 0.1,
+        "firstDamageAt": 0.1,
+        "staminaCost": 5,
+        "interruptLevel": 4,
+        "sourceBulletId": "1311100600",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack03_InAir.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "midair_answering_form_reign_at_ease": {
+        "stepDuration": 0.3297,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.3297,
+        "nextAttDuration": 2.1858,
+        "skillEndAt": 1.3458,
+        "idleReturnAt": null,
+        "sequenceLength": 7.766667,
+        "hitTimes": [
+          0.0335
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0335
+        ],
+        "resolvesAt": 0.0335,
+        "firstDamageAt": 0.0335,
+        "staminaCost": 30,
+        "interruptLevel": 6,
+        "sourceBulletId": "1311100801",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_AirAttack_End_Ex.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0.0027,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_AirAttack_End_Ex.uasset",
+            "stepDuration": 0.3297,
+            "nextAttAt": 0.3297,
+            "nextAttDuration": 2.1858,
+            "skillEndAt": 1.3458,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0335
+            ],
+            "bulletId": "1311100801",
+            "bulletName": "【伤害】空中蓄力派生",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_AirAttack_End_Child.uasset",
+            "stepDuration": 0.3324,
+            "nextAttAt": 0.3324,
+            "nextAttDuration": 2.1831,
+            "skillEndAt": 1.3458,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0335,
+              0.0335,
+              0.0673
+            ],
+            "bulletId": "1311100801",
+            "bulletName": "【伤害】空中蓄力派生"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "heavy_answering_form": {
+        "stepDuration": 0.7383,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7383,
+        "nextAttDuration": 1.3833,
+        "skillEndAt": 1.2348,
+        "idleReturnAt": null,
+        "sequenceLength": 6.266667,
+        "hitTimes": [
+          0.0008
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0008
+        ],
+        "resolvesAt": 0.0008,
+        "firstDamageAt": 0.0008,
+        "staminaCost": 20,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311100405",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Hold.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "midair_answering_form": {
+        "stepDuration": 0.3324,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.3324,
+        "nextAttDuration": 2.1831,
+        "skillEndAt": 1.3458,
+        "idleReturnAt": null,
+        "sequenceLength": 7.766667,
+        "hitTimes": [
+          0.0335
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0335
+        ],
+        "resolvesAt": 0.0335,
+        "firstDamageAt": 0.0335,
+        "staminaCost": 20,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311110101",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_AirAttack_End.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_AirAttack_End.uasset",
+            "stepDuration": 0.3324,
+            "nextAttAt": 0.3324,
+            "nextAttDuration": 2.1831,
+            "skillEndAt": 1.3458,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0335
+            ],
+            "bulletId": "1311110101",
+            "bulletName": "【伤害】空中下落攻击",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_AirAttack_End_Child.uasset",
+            "stepDuration": 0.3324,
+            "nextAttAt": 0.3324,
+            "nextAttDuration": 2.1831,
+            "skillEndAt": 1.3458,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0335,
+              0.0335,
+              0.0673
+            ],
+            "bulletId": "1311110101",
+            "bulletName": "【伤害】空中下落攻击"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_answering_form": {
+        "stepDuration": 0.962,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.962,
+        "nextAttDuration": 0.6667,
+        "skillEndAt": 1.2169,
+        "idleReturnAt": null,
+        "sequenceLength": 11.566667,
+        "hitTimes": [
+          0.4,
+          0.4,
+          0.52,
+          0.52
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.4,
+          0.52
+        ],
+        "resolvesAt": 0.52,
+        "firstDamageAt": 0.4,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311150101",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_Child_LimitDodge.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_1": {
+        "stepDuration": 0.6947,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6947,
+        "nextAttDuration": 1.7806,
+        "skillEndAt": 0.8376,
+        "idleReturnAt": null,
+        "sequenceLength": 6.433333,
+        "hitTimes": [
+          0.0001
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0001
+        ],
+        "resolvesAt": 0.0001,
+        "firstDamageAt": 0.0001,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311200101",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_modular_heartlock": {
+        "stepDuration": 0.6947,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6947,
+        "nextAttDuration": 1.7806,
+        "skillEndAt": 0.8376,
+        "idleReturnAt": null,
+        "sequenceLength": 6.433333,
+        "hitTimes": [
+          0.0001
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0001
+        ],
+        "resolvesAt": 0.0001,
+        "firstDamageAt": 0.0001,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311200101",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_2": {
+        "stepDuration": 0.6947,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6947,
+        "nextAttDuration": 1.7806,
+        "skillEndAt": 0.8376,
+        "idleReturnAt": null,
+        "sequenceLength": 6.433333,
+        "hitTimes": [
+          0.0001
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0001
+        ],
+        "resolvesAt": 0.0001,
+        "firstDamageAt": 0.0001,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311200101",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_3": {
+        "stepDuration": 1.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.5333,
+        "nextAttDuration": 3.274,
+        "skillEndAt": 2.1803,
+        "idleReturnAt": 6.1643,
+        "sequenceLength": 6.7,
+        "hitTimes": [
+          0.0001
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0001
+        ],
+        "resolvesAt": 0.0001,
+        "firstDamageAt": 0.0001,
+        "staminaCost": null,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311200301",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack03.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack03.uasset",
+            "stepDuration": 1.5333,
+            "nextAttAt": 1.5333,
+            "nextAttDuration": 3.274,
+            "skillEndAt": 2.1803,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0001
+            ],
+            "bulletId": "1311200301",
+            "bulletName": "【伤害】A3-螺旋",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack03_Child_QTE.uasset",
+            "stepDuration": 1.5333,
+            "nextAttAt": 1.5333,
+            "nextAttDuration": 3.274,
+            "skillEndAt": 2.1803,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0001,
+              0.0333
+            ],
+            "bulletId": "1311200301",
+            "bulletName": "【伤害】A3-螺旋"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "heavy_illumining_form": {
+        "stepDuration": 0.6674,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6674,
+        "nextAttDuration": 1.0989,
+        "skillEndAt": 1.008,
+        "idleReturnAt": 4.4129,
+        "sequenceLength": 7.833333,
+        "hitTimes": [
+          0.5349
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.5349
+        ],
+        "resolvesAt": 0.5349,
+        "firstDamageAt": 0.5349,
+        "staminaCost": 20,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311200402",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_HoldAttack.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_HoldAttack.uasset",
+            "stepDuration": 0.6674,
+            "nextAttAt": 0.6674,
+            "nextAttDuration": 1.0989,
+            "skillEndAt": 1.008,
+            "freezeTime": null,
+            "hitTimes": [
+              0.5349
+            ],
+            "bulletId": "1311200402",
+            "bulletName": "【伤害】重击",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_HoldAttack_Child.uasset",
+            "stepDuration": 0.6674,
+            "nextAttAt": 0.6674,
+            "nextAttDuration": 1.0989,
+            "skillEndAt": 1.008,
+            "freezeTime": null,
+            "hitTimes": [
+              0.5349,
+              0.5349
+            ],
+            "bulletId": "1311200402",
+            "bulletName": "【伤害】重击"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_upward_cut_illumining_form": {
+        "stepDuration": 0.6013,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6013,
+        "nextAttDuration": 3.072,
+        "skillEndAt": 1.341,
+        "idleReturnAt": null,
+        "sequenceLength": 4.266667,
+        "hitTimes": [
+          0.3667,
+          0.5333
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.3667,
+          0.5333
+        ],
+        "resolvesAt": 0.5333,
+        "firstDamageAt": 0.3667,
+        "staminaCost": 0,
+        "interruptLevel": 6,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311201201",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_JumpAttack.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_JumpAttack.uasset",
+            "stepDuration": 0.6013,
+            "nextAttAt": 0.6013,
+            "nextAttDuration": 3.072,
+            "skillEndAt": 1.341,
+            "freezeTime": null,
+            "hitTimes": [
+              0.3667,
+              0.5333
+            ],
+            "bulletId": "1311201201",
+            "bulletName": "【伤害】跳跃攻击上撩",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_JumpAttack_bianshen.uasset",
+            "stepDuration": 0.6013,
+            "nextAttAt": 0.6013,
+            "nextAttDuration": 3.072,
+            "skillEndAt": 1.341,
+            "freezeTime": null,
+            "hitTimes": [
+              0.3667,
+              0.5333
+            ],
+            "bulletId": "1311201201",
+            "bulletName": "【伤害】跳跃攻击上撩"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "midair_illumining_form": {
+        "stepDuration": 0.4,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.4,
+        "nextAttDuration": 2.0913,
+        "skillEndAt": 0.6617,
+        "idleReturnAt": null,
+        "sequenceLength": 7.2,
+        "hitTimes": [
+          0.0333,
+          0.2997
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.0333,
+          0.2997
+        ],
+        "resolvesAt": 0.2997,
+        "firstDamageAt": 0.0333,
+        "staminaCost": 30,
+        "interruptLevel": 6,
+        "sourceBulletId": "1311201101",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_AirAttack_End.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_illumining_form": {
+        "stepDuration": 0.6674,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.6674,
+        "nextAttDuration": 1.0989,
+        "skillEndAt": 1.008,
+        "idleReturnAt": 4.4129,
+        "sequenceLength": 7.833333,
+        "hitTimes": [
+          0.5349,
+          0.5349
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.5349
+        ],
+        "resolvesAt": 0.5349,
+        "firstDamageAt": 0.5349,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311200502",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_HoldAttack_Child.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_pillars_aligned_1": {
+        "stepDuration": 0.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.5333,
+        "nextAttDuration": 6.0667,
+        "skillEndAt": 0.9607,
+        "idleReturnAt": null,
+        "sequenceLength": 6.6,
+        "hitTimes": [
+          0.2
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.2
+        ],
+        "resolvesAt": 0.2,
+        "firstDamageAt": 0.2,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311220101",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_pillars_aligned_2": {
+        "stepDuration": 0.7345,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7345,
+        "nextAttDuration": 8.5619,
+        "skillEndAt": 1.5727,
+        "idleReturnAt": null,
+        "sequenceLength": 13.23,
+        "hitTimes": [
+          0.2459
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.2459
+        ],
+        "resolvesAt": 0.2459,
+        "firstDamageAt": 0.2459,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311220201",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack02.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack02.uasset",
+            "stepDuration": 0.7345,
+            "nextAttAt": 0.7345,
+            "nextAttDuration": 8.5619,
+            "skillEndAt": 1.5727,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2459
+            ],
+            "bulletId": "1311220201",
+            "bulletName": "【伤害】强化A2",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack02_Child.uasset",
+            "stepDuration": 0.7345,
+            "nextAttAt": 0.7345,
+            "nextAttDuration": 8.5619,
+            "skillEndAt": 1.5727,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2459,
+              0.2459
+            ],
+            "bulletId": "1311220201",
+            "bulletName": "【伤害】强化A2"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_pillars_aligned_3": {
+        "stepDuration": 0.7667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7667,
+        "nextAttDuration": 2.3859,
+        "skillEndAt": 2.1774,
+        "idleReturnAt": null,
+        "sequenceLength": 10.4,
+        "hitTimes": [
+          0.0333
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0333
+        ],
+        "resolvesAt": 0.0333,
+        "firstDamageAt": 0.0333,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311220301",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack03.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_illumining_form_pillars_aligned_4": {
+        "stepDuration": 1.3686,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.3686,
+        "nextAttDuration": 7.8805,
+        "skillEndAt": 1.9391,
+        "idleReturnAt": null,
+        "sequenceLength": 9.4,
+        "hitTimes": [
+          0.0667
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0667
+        ],
+        "resolvesAt": 0.0667,
+        "firstDamageAt": 0.0667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311220402",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack04.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_illumining_form_pillars_aligned": {
+        "stepDuration": 0.7345,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7345,
+        "nextAttDuration": 8.5619,
+        "skillEndAt": 1.5727,
+        "idleReturnAt": null,
+        "sequenceLength": 13.23,
+        "hitTimes": [
+          0.2459,
+          0.2459
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.2459
+        ],
+        "resolvesAt": 0.2459,
+        "firstDamageAt": 0.2459,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1311200601",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill_Attack02_Child.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "skill_answering_form": {
+        "stepDuration": 1.4,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 1.4,
+        "hitTimes": [
+          0.2335,
+          0.4004,
+          0.6991,
+          0.9333
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2335,
+          0.4004,
+          0.6991,
+          0.9333
+        ],
+        "resolvesAt": 0.9333,
+        "firstDamageAt": 0.2335,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "isPhaseOnly": true,
+        "sourceBulletId": "1311120101",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Skill01_Start.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "skill_illumining_form": {
+        "stepDuration": 1.6718,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.6718,
+        "nextAttDuration": 1.1472,
+        "skillEndAt": 1.7457,
+        "idleReturnAt": null,
+        "sequenceLength": 7.5,
+        "hitTimes": [
+          0.3358,
+          1.5
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.3358,
+          1.5
+        ],
+        "resolvesAt": 1.5,
+        "firstDamageAt": 0.3358,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311210102",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill01.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill01.uasset",
+            "stepDuration": 1.6718,
+            "nextAttAt": 1.6718,
+            "nextAttDuration": 1.1472,
+            "skillEndAt": 1.7457,
+            "freezeTime": null,
+            "hitTimes": [
+              0.3358,
+              1.5
+            ],
+            "bulletId": "1311210102",
+            "bulletName": "【伤害-吸附】E技能持续展开",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Skill01_Child.uasset",
+            "stepDuration": 1.6718,
+            "nextAttAt": 1.6718,
+            "nextAttDuration": 1.1472,
+            "skillEndAt": 1.7457,
+            "freezeTime": null,
+            "hitTimes": [
+              0.3358,
+              0.3358,
+              1.5,
+              1.5
+            ],
+            "bulletId": "1311210102",
+            "bulletName": "【伤害-吸附】E技能持续展开"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "liberation_pillars_across_heaven": {
+        "stepDuration": 6.7694,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 5.0333,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 6.7694,
+        "idleReturnAt": null,
+        "sequenceLength": 12.2,
+        "staminaCost": 0,
+        "interruptLevel": 10,
+        "hitTimes": [
+          2.2667,
+          2.5,
+          2.7314,
+          3.1669,
+          3.5677,
+          4.0032
+        ],
+        "hitCount": 6,
+        "sourceSkillId": "13112401",
+        "sourceSkillName": "大招2",
+        "freezeClass": "major",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_answering_form_dmg_in_resonance_mode_electro_flare": {
+        "stepDuration": 0.962,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 0.3466,
+        "nextAttAt": 0.962,
+        "nextAttDuration": 0.6667,
+        "skillEndAt": 1.2169,
+        "idleReturnAt": null,
+        "sequenceLength": 11.566667,
+        "hitTimes": [
+          0.4,
+          0.52
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.3483,
+          0.52
+        ],
+        "resolvesAt": 0.52,
+        "firstDamageAt": 0.3483,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 0.9725
+            }
+          ]
+        },
+        "sourceBulletId": "1311130101",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_Child_QTE1.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0.138,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_Child_QTE1.uasset",
+            "stepDuration": 0.962,
+            "nextAttAt": 0.962,
+            "nextAttDuration": 0.6667,
+            "skillEndAt": 1.2169,
+            "freezeTime": null,
+            "hitTimes": [
+              0.4,
+              0.52
+            ],
+            "bulletId": "1311130101",
+            "bulletName": "（废弃）【伤害】模式2QTE-普攻2_1扫尾",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack03_Child_QTE.uasset",
+            "stepDuration": 1.1,
+            "nextAttAt": 1.1,
+            "nextAttDuration": 2.6483,
+            "skillEndAt": 1.8403,
+            "freezeTime": null,
+            "hitTimes": null,
+            "bulletId": "1311130120",
+            "bulletName": "模式2QTE-普攻3飞轮特效（无目标）"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_answering_form_dmg_in_resonance_mode_unison": {
+        "stepDuration": 0.7333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 0.23,
+        "nextAttAt": 0.7333,
+        "nextAttDuration": 1.2837,
+        "skillEndAt": 1.2348,
+        "idleReturnAt": null,
+        "sequenceLength": 6.266667,
+        "hitTimes": null,
+        "hitCount": 0,
+        "damageAt": [
+          0.0333
+        ],
+        "resolvesAt": 0.0333,
+        "firstDamageAt": 0.0333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 0.7333
+            }
+          ]
+        },
+        "sourceBulletId": "1311130210",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_SkillQTE.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_answering_form_manifold_unison": {
+        "stepDuration": 0.7333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 0.23,
+        "nextAttAt": 0.7333,
+        "nextAttDuration": 1.2837,
+        "skillEndAt": 1.2348,
+        "idleReturnAt": null,
+        "sequenceLength": 6.266667,
+        "hitTimes": null,
+        "hitCount": 0,
+        "damageAt": [
+          0.0333
+        ],
+        "resolvesAt": 0.0333,
+        "firstDamageAt": 0.0333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 0.7333
+            }
+          ]
+        },
+        "sourceBulletId": "1311130310",
+        "sourceMontage": "FemaleXL/Xinyuehu/CommonAnim/AM_SkillQTE.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0.2287,
+        "variants": [
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_SkillQTE.uasset",
+            "stepDuration": 0.7333,
+            "nextAttAt": 0.7333,
+            "nextAttDuration": 1.2837,
+            "skillEndAt": 1.2348,
+            "freezeTime": null,
+            "hitTimes": null,
+            "bulletId": "1311130310",
+            "bulletName": "【特效】同奏QTE-重击-飞轮特效",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/Xinyuehu/CommonAnim/AM_Attack02_Child_QTE1.uasset",
+            "stepDuration": 0.962,
+            "nextAttAt": 0.962,
+            "nextAttDuration": 0.6667,
+            "skillEndAt": 1.2169,
+            "freezeTime": null,
+            "hitTimes": [
+              0.4,
+              0.52
+            ],
+            "bulletId": "1311130301",
+            "bulletName": "（废弃）【伤害】同奏QTE-普攻2_1扫尾"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_illumining_form_dmg_in_resonance_mode_electro_flare": {
+        "stepDuration": 1.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 0.3017,
+        "nextAttAt": 1.5333,
+        "nextAttDuration": 3.274,
+        "skillEndAt": 2.1803,
+        "idleReturnAt": 6.1643,
+        "sequenceLength": 6.7,
+        "hitTimes": [
+          0.0001,
+          0.0333
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.0333
+        ],
+        "resolvesAt": 0.0333,
+        "firstDamageAt": 0.0333,
+        "staminaCost": null,
+        "interruptLevel": null,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 1.5249
+            }
+          ]
+        },
+        "sourceBulletId": "1311230101",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack03_Child_QTE.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0.2,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack03_Child_QTE.uasset",
+            "stepDuration": 1.5333,
+            "nextAttAt": 1.5333,
+            "nextAttDuration": 3.274,
+            "skillEndAt": 2.1803,
+            "freezeTime": null,
+            "hitTimes": [
+              0.0001,
+              0.0333
+            ],
+            "bulletId": "1311230101",
+            "bulletName": "【伤害】模式2QTE-螺旋",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_Attack03_QTE_Tag2.uasset",
+            "stepDuration": 1.7333,
+            "nextAttAt": 1.7333,
+            "nextAttDuration": 3.274,
+            "skillEndAt": 2.2333,
+            "freezeTime": null,
+            "hitTimes": [
+              0.2333
+            ],
+            "bulletId": "1311230101",
+            "bulletName": "【伤害】模式2QTE-螺旋"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_illumining_form_dmg_in_resonance_mode_unison": {
+        "stepDuration": 2.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 0.5,
+        "freezeAnimationTime": 2.5333,
+        "nextAttAt": 2.5333,
+        "nextAttDuration": 2.5535,
+        "skillEndAt": 3.8239,
+        "idleReturnAt": null,
+        "sequenceLength": 8.53,
+        "hitTimes": [
+          0.2352,
+          0.7,
+          1.1333,
+          2.0333
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2352,
+          0.7,
+          1.1333,
+          2.0333
+        ],
+        "resolvesAt": 2.0333,
+        "firstDamageAt": 0.2352,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 2.5164
+            }
+          ]
+        },
+        "sourceBulletId": "1311230201",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_SkillQTE_Ex_Child.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_illumining_form_manifold_unison": {
+        "stepDuration": 2.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 0.5,
+        "freezeAnimationTime": 2.5333,
+        "nextAttAt": 2.5333,
+        "nextAttDuration": 2.5535,
+        "skillEndAt": 3.8239,
+        "idleReturnAt": null,
+        "sequenceLength": 8.53,
+        "hitTimes": [
+          0.2352,
+          0.7,
+          1.1333,
+          2.0333
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2352,
+          0.7,
+          1.1333,
+          2.0333
+        ],
+        "resolvesAt": 2.0333,
+        "firstDamageAt": 0.2352,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 2.5164
+            }
+          ]
+        },
+        "sourceBulletId": "1311230301",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_SkillQTE_Ex_Child.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "forte_heavy_illumining_form_beholding_all_horizons": {
+        "stepDuration": 2.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 2.5,
+        "nextAttAt": 2.5,
+        "nextAttDuration": 8.3879,
+        "skillEndAt": 2.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 17.799999,
+        "staminaCost": 20,
+        "interruptLevel": 10,
+        "hitTimes": [
+          1.4372,
+          1.8878
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "13112205",
+        "sourceSkillName": "终结重击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_heavy_illumining_form_stilling_all_horizons": {
+        "stepDuration": 2.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 2.5,
+        "nextAttAt": 2.5,
+        "nextAttDuration": 8.3879,
+        "skillEndAt": 2.6667,
+        "idleReturnAt": null,
+        "sequenceLength": 17.799999,
+        "staminaCost": 20,
+        "interruptLevel": 10,
+        "hitTimes": [
+          1.4372,
+          1.8878
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "13112205",
+        "sourceSkillName": "终结重击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_heavy_illumining_form_pillars_aligned": {
+        "stepDuration": 2.5333,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 0.5,
+        "freezeAnimationTime": 2.5333,
+        "nextAttAt": 2.5333,
+        "nextAttDuration": 2.5535,
+        "skillEndAt": 3.8239,
+        "idleReturnAt": null,
+        "sequenceLength": 8.53,
+        "hitTimes": [
+          0.2352,
+          0.7,
+          1.1333,
+          2.0333
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2352,
+          0.7,
+          1.1333,
+          2.0333
+        ],
+        "resolvesAt": 2.0333,
+        "firstDamageAt": 0.2352,
+        "staminaCost": 0,
+        "interruptLevel": 10,
+        "disambiguatedBySkillRow": true,
+        "sourceBulletId": "1311220001",
+        "sourceMontage": "FemaleXL/XinyuehuShen/CommonAnim/AM_HoldEx.uasset",
+        "montageCandidates": 2,
+        "stepDurationSpread": 0,
+        "variants": [
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_HoldEx.uasset",
+            "stepDuration": 2.5333,
+            "nextAttAt": 2.5333,
+            "nextAttDuration": 2.5535,
+            "skillEndAt": 3.8239,
+            "freezeTime": 0.5,
+            "hitTimes": [
+              0.2352,
+              0.7,
+              1.1333,
+              2.0333
+            ],
+            "bulletId": "1311220001",
+            "bulletName": "【伤害】二转三爆炸",
+            "chosen": true
+          },
+          {
+            "montage": "FemaleXL/XinyuehuShen/CommonAnim/AM_SkillQTE_Ex_Child.uasset",
+            "stepDuration": 2.5333,
+            "nextAttAt": 2.5333,
+            "nextAttDuration": 2.5535,
+            "skillEndAt": 3.8239,
+            "freezeTime": 0.5,
+            "hitTimes": [
+              0.2352,
+              0.7,
+              1.1333,
+              2.0333
+            ],
+            "bulletId": "1311220001",
+            "bulletName": "【伤害】二转三爆炸"
+          }
+        ],
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.5,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.499,
+        "nextAttAt": 1.5,
+        "nextAttDuration": 0.4786,
+        "skillEndAt": 1.5,
+        "idleReturnAt": null,
+        "sequenceLength": 3.666667,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.001,
+              "duration": 1.499
+            }
+          ]
+        },
+        "hitTimes": [
+          0.9344
+        ],
+        "hitCount": 1,
+        "sourceSkillId": "13111901",
+        "sourceSkillName": "破弱",
+        "freezeClass": "major",
+        "route": "breakWeakness",
+        "provenance": "extracted",
+        "weaponMatched": false
+      }
+    },
+    "1312": {
+      "basic_basic_attack_1": {
+        "stepDuration": 0.3667,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.3667,
+        "nextAttDuration": 0.7956,
+        "skillEndAt": 0.6761,
+        "idleReturnAt": null,
+        "sequenceLength": 5,
+        "hitTimes": [
+          0.1678
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.1678
+        ],
+        "resolvesAt": 0.1678,
+        "firstDamageAt": 0.1678,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312001001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_basic_attack_2": {
+        "stepDuration": 0.7016,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.7016,
+        "nextAttDuration": 0.8057,
+        "skillEndAt": 1.2117,
+        "idleReturnAt": null,
+        "sequenceLength": 6.933333,
+        "hitTimes": [
+          0.2333,
+          0.2333,
+          0.4667,
+          0.4667
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2333,
+          0.4667
+        ],
+        "resolvesAt": 0.4667,
+        "firstDamageAt": 0.2333,
+        "staminaCost": 0,
+        "interruptLevel": null,
+        "sourceBulletId": "1312002001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack02.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_basic_attack_3": {
+        "stepDuration": 1.15,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.15,
+        "nextAttDuration": 1.5,
+        "skillEndAt": 1.198,
+        "idleReturnAt": null,
+        "sequenceLength": 10.033334,
+        "hitTimes": [
+          0.2667,
+          0.8277,
+          0.8591
+        ],
+        "hitCount": 3,
+        "damageAt": [
+          0.2667,
+          0.8591
+        ],
+        "resolvesAt": 0.8591,
+        "firstDamageAt": 0.2667,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312003001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack03.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_unfurled_canopy_1": {
+        "stepDuration": 0.5685,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.5685,
+        "nextAttDuration": 0.9346,
+        "skillEndAt": 0.83,
+        "idleReturnAt": null,
+        "sequenceLength": 14.533334,
+        "hitTimes": [
+          0.3783,
+          0.496
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.3783,
+          0.496
+        ],
+        "resolvesAt": 0.496,
+        "firstDamageAt": 0.3783,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312011001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_II_01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_unfurled_canopy_2": {
+        "stepDuration": 1.0325,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.0325,
+        "nextAttDuration": 0.974,
+        "skillEndAt": 1.1676,
+        "idleReturnAt": 6.7762,
+        "sequenceLength": 7.033333,
+        "hitTimes": [
+          0.2,
+          0.2,
+          0.5875,
+          0.5875
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.2,
+          0.5875
+        ],
+        "resolvesAt": 0.5875,
+        "firstDamageAt": 0.2,
+        "staminaCost": 0,
+        "interruptLevel": null,
+        "sourceBulletId": "1312012001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_II_02.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_unfurled_canopy_3": {
+        "stepDuration": 1.0612,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.0612,
+        "nextAttDuration": 0.8751,
+        "skillEndAt": 1.3242,
+        "idleReturnAt": 5.3982,
+        "sequenceLength": 5.7,
+        "hitTimes": [
+          0.5009,
+          0.7719
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.5009,
+          0.7719
+        ],
+        "resolvesAt": 0.7719,
+        "firstDamageAt": 0.5009,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312013001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_II_03.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_unfurled_canopy_4": {
+        "stepDuration": 1.7496,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.7496,
+        "nextAttDuration": 0.8185,
+        "skillEndAt": 1.9582,
+        "idleReturnAt": null,
+        "sequenceLength": 7.833333,
+        "hitTimes": [
+          0.2514,
+          0.8614,
+          1.4982
+        ],
+        "hitCount": 3,
+        "damageAt": [
+          0.2514,
+          0.8614,
+          1.4982
+        ],
+        "resolvesAt": 1.4982,
+        "firstDamageAt": 0.2514,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312014001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_II_04.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter": {
+        "stepDuration": 0.7016,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.7016,
+        "nextAttDuration": 0.8057,
+        "skillEndAt": 1.2117,
+        "idleReturnAt": null,
+        "sequenceLength": 6.933333,
+        "staminaCost": 0,
+        "interruptLevel": 7,
+        "hitTimes": [
+          0.2333,
+          0.2333,
+          0.4667,
+          0.4667
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "1312004",
+        "sourceSkillName": "【闪避反击】常态普攻2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_dodge_counter_unfurled_canopy": {
+        "stepDuration": 1.0325,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.0325,
+        "nextAttDuration": 0.974,
+        "skillEndAt": 1.1676,
+        "idleReturnAt": 6.7762,
+        "sequenceLength": 7.033333,
+        "staminaCost": 0,
+        "interruptLevel": 7,
+        "hitTimes": [
+          0.2,
+          0.2,
+          0.5875,
+          0.5875
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "1312015",
+        "sourceSkillName": "【闪避反击】开伞普攻2",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "basic_plunging_attack": {
+        "stepDuration": 0.1675,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 0.1675,
+        "nextAttDuration": 0.2933,
+        "skillEndAt": 0.2662,
+        "idleReturnAt": null,
+        "sequenceLength": 4.833333,
+        "hitTimes": [
+          0.0263
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.0263
+        ],
+        "resolvesAt": 0.0263,
+        "firstDamageAt": 0.0263,
+        "staminaCost": 30,
+        "interruptLevel": 6,
+        "sourceBulletId": "1312007001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_AirAttack_End.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_unfurled_canopy_whirling_thunder_1": {
+        "stepDuration": 1.3762,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.3762,
+        "nextAttDuration": 1.3019,
+        "skillEndAt": 1.6463,
+        "idleReturnAt": 5.6609,
+        "sequenceLength": 5.966667,
+        "hitTimes": [
+          0.1859,
+          0.4329,
+          0.5955,
+          0.9881
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          0.1859,
+          0.4329,
+          0.5955,
+          0.9881
+        ],
+        "resolvesAt": 0.9881,
+        "firstDamageAt": 0.1859,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312021001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_III_01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "basic_unfurled_canopy_whirling_thunder_2": {
+        "stepDuration": 1.3427,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.3427,
+        "nextAttDuration": 3.1317,
+        "skillEndAt": 1.9941,
+        "idleReturnAt": 9.2225,
+        "sequenceLength": 9.566667,
+        "hitTimes": [
+          0.5519
+        ],
+        "hitCount": 1,
+        "damageAt": [
+          0.5519
+        ],
+        "resolvesAt": 0.5519,
+        "firstDamageAt": 0.5519,
+        "staminaCost": 0,
+        "interruptLevel": 2,
+        "sourceBulletId": "1312022001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_III_02.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "skill_furled_canopy_rift_cleaver": {
+        "stepDuration": 0.7018,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 0.7018,
+        "nextAttDuration": 0.7873,
+        "skillEndAt": 1.1062,
+        "idleReturnAt": null,
+        "sequenceLength": 6.266667,
+        "staminaCost": 0,
+        "interruptLevel": 4,
+        "hitTimes": [
+          0.0001,
+          0.0001,
+          0.0001
+        ],
+        "hitCount": 3,
+        "sourceSkillId": "1312005",
+        "sourceSkillName": "默认E-格挡反击",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "skill_unfurled_canopy_crimson_gleam": {
+        "stepDuration": 1.0005,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.0005,
+        "nextAttDuration": 0.8003,
+        "skillEndAt": 1.0496,
+        "idleReturnAt": null,
+        "sequenceLength": 5.176027,
+        "hitTimes": [
+          0.0282,
+          0.163,
+          0.4547
+        ],
+        "hitCount": 3,
+        "damageAt": [
+          0.0282,
+          0.163,
+          0.4547
+        ],
+        "resolvesAt": 0.4547,
+        "firstDamageAt": 0.0282,
+        "staminaCost": 0,
+        "interruptLevel": 5,
+        "sourceBulletId": "1312053001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/TestContent/AM_AttackGP.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "liberation_umbral_canopy_miasma_lock": {
+        "stepDuration": 5.5822,
+        "stepDurationRule": "skillEnd",
+        "freezeTime": 5.5368,
+        "freezeAnimationTime": 5.5368,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": 5.5822,
+        "idleReturnAt": 11.1578,
+        "sequenceLength": 11.566667,
+        "hitTimes": [
+          3.2176,
+          4.2415
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          3.2176,
+          4.2415
+        ],
+        "resolvesAt": 4.2415,
+        "firstDamageAt": 3.2176,
+        "staminaCost": 0,
+        "interruptLevel": 10,
+        "sourceBulletId": "1312050001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Burst01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "major",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_furled_canopy_flash_rift": {
+        "stepDuration": 1.6789,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 1.5,
+        "nextAttAt": 1.6789,
+        "nextAttDuration": 2.0651,
+        "skillEndAt": 2.1711,
+        "idleReturnAt": 7.1002,
+        "sequenceLength": 7.333333,
+        "hitTimes": [
+          1.0148,
+          1.0148,
+          1.4239,
+          1.4239
+        ],
+        "hitCount": 4,
+        "damageAt": [
+          1.0148,
+          1.4239
+        ],
+        "resolvesAt": 1.4239,
+        "firstDamageAt": 1.0148,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 1.5041
+            }
+          ]
+        },
+        "sourceBulletId": "1312040001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Skill_01_QTE.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_unfurled_canopy_thunder_rending": {
+        "stepDuration": 1.3762,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": 1.1333,
+        "nextAttAt": 1.3762,
+        "nextAttDuration": 1.3019,
+        "skillEndAt": 1.6463,
+        "idleReturnAt": 5.6609,
+        "sequenceLength": 5.966667,
+        "hitTimes": [
+          0.186,
+          0.186,
+          0.4322,
+          0.4322,
+          0.5918,
+          0.5918,
+          0.984,
+          0.984
+        ],
+        "hitCount": 8,
+        "damageAt": [
+          0.186,
+          0.4322,
+          0.5918,
+          0.984
+        ],
+        "resolvesAt": 0.984,
+        "firstDamageAt": 0.186,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.1333
+            }
+          ]
+        },
+        "sourceBulletId": "1312040003",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_III_01_QTE.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_furled_canopy_sealed_delusion_unison": {
+        "stepDuration": 1.6789,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.6789,
+        "nextAttDuration": 2.0651,
+        "skillEndAt": 2.1711,
+        "idleReturnAt": 7.1002,
+        "sequenceLength": 7.333333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 1.5041
+            }
+          ]
+        },
+        "hitTimes": [
+          1.0148,
+          1.0148,
+          1.4239,
+          1.4239
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "1312040",
+        "sourceSkillName": "QTE",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "intro_intro_skill_unfurled_canopy_whirling_thunder_unison": {
+        "stepDuration": 1.6789,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "nextAttAt": 1.6789,
+        "nextAttDuration": 2.0651,
+        "skillEndAt": 2.1711,
+        "idleReturnAt": 7.1002,
+        "sequenceLength": 7.333333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 1.5041
+            }
+          ]
+        },
+        "hitTimes": [
+          1.0148,
+          1.0148,
+          1.4239,
+          1.4239
+        ],
+        "hitCount": 4,
+        "sourceSkillId": "1312040",
+        "sourceSkillName": "QTE",
+        "freezeClass": "minor",
+        "route": "skillRow",
+        "provenance": "extracted"
+      },
+      "forte_heavy_furled_canopy_sealed_delusion": {
+        "stepDuration": 1.6789,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.6789,
+        "nextAttDuration": 2.0651,
+        "skillEndAt": 2.1711,
+        "idleReturnAt": 7.1002,
+        "sequenceLength": 7.333333,
+        "hitTimes": [
+          1.0148,
+          1.4239
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          1.0148,
+          1.4239
+        ],
+        "resolvesAt": 1.4239,
+        "firstDamageAt": 1.0148,
+        "staminaCost": 0,
+        "interruptLevel": 5,
+        "sourceBulletId": "1312010001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Skill_01.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "forte_heavy_unfurled_canopy_unforsaken_mind": {
+        "stepDuration": 1.0971,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": null,
+        "freezeAnimationTime": null,
+        "nextAttAt": 1.0971,
+        "nextAttDuration": 1.4068,
+        "skillEndAt": 2.5081,
+        "idleReturnAt": 6.42,
+        "sequenceLength": 6.566667,
+        "hitTimes": [
+          0.2293,
+          0.9868
+        ],
+        "hitCount": 2,
+        "damageAt": [
+          0.9868
+        ],
+        "resolvesAt": 0.9868,
+        "firstDamageAt": 0.9868,
+        "staminaCost": 0,
+        "interruptLevel": 5,
+        "sourceBulletId": "1312030001",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Skill_01_SP.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "forte_basic_umbral_canopy_engraved_heart_dmg_hold": {
+        "stepDuration": 2.2667,
+        "stepDurationRule": "sequenceLength",
+        "freezeTime": 2.2667,
+        "freezeAnimationTime": 2.2667,
+        "nextAttAt": null,
+        "nextAttDuration": null,
+        "skillEndAt": null,
+        "idleReturnAt": null,
+        "sequenceLength": 2.266666,
+        "hitTimes": [
+          0.0001,
+          0.5343,
+          1.0667,
+          1.6,
+          1.767,
+          1.9333,
+          2.099
+        ],
+        "hitCount": 7,
+        "damageAt": [
+          0.5343,
+          1.0667,
+          1.6,
+          1.767,
+          1.9333,
+          2.099
+        ],
+        "resolvesAt": 2.099,
+        "firstDamageAt": 0.5343,
+        "staminaCost": 0,
+        "interruptLevel": 12,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0,
+              "duration": 2.2667
+            }
+          ]
+        },
+        "isPhaseOnly": true,
+        "sourceBulletId": "1312031006",
+        "sourceMontage": "FemaleS/Suoming/CommonAnim/AM_Attack_01_SP_Loop_L.uasset",
+        "montageCandidates": 1,
+        "freezeClass": "minor",
+        "route": "bulletChain",
+        "provenance": "extracted"
+      },
+      "__tunebreak__": {
+        "stepDuration": 1.507,
+        "stepDurationRule": "nextAtt",
+        "freezeTime": 1.5156,
+        "nextAttAt": 1.507,
+        "nextAttDuration": 0.4797,
+        "skillEndAt": 1.5138,
+        "idleReturnAt": null,
+        "sequenceLength": 3.733333,
+        "staminaCost": 0,
+        "interruptLevel": 11,
+        "switchBehavior": {
+          "cannotSwitch": [
+            {
+              "from": 0.0001,
+              "duration": 1.5262
+            }
+          ]
+        },
+        "hitTimes": [
+          0.5,
+          1.2
+        ],
+        "hitCount": 2,
+        "sourceSkillId": "1312060",
+        "sourceSkillName": "【弱点】迅刃破弱",
         "freezeClass": "major",
         "route": "breakWeakness",
         "provenance": "extracted",
@@ -36532,7 +38799,7 @@
             "bulletName": "[QTE]Lucy-下落攻击-1"
           }
         ],
-        "needsStateModel": "Algorithm Compaction — AM_SkillQte (0.733s) is the base cast, AM_Sp_SkillQte (1.067s) the enhanced one; every other AM_Sp_* montage of hers is an Algorithm Compaction move",
+        "needsStateModel": "Algorithm Compaction — AM_SkillQte (0.733s) is the base cast, AM_Sp_SkillQte (1.067s) the enhanced one; every other AM_Sp_* montage of hers is an Algorithm Compaction move. WIRED 2026-10-02 via TIMING_VARIANT_RULES[1511] (rotation-rules.js), the one genuine state→variant selection of the six: verified that the AM_Sp_ prefix marks exactly the nine Compaction-replaced keys and nothing else, and her kit states the Intro's own in/out-of-Compaction split in its text",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -38222,7 +40489,7 @@
             "bulletName": "椿空中普攻第3段-循环"
           }
         ],
-        "needsStateModel": "Blossom Mode — the Waltz chain only exists inside it; AM_Attack03_Ex is the tap (stage 3)",
+        "needsStateModel": "Blossom Mode — the Waltz chain only exists inside it; AM_Attack03_Ex is the tap (stage 3). RE-SCOPED 2026-10-02: not a variant selection. Both keys share the same two candidates and each ALREADY holds the right one (Ex for this tap stage, Ex_Loop for the hold below), so Blossom Mode is a CASTABILITY precondition for the whole chain rather than a selector between the two authorings. Kept flagged because castability is still unmodelled",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"
@@ -38327,7 +40594,7 @@
           }
         ],
         "tapHoldRole": "hold",
-        "needsStateModel": "Blossom Mode — evidence favours AM_Attack03_Ex_Loop (1.8634s): its bullet is '椿空中普攻第3段-循环' (stage 3 LOOP) and the kit casts Blazing Waltz by HOLDING Normal Attack during stage 3",
+        "needsStateModel": "Blossom Mode — evidence favours AM_Attack03_Ex_Loop (1.8634s): its bullet is '椿空中普攻第3段-循环' (stage 3 LOOP) and the kit casts Blazing Waltz by HOLDING Normal Attack during stage 3. RE-SCOPED 2026-10-02 — see skill_vining_waltz_3",
         "freezeClass": "minor",
         "route": "bulletChain",
         "provenance": "extracted"

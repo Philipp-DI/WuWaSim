@@ -1,0 +1,114 @@
+{
+  "id": 6000223,
+  "code": "R73-",
+  "name": "Formrender",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32070_UI.T_IconMonsterHead_32070_UI",
+  "skill": {
+    "desc": "Use Echo Skill to summon a Formrender, dealing {0} Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains {1} Energy Regen.\nCD: {2}s",
+    "simple_desc": "Summon a Formrender to attack enemies, dealing Fusion DMG.\nThe Resonator with this Echo equipped in the main slot gains Energy Regen.",
+    "param": [
+      [
+        "152.00%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "182.40%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "212.80%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "243.20%",
+        "10.00%",
+        "20"
+      ],
+      [
+        "273.60%",
+        "10.00%",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_32070_UI.T_MstSkil_32070_UI",
+    "damage": {
+      "20015301": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          15200,
+          18240,
+          21280,
+          24320,
+          27360
+        ],
+        "energy": 380,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 15200,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "36": {
+      "id": 36,
+      "name": "Heart of Sworn Vigil",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriXin.T_IconElementAttriXin",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by {0} and grants them {1} Electro DMG for {2}s.",
+          "param": [
+            "15%",
+            "22.5%",
+            "30"
+          ]
+        }
+      }
+    },
+    "38": {
+      "id": 38,
+      "name": "Flower of Tinged Yearning",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCureA.T_IconElementAttriCureA",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Healing a Resonator in the team increases the ATK of all Resonators in the team by {0} for {1}s. Effects of the same name cannot be stacked. While the effect is active, if the Resonator gains Unison or triggers Unison Response, their ATK is further increased by {2}.",
+          "param": [
+            "10%",
+            "30",
+            "15%"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 1,
+  "monster_info": 320000700
+}

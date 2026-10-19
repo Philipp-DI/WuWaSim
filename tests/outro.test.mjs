@@ -49,10 +49,11 @@ const outroEntry = (id) => Object.entries(d.autoSkillMap[String(id)] ?? {})
     // damage at all — they are buff/heal transfers, which is ordinary WuWa
     // design, so this number is NOT expected to keep climbing toward 56.
     const withRow = d.resonators.filter(r => outroEntry(r.id));
-    // 17 since the 3.6 bump: Jingran (795% of ATK) and Qingxiao (800%) both
-    // ship a pure DAMAGE outro, so both gain a row and neither gains an
-    // outroBuff — the two halves are mutually exclusive by design.
-    assert(`17 resonators have an outro damage row (got ${withRow.length})`, withRow.length === 17);
+    // 17 at 3.6: Jingran (795% of ATK) and Qingxiao (800%) ship a pure DAMAGE
+    // outro, a row and no outroBuff. 18 at 3.7: Hsin's outro does BOTH — "dealing
+    // Electro DMG equal to 100% of Hsin's ATK" (row 13110008000, 1.0 x ATK) plus
+    // a mode-keyed amplify menu in outroBuffs — so the halves are not exclusive.
+    assert(`18 resonators have an outro damage row (got ${withRow.length})`, withRow.length === 18);
 
     const [key, def] = outroEntry(byName('Carlotta').id);
     const row = d.damageTable['1107'].find(entry => entry.id === def.damageIds[0]);
@@ -150,6 +151,35 @@ function runTeam(names, rotations = {}) {
     };
     assert('Sanhua takes MORE from a Tune Strain Denia than a Fusion Burst one',
         runMode('tune_strain') > runMode('fusion_burst'));
+}
+
+// ── A Unison-gated outro grant reaches only a Unison recipient ───────────────
+// Suoming: "While having Unison Boon, they also gain 25% Resonance Skill DMG
+// Amplification", and Unison Boon goes only to Resonators who can trigger Unison
+// Response. Measured against the same grant with the gate stripped, so the test
+// isolates the gate rather than asserting an absolute number.
+{
+    const suoming = byName('Suoming');
+    const gated = suoming.outroBuffs.find(buff => buff.recipientRole === 'unison');
+    assert('Suoming\'s Unison Boon branch is the only role-gated grant on the roster',
+        gated?.scope?.skillType === 'skill' && Math.abs(gated.value - 0.25) < 1e-9
+        && d.resonators.flatMap(resonator => resonator.outroBuffs ?? []).filter(buff => buff.recipientRole).length === 1);
+    const skillOnly = (name) => Object.keys(d.autoSkillMap[String(byName(name).id)])
+        .filter(key => d.autoSkillMap[String(byName(name).id)][key].skillType === 'skill').slice(0, 1);
+    const incomingDamage = (name) => runTeam(['Suoming', name], { Suoming: ['liberation_umbral_canopy_miasma_lock'], [name]: skillOnly(name) })
+        .memberTotals.find(member => member.resonatorId === byName(name).id).damage;
+    const withoutGate = (name) => {
+        delete gated.recipientRole;
+        try { return incomingDamage(name); } finally { gated.recipientRole = 'unison'; }
+    };
+    assert('a non-Unison recipient (Sanhua) does not get it', incomingDamage('Sanhua') < withoutGate('Sanhua'));
+    assert('a Unison recipient (Hsin) does', Math.abs(incomingDamage('Hsin') - withoutGate('Hsin')) < 1e-6);
+    const index = suoming.outroBuffs.indexOf(gated);
+    suoming.outroBuffs.splice(index, 1);
+    let hsinWithoutGrant;
+    try { hsinWithoutGrant = incomingDamage('Hsin'); } finally { suoming.outroBuffs.splice(index, 0, gated); }
+    assert('…and it is worth something to her (so the equality above is not vacuous)',
+        incomingDamage('Hsin') > hsinWithoutGrant);
 }
 
 // ── Chisa's Outro cap raise ──────────────────────────────────────────────────

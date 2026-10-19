@@ -2442,7 +2442,8 @@
       5
     ],
     "group": [
-      35
+      35,
+      37
     ],
     "en": "Porcelain Picket",
     "intensity": 0,
@@ -2460,7 +2461,8 @@
       5
     ],
     "group": [
-      35
+      35,
+      37
     ],
     "en": "Stone Picket",
     "intensity": 0,
@@ -2478,7 +2480,8 @@
       5
     ],
     "group": [
-      34
+      34,
+      37
     ],
     "en": "Aureate Picket",
     "intensity": 0,
@@ -2496,7 +2499,8 @@
       5
     ],
     "group": [
-      33
+      33,
+      36
     ],
     "en": "Kernel Puppet: Joy",
     "intensity": 0,
@@ -2514,7 +2518,8 @@
       5
     ],
     "group": [
-      34
+      34,
+      38
     ],
     "en": "Kernel Puppet: Anger",
     "intensity": 0,
@@ -2532,7 +2537,8 @@
       5
     ],
     "group": [
-      34
+      34,
+      37
     ],
     "en": "Kernel Puppet: Worry",
     "intensity": 0,
@@ -2550,7 +2556,8 @@
       5
     ],
     "group": [
-      34
+      34,
+      38
     ],
     "en": "Kernel Puppet: Reflection",
     "intensity": 0,
@@ -2568,7 +2575,8 @@
       5
     ],
     "group": [
-      35
+      35,
+      38
     ],
     "en": "Kernel Puppet: Grief",
     "intensity": 0,
@@ -2586,7 +2594,8 @@
       5
     ],
     "group": [
-      35
+      35,
+      38
     ],
     "en": "Kernel Puppet: Fright",
     "intensity": 0,
@@ -2604,7 +2613,8 @@
       5
     ],
     "group": [
-      33
+      33,
+      36
     ],
     "en": "Fog Lionarch: Body",
     "intensity": 0,
@@ -2622,7 +2632,8 @@
       5
     ],
     "group": [
-      33
+      33,
+      36
     ],
     "en": "Fog Lionarch: Head",
     "intensity": 0,
@@ -2644,6 +2655,7 @@
     ],
     "en": "Smolder",
     "intensity": 0,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_31102_UI.T_IconMonsterGoods_SG_31102_UI",
     "ko": "불씨의 사냥꾼",
     "zh": "不熄猎手",
     "ja": "熄えぬ狩人"
@@ -2719,13 +2731,52 @@
       5
     ],
     "group": [
-      33
+      33,
+      38
     ],
     "en": "Thousand-Puppet Pavilion",
     "intensity": 3,
     "ko": "천괴중루",
     "zh": "千傀重楼",
     "ja": "千傀の重楼"
+  },
+  "6000219": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31103_UI.T_IconMonsterHead_31103_UI",
+    "code": "R24-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      36
+    ],
+    "en": "Jade Nether Serpent",
+    "intensity": 0,
+    "ko": "옥명사(玉冥蛇)",
+    "zh": "玉冥蛇",
+    "ja": "機玉の冥蛇"
+  },
+  "6000220": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32069_UI.T_IconMonsterHead_32069_UI",
+    "code": "R72-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      37,
+      38
+    ],
+    "en": "Skywatch Lancer",
+    "intensity": 1,
+    "phantom": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_32069_UI.T_IconMonsterGoods_SG_32069_UI",
+    "ko": "순소창위(巡霄槍衛)",
+    "zh": "巡霄枪卫",
+    "ja": "霄巡りの槍衛"
   },
   "6000221": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34032_UI.T_IconMonsterHead_34032_UI",
@@ -2745,6 +2796,81 @@
     "ko": "하늘의 기관 인형 · 겁살",
     "zh": "天傀劫煞",
     "ja": "天傀劫殺"
+  },
+  "6000222": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31104_UI.T_IconMonsterHead_31104_UI",
+    "code": "R25-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      36
+    ],
+    "en": "Bloomburst Puppet",
+    "intensity": 0,
+    "ko": "기탄괴",
+    "zh": "奇绽傀",
+    "ja": "花咲かの奇傀"
+  },
+  "6000223": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32070_UI.T_IconMonsterHead_32070_UI",
+    "code": "R73-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      36,
+      38
+    ],
+    "en": "Formrender",
+    "intensity": 1,
+    "ko": "해형살",
+    "zh": "解形煞",
+    "ja": "形解きの悪鬼"
+  },
+  "6000224": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32071_UI.T_IconMonsterHead_32071_UI",
+    "code": "R74-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      36,
+      37
+    ],
+    "en": "Soulfrayer",
+    "intensity": 1,
+    "ko": "절식백",
+    "zh": "绝息魄",
+    "ja": "息絶えの亡霊"
+  },
+  "6000225": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34033_2_UI.T_IconMonsterHead_34033_2_UI",
+    "code": "Z07-",
+    "rank": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "group": [
+      36,
+      37
+    ],
+    "en": "Reminiscence: Suhsin the Inevitable",
+    "intensity": 3,
+    "ko": "공명의 메아리 · 태초의 여우의 별자리 · 천연",
+    "zh": "共鸣回响·天演溯心",
+    "ja": "響き渡る共鳴・天演溯心"
   },
   "390070051": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_011_UI.T_IconMonsterGoods_011_UI",

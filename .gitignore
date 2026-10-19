@@ -46,3 +46,9 @@ __pycache__/
 # Effect reconciliation against the game ConfigDB — rebuilt by
 # tools/extract/reconcile_effects.py, and only from a local fmodel export.
 docs/effect-reconciliation.md
+
+# Version update (update-game-version/README.md): machine-local paths, and the
+# staged upstream trees and reports of a run in progress.
+update-game-version/local.json
+update-game-version/staging/
+update-game-version/reports/

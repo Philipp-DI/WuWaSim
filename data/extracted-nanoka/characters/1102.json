@@ -2430,7 +2430,7 @@
       ],
       "skill": {
         "name": "Condensation",
-        "desc": "Damage dealt by Sanhua's Resonance Skill increased by {0} for {1}s after casting her Intro Skill.",
+        "desc": "Damage dealt by Sanhua's Resonance Skill is increased by {0} for {1}s after casting her Intro Skill.",
         "param": [
           "20%",
           "8"

@@ -80,16 +80,25 @@ export function parsePorcelain(output) {
 /**
  * The warnings in `after` that `before` doesn't account for. Matched by rule and
  * message, because line numbers shift when code moves; when identical warnings
- * exist, the later ones are reported.
+ * exist, the later ones are reported. A metric warning states its measurement
+ * in the message ("has a complexity of 193"), so a warning with the same rule
+ * and wording whose every number is equal or LOWER is the same warning, not a
+ * new one: an improvement must never block. A higher number is new.
  */
 export function addedWarnings(before, after) {
-    const keyOf = (warning) => `${warning.ruleId}\0${warning.message}`;
-    const budget = new Map();
-    for (const warning of before) budget.set(keyOf(warning), (budget.get(keyOf(warning)) ?? 0) + 1);
+    const numbersOf = (message) => (message.match(/\d+/g) ?? []).map(Number);
+    const templateOf = (warning) => `${warning.ruleId}\0${warning.message.replace(/\d+/g, '#')}`;
+    const unused = before.map(warning => ({ template: templateOf(warning), message: warning.message, numbers: numbersOf(warning.message) }));
+    const claim = (warning, accepts) => {
+        const index = unused.findIndex(candidate => candidate.template === templateOf(warning) && accepts(candidate));
+        if (index < 0) return false;
+        unused.splice(index, 1);
+        return true;
+    };
     return after.filter(warning => {
-        const remaining = budget.get(keyOf(warning)) ?? 0;
-        budget.set(keyOf(warning), remaining - 1);
-        return remaining <= 0;
+        const numbers = numbersOf(warning.message);
+        return !claim(warning, candidate => candidate.message === warning.message)
+            && !claim(warning, candidate => numbers.every((value, i) => value <= candidate.numbers[i]));
     });
 }
 

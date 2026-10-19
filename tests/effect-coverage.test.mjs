@@ -101,6 +101,18 @@ const UNREAD = [
            + 'branch — 10% per 10 Tune Break Boost to a 60% cap at minChain 2. Reading it here '
            + 'as well fed pctFor the superseded 30% and shipped a permanent, unconditional +30% '
            + 'amplify on his whole kit, measured x1.3000 on every hit at S2+.' },
+    // Added 2026-10-19 with 3.7, before the 3.7 client export: the db_buff rows
+    // are to be traced in that export (VERSION-UPDATE-SPEC Phase 2).
+    { id: 1311, match: 'DMG Multiplier of the Electro Flare DMG triggered by',
+        why: 'An added-instance shape, the same as Aemeath\'s Fusion Burst entries: her Forte\'s '
+           + 'Electro Flare mode makes the last stage of Heartward by Moon trigger one Electro '
+           + 'Flare DMG instance at 35% x (Heart of Thunder stacks) x (the status multiplier for '
+           + 'the target\'s current stacks), and S1 raises the 35% to 42%. Neither the instance '
+           + 'nor Heart of Thunder (fed by teammates\' Electro Rage) is modelled.' },
+    { id: 1311, match: 'last stage of Resonance Liberation - Pillars Across Heaven hits',
+        why: 'An added-instance shape: S3 makes the last stage of Pillars Across Heaven trigger '
+           + 'one Electro Flare DMG instance at 1500% x (the status multiplier for the target\'s '
+           + 'current stacks). A status-damage instance owned by a cast has no lane yet.' },
 ];
 
 // ── Scan ─────────────────────────────────────────────────────────────────────
@@ -143,8 +155,9 @@ for (const resonator of dataset.resonators) {
 
     // A ratchet on the total. 109 of 324 were unread before this pass; the list
     // above is 9. It may only ever shrink — a rise means a new kit phrasing went
-    // in unnoticed, which is the exact failure this file exists to catch.
-    assert(`unread buff clauses have not grown past 7 (got ${unread.length})`, unread.length <= 7);
+    // in unnoticed, which is the exact failure this file exists to catch. 7 -> 9
+    // on 2026-10-19: the two Hsin entries above, new content listed on arrival.
+    assert(`unread buff clauses have not grown past 9 (got ${unread.length})`, unread.length <= 9);
     assert('the scan still sees the whole roster (>= 300 buff clauses in scope)', inScope >= 300);
 }
 

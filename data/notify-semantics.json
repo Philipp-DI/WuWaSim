@@ -1,9 +1,9 @@
 {
  "_meta": {
   "source": "G:\\Software\\fmodel\\Output\\Exports\\Client\\Content\\Aki\\JavaScript\\Game (shipped client JavaScript)",
-  "generatedAt": "2026-09-15T13:11:10.293Z",
+  "generatedAt": "2026-10-19T16:05:36.510Z",
   "note": "GetNotifyName() is the designer-facing label and the authority on what a notify does. `dead` lists declared-but-never-read properties — do not classify on those.",
-  "count": 206
+  "count": 209
  },
  "notifies": [
   {
@@ -1166,7 +1166,7 @@
     "GetRandomIndex",
     "CanCreateBullet"
    ],
-   "bytes": 4925
+   "bytes": 4940
   },
   {
    "notify": "TsAnimNotifyRoleFinishInteract",
@@ -1324,6 +1324,23 @@
     "BeginGroup"
    ],
    "bytes": 1401
+  },
+  {
+   "notify": "TsAnimNotifySpecialSkillCodeEvent",
+   "kind": "instant",
+   "label": "SpecialSkill帧事件",
+   "declared": [
+    "Payload"
+   ],
+   "used": [
+    "Payload"
+   ],
+   "dead": [],
+   "calls": [
+    "GetComponent",
+    "DispatchCodeAnimNotify"
+   ],
+   "bytes": 780
   },
   {
    "notify": "TsAnimNotifyStateAbsoluteTimeStop",
@@ -1937,6 +1954,24 @@
    "bytes": 935
   },
   {
+   "notify": "TsAnimNotifyStateCinematicsLightCurve",
+   "kind": "state",
+   "label": "演出灯光曲线通知状态",
+   "declared": [],
+   "used": [],
+   "dead": [],
+   "calls": [
+    "ApplyLightDirection",
+    "GetCurrentTimeLength",
+    "GetValue_Float",
+    "K2_GetComponentRotation",
+    "SetCustomPrimitiveDataFloat",
+    "RevertLightDirection",
+    "IsValid"
+   ],
+   "bytes": 2395
+  },
+  {
    "notify": "TsAnimNotifyStateCleanBurstCamera",
    "kind": "state",
    "label": "大招时显隐Mesh和特效",
@@ -2373,7 +2408,7 @@
     "GetCurrentTimeLength",
     "GetEnterVehicleStartTransform"
    ],
-   "bytes": 9765
+   "bytes": 9633
   },
   {
    "notify": "TsAnimNotifyStateEnterWaterMoveOffset",
@@ -2462,6 +2497,7 @@
    "calls": [
     "CheckError",
     "Error",
+    "GetName",
     "GetComponent",
     "AddTag",
     "HideBattleView",
@@ -2470,7 +2506,7 @@
     "RemoveTag",
     "ShowBattleView"
    ],
-   "bytes": 1815
+   "bytes": 1995
   },
   {
    "notify": "TsAnimNotifyStateHideBone",
@@ -2564,8 +2600,8 @@
     "Create",
     "Init",
     "GetEntityIdNoBlueprint",
-    "GetComponent",
     "GetEntityNoBlueprint",
+    "GetComponent",
     "GetAnimInstance",
     "FromUeTransform",
     "D_GetTransform",
@@ -2573,7 +2609,7 @@
     "GetCurveRotator",
     "InverseTransformPositionNoScale"
    ],
-   "bytes": 6657
+   "bytes": 6702
   },
   {
    "notify": "TsAnimNotifyStateKeepAwayFromGround",
@@ -3577,6 +3613,26 @@
     "DisableSoftLock"
    ],
    "bytes": 1610
+  },
+  {
+   "notify": "TsAnimNotifyStateSpecialSkillCodeEvent",
+   "kind": "state",
+   "label": "SpecialSkill帧事件",
+   "declared": [
+    "Payload"
+   ],
+   "used": [
+    "Payload"
+   ],
+   "dead": [],
+   "calls": [
+    "GetSpecialSkillComp",
+    "GetComponent",
+    "DispatchCodeAnimNotifyBegin",
+    "DispatchCodeAnimNotifyTick",
+    "DispatchCodeAnimNotifyEnd"
+   ],
+   "bytes": 1210
   },
   {
    "notify": "TsAnimNotifyStateStareDetect",

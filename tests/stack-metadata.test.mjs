@@ -125,7 +125,12 @@ for (const resonator of dataset.resonators) {
     // not shapes COND_STACK_RE reads — so S1.0 shipped as a FLAT, unscoped 2% Crit
     // DMG and S6.1 as a flat amplify. Both now read the curated Afterflame gauge,
     // one HELD and one CONSUMED, which is why both carry a real cap of 40.
-    assert('the dataset still holds exactly 23 stackable effects', stackables.size === 23);
+    // 27 since 3.7: Hsin S1.0 and S3.1, Suoming S2.1 and IH1.0. All four are "a
+    // base plus an additional N% for each stack of Unison Boon", and Unison Boon
+    // is not tracked, so all four carry stackTrigger 'unknown' and resolve to ONE
+    // stack, which is the base value with no Boon at all — the underivable-stack
+    // rule again, understating.
+    assert('the dataset still holds exactly 27 stackable effects', stackables.size === 27);
 
     // Each entry below was hand-checked against the kit text in wuwa-data.json.
     const expected = {

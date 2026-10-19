@@ -1,0 +1,109 @@
+{
+  "id": 6000219,
+  "code": "R24-",
+  "name": "Jade Nether Serpent",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31103_UI.T_IconMonsterHead_31103_UI",
+  "skill": {
+    "desc": "Summon a Jade Nether Serpent that bombards the target with fireballs, dealing {0} Fusion DMG 5 times, then {1} Fusion DMG once.\nCD: {2}s",
+    "simple_desc": "Summon a Jade Nether Serpent to deal Fusion DMG to the target.",
+    "param": [
+      [
+        "7.20%",
+        "36.00%",
+        "8"
+      ],
+      [
+        "8.64%",
+        "43.20%",
+        "8"
+      ],
+      [
+        "10.08%",
+        "50.40%",
+        "8"
+      ],
+      [
+        "11.52%",
+        "57.60%",
+        "8"
+      ],
+      [
+        "12.96%",
+        "64.80%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31103_UI.T_MstSkil_31103_UI",
+    "damage": {
+      "20015001": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          720,
+          864,
+          1008,
+          1152,
+          1296
+        ],
+        "energy": 18,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 720,
+        "weakness_lvl": 0
+      },
+      "20015002": {
+        "element": 2,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          3600,
+          4320,
+          5040,
+          5760,
+          6480
+        ],
+        "energy": 90,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 3600,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "36": {
+      "id": 36,
+      "name": "Heart of Sworn Vigil",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriXin.T_IconElementAttriXin",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by {0} and grants them {1} Electro DMG for {2}s.",
+          "param": [
+            "15%",
+            "22.5%",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310001030
+}

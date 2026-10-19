@@ -217,19 +217,15 @@ export function candidateSonatasFor(resonator, dataset, roles = []) {
 }
 
 /**
- * Top-N representative 5★ weapons of the resonator's weapon type by base ATK
- * (the realistic candidate pool). The search sims each so the secondary stat is
- * accounted for; weapon passives are only partially modeled, so base ATK is the
- * pre-filter, not the final ranking.
+ * Every 4★ and 5★ weapon of the resonator's weapon type: the sim ranks them, so
+ * nothing is cut before it is simulated (maintainer, 2026-10-19). A base-ATK
+ * top-8 cut once dropped Stringmaster from the rectifier pool the day a new
+ * rectifier arrived — seven rectifiers tie at 500 base ATK, so array order
+ * decided which made it.
  */
-export function candidateWeaponsFor(resonator, dataset, limit = 8) {
-    // Base ATK is only a pre-filter — a weapon's passive (now modeled, incl.
-    // conditional amplify) can make a lower-base weapon win, so keep a wide pool
-    // and let the sim rank it. There are only ~10 5★ per weapon type.
+export function candidateWeaponsFor(resonator, dataset) {
     return (dataset.weapons ?? [])
-        .filter(weapon => weapon.type === resonator.weaponType && weapon.rarity === 5)
-        .sort((weaponA, weaponB) => (weaponB.statsByLevel?.['90']?.atk ?? 0) - (weaponA.statsByLevel?.['90']?.atk ?? 0))
-        .slice(0, limit)
+        .filter(weapon => weapon.type === resonator.weaponType && weapon.rarity >= 4)
         .map(weapon => weapon.id);
 }
 

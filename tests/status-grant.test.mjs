@@ -103,10 +103,12 @@ for (const resonator of dataset.resonators) {
     }
 }
 {
-    assert(`eight clauses on the roster grant to a status's own damage (found ${marked.length})`,
-        marked.length === 8);
-    assert('across Lucilla, Aemeath, Denia and Cartethyia',
-        JSON.stringify([...new Set(marked.map(entry => entry.resonator.id))].sort()) === '[1109,1210,1211,1409]');
+    // 8 until 3.7; Hsin S6's Electro Flare crit pair (Crit. Rate fixed at 80%,
+    // Crit. DMG fixed at 230%) is the same fixed-crit shape as Aemeath's S6.
+    assert(`ten clauses on the roster grant to a status's own damage (found ${marked.length})`,
+        marked.length === 10);
+    assert('across Lucilla, Aemeath, Denia, Hsin and Cartethyia',
+        JSON.stringify([...new Set(marked.map(entry => entry.resonator.id))].sort()) === '[1109,1210,1211,1311,1409]');
     // Every marked status must be one the engine models, or the skip hides a
     // value that nothing will ever pay.
     assert('every marked status is one enemy-status.js defines',

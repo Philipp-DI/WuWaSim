@@ -551,10 +551,10 @@ const target = { level: 90, atkLv: 90, resistances: {} };
         extracted > 900 && extracted > estimated * 10);
     // ~~3.6 added Jingran and Qingxiao and the client export was still 3.5, so
     // this list read `1212,1413`.~~ The 3.6 export landed 2026-09-15 and it
-    // shrank to nothing, which is the state it must stay in: a resonator here
-    // means the roster grew and the timing export did not follow. Named rather
-    // than tolerated, so the next patch's gap is a test failure, not a quiet
-    // slide in the ratio above.
+    // shrank to nothing. A resonator here means the roster grew and the timing
+    // export did not follow. Named rather than tolerated, so the next patch's gap
+    // is a test failure, not a quiet slide in the ratio above. 3.7 named Hsin and
+    // Suoming here until its export landed (2026-10-19); empty again since.
     assert(`no resonator is awaiting a timing export (got ${awaitingExport.join(',') || 'none'})`,
         awaitingExport.length === 0);
     assert('curated pins resolve as "curated"', curated > 0);

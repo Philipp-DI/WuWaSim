@@ -16,8 +16,9 @@ import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import { mount, filterResonators, sortResonators, __test__ } from '../src/ui/components/roster-v2.js';
+import { ROLE_TAG_CATEGORY } from '../tools/preprocess/effects.mjs';
 
-const { ELEM } = __test__;
+const { ELEM, ROLE_CATEGORY_LABEL, ROLE_CATEGORY_ORDER } = __test__;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));
@@ -34,6 +35,17 @@ const elemMap = Object.fromEntries(d.elements.map(e => [e.id, e]));
     for (const id of [1, 2, 3, 4, 5, 6]) {
         assert(`element ${id} has name+token`, !!ELEM[id]?.name && /^var\(--el-/.test(ELEM[id]?.c));
     }
+}
+
+// ── Role categories: renderRoleFilters shows only ROLE_CATEGORY_ORDER, so a
+// category without a row would hide its chips without a word ────────────────
+{
+    for (const category of new Set(Object.values(ROLE_TAG_CATEGORY))) {
+        assert(`role category ${category} has a filter row and a label`,
+            ROLE_CATEGORY_ORDER.includes(category) && !!ROLE_CATEGORY_LABEL[category]);
+    }
+    assert('tag 39 (Unison, 3.7) has its own category', ROLE_TAG_CATEGORY[39] === 'unison');
+    assert('tag 38 (Hack Response) has its own category', ROLE_TAG_CATEGORY[38] === 'hackResponse');
 }
 
 // ── filterResonators ──────────────────────────────────────────────────────────

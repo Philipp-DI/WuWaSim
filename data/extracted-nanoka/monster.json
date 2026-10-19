@@ -1133,11 +1133,21 @@
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31103_UI.T_IconMonsterHead_31103_UI",
     "rank": 1,
     "element": 2,
-    "echo": 0,
+    "echo": 6000219,
     "en": "Jade Nether Serpent",
     "ko": "옥명사(玉冥蛇)",
     "zh": "玉冥蛇",
     "ja": "機玉の冥蛇"
+  },
+  "310001040": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31104_UI.T_IconMonsterHead_31104_UI",
+    "rank": 1,
+    "element": 1,
+    "echo": 6000222,
+    "en": "Bloomburst Puppet",
+    "ko": "기탄괴",
+    "zh": "奇绽傀",
+    "ja": "花咲かの奇傀"
   },
   "320000010": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_185_UI.T_IconMonsterHead_185_UI",
@@ -1843,11 +1853,31 @@
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32069_UI.T_IconMonsterHead_32069_UI",
     "rank": 2,
     "element": 4,
-    "echo": 0,
+    "echo": 6000220,
     "en": "Skywatch Lancer",
     "ko": "순소창위(巡霄槍衛)",
     "zh": "巡霄枪卫",
     "ja": "霄巡りの槍衛"
+  },
+  "320000700": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32070_UI.T_IconMonsterHead_32070_UI",
+    "rank": 2,
+    "element": 5,
+    "echo": 6000223,
+    "en": "Formrender",
+    "ko": "해형살",
+    "zh": "解形煞",
+    "ja": "形解きの悪鬼"
+  },
+  "320000710": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_32071_UI.T_IconMonsterHead_32071_UI",
+    "rank": 2,
+    "element": 3,
+    "echo": 6000224,
+    "en": "Soulfrayer",
+    "ko": "절식백",
+    "zh": "绝息魄",
+    "ja": "息絶えの亡霊"
   },
   "330000010": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_225_UI.T_IconMonsterHead_225_UI",
@@ -2599,6 +2629,36 @@
     "zh": "天傀劫煞",
     "ja": "天傀劫殺"
   },
+  "340000330": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34033_UI.T_IconMonsterHead_34033_UI",
+    "rank": 4,
+    "element": 3,
+    "echo": 0,
+    "en": "Suhsin the Inevitable",
+    "ko": "태초의 여우의 별자리 · 천연",
+    "zh": "天演溯心",
+    "ja": "天演溯心"
+  },
+  "340000331": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34033_1_UI.T_IconMonsterHead_34033_1_UI",
+    "rank": 4,
+    "element": 3,
+    "echo": 0,
+    "en": "Suhsin the Inevitable",
+    "ko": "태초의 여우의 별자리 · 천연",
+    "zh": "天演溯心",
+    "ja": "天演溯心"
+  },
+  "340000332": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34033_2_UI.T_IconMonsterHead_34033_2_UI",
+    "rank": 4,
+    "element": 3,
+    "echo": 6000225,
+    "en": "Reminiscence: Suhsin the Inevitable",
+    "ko": "공명의 메아리 · 태초의 여우의 별자리 · 천연",
+    "zh": "共鸣回响·天演溯心",
+    "ja": "響き渡る共鳴・天演溯心"
+  },
   "350000010": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_1006_UI.T_IconMonsterHead_1006_UI",
     "rank": 3,
@@ -3018,5 +3078,35 @@
     "ko": "이상 · 만와뢰 · 잔해",
     "zh": "异相·万囮牢·朽躯",
     "ja": "異相・万囮の檻・朽躯"
+  },
+  "350000440": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_SG_31102_UI.T_IconMonsterHead_SG_31102_UI",
+    "rank": 1,
+    "element": 2,
+    "echo": 6010214,
+    "en": "Phantom: Smolder",
+    "ko": "이상 · 불씨의 사냥꾼",
+    "zh": "异相·不熄猎手",
+    "ja": "異相・熄えぬ狩人"
+  },
+  "350000450": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_SG_34033_2_UI.T_IconMonsterHead_SG_34033_2_UI",
+    "rank": 4,
+    "element": 3,
+    "echo": 6010225,
+    "en": "Stay tuned",
+    "ko": "Stay tuned",
+    "zh": "敬请期待",
+    "ja": "Stay tuned"
+  },
+  "350000460": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_SG_32069_UI.T_IconMonsterHead_SG_32069_UI",
+    "rank": 2,
+    "element": 2,
+    "echo": 6010220,
+    "en": "Phantom: Skywatch Lancer",
+    "ko": "이상 · 순소창위(巡霄槍衛)",
+    "zh": "异相·巡霄枪卫",
+    "ja": "異相・霄巡りの槍衛"
   }
 }

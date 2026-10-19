@@ -1,0 +1,131 @@
+{
+  "id": 6000222,
+  "code": "R25-",
+  "name": "Bloomburst Puppet",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_31104_UI.T_IconMonsterHead_31104_UI",
+  "skill": {
+    "desc": "Summon a Bloomburst Puppet to startle the target, dealing 1 instance of {0} Glacio DMG, followed by 2 instances of {1} Glacio DMG and 1 instance of {2} Glacio DMG.\nCD: {3}s",
+    "simple_desc": "Summon a Bloomburst Puppet to attack enemies, dealing Glacio DMG.",
+    "param": [
+      [
+        "14.40%",
+        "7.20%",
+        "43.20%",
+        "8"
+      ],
+      [
+        "17.28%",
+        "8.64%",
+        "51.84%",
+        "8"
+      ],
+      [
+        "20.16%",
+        "10.08%",
+        "60.48%",
+        "8"
+      ],
+      [
+        "23.04%",
+        "11.52%",
+        "69.12%",
+        "8"
+      ],
+      [
+        "25.92%",
+        "12.96%",
+        "77.76%",
+        "8"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_31104_UI.T_MstSkil_31104_UI",
+    "damage": {
+      "20015201": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          720,
+          864,
+          1008,
+          1152,
+          1296
+        ],
+        "energy": 18,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 720,
+        "weakness_lvl": 0
+      },
+      "20015202": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          4320,
+          5184,
+          6048,
+          6912,
+          7776
+        ],
+        "energy": 108,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 4320,
+        "weakness_lvl": 0
+      },
+      "20015203": {
+        "element": 1,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1440,
+          1728,
+          2016,
+          2304,
+          2592
+        ],
+        "energy": 36,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 2880,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "36": {
+      "id": 36,
+      "name": "Heart of Sworn Vigil",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriXin.T_IconElementAttriXin",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by {0} and grants them {1} Electro DMG for {2}s.",
+          "param": [
+            "15%",
+            "22.5%",
+            "30"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 0,
+  "monster_info": 310001040
+}

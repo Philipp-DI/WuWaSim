@@ -87,5 +87,9 @@
     5
   ],
   "intensity_code": 0,
-  "monster_info": 310001020
+  "monster_info": 310001020,
+  "phantom": {
+    "name": "Phantom: Smolder",
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterGoods/T_IconMonsterGoods_SG_31102_UI.T_IconMonsterGoods_SG_31102_UI"
+  }
 }

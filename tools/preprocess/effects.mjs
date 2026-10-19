@@ -520,8 +520,10 @@ export function pctFor(text, keywordRe) {
     // 0.20, 1205301003 attribute 10 at -0.15) which is what proves it.
     // `of` counts as a link: the game states a FIXED value that way ("fixed
     // Crit. DMG of 275%"), and reading that one backwards picks up the Crit.
-    // Rate stated earlier in the same sentence.
-    const linked = /^\s*(?:of\s+\w+\s+)?(?:is\s+|are\s+)?(?:increased\s+|raised\s+|boosted\s+)?(?:by|to|of)\b/i.test(after);
+    // Rate stated earlier in the same sentence. "fixed at" is the same statement
+    // in Hsin's S6 ("Crit. Rate fixed at 80% and Crit. DMG fixed at 230%").
+    const linked = /^\s*(?:of\s+\w+\s+)?(?:is\s+|are\s+)?(?:increased\s+|raised\s+|boosted\s+)?(?:by|to|of)\b/i.test(after)
+        || /^\s*fixed\s+at\b/i.test(after);
     if (!linked && backward) return parseFloat(backward[1]) / 100;
     // Skipping any "up to N%" — that is the CEILING of a per-stack value, never
     // the value. Sigrika S6's "…15% DMG Amplification, up to 60%" otherwise
@@ -560,7 +562,7 @@ export function pctFor(text, keywordRe) {
 // Element name -> elementId, the same 1..6 ordering the dataset uses.
 const ELEMENT_IDS = Object.freeze({ glacio: 1, fusion: 2, electro: 3, aero: 4, spectro: 5, havoc: 6 });
 
-const CRITS_EXPLICITLY_RE = /can\s+critically\s+hit/i;
+const CRITS_EXPLICITLY_RE = /can\s+(?:critically\s+hit|be\s+critical)/i;
 const STATUS_DMG_RES = STATUS_KEYS.map(key => new RegExp(`${statusSpaceForm(key)}\\s+DMG`, 'i'));
 
 function afflictionCritClause(clause) {
@@ -1068,9 +1070,8 @@ export const ROLE_TAG_CATEGORY = {
     19: 'amplify', 20: 'amplify', 21: 'amplify', 22: 'amplify', 23: 'amplify', 31: 'amplify', 32: 'amplify',
     24: 'negativeStatus', 25: 'negativeStatus', 26: 'negativeStatus', 27: 'negativeStatus', 28: 'negativeStatus', 29: 'negativeStatus',
     33: 'tuneBreak', 34: 'tuneBreak', 35: 'tuneBreak', 36: 'tuneBreak',
-    // Tag id 38 intentionally uncategorized: the raw source has no name/desc
-    // for it (blank in-game text) on the two resonators that carry it
-    // (Rebecca, Lucy) — nothing to show, so applyResonatorRoles drops it.
+    38: 'hackResponse',                                                // Hack Response (collab: Rebecca, Lucy)
+    39: 'unison',                                                      // Unison (3.7)
 };
 
 export function loadCharacterTags(resonatorId) {

@@ -612,7 +612,9 @@ const names = dataset.externalBuffs?.attributeNames ?? {};
 // cost-4 main echo was short roughly 12% element plus 12% skill-type DMG.
 {
     const withMain = dataset.echoes.filter(echo => echo.activeSkill?.mainSlotBuffs);
-    assert(`30 echoes carry a main-slot passive (got ${withMain.length})`, withMain.length === 30);
+    // 32 since 3.7: Reminiscence: Suhsin the Inevitable (+10% Electro DMG Bonus)
+    // and Formrender (+10% Energy Regen), both through the value cross-check.
+    assert(`32 echoes carry a main-slot passive (got ${withMain.length})`, withMain.length === 32);
 
     // THE CROSS-CHECK, RE-DERIVED HERE. The extractor supplies values and the
     // description supplies the gate; the warrant for crediting either is that

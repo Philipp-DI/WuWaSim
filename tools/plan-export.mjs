@@ -34,6 +34,8 @@ import { readFileSync, readdirSync, existsSync, statSync, writeFileSync, copyFil
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
+import { loadLocal } from '../update-game-version/sources.mjs';
+import { readInstall } from '../update-game-version/status.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const manifest = JSON.parse(readFileSync(resolve(here, 'extract/export-manifest.json'), 'utf8'));
@@ -43,16 +45,24 @@ const flag = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 
 
 const settingsPath = join(process.env.APPDATA ?? '', 'FModel', 'AppSettings.json');
 const settings = existsSync(settingsPath) ? JSON.parse(readFileSync(settingsPath, 'utf8')) : {};
-const slimRootArg = flag('--slim') ?? 'G:\\WuWaSlim';
-// The REAL install, not whatever FModel currently points at — once the slim
-// root is in use that is the slim root, which has no Saved/Resources and
-// would send the planner looking for hotfixes inside its own output. Same rule
-// `--profile` uses: the profile that is not the slim root and holds the keys.
-const gameDir = (() => {
+// Two slim roots: the FULL one (base paks + their _P patches) and the PATCH one
+// (_P paks only). Exporting from the full root and then again from the patch
+// root makes the hotfix copy of every duplicated file the last one written.
+const local = loadLocal();
+const patchOnly = argv.includes('--patch-only');
+const fullRoot = local.slimRoot ?? 'G:\\WuWaSlim';
+const patchRoot = local.patchRoot ?? `${fullRoot}Patch`;
+const slimRootArg = flag('--slim') ?? (patchOnly ? patchRoot : fullRoot);
+const slimRoots = new Set([fullRoot, patchRoot, slimRootArg]);
+// The REAL install, not whatever FModel currently points at — once a slim root
+// is in use that is the slim root, which has no Saved/Resources and would send
+// the planner looking for hotfixes inside its own output. local.json names it;
+// without one, the profile that is no slim root and holds the most keys.
+const gameDir = local.installPath ? resolve(local.installPath) : (() => {
     const profiles = Object.keys(settings.PerDirectory ?? {})
-        .filter(path => path !== slimRootArg && existsSync(join(path, 'Client', 'Content', 'Paks')))
+        .filter(path => !slimRoots.has(path) && existsSync(join(path, 'Client', 'Content', 'Paks')))
         .sort((left, right) => (settings.PerDirectory[right].AesKeys?.dynamicKeys?.length ?? 0) - (settings.PerDirectory[left].AesKeys?.dynamicKeys?.length ?? 0));
-    return profiles[0] ?? (settings.GameDirectory !== slimRootArg ? settings.GameDirectory : null) ?? null;
+    return profiles[0] ?? (!slimRoots.has(settings.GameDirectory) ? settings.GameDirectory : null) ?? null;
 })();
 const pakDir = gameDir ? join(gameDir, 'Client', 'Content', 'Paks') : null;
 const logDir = settings.OutputDirectory ? join(settings.OutputDirectory, 'Logs') : null;
@@ -142,20 +152,7 @@ for (const pak of [...chosen.keys()]) {
 // dropped as stale.~~ It was not stale; it was in the other directory. So the
 // planner resolves every chosen base pak's `_P` sibling in the NEWEST hotfix of
 // the Resource lane, and a pak found in neither place is what gets dropped.
-const hotfixDir = (() => {
-    const resources = gameDir ? join(gameDir, 'Client', 'Saved', 'Resources') : null;
-    if (!resources || !existsSync(resources)) return null;
-    // Only version-shaped names: Saved/Resources also holds "Video", which a
-    // plain sort puts above "3.6.0".
-    const byVersion = (dir) => readdirSync(dir)
-        .filter(name => /^\d+(\.\d+)*$/.test(name) && statSync(join(dir, name)).isDirectory())
-        .sort((left, right) => right.localeCompare(left, undefined, { numeric: true }));
-    const version = byVersion(resources)[0];
-    const lane = version ? join(resources, version, 'Resource') : null;
-    if (!lane || !existsSync(lane)) return null;
-    const hotfix = byVersion(lane)[0];
-    return hotfix ? join(lane, hotfix) : null;
-})();
+const hotfixDir = gameDir ? readInstall(gameDir).hotfixDir : null;
 const patchOnDisk = new Set(hotfixDir ? readdirSync(hotfixDir).filter(name => name.endsWith('_P.pak')) : []);
 const baseOnDisk = new Set(pakDir && existsSync(pakDir) ? readdirSync(pakDir).filter(name => name.endsWith('.pak')) : []);
 // Where a pak actually lives, so the link targets the right directory.
@@ -170,6 +167,9 @@ for (const pak of [...chosen.keys()]) {
 }
 const stale = [...chosen.keys()].filter(pak => (baseOnDisk.size || patchOnDisk.size) && !locate(pak));
 for (const pak of stale) chosen.delete(pak);
+// The PATCH root holds the hotfix paks alone, so FModel lists only the files the
+// hotfix re-ships — no duplicates — and an export from it overwrites the base copy.
+if (patchOnly) for (const pak of [...chosen.keys()]) if (!pak.endsWith('_P.pak')) chosen.delete(pak);
 
 const sizeAt = (pak) => { const path = locate(pak); return path && existsSync(path) ? statSync(path).size : 0; };
 const allBytes = [...baseOnDisk].reduce((sum, pak) => sum + sizeOf(pak), 0)
@@ -191,43 +191,6 @@ for (const [pak, entry] of [...chosen].sort((left, right) => sizeAt(right[0]) - 
     console.log(`  ${' '.repeat(44)}        for: ${[...entry.wants].join(', ')}`);
 }
 
-if (argv.includes('--link')) {
-    // FModel resolves <GameDirectory>/Client/Content/Paks, so the slim tree has
-    // to MIRROR that shape — a bare folder of paks is not something it can be
-    // pointed at. Symlinks, so nothing is copied and no disk is spent.
-    const slimRoot = slimRootArg;
-    const slimPaks = join(slimRoot, 'Client', 'Content', 'Paks');
-    // Errors are left VISIBLE: the first draft piped every line to Out-Null,
-    // which is precisely what hid a silent failure from the maintainer. Each
-    // link prints its LinkType and Target on success, so a dangling or missing
-    // link is obvious in the transcript.
-    console.log(`\n# Build a slim game root (symlinks — nothing is copied).`);
-    console.log(`# Symlinks need Developer Mode (Settings > System > For developers) OR an`);
-    console.log(`# elevated PowerShell. Then set FModel's Game Directory to:  ${slimRoot}`);
-    console.log(`New-Item -ItemType Directory -Force '${slimPaks}' | Select-Object FullName`);
-    // Every pak ships with a `.sig` beside it, and CUE4Parse can refuse a pak
-    // whose signature file is missing — so the sig travels with the pak. A base
-    // pak links from Content/Paks and its `_P` hotfix from Saved/Resources; both
-    // land in ONE slim Paks dir, where the `_P` suffix gives the patch mount
-    // priority exactly as it does in the real install.
-    for (const pak of [...chosen.keys()].sort()) {
-        const source = locate(pak);
-        if (!source) continue;
-        for (const file of [source, source.replace(/\.pak$/, '.sig')]) {
-            if (!existsSync(file)) continue;
-            const name = file.slice(file.lastIndexOf('\\') + 1);
-            console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, name)}' -Target '${file}' -Force | Select-Object Name, LinkType`);
-        }
-    }
-    console.log(`# Then, with FModel CLOSED:  node tools/plan-export.mjs --profile`);
-    console.log(`# Re-run after every game patch AND every hotfix: a new Saved/Resources/<ver>/Resource/<hotfix>/`);
-    console.log(`# directory means new _P paks, and an export without them is the previous hotfix's data.`);
-} else if (argv.includes('--profile')) {
-    applyProfile(slimRootArg);
-} else {
-    console.log('\nRun again with --link for the slim-directory commands.');
-}
-
 // FModel keys EVERYTHING that makes a game loadable — the AES keys AND the UE
 // version — to the exact GameDirectory path string (`PerDirectory` in its
 // AppSettings.json). Pointing it at the slim root therefore creates a FRESH
@@ -243,8 +206,53 @@ if (argv.includes('--link')) {
 // carried on every full mount in the logs and the one FModel's own "Wuthering
 // Waves" preset sets; `--ue-version` overrides it if a later FModel renumbers
 // the enum. FModel rewrites the file on exit, so this refuses to run while it
-// is open — an edit made underneath it is silently lost.
+// is open — an edit made underneath it is silently lost. Declared ABOVE the
+// dispatch below: `--profile` calls applyProfile from top level, and a `const`
+// read before its own line throws (temporal dead zone).
 const WUWA_EGAME = 68812811;
+
+if (argv.includes('--link')) {
+    // FModel resolves <GameDirectory>/Client/Content/Paks, so the slim tree has
+    // to MIRROR that shape — a bare folder of paks is not something it can be
+    // pointed at. Symlinks, so nothing is copied and no disk is spent.
+    const slimRoot = slimRootArg;
+    const slimPaks = join(slimRoot, 'Client', 'Content', 'Paks');
+    // Errors are left VISIBLE: the first draft piped every line to Out-Null,
+    // which is precisely what hid a silent failure from the maintainer. Each
+    // link prints its LinkType and Target on success, so a dangling or missing
+    // link is obvious in the transcript.
+    console.log(`\n# Build a slim game root (symlinks — nothing is copied).`);
+    console.log(`# Symlinks need Developer Mode (Settings > System > For developers) OR an`);
+    console.log(`# elevated PowerShell. Then set FModel's Game Directory to:  ${slimRoot}`);
+    console.log(`New-Item -ItemType Directory -Force '${slimPaks}' | Select-Object FullName`);
+    // Clear the PREVIOUS link set first. A patch moves the hotfix lane (3.6.15 ->
+    // 3.7.15) and leaves the old _P links dangling; FModel's directory scan then
+    // throws on the first one (DirectoryNotFoundException) and mounts only what it
+    // had already registered — "Mounted: 1/1" at 3.7. Links only: a real file in
+    // the slim root is never deleted.
+    console.log(`Get-ChildItem -LiteralPath '${slimPaks}' -Force | Where-Object { $_.LinkType -eq 'SymbolicLink' } | Remove-Item -Force -Confirm:$false`);
+    // Every pak ships with a `.sig` beside it, and CUE4Parse can refuse a pak
+    // whose signature file is missing — so the sig travels with the pak. A base
+    // pak links from Content/Paks and its `_P` hotfix from Saved/Resources; both
+    // land in ONE slim Paks dir, where the `_P` suffix gives the patch mount
+    // priority exactly as it does in the real install.
+    for (const pak of [...chosen.keys()].sort()) {
+        const source = locate(pak);
+        if (!source) continue;
+        for (const file of [source, source.replace(/\.pak$/, '.sig')]) {
+            if (!existsSync(file)) continue;
+            const name = file.slice(file.lastIndexOf('\\') + 1);
+            console.log(`New-Item -ItemType SymbolicLink -Path '${join(slimPaks, name)}' -Target '${file}' -Force | Select-Object Name, LinkType`);
+        }
+    }
+    console.log(`# Then, with FModel CLOSED:  node tools/plan-export.mjs --profile${patchOnly ? ' --patch-only' : ''}`);
+    console.log(`# Re-run after every game patch AND every hotfix: a new Saved/Resources/<ver>/Resource/<hotfix>/`);
+    console.log(`# directory means new _P paks, and an export without them is the previous hotfix's data.`);
+} else if (argv.includes('--profile')) {
+    applyProfile(slimRootArg);
+} else {
+    console.log('\nRun again with --link for the slim-directory commands.');
+}
 
 function applyProfile(slimRoot) {
     const fmodelRunning = (() => {
@@ -261,11 +269,11 @@ function applyProfile(slimRoot) {
     }
     const ueVersion = Number(flag('--ue-version') ?? WUWA_EGAME);
     const profiles = settings.PerDirectory ?? (settings.PerDirectory = {});
-    // The SOURCE is the real game directory: whichever profile is not the slim
-    // root and holds the most keys, so this still works when FModel's current
-    // GameDirectory has already been switched to the slim root.
-    const source = Object.entries(profiles)
-        .filter(([path]) => path !== slimRoot)
+    // The SOURCE is the real game directory: the install's own profile, else
+    // whichever profile is no slim root and holds the most keys, so this still
+    // works when FModel's current GameDirectory is already a slim root.
+    const source = (gameDir && profiles[gameDir] ? [gameDir, profiles[gameDir]] : null) ?? Object.entries(profiles)
+        .filter(([path]) => !slimRoots.has(path))
         .sort((left, right) => (right[1].AesKeys?.dynamicKeys?.length ?? 0) - (left[1].AesKeys?.dynamicKeys?.length ?? 0))[0];
     if (!source) {
         console.error('No source game profile found in FModel settings — open the real game directory in FModel once first.');
@@ -300,4 +308,7 @@ for (const [name, group] of Object.entries(manifest.groups)) {
 }
 for (const folder of [...folders].sort()) console.log(`  ${folder}/`);
 console.log(`  ${manifest.groups.characterAssets.pathPattern}   (only for resonators that changed)`);
+console.log('\nOr select it all at once: node tools/check-export.mjs --regex [--dir <BodyType>/<Dir> ...]');
+console.log('Export from the full root FIRST, then the same selection from the patch root (--patch-only),');
+console.log('so the hotfix copy of every duplicated file is the one left on disk.');
 console.log('\nVerify with:  node tools/check-export.mjs <export-root>');

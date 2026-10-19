@@ -52,6 +52,8 @@ const SONATA_SLUGS = new Set([
     'song-of-feathered-trace', 'sound-of-true-name', 'thread-of-severed-fate',
     'tidebreaking-courage', 'trailblazing-star', 'void-thunder',
     'windward-pilgrimage', 'wishes-of-quiet-snowfall',
+    // 3.7 — from the nanoka CDN (the wiki refused the fetch); same 76x76 webp.
+    'heart-of-sworn-vigil', 'flash-of-electric-reflection', 'flower-of-tinged-yearning',
 ]);
 
 // Per-kind config: asset subdirectory, whether it's a tintable monochrome mask,

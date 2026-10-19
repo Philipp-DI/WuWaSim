@@ -2,7 +2,7 @@
 paths:
   - "tools/extract/**"
   - "tools/extract-forte.mjs"
-  - "tools/fetch-nanoka-*.mjs"
+  - "update-game-version/**"
   - "src/core/buffs/{external-buffs,buff-windows}.js"
   - "src/core/tune-break.js"
   - "tests/{skill-join,hit-map,export-manifest}.test.mjs"

@@ -30,6 +30,7 @@ for them.
 | **Off-Tune bar / Tune Break** | A bar on the ENEMY that any resonator can break once it is full. The **response** is a cast every resonator has (`resonator.tuneBreak`, named by weapon type), priced by the tune-bar formula rather than by a character multiplier — no ATK scaling, no crit, no gear stat. |
 | **Shifting / Interfered** | The two halves of a tune status. A cast inflicts **Shifting** (25s); a Tune Break on a Shifting target converts it to **Interfered**. Three families share the shape — Tune Rupture, Tune Strain, Hack. |
 | **Tune Break Boost** | A points stat, base 0 (`WeaknessTotalBonus`), granted by kits. A Tune Strain RESPONDER converts it: +0.12% of their total DMG per point per Interfered stack (`src/core/tune-break.js`). |
+| **Unison** | A 3.7 team mechanic. The kit texts name a state a resonator gains (Suoming's Liberation "grants Suoming Unison"), a **Unison Response** a teammate triggers, and **Unison Boon** stacks on the team; Hsin has a Resonance Mode - Unison. Role tag 39 marks who takes part (Jinhsi, Hsin, Suoming). Not modelled: the sim reads only the tag, as a synergy hint. |
 | **Coordinated Attack** | Damage a benched (off-field) resonator contributes while someone else is active. |
 | **Amplify / Deepen** | Separate multiplicative damage buckets on top of the additive DMG-bonus bucket (see formula.js header). |
 | **STA** | Stamina — cost rows in the data that look numeric but are NOT damage (a known matching trap). |
@@ -75,6 +76,9 @@ mapping is not guessable — look it up here rather than inferring it.
 | **LOCK A / LOCK B** | Refactor checks: regenerate `wuwa-data.json` / `wuwa-meta.json` and require a zero diff (CLAUDE.md, Test commands). |
 | **display row vs damage instance** | One skill-panel line in the game (row) may bundle several raw hits (instances). `matchRowHits` maps rows to instances by full 20-level multiplier vectors. |
 | **rate vector** | That 20-level multiplier array — the fingerprint used for row↔instance matching. |
+| **version update** | Adopting a new game version (or hotfix) into the dataset, run through `update-game-version/update.mjs`. The adopted version of both halves lives in `data/game-version.json`. |
+| **staging** | `update-game-version/staging/<version>/`: the upstream trees of a version update (Arikatsu at the target and the pinned branch, nanoka at the target), fetched but not yet installed. Gitignored. |
+| **review gate** | The version update's hard stop between `diff` and `install`: `reports/<version>/review.md` must say `decision: install` for the current diff's hash. |
 
 ### Build & rotation
 

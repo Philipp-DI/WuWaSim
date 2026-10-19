@@ -336,6 +336,66 @@
    "byStacks": {
     "1": 3.0
    }
+  },
+  {
+   "buffId": 1311400105,
+   "resonatorId": 1311,
+   "damageId": "1002",
+   "status": "electro_flare",
+   "stackLimit": 1,
+   "byStacks": {
+    "1": 1.75
+   }
+  },
+  {
+   "buffId": 1311400107,
+   "resonatorId": 1311,
+   "damageId": "1002",
+   "status": "electro_flare",
+   "stackLimit": 1,
+   "byStacks": {
+    "1": 0.35
+   }
+  },
+  {
+   "buffId": 1311400127,
+   "resonatorId": 1311,
+   "damageId": "1002",
+   "status": "electro_flare",
+   "stackLimit": 1,
+   "byStacks": {
+    "1": 2.1
+   }
+  },
+  {
+   "buffId": 1311400128,
+   "resonatorId": 1311,
+   "damageId": "1002",
+   "status": "electro_flare",
+   "stackLimit": 1,
+   "byStacks": {
+    "1": 0.42
+   }
+  },
+  {
+   "buffId": 1311600126,
+   "resonatorId": 1311,
+   "damageId": "1002",
+   "status": "electro_flare",
+   "stackLimit": 0,
+   "byStacks": {
+    "1": 1.0
+   }
+  },
+  {
+   "buffId": 1311600315,
+   "resonatorId": 1311,
+   "damageId": "1002",
+   "status": "electro_flare",
+   "stackLimit": 1,
+   "byStacks": {
+    "1": 15.0
+   }
   }
  ]
 }

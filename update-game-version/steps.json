@@ -1,0 +1,92 @@
+{
+  "_doc": "The version-update procedure, in run order (docs/VERSION-UPDATE-SPEC.md §4). kind: AUTO runs `run`; USER stops and prints the README section `### <id>`; GATE stops until `gate.file` records the decision for the current `gate.against`. runsOn local = the maintainer's machine (the nanoka CDN blocks datacenter IPs). `inputs` are read; `baseline` is committed state read BEFORE a later step replaces it; `outputs` are hashed into staging/<version>/state.json. Placeholders: {version} {staging} {reports} {python} {exportRoot}. pendingPhase: not implemented until that spec phase.",
+  "steps": [
+    {
+      "id": "status", "kind": "AUTO", "runsOn": "local",
+      "run": ["node update-game-version/status.mjs --version {version}"],
+      "inputs": [], "baseline": ["data/game-version.json"],
+      "outputs": ["{reports}/status.md"]
+    },
+    {
+      "id": "stage-arikatsu", "kind": "AUTO", "runsOn": "any",
+      "run": ["node update-game-version/fetch-arikatsu.mjs --version {version}"],
+      "inputs": [], "baseline": ["data/game-version.json"],
+      "outputs": ["{staging}/arikatsu", "{staging}/baseline"]
+    },
+    {
+      "id": "stage-nanoka", "kind": "AUTO", "runsOn": "local",
+      "run": ["node update-game-version/fetch-nanoka.mjs --version {version}"],
+      "inputs": [],
+      "outputs": ["{staging}/nanoka"]
+    },
+    {
+      "id": "diff", "kind": "AUTO", "runsOn": "any",
+      "run": ["node update-game-version/diff-report.mjs --version {version}"],
+      "inputs": ["{staging}/arikatsu", "{staging}/baseline", "{staging}/nanoka", "data/effect-overrides.json"],
+      "baseline": ["data/extracted-nanoka", "data/bindata", "data/game-version.json"],
+      "outputs": ["{reports}/diff.md", "{reports}/diff.json"]
+    },
+    {
+      "id": "review", "kind": "GATE", "runsOn": "claude",
+      "gate": { "file": "{reports}/review.md", "against": "{reports}/diff.md", "decision": "install" },
+      "inputs": ["{reports}/diff.md"],
+      "outputs": ["{reports}/review.md"]
+    },
+    {
+      "id": "install", "kind": "AUTO", "runsOn": "any",
+      "run": ["node update-game-version/install.mjs --version {version}"],
+      "inputs": ["{staging}/arikatsu", "{staging}/nanoka", "{reports}/review.md"],
+      "outputs": ["data/extracted-nanoka", "data/bindata", "data/game-version.json"]
+    },
+    {
+      "id": "export", "kind": "USER", "runsOn": "local",
+      "inputs": ["tools/extract/export-manifest.json"],
+      "outputs": []
+    },
+    {
+      "id": "check-export", "kind": "AUTO", "runsOn": "local",
+      "run": ["node tools/check-export.mjs {exportRoot}"],
+      "inputs": ["tools/extract/export-manifest.json"],
+      "outputs": []
+    },
+    {
+      "id": "extract", "kind": "AUTO", "runsOn": "local", "pendingPhase": 2,
+      "inputs": ["data/hit-map.json", "tools/extract/export-manifest.json"],
+      "outputs": ["data/extra-effects.json", "data/external-buffs.json", "data/gauge-income.json",
+        "data/status-damage.json", "data/status-appliers.json", "data/abnormal-damage.json",
+        "data/affliction-damage.json", "data/buff-facts.json", "data/notify-semantics.json",
+        "data/actionable-times.json", "data/skill-join.json"]
+    },
+    {
+      "id": "compile", "kind": "AUTO", "runsOn": "any",
+      "run": ["node tools/preprocess.mjs", "node tools/extract-forte.mjs", "node tools/preprocess.mjs", "node tools/optimize.mjs"],
+      "inputs": ["data/game-version.json", "data/extracted-nanoka", "data/bindata", "data/hit-map.json"],
+      "outputs": ["data/wuwa-data.json", "data/hit-map.json", "data/forte-data.json", "data/data-version.json", "data/wuwa-meta.json"]
+    },
+    {
+      "id": "assets", "kind": "AUTO", "runsOn": "local", "pendingPhase": 3,
+      "inputs": ["data/wuwa-data.json"],
+      "outputs": ["assets/icons"]
+    },
+    {
+      "id": "verify", "kind": "AUTO", "runsOn": "any",
+      "run": ["node tools/run-tests.mjs", "node tools/sweep-modules.mjs", "node node_modules/eslint/bin/eslint.js ."],
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "id": "in-game", "kind": "USER", "runsOn": "game",
+      "inputs": ["{reports}/diff.md"],
+      "outputs": []
+    },
+    {
+      "id": "record", "kind": "USER", "runsOn": "claude",
+      "inputs": ["{reports}/diff.md", "{reports}/review.md"],
+      "outputs": []
+    }
+  ],
+  "hotfix": ["export", "check-export", "extract", "compile", "assets", "verify"],
+  "cycles": [
+    { "path": "data/hit-map.json", "reason": "preprocess writes it, extract-forte and extract_buff_facts read it, preprocess reads their output again (the compile step runs preprocess twice for this)" }
+  ]
+}

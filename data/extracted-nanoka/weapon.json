@@ -611,6 +611,18 @@
     "zh": "云琅",
     "ja": "雲琅"
   },
+  "21020107": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21020107_UI.T_IconWeapon21020107_UI",
+    "rank": 5,
+    "type": 2,
+    "en": "Unspoken Rue",
+    "desc": "With this canopy, she sheltered all life and sealed the Evil Miasma. The Blight Rain ceased, the Miasmic Thunder fell silent, and a deep darkness lies trapped upon the canopy's surface. Beneath it linger the shadows of no return, always walking by her side.",
+    "atk": 588,
+    "sub": "Crit. Rate",
+    "ko": "적막한 어둠",
+    "zh": "沉冥",
+    "ja": "沈冥"
+  },
   "21030011": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21030011_UI.T_IconWeapon21030011_UI",
     "rank": 1,
@@ -1462,6 +1474,18 @@
     "ko": "눈부신 빛",
     "zh": "曜光",
     "ja": "弾む輝き"
+  },
+  "21050116": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21050116_UI.T_IconWeapon21050116_UI",
+    "rank": 5,
+    "type": 5,
+    "en": "Blooming Jadehaven",
+    "desc": "Jade to pillars, gold to nexus, a hundred mechanisms meshed into one working. Infinite forms divide and proliferate among the blooms, and it still fits in the palm of Her hand.\nWalls and mechanisms know no feeling. What makes a life's work worth the life is not the making, but that something in it was loved.",
+    "atk": 588,
+    "sub": "Crit. Rate",
+    "ko": "옥궐에 피는 꽃",
+    "zh": "玉阙玄华",
+    "ja": "玉殿に咲き満ちる玄華"
   },
   "80080001": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconWeapon/T_IconWeapon21020019_UI.T_IconWeapon21020019_UI",

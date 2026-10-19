@@ -61,6 +61,14 @@
             "reconcile_effects.py"
           ],
           "note": "one row per S1..S6 node with its BuffIds"
+        },
+        {
+          "path": "Content/Aki/ConfigDB/Misc/BuildInfo.txt",
+          "neededBy": [
+            "update-game-version/status.mjs"
+          ],
+          "required": false,
+          "note": "the build this export was taken from (PatchVersion); ships inside the paks, so only an export carries it"
         }
       ]
     },

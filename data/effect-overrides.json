@@ -325,6 +325,27 @@
         "_resolvedVia": "2026-07-31 gauge-engine increment 1: 'Crown of Wills provides additional effects: Each stack increases Augusta's Crit. Rate by 20%.' states no cap because the cap is declared on the SIBLING node S1 ('The max stack of Crown of Wills is increased to 2'). Chain levels are cumulative, so at S2 the cap IS 2. Cross-NODE cap references are out of descStackCap's reach by design (it reads one description)."
       }
     },
+    "1311": {
+      "IH0.0": {
+        "trigger": {
+          "type": "castMatch",
+          "skillKeys": [
+            "intro_intro_skill_answering_form_manifold_unison",
+            "intro_intro_skill_illumining_form_manifold_unison"
+          ]
+        },
+        "window": {
+          "type": "seconds",
+          "seconds": 8
+        },
+        "_resolvedVia": "2026-10-19 3.7 onboarding: \"While in Resonance Mode - Unison, when Hsin casts Intro Skill - Answering Form: Manifold Unison or Intro Skill - Illumining Form: Manifold Unison, Her ATK is increased by 50% for 8s.\" The parser found no trigger, so mode tagging made it always-on in Unison mode. The cast and the 8s are the clause's own; the mode gate stays."
+      },
+      "IH0.2": {
+        "defaultActive": false,
+        "defaultAssume": false,
+        "_resolvedVia": "2026-10-19 3.7 onboarding: \"if Rover: Electro is in the same team, when Rover: Electro casts Intro Skill - Thunderous Fury, both Hsin and Rover: Electro gain 20% Electro DMG Bonus for 30s.\" Parsed as castMatch on ANY intro, which fired on Hsin's own. The engine has no teammate-presence gate, so it is a user toggle, OFF by default."
+      }
+    },
     "1402": {
       "S6.0": {
         "trigger": {

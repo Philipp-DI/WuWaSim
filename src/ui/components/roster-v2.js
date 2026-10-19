@@ -138,9 +138,9 @@ function rarityChip(rarity) {
 // `applyResonatorRoles`), grouped by curated category for a scannable filter panel.
 const ROLE_CATEGORY_LABEL = {
     primary: 'ROLE', damageFocus: 'DAMAGE FOCUS', amplify: 'AMPLIFIES',
-    negativeStatus: 'NEGATIVE STATUS', tuneBreak: 'TUNE BREAK', utility: 'UTILITY',
+    negativeStatus: 'NEGATIVE STATUS', tuneBreak: 'TUNE BREAK', hackResponse: 'HACK RESPONSE', unison: 'UNISON', utility: 'UTILITY',
 };
-const ROLE_CATEGORY_ORDER = ['primary', 'damageFocus', 'amplify', 'negativeStatus', 'tuneBreak', 'utility'];
+const ROLE_CATEGORY_ORDER = ['primary', 'damageFocus', 'amplify', 'negativeStatus', 'tuneBreak', 'hackResponse', 'unison', 'utility'];
 
 function roleChip(role) {
     const on = api.selRoles.includes(role.id);
@@ -418,4 +418,4 @@ export function mount(root, config) {
     return { update: () => paint() };
 }
 
-export const __test__ = { ELEM };
+export const __test__ = { ELEM, ROLE_CATEGORY_LABEL, ROLE_CATEGORY_ORDER };

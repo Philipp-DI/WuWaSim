@@ -79,9 +79,11 @@ const SCHEMA_VERSION = 9;
 // refresh and the derived tables keyed by id (external-buffs, gauge-income,
 // status-*, buff-facts, skill-join, hit-map, bullet-timings, forte-data).
 //
+// The pin lives in data/game-version.json, which the version-update install
+// step bumps together with the nanoka half (update-game-version/README.md).
 // `--ref` still overrides, so probing a new version costs nothing:
 //     node tools/preprocess.mjs --ref 3.6 --out /tmp/probe.json
-const PINNED_REF = '3.6';
+const PINNED_REF = JSON.parse(readFileSync(resolve(__dirname, '../data/game-version.json'), 'utf8')).arikatsu;
 
 function parseArgs(argv) {
     const args = { lang: 'en', out: 'data/wuwa-data.json', ref: null };
@@ -102,6 +104,17 @@ function printHelp() {
     console.log('         Without it this pass fetches whatever version is LIVE, so a rerun can');
     console.log('         change the dataset with no local edit — pin it to make LOCK A mean');
     console.log('         "my change moved the data" rather than "upstream shipped a patch".');
+}
+
+/**
+ * The description a skill node's effects are parsed from, or '' to skip it. An
+ * Outro node's grants are the OUTRO lane's when `outroBuffs` carries them
+ * (CLAUDE.md, "Team-buff paths are disjoint"); read as skill-node effects too
+ * they were a second, self-targeted copy — live on Hsin, inert elsewhere.
+ */
+function skillNodeDesc(def, resonator) {
+    if (def?.skillType === 'outro' && resonator.outroBuffs?.length) return '';
+    return def?.desc ?? '';
 }
 
 /**
@@ -184,7 +197,7 @@ async function main() {
         })
         .map(([id, entry]) => {
             seen.add(entry.en);
-            // If a full character JSON was fetched by fetch-nanoka-chars.mjs, use it.
+            // If a full character JSON was staged and installed (update-game-version/), use it.
             const fullPath = resolve(CHAR_DIR, `${id}.json`);
             if (existsSync(fullPath)) {
                 try {
@@ -336,7 +349,7 @@ async function main() {
     // Build autoSkillMap + supplemental damageTable entries for ALL resonators
     // that have a nanoka character JSON — not just the ones new to Dimbreath.
     // This gives skill data to every Dimbreath char (Sanhua, Jinhsi, etc.) as
-    // soon as their JSON is fetched with: node tools/fetch-nanoka-chars.mjs --all
+    // soon as their JSON is installed by the version update (update-game-version/README.md).
     const autoSkillMap = {};
 
     const ACTIONABLE_TIMES = {
@@ -582,7 +595,7 @@ async function main() {
         const rid = String(resonator.id);
         const byDesc = new Map();
         for (const [key, def] of Object.entries(autoSkillMap[rid] ?? {})) {
-            const desc = def?.desc ?? '';
+            const desc = skillNodeDesc(def, resonator);
             if (!desc) continue;
             if (!byDesc.has(desc)) byDesc.set(desc, []);
             byDesc.get(desc).push(key);

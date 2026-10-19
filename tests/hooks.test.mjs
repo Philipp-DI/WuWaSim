@@ -107,6 +107,18 @@ const same = (actual, expected) => JSON.stringify(actual) === JSON.stringify(exp
     assert('moved code adds nothing', addedWarnings(before, before.map(warning => ({ ...warning, line: warning.line + 5 }))).length === 0);
     assert('a fixed warning adds nothing', addedWarnings(before, before.slice(1)).length === 0);
     assert('a new file starts from zero', addedWarnings([], [{ ruleId: 'complexity', message: 'too complex', line: 3, column: 1 }]).length === 1);
+
+    // A METRIC warning carries its measurement in the message, so an
+    // improvement used to read as a new warning (2026-10-19: preprocess `main`
+    // went 195 -> 193 and the gate blocked every turn). Same rule and wording
+    // with every number equal or lower is the same warning; higher is new.
+    const complexity = (value, line = 157) => ({ ruleId: 'complexity', message: `Async function 'main' has a complexity of ${value}. Maximum allowed is 12.`, line, column: 1 });
+    assert('a metric that went DOWN is not new', addedWarnings([complexity(195)], [complexity(193)]).length === 0);
+    assert('a metric that went UP is new', addedWarnings([complexity(195)], [complexity(196)]).length === 1);
+    assert('an unchanged metric is not new', addedWarnings([complexity(195)], [complexity(195, 160)]).length === 0);
+    assert('a second warning of the same kind is still new', addedWarnings([complexity(195)], [complexity(193), complexity(14, 300)]).length === 1);
+    assert('a lower number of a DIFFERENT wording is new',
+        addedWarnings([complexity(195)], [{ ruleId: 'complexity', message: "Function 'other' has a complexity of 13. Maximum allowed is 12.", line: 1, column: 1 }]).length === 1);
 }
 
 console.log(`\nhooks: ${passed} passed, ${failed} failed`);

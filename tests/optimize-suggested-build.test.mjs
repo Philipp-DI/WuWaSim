@@ -50,16 +50,21 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('Changli candidates exclude Glacio-only sets', !cc.some(id => elementOf(id) === 1));
 }
 
-// ── candidateWeaponsFor: top-N 5★ of the right weapon type ────────────────────
+// ── candidateWeaponsFor: EVERY 4★ and 5★ of the right weapon type ─────────────
+// No base-ATK cut (maintainer, 2026-10-19). At 3.7 the top-8 cut dropped
+// Stringmaster from the rectifier pool the day Blooming Jadehaven arrived, and
+// with seven rectifiers tied at 500 base ATK, array order decided the cut.
 {
-    const carlotta = resoOf(1107);
-    const w = candidateWeaponsFor(carlotta, d, 3);
-    assert('returns up to 3 weapons', w.length > 0 && w.length <= 3);
-    assert('all candidates are the resonator weapon type + 5★',
-        w.every(id => { const wp = d.weapons.find(x => x.id === id); return wp?.type === carlotta.weaponType && wp?.rarity === 5; }));
-    // Sorted by base ATK descending → first has the highest base ATK.
-    const atk = (id) => d.weapons.find(x => x.id === id)?.statsByLevel?.['90']?.atk ?? 0;
-    assert('weapons sorted by base ATK desc', w.every((id, i) => i === 0 || atk(w[i - 1]) >= atk(id)));
+    for (const id of [1107, 1302, 1311]) {
+        const resonator = resoOf(id);
+        const pool = candidateWeaponsFor(resonator, d);
+        const expected = d.weapons.filter(weapon => weapon.type === resonator.weaponType && weapon.rarity >= 4).map(weapon => weapon.id);
+        assert(`${resonator.name}: the pool is every 4★ and 5★ of the type (${pool.length} of ${expected.length})`,
+            pool.length === expected.length && expected.every(weaponId => pool.includes(weaponId)));
+    }
+    const rectifiers = candidateWeaponsFor(resoOf(1302), d);
+    assert('Stringmaster is back in the rectifier pool', rectifiers.includes(21050016));
+    assert('and so is a 4★ rectifier', rectifiers.some(weaponId => d.weapons.find(weapon => weapon.id === weaponId)?.rarity === 4));
 }
 
 // ── pickBestBuild: returns a candidate combo with positive damage ─────────────

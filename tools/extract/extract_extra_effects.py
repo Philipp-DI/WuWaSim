@@ -94,12 +94,18 @@ def requirement_map(source):
     "targets take N% more DMG", and why neither value could be found while the
     search only looked for positive bonuses under the wielder.
     """
-    match = re.search(r'switch\((?:\w+\.)?Type\)\{(.{0,2000}?)\}\}', source, re.S)
+    # The REQUIREMENT object is whatever the switch reads `.Type` from: the
+    # minifier renames it per build (3.6 `t`, 3.7 `e`), and a hard-coded name
+    # matched nothing at 3.7 and returned an empty map without failing.
+    # RequireTargetType only picks WHOSE attributes a case reads, so it is never
+    # the field the case checks.
+    match = re.search(r'switch\((?:(\w+)\.)?Type\)\{(.{0,2000}?)\}\}', source, re.S)
     if not match:
         return {}
+    field_re = re.compile(r'\b(?:Payload|%s)\.(?!RequireTargetType\b)(\w+)' % re.escape(match.group(1) or 't'))
     out = {}
-    for num, body in re.findall(r'case (\d+):(.{0,90}?)(?=case \d+:|$)', match.group(1), re.S):
-        field = re.search(r'(?:Payload|t)\.(\w+)', body)
+    for num, body in re.findall(r'case (\d+):(.{0,90}?)(?=case \d+:|$)', match.group(2), re.S):
+        field = field_re.search(body)
         if field and int(num) not in out:
             out[int(num)] = field.group(1)
     return out

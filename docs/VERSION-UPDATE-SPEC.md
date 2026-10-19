@@ -51,6 +51,8 @@ update-game-version/
   fetch-icons.mjs          resonator/weapon/echo/monster icons      (consolidates the icon tools, §10)
   fetch-sonata-crests.mjs  crests from phantomfettergroup.FetterElementPath (new)
   diff-report.mjs          staging vs committed, both halves        (new)
+  install.mjs              staging → data/, bumps data/game-version.json (new, Phase 1)
+  sources.mjs              shared paths, table lists, version helpers (new, Phase 1)
   plan-export.mjs          moved from tools/
   check-export.mjs         moved from tools/
   local.json               gitignored
@@ -166,6 +168,12 @@ runs steps 7–12 only.
 1. **Folder and core steps.** `steps.json` and the orchestrator with
    `status`/`stage`/`diff`/`review`/`install`; move the fetchers. Used at once
    to adopt 3.7 (steps 1–6, 10, 12).
+   **Implemented 2026-10-18** (`docs/history/2026-10-18-version-update-phase1.md`).
+   Measured deviations: `BuildInfo.txt` ships inside the paks, so `status` reads
+   it from the EXPORT root and reads the install's version from its newest
+   `Saved/Resources/<version>/Resource/<hotfix>/` lane; the one place for both
+   versions is the new `data/game-version.json`; `plan-export.mjs` and
+   `check-export.mjs` stay in `tools/` until Phase 2.
 2. **Export and extract (steps 7–9).** First run: bring the id-keyed artifacts
    (`external-buffs`, `gauge-income`, `status-appliers`, `buff-facts`,
    `skill-join`, `actionable-times`) to 3.7.
@@ -181,6 +189,8 @@ runs steps 7–12 only.
 5. **Project skill `.claude/skills/update-game-version/`**, written AFTER the
    first real run (3.7) through phases 1–3, from that run's experience, not
    from this spec.
+   **Implemented 2026-10-19** from the 3.7 run; phases 2–3 are still manual steps
+   it guides by hand (`extract`, `assets`), recorded by running the step by name.
    - **Thin layer.** The skill holds no procedure. Step order, inputs, outputs,
      checks and stop conditions stay in `steps.json` and `update.mjs`, where
      tests cover them. The skill says when to run which command, what to tell
@@ -196,6 +206,13 @@ runs steps 7–12 only.
      in-game checks itself, and never installs without a recorded
      `decision: install`.
    - **Privacy.** No paths or keys in the skill; those live in `local.json`.
+   - **The export is two passes, never a hand-picked duplicate** (2026-10-19,
+     3.7). FModel lists a file the hotfix re-ships twice (base and `_P` pak), and
+     both export to one path. So: one selection regex
+     (`check-export.mjs --regex`), exported first from the full slim root,
+     then from the patch-only root (`plan-export.mjs --patch-only`). The
+     `check-export` gate fails on a missing, zero-byte or stale file, and on a
+     `BuildInfo` that is not the install's newest hotfix.
 
 ## 11. Decisions
 

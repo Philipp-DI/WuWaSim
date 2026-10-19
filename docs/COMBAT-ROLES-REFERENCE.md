@@ -128,6 +128,13 @@ to Tune Break synergy hints in P13.
 with these roles benefit directly from a `TB_BOOST` provider on the team —
 this is the clearest Tune Break synergy signal for P13's team composition.
 
+### 3d′. Shared-mechanic tags: Hack Response, Unison (3.7)
+
+| tag id | name | In the sim |
+|---|---|---|
+| 38 | Hack Response | Category `hackResponse`. "Deals Hack DMG to targets." Exclusive to the collab resonators Rebecca and Lucy. Two holders get +1 affinity in `synergy-hints.js`. |
+| 39 | Unison | Category `unison`. "Triggers Unison-related effects for specific Resonators in the team" (Jinhsi, Hsin, Suoming). The mechanic is not modelled; two Unison holders get +1 affinity in `synergy-hints.js`. |
+
 ### 3e. Sustain and utility
 
 | key | wikiName | Sim relevance |

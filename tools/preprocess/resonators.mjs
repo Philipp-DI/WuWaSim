@@ -116,6 +116,17 @@ export function projectNanokaCharacter(id, entry) {
 // The matching primitives are in ./rate-match.mjs (imported above); this
 // module's own call site sums nanoka's `energy`/`element_power` fields.
 
+// "While having Unison Boon, they also gain 25% …" (Suoming): Unison Boon goes
+// "only [to] the Resonators who can trigger Unison Response", so an outro grant
+// whose own SENTENCE names Unison reaches only a recipient carrying the game's
+// Unison role tag. Hypothesis, unverified: that the tag marks exactly the
+// resonators who can trigger Unison Response.
+function outroRecipientRole(text, index) {
+    const start = text.lastIndexOf('.', index) + 1;
+    const end = text.indexOf('.', index);
+    return /\bUnison\b/.test(text.slice(start, end < 0 ? text.length : end)) ? 'unison' : null;
+}
+
 export function projectNanokaCharacterFull(nChar) {
     const id         = nChar.id;
     const name       = nChar.name;
@@ -360,13 +371,13 @@ export function projectNanokaCharacterFull(nChar) {
 
         // Collect all grants via global regexes (handles "X% A and X% B" on one line)
         const seen = new Set();  // dedup by scope key (per mode — see key below)
-        function addGrant(label, value, mode, duration) {
+        function addGrant(label, value, mode, duration, recipientRole = null) {
             const scope = labelToScope(label.trim());
             if (!scope) return;
             const key = (mode ?? '-') + ':' + scope.type + ':' + (scope.elementId ?? scope.skillType);
             if (seen.has(key)) return;
             seen.add(key);
-            outroBuffs.push({ scope, value: parseFloat(value) / 100, duration, ...(mode ? { mode } : {}) });
+            outroBuffs.push({ scope, value: parseFloat(value) / 100, duration, ...(mode ? { mode } : {}), ...(recipientRole ? { recipientRole } : {}) });
         }
 
         for (const segment of modeSegments(filled)) {
@@ -376,18 +387,18 @@ export function projectNanokaCharacterFull(nChar) {
 
             // Pattern A: "Y DMG … Amplified by X%" — label is the prefix before "Amplif"
             for (const match of text.matchAll(OUTRO_GLOBAL_A)) {
-                addGrant(match[0].replace(/\s+(?:is\s+|are\s+)?Amplif\w+.*$/i, '').trim(), match[1], mode, duration);
+                addGrant(match[0].replace(/\s+(?:is\s+|are\s+)?Amplif\w+.*$/i, '').trim(), match[1], mode, duration, outroRecipientRole(text, match.index));
             }
 
             // Pattern B: "X% Y Amplification"
             for (const match of text.matchAll(OUTRO_GLOBAL_B)) {
                 const label = match[2].replace(/\s*Amplif\w*/i, '').replace(/\s*DMG\s*$/i, ' DMG').trim();
-                addGrant(label, match[1], mode, duration);
+                addGrant(label, match[1], mode, duration, outroRecipientRole(text, match.index));
             }
 
             // Pattern C: "Amplify ... Y by X%"
             for (const match of text.matchAll(OUTRO_GLOBAL_C)) {
-                addGrant(match[1].trim(), match[2], mode, duration);
+                addGrant(match[1].trim(), match[2], mode, duration, outroRecipientRole(text, match.index));
             }
 
             // Pattern D: an UNSCOPED grant — "DMG Amplified by X%" or "15% DMG
@@ -397,7 +408,7 @@ export function projectNanokaCharacterFull(nChar) {
             if (seen.size === before) {
                 const bare = /\bDMG\s+Amplif\w+\s+by\s+([\d.]+)%/i.exec(text)
                     ?? /([\d.]+)%\s+DMG\s+Amplif/i.exec(text);
-                if (bare) addGrant('All DMG', bare[1], mode, duration);
+                if (bare) addGrant('All DMG', bare[1], mode, duration, outroRecipientRole(text, bare.index));
             }
         }
 

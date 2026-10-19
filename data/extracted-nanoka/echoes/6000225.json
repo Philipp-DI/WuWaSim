@@ -1,0 +1,191 @@
+{
+  "id": 6000225,
+  "code": "Z07-",
+  "name": "Reminiscence: Suhsin the Inevitable",
+  "type": "",
+  "intensity": "",
+  "place": "",
+  "icon": "/Game/Aki/UI/UIResources/Common/Image/IconMonsterHead/T_IconMonsterHead_34033_2_UI.T_IconMonsterHead_34033_2_UI",
+  "skill": {
+    "desc": "Cast Echo Skill to deal 4 instances of {0} Electro DMG and 1 instance of {1} Electro DMG.\nWhen equipped by Hsin, the Echo Skill instead deals 5 instances of {2} Electro DMG and 1 instance of {3} Electro DMG to targets within a larger range.\nThe Resonator with this Echo equipped in their main slot gains {4} Electro DMG Bonus. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra {5} Electro DMG Bonus for {6}s.\nCD: {7}s",
+    "simple_desc": "Cast Echo Skill to deal Electro DMG.\nThe Resonator with this Echo equipped in their main slot deals more Electro DMG. Inflicting Electro Flare, gaining Unison, or triggering Unison Response grants the Resonator an extra Electro DMG Bonus.",
+    "param": [
+      [
+        "15.20%",
+        "91.20%",
+        "4.56%",
+        "129.20%",
+        "10.00%",
+        "10.00%",
+        "30",
+        "20"
+      ],
+      [
+        "18.24%",
+        "109.44%",
+        "5.47%",
+        "155.04%",
+        "10.00%",
+        "10.00%",
+        "30",
+        "20"
+      ],
+      [
+        "21.28%",
+        "127.68%",
+        "6.38%",
+        "180.88%",
+        "10.00%",
+        "10.00%",
+        "30",
+        "20"
+      ],
+      [
+        "24.32%",
+        "145.92%",
+        "7.29%",
+        "206.72%",
+        "10.00%",
+        "10.00%",
+        "30",
+        "20"
+      ],
+      [
+        "27.36%",
+        "164.16%",
+        "8.20%",
+        "232.56%",
+        "10.00%",
+        "10.00%",
+        "30",
+        "20"
+      ]
+    ],
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/MstSkill/T_MstSkil_34033_UI.T_MstSkil_34033_UI",
+    "damage": {
+      "280045010": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          456,
+          547,
+          638,
+          729,
+          820
+        ],
+        "energy": 11,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 456,
+        "weakness_lvl": 0
+      },
+      "280045011": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          12920,
+          15504,
+          18088,
+          20672,
+          23256
+        ],
+        "energy": 323,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 12920,
+        "weakness_lvl": 0
+      },
+      "280045012": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          1520,
+          1824,
+          2128,
+          2432,
+          2736
+        ],
+        "energy": 38,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 1520,
+        "weakness_lvl": 0
+      },
+      "280045013": {
+        "element": 3,
+        "related_property": "ATK",
+        "type": 5,
+        "rate_lv": [
+          9120,
+          10944,
+          12768,
+          14592,
+          16416
+        ],
+        "energy": 228,
+        "element_power": 0,
+        "hardness_lv": 10000,
+        "tough_lv": 9120,
+        "weakness_lvl": 0
+      }
+    }
+  },
+  "group": {
+    "36": {
+      "id": 36,
+      "name": "Heart of Sworn Vigil",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriXin.T_IconElementAttriXin",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Inflicting Electro Flare on the target, obtaining Unison, or triggering Unison Response increases the Resonator's Crit. Rate by {0} and grants them {1} Electro DMG for {2}s.",
+          "param": [
+            "15%",
+            "22.5%",
+            "30"
+          ]
+        }
+      }
+    },
+    "37": {
+      "id": 37,
+      "name": "Flash of Electric Reflection",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriThunderError.T_IconElementAttriThunderError",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Electro DMG + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "When the Resonator inflicts Electro Flare on enemies, they gain the following effects: Gain {0} Electro DMG Bonus for {1}s. While this effect is active, casting Outro Skill grants the incoming Resonator {2} Electro DMG Bonus for {3}s.",
+          "param": [
+            "10%",
+            "15",
+            "25%",
+            "15"
+          ]
+        }
+      }
+    }
+  },
+  "rarity": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "intensity_code": 3,
+  "monster_info": 340000332
+}

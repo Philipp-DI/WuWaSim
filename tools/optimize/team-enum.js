@@ -157,11 +157,20 @@ export function generateCandidates(anchorId, { cap = 30, minAffinity = 1 } = {})
     }
 
     // 4) Final prune: curated first, then by summed affinity, then by ids
-    //    (deterministic). Cap the count.
+    //    (deterministic). Cap the count — but never INSIDE an affinity tie: the
+    //    cut happens before anything is simulated, so a tie broken by id text
+    //    would drop a team for no measured reason (Ciaccona's best at 3.7).
     out.sort((teamA, teamB) => {
         if (teamA.curated !== teamB.curated) return teamA.curated ? -1 : 1;
         if (teamB.affinity !== teamA.affinity) return teamB.affinity - teamA.affinity;
         return teamA.members.join('+').localeCompare(teamB.members.join('+'));
     });
-    return out.slice(0, cap);
+    return capWithoutSplittingTies(out, cap);
+}
+
+/** The first `cap` of a sorted list, plus every non-curated team tied with the last kept. */
+function capWithoutSplittingTies(sorted, cap) {
+    if (sorted.length <= cap) return sorted;
+    const floor = sorted[cap - 1];
+    return sorted.filter((team, index) => index < cap || (!floor.curated && team.affinity === floor.affinity));
 }

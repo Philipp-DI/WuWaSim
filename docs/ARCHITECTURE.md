@@ -372,7 +372,8 @@ to team damage** — as it does in-game.
 | `optimize.mjs` + `optimize/*` | Precompute `wuwa-meta.json`: weights, suggested builds, team rankings |
 | `extract-forte.mjs` | Distill Forte-gauge channels → `data/forte-data.json` |
 | `audit-effects.mjs` | QA report of unresolved effect triggers → `docs/effect-audit.md` |
-| `fetch-nanoka-*.mjs`, `download-icons.mjs`, `gen-manifest.mjs` | Source refresh utilities |
+| `download-icons.mjs`, `gen-manifest.mjs` | Icon refresh utilities |
+| `../update-game-version/*` | Game version update: stage Arikatsu + nanoka, diff, review gate, install (its own README) |
 
 ---
 

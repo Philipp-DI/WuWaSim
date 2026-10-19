@@ -13,6 +13,7 @@
 import { readFileSync, readdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+import { selectionRegex } from '../tools/extract/export-selection.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const manifest = JSON.parse(readFileSync(resolve(here, '../tools/extract/export-manifest.json'), 'utf8'));
@@ -75,6 +76,33 @@ assert('preprocess runs before extract_buff_facts',
 // the reason a version bump is usually cheap.
 assert('the manifest records what needs no export at all',
     manifest.notInExport.some(note => note.includes('bindata') && note.includes('nanoka')));
+
+// The FModel Search regex (tools/extract/export-selection.mjs) must select
+// exactly the manifest: every listed file and directory, none of their
+// neighbours. FModel matches it against the path it lists, which carries the
+// "Client/" root, so the test does too.
+{
+    const assetDirs = ['FemaleXL/Xinyuehu', 'FemaleS/Suoming'];
+    const pattern = new RegExp(selectionRegex(manifest, assetDirs), 'i');
+    const entries = Object.values(manifest.groups).flatMap(group => group.paths ?? []);
+    for (const entry of entries) {
+        const sample = entry.kind === 'dir' ? `${entry.path}/AN_Example.js` : entry.path;
+        assert(`the selection regex matches ${sample}`, pattern.test(`Client/${sample}`));
+    }
+    for (const dir of assetDirs) {
+        assert(`it matches files under the asset dir ${dir}`,
+            pattern.test(`Client/Content/Aki/Character/Role/${dir}/Animation/AM_Attack01.uasset`));
+    }
+    for (const neighbour of ['Content/Aki/ConfigDB/db_buffeffect.db', 'Content/Aki/ConfigDB/db_damage_text.db',
+        'Content/Aki/ConfigDB/db_weapon_visible.db', 'Content/Aki/JavaScript/Game/AnimNotifyEvents/X.js',
+        'Content/Aki/Character/Role/FemaleXL/XinyuehuShen/AM_Attack01.uasset',
+        'Content/Aki/JavaScript/Core/Define/Config/BuffEffect.js']) {
+        assert(`it does not match the neighbour ${neighbour}`, !pattern.test(`Client/${neighbour}`));
+    }
+    assert('a second asset dir is its own entry, not a prefix match',
+        new RegExp(selectionRegex(manifest, ['FemaleXL/XinyuehuShen']), 'i')
+            .test('Client/Content/Aki/Character/Role/FemaleXL/XinyuehuShen/AM_Attack01.uasset'));
+}
 
 console.log(`\nexport-manifest: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

@@ -1,0 +1,5 @@
+{
+  "_doc": "The adopted game version, in ONE place. `arikatsu` is the Arikatsu/WutheringWaves_Data branch tools/preprocess.mjs pins (PINNED_REF); `nanoka` is the static.nanoka.cc version data/extracted-nanoka/ was fetched at. Written by `node update-game-version/update.mjs install`; never bump one half alone (docs/VERSION-UPDATE-SPEC.md).",
+  "arikatsu": "3.7",
+  "nanoka": "3.7"
+}

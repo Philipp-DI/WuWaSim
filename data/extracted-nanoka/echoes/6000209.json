@@ -74,6 +74,28 @@
           ]
         }
       }
+    },
+    "38": {
+      "id": 38,
+      "name": "Flower of Tinged Yearning",
+      "icon": "/Game/Aki/UI/UIResources/Common/Image/IconElementAttri/T_IconElementAttriCureA.T_IconElementAttriCureA",
+      "color": "FFFFFF00",
+      "set": {
+        "2": {
+          "desc": "Healing + {0}",
+          "param": [
+            "10%"
+          ]
+        },
+        "5": {
+          "desc": "Healing a Resonator in the team increases the ATK of all Resonators in the team by {0} for {1}s. Effects of the same name cannot be stacked. While the effect is active, if the Resonator gains Unison or triggers Unison Response, their ATK is further increased by {2}.",
+          "param": [
+            "10%",
+            "30",
+            "15%"
+          ]
+        }
+      }
     }
   },
   "rarity": [

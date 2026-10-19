@@ -4,7 +4,7 @@ paths:
   - "tools/preprocess/**"
   - "tools/extract/**"
   - "tools/extract-forte.mjs"
-  - "tools/fetch-nanoka-*.mjs"
+  - "update-game-version/**"
   - "tools/gen-manifest.mjs"
   - "data/**"
 ---
@@ -31,8 +31,8 @@ docs/meta-validation.md                   ← generated QA report (gitignored)
 Re-run `npm run data` (preprocess) whenever source data or a curated input
 changes, then `npm run meta` (optimize) to refresh the meta.
 
-**The upstream version is PINNED** (`PINNED_REF` in `tools/preprocess.mjs`,
-currently `3.6`, bumped from 3.5 on 2026-09-08). `resolveRef()` asks GitHub for the default branch, which
+**The upstream version is PINNED** (`data/game-version.json`, read by
+`tools/preprocess.mjs` as `PINNED_REF`; currently `3.7`, adopted 2026-10-19 through `update-game-version/`). `resolveRef()` asks GitHub for the default branch, which
 tracks the LIVE game — so a bare `npm run data` used to be a function of the
 calendar, not of the checkout, and it silently rewrote 63,091 lines when
 upstream moved to 3.6 during an unrelated engine change. That is
@@ -147,10 +147,10 @@ characters to the integer), and the stat sheet FLOORS (`AttributeModel.js`,
 `Math.floor` for flats, floor-to-one-decimal for percentages) while
 `CharacterDamageCalculations.js` keeps every attribute as a FLOAT and applies
 `Math.ceil` to the final damage only — so a displayed "+7" is not the number the
-formula used. Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
-whose index files must be refreshed from `ww/<version>/<type>.json` — note NO
-`/en/` in that path, and that the fetchers read `manifest.ww.latest`, which can
-run AHEAD of `live`) and the derived tables keyed by id. Those extractors DO live
+formula used. Bump the version only through `update-game-version/` (its README is the
+runbook): `install` writes both halves into `data/game-version.json` at once,
+after the review gate, and the derived tables keyed by id follow in its
+export and extract steps. History: `docs/history/rules/data-pipeline.md`. Those extractors DO live
 in this repo (`tools/extract/`); what they need is a client export, per the
 targeted-export note above. Never edit the
 generated files directly. When an engine file changes, keep the `ENGINE_FILES`

@@ -130,7 +130,10 @@ const mk = (effect) => [{ effect, key: 'x' }];
 
 // ── Unconditional stackable applies via collectActiveEffects at one stack ────
 {
-    // Find any resonator with an unconditional (always-on) stackable effect.
+    // Find any resonator with an always-on stackable effect. A mode-gated one is
+    // always-on only in its OWN Resonance Mode, so the build is put in that mode
+    // (Hsin S1.0 is Unison-only; her default is Electro Flare). Until 3.7 the
+    // roster had none at all and this block was skipped, so a find is asserted.
     let found = null;
     for (const r of d.resonators) {
         for (const ch of r.resonanceChain ?? []) {
@@ -139,9 +142,10 @@ const mk = (effect) => [{ effect, key: 'x' }];
         }
         if (found) break;
     }
+    assert('the roster holds an always-on stackable effect to test', !!found);
     if (found) {
         const { r, ch, e } = found;
-        const build = setChain(createBuild(r), ch.level);
+        const build = { ...setChain(createBuild(r), ch.level), ...(e.mode ? { resonanceMode: e.mode } : {}) };
         const scaled = collectActiveEffects(build, r).find(x => x.stackable && x.stat === e.stat);
         assert(`unconditional stackable resolved (${r.name})`, !!scaled);
         // No rotation context, so the count is underivable unless the effect

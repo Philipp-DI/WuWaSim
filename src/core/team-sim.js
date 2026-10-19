@@ -738,18 +738,21 @@ function beginTurn(sim, pass, memberIndex) {
         // keyed by mode (`outroBuffs[*].mode`), and only one branch of a menu can
         // be live — Denia's Tune Strain grant was reaching Fusion Burst teams.
         amplifyContext: (handoffFired && prevReso?.outroBuffs?.length)
-            ? outroBuffsInMode(prevReso.outroBuffs, prevBuild?.resonanceMode ?? null)
+            ? outroBuffsInMode(prevReso.outroBuffs, prevBuild?.resonanceMode ?? null, resonator)
             : null,
     };
 }
 
 /**
  * The outro grants live for a member in `resonanceMode`. An ungated grant always
- * applies; a gated one only in its own mode. Returns null when nothing survives,
- * so the caller's "no outro buffs" path is unchanged.
+ * applies; a mode-gated one only in its own mode; a `recipientRole`-gated one
+ * only when the INCOMING resonator carries that role category (Suoming's Unison
+ * Boon branch reaches Unison resonators only). Returns null when nothing
+ * survives, so the caller's "no outro buffs" path is unchanged.
  */
-function outroBuffsInMode(outroBuffs, resonanceMode) {
-    const live = outroBuffs.filter(buff => !buff.mode || buff.mode === resonanceMode);
+function outroBuffsInMode(outroBuffs, resonanceMode, recipient) {
+    const live = outroBuffs.filter(buff => (!buff.mode || buff.mode === resonanceMode)
+        && (!buff.recipientRole || (recipient?.roles ?? []).some(role => role.category === buff.recipientRole)));
     return live.length ? live : null;
 }
 

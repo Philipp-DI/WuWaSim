@@ -226,6 +226,24 @@
    "forte_heavy_thrum_of_all_sounds_aero_plunging_attack": 914
   }
  },
+ "1312": {
+  "channel": 1,
+  "cap": 800,
+  "gen": {
+   "basic_basic_attack_1": 120,
+   "basic_basic_attack_2": 160,
+   "basic_basic_attack_3": 180,
+   "basic_unfurled_canopy_1": 120,
+   "basic_unfurled_canopy_2": 161,
+   "basic_unfurled_canopy_3": 90,
+   "basic_unfurled_canopy_4": 180,
+   "basic_dodge_counter": 160,
+   "basic_dodge_counter_unfurled_canopy": 161,
+   "basic_unfurled_canopy_whirling_thunder_1": 181,
+   "basic_unfurled_canopy_whirling_thunder_2": 180,
+   "skill_unfurled_canopy_crimson_gleam": 160
+  }
+ },
  "1405": {
   "channel": 1,
   "cap": 120,
@@ -639,6 +657,20 @@
   "1309": {
    "1": 12000,
    "2": 10000,
+   "4": 6000,
+   "5": 10000
+  },
+  "1311": {
+   "1": 10000,
+   "2": 30000,
+   "3": 10000,
+   "4": 6000,
+   "5": 4
+  },
+  "1312": {
+   "1": 800,
+   "2": 300,
+   "3": 1,
    "4": 6000,
    "5": 10000
   },

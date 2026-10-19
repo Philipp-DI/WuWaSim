@@ -677,6 +677,69 @@
     "bucket": "additive"
    }
   },
+  "1311": {
+   "0.1": {
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "damage": [
+      "intro_intro_skill_answering_form_manifold_unison"
+     ]
+    }
+   },
+   "0.15": {
+    "bucket": "amplify",
+    "scopeByFamily": {
+     "critDmg": [
+      "liberation_pillars_across_heaven"
+     ],
+     "damage": [
+      "intro_intro_skill_answering_form_manifold_unison"
+     ]
+    }
+   },
+   "0.2": {
+    "bucket": "additive",
+    "scopeByFamily": {
+     "critDmg": [
+      "liberation_pillars_across_heaven"
+     ]
+    }
+   },
+   "0.25": {
+    "bucket": "additive"
+   },
+   "0.3": {
+    "bucket": "amplify"
+   },
+   "0.4": {
+    "bucket": "amplify"
+   },
+   "0.8": {
+    "bucket": "amplify"
+   },
+   "2": {
+    "bucket": "additive"
+   },
+   "3": {
+    "scopeByFamily": {
+     "critDmg": [
+      "forte_heavy_illumining_form_beholding_all_horizons",
+      "forte_heavy_illumining_form_stilling_all_horizons"
+     ]
+    }
+   }
+  },
+  "1312": {
+   "0.015": {
+    "bucket": "amplify"
+   },
+   "0.2": {
+    "bucket": "additive"
+   },
+   "0.5": {
+    "bucket": "additive"
+   }
+  },
   "1402": {
    "0.08": {
     "bucket": "additive"

@@ -389,6 +389,32 @@
     "zh": "漂泊者·导电",
     "ja": "漂泊者・電導"
   },
+  "1311": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_75_UI.T_IconRoleHead256_75_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xin_UI.T_IconRole_Pile_Xin_UI",
+    "rank": 5,
+    "weapon": 5,
+    "element": 3,
+    "en": "Hsin",
+    "nickname": "An error occurred. Please contact our Customer Service for assistance.",
+    "desc": "Sentinel Hsin, guide of Mengzhou's civilization. Deeply emotional and fond of worldly joys, She has long kept the fires of mortal life burning amid the bustle of trade and the shifting of seasons.",
+    "ko": "여우의 별자리",
+    "zh": "心",
+    "ja": "心"
+  },
+  "1312": {
+    "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_76_UI.T_IconRoleHead256_76_UI",
+    "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Suoming_UI.T_IconRole_Pile_Suoming_UI",
+    "rank": 5,
+    "weapon": 2,
+    "element": 3,
+    "en": "Suoming",
+    "nickname": "",
+    "desc": "Born in Huating, Mengzhou, she founded the Ten Seals Covenant as its Seal Master to liberate her homeland from the Evil Miasma. Later, by the Sentinel's decree, she served as Intendant of the Ministry of Sentinel Affairs, watching over all of Mengzhou.",
+    "ko": "쇄명",
+    "zh": "锁暝",
+    "ja": "鎖暝"
+  },
   "1402": {
     "icon": "/Game/Aki/UI/UIResources/Common/Image/IconRoleHead256/T_IconRoleHead256_1_UI.T_IconRoleHead256_1_UI",
     "background": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_yangyang_UI.T_IconRole_Pile_yangyang_UI",

@@ -19,18 +19,19 @@
  * carries "Off-Tune Buildup Efficiency", not "Tune Break Boost" (that's Denia
  * /Rebecca/Lynae). This rewrite purges the guesswork: CHARACTER_ROLES is now
  * MAPPED from official tag names (deriveCharacterRoles), and SYNERGY is
- * auto-derived roster-wide from six tag-matching rules (deriveTagAffinity) —
+ * auto-derived roster-wide from seven tag-matching rules (deriveTagAffinity) —
  * any two characters whose tags imply a mechanical link (an amplify tag
  * naming the other's element/damage-focus, a shared negative-status tag, the
  * Tune Break Boost→Strain chain, an energy battery feeding a Liberation
- * carry, a Coordinated Attack amplifier feeding a CA specialist) get real
+ * carry, a Coordinated Attack amplifier feeding a CA specialist, a shared
+ * mechanic tag: Hack Response or Unison) get real
  * affinity, not just the maintainer's 3 example teams. CURATED_TEAMS is
  * UNCHANGED — it still exists to guarantee & pin maintainer-verified current-
  * meta comps ahead of pure-tag pairings (Math.max, not replacement).
  *
  * Coverage is now roster-wide: every resonator with at least one role tag is
  * "covered" (coveredCharacters() returns all of them, not just a seed list).
- * A character with tags that don't imply any of the six rules simply gets no
+ * A character with tags that don't imply any of the seven rules simply gets no
  * SYNERGY entries — team-enum.js's "anchor must synergize with a teammate"
  * gate still applies, so this never fabricates a pairing; it only widens who
  * CAN have one.
@@ -173,6 +174,7 @@ const NEGATIVE_STATUS_TAG_IDS = [24, 25, 26, 27, 28, 29];
 const CA_AMP_TAG = 31, CA_SPECIALIST_TAG = 9;
 const LIBERATION_REGEN_TAG = 11, LIBERATION_FOCUS_TAG = 7;
 const TUNE_BOOST_TAG = 34, TUNE_STRAIN_TAG = 36;
+const SHARED_MECHANIC_TAG_IDS = [38, 39];                                       // Hack Response, Unison
 
 const tagIdsOf = (resonator) => new Set((resonator?.roles ?? []).map(tag => tag.id));
 const tagNameOf = (resonator, id) => (resonator?.roles ?? []).find(tag => tag.id === id)?.name;
@@ -205,7 +207,7 @@ function tagAffinityHits(amp, dps) {
 }
 
 /** Pairwise tag-derived affinity + reasons for one pair (both directions + shared-tag rules). */
-function tagAffinityForPair(resonatorA, resonatorB) {
+export function tagAffinityForPair(resonatorA, resonatorB) {
     const hits = [...tagAffinityHits(resonatorA, resonatorB), ...tagAffinityHits(resonatorB, resonatorA)];
 
     const tagsA = tagIdsOf(resonatorA), tagsB = tagIdsOf(resonatorB);
@@ -214,6 +216,9 @@ function tagAffinityForPair(resonatorA, resonatorB) {
     }
     if (tagsA.has(TUNE_BOOST_TAG) && tagsB.has(TUNE_STRAIN_TAG)) hits.push(`${resonatorA.name}'s Tune Break Boost feeds ${resonatorB.name}'s Tune Strain Response`);
     if (tagsB.has(TUNE_BOOST_TAG) && tagsA.has(TUNE_STRAIN_TAG)) hits.push(`${resonatorB.name}'s Tune Break Boost feeds ${resonatorA.name}'s Tune Strain Response`);
+    for (const id of SHARED_MECHANIC_TAG_IDS) {
+        if (tagsA.has(id) && tagsB.has(id)) hits.push(`${resonatorA.name} + ${resonatorB.name} share ${tagNameOf(resonatorA, id)}`);
+    }
 
     return hits.length ? { affinity: hits.length, reason: hits[0] } : null;
 }

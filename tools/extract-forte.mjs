@@ -6,8 +6,8 @@
  * Sources (data/bindata/*.json are committed external dumps — large,
  * infrequently-updated raw tables; moved out of the formerly-gitignored
  * docs/ folder 2026-07-16 so a fresh checkout can regenerate Forte data
- * without re-fetching them; re-run this tool when the dump updates, like
- * tools/fetch-nanoka-chars.mjs):
+ * without re-fetching them; re-run this tool when the dump updates — the
+ * version update's compile step does, update-game-version/README.md):
  *   data/bindata/damage.json       — per damage instance: Id, SpecialEnergy1-5 (Forte)
  *   data/bindata/baseproperty.json — per entity: SpecialEnergy{1..5}Max (the gauge CAP)
  *   data/hit-map.json              — skill key → raw per-hit damage-instance IDs

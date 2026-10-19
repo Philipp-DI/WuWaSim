@@ -3,9 +3,9 @@
  *
  * Picks the best (sonata set × weapon) pairing for a resonator's reference
  * rotation by simming every candidate combination and keeping the highest total
- * damage. Candidates are pruned by element + role (candidateSonatasFor) and by
- * weapon type + base ATK (candidateWeaponsFor), so the search is a small grid —
- * a few sets × a few weapons — not a full enumeration.
+ * damage. Sets are pruned by element + role (candidateSonatasFor); weapons are
+ * every 4★ and 5★ of the resonator's type (candidateWeaponsFor), so the grid is
+ * a few sets × up to ~22 weapons.
  *
  * The winner is surfaced on an empty build as a one-click default suggestion,
  * and is also the anchor the per-sequence weights are computed at (a realistic,

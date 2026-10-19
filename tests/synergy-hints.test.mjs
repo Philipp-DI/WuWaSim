@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import {
     ROLE, CHARACTER_ROLES, SYNERGY,
-    pairKey, rolesOf, synergyOf, affinityOf, coveredCharacters,
+    pairKey, rolesOf, synergyOf, affinityOf, coveredCharacters, tagAffinityForPair,
 } from '../tools/optimize/synergy-hints.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -64,6 +64,32 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('synergyOf order-independent', synergyOf(1209, 1510) === synergyOf(1510, 1209));
     assert('affinityOf returns 0 for an unhinted pair', affinityOf(1107, 1304) === 0);
     assert('affinityOf returns the curated value for a hinted pair', affinityOf(1209, 1510) === 3);
+}
+
+// ── Unison (tag 39, 3.7): a shared tag links the pair ───────────────────────
+// No committed resonator carries tag 39 before the 3.7 install, so the rule
+// runs on two hand-built resonators.
+{
+    const resonator = (id, name, tagIds) => ({ id, name, element: 3, roles: tagIds.map(tagId => ({ id: tagId, name: tagId === 39 ? 'Unison' : `tag ${tagId}` })) });
+    const hsin = resonator(1311, 'Hsin', [2, 39]), suoming = resonator(1312, 'Suoming', [3, 39]), other = resonator(1, 'Other', [3]);
+    const pair = tagAffinityForPair(hsin, suoming);
+    assert('two Unison holders get affinity 1', pair?.affinity === 1);
+    assert('the Unison reason names both and the tag', /Hsin/.test(pair?.reason) && /Suoming/.test(pair?.reason) && /Unison/.test(pair?.reason));
+    assert('one Unison holder alone gets no Unison link', tagAffinityForPair(suoming, other) === null);
+}
+
+// ── Hack Response (tag 38): exclusive to the collab pair Rebecca + Lucy ─────
+{
+    const rebecca = d.resonators.find(resonator => resonator.id === 1308), lucy = d.resonators.find(resonator => resonator.id === 1511);
+    const hackTag = (resonator) => resonator?.roles.find(tag => tag.id === 38);
+    assert('Rebecca and Lucy carry Hack Response in its own category',
+        hackTag(rebecca)?.category === 'hackResponse' && hackTag(lucy)?.category === 'hackResponse');
+    assert('only Rebecca and Lucy carry Hack Response',
+        d.resonators.filter(hackTag).map(resonator => resonator.id).sort().join(',') === '1308,1511');
+    const withoutHack = (resonator) => ({ ...resonator, roles: resonator.roles.filter(tag => tag.id !== 38) });
+    const affinity = (first, second) => tagAffinityForPair(first, second)?.affinity ?? 0;
+    assert('a shared Hack Response tag adds 1 affinity',
+        affinity(rebecca, lucy) === affinity(withoutHack(rebecca), withoutHack(lucy)) + 1);
 }
 
 // ── coveredCharacters is deterministic, sorted, and roster-wide ─────────────

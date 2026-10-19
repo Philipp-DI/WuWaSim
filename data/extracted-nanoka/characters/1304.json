@@ -15,6 +15,12 @@
       "desc": "Deals higher Resonance Skill DMG",
       "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelB3.SP_RoleLabelB3",
       "color": "ffde73"
+    },
+    "39": {
+      "name": "Unison",
+      "desc": "Triggers Unison-related effects for specific Resonators in the team",
+      "icon": "/Game/Aki/UI/UIResources/Common/Atlas/RoleLabel/SP_RoleLabelI8.SP_RoleLabelI8",
+      "color": "ff7777"
     }
   },
   "name": "Jinhsi",

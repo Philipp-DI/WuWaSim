@@ -11,27 +11,24 @@
  * other than "the wielder" or "the team", so it emitted a SECOND copy as a
  * self-buff. That is the "two paths, one cast" error the outro invariant names.
  *
- * MEASURED, which is what makes this safe to assert rather than assume: all four
- * roster clauses of this shape are already in their own resonator's `outroBuffs`
- * at the SAME value and the SAME 14s. Not one of them is a distinct grant.
+ * TWO LANES, TWO RULES.
+ *   - An Outro node's own text is not read as skill-node effects at all when
+ *     `outroBuffs` carries its grants (tools/preprocess.mjs). That removed the
+ *     SN copies of Iuno, Qiuyuan, Lynae, Zani, Yangyang: Xuanling and Hsin; Hsin's
+ *     was live. Dropping them re-slots no other key: on all seven the Outro node
+ *     was the LAST skill node.
+ *   - A chain or inherent clause naming the incoming Resonator is MARKED, NEVER
+ *     DROPPED. Removing an effect changes its node's effect COUNT and re-slots
+ *     every `S{level}.{index}` after it — Lynae carries a curated override at
+ *     `S3.1`, directly after one of these at `S2.1` (CLAUDE.md, "Effect-slot keys
+ *     are FROZEN before anything reads them"). The parser stamps
+ *     `recipient: 'incoming'` and `resolveChainInherentContext` skips it.
  *
- * None was paying at the time of the fix, but three were LATENT rather than
- * harmless, each held off by something unrelated to the recipient:
- *   Iuno SN1.0     its trigger fires on four Heavy casts and the window opens —
- *                  only the dead scope ('heavy', a bucket her kit never reads)
- *                  stopped it, so "fixing" that scope would have switched on a
- *                  50% self-amplify.
- *   Qiuyuan SN2.0  no mechanically `echo`-typed cast in her rotation, though her
- *                  kit DOES read the echo bucket.
- *   Lynae S2.1     no `outro` cast in a SOLO rotation — but a team sim casts one.
- *   Lynae SN0.0    fires, but no later hit of hers reads the liberation bucket.
- *
- * THEY ARE MARKED, NEVER DROPPED. Removing an effect changes its node's effect
- * COUNT and re-slots every `S{level}.{index}` after it — Lynae carries a curated
- * override at `S3.1`, directly after one of these at `S2.1`, which is exactly how
- * a curated patch once moved silently onto a different effect (CLAUDE.md,
- * "Effect-slot keys are FROZEN before anything reads them"). So the parser stamps
- * `recipient: 'incoming'` and `resolveChainInherentContext` skips it.
+ * Lynae S2.1 is a DUPLICATE: its own `outroBuffs` carries it at the same value
+ * and 14s, so skipping it loses nothing. Suoming's two are DISTINCT grants with
+ * no producer — a chain-gated Crit. DMG grant and an Aligned Seals (Unison)
+ * Electro grant, both handed to the incoming Resonator through her Outro — so
+ * skipping them UNDERSTATES. They are named in DISTINCT_GRANTS with the reason.
  */
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -69,11 +66,23 @@ for (const resonator of dataset.resonators) {
         }));
     }
 }
+// Incoming grants that are NOT in outroBuffs, so nothing pays them yet.
+const DISTINCT_GRANTS = {
+    '1312 S2.1': 'S2 "Casting Outro Skill increases the incoming Resonator\'s Crit. DMG by 10%, plus an additional '
+        + '6% for each stack of Unison Boon" — chain-gated, and outroBuffs has no chain gate.',
+    '1312 IH1.0': 'Sunken Seal, Forged Lock: the 30% Electro DMG Bonus to the incoming Resonator needs Aligned '
+        + 'Seals, which needs Unison; the Unison system is not modelled.',
+};
 {
-    assert(`exactly four clauses on the roster name the incoming Resonator (found ${marked.length})`,
-        marked.length === 4);
-    assert('they belong to Iuno, Qiuyuan and Lynae',
-        JSON.stringify([...new Set(marked.map(entry => entry.resonator.id))].sort()) === '[1410,1411,1509]');
+    assert(`exactly three clauses on the roster name the incoming Resonator (found ${marked.length})`,
+        marked.length === 3);
+    assert('they belong to Suoming and Lynae',
+        JSON.stringify([...new Set(marked.map(entry => entry.resonator.id))].sort()) === '[1312,1509]');
+    // The Outro node's own SN copy is gone wherever outroBuffs carries the grant.
+    const outroCopies = dataset.resonators.filter(resonator => resonator.outroBuffs?.length
+        && (resonator.skillNodeEffects ?? []).some(node => node.skillKeys.some(key => key.startsWith('outro'))));
+    assert(`no Outro node is read twice (found ${outroCopies.map(resonator => resonator.id).join(',') || 'none'})`,
+        outroCopies.length === 0);
 
     // THE CROSS-CHECK. Each marked effect must be matched by an entry in its own
     // resonator's outroBuffs at the same value AND duration. This is what proves
@@ -82,15 +91,26 @@ for (const resonator of dataset.resonators) {
     // S2.1 parses skillType 'outro' off its leading trigger ("Outro Skill gains
     // the following effect: …") where the real grant is her Liberation, so the
     // scopes legitimately disagree while the grant is the same one.
-    for (const { resonator, lane, ni, ei, effect } of marked) {
+    const duplicates = [];
+    for (const entry of marked) {
+        const { resonator, lane, ni, ei, effect } = entry;
         const slot = lane === 'S' ? `S${ni + 1}.${ei}` : `${lane}${ni}.${ei}`;
         const twin = (resonator.outroBuffs ?? []).find(buff =>
             Math.abs(buff.value - effect.value) < 1e-9 && buff.duration === effect.durationSeconds);
+        if (DISTINCT_GRANTS[`${resonator.id} ${slot}`]) {
+            assert(`${resonator.id} ${slot} is listed as distinct and really has no twin`, !twin);
+            continue;
+        }
+        duplicates.push(entry);
         assert(`${resonator.id} ${slot} (${effect.value} for ${effect.durationSeconds}s) has its twin in outroBuffs`,
             !!twin);
     }
-    assert('every one states a duration, which is half the join',
-        marked.every(entry => entry.effect.durationSeconds > 0));
+    assert('every duplicate states a duration, which is half the join',
+        duplicates.every(entry => entry.effect.durationSeconds > 0));
+    for (const key of Object.keys(DISTINCT_GRANTS)) {
+        assert(`DISTINCT_GRANTS entry ${key} still exists`, marked.some(entry =>
+            `${entry.resonator.id} ${entry.lane === 'S' ? `S${entry.ni + 1}` : `${entry.lane}${entry.ni}`}.${entry.ei}` === key));
+    }
 }
 
 // ── The consumer ignores them ────────────────────────────────────────────────

@@ -139,6 +139,12 @@
    "icdSeconds": null,
    "requirement": null
   },
+  "643166003": {
+   "status": "electro_flare",
+   "stacks": 10,
+   "icdSeconds": null,
+   "requirement": null
+  },
   "1108101008": {
    "status": "glacio_chafe",
    "stacks": 10,
@@ -204,6 +210,60 @@
    "stacks": 5,
    "icdSeconds": null,
    "requirement": null
+  },
+  "1311400001": {
+   "status": "electro_flare",
+   "stacks": 1,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400024": {
+   "status": "electro_flare",
+   "stacks": 1,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400028": {
+   "status": "electro_flare",
+   "stacks": 5,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400405": {
+   "status": "electro_flare",
+   "stacks": 5,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400410": {
+   "status": "electro_flare",
+   "stacks": 10,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400413": {
+   "status": "electro_flare",
+   "stacks": 13,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400416": {
+   "status": "electro_flare",
+   "stacks": 16,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311400420": {
+   "status": "electro_flare",
+   "stacks": 20,
+   "icdSeconds": null,
+   "requirement": null
+  },
+  "1311500234": {
+   "status": "electro_flare",
+   "stacks": 1,
+   "icdSeconds": null,
+   "requirement": "0#0#战斗状态.异常状态.基础元素异常.电磁效应"
   },
   "1409303012": {
    "status": "aero_erosion",

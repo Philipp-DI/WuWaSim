@@ -7,8 +7,8 @@
  * text — so this table is hand-authored and data-integrity-tested against the
  * dataset (every name here must appear in that resonator's text).
  *
- * Exactly four resonators have modes, exactly two each. The first listed mode
- * is the default on build creation, so the sim is meaningful immediately.
+ * Five resonators have modes, exactly two each. The first listed mode is the
+ * default on build creation, so the sim is meaningful immediately.
  *
  * Used at preprocess time only: `preprocess.mjs` projects `resonanceModes`
  * (with normalized keys) onto these resonators and tags their mode-gated
@@ -20,6 +20,9 @@ export const RESONANCE_MODES = Object.freeze({
     1509: ['Tune Rupture', 'Tune Strain'],    // Lynae
     1211: ['Fusion Burst', 'Tune Strain'],    // Denia
     1109: ['Glacio Chafe', 'Echo'],           // Lucilla (RESONANCE-MODE-SPEC spells it "Luciall")
+    // Hsin: the game lists Unison first, but Unison's payoffs (Unison Response,
+    // Unison Boon) are not modelled, so Electro Flare is the default that simulates.
+    1311: ['Electro Flare', 'Unison'],
 });
 
 /** Normalize a mode display name to a stable key ("Tune Rupture" → "tune_rupture"). */
