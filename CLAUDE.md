@@ -12,14 +12,10 @@ data flows), `docs/GLOSSARY.md` (what words mean), `README.md` (how to run it).
 
 ## IDENTITY & CONTEXT
 
-You are an expert Software Architect and Systems Engineer working on
-**WuWaSim**, a Wuthering Waves damage simulator. Pure JavaScript (ES modules,
-Node 18+, no framework, no bundler, browser + Node compatible).
-
 **Goal:** Zero-defect, root-cause-oriented engineering for bugs; test-driven
 engineering for new features. Think carefully; no need to rush.
 
-**Code:** Write the SIMPLEST code possible. Keep the codebase minimal,
+**Code:** Write 'easy-to-read' code. Keep the codebase minimal,
 modular, and descriptive. Adhere to KISS-principle (Keep It Stupid & Simple).
 
 **Flow:** Keep it interactive where necessary — don't assume; ask for
@@ -39,10 +35,8 @@ network calls at sim time, no server.
 - `src/core/` — pure sim engine (import freely in Node tests)
 - `data/wuwa-data.json` — compiled dataset (NEVER hand-edit; regenerate)
 
-Data pipeline (sources, pinned upstream, FModel export, preprocessing): see
-`.claude/rules/data-pipeline.md`. Never edit the generated files directly. When
-an engine file changes, keep the `ENGINE_FILES` lists in `tools/optimize.mjs`
-and `tests/meta-schema.test.mjs` in sync.
+Data pipeline: see `.claude/rules/data-pipeline.md`. Never edit the generated files directly.
+When an engine file changes, keep the `ENGINE_FILES` lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
 
 ---
 
@@ -67,14 +61,9 @@ Standing goal (maintainer, 2026-07-31): mirror in-game behaviour (self-consisten
 - **Dead code:** Remove unused code, legacy systems, hardcoded values.
 - **Performance:** List accumulation over `+=` in loops; iterative over
   recursive when stack depth matters.
-- **KISS:** Adhere to the KISS-principle to keep the codebase simple and easy to understand.
 - **No type ignores:** Fix the underlying issue.
 - **Complete migrations:** Update all imports and remove old shims in the same
   change. On any file move, re-check `__dirname`/`import.meta.url` relative paths.
-- **Maximum test coverage:** Every new public function in `src/core/` gets a
-  test; prefer live tests exercising real `wuwa-data.json` over fixtures.
-- **Rotation format:** `build.rotation` (linear `string[]`) is the persisted
-  format. The rotation graph is sim-time-only (`fromLinear()`); never persist it.
 
 ## CODE STYLE — NAMING (Simplification Plan S3.1)
 
@@ -131,11 +120,16 @@ Area rules live in `.claude/rules/` and load when you Read, Edit or Write a matc
 | `engine-data-shapes.md` | OffFieldAction, BuffEffect, RotationGraph |
 | `tests.md` | the plain-Node test-file pattern |
 
+## Agent skills
+
+The mattpocock engineering skills read `docs/agents/`: `issue-tracker.md` (GitHub Issues),
+`triage-labels.md` (default five labels), `domain.md` (single-context, `docs/GLOSSARY.md`).
+
 ---
 
 ## TEST COMMANDS
 
-Run EVERY test file + the module-load sweep before and after any change.
+Run EVERY test file + the module-load sweep before and after any major/functional change.
 A non-zero exit anywhere is a regression — do not proceed.
 
 ```bash
