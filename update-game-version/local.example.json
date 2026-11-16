@@ -1,5 +1,5 @@
 {
-  "_doc": "Copy to local.json (gitignored) and fill in. installPath: the game's install root, the folder holding Client/. exportRoot: the FModel export's Client folder, the one holding Content/Aki/. slimRoot / patchRoot (optional): the two slim game roots tools/plan-export.mjs links — base paks plus hotfix paks, and hotfix paks alone.",
+  "_doc": "Copy to local.json (gitignored) and fill in. installPath: the game's install root, the folder holding Client/. exportRoot: the FModel export's Client folder, the one holding Content/Aki/. slimRoot (required by tools/plan-export.mjs) / patchRoot (optional, defaults to slimRoot + 'Patch'): the two slim game roots it links — base paks plus hotfix paks, and hotfix paks alone.",
   "installPath": "<game install root>",
   "exportRoot": "<FModel export>/Client",
   "slimRoot": "<slim root, e.g. a folder named WuWaSlim>",

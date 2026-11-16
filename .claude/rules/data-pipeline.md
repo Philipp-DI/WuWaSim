@@ -25,7 +25,7 @@ data/wuwa-data.json                       ← compiled output used by all sim co
 data/data-version.json                    ← content-hash manifest (cache-buster)
           ↓ node tools/optimize.mjs
 data/wuwa-meta.json                       ← P12/P13 weights + suggested builds/teams
-docs/reports/meta-validation.md           ← generated QA report (tracked)
+docs/reports/meta-validation.md           ← generated QA report (local, gitignored)
 ```
 
 Re-run `npm run data` (preprocess) whenever source data or a curated input

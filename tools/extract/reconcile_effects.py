@@ -56,7 +56,7 @@ widenings:
 
     python tools/extract/reconcile_effects.py <fmodel-export-root> [--depth N]
 
-Writes docs/reports/effect-reconciliation.md (tracked, like the other QA reports).
+Writes docs/reports/effect-reconciliation.md (local and gitignored, like the other QA reports).
 """
 import json
 import os

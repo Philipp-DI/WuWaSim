@@ -1,6 +1,6 @@
 {
   "_doc": "What a targeted FModel export must contain for the ConfigDB/client extractors to run. THE FLOW: `node tools/plan-export.mjs --link` works out the SMALLEST set of game paks that can hold these files (8 of 110, ~2.3 GB of ~81 GB) and emits symlink commands for a slim game root, so FModel mounts seconds of paks instead of 81 GB; export the folders it lists; then `node tools/check-export.mjs <root>` proves the export is complete before you run anything. VERIFY FIRST: a missing table does not fail loudly -- the extractor writes a smaller JSON and a buff quietly stops existing. A ZERO-BYTE file is the nastier form and the shipped export already carries two. Paths are relative to the export root (the directory containing Content/). Keep in sync when an extractor grows a new input; tests/export-manifest.test.mjs greps the extractors and fails if this list omits a table.",
-  "exportRootExample": "G:/Software/fmodel/Output/Exports/Client",
+  "exportRootExample": "<FModel output dir>/Exports/Client",
   "groups": {
     "configdb": {
       "why": "SQLite tables of (Id, BinData) FlatBuffers blobs. Each needs its JS accessor from the `accessors` group to be readable at all — configdb.py pairs db_<X>.db with Define/Config/<Accessor>.js and reads the field offsets out of the JavaScript, so the schema is never guessed. The last two are read only by reconcile_effects.py, which writes a QA report (docs/effect-reconciliation.md) rather than committed data -- skip them if you are not running it.",

@@ -1,7 +1,7 @@
 {
  "_meta": {
-  "source": "G:\\Software\\fmodel\\Output\\Exports\\Client\\Content\\Aki\\JavaScript\\Game (shipped client JavaScript)",
-  "generatedAt": "2026-10-19T16:05:36.510Z",
+  "source": "Content/Aki/JavaScript/Game (shipped client JavaScript, relative to the export root)",
+  "generatedAt": "2026-11-16T15:57:18.975Z",
   "note": "GetNotifyName() is the designer-facing label and the authority on what a notify does. `dead` lists declared-but-never-read properties — do not classify on those.",
   "count": 209
  },

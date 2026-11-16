@@ -29,3 +29,12 @@ Bump `PINNED_REF` only together with the nanoka refresh (`fetch-nanoka-*.mjs`,
 whose index files must be refreshed from `ww/<version>/<type>.json` — note NO
 `/en/` in that path, and that the fetchers read `manifest.ww.latest`, which can
 run AHEAD of `live`) and the derived tables keyed by id.
+
+## Pipeline diagram
+
+### 2026-11-16 — docs/reports/ made local only
+
+`docs/reports/` became gitignored (generated, regenerable, not needed for the
+repo to work). The diagram line before, verbatim:
+
+    docs/reports/meta-validation.md           ← generated QA report (tracked)

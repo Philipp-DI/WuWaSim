@@ -21,7 +21,7 @@ tables — should be checked against the game's own table first.
 
 Usage:
     from configdb import ConfigDB
-    db = ConfigDB(r"G:/Software/fmodel/Output/Exports/Client")
+    db = ConfigDB(r"<exportRoot>")   # FModel export folder holding Content/
     for row in db.read('db_buff', 'Buff'):
         print(row['Id'], row['StackLimitCount'])
 

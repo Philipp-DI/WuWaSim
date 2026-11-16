@@ -38,7 +38,8 @@ if (!root) {
 const jsonIndex = process.argv.indexOf('--json');
 const jsonOut = jsonIndex > 0 ? process.argv[jsonIndex + 1] : null;
 
-const base = resolve(root, 'Content/Aki/JavaScript/Game');
+const SOURCE_DIR = 'Content/Aki/JavaScript/Game';
+const base = resolve(root, SOURCE_DIR);
 const dirs = ['AnimNotify', 'AnimNotifyState'];
 
 // `this.Foo=void 0` in the constructor declares an editable property.
@@ -89,7 +90,7 @@ rows.sort((left, right) => left.notify.localeCompare(right.notify));
 if (jsonOut) {
     writeFileSync(jsonOut, JSON.stringify({
         _meta: {
-            source: `${base} (shipped client JavaScript)`,
+            source: `${SOURCE_DIR} (shipped client JavaScript, relative to the export root)`,
             generatedAt: new Date().toISOString(),
             note: 'GetNotifyName() is the designer-facing label and the authority on what a notify does. `dead` lists declared-but-never-read properties — do not classify on those.',
             count: rows.length,

@@ -53,7 +53,7 @@ data/data-version.json                    ← content-hash manifest (browser cac
           │
           ▼  node tools/optimize.mjs      (also reads reference-rotations.json)
 data/wuwa-meta.json                       ← precomputed stat weights, suggested builds, teams
-docs/reports/meta-validation.md                   ← generated QA report (tracked)
+docs/reports/meta-validation.md                   ← generated QA report (local, gitignored)
 ```
 
 **Why the source holds more characters than the dataset.** Rover ships as

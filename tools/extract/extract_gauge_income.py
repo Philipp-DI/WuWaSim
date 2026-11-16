@@ -255,11 +255,16 @@ def parse_all(tables, verbose):
     return parsed, repaired, failures
 
 
+def export_relative(path, root):
+    """A table path as committed: relative to the export root, never machine-local."""
+    return os.path.relpath(path, root).replace('\\', '/')
+
+
 def cast_lane(parsed, buffs, root):
     """resonatorId -> the gauge moves its casts perform."""
     out = {}
     for table, rows in parsed:
-        table_name = os.path.relpath(table, root).replace('\\', '/')
+        table_name = export_relative(table, root)
         for row_id, row in rows.items():
             match = SKILL_ID_RE.match(str(row_id)) or SHORT_SKILL_ID_RE.match(str(row_id))
             if not match:
@@ -368,7 +373,8 @@ def extract(root, verbose=True):
             'tables': len(tables),
             'parsed': len(parsed),
             'skewRepaired': repaired,
-            'failed': failures,
+            'failed': [{**failure, 'table': export_relative(failure['table'], root)}
+                       for failure in failures],
             'gaugeBuffs': len(buffs),
             'indirectTriggerParams': indirect,
         },

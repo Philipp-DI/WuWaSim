@@ -50,7 +50,11 @@ const settings = existsSync(settingsPath) ? JSON.parse(readFileSync(settingsPath
 // root makes the hotfix copy of every duplicated file the last one written.
 const local = loadLocal();
 const patchOnly = argv.includes('--patch-only');
-const fullRoot = local.slimRoot ?? 'G:\\WuWaSlim';
+const fullRoot = local.slimRoot;
+if (!fullRoot) {
+    console.error('plan-export: set slimRoot in update-game-version/local.json (see local.example.json)');
+    process.exit(2);
+}
 const patchRoot = local.patchRoot ?? `${fullRoot}Patch`;
 const slimRootArg = flag('--slim') ?? (patchOnly ? patchRoot : fullRoot);
 const slimRoots = new Set([fullRoot, patchRoot, slimRootArg]);

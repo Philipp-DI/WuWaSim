@@ -34,7 +34,7 @@ It is split in two, mirroring `preprocess.mjs → wuwa-data.json`:
   node tools/optimize.mjs
         ├─ reads data/wuwa-data.json + the real sim engine
         ├─ writes data/wuwa-meta.json        (committed; the runtime reads this)
-        └─ writes docs/reports/meta-validation.md     (tracked QA report)
+        └─ writes docs/reports/meta-validation.md     (local QA report, gitignored)
 
   runtime (every page load)
   meta-loader.js → stat-ranking.js → Stat Priority panel on the build page

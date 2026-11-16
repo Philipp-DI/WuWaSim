@@ -28,6 +28,7 @@ Copy `local.example.json` to `local.json` (gitignored) and fill in:
 
 - `installPath`: the game's install root, the folder holding `Client/`.
 - `exportRoot`: the FModel export's `Client` folder, the one holding `Content/Aki/`.
+- `slimRoot` (required by `tools/plan-export.mjs`): the slim game root it links; `patchRoot` is optional and defaults to `slimRoot` + `Patch`.
 
 Steps marked "runs on local" probe the nanoka CDN first and refuse when it is
 unreachable: it blocks datacenter IPs, so those steps need the maintainer's

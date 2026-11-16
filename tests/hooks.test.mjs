@@ -19,7 +19,7 @@ const same = (actual, expected) => JSON.stringify(actual) === JSON.stringify(exp
 
 // ── toProjectPath: Windows and POSIX paths, inside and outside the project ──
 {
-    assert('Windows path whose drive letter differs in case', toProjectPath('g:\\Projects\\WuWaSim\\src\\core\\sim.js', 'G:\\Projects\\WuWaSim') === 'src/core/sim.js');
+    assert('Windows path whose drive letter differs in case', toProjectPath('c:\\repo\\src\\core\\sim.js', 'C:\\repo') === 'src/core/sim.js');
     assert('POSIX path', toProjectPath('/repo/tools/hooks/post-edit.mjs', '/repo') === 'tools/hooks/post-edit.mjs');
     assert('root with a trailing separator', toProjectPath('/repo/CLAUDE.md', '/repo/') === 'CLAUDE.md');
     assert('file outside the project', toProjectPath('/elsewhere/file.js', '/repo') === null);

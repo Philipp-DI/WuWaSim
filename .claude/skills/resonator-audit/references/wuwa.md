@@ -129,7 +129,7 @@ Ordered by how often each is actually wrong. For each: PASS / FAIL / N-A + evide
 
 ## 4. Extraction toolbox (the game's own tables)
 
-Export root: `G:/Software/fmodel/Output/Exports/Client` (FModel export holding
+Export root: `exportRoot` in the gitignored `update-game-version/local.json` (FModel export holding
 `Content/`). Tools in `tools/extract/`.
 
 ### ConfigDB — ~500 SQLite tables, read with the client's own accessors
@@ -137,7 +137,7 @@ Export root: `G:/Software/fmodel/Output/Exports/Client` (FModel export holding
 ```python
 import sys; sys.path.insert(0, 'tools/extract')
 from configdb import ConfigDB
-db = ConfigDB(r'G:/Software/fmodel/Output/Exports/Client')
+db = ConfigDB(r'<exportRoot>')
 for row in db.read('db_buff', 'Buff'):
     ...   # Id is a FLOAT — use int(row['Id'])
 ```
