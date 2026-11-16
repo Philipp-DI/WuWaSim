@@ -1,4 +1,4 @@
-// eslint.config.js — S2.2 guardrails (docs/SIMPLIFICATION-PLAN.md).
+// eslint.config.js — S2.2 guardrails (docs/history/archive/SIMPLIFICATION-PLAN.md).
 //
 // `recommended` correctness rules run as ERRORS (CI fails on them). The
 // code-style rules that encode CLAUDE.md's naming/size goals enter as
@@ -14,10 +14,7 @@ const ID_LENGTH_OPTIONS = {
 };
 
 export default [
-    // docs/uml/ is local-only (gitignored), same arrangement as docs-local/:
-    // its generator is a reading aid, not shipped code, and must not add noise
-    // to the warning count the S3/S4 ratchet is measured against.
-    { ignores: ['.venv/', 'assets/', 'data/', 'docs-local/', 'docs/uml/', 'templates/'] },
+    { ignores: ['.venv/', 'assets/', 'data/', 'docs-local/', 'templates/'] },
     js.configs.recommended,
     {
         files: ['**/*.js', '**/*.mjs'],

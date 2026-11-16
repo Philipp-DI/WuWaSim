@@ -2,11 +2,13 @@
 
 Rules and invariants only. **This file states what IS; `docs/history/` records
 what HAPPENED** — one summary file per session (`YYYY-MM-DD-<topic>.md`).
-`docs/HISTORY.md` (frozen P10→P13 chronicle, ~900 KB) and `docs/OPEN-ITEMS.md`
+`docs/history/archive/HISTORY.md` (frozen P10→P13 chronicle, ~900 KB) and `docs/history/archive/OPEN-ITEMS.md`
 (~170 KB): grep them, never read them whole.
 
 Background docs — open on demand, not up front: `docs/ARCHITECTURE.md` (how
-data flows), `docs/GLOSSARY.md` (what words mean), `README.md` (how to run it).
+data flows), `docs/GLOSSARY.md` (what words mean), `docs/adr/` (why the
+hard-to-reverse choices were made), `README.md` (how to run it). Open work:
+GitHub Issues; specs: `docs/specs/`.
 
 ---
 
@@ -165,7 +167,7 @@ behavior-preserving refactors: see `.claude/rules/generated-data-locks.md`.
 
 ## SUMMARY STANDARDS
 
-Every session summary includes: **[Files Changed]**, **[Logic Altered]**, **[Verification Method]**, **[Residual Risks]** ("none" only if truly none), **[Updated Docs]** — update docs to match reality, preserving history. Ordinary docs use strikethrough. Instruction files (`CLAUDE.md`, `.claude/`) state current truth only: rewrite the rule, move the superseded text, measurements and narrative verbatim into `docs/history/rules/<file>.md` (one `## <title>` section per rule), and leave a `History:` pointer in the rule. Write the summary to a new file `docs/history/YYYY-MM-DD-<topic>.md`; never append to `docs/HISTORY.md`.
+Every session summary includes: **[Files Changed]**, **[Logic Altered]**, **[Verification Method]**, **[Residual Risks]** ("none" only if truly none), **[Updated Docs]** — update docs to match reality, preserving history. Ordinary docs use strikethrough. Instruction files (`CLAUDE.md`, `.claude/`) state current truth only: rewrite the rule, move the superseded text, measurements and narrative verbatim into `docs/history/rules/<file>.md` (one `## <title>` section per rule), and leave a `History:` pointer in the rule. Write the summary to a new file `docs/history/YYYY-MM-DD-<topic>.md`; never append to `docs/history/archive/HISTORY.md`.
 
 ## TOOLS
 

@@ -7,7 +7,7 @@
  * not a team ranked #4,012). This module encodes WHICH characters plausibly
  * belong together, so team-enum.js only generates candidates worth simulating;
  * the sim (team-rank.js) provides the actual ranking. Curated knowledge defines
- * the space, the sim ranks it (PHASE0-ARCHITECTURE.md §1, (c)→(a)).
+ * the space, the sim ranks it (docs/history/archive/PHASE0-ARCHITECTURE.md §1, (c)→(a)).
  *
  * SOURCE OF TRUTH (2026-07-10 rewrite): the game's own in-game "role label"
  * tags (`resonator.roles`, projected by tools/preprocess.mjs's

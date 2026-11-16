@@ -2,7 +2,7 @@
  * P12 §2 — the reference build (anchor).
  *
  * Constructs, deterministically, the per-resonator anchor at which every
- * breakpoint and weight is computed (PHASE0-ARCHITECTURE.md §4). The anchor is:
+ * breakpoint and weight is computed (docs/history/archive/PHASE0-ARCHITECTURE.md §4). The anchor is:
  *   - a synthesized, prerequisite-valid reference rotation (§2a.1),
  *   - a fixed template echo main/sub stat-set (§2b),
  *   - a sequence level (build.chain),

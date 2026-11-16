@@ -56,7 +56,7 @@ widenings:
 
     python tools/extract/reconcile_effects.py <fmodel-export-root> [--depth N]
 
-Writes docs/effect-reconciliation.md (gitignored, like the other QA reports).
+Writes docs/reports/effect-reconciliation.md (tracked, like the other QA reports).
 """
 import json
 import os
@@ -495,7 +495,7 @@ def main():
     report += ['', '## Chain-node disagreements', '',
                '| node | stat | game | ours |', '| --- | --- | --- | --- |'] + lines
 
-    out = os.path.join(ROOT, 'docs', 'effect-reconciliation.md')
+    out = os.path.join(ROOT, 'docs', 'reports', 'effect-reconciliation.md')
     with open(out, 'w', encoding='utf-8', newline='\n') as handle:
         handle.write('\n'.join(report) + '\n')
     print('\n'.join(report[:20]))

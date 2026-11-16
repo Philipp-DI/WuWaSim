@@ -102,7 +102,7 @@ export function renderPaletteButton(key, def) {
 }
 
 // Group palette entries by skill family (header = family, body = pickable
-// stages) — amends P11-ADDENDUM.md §E. Splits a family further when a stage
+// stages) — amends docs/history/archive/P11-ADDENDUM.md §E. Splits a family further when a stage
 // key's remainder (after stripping the skillType prefix) names one of the
 // resonator's STATE_DEFS states (e.g. Hiyuki's Present/Foreclaimed Self) —
 // reuses existing curated data, no new table. Reuses the stage-family parser

@@ -1,5 +1,5 @@
 /**
- * Curated Resonance Mode table (RESONANCE-MODE-SPEC.md §2).
+ * Curated Resonance Mode table (docs/history/archive/RESONANCE-MODE-SPEC.md §2).
  *
  * Resonance Modes are a BUILD-LEVEL choice that gates which effects resolve
  * (distinct from the P10 rotation state timeline). The dataset carries no

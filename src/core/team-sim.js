@@ -178,7 +178,7 @@ export function simulateTeamRotation({
         mergeTeamBundles(memberTeamWide.filter((_, j) => j !== memberIndex));
 
     // Team-buff TIMELINE (2026-07-15, maintainer-directed literal-overlap
-    // model — docs/TEAM-BUFF-TIMELINE-PLAN.md): every team-wide WINDOW buff a
+    // model — docs/history/archive/TEAM-BUFF-TIMELINE-PLAN.md): every team-wide WINDOW buff a
     // member's segment produces (sonata window-path "ATK of all party members",
     // echo shield auras) is accrued here in TEAM time as constant-stack runs,
     // and each LATER-simulated segment receives the accumulated runs as
@@ -430,7 +430,7 @@ export function simulateTeamRotation({
  *   un-gated when the enemy carries the status from ANY member.
  * - memberTeamWide (L3, the FLAT timing-independent half): a receiving member
  *   sees the UNION of the OTHER members' bundles. Two disjoint sources remain
- *   flat (window derivation planned — docs/TEAM-BUFF-TIMELINE-PLAN.md):
+ *   flat (window derivation planned — docs/history/archive/TEAM-BUFF-TIMELINE-PLAN.md):
  *   teamWideContribution (chain/inherent kit effects) and weaponSonataTeamWide
  *   (weapon/sonata CONDITIONAL clauses). Sonata WINDOW-PATH buffs and echo
  *   auras live on the timeline-aware path instead (literal overlap, not flat).

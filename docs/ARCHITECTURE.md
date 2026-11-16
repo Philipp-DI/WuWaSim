@@ -2,8 +2,9 @@
 
 The one document to read end-to-end when joining the project. Everything here
 is traceable to code; function names are given so you can jump straight in.
-Companion docs: `GLOSSARY.md` (what the words mean), `HISTORY.md` (how we got
-here), `../CLAUDE.md` (the rules and invariants).
+Companion docs: `GLOSSARY.md` (what the words mean), `docs/history/` (how we got
+here: session summaries, and the finished plans in `archive/`), `../CLAUDE.md`
+(the rules and invariants), `docs/adr/` (the hard-to-reverse decisions).
 
 ---
 
@@ -38,7 +39,7 @@ Three properties shape everything:
 ## 2 · Data pipeline (offline, run by the maintainer)
 
 ```text
-data/extracted-nanoka/characters/*.json   ← source: nanoka.cc dumps (60 files → 56 resonators, schema v9)
+data/extracted-nanoka/characters/*.json   ← source: nanoka.cc dumps (64 files → 60 resonators, schema v9)
 data/extracted-nanoka/{echo,weapon,…}.json + Arikatsu BinData tables (fetched)
 data/patch.json                           ← curated: manual field overrides
 data/reference-rotations.json             ← curated: per-character reference rotations
@@ -52,15 +53,16 @@ data/data-version.json                    ← content-hash manifest (browser cac
           │
           ▼  node tools/optimize.mjs      (also reads reference-rotations.json)
 data/wuwa-meta.json                       ← precomputed stat weights, suggested builds, teams
-docs/meta-validation.md                   ← generated QA report (gitignored)
+docs/reports/meta-validation.md                   ← generated QA report (tracked)
 ```
 
 **Why the source holds more characters than the dataset.** Rover ships as
 male *and* female variants — different ids, identical names and stats — so the
 projection sorts by id and keeps the FIRST per name (`preprocess.mjs`, the
-`seen` filter). That drops the four male ids (1310, 1408, 1502, 1605) and keeps
-the female ones (1309, 1406, 1501, 1604), which is also the project's
-female-Rover rule. A source directory that counts four higher than
+`seen` filter). That drops the four higher ids (1310, 1408, 1502, 1605) and keeps
+the lower ones (1309, 1406, 1501 — the male source — and 1604, female). The
+kept id is only a key: gender is cosmetic, and timings come from the female
+build (`.claude/rules/invariant-rover.md`, ADR 0003). A source directory that counts four higher than
 `dataset.counts.resonators` is therefore CORRECT, not stale — verify a
 suspected data gap by re-running `npm run data` and reading LOCK A, never by
 assuming the missing ids were lost.
@@ -121,7 +123,7 @@ several invariants in CLAUDE.md exist to keep them from being conflated.
 persisted by `src/data/storage.js` in localStorage) holds
 `rotation: ['intro', 'skill', 'liberation', …]` (plain skill keys — the
 persisted format is always this linear array), `skillLevels`, weapon, echoes,
-and `effectToggles`.
+and `effectStacks` (the user's own count per conditional effect).
 
 **Step 2 — the simulator walks the rotation.**
 `simulateRotation({ build, dataset, target })` in `src/core/sim.js`:
@@ -220,9 +222,9 @@ for three of these sources, and the three lanes are deliberately disjoint:
    (`teamWideContribution`).
 2. Weapon/sonata conditional clauses with a team recipient (e.g. Kumokiri) —
    `stats.js weaponSonataTeamWide`, currently flat for the whole rotation
-   (the documented open item in `TEAM-BUFF-TIMELINE-PLAN.md`).
+   (open: issue #8).
 3. Window-path sonata buffs + echo auras — accrued onto a chronological
-   `teamBuffTimeline` as segments simulate; later segments literally receive
+   team buff timeline (`sim.timeline`) as segments simulate; later segments literally receive
    the overlapping windows (`externalBuffWindows` into `simulateRotation`),
    so a 30s buff cast at t=50s covers exactly the teammates playing inside
    50–80s and nothing else.
@@ -239,8 +241,8 @@ this table exists to prevent.
 `src/core/team-sim.js`. A team is up to 3 members (`team.js`), each with
 their own build + rotation.
 
-**Segment sequence.** Members play strictly in slot order, `passCount` times
-around. Each member's turn expands to up to three segments on one absolute
+**Segment sequence.** Members play strictly in slot order, once per team cycle,
+`passCount` team cycles in all. Each member's turn expands to up to three segments on one absolute
 team-time axis:
 
 ```text
@@ -248,7 +250,7 @@ team-time axis:
 ```
 
 Intro/Outro segments are auto-injected at swap boundaries (`simulateIntro`,
-`withoutAutoCastSteps`); slot 0 on pass 0 gets no intro (nobody swapped in).
+`withoutAutoCastSteps`); slot 0 in the first team cycle gets no intro (nobody swapped in).
 The outgoing member's Outro produces an amplify context the incoming member's
 segments receive (path 7 above).
 
@@ -260,7 +262,7 @@ segments receive (path 7 above).
 - **Team buff timeline** — §4's lane 3: windows accrued as segments simulate,
   delivered to later overlapping segments.
 - **Cooldown ledger** (`cooldowns.js`) — re-annotated in team time so a CD
-  spans passes and swap gaps (diagnostic overlay; never changes damage).
+  spans team cycles and swap gaps (diagnostic overlay; never changes damage).
 - **Per-member energy ledger** (`team-energy.js applyEnergyEvent`) — own
   casts + a 50% share of others' generation, each × the receiver's own ER.
 - **Concerto gauge** per member — built by the active member's casts; swap
@@ -268,7 +270,7 @@ segments receive (path 7 above).
   handoff on it is opt-in (`enforceConcerto`, default off).
 
 **Derived openers** (`opener.js`, opt-in via `deriveOpeners`; the team page
-and offline ranking turn it ON): before a member's pass, if their consuming
+and offline ranking turn it ON): before a member's turn, if their consuming
 Liberation would arrive with a short energy gauge, a cooldown-aware greedy
 filler splices real casts in front of it — the shortfall becomes TIME. If
 nothing can generate the energy, the cast is GATED (dropped and reported).
@@ -364,14 +366,14 @@ to team damage** — as it does in-game.
 | `preprocess/weapons.mjs`, `echoes.mjs`, `sonatas.mjs` | Weapon / echo / sonata-set projection |
 | `preprocess/skill-scope.mjs` | Bind an effect to the skills its clause NAMES, and to the state its clause gates it behind. Reads the FULL clause (re-split from the node's `desc`), not the 120-char `condition` the display carries. Refuses a name that is only a category — that scope belongs to `skillType`/`nodeTypeMatches`. Coverage pinned by `tests/multiplier-scope.test.mjs` |
 | `preprocess/buff-facts.mjs` | Move an effect into the bucket the GAME puts it in (`data/buff-facts.json`), additive vs amplify — the one thing kit text cannot say |
-| `extract/reconcile_effects.py` | QA: parsed effects vs the game's `db_buff` → `docs/effect-reconciliation.md` |
+| `extract/reconcile_effects.py` | QA: parsed effects vs the game's `db_buff` → `docs/reports/effect-reconciliation.md` |
 | `extract/extract_extra_effects.py`, `extract_buff_facts.py` | Read the client's ExtraEffect enum and per-value buckets out of the ConfigDB |
 | `preprocess/tune-strain.mjs` | Read the Tune Strain chain (responder, +1 cap raise, 0.12%/point) off each Tune Break node |
 | `preprocess/status-apply.mjs` | Derive which casts inflict a negative status, from each kit's own clauses |
 | `preprocess/inherent-replace.mjs` | Mark an inherent a sequence node states it REPLACES, so the two never stack |
 | `optimize.mjs` + `optimize/*` | Precompute `wuwa-meta.json`: weights, suggested builds, team rankings |
 | `extract-forte.mjs` | Distill Forte-gauge channels → `data/forte-data.json` |
-| `audit-effects.mjs` | QA report of unresolved effect triggers → `docs/effect-audit.md` |
+| `audit-effects.mjs` | QA report of unresolved effect triggers → `docs/reports/effect-audit.md` |
 | `download-icons.mjs`, `gen-manifest.mjs` | Icon refresh utilities |
 | `../update-game-version/*` | Game version update: stage Arikatsu + nanoka, diff, review gate, install (its own README) |
 
@@ -399,5 +401,35 @@ to a fabricated per-type `stepDuration` (turret/summon/DoT damage with no player
 animation to measure — every step carries a `timingSource` saying which it is);
 38 measured times are `timingProvisional` (conditional on an unmodelled state,
 or measuring only one phase); team-wide lane 2 is still flat; incoming-transfer
-durations are unparsed; the opener filler weaves no real combos. Details and status live in
-`SIMPLIFICATION-PLAN.md`, `TEAM-BUFF-TIMELINE-PLAN.md`, and `HISTORY.md`.
+durations are unparsed; the opener filler weaves no real combos. Open work lives in GitHub issues (lane 2 is
+#8); the reasoning behind each shipped step lives in `docs/history/`.
+
+---
+
+## 8 · Glossary terms → code
+
+`GLOSSARY.md` says what a word means; this table says where it lives.
+
+| Term | Where |
+| --- | --- |
+| dataset / nanoka source | `data/wuwa-data.json` / `data/extracted-nanoka/` |
+| the meta, engineHash | `data/wuwa-meta.json`; the two `ENGINE_FILES` lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` |
+| LOCK A / LOCK B | `npm run data` / `npm run meta` with a zero diff (`.claude/rules/generated-data-locks.md`) |
+| display row ↔ damage instance | `matchRowHits` (`tools/rate-match.mjs`), `resolveInstanceFormula` (`tools/preprocess/skill-rows.mjs`) |
+| version update, staging, review gate | `update-game-version/update.mjs`; `update-game-version/staging/<version>/`; `reports/<version>/review.md`; adopted version in `data/game-version.json` |
+| skill map | `sim.js effectiveSkillMap` (curated `skillMap` first, generated fallback) |
+| attribution | `core/dmg-attribution.js` (mirrors the client's `GetAttackTypeDamageBonus`); `dmgTypes` on a damage row; `build.resonanceMode` |
+| grant, state, resource / gauge | `STAGE_GRANTS`, `SWAP_IN_ENTRY`, `STATE_DEFS`, `RESOURCE_DEFS` (`src/core/rotation-rules.js`); gauge timeline in `rotation-resources.js computeResourceTimeline` |
+| cast lane | `data/gauge-income.json` (from `DT_SkillInfo`) |
+| `stepDuration`, `freezeTime` | `resolveStepDuration`, `resolveFreezeSchedule` (`sim.js`); measured values in `data/actionable-times.json` (`TIMING_MODEL.md`) |
+| effectStacks | `build.effectStacks`, read first by `buffs.js scaleEffect` |
+| consumption-scoped effect | `stackTrigger: { type: 'resource', consumed: true }` |
+| stack ramp | `buffs/buff-timeline.js stackTimeline` |
+| team buff timeline | `sim.timeline`, read by `timelineWindowsFor` into `externalBuffWindows` (`team-sim.js` → `simulateRotation`) |
+| opener / filler / gated | `opener.js`, enabled by `deriveOpeners` |
+| Concerto handoff | `enforceConcerto` (opt-in damage gating) |
+| `gameTime` / `realTime` | `deriveGameTimes(steps, timingMode = 'toa')` (`sim.js`) |
+| team cycle, marginal | `passCount` (rename tracked in issue #13); team totals from `memberTotals` |
+| cross-segment carry | `carryInFires` / `sim.memberFires`; `carryInResources` / `resourceEndLevels` / `sim.memberResources` |
+| Tune Break response, Tune Break Boost | `resonator.tuneBreak`; `src/core/tune-break.js` |
+| outro mode branch | `outroBuffs[*].mode` |

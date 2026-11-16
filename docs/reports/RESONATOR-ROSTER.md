@@ -12,9 +12,9 @@ documents the rule). See `docs/GLOSSARY.md` § "Game-data vocabulary" for what
 these internal names mean.
 
 Related, and deliberately not duplicated here:
-`docs/COMBO-ENTRY-CURATION.md` owns per-character **combo-entry** coverage
-(basic-chain entry mechanics that are in neither the kit text nor the data);
-`docs/OPEN-ITEMS.md` owns the backlog. This table is the roster INDEX — id,
+`docs/history/archive/COMBO-ENTRY-CURATION.md` holds per-character **combo-entry** coverage
+(basic-chain entry mechanics that are in neither the kit text nor the data; Tier 2
+is issue #10); GitHub Issues hold the backlog. This table is the roster INDEX — id,
 codename, and how much hand-authored modelling each carries.
 
 ---

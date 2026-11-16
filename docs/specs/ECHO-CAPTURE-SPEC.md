@@ -3,10 +3,10 @@
 > **STATUS: DRAFT 2026-10-18. Maintainer decisions of 2026-10-18 recorded
 > (§11).** Echo-first v1 of a screen-reading inventory import. Resonators,
 > weapons, the echo grader (tuning popups) and the stat checksum are later
-> specs.
+> specs. Tracking issue: #11.
 >
 > **Prerequisite:** the game-data update to 3.7 runs FIRST, through the
-> procedure in `docs/VERSION-UPDATE-SPEC.md`. No capture phase starts on 3.6
+> procedure in `docs/specs/VERSION-UPDATE-SPEC.md`. No capture phase starts on 3.6
 > data.
 
 ## 1. Goal and boundaries
@@ -32,8 +32,8 @@ the optimizer runs on echoes the user owns instead of hand-entered ones.
 
 | # | Finding | Evidence | Consequence |
 | --- | --- | --- | --- |
-| F1 | The live game is 3.7+, the repo is pinned to 3.6 | Arikatsu 3.7 `phantomfettergroup` has sets 36–38 (3.6: up to 35); `phantomitem` adds 8 echoes; 12 existing echoes gained a set (all six Kernel Puppets among them). In-game, Kernel Puppet: Worry shows the set "Flash of Electric Reflection", a 3.7 set; 3.7 lists Worry in `[34, 37]`, 3.6 in `[34]` | **Decided:** adopt 3.7 first (`docs/VERSION-UPDATE-SPEC.md`). Capture still abstains on unknown sets and echoes and counts them (§6.4), because the next patch recreates the gap |
-| F2 | No sonata crest extractor exists | Crests were hand-fetched from the Fandom wiki (commit `cf81936`, `src/ui/icons.js` comment); mixed 76 px and 128 px sources | The crest path IS in BinData: `phantomfettergroup.FetterElementPath`, unique per set (8 → `T_IconElementAttriCloud`, 37 → `T_IconElementAttriThunderError`; `AimModelElementPath` is the 128 px variant). `phantomfetter.FetterIcon` is a placeholder: one path for all 70 rows. The crest fetcher is a step of the version update (`docs/VERSION-UPDATE-SPEC.md`) |
+| F1 | The live game is 3.7+, the repo is pinned to 3.6 | Arikatsu 3.7 `phantomfettergroup` has sets 36–38 (3.6: up to 35); `phantomitem` adds 8 echoes; 12 existing echoes gained a set (all six Kernel Puppets among them). In-game, Kernel Puppet: Worry shows the set "Flash of Electric Reflection", a 3.7 set; 3.7 lists Worry in `[34, 37]`, 3.6 in `[34]` | **Decided:** adopt 3.7 first (`docs/specs/VERSION-UPDATE-SPEC.md`). Capture still abstains on unknown sets and echoes and counts them (§6.4), because the next patch recreates the gap |
+| F2 | No sonata crest extractor exists | Crests were hand-fetched from the Fandom wiki (commit `cf81936`, `src/ui/icons.js` comment); mixed 76 px and 128 px sources | The crest path IS in BinData: `phantomfettergroup.FetterElementPath`, unique per set (8 → `T_IconElementAttriCloud`, 37 → `T_IconElementAttriThunderError`; `AimModelElementPath` is the 128 px variant). `phantomfetter.FetterIcon` is a placeholder: one path for all 70 rows. The crest fetcher is a step of the version update (`docs/specs/VERSION-UPDATE-SPEC.md`) |
 | F3 | The committed crests work as templates for the sets they cover | Probe, masked RGB distance over a scale range: 38 of 38 known-set crops top-1 correct, 3 of 3 unknown-set crops (3.7 sets) without a confident match. Detail panels and 36 px grid icons: true distance 12–46, margin ≥ 1.6. 22 px equip-grid icons: true 28–49, margin 1.16–2.17 | Read crests from detail panels only. Start thresholds in §6.3. Six panel crops have the set name printed beside the icon; the rest is ground-truthed by eye, so the maintainer re-confirms in Phase 1 |
 | F4 | `echo-rules.js` rounds where the game floors the display | Tuning popups, 1-cost 5★ ATK%/HP: +5 shows 6.4% / 820 (true 6.48 / 820.8; `mainStatValueFor` / `subMainStatFor` give 6.5 / 821); +10 shows 9.3% / 1185 (functions: 9.4 / 1186). All agree at +25 | **Decided:** the sim uses true values (§4.1 says where they come from). It is an engine change, Phase 0b. Capture compares displayed values against floor-display(true) (§6.4) |
 | F5 | `stat-ranges.json` CD% says `"max": 20.5` | Its own `possible_rolls` ends at 21.0; Tambourinist shows Crit DMG 21.0% | **Fixed** in the working tree (2026-10-18, `max` 21.0, not yet committed). No reader of `.max` found |
@@ -207,7 +207,7 @@ classifiers → closed-vocabulary decode → validator → two-frame agreement �
 ## 8. Reference assets and the update loop
 
 - **Sonata crests** are fetched by the version update
-  (`docs/VERSION-UPDATE-SPEC.md`, the crest step): from `FetterElementPath`,
+  (`docs/specs/VERSION-UPDATE-SPEC.md`, the crest step): from `FetterElementPath`,
   with the slug list derived from data instead of the hand-kept
   `SONATA_SLUGS`. `tests/icons.test.mjs` already asserts coverage.
 - **`tools/capture/build_templates.py`.**
@@ -220,7 +220,7 @@ classifiers → closed-vocabulary decode → validator → two-frame agreement �
   names, stat labels and resonator names are projected by `preprocess.mjs` from
   the same TextMap version.
 - **Per game update:** the capture steps are part of the version-update
-  procedure (`docs/VERSION-UPDATE-SPEC.md`). Build templates, then `npm test`
+  procedure (`docs/specs/VERSION-UPDATE-SPEC.md`). Build templates, then `npm test`
   runs the fixture suite. If a screen or font changed, the maintainer captures
   new fixtures and the glyphs are re-cut.
 
@@ -275,7 +275,7 @@ classifiers → closed-vocabulary decode → validator → two-frame agreement �
 
 **Decided by the maintainer, 2026-10-18:**
 1. Update the game data to 3.7 first, as its own procedure
-   (`docs/VERSION-UPDATE-SPEC.md`).
+   (`docs/specs/VERSION-UPDATE-SPEC.md`).
 2. The sim uses true values, not rounded ones (§4.1, Phase 0b).
 3. Echoes below 5★ are dropped.
 4. "Owned: N" stacks by echo + set + main stat (§4).

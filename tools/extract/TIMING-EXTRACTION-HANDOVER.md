@@ -3,7 +3,7 @@
 **Status:** pipeline built, verified byte-exact against Rebecca (resonator 1308).
 **Goal:** point the runner at an FModel-exported asset tree and produce
 `data/timing-data.json` covering every resonator.
-**Supersedes:** the "measure `SequenceLength`" plan in `LANE-B-ASSET-EXTRACTION.md` §4
+**Supersedes:** the "measure `SequenceLength`" plan in `docs/history/archive/LANE-B-ASSET-EXTRACTION.md` §4
 — see §3 below for why that number is a trap.
 
 ---
@@ -35,7 +35,7 @@ mechanic's own assets or a global combat config. Treat as a separate hunt.
   a `.uasset` alone is a header with no payload and will be reported as an error.
 - No `.usmap` needed. These assets use classic tagged serialization, which is
   self-describing (every property declares its own byte size). This is why the
-  mappings blocker in `LANE-B-ASSET-EXTRACTION.md` §2.4 does not apply here.
+  mappings blocker in `docs/history/archive/LANE-B-ASSET-EXTRACTION.md` §2.4 does not apply here.
 
 ---
 
@@ -90,7 +90,7 @@ skipped.
 # from the repo, with the extraction tools on the path
 python3 tools/extract/extract_timings.py <ASSET_ROOT> \
         -o data/timing-data.json \
-        --report docs/timing-extraction-report.md
+        --report docs/reports/timing-extraction-report.md
 ```
 
 The runner:
@@ -163,7 +163,7 @@ The parser proves its own correctness — **enforce this, don't just trust it**:
 
 ## 8. Integrating into the engine
 
-Per `TIMING-DATA-SOURCING.md` §3, every value carries provenance. Entries the
+Every value carries provenance. Entries the
 runner produces are `provenance: "extracted"`. Skills with no montage resolved
 get `timing: null` — **do not fill these with a per-type constant and let it look
 sourced.** Keep the existing fabricated defaults clearly tagged
@@ -171,7 +171,7 @@ sourced.** Keep the existing fabricated defaults clearly tagged
 optimizer.
 
 Before wiring extracted values into rankings, run the **±20% sensitivity check**
-from `LANE-B-ASSET-EXTRACTION.md` §7: perturb the current defaults and see
+from `docs/history/archive/LANE-B-ASSET-EXTRACTION.md` §7: perturb the current defaults and see
 whether team rankings move. That tells you how load-bearing timing precision
 actually is, and therefore how much of the roster is worth extracting.
 
@@ -190,7 +190,7 @@ Changli, Phoebe, Cantarella) — enough to validate the model without a full swe
 | `montage_timeline.py` | AnimMontage → notify timeline + derived timings (splits the two freezes above) |
 | `extract_timings.py` | full-roster runner for the **DT_SkillInfo row route** (fallback; entry point) |
 | `scan_bullet_timings.py` | full-roster runner for the **bullet chain** — the primary route (notify → bullet id → bullet table → damage id) |
-| `map-timings.mjs` | the join: routes above → `autoSkillMap` keys via `hit-map.json`; writes `data/actionable-times.json` + `docs/timing-gaps-report.md` |
+| `map-timings.mjs` | the join: routes above → `autoSkillMap` keys via `hit-map.json`; writes `data/actionable-times.json` + `docs/reports/timing-gaps-report.md` |
 
 `montage_timeline.py` also runs standalone on a single montage:
 `python3 montage_timeline.py path/to/AM_Whatever.uasset`

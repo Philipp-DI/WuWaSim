@@ -5,7 +5,7 @@
  *
  * The join key is data/hit-map.json: preprocess.mjs already records, for every
  * autoSkillMap entry, the game's own per-hit BinData damage ids it matched
- * (verified identical to the raw game ids roster-wide — see docs/HISTORY.md
+ * (verified identical to the raw game ids roster-wide — see docs/history/archive/HISTORY.md
  * "Forte extraction root-cause fix"). There are two independent ways to get
  * from such a damage id to a real animation, and they are tried in this order:
  *
@@ -29,7 +29,7 @@
  *
  * A key neither route resolves is left out rather than guessed — it keeps its
  * fabricated-default actionable-at time downstream, and is listed with its
- * diagnosis in docs/timing-gaps-report.md.
+ * diagnosis in docs/reports/timing-gaps-report.md.
  *
  * Run: node tools/extract/map-timings.mjs
  */
@@ -1023,7 +1023,7 @@ for (const [rid, key, entry] of phaseOnly.sort((left, right) => Number(left[0]) 
 }
 gapLines.push('');
 
-writeFileSync(resolve(__dirname, '../../docs/timing-gaps-report.md'), gapLines.join('\n') + '\n');
+writeFileSync(resolve(__dirname, '../../docs/reports/timing-gaps-report.md'), gapLines.join('\n') + '\n');
 
 const result = {
     _meta: {

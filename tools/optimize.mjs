@@ -5,7 +5,7 @@
  * Iterates the covered resonators × sequence levels × sonata sets, computes the
  * marginal weights + ER-mode + conditional thresholds at each anchor, and emits
  * data/wuwa-meta.json (§6, adapted for the mode-based ER design) plus
- * docs/meta-validation.md (§7).
+ * docs/reports/meta-validation.md (§7).
  *
  * Thin orchestrator: all real logic lives in tools/optimize/*. Deterministic —
  * same wuwa-data.json + same engine ⇒ byte-identical meta (modulo generatedAt).
@@ -269,7 +269,7 @@ function run() {
 
     const metaSerialized = JSON.stringify(meta, null, 2) + '\n';
     writeFileSync(resolve(root, 'data/wuwa-meta.json'), metaSerialized, 'utf8');
-    writeFileSync(resolve(root, 'docs/meta-validation.md'), buildValidationReport(meta, dataset.statRanges), 'utf8');
+    writeFileSync(resolve(root, 'docs/reports/meta-validation.md'), buildValidationReport(meta, dataset.statRanges), 'utf8');
 
     // Update the `meta` field of the shared cache-bust manifest (see
     // preprocess.mjs) so a meta-only regen still busts the runtime cache. Hash
@@ -284,7 +284,7 @@ function run() {
 
     const secs = ((Date.now() - startTime) / 1000).toFixed(1);
     process.stdout.write(`optimize: ${Object.keys(meta.characters).length} characters, ${scenarios} scenarios in ${secs}s\n`);
-    process.stdout.write(`Wrote data/wuwa-meta.json + docs/meta-validation.md\n`);
+    process.stdout.write(`Wrote data/wuwa-meta.json + docs/reports/meta-validation.md\n`);
 }
 
 run();

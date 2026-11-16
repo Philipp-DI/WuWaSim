@@ -1,5 +1,5 @@
 /**
- * Tests for the effect-overrides mechanism (PRE-P12-DATA-QUALITY.md §3/§5).
+ * Tests for the effect-overrides mechanism (docs/history/archive/PRE-P12-DATA-QUALITY.md §3/§5).
  *
  *   node test/effect-overrides.test.mjs
  *

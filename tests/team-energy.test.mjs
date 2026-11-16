@@ -1,6 +1,6 @@
 /**
  * Tests for P13 team energy — src/core/team-energy.js + the memberEnergy
- * wiring in team-sim.js. See docs/energy-signal-findings.md (off-field 50%
+ * wiring in team-sim.js. See docs/history/archive/energy-signal-findings.md (off-field 50%
  * rule, maintainer-confirmed 2026-06-27).
  *
  *   node tests/team-energy.test.mjs
@@ -155,7 +155,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // ── Integration: simulateTeamRotation carries memberEnergy ──────────────────
 {
     // Sanhua (1102): skill = 10 base, liberation cost 100 (in-game verified,
-    // docs/energy-signal-findings.md). Mornye (1209) fills slot 0.
+    // docs/history/archive/energy-signal-findings.md). Mornye (1209) fills slot 0.
     const sanhua = d.resonators.find(r => r.id === 1102);
     const mornye = d.resonators.find(r => r.id === 1209);
 

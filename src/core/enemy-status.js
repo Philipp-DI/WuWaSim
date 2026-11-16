@@ -85,7 +85,7 @@ export const NEGATIVE_STATUS_DEFS = Object.freeze({
  *    by 3, lasting 20s. This effect does not stack."
  *
  * Curated because the raise is stated in kit text and the chain→buff walk
- * (docs/CONFIGDB-RECON.md) reaches only about a quarter of chain nodes. Every
+ * (docs/history/archive/CONFIGDB-RECON.md) reaches only about a quarter of chain nodes. Every
  * entry below quotes its own kit sentence and is data-integrity tested against
  * real skill keys and a real status name.
  *

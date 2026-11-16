@@ -99,7 +99,7 @@ export function createBuild(resonator) {
         resonatorId: resonator.id,
         level: resonator.maxLevel ?? 90,
         chain: 0,
-        // Resonance Mode (RESONANCE-MODE-SPEC.md §4): build-level mode choice for
+        // Resonance Mode (docs/history/archive/RESONANCE-MODE-SPEC.md §4): build-level mode choice for
         // the four mode-having resonators; defaults to mode A. null otherwise.
         resonanceMode: resonator.resonanceModes?.[0]?.key ?? null,
         skillLevels: { ...DEFAULT_SKILL_LEVELS },
@@ -352,7 +352,7 @@ export function setChain(build, chain) {
     return touch({ ...build, chain: clampInt(chain, 0, 6, build.chain) });
 }
 
-// Set the build-level Resonance Mode (RESONANCE-MODE-SPEC.md §4). `mode` is a
+// Set the build-level Resonance Mode (docs/history/archive/RESONANCE-MODE-SPEC.md §4). `mode` is a
 // normalized key from the resonator's mode pair (e.g. 'tune_rupture'), or null.
 export function setResonanceMode(build, mode) {
     return touch({ ...build, resonanceMode: mode ?? null });

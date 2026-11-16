@@ -2,7 +2,7 @@
  * Team-level Resonance Energy model (P13 — the team-energy half absorbed from
  * the auto-optimizer plan's Phase B; prerequisite for the §5a.2 team-ER sweep).
  *
- * Rules (docs/energy-signal-findings.md, maintainer-confirmed 2026-06-27):
+ * Rules (docs/history/archive/energy-signal-findings.md, maintainer-confirmed 2026-06-27):
  *   - On-field: a member gains their own step's base generation × their own ER
  *     (identical to the solo P11.5 accumulator in sim.js).
  *   - Off-field: a member gains 50% of whatever the ACTIVE member's step

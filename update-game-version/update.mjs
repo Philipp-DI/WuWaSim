@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// update-game-version/update.mjs — the orchestrator (docs/VERSION-UPDATE-SPEC.md §5).
+// update-game-version/update.mjs — the orchestrator (docs/specs/VERSION-UPDATE-SPEC.md §5).
 //
 //   node update-game-version/update.mjs status --version 3.7   # readiness + where the run stands
 //   node update-game-version/update.mjs all --version 3.7      # run to the next USER or GATE step
@@ -149,7 +149,7 @@ async function runStep(step, state, context, { confirm = false } = {}) {
         // Not automated yet, so it is done by hand like a USER step: running it
         // BY NAME afterwards records it as done.
         if (confirm) return finish();
-        console.log(`Not automated until Phase ${step.pendingPhase} of docs/VERSION-UPDATE-SPEC.md. Do it by hand (README, "### ${step.id}"),`);
+        console.log(`Not automated until Phase ${step.pendingPhase} of docs/specs/VERSION-UPDATE-SPEC.md. Do it by hand (README, "### ${step.id}"),`);
         console.log(`then: node update-game-version/update.mjs ${step.id} --version ${context.version}`);
         return 'stop';
     }

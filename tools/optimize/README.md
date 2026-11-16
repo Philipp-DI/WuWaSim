@@ -1,8 +1,8 @@
 # P12 — Stat-Weight Optimizer: usage guide
 
 A quick orientation for anyone who wants to *use* or *extend* the P12 stat
-optimizer. For the full design rationale see `docs/PHASE0-ARCHITECTURE.md §2–§7`
-and `docs/P12-INSTRUCTION-SET.md`.
+optimizer. For the full design rationale see `docs/history/archive/PHASE0-ARCHITECTURE.md §2–§7`
+and `docs/history/archive/P12-INSTRUCTION-SET.md`.
 
 ## What it gives you
 
@@ -34,7 +34,7 @@ It is split in two, mirroring `preprocess.mjs → wuwa-data.json`:
   node tools/optimize.mjs
         ├─ reads data/wuwa-data.json + the real sim engine
         ├─ writes data/wuwa-meta.json        (committed; the runtime reads this)
-        └─ writes docs/meta-validation.md     (local QA report; docs/ is gitignored)
+        └─ writes docs/reports/meta-validation.md     (tracked QA report)
 
   runtime (every page load)
   meta-loader.js → stat-ranking.js → Stat Priority panel on the build page
@@ -61,7 +61,7 @@ A true breakpoint waits on team-level energy modeling (P13).
 ## Regenerating the meta
 
 ```bash
-node tools/optimize.mjs        # writes data/wuwa-meta.json + docs/meta-validation.md
+node tools/optimize.mjs        # writes data/wuwa-meta.json + docs/reports/meta-validation.md
 ```
 
 Run it whenever `data/wuwa-data.json` or the sim engine changes. Output is
@@ -69,7 +69,7 @@ deterministic (byte-identical except `generatedAt`). The committed meta carries
 an `engineHash`; `tests/meta-schema.test.mjs` fails if the committed meta wasn't
 regenerated after an engine change — so re-run this if that test goes red.
 
-Then eyeball `docs/meta-validation.md` (the ⚠ section first) against a guide
+Then eyeball `docs/reports/meta-validation.md` (the ⚠ section first) against a guide
 site — that's the ~10-minute-per-patch QA loop.
 
 ## Using it at runtime (consuming the frozen weights)
@@ -111,7 +111,7 @@ if (isCovered(meta, build.resonatorId)) {
 | `sim-eval.js` | `totalDamage()` + `injectStat()` (perturbation) over the unmodified sim |
 | `weights.js` | `computeWeights()` — central-difference gradient per stat |
 | `breakpoints.js` | `analyzeErMode()` + `detectConditionalThresholds()` |
-| `validation-report.js` | the `docs/meta-validation.md` emitter |
+| `validation-report.js` | the `docs/reports/meta-validation.md` emitter |
 
 **Curated input (hand-edit, not generated):** `data/reference-rotations.json`
 (per-resonator reference rotations, keyed by id).

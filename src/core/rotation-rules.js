@@ -955,7 +955,7 @@ export const STAGE_GRANTS = Object.freeze({
     // Iuno — Moonbow Dodge Counter: "When in [Lunar Cycle - New Moon], Normal
     // Attack again shortly after performing this skill to cast Moonbow -
     // Basic Attack Stage 3." (The Moonring Dodge Counter grant exists in text
-    // but has no skill-map key — see docs/COMBO-ENTRY-CURATION.md.)
+    // but has no skill-map key — see docs/history/archive/COMBO-ENTRY-CURATION.md.)
     1410: {
         basic_moonbow_basic_attack_3: {
             after: ['basic_moonbow_dodge_counter'],

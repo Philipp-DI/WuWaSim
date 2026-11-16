@@ -1,5 +1,5 @@
 /**
- * Pure effect-audit logic (PRE-P12-DATA-QUALITY.md §2). Builds the markdown
+ * Pure effect-audit logic (docs/history/archive/PRE-P12-DATA-QUALITY.md §2). Builds the markdown
  * report from an already-compiled dataset (`data/wuwa-data.json`) — the SAME
  * resonanceChain/inherentSkills effect arrays the sim resolves via
  * `unlockedEffects`/`isEffectOnAtStep` in `src/core/buffs.js`. Auditing this
@@ -37,7 +37,7 @@ const WARNING_CATEGORIES = [
     'MODE_NOT_TAGGED',
 ];
 
-/** Detect the known PRE-P12-DATA-QUALITY.md failure patterns on one effect. */
+/** Detect the known docs/history/archive/PRE-P12-DATA-QUALITY.md failure patterns on one effect. */
 export function detectWarnings(effect, resonator) {
     const warnings = [];
     const trig = effect.trigger, win = effect.window;
@@ -205,7 +205,7 @@ export function buildAuditReport(dataset, opts = {}) {
     const markdown = [];
     markdown.push('# Effect Audit Report');
     markdown.push('');
-    markdown.push('Produced by `tools/audit-effects.mjs` per `docs/PRE-P12-DATA-QUALITY.md` §2.');
+    markdown.push('Produced by `tools/audit-effects.mjs` per `docs/history/archive/PRE-P12-DATA-QUALITY.md` §2.');
     markdown.push('Read top to bottom — ⚠ entries first.');
     markdown.push('');
     markdown.push('## Summary');
@@ -219,7 +219,7 @@ export function buildAuditReport(dataset, opts = {}) {
 
     markdown.push('## P12 seed + Resonance Mode characters — gate status');
     markdown.push('');
-    markdown.push('Per `PRE-P12-DATA-QUALITY.md` §6, P12 may start once the ⚠ column is all');
+    markdown.push('Per `docs/history/archive/PRE-P12-DATA-QUALITY.md` §6, P12 may start once the ⚠ column is all');
     markdown.push('zeros — entries explicitly accepted via `data/effect-overrides.json`\'s');
     markdown.push('`deferred` map count toward the gate as resolved-by-decision, not blocking.');
     markdown.push('');

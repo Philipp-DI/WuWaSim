@@ -55,7 +55,7 @@
  *
  * TEAM-LEVEL ER (§5a.2): computed from the team energy model (team-energy.js —
  * own casts at per-hit generation + the off-field 50% share,
- * docs/energy-signal-findings.md). ~~On a separate openers-OFF run, because
+ * docs/history/archive/energy-signal-findings.md). ~~On a separate openers-OFF run, because
  * padding at the equipped ER would make every cast castable by construction and
  * destroy the breakpoint's meaning.~~ There is no padding any more, so that
  * hazard is gone; the gauge simply starts FULL and the requirement binds from

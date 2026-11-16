@@ -5,10 +5,10 @@ How the engineering skills consume this repo's domain documentation. Layout: **s
 ## Before exploring, read these
 
 - **`docs/GLOSSARY.md`**: the project glossary (this repo keeps it under `docs/`, not at the root).
-- **`docs/adr/`**: ADRs that touch the area you're about to work in (none exist yet).
+- **`docs/adr/`**: ADRs that touch the area you're about to work in.
 - **`CLAUDE.md`** and the matching `.claude/rules/*.md` file: invariants that bind any proposal.
 
-If `docs/adr/` doesn't exist, **proceed silently**. Don't flag its absence or suggest creating it upfront. The `/domain-modeling` skill creates ADRs lazily when a decision actually gets resolved; new glossary terms go into `docs/GLOSSARY.md`.
+The `/domain-modeling` skill adds an ADR only when a decision is hard to reverse, surprising and a real trade-off; new glossary terms go into `docs/GLOSSARY.md`.
 
 ## File structure
 
@@ -17,8 +17,10 @@ If `docs/adr/` doesn't exist, **proceed silently**. Don't flag its absence or su
 ├── CLAUDE.md
 ├── docs/
 │   ├── GLOSSARY.md
-│   └── adr/            ← created on first ADR
-│       └── 0001-<slug>.md
+│   ├── adr/            ← NNNN-<slug>.md
+│   ├── specs/          ← unbuilt specs, one tracking issue each
+│   ├── reports/        ← generated QA reports (tracked)
+│   └── history/        ← session summaries; archive/ holds finished plans
 └── src/
 ```
 

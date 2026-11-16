@@ -8,7 +8,7 @@
  *   node tests/energy-per-hit.test.mjs
  *
  * Anchors on Sanhua (1102), whose SINGLE-hit values are in-game verified
- * (docs/energy-signal-findings.md): those must stay byte-identical while the
+ * (docs/history/archive/energy-signal-findings.md): those must stay byte-identical while the
  * multi-hit stages carry hit-count × per-hit energy.
  *
  * Also covers the P13-fix-2 cross-row disambiguation: TWO DIFFERENT ROWS in
@@ -91,7 +91,7 @@ assert('basic_4 ("19.95%+19.95%") = 2 × 0.71 = 1.42', close(sm.basic_4.energyGe
 }
 
 // ── P13-fix-3: full rate-VECTOR matching + ID-adjacency clustering ──────────
-// (tools/preprocess.mjs matchRowHits; docs/energy-signal-findings.md.)
+// (tools/preprocess.mjs matchRowHits; docs/history/archive/energy-signal-findings.md.)
 // Values below were each hand-verified against the raw skill.damage entries.
 {
     // Mornye (1209): the user's own worked example — Basic Attack Stage 3

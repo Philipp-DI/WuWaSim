@@ -4,7 +4,7 @@
 the incidents behind them. Moved verbatim from Claude Code's local auto memory on
 2026-10-05, because auto memory never reaches subagents or cloud runs. In the
 text, "I" is Claude and "the maintainer"/"the user" is Phil. `[[name]]` links
-point to retired memory notes; that history lives in `docs/HISTORY.md`.
+point to retired memory notes; that history lives in `docs/history/archive/HISTORY.md`.
 
 Where this file and `CLAUDE.md` disagree, `CLAUDE.md` is current. For example,
 verifiers are now read-only agents, and the main session runs any check that
@@ -119,7 +119,7 @@ bar's existence. See [[p13-team-er-status]] and [[arikatsu-data-source]].
 Don't assert what an ambiguous/undocumented data field means and ship a feature on
 that assertion without verifying it first. This project (WuWaSim) already has an
 established verification methodology (in-game manual testing, documented extensively
-in `docs/energy-signal-findings.md` for Resonance Energy) — use it, or explicitly
+in `docs/history/archive/energy-signal-findings.md` for Resonance Energy) — use it, or explicitly
 flag "unverified hypothesis" in both the commit and the docs, before building on top.
 
 **Why:** On 2026-07-02 I identified a raw dataset field (`element_power`) as

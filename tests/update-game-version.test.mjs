@@ -1,5 +1,5 @@
 /**
- * The version-update folder (docs/VERSION-UPDATE-SPEC.md §9).
+ * The version-update folder (docs/specs/VERSION-UPDATE-SPEC.md §9).
  *
  *   node tests/update-game-version.test.mjs
  *
@@ -68,7 +68,7 @@ for (const old of ['fetch-nanoka-chars', 'fetch-nanoka-echoes', 'fetch-nanoka-we
     assert(`tools/${old}.mjs is gone`, !existsSync(resolve(ROOT, `tools/${old}.mjs`)));
 }
 const grep = spawnSync('git', ['grep', '-n', '-E', 'fetch-nanoka-(chars|echoes|weapons|\\*)', '--',
-    '.', ':!docs/history/**', ':!docs/HISTORY.md', ':!docs/OPEN-ITEMS.md', ':!docs/VERSION-UPDATE-SPEC.md',
+    '.', ':!docs/history/**', ':!docs/specs/VERSION-UPDATE-SPEC.md',
     ':!tests/update-game-version.test.mjs'], { cwd: ROOT, encoding: 'utf8' });
 assert(`git grep finds no reference to the old fetchers${grep.stdout ? `:\n${grep.stdout}` : ''}`, grep.stdout === '');
 

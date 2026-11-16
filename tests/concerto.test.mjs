@@ -21,8 +21,8 @@
  * excuse. Turning it on costs 8.2% mean team DPS across those 44 teams, and
  * 39% of swaps are still short. Some of those shortfalls are real and
  * maintainer-verified (Chisa's curated loop reaches 56.3 and fires no Outro in
- * game); others may be remaining income gaps. See docs/energy-signal-findings.md
- * (Concerto section) and docs/OPEN-ITEMS.md.
+ * game); others may be remaining income gaps. See docs/history/archive/energy-signal-findings.md
+ * (Concerto section) and docs/history/archive/OPEN-ITEMS.md.
  */
 
 import { readFileSync } from 'fs';

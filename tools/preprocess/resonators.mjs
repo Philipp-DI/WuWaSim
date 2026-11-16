@@ -77,7 +77,7 @@ export function projectNanokaCharacter(id, entry) {
 // isShadowEntry/pickHitCluster/matchRowHits) now live in the neutral
 // ./rate-match.mjs (extracted 2026-07-16 so tools/extract-forte.mjs can reuse
 // the SAME rigorous algorithm — it was using a much naiver matcher that
-// couldn't handle multi-hit rows, see docs/forte-modeling-investigation.md).
+// couldn't handle multi-hit rows, see docs/history/archive/forte-modeling-investigation.md).
 //
 // nanoka's `sk.damage` has one entry per TERM of a row's multiplier string (with
 // per-hit `energy`/`element_power`; maintainer-verified in-game). Attributing
@@ -95,7 +95,7 @@ export function projectNanokaCharacter(id, entry) {
 // the same top-to-bottom reconciliation a manual read of the raw table
 // produces (maintainer-verified on Mornye/Lucilla worked examples).
 //
-// Verified cases this handles (docs/energy-signal-findings.md, P13-fix-3):
+// Verified cases this handles (docs/history/archive/energy-signal-findings.md, P13-fix-3):
 // - Scalar rows (STA Cost "25", Cooldown "16", Concerto Regen "10", flat
 //   heal terms) no longer phantom-match a rate — their constant "vectors"
 //   can't match scaling rate_lv arrays. (Previously they silently stole
@@ -676,7 +676,7 @@ export function projectNanokaCharacterFull(nChar) {
         // i.e. ~3 combos to fill the 100 gauge — plausible in-game cadence).
         // CONFIRMED (2026-07-02, maintainer manual in-game testing + a
         // reverse-engineered per-term accounting rule from the raw key
-        // structure — docs/energy-signal-findings.md "CONFIRMED" section).
+        // structure — docs/history/archive/energy-signal-findings.md "CONFIRMED" section).
         const nodeHitEntries = Object.entries(skill.damage ?? {}).map(([entId, instance]) => ({ id: entId, idNum: BigInt(entId), e: instance }));
         const nodeConsumed = new Set();
 

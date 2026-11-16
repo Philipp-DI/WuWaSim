@@ -35,7 +35,7 @@ const ROOT_MAX_BYTES = 15000;
 // match that only exists on one machine must not count.
 const SKIP_DIRS = new Set(['.git', 'node_modules', '.venv', '.p3', '.assets_raw',
     'templates', 'docs-local', '__pycache__']);
-const SKIP_PATHS = new Set(['docs/uml', '.claude/worktrees']);
+const SKIP_PATHS = new Set(['.claude/worktrees']);
 
 let passed = 0, failed = 0;
 function assert(name, cond) { if (cond) passed++; else { failed++; console.error(`  ✗ FAIL: ${name}`); } }

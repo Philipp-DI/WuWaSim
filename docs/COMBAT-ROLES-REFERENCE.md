@@ -114,7 +114,7 @@ effects should be surfaced in the team sim.
 
 ### 3d. Tune Break mechanic
 
-See `RESONANCE-MODE-SPEC.md` for the Tune Break model. These roles map directly
+See `docs/history/archive/RESONANCE-MODE-SPEC.md` for the Tune Break model. These roles map directly
 to Tune Break synergy hints in P13.
 
 | key | wikiName | Meaning |

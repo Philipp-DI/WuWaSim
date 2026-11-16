@@ -2,7 +2,7 @@
 
 Read this before touching `stepDuration`, `freezeTime`, `cooldown`, buff duration, or DPS calculation.
 
-**Current state:** timing is data-driven. 1,020 of 1,079 rotation steps carry a real animation-derived `stepDuration`; 64 carry a measured `freezeTime`. This file describes what the fields *are* and how the engine uses them. The chronology — how the extraction was built, every bug fixed along the way — lives in `docs/HISTORY.md`.
+**Current state:** timing is data-driven. 1,020 of 1,079 rotation steps carry a real animation-derived `stepDuration`; 64 carry a measured `freezeTime`. This file describes what the fields *are* and how the engine uses them. The chronology — how the extraction was built, every bug fixed along the way — lives in `docs/history/archive/HISTORY.md`.
 
 ## Context
 
@@ -313,7 +313,7 @@ Hold-button classification and the "collapse instants toward zero" rescale were 
 
 ## Precision: the sensitivity pass
 
-`node docs/cast-time-sensitivity.mjs`, re-run on measured data (289 teams):
+`docs/cast-time-sensitivity.mjs` (deleted 2026-11-16; recover it from git history), re-run on measured data (289 teams):
 
 | model | damage-rank ρ | DPS-rank ρ | median \|Δ DPS\| |
 | --- | --- | --- | --- |

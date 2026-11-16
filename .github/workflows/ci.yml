@@ -1,4 +1,4 @@
-# CI — S2.4 (docs/SIMPLIFICATION-PLAN.md).
+# CI — S2.4 (docs/history/archive/SIMPLIFICATION-PLAN.md).
 #
 # Three gates on every push/PR: the full plain-Node test suite, the
 # module-load sweep (imports every src module — the no-bundler substitute

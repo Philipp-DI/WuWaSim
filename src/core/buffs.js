@@ -77,7 +77,7 @@
  *   LANE 2 — weapon/sonata conditional clauses with a team recipient:
  *            stats.js weaponSonataTeamWide → team-sim's flat mergeTeamBundles
  *            (window derivation is the documented open item —
- *            docs/TEAM-BUFF-TIMELINE-PLAN.md).
+ *            docs/history/archive/TEAM-BUFF-TIMELINE-PLAN.md).
  *   LANE 3 — window-path sonata buffs + echo auras:
  *            the wielder's own sim windows are accrued onto team-sim's
  *            team-buff timeline (accrueSegmentWindowsToTimeline) and later
@@ -491,7 +491,7 @@ export function collectActiveEffects(build, resonator) {
         .map(({ effect, key }) => scaleEffect(effect, ctx, key));
 }
 
-// Resonance Mode gate (RESONANCE-MODE-SPEC.md §5). An effect with a build-level
+// Resonance Mode gate (docs/history/archive/RESONANCE-MODE-SPEC.md §5). An effect with a build-level
 // `mode` is active only when the build's selected mode matches; effects with no
 // mode are unaffected. Checked before any window/trigger evaluation.
 function modeGateOk(effect, resonanceMode) {
@@ -572,7 +572,7 @@ function mostRecentFireEnd(trigger, ctx) {
 
 function isEffectOnAtStep(effect, ctx) {
     // Resonance Mode gate first (cheap, build-level): if it fails, inactive
-    // regardless of any window/trigger (RESONANCE-MODE-SPEC.md §5).
+    // regardless of any window/trigger (docs/history/archive/RESONANCE-MODE-SPEC.md §5).
     if (effect.mode && ctx.resonanceMode !== effect.mode) return false;
 
     const win = effect.window, trig = effect.trigger;
@@ -726,7 +726,7 @@ export function underivableStacks(build, resonator, resourceNames = null) {
  * DMG on an assumption the app cannot support. So it credits the conservative
  * floor and SAYS it did — a number the app cannot derive must be visible as
  * underivable, never quietly picked (2026-07-31; mirrors the zeroReason
- * precedent, see docs/HISTORY.md). The build editor's stack stepper is how the
+ * precedent, see docs/history/archive/HISTORY.md). The build editor's stack stepper is how the
  * user supplies the real count, which is then path (1).
  *
  * Every scaled effect carries `stacks` and `stacksSource`
@@ -965,7 +965,7 @@ export function teamWideWindowSpecs(build, resonator) {
 // distribution of the sonata window-path family, 2026-07-14) was REPLACED by
 // team-sim.js's team-buff TIMELINE: teammates now receive these buffs as
 // real windows (externalBuffWindows), credited by literal team-time overlap —
-// see docs/TEAM-BUFF-TIMELINE-PLAN.md. Its 'healing' supportTable gate became
+// see docs/history/archive/TEAM-BUFF-TIMELINE-PLAN.md. Its 'healing' supportTable gate became
 // unnecessary too: a non-healer wielding a heal-triggered set simply never
 // opens a window in the actual sim (stackTimeline finds no stepHeal gains).
 

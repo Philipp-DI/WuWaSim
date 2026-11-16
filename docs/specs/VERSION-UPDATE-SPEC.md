@@ -1,11 +1,12 @@
 # Game Version Update — Specification
 
 > **STATUS: APPROVED**
+> Tracking issue: #12.
 > Collects the version-bump procedure, now spread over `.claude/rules/data-pipeline.md`,
-> the 3.6 adoption commit (`073b6a2`), `docs/LANE-B-ASSET-EXTRACTION.md` and
+> the 3.6 adoption commit (`073b6a2`), `docs/history/archive/LANE-B-ASSET-EXTRACTION.md` and
 > `docs/TIMING_MODEL.md`, into one folder, `update-game-version/`. The folder holds a
 > runbook, an orchestrator and a check at every gate. First use: adopting 3.7,
-> the prerequisite of `docs/ECHO-CAPTURE-SPEC.md`.
+> the prerequisite of `docs/specs/ECHO-CAPTURE-SPEC.md`.
 
 ## 1. Why
 
@@ -125,7 +126,7 @@ runs steps 7–12 only.
   - fixture captures for changed screens;
   - the commit.
 - **Possible later, not in this spec:** a CUE4Parse CLI
-  (`LANE-B-ASSET-EXTRACTION.md` §8) would make the export scriptable, at the
+  (`docs/history/archive/LANE-B-ASSET-EXTRACTION.md` §8) would make the export scriptable, at the
   cost of adding .NET to the toolchain.
 
 ## 7. Instruction files after the move
@@ -185,7 +186,7 @@ runs steps 7–12 only.
      `gen-manifest.mjs` via the Fandom wiki, `extract_icon.py` via nanoka)
      consolidated, after measuring which of them is still live. Dead code is
      removed (CLAUDE.md).
-4. **Capture steps,** once `ECHO-CAPTURE-SPEC.md` Phase 1 exists.
+4. **Capture steps,** once `docs/specs/ECHO-CAPTURE-SPEC.md` Phase 1 exists.
 5. **Project skill `.claude/skills/update-game-version/`**, written AFTER the
    first real run (3.7) through phases 1–3, from that run's experience, not
    from this spec.

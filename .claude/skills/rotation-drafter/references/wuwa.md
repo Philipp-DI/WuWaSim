@@ -11,7 +11,7 @@ Facts and tooling for drafting rotations in the WuWa Sim repository
 | Effects & conditionals | `resonanceChain[].effects[]`, `inherentSkills[].effects[]` — each with `trigger`, `window`, `durationSeconds`, `mode` and `conditionKind` (plus `structuralTrigger` on some effects) |
 | Prerequisite rules | `src/core/rotation-rules.js` — `rulesForResonator(id)` (gates: state/resource/form), `stateDefsForResonator(id)` |
 | Auto-trigger follow-ups | `src/core/rotation-triggers.js` — `triggersForResonator(id)` (forced inserts) |
-| Resonance Modes | `docs/RESONANCE-MODE-SPEC.md` — mode-having roster & `modeMatch` semantics |
+| Resonance Modes | `docs/history/archive/RESONANCE-MODE-SPEC.md` — mode-having roster & `modeMatch` semantics |
 | Combat roles | `docs/COMBAT-ROLES-REFERENCE.md` — role tags → payoff class & team coupling |
 | Negative statuses | `docs/NEGATIVE-STATUS-REFERENCE.md` — DoT appliers, stack cadences |
 | Effect overrides | `data/effect-overrides.json` — corrections; merged output is authoritative |
@@ -129,7 +129,7 @@ after an initial draft wrongly used the solo shape for it:
    authoring convention — they differ.
 5. **Tune Break is player-triggered and enemy-dependent** — never a normal
    step. If the kit interacts with Tune Break, list it as a **Player enabler**:
-   "assert Tune Break at/after step N" (per `RESONANCE-MODE-SPEC.md §7`).
+   "assert Tune Break at/after step N" (per `docs/history/archive/RESONANCE-MODE-SPEC.md §7`).
 
 ## 5. Validation commands
 

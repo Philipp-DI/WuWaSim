@@ -223,7 +223,7 @@ export const TEAM_ACTOR_RE       = /\b(?:resonators?|characters?|members?)\s+in\
 // (after/upon/while/when/…) does not catch on its own.
 export const CAST_TRIGGER_RE     = /\b(?:casting|performing|unleashing|releasing)\b/i;
 
-// Resonance-Mode / state gating (resolved per RESONANCE-MODE-SPEC.md, not here).
+// Resonance-Mode / state gating (resolved per docs/history/archive/RESONANCE-MODE-SPEC.md, not here).
 export const COND_MODE_RE        = /resonance\s+mode|instant\s+response|combat\s+state/i;
 
 // Any mention of stacks marks a stack-gated clause (broader than COND_STACK_RE,
@@ -978,14 +978,14 @@ export function parseEffectsFromDesc(desc, resonatorName = null) {
 
 // =============================================================================
 // Resonance Mode tagging + effect-overrides merge (post-pass)
-// RESONANCE-MODE-SPEC.md §2/§3 + PRE-P12-DATA-QUALITY.md §3. Runs after every
+// docs/history/archive/RESONANCE-MODE-SPEC.md §2/§3 + docs/history/archive/PRE-P12-DATA-QUALITY.md §3. Runs after every
 // resonator is projected.
 // =============================================================================
 
 // Tag effects whose condition text names one of this resonator's modes with a
 // build-level `mode` gate. A mode-as-state misparse collapses into a clean
 // modeMatch (active whenever in that mode); a real timed/cast window is kept so
-// the mode composes with it (RESONANCE-MODE-SPEC.md §3).
+// the mode composes with it (docs/history/archive/RESONANCE-MODE-SPEC.md §3).
 export function tagModeGatedEffects(resonator, modes) {
     const tag = (effects) => {
         for (const effect of effects ?? []) {

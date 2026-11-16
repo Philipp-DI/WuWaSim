@@ -1,5 +1,5 @@
 /**
- * Tests for the effect-audit tool (PRE-P12-DATA-QUALITY.md §2/§5).
+ * Tests for the effect-audit tool (docs/history/archive/PRE-P12-DATA-QUALITY.md §2/§5).
  *
  *   node tests/audit-effects.test.mjs
  *
@@ -133,14 +133,14 @@ function assert(name, cond) { if (cond) passed++; else { failed++; console.error
     assert('Hiyuki contributes 3 deferred entries to the gate tally', report.deepAuditDeferred === 3);
 }
 
-// ── PRE-P12-DATA-QUALITY.md §6 exit criterion: the gate is CLEAR ──────────────
+// ── docs/history/archive/PRE-P12-DATA-QUALITY.md §6 exit criterion: the gate is CLEAR ──────────────
 // Zero undecided ⚠ across the P12 seed set + the four Resonance Mode
 // characters (the actual gate this whole audit tool exists to check).
 {
     const SEED_AND_MODE_IDS = [1107, 1108, 1304, 1205, 1506, 1607, 1109, 1210, 1211, 1509];
     const overridesDoc = JSON.parse(readFileSync(resolve(__dirname, '../data/effect-overrides.json'), 'utf8'));
     const report = buildAuditReport(d, { deepAuditIds: SEED_AND_MODE_IDS, deferred: overridesDoc.deferred ?? {} });
-    assert('PRE-P12-DATA-QUALITY.md gate is CLEAR: zero undecided ⚠ in the seed + mode set', report.deepAuditWarnings === 0);
+    assert('docs/history/archive/PRE-P12-DATA-QUALITY.md gate is CLEAR: zero undecided ⚠ in the seed + mode set', report.deepAuditWarnings === 0);
     assert('gate clearance includes explicitly-tracked deferrals, not silent gaps', report.deepAuditDeferred > 0);
     assert('"Gate: CLEAR" appears in the rendered report', report.markdown.includes('Gate: CLEAR'));
 }

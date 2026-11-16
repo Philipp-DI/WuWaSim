@@ -1,5 +1,5 @@
 /**
- * Surgical per-effect override application (PRE-P12-DATA-QUALITY.md §3).
+ * Surgical per-effect override application (docs/history/archive/PRE-P12-DATA-QUALITY.md §3).
  *
  * Pure + testable: takes the projected resonators array and an overrides map
  * (`overrides.<resonatorId>.<slotKey>`) and mutates the effects in place —

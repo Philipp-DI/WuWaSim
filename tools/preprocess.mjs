@@ -161,7 +161,7 @@ async function main() {
     // Resolved HERE rather than inside downloadAll so the dataset can record
     // which upstream version produced it. Without that, `npm run data` is a
     // function of whatever branch is live at the moment it runs and the output
-    // cannot say so — see docs/OPEN-ITEMS.md 34.
+    // cannot say so — see docs/history/archive/OPEN-ITEMS.md 34.
     const ref = args.ref ?? PINNED_REF ?? await resolveRef();
     const raw = await downloadAll(args.lang, ref);
     const resolveText = makeTextResolver(raw.textMap);

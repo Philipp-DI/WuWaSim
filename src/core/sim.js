@@ -595,7 +595,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     // ── P11.5 — energy trace (P12 prerequisite) ────────────────────────────────
     // Purely informational: tracks whether the rotation, as authored, had
     // enough energy for each Liberation cast. Never gates stepDamage — see
-    // docs/P12-PREREQ-ENERGY-CHECK.md §3b. Starting energy is 0 (documented
+    // docs/history/archive/P12-PREREQ-ENERGY-CHECK.md §3b. Starting energy is 0 (documented
     // cold-start convention). Liberation cost comes from the legacy
     // RoleInfo-sourced baseStats table (already in the dataset, unrelated to
     // the nanoka skill pipeline) — `null` when unknown for this resonator

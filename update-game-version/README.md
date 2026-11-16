@@ -3,7 +3,7 @@
 Adopting a new Wuthering Waves version (or a hotfix) into the dataset. The
 procedure lives in [`steps.json`](steps.json) and runs through
 [`update.mjs`](update.mjs); this file holds what a person does at each stop.
-Spec: [`docs/VERSION-UPDATE-SPEC.md`](../docs/VERSION-UPDATE-SPEC.md).
+Spec: [`docs/specs/VERSION-UPDATE-SPEC.md`](../docs/specs/VERSION-UPDATE-SPEC.md).
 Invariants: [`.claude/rules/data-pipeline.md`](../.claude/rules/data-pipeline.md).
 
 ## Commands
@@ -152,7 +152,7 @@ fails or writes a SMALLER output without an explanation. The timing chain is
 not in `runOrder`; it runs before `extract_buff_facts`, which reads its output:
 
 ```bash
-python tools/extract/extract_timings.py <exportRoot>/Content/Aki/Character/Role -o data/timing-data.json --report docs/timing-extraction-report.md
+python tools/extract/extract_timings.py <exportRoot>/Content/Aki/Character/Role -o data/timing-data.json --report docs/reports/timing-extraction-report.md
 python tools/extract/scan_bullet_timings.py <exportRoot>/Content/Aki/Character/Role -o data/bullet-timings.json
 node tools/extract/map-timings.mjs
 node tools/extract/build-skill-join.mjs

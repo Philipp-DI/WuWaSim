@@ -88,7 +88,7 @@ export function evaluateSequenceNodes(byCharacter, dataset) {
                 // and it is flagged rather than clamped or filtered: a row
                 // quietly dropped reads as "this node does nothing", which is a
                 // different and wrong claim. Verina S4+ is the known case (see
-                // docs/OPEN-ITEMS.md) — her team-wide grant costs her carry a
+                // docs/history/archive/OPEN-ITEMS.md) — her team-wide grant costs her carry a
                 // stacking buff worth 75%.
                 ...(teamGain < 0 || ownGain < 0 ? { suspect: 'negative-gain' } : {}),
             });

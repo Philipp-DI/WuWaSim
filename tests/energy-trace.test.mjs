@@ -1,6 +1,6 @@
 /**
  * Tests for P11.5 — energy modeling (P12 prerequisite). See
- * docs/P12-PREREQ-ENERGY-CHECK.md and docs/energy-signal-findings.md.
+ * docs/history/archive/P12-PREREQ-ENERGY-CHECK.md and docs/history/archive/energy-signal-findings.md.
  *
  *   node tests/energy-trace.test.mjs
  *
@@ -28,7 +28,7 @@ const target = { level: 90, atkLv: 90, resistances: {} };
 // basic_1..basic_5 (0.87/1.32/0.38/0.71/4.2) and `skill` (10) verified against
 // real in-game testing — at 165.6% ER, 17× basic_1 filled ~25% of the gauge
 // (predicted 24.5%) and 3/6 casts of `skill` landed at ~50%/just-under-100%
-// (predicted 49.7%/99.4%) — see docs/energy-signal-findings.md.
+// (predicted 49.7%/99.4%) — see docs/history/archive/energy-signal-findings.md.
 const resonator = d.resonators.find(r => r.id === 1102);
 const ROTATION = ['basic_1', 'basic_2', 'basic_3', 'basic_4', 'basic_5', 'liberation'];
 

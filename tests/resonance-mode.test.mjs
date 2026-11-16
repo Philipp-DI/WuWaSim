@@ -1,5 +1,5 @@
 /**
- * Tests for Resonance Mode (RESONANCE-MODE-SPEC.md §9).
+ * Tests for Resonance Mode (docs/history/archive/RESONANCE-MODE-SPEC.md §9).
  *
  *   node test/resonance-mode.test.mjs
  *

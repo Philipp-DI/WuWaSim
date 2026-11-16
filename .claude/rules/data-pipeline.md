@@ -13,7 +13,7 @@ paths:
 
 
 ```text
-data/extracted-nanoka/characters/*.json   ← source (62 files → 58 resonators, schema v9)
+data/extracted-nanoka/characters/*.json   ← source (64 files → 60 resonators, schema v9)
 data/patch.json                           ← manual overrides (hand-edit OK)
 data/reference-rotations.json             ← curated reference rotations (hand-edit OK)
 data/effect-overrides.json                ← curated effect triggers/windows (hand-edit OK)
@@ -25,7 +25,7 @@ data/wuwa-data.json                       ← compiled output used by all sim co
 data/data-version.json                    ← content-hash manifest (cache-buster)
           ↓ node tools/optimize.mjs
 data/wuwa-meta.json                       ← P12/P13 weights + suggested builds/teams
-docs/meta-validation.md                   ← generated QA report (gitignored)
+docs/reports/meta-validation.md           ← generated QA report (tracked)
 ```
 
 Re-run `npm run data` (preprocess) whenever source data or a curated input

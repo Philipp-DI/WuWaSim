@@ -1,5 +1,5 @@
 /**
- * P12 §7 — the validation report (docs/meta-validation.md).
+ * P12 §7 — the validation report (docs/reports/meta-validation.md).
  *
  * A human-readable QA artifact the maintainer eyeballs against guide sites
  * (~10 min/patch). Per character, per sequence (S0 + S6, plus any with

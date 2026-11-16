@@ -159,7 +159,7 @@ const isUncond = e => e.window ? e.window.type === 'always' : (e.conditionKind =
 
 // ── Real data: Changli S2.0 (skillKeys OR-trigger) — full sim, end to end ─────
 // Enflamement's Crit. Rate buff refreshes on True Sight Conquest, True Sight
-// Charge, OR Liberation (PRE-P12-DATA-QUALITY.md override, data/effect-overrides.json
+// Charge, OR Liberation (docs/history/archive/PRE-P12-DATA-QUALITY.md override, data/effect-overrides.json
 // 1205/S2.0) — all three share skillType:'skill' or 'liberation' with sibling
 // moves that must NOT trigger it (True Sight Capture, her base Resonance Skill,
 // shares skillType:'skill' too). Guards the category-overmatch bug this

@@ -1,6 +1,9 @@
 # Issue tracker: GitHub
 
-Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all operations.
+Issues for this repo live as GitHub issues; it is the one backlog. Use the `gh` CLI for all operations.
+
+- **Specs** are files in `docs/specs/`, each tracked by one GitHub issue that links to it. A spec is long and reviewed, so the file is the source of truth and the issue carries its status.
+- **`docs/history/archive/OPEN-ITEMS.md`** is the frozen pre-2026-11-16 backlog. Its items are migrated to an issue only when someone works on one; grep it, never read it whole.
 
 ## Conventions
 

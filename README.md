@@ -14,10 +14,11 @@ Damage calculator + rotation simulator for Wuthering Waves. Static HTML/JS site,
 4. Read [docs/GLOSSARY.md](docs/GLOSSARY.md) — game terms and project-invented terms.
 5. Read [CLAUDE.md](CLAUDE.md) — the working rules and the critical invariants.
 
-Development history (phase-by-phase) lives in [docs/HISTORY.md](docs/HISTORY.md);
-the open backlog in [docs/OPEN-ITEMS.md](docs/OPEN-ITEMS.md). The onboarding
-cleanup roadmap, [docs/SIMPLIFICATION-PLAN.md](docs/SIMPLIFICATION-PLAN.md), is
-complete (S1–S5) and is kept for its standing conventions.
+Open work lives in [GitHub Issues](../../issues). How we got here lives in
+[docs/history/](docs/history/): one summary per session, and the finished
+plans, phase instruction sets and investigations in `docs/history/archive/`
+(including the frozen chronicle `HISTORY.md` and the frozen pre-2026-11-16
+backlog `OPEN-ITEMS.md`).
 
 ## Quick start
 
@@ -146,11 +147,14 @@ tests/
 docs/
   ARCHITECTURE.md        How data flows end-to-end (read this first)
   GLOSSARY.md            Game + project vocabulary (incl. game-data internal names)
-  RESONATOR-ROSTER.md    All 56: id, internal codename, curation status
-  HISTORY.md             Phase-by-phase development chronicle
-  OPEN-ITEMS.md          The backlog — what is still open, and why
-  SIMPLIFICATION-PLAN.md Cleanup/onboarding roadmap (complete; standing conventions)
-  *.md                   Phase instruction sets, design docs, investigations
+  PRINCIPLES.md          The reasoning behind the standing rules
+  TIMING_MODEL.md        Timing fields and how the engine uses them
+  *-REFERENCE.md         Game-mechanic reference sheets (combat roles, negative statuses)
+  adr/                   Hard-to-reverse decisions, one per file
+  specs/                 Specs not yet fully built (each has a tracking issue)
+  reports/               Generated QA reports, plus RESONATOR-ROSTER.md
+  history/               Session summaries; archive/ holds finished plans
+  agents/                How the engineering skills read this repo
 ```
 
 ## Aesthetic
@@ -198,7 +202,7 @@ every page mounts inside. Change a colour or typeface there and it propagates ap
 - **Rotation auto-triggers** ✓: `src/core/rotation-triggers.js` proposes a forced follow-up step (e.g. Carlotta's Chromatic Splendor) when its trigger skill is added to the rotation, with a dismissible "auto-inserted" notice and a gold-bordered chip.
 - **Hover-box descriptions everywhere** ✓: every skill/ability surface (rotation palette, rotation chips, line-chart hit dots, Ability Damage Overview, team-page step bars) shows the move's real description on hover, including correct per-stage text for multi-stage moves like Basic Attack (`extractSkillSection()` in `src/ui/tip-format.js`). The shared hover-box (`src/ui/tooltip.js`) is scrollable and repositions itself to stay fully on-screen near viewport edges.
 
-Full detail: `docs/P11-INSTRUCTION-SET.md`, `docs/P11-ADDENDUM.md`.
+Full detail: `docs/history/archive/P11-INSTRUCTION-SET.md`, `docs/history/archive/P11-ADDENDUM.md`.
 
 ## Phase 12 — complete ✓
 
@@ -213,7 +217,7 @@ Full detail: `docs/P11-INSTRUCTION-SET.md`, `docs/P11-ADDENDUM.md`.
 - **Team Effect Model** ✓: shared enemy-status timeline, team-aware status gating, team-wide buff propagation, and cross-member Outro→Intro amplify context in `src/core/team-sim.js`, plus a 3-way team comparison view (`src/ui/components/compare-v2.js`) composing the existing team-sim visualization rather than duplicating it.
 - **Concerto gauge** ✓: the swap-in energy resource (`element_power`, confirmed via maintainer in-game testing) is extracted and tracked per member (`concertoGen`, `team-sim.js`'s `concerto.swaps`); the Outro→Intro handoff gate is opt-in, since most curated teams don't reach a full gauge within one rotation.
 - **`formulaType` is data-driven, not regex-parsed** ✓: each raw damage instance carries the game's own type tag (basic/heavy/liberation/intro/skill/Echo Skill); `preprocess.mjs` maps every display row to its exact instances and reads the DMG-bonus bucket straight from them, replacing an earlier text-parsing heuristic that had accumulated blind spots.
-- **Rotation validation is state- and resource-aware** ✓ (ongoing transparency pass): `src/core/rotation-graph.js`'s `analyzeRotation` consults a per-character state timeline, curated resource thresholds (e.g. Sigrika's Full Stop), and maintainer-verified swap-in combo entry — instead of a single "is Stage N−1 earlier in the rotation" heuristic — and emits a **grant chip** on every step whose gate is satisfied, naming why ("chained from Intro Skill"), not just warning when it isn't. Chain/inherent effect windows and character-state windows (with their consumer named, e.g. "consumed by Final Act — Breakdown Form") are computed by the sim and rendered on the build page's buff-window strip. `docs/COMBO-ENTRY-CURATION.md` tracks per-character curation coverage for the wider roster.
+- **Rotation validation is state- and resource-aware** ✓ (ongoing transparency pass): `src/core/rotation-graph.js`'s `analyzeRotation` consults a per-character state timeline, curated resource thresholds (e.g. Sigrika's Full Stop), and maintainer-verified swap-in combo entry — instead of a single "is Stage N−1 earlier in the rotation" heuristic — and emits a **grant chip** on every step whose gate is satisfied, naming why ("chained from Intro Skill"), not just warning when it isn't. Chain/inherent effect windows and character-state windows (with their consumer named, e.g. "consumed by Final Act — Breakdown Form") are computed by the sim and rendered on the build page's buff-window strip. `docs/history/archive/COMBO-ENTRY-CURATION.md` tracks per-character curation coverage for the wider roster.
 
 ## Phase X — UI/UX polish (ongoing, no fixed slot)
 

@@ -33,7 +33,7 @@ in the data model; the sim computes their damage contribution for any resonator
 whose kit applies them.
 
 **Lucilla note**: Glacio Chafe is also Lucilla's Resonance Mode mechanic
-(`RESONANCE-MODE-SPEC.md` §2). The enemy-debuff Glacio Chafe and Lucilla's mode
+(`docs/history/archive/RESONANCE-MODE-SPEC.md` §2). The enemy-debuff Glacio Chafe and Lucilla's mode
 share the name and mechanic; treat them as the same stack type, sourced from
 Lucilla's kit when building for her.
 
@@ -336,7 +336,7 @@ export const NEGATIVE_STATUS_DEFS = Object.freeze({
         note: 'Deals Glacio DMG on stack application; damage scales with stack count. '
             + 'Each stack reduces Movement Speed (irrelevant for sim). '
             + 'Max stacks → frozen, all stacks removed. '
-            + 'Shares mechanic with Lucilla\'s Resonance Mode (RESONANCE-MODE-SPEC.md §2).',
+            + 'Shares mechanic with Lucilla\'s Resonance Mode (docs/history/archive/RESONANCE-MODE-SPEC.md §2).',
     },
 
     aero_erosion: {
@@ -480,7 +480,7 @@ Effects amplifying Negative Status damage must be tagged distinctly:
 `collectActiveEffects` must expose status-specific amplify separately from
 generic amplify so `computeNegativeStatusDamage` pulls only applicable entries.
 
-**Live example needing this tag (found 2026-06-27, PRE-P12-DATA-QUALITY.md
+**Live example needing this tag (found 2026-06-27, docs/history/archive/PRE-P12-DATA-QUALITY.md
 audit)**: Lucilla `S2.0` — "When in Resonance Mode - Glacio Chafe, Glacio
 Chafe DMG against targets around the active Resonator is Amplified by 80%."
 Trigger/window/mode are correctly resolved (`data/effect-overrides.json`
@@ -510,7 +510,7 @@ today's self-only schema would misrepresent its scope.
 
 ## 7. Calibration cases to add
 
-Extend `docs/CALIBRATION.md` and `test/calibration.test.mjs`:
+Extend `docs/history/archive/CALIBRATION.md` and `test/calibration.test.mjs`:
 
 - **NS-C1** — Spectro Frazzle at max stacks (10), level-90 resonator, 0-RES dummy.
   Pre-resistance expected: `3674 × 1.25078 × 1.995` ≈ **9,176**. Capture
