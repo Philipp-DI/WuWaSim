@@ -11,7 +11,7 @@ content byte-identical (rename, 0 lines changed).
 ## #14 — `docs/history/archive/` local-only
 
 - Lightweight tag `archive-2026-11` on f800602, the last commit that tracks the
-  archive. Local only; not pushed.
+  archive. Pushed to origin with the commit (1619905).
 - `docs/history/archive/` added to `.gitignore`, removed from the index with
   `git rm -r --cached` (30 files). All 30 stay on disk.
 - CLAUDE.md and README each say how a clone reads it:
@@ -45,7 +45,7 @@ None. Docs, comments and repository tracking only; no code reads the archive.
 ## [Residual Risks]
 
 - A fresh clone has no archive on disk; the citations resolve only through the
-  tag, and only once the tag is pushed (`git push origin archive-2026-11`).
+  tag (pushed); deleting or moving that tag would orphan them.
 - The maintainer's on-disk archive is now the only working copy; edits to it are
   no longer versioned.
 
