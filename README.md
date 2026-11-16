@@ -18,7 +18,8 @@ Open work lives in [GitHub Issues](../../issues). How we got here lives in
 [docs/history/](docs/history/): one summary per session, and the finished
 plans, phase instruction sets and investigations in `docs/history/archive/`
 (including the frozen chronicle `HISTORY.md` and the frozen pre-2026-11-16
-backlog `OPEN-ITEMS.md`).
+backlog `OPEN-ITEMS.md`). The archive is local-only (not tracked); in a clone, read it with
+`git show archive-2026-11:docs/history/archive/<file>`.
 
 ## Quick start
 

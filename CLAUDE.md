@@ -3,7 +3,7 @@
 Rules and invariants only. **This file states what IS; `docs/history/` records
 what HAPPENED** — one summary file per session (`YYYY-MM-DD-<topic>.md`).
 `docs/history/archive/HISTORY.md` (frozen P10→P13 chronicle, ~900 KB) and `docs/history/archive/OPEN-ITEMS.md`
-(~170 KB): grep them, never read them whole.
+(~170 KB): grep them, never read them whole. The archive is local-only (gitignored); in a clone, read it with `git show archive-2026-11:docs/history/archive/<file>`.
 
 Background docs — open on demand, not up front: `docs/ARCHITECTURE.md` (how
 data flows), `docs/GLOSSARY.md` (what words mean), `docs/adr/` (why the

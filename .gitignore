@@ -42,3 +42,7 @@ update-game-version/reports/
 # Generated QA reports (tools/audit-effects.mjs, tools/optimize.mjs, the
 # tools/extract/ joins): regenerable output the repo does not need to work.
 docs/reports/
+
+# Frozen archive (chronicle, old backlog, finished plans): local-only since #14.
+# In a clone: git show archive-2026-11:docs/history/archive/<file>
+docs/history/archive/
