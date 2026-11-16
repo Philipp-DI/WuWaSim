@@ -3,18 +3,18 @@
  *
  *   node test/calibration.test.mjs
  *
- * See docs/history/archive/CALIBRATION.md for the methodology. Each CASE below is a damage
+ * See docs/CALIBRATION.md for the methodology. Each CASE below is a damage
  * number read off a training dummy in-game, with the exact inputs used to
  * produce it. The test runs the SAME inputs through computeDamage and asserts
  * the sim matches within tolerance.
  *
  * WORKFLOW for adding a confirmed case:
- *   1. Capture in-game per docs/history/archive/CALIBRATION.md §2 (clean build, single hit,
+ *   1. Capture in-game per docs/CALIBRATION.md §2 (clean build, single hit,
  *      record non-crit AND crit numbers, record every input exactly).
  *   2. Copy the CASE_TEMPLATE below, fill in `inputs` + `observed`, set
  *      status:'active'.
  *   3. Run this file. If it fails, EITHER the code has a bug OR an input was
- *      mis-recorded — investigate per docs/history/archive/CALIBRATION.md §5 before "fixing" code.
+ *      mis-recorded — investigate per docs/CALIBRATION.md §5 before "fixing" code.
  *
  * Cases with status:'pending' are skipped (placeholders to capture later).
  * Ratio checks run on any two active cases tagged as a pair, and can catch a
@@ -63,7 +63,7 @@ function within(actual, expected, tol = TOL) {
 // =============================================================================
 // CAPTURED CASES
 // =============================================================================
-// Start empty (all pending). Fill from docs/history/archive/CALIBRATION.md §4 as you capture.
+// Start empty (all pending). Fill from docs/CALIBRATION.md §4 as you capture.
 
 const CASES = [
     { id: 'C1',  status: 'pending', note: 'Base core: single-hit ATK skill, no bonuses, 0-RES dummy' },

@@ -510,7 +510,7 @@ today's self-only schema would misrepresent its scope.
 
 ## 7. Calibration cases to add
 
-Extend `docs/history/archive/CALIBRATION.md` and `test/calibration.test.mjs`:
+Extend `docs/CALIBRATION.md` and `tests/calibration.test.mjs`:
 
 - **NS-C1** — Spectro Frazzle at max stacks (10), level-90 resonator, 0-RES dummy.
   Pre-resistance expected: `3674 × 1.25078 × 1.995` ≈ **9,176**. Capture

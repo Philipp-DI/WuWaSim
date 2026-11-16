@@ -28,7 +28,7 @@ written (mostly `docs/<NAME>.md`): look for the same name here.
 | `forte-modeling-investigation.md` | 2026-07-11 | Feasibility of Forte-gauge modelling from BinData |
 | `TEAM-BUFF-TIMELINE-PLAN.md` | 2026-07-15 | Timeline-aware team-buff application; lane 2 is issue #8 |
 | `SIMPLIFICATION-PLAN.md` | 2026-07-17 | Junior-dev onboarding cleanup S1–S5 (complete) |
-| `CALIBRATION.md` | 2026-07 | Verifying the damage math against the game |
+| ~~`CALIBRATION.md`~~ | 2026-07 | ~~Verifying the damage math against the game~~ — moved to `docs/CALIBRATION.md` (living runbook, #16) |
 | `LANE-B-ASSET-EXTRACTION.md` | 2026-07-29 | Extracting real cast/animation times from the game paks |
 | `GAUGE-ENGINE-PLAN.md` | 2026-07-31 | The non-energy resource-gauge engine (shipped) |
 | `CONFIGDB-RECON.md` | 2026-08-01 | What the game's ConfigDB holds versus what the sim approximated |
