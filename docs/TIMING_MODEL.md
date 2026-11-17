@@ -208,7 +208,7 @@ Three rules govern how a measured freeze is applied:
 
 A freeze read off a **shared `skillRow` row** is dropped — that route recovers a table row, not an animation, so its window describes none of its keys in particular. 5 steps, all Phrolova, whose Hecate keys are on-field attacks inside the summoned form.
 
-**Not modelled: per-bullet time dilation** (`时间膨胀`, 4,375 bullets) — impact hitstop and enemy-only locks like Aemeath's 3.0s victim dilation. It stops no player cooldown.
+**Not modelled: per-bullet time dilation** (`时间膨胀`, 4,375 bullets) — impact hitstop and enemy-only locks like Aemeath's 3.0s victim dilation. It stops no player cooldown. ~~(and so does not matter)~~ **Correction (#74, 2026-11-17):** attacker hit-stop slows the attacker's own animation, so later spawns, `nextAttAt` and the step end land later in world time — about 6 % of reference-rotation time (320 of 514 steps over a frame). How to model it: #76.
 
 ## Extracted and available, not yet wired
 
@@ -307,7 +307,7 @@ halves at once. Blocked on an airborne-state tracker; not chased.
 2. **Character state modelling** — 13 keys, 6 resonators (`needsStateModel`). The timing data is complete; the *state* is missing. Open item #22.
 3. **Loop iteration count** — 4 keys. See "Loops and holds"; the ticks are not where `damageAt` looks.
 4. **Airborne state, and the stamina anomaly downstream of it** — see above.
-5. **Per-bullet time dilation** — deliberately out of scope.
+5. **Per-bullet time dilation** — ~~deliberately out of scope.~~ not modelled yet; attacker hit-stop lengthens steps by ~6 % (#74), decision in #76.
 
 Hold-button classification and the "collapse instants toward zero" rescale were closed as **obsolete** — both existed to compensate for not having measured times.
 

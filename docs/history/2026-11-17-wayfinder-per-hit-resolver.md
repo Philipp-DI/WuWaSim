@@ -31,3 +31,27 @@ Worked one grilling ticket of the roadmap map (#43), **Decide the per-hit modifi
 - A leftover harness worktree, `.claude/worktrees/agent-a83600d4e2e0b69fa`, is clean and was left in place.
 
 **[Updated Docs]** Glossary as above. No instruction files changed.
+
+## Follow-up: #74 (attacker hit-stop delays later spawns)
+
+**[Files Changed]**
+- `docs/TIMING_MODEL.md`: the "not modelled: per-bullet time dilation" note is corrected, with the old wording struck through.
+- GitHub:
+  - #74 resolved and closed, findings posted.
+  - New tickets: #75 (Research: during attacker hit-stop, do buff timers slow, and which skills cancel it?) and #76 (Decide how the sim models attacker hit-stop, blocked by #75).
+  - Map #43: decision line added.
+
+**[Logic Altered]** None.
+
+**[Verification Method]**
+- One research agent: client JS, a table and curve parse, and a census simulation.
+- Verifier A: client JS only.
+- Verifier B: tables and repo data only.
+- All three agree that hit-stop slows the attacker's montage and that the sim ignores it.
+- Size: 320 of 514 steps are over a frame late (≈ 6 % of rotation time) by method 1's simulation, and 349 of 514 by verifier B's naive sum.
+
+**[Residual Risks]**
+- The native C++ hop (montage advance by the dilated delta) is not in the export: hypothesis, unverified.
+- Curve depths come from a heuristic decoder.
+- The burst-lock override and the slowing of buff timers come from one source; #75 checks them.
+- **Live fidelity gap until #76 lands:** step time is short and DPS likely overstated by roughly 6 %.
