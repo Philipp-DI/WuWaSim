@@ -9,7 +9,7 @@
 // the undo/redo controls (data-act wired in bind.js, keyboard in index.js).
 import { ELEM, formatNumber, formatPercent, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";
 import { api } from "./state.js";
-import { effectiveSkillMap } from "../../../core/sim.js";
+import { effectiveSkillMap } from "../../../core/skill-map.js";
 import { esc } from "../../dom.js";
 import { resolveSkill } from "../../../core/skill.js";
 import { resolveTotalStats } from "../../../core/stats.js";

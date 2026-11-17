@@ -16,6 +16,8 @@
  * satisfiable — we gate only when we can clearly identify a status the kit lacks.
  */
 
+import { effectiveSkillMap } from './skill-map.js';
+
 // Element-affliction / mechanic statuses that appear as activation conditions in
 // sonata 5pc + weapon passive text. Lower-case; matched as substrings.
 const STATUS_NAMES = Object.freeze([
@@ -69,7 +71,7 @@ function resonatorKitText(resonator, dataset) {
     const id = resonator?.id;
     if (id != null && _kitTextCache.has(id)) return _kitTextCache.get(id);
     const parts = [];
-    const map = dataset?.autoSkillMap?.[String(id)] ?? {};
+    const map = effectiveSkillMap(dataset, id) ?? {};
     for (const k in map) if (map[k]?.desc) parts.push(map[k].desc);
     for (const inherent of resonator?.inherentSkills ?? []) parts.push(inherent?.desc ?? '');
     for (const chainNode of resonator?.resonanceChain ?? []) parts.push(chainNode?.desc ?? '');

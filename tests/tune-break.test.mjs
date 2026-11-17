@@ -28,7 +28,7 @@ import { createBuild, setChain, setEcho, appendRotationStep } from '../src/core/
 import { setApi } from '../src/ui/components/build-editor/state.js';
 import { renderRotationPalette } from '../src/ui/components/build-editor/rotation.js';
 import { STEP_TYPE, TYPE_LABEL, damageFamily } from '../src/ui/components/build-editor/shared.js';
-import { effectiveSkillMap } from '../src/core/sim.js';
+import { effectiveSkillMap } from '../src/core/skill-map.js';
 import { analyzeRotation } from '../src/core/rotation-graph.js';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';

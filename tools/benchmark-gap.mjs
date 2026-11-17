@@ -178,7 +178,8 @@ import { dirname, resolve } from 'path';
 
 import { createBuild, setChain, setEcho, setWeapon, pickEchoId } from '../src/core/build.js';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
-import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, effectiveSkillMap } from '../src/core/sim.js';
+import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY } from '../src/core/sim.js';
+import { effectiveSkillMap } from '../src/core/skill-map.js';
 import { computeTuneBreakDamage } from '../src/core/enemy-status.js';
 import { analyzeRotation } from '../src/core/rotation-graph.js';
 import {

@@ -22,6 +22,7 @@
 import { resolveTotalStats } from './stats.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
+import { effectiveSkillMap } from './skill-map.js';
 import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
 import { computeTargetStackTimeline } from './target-stacks.js';
@@ -192,17 +193,6 @@ const HARDCODED_STEP_DURATIONS = Object.freeze({
 const HARDCODED_FREEZE_FRACTIONS = Object.freeze({
     liberation: 1,
 });
-
-// Returns the best available skill map for a resonator. Curated
-// (skill-map.json) takes priority; auto-generated (nanoka) is fallback.
-// Shared by every rotation-editing UI (classic + v2 build pages).
-export function effectiveSkillMap(dataset, resonatorId) {
-    const curated = dataset.skillMap?.[String(resonatorId)];
-    if (curated && Object.keys(curated).some(k => !k.startsWith('_'))) return curated;
-    const auto = dataset.autoSkillMap?.[String(resonatorId)];
-    if (auto && Object.keys(auto).length > 0) return auto;
-    return null;
-}
 
 /**
  * How many seconds of the timeline one rotation step occupies
@@ -578,11 +568,7 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
         // enters the same All-DMG amplify bucket an Outro uses.
         effectiveAmplify.push({ scope: { type: 'element', elementId: null }, value: tuneStrain });
     }
-    // Use curated skill-map.json first, then auto-generated nanoka map as fallback
-    const rid = String(build?.resonatorId);
-    const curated = dataset?.skillMap?.[rid];
-    const hasCurated = curated && Object.keys(curated).some(k => !k.startsWith('_'));
-    const skillMap = hasCurated ? curated : (dataset?.autoSkillMap?.[rid] ?? {});
+    const skillMap = effectiveSkillMap(dataset, build?.resonatorId) ?? {};
 
     const steps = [];
     let cumulative = 0;

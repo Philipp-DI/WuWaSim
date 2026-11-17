@@ -47,7 +47,7 @@ for (const step of steps) {
         }
     }
     if (step.pendingPhase != null) assert(`${step.id}: a pending step has no command yet`, !step.run?.length);
-    if (step.kind !== 'AUTO') assert(`${step.id}: README has its instructions section`, readme.includes(`### ${step.id}\n`));
+    if (step.kind !== 'AUTO') assert(`${step.id}: README has its instructions section`, readme.split(/\r?\n/).includes(`### ${step.id}`));
     for (const output of step.outputs ?? []) {
         const path = expand(output, context);
         const scratchOutput = path.startsWith('update-game-version/staging/9.9') || path.startsWith('update-game-version/reports/9.9');

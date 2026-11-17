@@ -67,7 +67,8 @@
  *   }
  */
 
-import { simulateRotation, ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, echoStepTimeOf, effectiveSkillMap, phraseTypesForStep, deriveGameTimes } from './sim.js';
+import { simulateRotation, ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, echoStepTimeOf, phraseTypesForStep, deriveGameTimes } from './sim.js';
+import { effectiveSkillMap } from './skill-map.js';
 import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/buff-windows.js';
 import { resolveTuneStrain } from './tune-break.js';
 import { DERIVED_SOURCE } from './buffs/external-buffs.js';
@@ -1089,7 +1090,7 @@ function applyOffFieldContributions(sim, turn, { rotTime, memberTarget }) {
         const offStateDefs = stateDefsForResonator(offSlot.build.resonatorId);
         let offMemberStates = null;
         if (offStateDefs.length > 0) {
-            const offSkillMap = sim.dataset.autoSkillMap?.[String(offSlot.build.resonatorId)] ?? {};
+            const offSkillMap = effectiveSkillMap(sim.dataset, offSlot.build.resonatorId) ?? {};
             const timeline = computeStateTimeline(offSlot.build.rotation ?? [], offSkillMap, offStateDefs);
             offMemberStates = new Set();
             for (const stateSet of timeline.activeAt) for (const stateName of stateSet) offMemberStates.add(stateName);

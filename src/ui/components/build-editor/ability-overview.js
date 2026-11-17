@@ -1,7 +1,7 @@
 // src/ui/components/build-editor/ability-overview.js — per-skill Ability Damage Overview table.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import { api } from "./state.js";
-import { effectiveSkillMap } from "../../../core/sim.js";
+import { effectiveSkillMap } from "../../../core/skill-map.js";
 import { esc } from "../../dom.js";
 import { extractSkillSection, formatTimingFacts } from "../../tip-format.js";
 import { formatNumber, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";

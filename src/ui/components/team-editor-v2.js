@@ -43,7 +43,7 @@ import { renderV2Header, getV2Theme } from './v2-header.js';
 import { createHistory } from '../history.js';
 import { extractSkillSection } from '../tip-format.js';
 import { renderBuffBar as renderBuffStripBar, stackBandsFromSamples, fmtPctTrim } from './buff-bar.js';
-import { effectiveSkillMap } from '../../core/sim.js';
+import { effectiveSkillMap } from '../../core/skill-map.js';
 import { hideTooltip, bindTooltipHover } from '../tooltip.js';
 import { renderEnergyChart, bindEnergyChartHover } from './energy-chart.js';
 import { DEFAULT_TARGET } from '../../core/target.js';

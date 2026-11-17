@@ -1,20 +1,20 @@
 # .gitattributes
 #
-# LF EVERYWHERE, in the index AND in the working tree.
+# CRLF IN THE WORKING TREE, on every platform (maintainer, 2026-11-17).
 #
-# `eol=lf` is the load-bearing part and it is deliberately on the `*` line:
-# without it, `text=auto` normalises on COMMIT but still hands the working tree
-# CRLF wherever core.autocrlf=true, which is the Windows default. That split is
-# not cosmetic here — `tools/engine-hash.mjs` hashes the RAW BYTES of every
-# file in the optimizer's import graph into the meta's engineHash, so a file whose only change is
-# its line endings moves the hash and `tests/meta-schema.test.mjs` fails with no
-# behaviour having changed at all. It has happened twice (commit c3d1736, and
-# again on 2026-08-17 after a stash/restore cycle rewrote four engine files).
+# `text=auto` keeps the INDEX normalized to LF, so commits and diffs stay
+# line-ending neutral; `eol=crlf` writes CRLF on every checkout, Windows and
+# CI (ubuntu) alike. That matters because `tools/engine-hash.mjs` hashes the
+# RAW BYTES of every file in the optimizer's import graph: a checkout must
+# produce the same bytes everywhere for the meta's engineHash to hold.
+# Files a Node script writes (npm run data / meta) come out LF until git
+# rewrites them; see .claude/rules/generated-data-locks.md.
 #
-# Listing extensions individually was the old approach and it under-covered:
-# .py, .yml and the dotfiles fell through to plain `text=auto`. One rule for
-# everything cannot under-cover.
-* text=auto eol=lf
+# History: until 2026-11-17 this pinned `eol=lf`, because a Windows checkout
+# kept writing CRLF and moving the hash. Switched once Claude Code's Write and
+# Edit tools were measured to leave CRLF after every edit (docs/history/
+# 2026-11-17-line-endings.md).
+* text=auto eol=crlf
 
 # Binaries git must never touch.
 *.png binary

@@ -417,7 +417,7 @@ durations are unparsed; the opener filler weaves no real combos. Open work lives
 | LOCK A / LOCK B | `npm run data` / `npm run meta` with a zero diff (`.claude/rules/generated-data-locks.md`) |
 | display row ↔ damage instance | `matchRowHits` (`tools/rate-match.mjs`), `resolveInstanceFormula` (`tools/preprocess/skill-rows.mjs`) |
 | version update, staging, review gate | `update-game-version/update.mjs`; `update-game-version/staging/<version>/`; `reports/<version>/review.md`; adopted version in `data/game-version.json` |
-| skill map | `sim.js effectiveSkillMap` (curated `skillMap` first, generated fallback) |
+| skill map | `core/skill-map.js effectiveSkillMap` (curated `skillMap` first, generated fallback); the only per-resonator skill-map read in `src/` (`tests/skill-map.test.mjs`) |
 | attribution | `core/dmg-attribution.js` (mirrors the client's `GetAttackTypeDamageBonus`); `dmgTypes` on a damage row; `build.resonanceMode` |
 | grant, state, resource / gauge | `STAGE_GRANTS`, `SWAP_IN_ENTRY`, `STATE_DEFS`, `RESOURCE_DEFS` (`src/core/rotation-rules.js`); gauge timeline in `rotation-resources.js computeResourceTimeline` |
 | cast lane | `data/gauge-income.json` (from `DT_SkillInfo`) |

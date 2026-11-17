@@ -7,8 +7,8 @@
  * the data files that graph reads off disk. Deriving the module list keeps it
  * from drifting; it used to be two hand-synced lists that missed 16 files.
  *
- * Raw bytes are hashed, so line endings count (.gitattributes pins LF). The
- * single exception is noted at hashedBytes().
+ * Each file's text is hashed with line endings folded to LF and, in
+ * wuwa-data.json, `generatedAt` blanked: see hashableText().
  */
 
 import { readFileSync, existsSync } from 'node:fs';
@@ -67,16 +67,24 @@ export function engineFiles() {
     return [...engineModules(), ...ENGINE_DATA_FILES];
 }
 
-// The one exception to raw bytes: wuwa-data.json's top-level `generatedAt`
-// changes on every `npm run data` rerun without any behaviour change
-// (maintainer, 2026-11-17). Blanked the same way preprocess.mjs blanks it for
-// the data-version manifest.
+// wuwa-data.json's top-level `generatedAt` changes on every `npm run data`
+// rerun without any behaviour change (maintainer, 2026-11-17). Blanked the same
+// way preprocess.mjs blanks it for the data-version manifest.
 const GENERATED_AT = /"generatedAt":\s*"[^"]*"/;
 
+/**
+ * The text that is hashed for one file: CRLF folded to LF, because git checks
+ * the tree out as CRLF (.gitattributes) while Node and Python writers emit LF,
+ * so identical content arrives both ways (maintainer, 2026-11-17). A lone CR is
+ * content and stays. In wuwa-data.json, `generatedAt` is also blanked.
+ */
+export function hashableText(text, file) {
+    const lfText = text.replaceAll('\r\n', '\n');
+    return file === 'data/wuwa-data.json' ? lfText.replace(GENERATED_AT, '"generatedAt":""') : lfText;
+}
+
 export function hashedBytes(file) {
-    const bytes = readFileSync(resolve(root, file));
-    if (file !== 'data/wuwa-data.json') return bytes;
-    return Buffer.from(bytes.toString('utf8').replace(GENERATED_AT, '"generatedAt":""'), 'utf8');
+    return Buffer.from(hashableText(readFileSync(resolve(root, file), 'utf8'), file), 'utf8');
 }
 
 export function engineHash() {

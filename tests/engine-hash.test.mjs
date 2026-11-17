@@ -7,7 +7,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { engineModules, engineFiles, engineHash, hashedBytes, ENGINE_DATA_FILES } from '../tools/engine-hash.mjs';
+import { engineModules, engineFiles, engineHash, hashableText, hashedBytes, ENGINE_DATA_FILES } from '../tools/engine-hash.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -45,12 +45,26 @@ assert('the meta itself is never hashed', !engineFiles().includes('data/wuwa-met
 assert('engineFiles = modules + data files', engineFiles().length === modules.length + ENGINE_DATA_FILES.length);
 assert('engineHash is a sha256 hex digest and deterministic', /^[0-9a-f]{64}$/.test(engineHash()) && engineHash() === engineHash());
 
+// Line endings never reach the hash: git checks out CRLF (.gitattributes) while
+// Node and Python writers emit LF, so the same content arrives both ways.
+const toLf = (text) => text.replace(/\r\n/g, '\n');
+assert('CRLF and LF text hash identically', hashableText('a\r\nb\r\n', 'x.js') === hashableText('a\nb\n', 'x.js'));
+assert('a lone CR is content and is kept', hashableText('a\rb', 'x.js') === 'a\rb');
+assert('no hashed file keeps a CR line ending',
+    engineFiles().every(file => !hashedBytes(file).toString('utf8').includes('\r\n')));
+
 // wuwa-data.json's generatedAt churns on every `npm run data`; it is blanked.
+assert('generatedAt is blanked whatever the line endings',
+    hashableText('{\r\n  "generatedAt": "2026-11-17T09:00:00Z",\r\n  "x": 1\r\n}', 'data/wuwa-data.json')
+        === '{\n  "generatedAt":"",\n  "x": 1\n}');
+assert('generatedAt is blanked only in wuwa-data.json',
+    hashableText('"generatedAt": "t"', 'data/patch.json') === '"generatedAt": "t"');
 const hashedData = hashedBytes('data/wuwa-data.json').toString('utf8');
 assert('wuwa-data.json is hashed with generatedAt blanked', hashedData.includes('"generatedAt":""'));
-assert('only generatedAt is blanked in wuwa-data.json',
-    hashedData === readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8').replace(/"generatedAt":\s*"[^"]*"/, '"generatedAt":""'));
-assert('other files are hashed as raw bytes', hashedBytes('data/patch.json').equals(readFileSync(resolve(root, 'data/patch.json'))));
+assert('only line endings and generatedAt change in wuwa-data.json',
+    hashedData === toLf(readFileSync(resolve(root, 'data/wuwa-data.json'), 'utf8')).replace(/"generatedAt":\s*"[^"]*"/, '"generatedAt":""'));
+assert('other files differ from their bytes only in line endings',
+    hashedBytes('data/patch.json').toString('utf8') === toLf(readFileSync(resolve(root, 'data/patch.json'), 'utf8')));
 
 console.log(`engine-hash: ${passed} passed, ${failed} failed`);
 process.exit(failed === 0 ? 0 : 1);

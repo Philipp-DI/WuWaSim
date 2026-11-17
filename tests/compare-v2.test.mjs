@@ -15,7 +15,7 @@ import { dirname, resolve } from 'path';
 import { mount, fmtDmg, fmtPct, fmtDur, mkCell, damageBreakdown, __test__ } from '../src/ui/components/compare-v2.js';
 import { createBuild } from '../src/core/build.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
-import { effectiveSkillMap } from '../src/core/sim.js';
+import { effectiveSkillMap } from '../src/core/skill-map.js';
 
 const { ELEM, DMG_COLOR, DMG_ORDER } = __test__;
 

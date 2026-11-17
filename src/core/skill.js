@@ -27,6 +27,7 @@ import { computeDamage, computeSupport } from './formula.js';
 import { collectActiveEffects, resolveChainInherentContext } from './buffs.js';
 import { targetModApplies } from './buffs/external-buffs.js';
 import { attributionOf } from './dmg-attribution.js';
+import { effectiveSkillMap } from './skill-map.js';
 
 /**
  * The chain-added damage instances live for a build on one skill key.
@@ -233,11 +234,7 @@ export function resolveSupport({ skillDef, build, dataset, stats }) {
 // [{key, def, resolved}], skipping any skill whose damage IDs are
 // unknown in the dataset.
 export function resolveAllSkills({ build, dataset, stats, target }) {
-    // Curated hand-map takes priority; auto-generated nanoka map is fallback.
-    const curated = dataset.skillMap?.[String(build.resonatorId)] ?? {};
-    const auto = dataset.autoSkillMap?.[String(build.resonatorId)] ?? {};
-    const map = Object.keys(curated).some(k => !k.startsWith('_'))
-        ? curated : auto;
+    const map = effectiveSkillMap(dataset, build.resonatorId) ?? {};
     const out = [];
     for (const [key, def] of Object.entries(map)) {
         if (key.startsWith('_')) continue;

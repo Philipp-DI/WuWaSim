@@ -1,6 +1,7 @@
 // src/ui/components/build-editor/rotation.js — rotation palette, sequence, line chart, buff windows, donut, banners.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
-import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, TUNE_BREAK_CAST_TIME, effectiveSkillMap, resolveStepDuration, simulateRotation } from "../../../core/sim.js";
+import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, TUNE_BREAK_CAST_TIME, resolveStepDuration, simulateRotation } from "../../../core/sim.js";
+import { effectiveSkillMap } from "../../../core/skill-map.js";
 import { ELEM, GOLD, TYPE_LABEL, damageFamily, echoActiveSkillDesc, echoDefOf, formatNumber, fmtDps, fmtTime, referenceRotationFor, resonatorOf, simBuild, skillDescFor, stepTypeInfo, titleCase } from "./shared.js";
 import { analyzeRotation, parseStage } from "../../../core/rotation-graph.js";
 import { api } from "./state.js";

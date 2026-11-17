@@ -11,6 +11,7 @@
  */
 
 import { esc } from '../dom.js';
+import { effectiveSkillMap } from '../../core/skill-map.js';
 import { suggestedTeamsFor, appearsInTeams } from '../../data/meta-loader.js';
 
 const nameOf = (dataset, id) => dataset?.resonators?.find(r => r.id === id)?.name ?? `#${id}`;
@@ -83,7 +84,7 @@ const TUNE_BREAK_STEP_KEY = '__tunebreak__';
 function stepLabel(dataset, resonatorId, key) {
     if (key === ECHO_STEP_KEY) return 'Echo Skill';
     if (key === TUNE_BREAK_STEP_KEY) return 'Tune Break';
-    const skillDef = dataset?.autoSkillMap?.[String(resonatorId)]?.[key];
+    const skillDef = effectiveSkillMap(dataset, resonatorId)?.[key];
     const label = skillDef?.label ?? key.replace(/_/g, ' ');
     // An Intro/Outro in an authored rotation is NOT an on-field step: the team
     // sim drops it and fires the cast off the swap instead (team-sim.js

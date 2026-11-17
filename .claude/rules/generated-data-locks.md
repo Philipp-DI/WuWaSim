@@ -28,12 +28,13 @@ the optimizer's import graph plus the data files it reads) changes, even a
 comment; any OTHER changed line in either file is a real behavior regression.
 History: `docs/history/rules/generated-data-locks.md`.
 
-`engineHash` hashes RAW BYTES, so line endings are part of it. `.gitattributes`
-pins the whole tree to `* text=auto eol=lf` for exactly that reason — without it
-a Windows checkout (`core.autocrlf=true` is the default) writes CRLF into the
-working tree while the index holds LF, and the hash then flips on any checkout,
-stash or restore with no behaviour having changed. Do not weaken that rule, and
-run `npm test` LAST — after any `npm run data` / `npm run meta` and after
-anything that rewrites the working tree. The one exception to raw bytes is
-`wuwa-data.json`'s `generatedAt` value, blanked before hashing so a LOCK A
-rerun does not stale the meta (maintainer, 2026-11-17).
+`engineHash` is LINE-ENDING NEUTRAL: `hashableText` folds CRLF to LF before
+hashing (maintainer, 2026-11-17). `.gitattributes` sets `* text=auto eol=crlf`,
+so the index stays LF and every checkout writes CRLF, while Node and Python
+writers (`npm run data`, the extractors) write LF; the same content arrives
+both ways, and hashing raw bytes moved the hash on every regeneration. The
+only other normalization is `wuwa-data.json`'s `generatedAt` value, blanked so
+a LOCK A rerun does not stale the meta. Every other byte counts. Count CR bytes
+with Node, not `grep $'\r'` (Git Bash's grep misreports them). Run `npm test`
+LAST — after any `npm run data` / `npm run meta` and after anything that
+rewrites the working tree.

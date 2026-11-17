@@ -16,7 +16,8 @@
  * so a full recompute is well under a frame — fine to run on each build change.
  */
 
-import { effectiveSkillMap, simulateRotation } from './sim.js';
+import { simulateRotation } from './sim.js';
+import { effectiveSkillMap } from './skill-map.js';
 import { PROP, resolveTotalStats } from './stats.js';
 import { resolveSkill } from './skill.js';
 import { rollValueOf, statLabel, NEAR_ZERO } from './stat-priority.js';

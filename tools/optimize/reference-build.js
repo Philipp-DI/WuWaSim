@@ -38,7 +38,7 @@ import {
     resourceDefsForResonator, stateDefsForResonator,
 } from '../../src/core/rotation-rules.js';
 import { analyzeRotation } from '../../src/core/rotation-graph.js';
-import { effectiveSkillMap } from '../../src/core/sim.js';
+import { effectiveSkillMap } from '../../src/core/skill-map.js';
 import { PROP, resolveTotalStats } from '../../src/core/stats.js';
 import { isTeamRecipientClause } from '../../src/core/buffs/conditional-buffs.js';
 import { ROLE } from './synergy-hints.js';
@@ -351,7 +351,7 @@ export function synthesizeReferenceRotation(resonator, dataset) {
         return curated;
     }
 
-    const map = dataset.autoSkillMap?.[String(resonator.id)] ?? {};
+    const map = effectiveSkillMap(dataset, resonator.id) ?? {};
     const keys = Object.keys(map);
     const damages = (k) => (map[k]?.damageIds?.length ?? 0) > 0;
     const typeOf = (k) => map[k]?.skillType ?? map[k]?.formulaType ?? '';
