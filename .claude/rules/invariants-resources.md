@@ -1,11 +1,11 @@
 ---
 paths:
   - "src/core/rotation-*.js"
-  - "src/core/{opener,cooldowns,off-field,triggerability,team-energy,team-er,sim,team-sim}.js"
+  - "src/core/{opener,cooldowns,off-field,triggerability,team-energy,sim,team-sim}.js"
   - "tools/extract-forte.mjs"
   - "tools/extract/extract_gauge_income.py"
   - "data/{gauge-income,forte-data}.json"
-  - "tests/{rotation-resources,rotation-state,rotation-triggers,rotation-validation,gauge-income,energy-per-hit,energy-trace,team-energy,team-er,opener,cooldowns,off-field-state,stage-grants,resonance-mode,triggerability,timing-model}.test.mjs"
+  - "tests/{rotation-resources,rotation-state,rotation-triggers,rotation-validation,gauge-income,energy-per-hit,energy-trace,team-energy,opener,cooldowns,off-field-state,stage-grants,resonance-mode,triggerability,timing-model}.test.mjs"
 ---
 
 # Invariants — Gauges, states, modes, chain nodes, rotation

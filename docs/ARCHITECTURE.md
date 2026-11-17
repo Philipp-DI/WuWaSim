@@ -320,7 +320,7 @@ to team damage** — as it does in-game.
 | `cooldowns.js` | Diagnostic cooldown overlay (activation-window model) |
 | `opener.js` | Derived opener padding: CD-aware greedy energy filler / gating |
 | `team-energy.js` | Per-member Resonance Energy ledger + closed-form minimum-ER |
-| `team-er.js` | Resolve the ER target shown for a build (team override → character default) |
+| ~~`team-er.js`~~ | ~~Resolve the ER target shown for a build (team override → character default)~~ — deleted 2026-11-17 (#67): nothing rendered it; the live per-member ER target is #68 |
 | `echo-rules.js` | Echo gear legality: cost tiers, main-stat pools, sub-main derivation |
 | `stat-priority.js` | Turn marginal-weight vectors into ranked, per-roll stat priorities |
 | `stat-ranking.js` | Apply the frozen meta weights to the user's actual build |

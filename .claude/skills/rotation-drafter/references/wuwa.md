@@ -117,8 +117,8 @@ after an initial draft wrongly used the solo shape for it:
    Forte empty (invariant "A fight starts on a FULL Resonance meter…" in
    `.claude/rules/invariants-resources.md`). Solo/reference rotations
    therefore assume Liberation is charged, usually once per loop; say so in
-   the report. The team sim models energy beyond that (`team-energy.js`,
-   `team-er.js`): a curated rotation is performed as authored, never padded or
+   the report. The team sim models energy beyond that (`team-energy.js`):
+   a curated rotation is performed as authored, never padded or
    gated, and a short gauge is a BUILD problem reported as the ER that fixes
    it; the ER target binds from the second pass. Never fabricate energy math.
    For an Opener (§3a), Liberation is the LAST cast and Concerto/energy

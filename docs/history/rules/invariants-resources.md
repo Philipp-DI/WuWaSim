@@ -55,3 +55,14 @@ A kit gated on a named state resolves OFF entirely without a `STATE_DEFS` entry,
 The row's full Detail text before condensation, verbatim (it holds the superseded and struck-through text, measurements, dated corrections and discovery narrative that left the row):
 
 Maintainer-directed 2026-08-14, modelled on the Tower of Adversity start state (`team-energy.js`, `team-sim.js`: "STARTS FULL"). Resonance Energy starts FULL (`baseStats.energyMax`) for every resonator; Concerto and Forte/SpecialEnergy start EMPTY; overcap is impossible (the gauge clamps at the cost, and the cost IS the meter). Generation spilled before the first Liberation is fine: a Liberation is placed for its BUFF WINDOW, not its energy efficiency. The engine may neither splice filler into a curated rotation nor drop a cast from it; a short gauge is a BUILD problem, so report the shortfall and the ER that fixes it (derived padding and gating are retired). Pass 1 is the WEAKEST pass (empty Concerto, no buffs ramped); the ER target binds from the SECOND pass.
+
+## paths frontmatter (team-er globs)
+
+### 2026-11-17 — `team-er` dropped from the globs (#67)
+
+`src/core/team-er.js` and `tests/team-er.test.mjs` were deleted (decided in #53: nothing rendered the ER target it resolved). The two globs before the change, verbatim:
+
+```
+  - "src/core/{opener,cooldowns,off-field,triggerability,team-energy,team-er,sim,team-sim}.js"
+  - "tests/{rotation-resources,rotation-state,rotation-triggers,rotation-validation,gauge-income,energy-per-hit,energy-trace,team-energy,team-er,opener,cooldowns,off-field-state,stage-grants,resonance-mode,triggerability,timing-model}.test.mjs"
+```
