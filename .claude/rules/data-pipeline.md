@@ -153,8 +153,9 @@ after the review gate, and the derived tables keyed by id follow in its
 export and extract steps. History: `docs/history/rules/data-pipeline.md`. Those extractors DO live
 in this repo (`tools/extract/`); what they need is a client export, per the
 targeted-export note above. Never edit the
-generated files directly. When an engine file changes, keep the `ENGINE_FILES`
-lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
+generated files directly. The meta's `engineHash` file set is derived, not
+listed: `tools/engine-hash.mjs` walks the optimizer's import graph and adds the
+data files it reads (`ENGINE_DATA_FILES`, guarded by `tests/engine-hash.test.mjs`).
 
 **Source-swap checklist** (lessons of the 2026-07-23 Dimbreath → Arikatsu
 migration; added 2026-10-05):

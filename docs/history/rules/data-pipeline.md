@@ -38,3 +38,20 @@ run AHEAD of `live`) and the derived tables keyed by id.
 repo to work). The diagram line before, verbatim:
 
     docs/reports/meta-validation.md           ← generated QA report (tracked)
+
+## The engine-hash file list is derived
+
+Until 2026-11-17 the hashed file set was two hand-maintained `ENGINE_FILES`
+lists. They had drifted: 27 `src/` files were hashed, while the optimizer
+actually loads 43 modules (16 unhashed, including `build.js`, `echo-rules.js`,
+`rotation-graph.js`, `substat-allocate.js`, `team.js`, `tools/optimize.mjs` and
+all ten `tools/optimize/*.js`), and none of the four data files it reads. Fixed
+by `tools/engine-hash.mjs` (wayfinder ticket #54; decision #52). The rule
+before, verbatim, from this file:
+
+    generated files directly. When an engine file changes, keep the `ENGINE_FILES`
+    lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
+
+and the same rule in `CLAUDE.md` (PROJECT ORIENTATION), verbatim, removed:
+
+    When an engine file changes, keep the `ENGINE_FILES` lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.

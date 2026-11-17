@@ -292,9 +292,8 @@ Correct solo, silently wrong in a team. Check each explicitly.
 - Verification: `npm test` · `npm run sweep` · `npm run lint` (0 errors), then
   LOCK A (`npm run data`) and LOCK B (`npm run meta`) compared field-by-field
   against a pre-run snapshot — only `generatedAt` may differ for a
-  behaviour-preserving change. `engineHash` moves when any ENGINE_FILES member
-  changes; keep the lists in `tools/optimize.mjs` and
-  `tests/meta-schema.test.mjs` in sync.
+  behaviour-preserving change. `engineHash` moves when any file in
+  `engineFiles()` (`tools/engine-hash.mjs`) changes.
 - Every new public function in `src/core/` gets a test; prefer live tests over
   fixtures.
 - Write a session summary to `docs/history/YYYY-MM-DD-<topic>.md`

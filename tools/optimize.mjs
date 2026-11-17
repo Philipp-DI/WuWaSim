@@ -19,6 +19,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { applyPatch } from '../src/data/loader.js';
 import { evaluateSequenceNodes } from './optimize/sequence-eval.js';
+import { engineHash } from './engine-hash.mjs';
 
 // localStorage shim — core modules touch it transitively (storage.js) on import.
 const __ls = new Map();
@@ -43,42 +44,6 @@ const META_VERSION = 1;
 // Coverage scope (§5b): the curated seed — the six P10-ruled characters. Expand
 // later; uncovered characters simply have no meta entry (runtime falls back).
 const COVERED_IDS = [1107, 1108, 1304, 1205, 1506, 1607];
-
-// Engine files whose content defines the damage math; their hash lets the
-// runtime detect a meta computed against a different engine (§5a/§7). Includes
-// the team-sim path (P13) so a team-effect change busts the meta too, and
-// cooldowns.js (2026-07-12): today a diagnostic overlay, but slated to gate
-// rotation timing in the derived-opener work — hashed now so that change can
-// never ship against a stale meta.
-// Paths are relative to src/ (not src/core/) since 2026-08-10 — the meta now
-// also depends on a module outside core, and a hash that cannot reach it would
-// silently keep a stale meta.
-const ENGINE_FILES = ['core/formula.js', 'core/stats.js', 'core/skill.js', 'core/sim.js', 'core/buffs.js', 'core/buffs/buff-windows.js',
-    'core/buffs/buff-timeline.js', 'core/buffs/sonata-buffs.js', 'core/buffs/weapon-buffs.js', 'core/buffs/conditional-buffs.js', 'core/buffs/external-buffs.js', 'core/stat-priority.js',
-    'core/team-sim.js', 'core/team-energy.js', 'core/enemy-status.js', 'core/triggerability.js', 'core/off-field.js',
-    'core/cooldowns.js', 'core/opener.js',
-    // The state/resource machinery is engine too: STATE_DEFS decides which
-    // effects resolve ON, and a state now also gates a status APPLIER
-    // (enemy-status.js STATUS_APPLY_RULES). Adding a state changes damage, so
-    // the hash has to move with it.
-    'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js',
-    'core/target-stacks.js', 'core/tune-break.js',
-    // The enemy every number is measured against. Changing its level or RES
-    // rescales the whole meta, so the hash has to move with it.
-    'core/target.js',
-    // Which bonus buckets a hit reads. Changing an attribution re-prices every
-    // hit that carries it, so the hash has to move with it.
-    'core/dmg-attribution.js',
-    // Not core, but it decides WHICH dataset the meta is computed over:
-    // applyPatch folds patch.json's curated overrides (offFieldActions for
-    // Phrolova/Ciaccona/Denia) in. A change there changes every ranking.
-    'data/loader.js'];
-
-function engineHash() {
-    const hash = createHash('sha256');
-    for (const file of ENGINE_FILES) hash.update(readFileSync(resolve(root, 'src', file)));
-    return hash.digest('hex');
-}
 
 // Compact, transparent template descriptor for the meta (§2b).
 function templateDescriptor(template, anchorEr) {

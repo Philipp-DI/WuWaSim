@@ -413,7 +413,7 @@ durations are unparsed; the opener filler weaves no real combos. Open work lives
 | Term | Where |
 | --- | --- |
 | dataset / nanoka source | `data/wuwa-data.json` / `data/extracted-nanoka/` |
-| the meta, engineHash | `data/wuwa-meta.json`; the two `ENGINE_FILES` lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` |
+| the meta, engineHash | `data/wuwa-meta.json`; ~~the two `ENGINE_FILES` lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs`~~ `engineFiles()` in `tools/engine-hash.mjs` (derived from the optimizer's import graph, 2026-11-17) |
 | LOCK A / LOCK B | `npm run data` / `npm run meta` with a zero diff (`.claude/rules/generated-data-locks.md`) |
 | display row ↔ damage instance | `matchRowHits` (`tools/rate-match.mjs`), `resolveInstanceFormula` (`tools/preprocess/skill-rows.mjs`) |
 | version update, staging, review gate | `update-game-version/update.mjs`; `update-game-version/staging/<version>/`; `reports/<version>/review.md`; adopted version in `data/game-version.json` |

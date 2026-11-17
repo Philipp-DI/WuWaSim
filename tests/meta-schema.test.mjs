@@ -6,12 +6,12 @@
  * Covers: schema conformance, every covered character has the required fields,
  * the reference rotation validates with zero warnings, weights are finite, and
  * — the strong staleness guard — the committed meta's engineHash matches the
- * CURRENT engine recomputed from src/core (catches a meta not regenerated after
+ * CURRENT engine recomputed by tools/engine-hash.mjs (catches a meta not regenerated after
  * an engine change).
  */
 
 import { readFileSync } from 'fs';
-import { createHash } from 'crypto';
+import { engineHash } from '../tools/engine-hash.mjs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
@@ -134,22 +134,7 @@ for (const [id, c] of Object.entries(meta.characters)) {
 }
 
 // ── Engine-hash staleness guard (the strong check) ───────────────────────────
-{
-    // Paths are src/-relative (not src/core/) — see tools/optimize.mjs.
-    const ENGINE_FILES = ['core/formula.js', 'core/stats.js', 'core/skill.js', 'core/sim.js', 'core/buffs.js', 'core/buffs/buff-windows.js',
-    'core/buffs/buff-timeline.js', 'core/buffs/sonata-buffs.js', 'core/buffs/weapon-buffs.js', 'core/buffs/conditional-buffs.js', 'core/buffs/external-buffs.js', 'core/stat-priority.js',
-        'core/team-sim.js', 'core/team-energy.js', 'core/enemy-status.js', 'core/triggerability.js', 'core/off-field.js',
-        'core/cooldowns.js', 'core/opener.js',
-        'core/rotation-rules.js', 'core/rotation-state.js', 'core/rotation-resources.js',
-        'core/target-stacks.js', 'core/tune-break.js',
-        'core/target.js',
-        'core/dmg-attribution.js',
-        'data/loader.js'];   // keep in sync with tools/optimize.mjs ENGINE_FILES
-    const h = createHash('sha256');
-    for (const f of ENGINE_FILES) h.update(readFileSync(resolve(root, 'src', f)));
-    const current = h.digest('hex');
-    assert('committed meta engineHash matches the current engine (regenerate via node tools/optimize.mjs)', meta.engineHash === current);
-}
+assert('committed meta engineHash matches the current engine (regenerate via node tools/optimize.mjs)', meta.engineHash === engineHash());
 
 // ── Sequence Node Evaluation ────────────────────────────────────────────────
 // What each Resonance Chain node is WORTH: the resonator simmed in their own

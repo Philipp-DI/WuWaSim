@@ -38,7 +38,6 @@ network calls at sim time, no server.
 - `data/wuwa-data.json` — compiled dataset (NEVER hand-edit; regenerate)
 
 Data pipeline: see `.claude/rules/data-pipeline.md`. Never edit the generated files directly.
-When an engine file changes, keep the `ENGINE_FILES` lists in `tools/optimize.mjs` and `tests/meta-schema.test.mjs` in sync.
 
 ---
 
