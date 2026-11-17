@@ -33,6 +33,11 @@ import { weaponPassiveStats } from './buffs/weapon-buffs.js';
 import { weaponConditionalContribution, sonataConditionalContribution, emptyContribution } from './buffs/conditional-buffs.js';
 import { foldExternalGrants } from './buffs/external-buffs.js';
 
+// A fresh object per call: callers accumulate into it with `+=`.
+function emptySkillTypeBuckets() {
+    return { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 };
+}
+
 // =============================================================================
 // Property ID constants — mirrors PropertyIndex / BaseProperty
 // =============================================================================
@@ -319,7 +324,7 @@ function echoContribution(build) {
         critRate: 0, critDmg: 0,
         energyRegen: 0,
         healingBonus: 0,
-        dmgByElement: {}, dmgBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
+        dmgByElement: {}, dmgBySkillType: emptySkillTypeBuckets(),
         sonataCounts: {},
         mainStats: [], subStats: [],
     };
@@ -422,7 +427,7 @@ function sonataContribution(build, dataset, sonataCounts) {
         critRate: 0, critDmg: 0,
         energyRegen: 0, healingBonus: 0,
         dmgByElement: {},
-        dmgBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 },
+        dmgBySkillType: emptySkillTypeBuckets(),
         pendingConditional: 0,    // count of conditional effects surfaced but not applied
     };
 
@@ -656,7 +661,7 @@ function makeEmpty(error) {
     return {
         atk: 0, hp: 0, def: 0, critRate: 0, critDmg: 0, energyRegen: 1, healingBonus: 0,
         critRateBySkillType: {}, critDmgBySkillType: {},
-        dmgBonusByElement: {}, dmgBonusBySkillType: { basic: 0, heavy: 0, skill: 0, liberation: 0, intro: 0 }, dmgBonusAll: 0,
+        dmgBonusByElement: {}, dmgBonusBySkillType: emptySkillTypeBuckets(), dmgBonusAll: 0,
         breakdown: { error },
         error,
     };

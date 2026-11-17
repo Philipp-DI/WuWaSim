@@ -18,15 +18,13 @@
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
-import { simulateRotation, __test__ as simTest } from '../src/core/sim.js';
+import { simulateRotation, resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes,
+    resolveStepDuration } from '../src/core/sim.js';
 import { simulateTeamRotation } from '../src/core/team-sim.js';
 import { annotateStepCooldowns } from '../src/core/cooldowns.js';
 import { stackTimeline } from '../src/core/buffs/buff-timeline.js';
 import { createBuild, setEcho } from '../src/core/build.js';
 import { createTeam, setTeamSlot } from '../src/core/team.js';
-
-const { resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes,
-    resolveStepDuration } = simTest;
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const d = JSON.parse(readFileSync(resolve(__dirname, '../data/wuwa-data.json'), 'utf8'));

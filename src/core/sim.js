@@ -1119,4 +1119,3 @@ export function simulateRotation({ build, dataset, target, amplifyContext = null
     };
 }
 
-export const __test__ = { HARDCODED_STEP_DURATIONS, resolveStepDuration, resolveFreezeTime, resolveFreezeSchedule, resolveTimingSource, deriveGameTimes };
