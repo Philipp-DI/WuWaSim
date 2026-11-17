@@ -126,6 +126,7 @@ mapping is not guessable — look it up here rather than inferring it.
 | **`stacksUnknown`** | The honest answer when a stack count is underivable: ONE stack, flagged. Never the maximum — a real cap makes that a large silent assertion. |
 | **(buff) window** | A time interval during which a buff is live, with per-step stack samples. "Windowed" = applied by literal step overlap. |
 | **flat (approximation)** | The opposite: a buff credited at full value across a whole rotation/segment because its timing isn't derivable. Being progressively replaced by windows. |
+| **simplification** | A deliberate shortcut in _when_ an event lands, never in whether an effect applies or what it is worth. It is marked where it lives, and its DPS cost is either measured or stated as unmeasured. A **flat (approximation)** is one kind of simplification. |
 | **stack ramp** | Stacking buffs climb 0→cap per qualifying step and decay — never applied at max flat. |
 | **team-wide** | A buff whose recipient is the whole team. It reaches the team by one of three disjoint lanes; picking the right lane is an invariant. |
 | **incoming-resonator transfer** | Outro-granted buff targeting the NEXT resonator specifically (not team-wide); applied flat to the receiving segment. |

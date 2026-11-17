@@ -40,6 +40,29 @@ beats a plausible wrong number ([[silent-zero-is-a-bug]]). Prefer a build-time
 `tools/` extractor with committed output over runtime parsing in `src/`.
 Pairs with [[verify-before-shipping]].
 
+**Refinement of item 1 (maintainer, 2026-11-17, on #76; settled in #79):**
+
+> The goal is to deliver a correctly calculated result that includes every single condition and effect, but the "true DPS" to the single second is not realistically attainable and therefore lower in priority. Correct computing of every effect and condition over complete real mirror of the game.
+
+Item 1 now has two tiers. **Mandatory:** every effect, condition, value and
+stack is computed exactly; a value that can't be derived stays `null` with a
+reason code, never a guess. **Abstraction allowed:** only *when* an event lands
+(sub-second timing) may be simplified.
+
+**Why:** second-exact timing isn't attainable (input and server latency, curves
+decoded heuristically), and chasing it would hold back the effect fixes that
+move numbers more. The first case was attacker hit-stop that runs past a step
+end (0.76 s of 34.7 s), which is booked on the step it came from.
+
+**How to apply:** mark a simplification where it lives, with the fixed tag
+`// Simplification (CLAUDE.md, "Effects exact, timing within budget")`, so a
+grep lists them all; there is no registry file. State the cost as a measured
+DPS % on a named rotation, or as `unmeasured`: a simplification usually exists
+before anything can measure it, so measuring is optional. A measured cost above
+1 % of DPS on any reference rotation (worst-case member) is a bug: file an issue
+and model the timing. Weak points and Co-Op are out-of-scope rulings, not
+simplifications.
+
 ## Data is the source of truth
 
 Extracted game data is the SINGLE SOURCE OF TRUTH. Where it is inconsistent —
