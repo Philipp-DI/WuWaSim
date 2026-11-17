@@ -55,3 +55,25 @@ Worked one grilling ticket of the roadmap map (#43), **Decide the per-hit modifi
 - Curve depths come from a heuristic decoder.
 - The burst-lock override and the slowing of buff timers come from one source; #75 checks them.
 - **Live fidelity gap until #76 lands:** step time is short and DPS likely overstated by roughly 6 %.
+
+## Follow-up: #75 (buff timers and hit-stop overrides)
+
+**[Files Changed]**
+- `docs/TIMING_MODEL.md`: the correction note now gives the net cost after #75.
+- GitHub:
+  - #75 resolved and closed, findings posted.
+  - #76's body updated with the settled inputs. It is now unblocked.
+  - Map #43: decision line added.
+
+**[Logic Altered]** None.
+
+**[Verification Method]**
+- One research agent and two blind verifiers (client JS; game data).
+- Both code runs agree that buff timers use a logic clock without hit-stop (opt-in flag `bDurationAffectedByBulletTime`), that cooldowns run on the global `FlowTime`, and that a type-10 normalise lock outranks hit-stop.
+- Both data parses agree that `BurstLockTime > 0` on one SkillInfo row only (Aemeath, 0.1 s).
+- This refutes #74's two single-source notes (buffs offset the cost; the burst lock zeroes Liberations).
+
+**[Residual Risks]**
+- Single-source: the freeze-window override (method 1, code-traced) and the count of 20 flagged resonator buffs.
+- Not traced: server-side buff expiry and the native `FlowTime` tick.
+- Net cost: **5.6 %** of step time (299 of 514 steps over a frame), with no buff-uptime offset.

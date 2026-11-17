@@ -208,7 +208,7 @@ Three rules govern how a measured freeze is applied:
 
 A freeze read off a **shared `skillRow` row** is dropped — that route recovers a table row, not an animation, so its window describes none of its keys in particular. 5 steps, all Phrolova, whose Hecate keys are on-field attacks inside the summoned form.
 
-**Not modelled: per-bullet time dilation** (`时间膨胀`, 4,375 bullets) — impact hitstop and enemy-only locks like Aemeath's 3.0s victim dilation. It stops no player cooldown. ~~(and so does not matter)~~ **Correction (#74, 2026-11-17):** attacker hit-stop slows the attacker's own animation, so later spawns, `nextAttAt` and the step end land later in world time — about 6 % of reference-rotation time (320 of 514 steps over a frame). How to model it: #76.
+**Not modelled: per-bullet time dilation** (`时间膨胀`, 4,375 bullets) — impact hitstop and enemy-only locks like Aemeath's 3.0s victim dilation. It stops no player cooldown. ~~(and so does not matter)~~ **Correction (#74, 2026-11-17):** attacker hit-stop slows the attacker's own animation, so later spawns, `nextAttAt` and the step end land later in world time — about 6 % of reference-rotation time (320 of 514 steps over a frame). Net of the `freeze` / `freeze_request` windows, which cancel the caster's hit-stop: 5.6 % (299 steps; #75). Buff timers and cooldowns keep running in world time meanwhile, so the cost is not offset. How to model it: #76.
 
 ## Extracted and available, not yet wired
 
