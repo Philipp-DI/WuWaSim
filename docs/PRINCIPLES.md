@@ -198,8 +198,38 @@ rationalize a zero as honest, dig" lesson).
 
 ## Verification protocol
 
-Before any investigative finding is marked done, spawn **independent
-sub-agents** to verify it, and only mark it done when they agree. Established
+~~Before any investigative finding is marked done, spawn **independent
+sub-agents** to verify it, and only mark it done when they agree.~~
+Superseded 2026-11-17 (maintainer, #57): before an investigative finding is
+marked done, **one research agent per question and two verifiers per claim**
+work it in parallel, blind to each other. The two methods complement each
+other; neither replaces the other. Measured across the 10 research tickets of
+the roadmap map (#43):
+
+- The research agent (`research` skill, free investigation) made ~30 unique
+  catches and ~2 errors. It finds what nobody asked about by running
+  counterfactuals and censuses: the reordered pipeline that overwrote
+  Sigrika's S6.2 patch (#47), the 336-pair validator sweep (#45), the
+  bullet-cadence source for per-hit timings (#64), and the root cause of
+  #60 (the other side had measured gear-less builds).
+- The verifiers (two per claim, source-split) made ~20 unique catches and ~9
+  errors, mostly over-confirmation or a wrong setup. They catch stale
+  comments and docs, test-coverage gaps, controls and history, and once
+  caught a field the research agent missed (Xiangli Yao's `chainStage`, #65).
+- Every resolution leaned on both. #60 exists only because the two disagreed
+  on #44, and settling that disagreement produced the real number.
+- Four disagreements were "recorded" and never settled, and three
+  resolutions credited a finding to the wrong method. Hence the resolution
+  now settles or files every disagreement and names the method per finding.
+
+Where the output lives: the research file goes into the ticket as a collapsed
+`<details>` comment, not onto a branch (the `research/*` branches cluttered the
+remote, and deleting them would break the links in closed tickets).
+
+The rest of this section is the original two/three-verifier protocol; it still
+describes how each verifier is briefed.
+
+Original text, from here on: Established
 2026-08-08 as two agents; extended the same day to a **third** doing a
 text/regex-side check "to lean against the numbers" — i.e. deriving from a
 different source than the others (code, data, prose) so the checks triangulate
