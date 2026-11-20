@@ -2,7 +2,8 @@
 
 ## In plain terms
 
-Every part of a team run (Intro, rotation, off-field actions, Outro) now goes
+Every part of a team run (~~Intro, rotation, off-field actions, Outro~~ Intro,
+rotation, Outro, then off-field; see `2026-11-20-maintainer-remarks.md`) now goes
 through one function. Two small tables state what each part reads from the team
 and what it carries forward, so the known gaps (Intro and Outro miss Tune
 Strain, the DEF target and team buffs) are written down instead of hidden in

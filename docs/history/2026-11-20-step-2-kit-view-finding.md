@@ -49,3 +49,12 @@ Examples still off after (b), with what the one-cast step carries (`step.states`
 ## [Updated Docs]
 
 None.
+
+## Resolution (maintainer, 2026-11-20)
+
+Not one of the three options as worded; closest to option 2. #59 was too
+ambitious. The kit view is a simplified quick check of how gear moves each
+ability's damage: solo (no external buffs), each ability a cold standalone
+cast, so some deviation from the sim is expected. `docs/specs/ROADMAP.md` step 2
+now states that scope and the narrowed proof. Recorded in
+`2026-11-20-maintainer-remarks.md`.

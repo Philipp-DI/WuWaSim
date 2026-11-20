@@ -130,11 +130,22 @@ Why this order:
   (`skill.js:236`) is deleted.
 - **Depends on:** nothing.
 - **Closes:** nothing.
+- **Scope (maintainer, 2026-11-20, #100):** the kit view is a simplified
+  quick check of how gear (weapon, echoes, sonatas) moves each ability's
+  damage. It prices each ability SOLO (no team or external buffs) as a COLD
+  standalone cast: no state the cast enters, no window the cast opens. It is
+  not a one-cast sim, and it is expected to differ from the sim where a cast
+  switches on its own buffs (measured: 345 of 1,198 abilities, e.g.
+  Lingyang's Liberation 27,624 vs 33,839).
 - **Proof:** UI number change. A test shows every ability's kit-view price
-  equals a one-cast sim step, for an amplify weapon (Frostburn) and a
-  target-mod weapon. Named example: Hiyuki's Liberation card 6,910 → 9,311.
-  24 of 24 abilities differ for weapons with amplify or target mods.
-- **Decided in:** [Verify: do the UI's per-ability numbers differ from the sim's?](https://github.com/Philipp-DI/WuWaSim/issues/48), [Decide what core returns so the UI renders per-ability damage and member timing without computing them](https://github.com/Philipp-DI/WuWaSim/issues/59).
+  equals the sim's price for the same hit with only the static hit inputs and
+  unconditional effects applied, for an amplify weapon (Frostburn) and a
+  target-mod weapon. ~~A test shows every ability's kit-view price equals a
+  one-cast sim step~~ (narrowed 2026-11-20: a cold cast cannot match a sim step
+  whose cast opens its own windows). Named example: Hiyuki's Liberation card
+  6,910 → 9,311. 24 of 24 abilities differ for weapons with amplify or target
+  mods; across the roster, 105 of 450 differing cards move to the sim.
+- **Decided in:** [Verify: do the UI's per-ability numbers differ from the sim's?](https://github.com/Philipp-DI/WuWaSim/issues/48), [Decide what core returns so the UI renders per-ability damage and member timing without computing them](https://github.com/Philipp-DI/WuWaSim/issues/59), narrowed in [Roadmap step 2](https://github.com/Philipp-DI/WuWaSim/issues/100) (2026-11-20).
 
 ### Step 3: kitMeasure consumes the kit view
 
