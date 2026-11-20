@@ -1,0 +1,681 @@
+{
+  "overrideTargets": {
+    "1102": {
+      "S6.0": "f08ee92eb6 atkRatio · After an Ice Prism or a Glacier is detonated, al"
+    },
+    "1104": {
+      "S3.0": "c0f816ad2d skillTypeBonus · During Resonance Liberation Lion's Vigor, Lingya",
+      "S6.0": "ba494b3ae7 skillTypeBonus · In the Forte Circuit Striding Lion state, during"
+    },
+    "1107": {
+      "S1.0": "4bdc425c09 critRate · When Carlotta deals DMG to a target inflicted wi"
+    },
+    "1108": {
+      "IH0.0": "7f8485ae8c amplify · Based on Hiyuki's current stacks of Snow Rust, t",
+      "IH0.1": "a9ffe4666f critDmg · Hiyuki's Crit. DMG is increased by 40%.",
+      "IH0.2": "898171e162 multiplierUp · 2 stacks of Snow Rust: When Hiyuki is the active"
+    },
+    "1109": {
+      "S4.0": "8eddf2f977 atkRatio · While casting Oblivion, Lucilla's ATK is increas",
+      "S2.0": "e99071c017 amplify · While casting Resonance Liberation - Clear As Da"
+    },
+    "1203": {
+      "S1.0": "c15a9c1186 elementBonus · When Basic Attack hits a target, Encore's Fusion"
+    },
+    "1204": {
+      "S3.0": "0c8379b6f1 critDmg · During Resonance Liberation Burning Rhapsody, th"
+    },
+    "1205": {
+      "S2.0": "60bb9fd812 critRate · Enflamement increases Changli's Crit. Rate by 25",
+      "IH0.0": "93832d4136 elementBonus · When casting Basic Attack: True Sight - Conquest"
+    },
+    "1208": {
+      "S1.0": "dcb6df7fee critDmg · When casting Resonance Skill - Ascent of Malice,",
+      "S6.1": "70e950f2af amplify · When casting Resonance Skill - Ascent of Malice,",
+      "IH0.0": "67251f7d29 amplify · Each stack Amplifies the DMG directly dealt by G"
+    },
+    "1210": {
+      "IH1.1": "553803130a amplify · With 3 stacks, Resonance Liberation Heavenfall E",
+      "IH1.3": "b06f0bee81 amplify · With 2 stacks, Resonance Liberation Heavenfall E"
+    },
+    "1301": {
+      "S3.0": "28088d1b62 elementBonus · During the Resonance Liberation Deathblade Gear "
+    },
+    "1302": {
+      "S4.0": "cf445577b6 atkRatio · When Forte Circuit Judgment Strike hits a target"
+    },
+    "1304": {
+      "S3.0": "f449f15d90 atkRatio · Each stack of Immortal's Descendancy increases J"
+    },
+    "1306": {
+      "S2.0": "bcec74dba2 critRate · - Crown of Wills provides additional effects: Ea"
+    },
+    "1311": {
+      "IH0.0": "4061ea4904 atkRatio · While in Resonance Mode - Unison, when Hsin cast",
+      "IH0.2": "11d9522b41 elementBonus · In addition, if Rover: Electro is in the same te"
+    },
+    "1402": {
+      "S6.0": "0d9d6f24ab atkRatio · After casting Mid-air Attack Feather Release, th"
+    },
+    "1412": {
+      "S6.1": "936543c327 amplify · Innate Gift? gains following effects: - Each sta",
+      "S6.2": "008709eebd defIgnore · - Each stack causes Runic Outburst, Runic Chain "
+    },
+    "1504": {
+      "IH1.0": "9332dedf5a atkRatio · Casting Energized Pounce or Energized Rebound in"
+    },
+    "1506": {
+      "S1.0": "aca8fb7ec5 multiplierUp · When in Absolution, Resonance Liberation Dawn of",
+      "S1.1": "33493ddbd8 multiplierUp · When in Confession, Resonance Liberation Dawn of",
+      "S2.0": "de4e716c3f amplify · When in Absolution, DMG dealt by Outro Skills to",
+      "S3.0": "b492408cb9 multiplierUp · When in Absolution, the DMG Multiplier of Heavy ",
+      "S3.1": "5bc6b64d8d multiplierUp · When in Confession, the DMG Multiplier of Heavy ",
+      "IH1.0": "6186af98d7 elementBonus · When in the Absolution status and Confession sta"
+    },
+    "1510": {
+      "S6.1": "7ca01ba598 skillTypeBonus · Each stack of Endnotes on the Endgame additional"
+    },
+    "1601": {
+      "S5.0": "9279f01fac multiplierUp · The damage of Forte Circuit Power Shift is incre"
+    },
+    "1603": {
+      "S3.1": "a1b08654db atkRatio · When in Budding Mode, Camellya's ATK is increase",
+      "S6.0": "ba1e035bfa multiplierUp · The DMG Multiplier of Forte Circuit's Sweet Drea"
+    },
+    "1607": {
+      "S4.0": "e0855ef014 healingBonus · When in Mirage, Healing Bonus is increased by 25"
+    },
+    "1608": {
+      "S2.1": "b793958efe multiplierUp · Aftersound now additionally increases the DMG Mu",
+      "S3.1": "893d4a7266 atkRatio · Targets hit by Enhanced Attack - Hecate: Cadenza"
+    },
+    "1610": {
+      "IH0.0": "35608125dd amplify · When a target has 1 to 3 stacks of Havoc Bane, e",
+      "IH0.1": "07fe2ffa69 amplify · When a target has 4 to 6 stacks of Havoc Bane, e"
+    }
+  },
+  "persisted": {
+    "1102": {
+      "S1.0": "68dca519b8 critRate · Basic Attack V increases Sanhua's Crit. Rate by ",
+      "S3.0": "69eb929bcf multiplierUp · Sanhua's damage dealt is increased by 35% agains",
+      "S4.0": "3a2aaf754c multiplierUp · DMG of the next Heavy Attack Detonate within 5s ",
+      "S5.0": "5991311153 critDmg · Crit. DMG of Forte Circuit Ice Burst is increase",
+      "S6.0": "f08ee92eb6 atkRatio · After an Ice Prism or a Glacier is detonated, al",
+      "IH0.0": "8cdaf6564e multiplierUp · Damage dealt by Sanhua's Resonance Skill is incr",
+      "IH1.0": "352f859870 multiplierUp · Damage dealt by Sanhua's Forte Circuit Ice Burst"
+    },
+    "1103": {
+      "S2.0": "91aaf96cb0 elementBonus · Resonance Skill Emergency Plan increases Baizhi'",
+      "S6.0": "f9eef580a0 elementBonus · When Euphonia is picked up, increase the Glacio ",
+      "IH0.0": "ee24e2392e atkRatio · Euphonia ATK of the Resonators who pick up Eupho"
+    },
+    "1104": {
+      "S3.0": "c0f816ad2d skillTypeBonus · During Resonance Liberation Lion's Vigor, Lingya",
+      "S4.0": "5f310ea570 elementBonus · Outro Skill Frosty Marks increases the Glacio DM",
+      "S6.0": "ba494b3ae7 skillTypeBonus · In the Forte Circuit Striding Lion state, during",
+      "IH0.0": "55037133ef multiplierUp · DMG of the Intro Skill Lion Awakens is increased",
+      "SK0.0": "b7411b209b elementBonus · Lingyang gains 50% Glacio DMG Bonus."
+    },
+    "1105": {
+      "S1.0": "9af68d2bf5 critRate · Casting Resonance Skill Creation's Zenith restor",
+      "S3.0": "bc3e0de8d7 atkRatio · Casting Resonance Skill Manifestation, Resonance",
+      "IH0.0": "cf0cb0ab8d atkRatio · When casting Resonance Skill Stroke of Genius or",
+      "SK0.0": "9067123d73 elementBonus · -Move to the location of the [Phantasmic Imprint"
+    },
+    "1106": {
+      "S3.0": "9dee05a66f atkRatio · Youhu's ATK is increased by 20%.",
+      "S5.0": "d6992ef61a critRate · When Intro Skill Scroll of Wonders is cast, Youh",
+      "S6.0": "5ff039602c critDmg · Each stack increases Youhu's Crit. DMG by 15%.",
+      "IH1.0": "48406293c8 elementBonus · Gain 15% Glacio DMG Bonus for 14s upon casting I"
+    },
+    "1107": {
+      "S1.0": "4bdc425c09 critRate · When Carlotta deals DMG to a target inflicted wi",
+      "S2.0": "e571778da0 multiplierUp · The DMG Multiplier of Resonance Liberation Fatal",
+      "S3.0": "56c544bb4b multiplierUp · The DMG Multiplier of Resonance Skill Art of Vio",
+      "S4.0": "310a2e1106 skillTypeBonus · Casting Heavy Attack, Heavy Attack Containment T",
+      "S5.0": "acc4afd6b9 multiplierUp · The DMG Multiplier of Heavy Attack Imminent Obli",
+      "S6.0": "6a194a0695 multiplierUp · Shots of Resonance Liberation Death Knell deal h",
+      "SK0.0": "4e14697115 multiplierUp · Increase the DMG Multiplier of Resonance Liberat"
+    },
+    "1108": {
+      "S1.0": "bafc17a988 multiplierUp · The DMG Multipliers of Basic Attack - Foreclaime",
+      "S2.0": "43c3fda635 multiplierUp · Basic Attack - Iai's DMG Multiplier is increased",
+      "S3.0": "acc0b233dd multiplierUp · The DMG Multipliers of Heavy Attack - Frost Spli",
+      "S3.1": "9bf7d2d748 multiplierUp · At 2 stacks of Snow Rust, while Hiyuki is the ac",
+      "S5.0": "25a84e9d39 multiplierUp · The DMG Multipliers of Resonance Skill - Present",
+      "S6.0": "a5c0d045f5 critDmg · The Crit. DMG of Foreclaiming: Inward Vision and",
+      "S6.1": "9f6dc26614 critDmg · At 2 stacks of Snow Rust, Hiyuki's Crit. DMG is ",
+      "IH0.0": "c9644d99d7 amplify · 3 stacks of Snow Rust: When Hiyuki is the active"
+    },
+    "1109": {
+      "S1.0": "8b4c80b150 critRate · Lucilla's Crit. Rate increases by 20% for 10s wh",
+      "S2.0": "e99071c017 amplify · While casting Resonance Liberation - Clear As Da",
+      "S2.1": "5ab46c649b skillTypeBonus · - When in Resonance Mode - Echo, grant 40% Echo ",
+      "S3.0": "841940ae13 multiplierUp · The DMG Multiplier of Letting It Go is increased",
+      "S4.0": "8eddf2f977 atkRatio · While casting Oblivion, Lucilla's ATK is increas",
+      "S5.0": "dd9c91926b multiplierUp · The DMG Multiplier of Oblivion is increased by 5",
+      "IH0.0": "0fd3cada79 skillTypeBonus · - When in Resonance Mode - Echo, Resonators in t",
+      "SK0.0": "8b525488d2 skillTypeBonus · Casting this skill grants Lucilla 30% Basic Atta",
+      "SK0.1": "35785c3d8b skillTypeBonus · Casting this skill grants Lucilla 30% Echo Skill",
+      "SK1.0": "5bca623dc7 critDmg · Each stack of [Zoom] increases the Crit. DMG of "
+    },
+    "1110": {
+      "S2.0": "482ed2c5a5 critDmg · All nearby Resonators in the team within the Cea",
+      "S5.0": "9ae44bdcd5 multiplierUp · The DMG Multipliers of Basic Attack - Drizzle St",
+      "S6.0": "cda0082bf7 critDmg · The Crit. DMG of Intro Skill - Tinkling Jade and",
+      "IH0.0": "9b025f0ff2 critRate · When Resonance Skill - Awakening Spring and Intr"
+    },
+    "1202": {
+      "S3.0": "c002172105 skillTypeBonus · Resonance Liberation Blazing Flames deals 40% mo",
+      "S5.0": "691172e083 atkRatio · When the Inherent Skill Numbingly Spicy! reaches",
+      "S6.0": "e2bde0214b skillTypeBonus · Resonance Skill Boom Boom increases the Basic At",
+      "IH0.0": "34120bfb28 multiplierUp · The damage of Resonance Skill Boom Boom is incre",
+      "IH1.0": "f5fad8414f atkRatio · Each Thermobaric Bullet that hits a target durin"
+    },
+    "1203": {
+      "S1.0": "c15a9c1186 elementBonus · When Basic Attack hits a target, Encore's Fusion",
+      "S3.0": "b802f7baab multiplierUp · The DMG multiplier of Heavy Attack Cloudy Frenzy",
+      "S4.0": "0de504e8ef elementBonus · Heavy Attack Cosmos Rupture increases the Fusion",
+      "S5.0": "30d19786c0 skillTypeBonus · Resonance Skill DMG Bonus is increased by 35%.",
+      "S6.0": "a414ecac5a atkRatio · During Resonance Liberation Cosmos Rave, Encore ",
+      "IH0.0": "9eb4ce0f9b multiplierUp · During the Resonance Liberation Cosmos Rave, whe",
+      "IH1.0": "315bfa807c elementBonus · When Resonance Skill Flaming Woolies or Resonanc"
+    },
+    "1204": {
+      "S3.0": "0c8379b6f1 critDmg · During Resonance Liberation Burning Rhapsody, th",
+      "S6.0": "a0b3383eef atkRatio · When Resonance Liberation Violent Finale is cast",
+      "IH0.0": "f0e1579330 multiplierUp · After casting Resonance Skill Passionate Variati",
+      "IH1.0": "8fd61b1803 dmgBonus · During Resonance Liberation Burning Rhapsody, ea"
+    },
+    "1205": {
+      "S2.0": "60bb9fd812 critRate · Enflamement increases Changli's Crit. Rate by 25",
+      "S3.0": "8011d52d67 multiplierUp · Resonance Liberation Radiance of Fealty DMG is i",
+      "S4.0": "9761521636 atkRatio · After Intro Skill is cast, all team members' ATK",
+      "S5.0": "0629d9e19f multiplierUp · Heavy Attack Flaming Sacrifice's Multiplier is i",
+      "IH0.0": "93832d4136 elementBonus · When casting Basic Attack: True Sight - Conquest",
+      "IH1.0": "c5c033ab5c elementBonus · Casting Heavy Attack Flaming Sacrifice or Resona",
+      "SK0.0": "86ef4f1106 atkRatio · When Changli releases Heavy Attack [Flaming Sacr"
+    },
+    "1206": {
+      "S1.0": "2cda2fc366 multiplierUp · After casting Intro Skill Applaud for Me! or eac",
+      "S2.0": "e698acd379 critRate · Casting Mid-air Attack and Returned from Ashes i",
+      "S3.0": "78749928a1 multiplierUp · The DMG Multiplier of Returned from Ashes is inc",
+      "S5.0": "4d969187a0 skillTypeBonus · Dealing Basic Attack DMG gives Brant 15% Basic A",
+      "S6.0": "c839cdb1a7 multiplierUp · Mid-air Attack's DMG Multiplier is increased by ",
+      "IH1.0": "e7a7c0713d elementBonus · Brant's resistance to interruption is increased "
+    },
+    "1207": {
+      "S1.0": "5913d2cb18 critRate · Performing Resonance Liberation Fire-Kissed Glor",
+      "S2.0": "6dfcb5831f elementBonus · Performing Fire-Kissed Glory, Heavy Attack - Wol",
+      "S3.0": "3b046da6be multiplierUp · The DMG Multiplier of Intro Skill Nowhere to Run",
+      "S4.0": "a547ca1170 multiplierUp · The DMG Multiplier of Dance With the Wolf: Clima",
+      "S5.0": "83b23c7b81 skillTypeBonus · Performing Intro Skill Try Focusing, Eh? or Nowh",
+      "S6.0": "07f5f3758e defIgnore · - The damage dealt by Forte Circuit Dance With t",
+      "IH1.0": "f0393b1aae resReduce · Within 35s: Attacks of all Resonators in the tea",
+      "SK0.0": "7b8991fcd2 elementBonus · Resonators with [Pack Hunt] gain a 6% ATK increa",
+      "SK0.1": "71a64814f5 atkRatio · Resonators with [Pack Hunt] gain a 6% ATK increa",
+      "SK0.2": "db903fd7de elementBonus · If there are 3 Fusion Resonators in the team, th",
+      "SK0.3": "c2eac43d76 atkRatio · When the active Resonator casts [Intro Skill], [",
+      "SK1.0": "12d7923f80 atkRatio · Lupa's ATK is increased by 12% for 8s when perfo"
+    },
+    "1208": {
+      "S1.0": "dcb6df7fee critDmg · When casting Resonance Skill - Ascent of Malice,",
+      "S3.0": "5a005b777c multiplierUp · Resonance Liberation DMG Multiplier is increased",
+      "S4.0": "6da9633722 dmgBonus · When Resonators in the team cast Echo Skill, all",
+      "S5.0": "746e8a5384 multiplierUp · The DMG Multipliers of Resonance Skill - Encroac",
+      "S6.0": "e2b62453a6 multiplierUp · Additionally, Eternal Hypostasis lasts, the DMG ",
+      "S6.1": "70e950f2af amplify · When casting Resonance Skill - Ascent of Malice,",
+      "IH0.0": "67251f7d29 amplify · Each stack Amplifies the DMG directly dealt by G",
+      "SK0.0": "c42a0f04c1 multiplierUp · Gain 85% DMG Multiplier increase for [Basic Atta",
+      "SK1.0": "3f4c9f4803 dmgBonus · While in [Demon Hypostasis], every point of [Aft",
+      "SK1.1": "1d608638a7 atkRatio · Casting [Intro Skill], [Hellstride], [Normal Att"
+    },
+    "1209": {
+      "S2.0": "e266e85659 critDmg · All nearby Resonators in the team gain Crit. DMG",
+      "S5.0": "6166323049 multiplierUp · The DMG Multiplier of Resonance Liberation - Cri",
+      "S5.1": "ee74653114 multiplierUp · The DMG Multiplier of Tune Rupture Response - Pa",
+      "SK0.0": "fabec6de4d critRate · For every 1% of Mornye's Energy Regen exceeding ",
+      "SK0.1": "1c02ddd9aa critDmg · For every 1% of Mornye's Energy Regen exceeding "
+    },
+    "1210": {
+      "S1.0": "65f5921345 critDmg · In Instant Response, Heavy Attack - Aemeath and ",
+      "S2.0": "427820e2ba multiplierUp · The DMG Multiplier of Resonance Skill Seraphic D",
+      "S2.1": "6da045b604 multiplierUp · The DMG Multiplier of Resonance Skill Seraphic D",
+      "S2.2": "b4b3ded6d9 multiplierUp · While in Resonance Mode - Tune Rupture, when the",
+      "S3.0": "b78c0e2b48 multiplierUp · Resonance Liberation Heavenfall Edict: Finale's ",
+      "S3.1": "1130c3dc75 multiplierUp · Resonance Liberation Heavenfall Edict: Overdrive",
+      "S3.2": "1fbf6fc535 critDmg · Inherent Skill Between the Stars is replaced wit",
+      "S3.3": "188953f9b7 amplify · Inherent Skill Between the Stars is replaced wit",
+      "S3.4": "f1b94dc8b0 critDmg · - In Resonance Mode - Fusion Burst, when Resonat",
+      "S3.5": "6e78e6e65c amplify · - In Resonance Mode - Fusion Burst, when Resonat",
+      "S4.0": "9a1cbb4d68 dmgBonus · When casting Intro Skill Songs Across the Univer",
+      "S6.0": "182a720204 amplify · Targets take 40% more Resonance Liberation DMG f",
+      "S6.1": "889e4b9cf6 afflictionCritRate · When in Resonance Mode - Tune Rupture, Aemeath's",
+      "S6.2": "e73a73bfcc afflictionCritDmg · When in Resonance Mode - Tune Rupture, Aemeath's",
+      "S6.3": "cb62f25015 afflictionCritRate · When in Resonance Mode - Fusion Burst and in com",
+      "S6.4": "1c9e8a8b69 afflictionCritDmg · When in Resonance Mode - Fusion Burst and in com",
+      "IH0.0": "73f1e72f4c amplify · In Instant Response, Heavy Attack - Aemeath and ",
+      "IH1.0": "de4db36b03 critDmg · In Resonance Mode - Tune Rupture, when Resonator",
+      "IH1.1": "fc1d83eb9e critDmg · In Resonance Mode - Fusion Burst, when Resonator",
+      "SK0.0": "bad4d94421 multiplierUp · - In [Resonance Mode - Fusion Burst], the DMG Mu"
+    },
+    "1211": {
+      "S1.0": "f34bb12456 critDmg · Crit. DMG is increased by 30%.",
+      "S2.0": "317cb1ad73 elementBonus · When Denia is in Resonance Mode - Fusion Burst, ",
+      "S2.1": "e9bc53c918 multiplierUp · The DMG Multiplier of Resonance Skill Banish - B",
+      "S3.0": "52a8521edb multiplierUp · The DMG Multiplier of Resonance Liberation Final",
+      "S3.1": "15f2dd0802 multiplierUp · When the number of Dark Cores reaches the limit,",
+      "S5.0": "5662da2f08 multiplierUp · The DMG of Resonance Liberation Final Act - Stag",
+      "S6.0": "063324d44b elementBonus · While in Entropy Shift states, gain 60% ATK incr",
+      "S6.1": "ea6b85c465 atkRatio · While in Entropy Shift states, gain 60% ATK incr",
+      "S6.2": "b25ba82cfd multiplierUp · The Fusion Burst DMG triggered gains a 200% DMG ",
+      "IH1.0": "0a30138ee7 elementBonus · While in the Entropy Shift states, Denia obtains",
+      "SK0.0": "e19775d043 multiplierUp · For each [Dark Core] consumed, the DMG Multiplie",
+      "SK1.0": "4915ad5e5d atkRatio · Increases ATK by 30%.",
+      "SK2.0": "eb3efafed8 multiplierUp · - The skill DMG is considered [Resonance Liberat"
+    },
+    "1212": {
+      "S1.0": "14005b4688 multiplierUp · The DMG Multipliers of Resonance Skill - Encroac",
+      "S2.0": "651b1f20d3 multiplierUp · The DMG Multipliers of Heavy Attack - Soul Raid ",
+      "S2.1": "e55bc90a48 multiplierUp · While in the Yinghuo state, the DMG Multiplier i",
+      "S2.2": "68c78d32f4 amplify · Netherworld's Boon Casting Heavy Attack - Soul R",
+      "S4.0": "2e39eb2aad dmgBonus · When a Resonator in the team gains a Shield, all",
+      "S6.0": "eae44758e0 amplify · Targets take 40% more Heavy Attack DMG from Jing",
+      "S6.1": "b190bcc6dc multiplierUp · The DMG Multiplier of Chimei Wangliang is increa",
+      "SK0.0": "2d13912e0a elementBonus · Each stack of [Fortune in Disguise] grants addit",
+      "SK1.0": "5bc63fe273 healingBonus · - Jingran gains Incoming Healing Bonus based on ",
+      "SK1.1": "71899e068e elementBonus · - Jingran gains Fusion DMG Bonus based on Max HP"
+    },
+    "1301": {
+      "S2.0": "5ddbe5cbfb skillTypeBonus · After Calcharo casts Intro Skill Wanted Criminal",
+      "S3.0": "28088d1b62 elementBonus · During the Resonance Liberation Deathblade Gear ",
+      "S4.0": "1cfe9b7155 elementBonus · After casting Outro Skill Shadowy Raid, Electro ",
+      "S5.0": "1d116d5a60 skillTypeBonus · Intro Skill Wanted Criminal and Intro Skill \"Nec",
+      "IH0.0": "72ce2925c5 skillTypeBonus · Casting Heavy Attack Mercy gives Calcharo 10% Re"
+    },
+    "1302": {
+      "S1.0": "a4e38754ed skillTypeBonus · Resonance Skill Magnetic Roar and Lightning Exec",
+      "S3.0": "ec3491c05f multiplierUp · Forte Circuit Judgment Strike's DMG multiplier i",
+      "S4.0": "cf445577b6 atkRatio · When Forte Circuit Judgment Strike hits a target",
+      "IH0.0": "67a3175956 critRate · After using Resonance Skill Magnetic Roar, Yinli",
+      "IH1.0": "94a586879a multiplierUp · The damage of Resonance Skill Lightning Executio",
+      "IH1.1": "8838d48aa7 atkRatio · The damage of Resonance Skill Lightning Executio"
+    },
+    "1303": {
+      "S5.0": "04b884af49 skillTypeBonus · When Resonance Skill Thunder Wedge is on the fie",
+      "IH0.0": "c270fe51f6 multiplierUp · The DMG multiplier of Resonance Skill Thunder Up"
+    },
+    "1304": {
+      "S3.0": "f449f15d90 atkRatio · Each stack of Immortal's Descendancy increases J",
+      "S4.0": "b2629addbf dmgBonus · When Jinhsi casts Resonance Liberation Purge of ",
+      "S5.0": "336ebb79ba multiplierUp · The DMG Multiplier of Resonance Liberation Purge",
+      "S6.0": "21f8f9e074 multiplierUp · The DMG Multiplier of Resonance Skill Illuminous",
+      "IH0.0": "f9ff792cf3 elementBonus · Jinhsi gains 20% Spectro DMG Bonus.",
+      "IH1.0": "1508bf5a77 multiplierUp · DMG Multiplier of Intro Skill Loong's Halo is in"
+    },
+    "1305": {
+      "S2.0": "f0d153bb2b critDmg · Casting Resonance Skill or Resonance Liberation ",
+      "S3.0": "f7a5978638 dmgBonus · Casting Resonance Liberation Cogitation Model in",
+      "S4.0": "083d9e1cfa skillTypeBonus · Casting Resonance Liberation Cogitation Model gr",
+      "S5.0": "b1c943e907 multiplierUp · The DMG Multiplier of Outro Skill Chain Rule is ",
+      "S5.1": "25cd947821 multiplierUp · The DMG Multiplier of Resonance Liberation Cogit",
+      "S6.0": "9a90c34f4b multiplierUp · The Hypercubes obtained from Resonance Liberatio",
+      "IH0.0": "f5ffdfb548 elementBonus · Gain 5% Electro DMG Bonus after casting Resonanc"
+    },
+    "1306": {
+      "S1.0": "d22d5aa6bf critDmg · - Each stack of Crown of Wills additionally incr",
+      "S2.0": "bcec74dba2 critRate · - Crown of Wills provides additional effects: Ea",
+      "S2.1": "8f875ec4e7 critDmg · - For every 1% of Crit. Rate over 100%, Augusta ",
+      "S3.0": "fe5836a764 multiplierUp · The following skills have their DMG Multiplier i",
+      "S4.0": "b690f28694 atkRatio · Casting Intro Skill - Stride of Goldenflare incr",
+      "S6.0": "b5b7ca3998 critDmg · - For every 1% of Crit. Rate over 150%, Augusta "
+    },
+    "1307": {
+      "S1.0": "4882baf9f6 critRate · The Crit. Rate of Resonance Liberation - Flashin",
+      "S4.0": "8c725a735d healingBonus · Buling gains 20% Healing Bonus.",
+      "S6.0": "d59166379f skillTypeBonus · The Thunder Spell - Heaven, Earth, Mind state no",
+      "IH0.0": "4621273fe7 healingBonus · Buling gains 25% Healing Bonus when restoring HP",
+      "SK0.0": "8aa0211b0b skillTypeBonus · - [Thunder Spell - Yin and Yang] grants 10% [Res",
+      "SK0.1": "7abe77d1b4 skillTypeBonus · - [Thunder Spell - Heaven, Earth, Mind] grants 2"
+    },
+    "1308": {
+      "S1.0": "837c501856 multiplierUp · The DMG Multipliers of the following skills are ",
+      "S2.0": "be375fb75b dmgBonus · Casting Intro Skill - Yo, It's Big Boomin' Time!",
+      "S2.1": "cc488da595 amplify · When Resonators in the team inflict Hack - Shift",
+      "S3.0": "1c9ece9204 multiplierUp · Rebecca's Resonance Liberation - Party 'til Dawn",
+      "S5.0": "4270d63c29 skillTypeBonus · Rebecca gains 20% Basic Attack DMG Bonus for 8s ",
+      "S6.0": "906eb0108e skillTypeBonus · Rebecca's Basic Attack DMG Bonus from every sour",
+      "IH0.0": "fc43698122 atkRatio · ATK is increased by 10% for 12s when A Girl Gets",
+      "IH1.0": "e03c25d03d atkRatio · When Rebecca casts Resonance Liberation - Party ",
+      "SK0.0": "71bf7e5ee6 critDmg · - The [Huntress] mode increases Rebecca's Crit. ",
+      "SK0.1": "0a9b5b647b defIgnore · - The [Guts] mode allows Rebecca to ignore 15% o"
+    },
+    "1309": {
+      "S3.0": "8e4dcb5002 multiplierUp · The DMG Multiplier of Resonance Skill Overshock ",
+      "S4.0": "0dfac72e11 multiplierUp · The DMG Multiplier of Resonance Liberation Ultim",
+      "S5.0": "acc3804094 critDmg · Crit. DMG is increased by 20% while in Apex Reso",
+      "S6.0": "4ba0b2df77 multiplierUp · The DMG Multiplier of Resonance Skill Thrum of A",
+      "IH1.0": "89a57ac414 skillTypeBonus · When Resonance Skill Overshock is cast by holdin"
+    },
+    "1311": {
+      "S1.0": "507dc933cf multiplierUp · While in Resonance Mode - Unison: The DMG Multip",
+      "S2.0": "56a9d28cc1 multiplierUp · The DMG Multipliers of Heavy Attack - Answering ",
+      "S2.1": "e6253752e5 multiplierUp · The DMG Multipliers of Heavy Attack - Illumining",
+      "S3.0": "0a11b7e92c multiplierUp · The DMG Multiplier of Resonance Liberation - Pil",
+      "S3.1": "03d2e68929 critDmg · While in Resonance Mode - Unison: The Crit. DMG ",
+      "S4.0": "b850aaa620 dmgBonus · All Resonators in the team gain 20% All-Attribut",
+      "S6.0": "0dddbababc amplify · Targets take 40% more Resonance Skill DMG from H",
+      "S6.1": "0699f52df0 afflictionCritRate · While in Resonance Mode - Electro Flare: While i",
+      "S6.2": "037ef3c168 afflictionCritDmg · While in Resonance Mode - Electro Flare: While i",
+      "IH0.0": "4061ea4904 atkRatio · While in Resonance Mode - Unison, when Hsin cast",
+      "IH0.1": "7033a422bb elementBonus · While in Resonance Mode - Electro Flare, after R",
+      "IH0.2": "11d9522b41 elementBonus · In addition, if Rover: Electro is in the same te"
+    },
+    "1312": {
+      "S1.0": "65f127478a multiplierUp · The DMG Multipliers of Intro Skill - Furled Cano",
+      "S2.0": "2c7cf98b77 critDmg · Crit. DMG is increased by 40%.",
+      "S2.1": "0632d50ab5 critDmg · Casting Outro Skill increases the incoming Reson",
+      "S3.0": "fd4725c1f1 amplify · Casting Resonance Liberation grants Suoming 30% ",
+      "S4.0": "c11260f537 atkRatio · Suoming's ATK is increased by 20%.",
+      "S5.0": "3ea10bc361 multiplierUp · The DMG Multiplier of Resonance Liberation - Umb",
+      "S6.0": "dac91c2f40 multiplierUp · The DMG Multiplier of Basic Attack - Umbral Cano",
+      "S6.1": "c13d8542a5 critDmg · When Suoming has Seal Master, her Crit. DMG is f",
+      "IH0.0": "e82d517edf elementBonus · Casting Intro Skill - Furled Canopy: Flash Rift,",
+      "IH1.0": "70170f0278 elementBonus · Within 8s after Suoming casts Resonance Liberati",
+      "IH1.1": "ee80a493de critDmg · When Suoming has Unison, casting Resonance Skill",
+      "IH1.2": "1c9627036f multiplierUp · When Suoming has Unison, casting Resonance Skill"
+    },
+    "1402": {
+      "S1.0": "f633aa35fb elementBonus · Intro Skill Cerulean Song increases Yangyang's A",
+      "S3.0": "4ea71e56d2 skillTypeBonus · Resonance Skill DMG Bonus is increased by 40%.",
+      "S4.0": "2e8d9b26bb multiplierUp · Mid-air Attack Feather Release's damage is incre",
+      "S5.0": "8c89140680 multiplierUp · Resonance Liberation Wind Spirals's damage is in",
+      "S6.0": "0d9d6f24ab atkRatio · After casting Mid-air Attack Feather Release, th",
+      "IH1.0": "c3a57d3bf0 elementBonus · Yangyang's Aero DMG Bonus is increased by 8% for"
+    },
+    "1403": {
+      "S2.0": "79b216980f atkRatio · When Aalto attacks targets taunted by the \"Mist ",
+      "S4.0": "5c5099e1fb multiplierUp · The damage of Resonance Skill Mist Bullets is in",
+      "S5.0": "5d81dd58e3 elementBonus · In the Forte Circuit Mistcloak Dash state, Aalto",
+      "S6.0": "4c0b48df80 critRate · Resonance Liberation Flower in the Mist now addi",
+      "S6.1": "3a8cb0486a multiplierUp · When Aalto's Heavy Attack passes through the Gat"
+    },
+    "1404": {
+      "S2.0": "bd383ac624 atkRatio · After casting Intro Skill Tactical Strike, Jiyan",
+      "S3.0": "3f35662e76 critRate · When casting Resonance Skill Windqueller, Resona",
+      "S3.1": "bf8bddab98 critDmg · When casting Resonance Skill Windqueller, Resona",
+      "S4.0": "76b6f147f1 skillTypeBonus · When casting Resonance Liberation Emerald Storm:",
+      "S5.0": "70fdf0c805 multiplierUp · Outro Skill Discipline gains an additional DMG M",
+      "S5.1": "e94d9e1fa3 atkRatio · When Jiyan's attacks hit a target, his ATK is in",
+      "S6.0": "1ac5dc504b multiplierUp · Resonance Liberation Emerald Storm: Finale will ",
+      "IH0.0": "1682700e6d atkRatio · After casting the Intro Skill Tactical Strike, J",
+      "IH1.0": "b2a4b5bf8d critDmg · When Jiyan's attacks hit a target, Jiyan's Crit.",
+      "SK0.0": "a8c34d8db4 multiplierUp · When Jiyan is in [Qingloong Mode], DMG of Resona"
+    },
+    "1405": {
+      "S4.0": "ec42ab3b7d multiplierUp · When performing Forte Circuit Heavy Attack: Prim",
+      "IH0.0": "94d7b95dfe multiplierUp · Damage of Resonance Liberation Purification Forc"
+    },
+    "1406": {
+      "S3.0": "871be528b4 elementBonus · Aero DMG Bonus is increased by 15%.",
+      "S4.0": "00e9939475 skillTypeBonus · Casting Mid-air Attack Cloudburst Dance increase",
+      "S5.0": "d9a3fae6d2 multiplierUp · The DMG Multiplier of Resonance Liberation Omega",
+      "S6.0": "1217698b06 multiplierUp · The DMG Multiplier of Resonance Skill Unbound Fl",
+      "IH0.0": "d5aa018a41 atkRatio · Casting Intro Skill Relentless Squall increases "
+    },
+    "1407": {
+      "S1.0": "2008b116e6 atkRatio · Casting Basic Attack increases Ciaccona's ATK by",
+      "S2.0": "53f2e77ee4 elementBonus · During Resonance Liberation Singer's Triple Cade",
+      "S5.0": "8ab28f0131 skillTypeBonus · Gain 40% Resonance Liberation DMG Bonus;",
+      "SK0.0": "239336a9dc elementBonus · When Ciaccona or Ensemble Sylph performs Solo Co"
+    },
+    "1409": {
+      "S1.0": "6b4af715d2 critDmg · When Fleurdelys's Conviction hits 30/60/90/120, ",
+      "S2.0": "78e359a602 multiplierUp · The DMG Multipliers of Cartethyia's Basic Attack",
+      "S3.0": "8f1aeb5ed2 multiplierUp · The DMG Multiplier of Resonance Liberation - Bla",
+      "S4.0": "2057ea65fc elementBonus · After Resonators in the team inflict Havoc Bane,",
+      "IH1.0": "3c661c4fa4 dmgBonus · Targets with 1 to 3 stacks of Aero Erosion take ",
+      "IH1.1": "028a65f6a1 amplify · Targets with more than 3 stacks of Aero Erosion ",
+      "SK0.0": "9e00d39263 amplify · Aero Erosion DMG is Amplified by 50% and the dam",
+      "SK0.1": "2371af7ff8 amplify · Each stack removed Amplifies the DMG taken by th"
+    },
+    "1410": {
+      "S1.0": "635cc27acd atkRatio · When Iuno is in Lunar Cycle, her ATK is increase",
+      "S2.0": "32efb1f7a5 amplify · Resonators in the team with 10 stacks of Blessin",
+      "S3.0": "e4455260e9 amplify · When Iuno is in Lunar Cycle, DMG dealt by Moonbo",
+      "S5.0": "3f4a4dae65 skillTypeBonus · Iuno gains 20% Resonance Liberation DMG Bonus.",
+      "S6.0": "307373ed4b multiplierUp · The DMG Multiplier of Heavy Attack - Absolute Fu",
+      "SK0.0": "247c567fcb amplify · The receiving Resonator gains 4% all DMG Amplifi"
+    },
+    "1411": {
+      "S1.0": "bbf5c96fd7 critRate · Qiuyuan gains 20% Crit. Rate increase.",
+      "S2.0": "9bdd37d3bc amplify · Bamboo's Shade now grants an additional 30% Echo",
+      "S3.0": "62c49b0882 multiplierUp · The DMG Multiplier of Resonance Liberation Sunde",
+      "S3.1": "d21ae38ce0 multiplierUp · Thus Spoke the Blade: To Teach, Thus Spoke the B",
+      "S4.0": "9f959798d7 atkRatio · ATK is increased by 20%.",
+      "S6.0": "472b73e948 critDmg · Casting Resonance Skill Straw Cape in Drizzly Ra",
+      "IH0.0": "da807bc686 amplify · Heavy Attack Thus Spoke the Blade: To Teach, Thu",
+      "IH1.0": "9d0448248f atkRatio · The next time Swordster's Soliloquy is obtained,",
+      "SK0.0": "303d4bef04 critDmg · For every 1% of Qiuyuan's Crit. Rate over 50%, t",
+      "SK1.0": "e320d738c9 skillTypeBonus · When Qiuyuan reaches 400 points of Swordster's S"
+    },
+    "1412": {
+      "S1.0": "6f9f7e63dd multiplierUp · The DMG Multipliers of Basic Attack - Elucidated",
+      "S2.0": "e02ed62d57 multiplierUp · The DMG Multiplier of Forte Circuit - Learn My T",
+      "S4.0": "381fcb66b4 atkRatio · When a Resonator in the team casts Echo Skill, a",
+      "S5.0": "f8f3afce11 multiplierUp · The DMG Multiplier of Resonance Liberation Where",
+      "S6.0": "9e9aec600b amplify · Targets take 30% more DMG from Sigrika.",
+      "S6.1": "936543c327 amplify · Innate Gift? gains following effects: - Each sta",
+      "S6.2": "008709eebd defIgnore · - Each stack causes Runic Outburst, Runic Chain ",
+      "IH1.0": "48f41a023a elementBonus · Blessing of Runes Each stack of Blessing of Rune",
+      "IH1.1": "52d8a91de1 elementBonus · When Blessing of Runes reaches 6 stacks, Sigrika",
+      "IH1.2": "a11de0e99b skillTypeBonus · For every 1% of Sigrika's Energy Regen over 125%",
+      "SK0.0": "82ecca0641 multiplierUp · When consuming [Runes], if Sigrika holds at leas",
+      "SK0.1": "44757013af amplify · Every 10 of [Soliskin Vitality] consumed grants ",
+      "SK0.2": "100f79e8eb amplify · Each stack grants [Runic Outburst], [Runic Chain"
+    },
+    "1413": {
+      "S1.0": "bab8d0f00b critRate · Crit. Rate is increased by 16%.",
+      "S2.0": "2195a18954 multiplierUp · The DMG Multiplier of Heavy Attack - Stringblade",
+      "S3.0": "ef332fc4ac critDmg · The Crit. DMG of Resonance Liberation - Billows ",
+      "S3.1": "82473dd073 multiplierUp · World in Chorus: Each stack increases the DMG Mu",
+      "S4.0": "fef5392a98 atkRatio · After a Resonator in the team inflicts Tune Stra",
+      "S5.0": "313b19675c multiplierUp · The DMG Multiplier of Resonance Skill - Severing",
+      "S6.0": "ebc506f8ad amplify · Targets take 40% more DMG from Qingxiao's Heavy ",
+      "S6.1": "dc1ac85487 amplify · For each stack of Mindlock on the target, the DM",
+      "S6.2": "0b1eba1997 amplify · The first 7 additionally grant 5% DMG Amplificat",
+      "S6.3": "94f5f1eca8 multiplierUp · When Inherent Skill - To Know, To Banish is unlo",
+      "SK0.0": "620c041ea4 multiplierUp · Before [Heavy Attack - Heaven's Reckoning: Ephem",
+      "SK0.1": "620c041ea4 multiplierUp · Before [Heavy Attack - Heaven's Reckoning: Ephem",
+      "SK0.2": "580b796814 amplify · For each stack of [Mindlock] on the target, DMG ",
+      "SK0.3": "1682215ea6 multiplierUp · When casting [Heavy Attack - Stringblade], infli"
+    },
+    "1501": {
+      "S1.0": "1d312bcce8 critRate · Rover's Crit. Rate is increased by 15% for 7s wh",
+      "S2.0": "85fe54d783 elementBonus · Rover's Spectro DMG Bonus is increased by 20%.",
+      "S5.0": "997f948522 skillTypeBonus · Rover's Resonance Liberation DMG Bonus is increa",
+      "IH0.0": "c203a6ce62 multiplierUp · DMG dealt by Rover's Basic Attack Resonating Ech",
+      "IH1.0": "c148d6231a atkRatio · Rover gains 15% ATK increase for 5s upon casting"
+    },
+    "1503": {
+      "S4.0": "ddb884eb02 elementBonus · Heavy Attack Starflower Blooms, Mid-Air Attack S",
+      "S6.0": "88573288c5 skillTypeBonus · Heavy Attack Starflower Blooms and Mid-air Attac",
+      "IH0.0": "2fc1369b1d atkRatio · When Verina casts Heavy Attack Starflower Blooms"
+    },
+    "1504": {
+      "S2.0": "f927e9f454 defIgnore · Energized Pounce and Energized Rebound ignore 20",
+      "S3.0": "002b913208 multiplierUp · The DMG of Resonance Liberation Squeakie Express",
+      "S4.0": "b93f33897f skillTypeBonus · Gain 30% Basic Attack DMG Bonus.",
+      "S5.0": "5ff5ab8f66 multiplierUp · When Spark is fully recovered, Laser DMG Multipl",
+      "S6.0": "839669f477 atkRatio · Casting Resonance Liberation Squeakie Express in",
+      "IH0.0": "6f4f02fe38 elementBonus · Gain 10% Electro DMG Bonus when in Red Light Mod",
+      "IH1.0": "9332dedf5a atkRatio · Casting Energized Pounce or Energized Rebound in"
+    },
+    "1505": {
+      "S2.0": "8ffa57fd59 atkRatio · The Outer Stellarealm now increases the ATK of a",
+      "S4.0": "d32416e0b3 healingBonus · Gain 70% additional Healing Bonus when casting R",
+      "S6.0": "3791aec4f1 multiplierUp · Increase the DMG Multiplier of Intro Skill Disce",
+      "S6.1": "f37733213c critDmg · Casting Intro Skill Discernment increases Shorek",
+      "SK0.0": "d3d9a723e5 critRate · Within the effective range of the [Inner Stellar",
+      "SK0.1": "0016921323 critDmg · Within the effective range of the [Supernal Stel"
+    },
+    "1506": {
+      "S1.0": "aca8fb7ec5 multiplierUp · When in Absolution, Resonance Liberation Dawn of",
+      "S1.1": "33493ddbd8 multiplierUp · When in Confession, Resonance Liberation Dawn of",
+      "S2.0": "de4e716c3f amplify · When in Absolution, DMG dealt by Outro Skills to",
+      "S2.1": "83d4a9d8ee amplify · When in Confession, Silent Prayer grants 120% mo",
+      "S3.0": "b492408cb9 multiplierUp · When in Absolution, the DMG Multiplier of Heavy ",
+      "S3.1": "5bc6b64d8d multiplierUp · When in Confession, the DMG Multiplier of Heavy ",
+      "S5.0": "12fb6bcf37 elementBonus · Casting Intro Skill Golden Grace increases Phoeb",
+      "S6.0": "d8a1a1f2a2 atkRatio · When in Absolution or Confession, summoning a Ri",
+      "IH1.0": "6186af98d7 elementBonus · When in the Absolution status and Confession sta",
+      "SK0.0": "3531d32975 multiplierUp · - [Absolution] Enhancement: Increase DMG Multipl",
+      "SK1.0": "e7d5edc690 amplify · When the targets hit have [Spectro Frazzle], the",
+      "SK2.0": "3531d32975 multiplierUp · - [Absolution] Enhancement: Increase DMG Multipl",
+      "SK2.1": "9eda65fe62 amplify · - [Confession] Enhancement: Grant [Silent Prayer"
+    },
+    "1507": {
+      "S1.0": "147a7a0bd7 elementBonus · Casting Targeted Action or Forcible Riposte give",
+      "S2.0": "b328236bb9 critRate · Crit. Rate is increased by 20%.",
+      "S2.1": "be5a9b42d8 multiplierUp · The DMG Multiplier of Targeted Action and Forcib",
+      "S3.0": "db71a9a9c9 multiplierUp · When in Inferno Mode, every 1 Blazes consumed in",
+      "S4.0": "5255f55d3d atkRatio · When Intro Skill Immediate Execution is cast, th",
+      "S5.0": "e421bbbf51 multiplierUp · The DMG Multiplier of Resonance Liberation Rekin",
+      "S6.0": "d139e314e0 multiplierUp · The DMG Multipliers of Heavy Slash - Daybreak, H",
+      "S6.1": "ed9135cfa0 multiplierUp · Every Blaze consumed increases the DMG Multiplie",
+      "IH0.0": "c7a7d22575 elementBonus · Casting Intro Skill Immediate Execution gives 12",
+      "SK0.0": "085eac2d39 amplify · The [Spectro Frazzle] DMG dealt by Zani to the t"
+    },
+    "1508": {
+      "S1.0": "1e4dc8c788 atkRatio · Chisa is immune to interruption during Sawring -",
+      "S2.0": "7ce93e4931 dmgBonus · Nearby Resonators in the team with Thread of Ban",
+      "S3.0": "288aa438dd multiplierUp · The DMG Multipliers of Sawring - Blitz, Chainsaw",
+      "S3.1": "4ade36e79b multiplierUp · The bonus DMG Multiplier for Sawring - Eradicati",
+      "S5.0": "95e2ecdf45 skillTypeBonus · Resonance Liberation Moment of Nihility gains 10",
+      "S6.0": "031bb3ebc2 amplify · - Targets affected by Unseen Snare - Finality ta",
+      "IH1.0": "d4ffc4d3ab elementBonus · Casting Intro Skill Reverberance - Return or Res",
+      "IH1.1": "2a4526d11c healingBonus · Casting Intro Skill Reverberance - Return or Res",
+      "SK0.0": "29ae4cc5f1 multiplierUp · The DMG Multipliers of [Sawring - Blitz], [Chain",
+      "SK0.1": "0202a93ebe multiplierUp · The bonus DMG Multiplier for [Sawring - Eradicat"
+    },
+    "1509": {
+      "S1.0": "c2aaccf8ce multiplierUp · The DMG Multiplier of Basic Attack - Polychrome ",
+      "S2.0": "18eb678f5a amplify · Gain 25% All DMG Amplification.",
+      "S2.1": "f645ab7c57 amplify · Outro Skill gains the following effect: Casting ",
+      "S3.0": "bc92303c50 multiplierUp · The DMG Multiplier of Basic Attack - Visual Impa",
+      "S3.1": "85a1ad935b elementBonus · Each stack of Premixed Hue increases the Spectro",
+      "S4.0": "9f959798d7 atkRatio · ATK is increased by 20%.",
+      "S5.0": "cad179104b multiplierUp · The DMG Multiplier of Resonance Liberation - Pri",
+      "IH1.0": "484985138b elementBonus · Casting Intro Skill - Time to Show Some Colors! "
+    },
+    "1510": {
+      "S1.0": "65c2ae163b skillTypeBonus · Luuk Herssen gains 150% Mid-air Attack DMG Bonus",
+      "S2.0": "ee20c8f81d multiplierUp · The DMG Multiplier of Resonance Liberation Rewri",
+      "S2.1": "01d79003ea amplify · Inherent Skill Uncaused Diagnosis is enhanced: W",
+      "S3.0": "d4eebfbc92 multiplierUp · The DMG Multipliers of all forms of Resonance Sk",
+      "S3.1": "861682bcd7 multiplierUp · Casting Aureole of Execution: Glare increases th",
+      "S4.0": "7481da879d amplify · After a Resonator in the team deals Tune Break D",
+      "S5.0": "4ac5f87a78 skillTypeBonus · Intro Skill Before Injection of Dawn and Outro S",
+      "S5.1": "a49350812a multiplierUp · Resonance Skill Golden Reflux has its DMG Multip",
+      "S6.0": "9f6b708b82 amplify · When nearby Resonators in the team deal Tune Bre",
+      "S6.1": "7ca01ba598 skillTypeBonus · Each stack of Endnotes on the Endgame additional",
+      "IH1.0": "bbdd8982ee amplify · When Luuk Herssen's skills directly damage targe",
+      "SK0.0": "7c2432c9ee multiplierUp · Increase the DMG Multiplier of Resonance Liberat",
+      "SK1.0": "3cd7cedaee multiplierUp · The DMG Multipliers of all forms of Resonance Sk",
+      "SK1.1": "44148c02b8 multiplierUp · - Casting [Aureole of Execution: Glare] increase"
+    },
+    "1511": {
+      "S1.0": "09750802e2 atkRatio · Lucy is now immune to interruptions during Reson",
+      "S2.0": "efdf114ab7 multiplierUp · Forte Circuit - Depths of Blackwall is enhanced:",
+      "S3.0": "1318f420e1 critDmg · The DMG Multiplier of Override from Resonance Li",
+      "S3.1": "bb2b64a362 multiplierUp · The DMG Multiplier of Override from Resonance Li",
+      "S3.2": "20b40e71f5 multiplierUp · The DMG Multiplier of Spoofing Program: Cripple ",
+      "S3.3": "306f4d40a4 multiplierUp · The DMG Multiplier of Hack Response - Data Crash",
+      "S4.0": "d72db08b1b dmgBonus · When Resonators in the team inflict Hack - Shift",
+      "IH1.0": "301d2d3233 multiplierUp · Network Backdoor Grants 10% All DMG Amplificatio",
+      "IH1.1": "2dcc45ec5b amplify · Network Backdoor Grants 10% All DMG Amplificatio",
+      "IH1.2": "560587377f multiplierUp · At 2 stacks, additionally increases All DMG Ampl",
+      "IH1.3": "5eb8d7e4d0 amplify · At 2 stacks, additionally increases All DMG Ampl",
+      "SK0.0": "1aab74707b multiplierUp · [SQL] can be consumed for a 270% increase in thi",
+      "SK1.0": "8d91a8da37 amplify · Marked targets take 5% more DMG for 30s.",
+      "SK2.0": "a4fd387669 elementBonus · Lucy's Spectro DMG Bonus is increased by 65% for",
+      "SK2.1": "76214d0273 multiplierUp · When casting [Heavy Attack - Multi-threading], i"
+    },
+    "1601": {
+      "S2.0": "84bbfdea8e critRate · The Crit. Rate and Crit. DMG of Resonance Libera",
+      "S2.1": "c69e7871a5 critDmg · The Crit. Rate and Crit. DMG of Resonance Libera",
+      "S5.0": "9279f01fac multiplierUp · The damage of Forte Circuit Power Shift is incre",
+      "S6.0": "a71d9e76d1 multiplierUp · The damage of Taoqi's Basic Attack and Heavy Att"
+    },
+    "1602": {
+      "S1.0": "2441ec8fcf atkRatio · When Danjin attacks a target with Resonance Skil",
+      "S2.0": "8ea17f4bd5 multiplierUp · When Danjin attacks a target with Resonance Skil",
+      "S3.0": "5d2ece2862 skillTypeBonus · Resonance Liberation DMG Bonus is increased by 3",
+      "S4.0": "3bfdc137be critRate · When Danjin has more than 60 \"Ruby Blossom\", her",
+      "S5.0": "e797fd8fe8 elementBonus · Danjin's Havoc DMG Bonus is increased by 15%, an",
+      "S6.0": "65b759f36d atkRatio · Heavy Attack Chaoscleave increases the ATK of al",
+      "IH0.0": "ed8fe82a5c multiplierUp · Damage of Resonance Skill Crimson Erosion trigge",
+      "IH1.0": "37733ea088 multiplierUp · After casting the Resonance Skill Sanguine Pulse"
+    },
+    "1603": {
+      "S1.0": "0c6b7360ca critDmg · Casting Intro Skill Everblooming increases Camel",
+      "S2.0": "60b9944df6 multiplierUp · The DMG Multiplier of Resonance Skill Ephemeral ",
+      "S3.0": "aa90f2cac3 multiplierUp · The DMG Multiplier of Resonance Liberation Fervo",
+      "S3.1": "a1b08654db atkRatio · When in Budding Mode, Camellya's ATK is increase",
+      "S4.0": "a027299f64 skillTypeBonus · Casting Everblooming gives all team members 25% ",
+      "S5.0": "2c272bf3c5 multiplierUp · The DMG Multipliers of Intro Skill Everblooming ",
+      "S6.0": "ba1e035bfa multiplierUp · The DMG Multiplier of Forte Circuit's Sweet Drea",
+      "IH0.0": "cd27ba201d elementBonus · Gain 15% Havoc DMG Bonus.",
+      "IH1.0": "951880ff07 skillTypeBonus · Gain 15% Basic DMG Bonus.",
+      "SK0.0": "08cb4b6efa multiplierUp · - [Sweet Dream]: Increase the DMG Multiplier of "
+    },
+    "1604": {
+      "S1.0": "04ed71c570 skillTypeBonus · Resonance Skill DMG Bonus is increased by 30%.",
+      "S6.0": "9fd8d6f269 critRate · In the Dark Surge state, Rover's Crit. Rate is i",
+      "IH0.0": "fc9b67d1e7 elementBonus · In the Dark Surge state, gain 20% Havoc DMG Bonu"
+    },
+    "1606": {
+      "S2.0": "61214d4b42 elementBonus · Casting Basic Attack Real Fantasy grants all Res",
+      "S2.1": "ce068b729a elementBonus · Upon reaching the max stacks, it grants all Reso",
+      "S3.0": "aef1fc071d critRate · Casting Intro Skill Pero, Help increases Roccia'",
+      "S3.1": "54481dea79 critDmg · Casting Intro Skill Pero, Help increases Roccia'",
+      "S4.0": "8ea3e53dab multiplierUp · Casting Resonance Skill Acrobatic Trick increase",
+      "S5.0": "54e9524c67 multiplierUp · Increase Resonance Liberation Commedia Improvvis",
+      "IH0.0": "88e6d939b0 atkRatio · Casting Resonance Skill or Heavy Attack increase",
+      "SK0.0": "d3f343d725 atkRatio · For every 0.1% of Roccia's Crit. Rate over 50%, "
+    },
+    "1607": {
+      "S1.0": "8d4ed591b1 multiplierUp · The DMG Multiplier of Resonance Skill Graceful S",
+      "S2.0": "91aada3261 multiplierUp · The DMG Multiplier of Jolt triggered by Cantarel",
+      "S3.0": "8192ac3937 multiplierUp · The DMG Multiplier of Resonance Liberation Flowi",
+      "S4.0": "e0855ef014 healingBonus · When in Mirage, Healing Bonus is increased by 25",
+      "S6.0": "b0b5936968 multiplierUp · Increase the DMG Multiplier of Basic Attack Phan",
+      "IH0.0": "35c7893d14 healingBonus · Increase Healing Bonus by 20%.",
+      "IH1.0": "9e7839e25c elementBonus · Casting Echo Skill gives 6% Havoc DMG Bonus for "
+    },
+    "1608": {
+      "S1.0": "cb5069be58 multiplierUp · The DMG Multiplier of Movement of Fate and Final",
+      "S1.1": "259fde003b multiplierUp · The DMG Multiplier of Murmurs in a Haunting Drea",
+      "S2.0": "a2d47e40e9 multiplierUp · The DMG Multiplier of Scarlet Coda is increased ",
+      "S2.1": "b793958efe multiplierUp · Aftersound now additionally increases the DMG Mu",
+      "S3.0": "10433ebbad amplify · Echo Skill DMG is Amplified by 80%.",
+      "S4.0": "564af832d7 dmgBonus · Casting Echo Skill grants 20% Attribute DMG Bonu",
+      "S6.0": "b29aa138f5 multiplierUp · The DMG Multiplier of Enhanced Attack - Hecate i",
+      "S6.1": "f0836c3664 amplify · If Phrolova is not the active Resonator during t",
+      "S6.2": "5630aae0ce elementBonus · If Phrolova is the active Resonator during the M",
+      "IH1.0": "a44bd04197 critDmg · For every 1 stacks of Aftersound, Crit. DMG is i",
+      "IH1.1": "ae8af8af61 critDmg · When Aftersound reaches the max, each new stack ",
+      "SK0.0": "27e31e24dc atkRatio · Gain 120% ATK increase."
+    },
+    "1610": {
+      "S3.0": "e41ff7870d amplify · The DMG dealt via Resonance Liberation Hush of a",
+      "S4.0": "6db2f03ee4 atkRatio · When casting Intro Skill - Skybound Feather, Res",
+      "S6.0": "546ca7de9c amplify · While Voice Flux is active, targets take 40% mor",
+      "IH0.0": "35608125dd amplify · When a target has 1 to 3 stacks of Havoc Bane, e",
+      "IH0.1": "07fe2ffa69 amplify · When a target has 4 to 6 stacks of Havoc Bane, e",
+      "SK0.0": "07f05299a0 critDmg · When casting [Heavy Attack - Azure Sword Stance]",
+      "SK0.1": "88b56a61c1 critDmg · While Yangyang: Xuanling is the active Resonator",
+      "SK0.2": "d9bf014d52 critDmg · While Yangyang: Xuanling is the active Resonator"
+    }
+  }
+}

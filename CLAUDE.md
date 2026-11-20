@@ -101,7 +101,7 @@ area-specific ones live in `.claude/rules/` (see INSTRUCTION FILES below).
 | Conditional effects default OFF | Any effect whose condition text contains `when / after / while / upon / duration` needs to be modelled if possible, if not defaults to OFF |
 | Abilities always hit | Every resonator ability lands on the enemy: there is no miss, range or accuracy model. "on hit" / "within a certain range" / "nearby" are FIRING conditions that are always satisfied — model the effect, drop the qualifier, and do not hedge it as "the optimistic reading". Enemy attacks are not modelled at all: an effect that needs the wielder to be hit or to take damage cannot fire on its own, so it is a user toggle, OFF by default. |
 | `build.rotation` is linear | Graph is built at sim time via `fromLinear()` — never persisted |
-| Effect-slot keys are FROZEN before anything reads them | `S{level}.{index}` addresses effects from `effect-overrides.json` AND from a saved build's `effectStacks`, so any preprocess pass that changes an effect COUNT must run BEFORE the overrides. `bindSkillScopes` drops what it cannot scope; ordered after the overrides it silently moved Luuk Herssen's curated S6.0 patch onto a different effect |
+| Effect-slot keys are FROZEN before anything reads them | `S{level}.{index}` addresses effects from `effect-overrides.json` AND from a saved build's `effectStacks`, so any preprocess pass that changes an effect COUNT must run BEFORE the overrides. `bindSkillScopes` drops what it cannot scope; ordered after the overrides it silently moved Luuk Herssen's curated S6.0 patch onto a different effect. Guarded by `tests/effect-slot-fingerprint.test.mjs` (re-pin: `node tools/effect-slot-pins.mjs --write`) |
 
 ## INSTRUCTION FILES
 

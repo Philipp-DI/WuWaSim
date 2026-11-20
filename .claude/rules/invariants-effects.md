@@ -3,9 +3,10 @@ paths:
   - "tools/preprocess.mjs"
   - "tools/preprocess/{effects,skill-scope,text,buff-facts,inherent-replace,skill-rows,resonators,chain-extra-hits}.mjs"
   - "tools/{effect-overrides,effect-audit}.js"
+  - "tools/effect-slot-pins.mjs"
   - "tools/audit-effects.mjs"
   - "data/effect-overrides.json"
-  - "tests/{audit-effects,buff-facts,conditional-effects,dead-scope,dmg-of-clause,effect-coverage,effect-overrides,effect-windows,skill-node-effects,stack-metadata,stackable-effects,incoming-recipient,outro,outro-scope-refusal,provenance}.test.mjs"
+  - "tests/{audit-effects,buff-facts,conditional-effects,dead-scope,dmg-of-clause,effect-coverage,effect-overrides,effect-windows,skill-node-effects,stack-metadata,stackable-effects,incoming-recipient,outro,outro-scope-refusal,effect-slot-fingerprint,provenance}.test.mjs"
 ---
 
 # Invariants — Effect-text parsing and scoping
