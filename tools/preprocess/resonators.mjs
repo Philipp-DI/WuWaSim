@@ -354,6 +354,10 @@ export function projectNanokaCharacterFull(nChar) {
     }
 
     const outroBuffs = [];
+    // Grants whose scope the parser read but the sim has no home for (Youhu's
+    // "Coordinated Attack DMG": Coordinated Attacks are off-field actions, not a
+    // formula skill type). Refused with a reason code, never widened to All DMG.
+    const outroBuffRefusals = [];
     for (const node of Object.values(nChar.skill_trees ?? {})) {
         const skill = node.skill ?? {};
         if (skill.type !== 'Outro Skill') continue;
@@ -373,7 +377,11 @@ export function projectNanokaCharacterFull(nChar) {
         const seen = new Set();  // dedup by scope key (per mode — see key below)
         function addGrant(label, value, mode, duration, recipientRole = null) {
             const scope = labelToScope(label.trim());
-            if (!scope) return;
+            if (!scope) {
+                outroBuffRefusals.push({ label: label.trim(), value: parseFloat(value) / 100, duration,
+                    ...(mode ? { mode } : {}), reason: 'outroScopeUnmapped' });
+                return;
+            }
             const key = (mode ?? '-') + ':' + scope.type + ':' + (scope.elementId ?? scope.skillType);
             if (seen.has(key)) return;
             seen.add(key);
@@ -383,7 +391,7 @@ export function projectNanokaCharacterFull(nChar) {
         for (const segment of modeSegments(filled)) {
             const { text, mode } = segment;
             const duration = durationIn(text);
-            const before = seen.size;
+            const before = seen.size + outroBuffRefusals.length;
 
             // Pattern A: "Y DMG … Amplified by X%" — label is the prefix before "Amplif"
             for (const match of text.matchAll(OUTRO_GLOBAL_A)) {
@@ -403,9 +411,9 @@ export function projectNanokaCharacterFull(nChar) {
 
             // Pattern D: an UNSCOPED grant — "DMG Amplified by X%" or "15% DMG
             // Amplification for all Attributes" — which is All DMG. Only when
-            // this segment found no scoped grant of its own, so it can never
-            // widen a grant the patterns above already read narrowly.
-            if (seen.size === before) {
+            // this segment matched no scoped grant of its own, placed OR refused,
+            // so it can never widen a grant the patterns above read narrowly.
+            if (seen.size + outroBuffRefusals.length === before) {
                 const bare = /\bDMG\s+Amplif\w+\s+by\s+([\d.]+)%/i.exec(text)
                     ?? /([\d.]+)%\s+DMG\s+Amplif/i.exec(text);
                 if (bare) addGrant('All DMG', bare[1], mode, duration, outroRecipientRole(text, bare.index));
@@ -1058,6 +1066,7 @@ export function projectNanokaCharacterFull(nChar) {
         tuneBreak,        // { name, desc } — the response every resonator can make
         resonanceChain,
         outroBuffs,       // [{ scope: {type,elementId?|skillType?}, value, duration }]
+        outroBuffRefusals, // [{ label, value, duration, mode?, reason }] — read, no home in the sim
         offFieldActions,  // [{ type, trigger, element, scaling, multiplier, cooldown, duration, note }]
         skillDamage,   // granular, classified, keyed
         skillSupport,  // heal + shield rows, keyed same as skillDamage

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 9,
-  "generatedAt": "2026-10-19T16:07:31.402Z",
+  "generatedAt": "2026-11-20T17:43:52.594Z",
   "source": "Arikatsu/WutheringWaves_Data@3.7 + nanoka.cc",
   "gameVersion": "3.7",
   "sourceRefPinned": true,
@@ -2067,14 +2067,12 @@
           ]
         }
       ],
-      "outroBuffs": [
+      "outroBuffRefusals": [
         {
-          "scope": {
-            "type": "element",
-            "elementId": null
-          },
+          "label": "Coordinated Attack DMG",
           "value": 1,
-          "duration": 28
+          "duration": 28,
+          "reason": "outroScopeUnmapped"
         }
       ],
       "statNodeBonuses": {
@@ -8136,6 +8134,22 @@
               "mode": "fusion_burst"
             }
           ]
+        }
+      ],
+      "outroBuffRefusals": [
+        {
+          "label": "All- DMG",
+          "value": 0.1,
+          "duration": 20,
+          "mode": "tune_rupture",
+          "reason": "outroScopeUnmapped"
+        },
+        {
+          "label": "All- DMG",
+          "value": 0.1,
+          "duration": 20,
+          "mode": "fusion_burst",
+          "reason": "outroScopeUnmapped"
         }
       ],
       "statNodeBonuses": {

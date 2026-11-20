@@ -110,10 +110,12 @@ function printHelp() {
  * The description a skill node's effects are parsed from, or '' to skip it. An
  * Outro node's grants are the OUTRO lane's when `outroBuffs` carries them
  * (CLAUDE.md, "Team-buff paths are disjoint"); read as skill-node effects too
- * they were a second, self-targeted copy — live on Hsin, inert elsewhere.
+ * they were a second, self-targeted copy — live on Hsin, inert elsewhere. A
+ * REFUSED grant (`outroBuffRefusals`) is still the outro lane's: reading it here
+ * would hand the wielder the grant the outro lane refused.
  */
 function skillNodeDesc(def, resonator) {
-    if (def?.skillType === 'outro' && resonator.outroBuffs?.length) return '';
+    if (def?.skillType === 'outro' && (resonator.outroBuffs?.length || resonator.outroBuffRefusals?.length)) return '';
     return def?.desc ?? '';
 }
 
@@ -374,6 +376,7 @@ async function main() {
             if (proj.tuneBreak)              resonator.tuneBreak      = proj.tuneBreak;
             if (proj.resonanceChain?.length) resonator.resonanceChain = proj.resonanceChain;
             if (proj.outroBuffs?.length)     resonator.outroBuffs     = proj.outroBuffs;
+            if (proj.outroBuffRefusals?.length) resonator.outroBuffRefusals = proj.outroBuffRefusals;
             if (proj.offFieldActions?.length) resonator.offFieldActions = proj.offFieldActions;
             if (proj.statNodeBonuses)        resonator.statNodeBonuses = proj.statNodeBonuses;
             if (proj.skillTreeBonuses?.length && !resonator.skillTreeBonuses?.length) {
