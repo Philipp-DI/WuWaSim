@@ -67,13 +67,14 @@
  *   }
  */
 
-import { simulateRotation, ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, echoStepTimeOf, phraseTypesForStep, deriveGameTimes } from './sim.js';
+import { ECHO_STEP_KEY, TUNE_BREAK_STEP_KEY, echoStepTimeOf, phraseTypesForStep, deriveGameTimes } from './sim.js';
 import { effectiveSkillMap } from './skill-map.js';
 import { deriveBuffWindows, windowStacksAtStep, shortBuffLabel } from './buffs/buff-windows.js';
 import { resolveTuneStrain } from './tune-break.js';
 import { DERIVED_SOURCE } from './buffs/external-buffs.js';
 import { resolveTotalStats } from './stats.js';
 import { resolveTeamSlots } from './team.js';
+import { runSegment, SEGMENT_KIND, emptyCarry } from './team-segment.js';
 import { computeOffFieldContribution, offFieldActionIsSimulable } from './off-field.js';
 import { computeDamage } from './formula.js';
 import { computeStateTimeline } from './rotation-state.js';
@@ -232,24 +233,22 @@ export function simulateTeamRotation({
         // this treatment: they start empty, which is why pass 1 is still the
         // weakest pass (no Concerto banked, no buff ramp, nothing built up).
         memberGauge: occupied.map((_, index) => memberCost[index] ?? 0),
-        // Per-member trigger-fire ledger in TEAM time, carried across that
-        // member's passes (2026-08-02). A member's own timed effects are
-        // resolved inside their segment's isolated simulateRotation, so without
-        // this a 30s self-buff opened late in pass 1 silently restarts from
-        // nothing when they swap back in — the window is truncated at the
-        // segment boundary and the remainder is lost. Team-WIDE buffs never had
-        // this problem: they live on `timeline` with their true end.
-        memberFires: occupied.map(() => null),
-        // Curated gauge levels each member is holding, carried between the
-        // segments of one turn and across their passes. A turn is simulated as
-        // several rotations — the auto-injected Intro is its own segment — but a
-        // gauge belongs to the character, not to a segment: Denia earns a Dark
-        // Core on Intro and spends it in the segment after.
-        memberResources: occupied.map(() => null),
-        // How far each member's gauge TICK CLOCKS have run. Carried for the same
-        // reason as the levels: a gauge belongs to the character, and a clock
-        // restarted per segment re-fires its opening tick every swap-in.
-        memberResourceTicks: occupied.map(() => null),
+        // Per member, the CROSS-SEGMENT CARRY (team-segment.js): what a character
+        // keeps from one segment to the next, in TEAM time.
+        //   - fires: the trigger-fire ledger, carried across that member's team
+        //     cycles (2026-08-02). A member's own timed effects resolve inside
+        //     their segment's isolated simulateRotation, so without it a 30s
+        //     self-buff opened late in one cycle silently restarts when they
+        //     swap back in. Team-WIDE buffs live on `timeline` with their true end.
+        //   - resources: curated gauge levels. A turn is several rotations — the
+        //     auto-injected Intro is its own segment — but a gauge belongs to the
+        //     character, not to a segment: Denia earns a Dark Core on Intro and
+        //     spends it in the segment after.
+        //   - resourceTicks: how far each gauge's TICK CLOCK has run; a clock
+        //     restarted per segment re-fires its opening tick every swap-in.
+        // Each segment kind reads and writes the subset `CARRY_READ` /
+        // `CARRY_WRITTEN` name; `runSegment` returns the updated carry.
+        memberCarry: occupied.map(() => emptyCarry()),
         segments: [],
         cursor: 0,
         concertoGauge: occupied.map(() => initialConcerto),
@@ -527,23 +526,6 @@ function accrueSegmentWindowsToTimeline(timeline, segment, memberName) {
  * them and receiving their own window is the only honest credit (2026-07-15
  * — until this, Changli's S4 buffed every member EXCEPT Changli).
  */
-/**
- * A member's trigger-fire ledger, moved between the team clock and a segment's
- * local clock. Local times come out NEGATIVE for fires that happened in an
- * earlier pass, which is exactly what a 'seconds' window needs to decide how
- * much of itself is left (`carryInFires` in sim.js).
- *
- * Both directions drop nothing: a fire too old to matter simply resolves to a
- * window that has already expired, and letting the window logic decide that is
- * cheaper than duplicating each effect's duration here.
- */
-const shiftFires = (fires, delta) => (fires ? {
-    types: fires.types.map(([name, time]) => [name, time + delta]),
-    keys: fires.keys.map(([name, time]) => [name, time + delta]),
-} : null);
-const shiftFiresToLocal = (fires, segStart) => shiftFires(fires, -segStart);
-const shiftFiresToTeam = (fires, segStart) => shiftFires(fires, segStart);
-
 function timelineWindowsFor(timeline, resonatorId, segStart) {
     return timeline.runs
         .filter(window => (window.sourceId !== resonatorId || window.selfApplicable) && window.end > segStart + 1e-6)
@@ -764,14 +746,15 @@ function outroBuffsInMode(outroBuffs, resonanceMode, recipient) {
 function runIntroSegment(sim, turn) {
     if (!turn.handoffFired) return;
     const { build, memberIndex, accum } = turn;
-    const introResult = simulateIntro(build, sim.dataset, sim.target, turn.amplifyContext,
-        timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode,
-        sim.memberResources[memberIndex], sim.memberResourceTicks[memberIndex]);
-    // Hand the gauge on to the rotation segment of this same turn — the Intro
-    // is a cast like any other and its income has to reach the cast that spends
-    // it. Only on a real intro: a refused one (null) leaves the gauge alone.
-    if (introResult?.resourceEndLevels) sim.memberResources[memberIndex] = introResult.resourceEndLevels;
-    if (introResult?.resourceEndTickPhases) sim.memberResourceTicks[memberIndex] = introResult.resourceEndTickPhases;
+    // The returned carry hands the gauge on to the rotation segment of this same
+    // turn — the Intro is a cast like any other and its income has to reach the
+    // cast that spends it. A refused intro returns the carry unchanged.
+    const { result: introResult, carry, reason } = runSegment(SEGMENT_KIND.INTRO, { build }, {
+        dataset: sim.dataset, timingMode: sim.timingMode, startTime: sim.cursor,
+        target: sim.target, amplifyContext: turn.amplifyContext,
+        externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor),
+    }, sim.memberCarry[memberIndex]);
+    sim.memberCarry[memberIndex] = carry;
     const introTime = introResult?.totals.time ?? OUTRO_CAST_TIME;
     // SKILL damage only — see the note on rotDmg below.
     const introDmg  = introResult?.totals.skillDamage ?? 0;
@@ -803,6 +786,7 @@ function runIntroSegment(sim, turn) {
         damage:        introDmg,
         steps:         offsetIntroSteps,
         simResult:     introResult,
+        reason,
     };
     sim.segments.push(segment);
     accrueSegmentWindowsToTimeline(sim.timeline, segment, turn.name);
@@ -908,24 +892,18 @@ function runRotationSegment(sim, turn) {
     // externalBuffWindows: team-wide buff windows already live on the
     // team-buff timeline (earlier members/passes), shifted to this segment's
     // local time — literal team-time overlap.
-    const simResult = simulateRotation({
-        build: simBuild, dataset: sim.dataset, target: memberTarget,
-        amplifyContext: turn.amplifyContext, enemyStatuses, teamBuffs,
+    const { result: simResult, carry } = runSegment(SEGMENT_KIND.ROTATION, { build: simBuild }, {
+        dataset: sim.dataset, timingMode: sim.timingMode, startTime: sim.cursor,
+        target: memberTarget, amplifyContext: turn.amplifyContext, enemyStatuses, teamBuffs,
         externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor),
-        timingMode: sim.timingMode,
-        carryInFires: shiftFiresToLocal(sim.memberFires[turn.memberIndex], sim.cursor),
-        carryInResources: sim.memberResources[turn.memberIndex],
-        carryInResourceTicks: sim.memberResourceTicks[turn.memberIndex],
         // The Tune Strain chain is a TEAM fact — the stack cap is the sum of the
         // responders present and the Boost points are pooled — so it is resolved
         // once for the roster and handed to each member, never re-derived from
         // one build in isolation.
         tuneStrainAmplify: sim.tuneStrain.perMember.get(build.resonatorId)?.amplify ?? 0,
-    });
-    // Hand this segment's ending ledger to this member's NEXT pass.
-    sim.memberFires[turn.memberIndex] = shiftFiresToTeam(simResult.fires, sim.cursor);
-    sim.memberResources[turn.memberIndex] = simResult.resourceEndLevels;
-    sim.memberResourceTicks[turn.memberIndex] = simResult.resourceEndTickPhases;
+    }, sim.memberCarry[memberIndex]);
+    // Hand this segment's ending ledger to this member's NEXT segment.
+    sim.memberCarry[memberIndex] = carry;
     const rotTime = simResult.totals.time;
     // SKILL damage only. simulateRotation resolves negative-status damage against
     // an enemy of its OWN (2026-08-01, so the build page stops omitting it), but
@@ -1182,17 +1160,17 @@ function simulateOffFieldActions(sim, offMemberIndex, contrib, memberTarget, rot
         if (hits === 0) continue;
 
         const rotation = Array.from({ length: hits }, () => entry.action.skillKey);
-        const result = simulateRotation({
-            build: { ...build, rotation, rotationMeta: rotation.map(() => ({})) },
-            dataset: sim.dataset,
-            target: memberTarget,
-            enemyStatuses: sim.memberInflicts[offMemberIndex],
-            teamBuffs: sim.externalTeamBuffs(offMemberIndex),
-            externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, windowStart),
-            timingMode: sim.timingMode,
-            carryInFires: shiftFiresToLocal(sim.memberFires[offMemberIndex], windowStart),
-            tuneStrainAmplify: sim.tuneStrain.perMember.get(build.resonatorId)?.amplify ?? 0,
-        });
+        // The carry is read, never written back: these casts re-price an
+        // off-field action, they are not a segment of the member's own timeline.
+        const { result } = runSegment(SEGMENT_KIND.OFF_FIELD,
+            { build: { ...build, rotation, rotationMeta: rotation.map(() => ({})) } }, {
+                dataset: sim.dataset, timingMode: sim.timingMode, startTime: windowStart,
+                target: memberTarget,
+                enemyStatuses: sim.memberInflicts[offMemberIndex],
+                teamBuffs: sim.externalTeamBuffs(offMemberIndex),
+                externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, windowStart),
+                tuneStrainAmplify: sim.tuneStrain.perMember.get(build.resonatorId)?.amplify ?? 0,
+            }, sim.memberCarry[offMemberIndex]);
         damage += result.totals.skillDamage;
 
         // Spread the hits evenly across the elapsed window at their real cadence
@@ -1250,8 +1228,11 @@ function recordOutroSwap(sim, turn) {
         // invisible until 2026-08-07 — an Outro node's `level` map is empty, so
         // preprocess walked no params and produced nothing, and this segment
         // scored a hard-coded 0 for every swap in every team.
-        const outroResult = simulateOutro(build, sim.dataset, sim.target,
-            timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor), sim.timingMode);
+        const { result: outroResult, reason } = runSegment(SEGMENT_KIND.OUTRO, { build }, {
+            dataset: sim.dataset, timingMode: sim.timingMode, startTime: sim.cursor,
+            target: sim.target,
+            externalBuffWindows: timelineWindowsFor(sim.timeline, build.resonatorId, sim.cursor),
+        }, sim.memberCarry[memberIndex]);
         const outroDmg = outroResult?.totals.skillDamage ?? 0;
         const offsetOutroSteps = (outroResult?.steps ?? []).map(step => ({
             ...step,
@@ -1270,6 +1251,7 @@ function recordOutroSwap(sim, turn) {
             damage:        outroDmg,
             steps:         offsetOutroSteps,
             simResult:     outroResult,
+            reason,
         };
         sim.segments.push(segment);
         accrueChainEffectWindowsToTimeline(sim.timeline, sim.memberWindowSpecs[memberIndex], segment, turn.name);
@@ -1452,70 +1434,6 @@ function triggerOfSkillType(skillType) {
     if (skillType === 'skill') return 'skill';
     if (skillType?.startsWith('forte')) return 'forte';
     return null;
-}
-
-function simulateIntro(build, dataset, target, amplifyContext = null, externalBuffWindows = null, timingMode = 'toa', carryInResources = null, carryInResourceTicks = null) {
-    const introKey = introKeyFor(dataset, build.resonatorId, build);
-    if (!introKey) return null;
-    const introBuild = { ...build, rotation: [introKey] };
-    try {
-        const result = simulateRotation({ build: introBuild, dataset, target, amplifyContext, externalBuffWindows, timingMode, carryInResources, carryInResourceTicks });
-        if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
-        return result;
-    } catch { return null; }
-}
-
-/**
- * The Outro Skill's own damage, or null when the resonator's outro deals none.
- *
- * Refused for a resonator whose off-field actions carry an `outro` trigger
- * (Galbrena's burst, Calcharo's and Rover: Havoc's summons): that lane already
- * pays the same cast, and running both would count it twice. The refusal lives
- * here, not only in preprocess, because it is a fact about the ENGINE — two
- * paths, one cast.
- */
-function simulateOutro(build, dataset, target, externalBuffWindows = null, timingMode = 'toa') {
-    const resonator = dataset.resonators?.find(entry => entry.id === build.resonatorId);
-    if (resonator?.offFieldActions?.some(action => action.trigger === 'outro')) return null;
-    const outroKey = outroKeyFor(dataset, build.resonatorId);
-    if (!outroKey) return null;
-    try {
-        const result = simulateRotation({
-            build: { ...build, rotation: [outroKey] }, dataset, target, externalBuffWindows, timingMode });
-        if (result.totals.missingSteps > 0 || result.totals.stepCount === 0) return null;
-        return result;
-    } catch { return null; }
-}
-
-function outroKeyFor(dataset, resonatorId) {
-    const skillMap = effectiveSkillMap(dataset, resonatorId);
-    if (!skillMap) return null;
-    const found = Object.entries(skillMap).find(([key, def]) => !key.startsWith('_') && def?.skillType === 'outro');
-    return found ? found[0] : null;
-}
-
-// The dict key nanoka assigns a resonator's Intro Skill varies per resonator
-// (e.g. 'intro' vs 'intro_time_to_show_some_colors') — look it up by
-// skillType rather than assuming a fixed key, so every resonator's
-// auto-injected intro segment resolves, not just the ones keyed 'intro'.
-//
-// THE ROTATION PICKS, when it names one. An Intro node can ship SEVERAL damage
-// rows — Aemeath has `intro_songs_across_the_universe` and
-// `intro_debut_of_meteoric_radiance`, Denia `intro_it_s_been_a_while` and
-// `intro_knock_knock` — and taking whichever the skill map happened to list
-// first cast a different Intro than the build asked for. It cost more than a
-// label: Aemeath's reference rotation opens on `skill_mech_3`, which the Intro
-// she names unlocks and the one the map listed first does not, so the team ran
-// a sequence its own validator calls illegal. `withoutAutoCastSteps` then
-// removed the authored step, leaving nothing to explain the swap. A rotation is
-// performed as authored, and that includes WHICH Intro it authored.
-function introKeyFor(dataset, resonatorId, build = null) {
-    const skillMap = effectiveSkillMap(dataset, resonatorId);
-    if (!skillMap) return null;
-    const isIntro = (key) => !key.startsWith('_') && skillMap[key]?.skillType === 'intro';
-    const authored = (build?.rotation ?? []).find(isIntro);
-    if (authored) return authored;
-    return Object.keys(skillMap).find(isIntro) ?? null;
 }
 
 /**

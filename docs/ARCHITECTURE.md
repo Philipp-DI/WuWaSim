@@ -249,8 +249,8 @@ team-time axis:
 [Intro (auto)] → [authored rotation (minus any authored intro/outro)] → [Outro (auto)]
 ```
 
-Intro/Outro segments are auto-injected at swap boundaries (`simulateIntro`,
-`withoutAutoCastSteps`); slot 0 in the first team cycle gets no intro (nobody swapped in).
+Intro/Outro segments are auto-injected at swap boundaries (~~`simulateIntro`~~
+`runSegment` in `team-segment.js`, `withoutAutoCastSteps`); slot 0 in the first team cycle gets no intro (nobody swapped in).
 The outgoing member's Outro produces an amplify context the incoming member's
 segments receive (path 7 above).
 
@@ -430,6 +430,7 @@ durations are unparsed; the opener filler weaves no real combos. Open work lives
 | Concerto handoff | `enforceConcerto` (opt-in damage gating) |
 | `gameTime` / `realTime` | `deriveGameTimes(steps, timingMode = 'toa')` (`sim.js`) |
 | team cycle, marginal | `passCount` (rename tracked in issue #13); team totals from `memberTotals` |
-| cross-segment carry | `carryInFires` / `sim.memberFires`; `carryInResources` / `resourceEndLevels` / `sim.memberResources` |
+| cross-segment carry | `sim.memberCarry` (`{ fires, resources, resourceTicks }`), passed through `runSegment` (`team-segment.js`, `CARRY_READ` / `CARRY_WRITTEN`); ~~`sim.memberFires` / `sim.memberResources`~~ |
+| team context | the read-only inputs `runSegment` takes; `TEAM_INPUTS_READ` states which each segment kind reads |
 | Tune Break response, Tune Break Boost | `resonator.tuneBreak`; `src/core/tune-break.js` |
 | outro mode branch | `outroBuffs[*].mode` |
