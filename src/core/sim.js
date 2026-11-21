@@ -23,7 +23,7 @@ import { resolveTotalStats } from './stats.js';
 import { annotateStepCooldowns } from './cooldowns.js';
 import { resolveSkill, resolveEchoSkill, resolveSupport } from './skill.js';
 import { effectiveSkillMap } from './skill-map.js';
-import { weaponConditionalContribution, sonataConditionalContribution } from './buffs/conditional-buffs.js';
+import { amplifyScopesOf, staticHitInputs } from './static-hit-inputs.js';
 import { unlockedEffects, effectsActiveAtStepDetailed, manualStacksFrom } from './buffs.js';
 import { computeTargetStackTimeline } from './target-stacks.js';
 import { computeResourceConsumption, computeResourceEndLevels, computeResourceTickPhases, computeResourceTimeline } from './rotation-resources.js';
@@ -34,16 +34,6 @@ import {
 } from './buffs/buff-windows.js';
 import { DERIVED_SOURCE } from './buffs/external-buffs.js';
 
-// Weapon conditional amplify → per-hit amplify scopes (the format skill.js
-// expects: { scope: {type:'element', elementId} | {type:'skillType', skillType},
-// value }). amplifyByElement/Type are matched against each hit's element / type.
-function weaponAmplifyScopes(weaponConditional) {
-    const out = [];
-    for (const [el, value] of Object.entries(weaponConditional?.amplifyByElement ?? {})) out.push({ scope: { type: 'element', elementId: Number(el) }, value: value });
-    for (const [type, value] of Object.entries(weaponConditional?.amplifyByType ?? {})) out.push({ scope: { type: 'skillType', skillType: type }, value: value });
-    if ((weaponConditional?.amplifyAll ?? 0) > 0) out.push({ scope: { type: 'element', elementId: null }, value: weaponConditional.amplifyAll });
-    return out;
-}
 import { computeStateTimeline } from './rotation-state.js';
 import { resolveChainLockedRotation, resourceDefsForResonator, stateDefsForResonator, targetStackDefsForResonator, timingVariantFor } from './rotation-rules.js';
 import { soloStatusDamage, resolveTuneBreakStep, statusesInflictedBy } from './enemy-status.js';
@@ -518,26 +508,14 @@ function computeStepTimes(rotation, skillMap, dataset, timingMode = 'toa', liber
 export function simulateRotation({ build, dataset, target, amplifyContext = null, enemyStatuses = null, teamBuffs = null, externalBuffWindows = null, timingMode = 'toa', carryInFires = null, carryInResources = null, carryInResourceTicks = null, tuneStrainAmplify = null }) {
     const stats = resolveTotalStats(build, dataset, enemyStatuses, teamBuffs);
 
-    // Weapon conditional AMPLIFY (e.g. Frostburn's "Glacio DMG Amplified by 28%",
-    // gated by Glacio-Chafe triggerability) folds into the per-hit amplify bucket
-    // alongside any outro amplify. Stat / DMG-bonus parts already applied in
-    // resolveTotalStats; the multiplicative amplify must be applied per hit so it
-    // only multiplies the matching element / skill type.
-    const weaponDef = build?.weapon ? dataset?.weapons?.find(weapon => weapon.id === build.weapon.id) : null;
+    // Gear's per-hit amplify and target modifiers (static-hit-inputs.js): the
+    // stat / DMG-bonus parts already applied in resolveTotalStats; amplify is
+    // applied per hit so it only multiplies the matching element / type. Outro
+    // amplify comes first and team-wide amplify (L3) after, on the same path.
+    const gearInputs = staticHitInputs({ build, dataset, enemyStatuses });
+    const effectiveAmplify = [...(amplifyContext ?? []), ...gearInputs.amplify, ...amplifyScopesOf(teamBuffs ?? {})];
+    const externalTargetContext = gearInputs.targetMods;
     const wResonator = dataset?.resonators?.find(resonator => resonator.id === build?.resonatorId);
-    const weaponConditional = weaponConditionalContribution(weaponDef, build?.weapon?.rank ?? 1, wResonator, dataset, enemyStatuses);
-    const sonataConditional = sonataConditionalContribution(build, dataset, wResonator, enemyStatuses);
-    // Team-wide amplify (L3) folds in via the same per-hit amplify path as the
-    // weapon/sonata conditional amplify.
-    const effectiveAmplify = [...(amplifyContext ?? []), ...weaponAmplifyScopes(weaponConditional), ...weaponAmplifyScopes(sonataConditional), ...weaponAmplifyScopes(teamBuffs ?? {})];
-    // Per-hit TARGET modifiers (DEF ignore, RES shred) that gear grants. These
-    // reach the formula through `context.defIgnore` / `context.resReduce`, which
-    // have always existed there and until now had no producer at all — every
-    // weapon DEF-ignore clause was parsed and then discarded.
-    const externalTargetContext = [
-        ...(weaponConditional?.targetMods ?? []),
-        ...(sonataConditional?.targetMods ?? []),
-    ];
 
     // A step can name a skill the build's chain level has not created — Lupa's
     // reference rotation casts her S6-only "Dance With the Wolf: Climax", which

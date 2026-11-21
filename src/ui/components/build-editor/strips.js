@@ -9,17 +9,16 @@
 // the undo/redo controls (data-act wired in bind.js, keyboard in index.js).
 import { ELEM, formatNumber, formatPercent, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";
 import { api } from "./state.js";
-import { effectiveSkillMap } from "../../../core/skill-map.js";
 import { esc } from "../../dom.js";
-import { resolveSkill } from "../../../core/skill.js";
+import { kitView } from "../../../core/kit-view.js";
 import { resolveTotalStats } from "../../../core/stats.js";
 
 // Per-hit average expected damage for the three headline ability categories,
 // grouped by the mechanical node skillType (Basic Attack, Resonance Skill,
 // Resonance Liberation). "All instances" = every damaging hit across every
 // skillMap entry of that type; the value returned is their mean expected
-// (crit-weighted) damage. Uses the SAME stats/target the Ability Damage
-// Overview card resolves with, so the strip and the card never disagree.
+// (crit-weighted) damage. Reads the same kit view (core/kit-view.js) as the
+// Ability Damage Overview card, so the strip and the card never disagree.
 //
 // Returns { basic, skill, liberation, overall } where each is a number or null
 // (null = no damaging instances resolved, e.g. a support-only skill or missing
@@ -28,27 +27,20 @@ import { resolveTotalStats } from "../../../core/stats.js";
 // only their own type. One pass, each skill resolved once.
 export function abilityAverages() {
   const build = simBuild();
-  const skillMap = effectiveSkillMap(api.dataset, build.resonatorId);
-  if (!skillMap) return null;
-  const stats = resolveTotalStats(build, api.dataset);
-  const target = makeDmgTarget(build, api.dmgTarget);
+  const abilities = kitView({
+    build,
+    dataset: api.dataset,
+    target: makeDmgTarget(build, api.dmgTarget),
+  });
+  if (!abilities) return null;
 
   const buckets = { basic: [0, 0], skill: [0, 0], liberation: [0, 0] };
   let allSum = 0,
     allCount = 0;
-  for (const [key, def] of Object.entries(skillMap)) {
-    if (key.startsWith("_")) continue;
-    const computed = resolveSkill({
-      skillDef: def,
-      build,
-      dataset: api.dataset,
-      stats,
-      target,
-      skillKey: key,
-    });
-    if (!computed) continue;
+  for (const { def, resolved } of abilities) {
+    if (!resolved) continue;
     const bucket = buckets[def.skillType];
-    for (const hit of computed.hits) {
+    for (const hit of resolved.hits) {
       allSum += hit.result.expected;
       allCount += 1;
       if (bucket) {

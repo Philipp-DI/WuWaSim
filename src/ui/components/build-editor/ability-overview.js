@@ -1,12 +1,10 @@
 // src/ui/components/build-editor/ability-overview.js — per-skill Ability Damage Overview table.
 // Split from the monolithic build-editor-v2.js (Simplification Plan S4.2).
 import { api } from "./state.js";
-import { effectiveSkillMap } from "../../../core/skill-map.js";
+import { kitView } from "../../../core/kit-view.js";
 import { esc } from "../../dom.js";
 import { extractSkillSection, formatTimingFacts } from "../../tip-format.js";
 import { formatNumber, makeDmgTarget, resonatorOf, simBuild } from "./shared.js";
-import { resolveSkill, resolveSupport } from "../../../core/skill.js";
-import { resolveTotalStats } from "../../../core/stats.js";
 
 // Hover-box body for one ability: the measured timing facts first, then the
 // part of the description that applies to this key. Same order as the rotation
@@ -17,8 +15,9 @@ const abilityTipDesc = (key, def) =>
     .join("\n\n");
 
 // Ability / damage overview — the second handoff gap the maintainer flagged.
-// Per-skill expected damage (resolveSkill, same math simulateRotation uses
-// internally) with an expandable hit-by-hit breakdown.
+// Per-skill expected damage from the kit view (core/kit-view.js: solo, each
+// ability a cold cast with the gear's static hit inputs) with an expandable
+// hit-by-hit breakdown.
 export function renderAbilityDamageRow(key, def, computed) {
   const isOpen = api.dmgExpanded.has(key);
   const total = computed.totalExpected;
@@ -81,16 +80,18 @@ export function renderAbilityDamageRow(key, def, computed) {
 
 export function renderAbilityDamageOverview() {
   const resonator = resonatorOf();
-  const skillMap = effectiveSkillMap(api.dataset, api.build.resonatorId);
-  if (!skillMap) {
+  const build = simBuild(); // reflect the sonata quick-switch preview
+  const abilities = kitView({
+    build,
+    dataset: api.dataset,
+    target: makeDmgTarget(build, api.dmgTarget),
+  });
+  if (!abilities) {
     return `<div class="bv2-card"><span class="bv2-card__stripe"></span>
           <div class="bv2-card__head"><div class="bv2-title"><span class="bv2-title__bar"></span><span class="bv2-title__txt">ABILITY DAMAGE OVERVIEW</span></div></div>
           <div class="bv2-stub">${esc(resonator?.name ?? "This resonator")} has no curated skill map yet, so per-ability damage is unavailable.</div>
         </div>`;
   }
-  const build = simBuild(); // reflect the sonata quick-switch preview
-  const stats = resolveTotalStats(build, api.dataset);
-  const target = makeDmgTarget(build, api.dmgTarget);
   const SKILL_LV_KEY = {
     basic: "normal",
     heavy: "normal",
@@ -102,25 +103,10 @@ export function renderAbilityDamageOverview() {
     intro: "intro",
     outro: "intro",
   };
-  const rows = Object.entries(skillMap)
-    .filter(([k]) => !k.startsWith("_"))
-    .map(([key, def]) => {
-      const computed = resolveSkill({
-        skillDef: def,
-        build,
-        dataset: api.dataset,
-        stats,
-        target,
-        skillKey: key,
-      });
-      if (computed) return renderAbilityDamageRow(key, def, computed);
-      if (def.supportIds?.length) {
-        const supportRows = resolveSupport({
-          skillDef: def,
-          build,
-          dataset: api.dataset,
-          stats,
-        });
+  const rows = abilities
+    .map(({ key, def, resolved, support: supportRows }) => {
+      if (resolved) return renderAbilityDamageRow(key, def, resolved);
+      if (supportRows) {
         const healTotal = supportRows
           .filter((row) => row.rowType === "heal")
           .reduce((total, row) => total + row.value, 0);

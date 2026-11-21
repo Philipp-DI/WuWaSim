@@ -27,7 +27,6 @@ import { computeDamage, computeSupport } from './formula.js';
 import { collectActiveEffects, resolveChainInherentContext } from './buffs.js';
 import { targetModApplies } from './buffs/external-buffs.js';
 import { attributionOf } from './dmg-attribution.js';
-import { effectiveSkillMap } from './skill-map.js';
 
 /**
  * The chain-added damage instances live for a build on one skill key.
@@ -228,20 +227,6 @@ export function resolveSupport({ skillDef, build, dataset, stats }) {
         results.push(computeSupport({ stats, row, skillLv }));
     }
     return results.length > 0 ? results : null;
-}
-
-// Convenience: enumerate all curated skills for a resonator. Returns
-// [{key, def, resolved}], skipping any skill whose damage IDs are
-// unknown in the dataset.
-export function resolveAllSkills({ build, dataset, stats, target }) {
-    const map = effectiveSkillMap(dataset, build.resonatorId) ?? {};
-    const out = [];
-    for (const [key, def] of Object.entries(map)) {
-        if (key.startsWith('_')) continue;
-        const resolved = resolveSkill({ skillDef: def, build, dataset, stats, target, skillKey: key });
-        if (resolved) out.push({ key, def, resolved });
-    }
-    return out;
 }
 
 // Resolve the damage of an equipped echo's active skill ("cast echo skill").

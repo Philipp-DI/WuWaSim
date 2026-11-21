@@ -175,7 +175,7 @@ damage math (the paths are disjoint by construction — an invariant):
 | --- | --- | --- | --- | --- |
 | 1 | Always-on stats: weapon secondary, echo main/substats, sonata 2pc, stat nodes | `preprocess.mjs` → dataset | `stats.js resolveTotalStats` | constant |
 | 2 | Weapon passives (unconditional part) | `buffs/weapon-buffs.js weaponPassiveStats` | folded into `resolveTotalStats` | constant |
-| 3 | Weapon/sonata **conditional clauses** ("when at max stacks, gain crit…") | `buffs/conditional-buffs.js` | folded into stats + per-hit amplify scopes (`sim.js weaponAmplifyScopes`); `triggerability.js` gates on whether the rotation can satisfy the condition | constant while satisfiable |
+| 3 | Weapon/sonata **conditional clauses** ("when at max stacks, gain crit…") | `buffs/conditional-buffs.js` | folded into stats + per-hit amplify scopes and target mods (~~`sim.js weaponAmplifyScopes`~~ `static-hit-inputs.js staticHitInputs`, shared by the sim and the kit view); `triggerability.js` gates on whether the rotation can satisfy the condition | constant while satisfiable |
 | 4 | **Chain/inherent effects** (S1–S6 nodes, inherent skills) | `preprocess.mjs` + curated `effect-overrides.json` | `buffs.js` trigger×window evaluation per step; folded per-hit in `skill.js resolveChainInherentContext` | windowed per step |
 | 5 | **Sonata 5pc window buffs** ("gain 15% ATK for 30s upon healing") | `buffs/sonata-buffs.js parseSonataBuffs` | `buffs/buff-windows.js computeBuffWindows` → stack ramp (`buffs/buff-timeline.js`) → `applyBuffsToSteps` | windowed per step, stack-aware |
 | 6 | **Echo aura** (Bell-Borne DMG boost) | `preprocess.mjs extractEchoTeamBuff` | synthesized as a window in `computeBuffWindows` (own multiplicative amplify layer) | windowed per step |
