@@ -38,7 +38,7 @@ that is step 3.
 - **Measured size** (scratch probe, not committed), on the optimizer's `representativeMemberBuild` per resonator: **213 of 1,195 cards move**, on 18 resonators. The largest moves are +56.25%: Iuno ×5 and Xiangli Yao `forte_heavy_revamp`, both on Moongazer's Sigil, and that figure is inflated (see Residual Risks). On blank builds with each resonator's suggested weapon, only Hiyuki moves (24 cards, max +34.74%). The roadmap's "105 of 450" counted cards that now EQUAL the sim on the step-2 finding's probe, which is a different count from cards that move. Both are recorded here; neither is re-derived from the other.
 - LOCK A: `generatedAt` only. LOCK B: `engineHash` and `generatedAt` only, so the sim is zero-diff.
 - `npm run sweep`, `npm run lint` (no new warnings; the stop hook caught a complexity-15 `staticHitInputs` in the first draft, now split), `npm test`.
-- Not verified: the browser smoke test of the build and team pages (no browser tool in this session).
+- ~~Not verified: the browser smoke test of the build and team pages (no browser tool in this session).~~ Run later the same day with the new `npm run smoke`: PASS on Hiyuki's build and team pages (`2026-11-21-smoke-script.md`).
 
 ## [Residual Risks]
 

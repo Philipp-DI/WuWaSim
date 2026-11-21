@@ -38,6 +38,8 @@ The core logic has a Node-native test suite (71 files, no test framework):
 npm test         # run every tests/*.test.mjs (no install needed — plain Node)
 npm run sweep    # import every src module (catches parse errors / broken imports)
 npm run lint     # ESLint (needs `npm install` once; devDependencies only — nothing ships)
+npm run smoke    # browser smoke test of the build and team pages (Playwright; needs
+                 # `npx playwright install chromium` once; `npm run smoke -- <resonatorId>`)
 ```
 
 Individual test files also run directly: `node tests/rotation-validation.test.mjs`.

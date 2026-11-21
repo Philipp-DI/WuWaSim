@@ -146,8 +146,9 @@ npm run lint    # ESLint — correctness rules are ERRORS (CI-gating); style rul
 runtime remains dependency-free). CI (`.github/workflows/ci.yml`) runs all
 three on every push/PR.
 
-After UI-touching changes, also smoke-test the build and team pages in a browser;
-without a browser tool, list that under **[Residual Risks]**.
+After UI-touching changes, also run `npm run smoke` (Playwright: build and team pages;
+`npx playwright install chromium` once). If it cannot run, list that under
+**[Residual Risks]**. History: `docs/history/rules/CLAUDE.md.md`.
 
 Hooks (`.claude/settings.json`, scripts in `tools/hooks/`) lint every edit (plus the sweep for `src/` and the guard for instruction files) and gate every stop: once files outside `docs/` changed, the sweep, lint (no errors, and no new warnings in changed scripts) and `npm test` must pass before you can finish. Fix what they report; never work around a hook. When the fix needs the user's decision, ask: a final question hands a red tree to them (strict unattended runs excepted).
 

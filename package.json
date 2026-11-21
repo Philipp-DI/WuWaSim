@@ -12,11 +12,13 @@
     "sweep": "node tools/sweep-modules.mjs",
     "lint": "eslint .",
     "data": "node tools/preprocess.mjs",
-    "meta": "node tools/optimize.mjs"
+    "meta": "node tools/optimize.mjs",
+    "smoke": "node tools/smoke-browser.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.7.0",
-    "globals": "^17.7.0"
+    "globals": "^17.7.0",
+    "playwright": "1.62.1"
   }
 }
